@@ -1,0 +1,5 @@
+D:\HR\HrBot\BotLibrary\obj\Debug\BotLibrary.csprojResolveAssemblyReference.cache
+D:\HR\HrBot\BotLibrary\bin\Debug\BotLibrary.dll
+D:\HR\HrBot\BotLibrary\bin\Debug\BotLibrary.pdb
+D:\HR\HrBot\BotLibrary\obj\Debug\BotLibrary.dll
+D:\HR\HrBot\BotLibrary\obj\Debug\BotLibrary.pdb

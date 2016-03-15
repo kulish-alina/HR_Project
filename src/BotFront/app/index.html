@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <title>Bot Start Page</title>
+</head>
+
+<body ng-app="bot">
+   <div ui-view></div>
+   <a ui-sref="home">Home</a>
+   <a ui-sref="candidates">Candidates</a>
+   <a ui-sref="vacancies">Vacancies</a>
+   
+   <!-- Some kind of magic for webpack assets-->
+   {% for (var chunk in o.htmlWebpackPlugin.assets) { %}
+   <script src="{%=o.htmlWebpackPlugin.assets[chunk]%}"></script>
+   {% } %}
+</body>
+
+</html>

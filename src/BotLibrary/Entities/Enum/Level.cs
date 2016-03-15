@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities.Enum
 {
-    enum LanguageLevel
+    enum Level
     {
-        Beginner,
-        PreIntermediate,
-        Intermediate,
-        UpperIntermediate,
-        Advanced,
-        Fluent
+        Trainee,
+        Junior,
+        Middle,
+        Senior
     }
 }

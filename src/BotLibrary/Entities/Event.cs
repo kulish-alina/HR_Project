@@ -1,4 +1,4 @@
-﻿using BotLibrary.Entities.Setup;
+using BotLibrary.Entities.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,7 @@ namespace BotLibrary.Entities
 {
     public class Event: BaseEntity
     {
+        EventType EventType {get; set;}
         DateTime EventDate { get; set; }
         string Description { get; set; }
         Vacancy Vacancy { get; set; }

@@ -1,8 +1,7 @@
 {
     "parser": "babel-eslint",
-    "ecmaFeatures": {},
-    "globals": {
-        "angular": true
+    "ecmaFeatures": {
+       
     },
     "rules": {
         "no-alert": 0,

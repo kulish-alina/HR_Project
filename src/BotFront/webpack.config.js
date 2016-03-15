@@ -9,7 +9,7 @@ module.exports = {
     entry: path.join(srcPath, 'main.js'),
     output: {
         path: path.join(buildPath),
-        filename: 'bundle-[hash:6].js'
+        filename: 'bundle.js'
     },
     module: {
         loaders: [{

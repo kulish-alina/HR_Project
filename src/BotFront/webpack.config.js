@@ -32,5 +32,8 @@ module.exports = {
       }),
       new webpack.optimize.OccurenceOrderPlugin(),
       new webpack.optimize.DedupePlugin()
-    ]
+    ],
+    devServer: {
+      historyApiFallback: true
+    }
 };

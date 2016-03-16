@@ -1,24 +1,10 @@
 import angular from 'angular';
-import angularRouter from 'angular-ui-router';
+import router  from 'angular-ui-router';
 
-var dependencies = [angularRouter];
+import config  from './botConfig';
+
+var dependencies = [router];
 
 angular
    .module('bot', dependencies)
-   .config(function($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.otherwise('home');
-
-      $stateProvider
-         .state('home', {
-            url: '/home',
-            template: require('./views/home-view.html')
-         })
-         .state('candidates', {
-            url: '/candidates',
-            template: require('./views/candidates-view.html')
-         })
-         .state('vacancies', {
-            url: '/vacancies',
-            template: require('./views/vacancies-view.html')
-         })
-   })
+   .config(config);

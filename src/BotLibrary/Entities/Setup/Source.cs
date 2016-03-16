@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities.Setup
 {
-    public class Stage: BaseEntity
+    public class Source
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public String Title { get; set; }
+        public String Url { get; set; }
     }
 }

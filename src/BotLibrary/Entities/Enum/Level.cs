@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities.Enum
 {
-    public enum TypeOfEmployment
+    public enum Level
     {
-        FullTime,
-        PartTime,
-        Remote,
-        Practice,
-        Courses,
-        Project
+        Trainee,
+        Junior,
+        Middle,
+        Senior
     }
 }

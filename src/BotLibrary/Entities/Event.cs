@@ -9,12 +9,12 @@ namespace BotLibrary.Entities
 {
     public class Event: BaseEntity
     {
-        EventType EventType {get; set;}
-        DateTime EventDate { get; set; }
-        string Description { get; set; }
-        Vacancy Vacancy { get; set; }
-        Candidate Candidate { get; set; }
-        User Responsible { get; set; }
-        Room Room { get; set; }
+        public EventType EventType {get; set;}
+        public DateTime EventDate { get; set; }
+        public string Description { get; set; }
+        public Vacancy Vacancy { get; set; }
+        public Candidate Candidate { get; set; }
+        public User Responsible { get; set; }
+        public Room Room { get; set; }
     }
 }

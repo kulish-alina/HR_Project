@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities.Enum
 {
-    enum LanguageLevel
+    public enum LanguageLevel
     {
         Beginner,
         PreIntermediate,

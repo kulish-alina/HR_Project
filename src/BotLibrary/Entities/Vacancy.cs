@@ -9,26 +9,26 @@ namespace BotLibrary.Entities
 {
     public class Vacancy: BaseEntity 
     {
-        string Name { get; set; }
-        Level Level {get; set;}
-        string Description { get; set; }
-        Department Department { get; set; }
-        Location Location { get; set; }
-        User Responsible { get; set; }
-        List<Skill> RequiredSkills { get; set; }
-        int SalaryMin { get; set; }
-        int SalaryMax { get; set; }
-        List<Language> RequiredLanguages { get; set; }
-        TypeOfEmployment TypeOfEmployment { get; set; }
-        DateTime StartDate { get; set; }
-        DateTime EndDate { get; set; }
-        DateTime DeadlineDate { get; set; }
-        VacancyStatus Status { get; set; }
-        Dictionary<Candidate, List<StageInfo>> CandidatesProgress { get; set; }
-        bool MasterVacancy { get; set; }
-        List<File> Files { get; set; }
-        int ChildredVacanciesCount {get; set;}
-        bool IsDeadlineAddedToCalendar { get; set; }
-        List<Comment> Comments { get; set; }
+        public string Name { get; set; }
+        public Level Level {get; set;}
+        public string Description { get; set; }
+        public Department Department { get; set; }
+        public Location Location { get; set; }
+        public User Responsible { get; set; }
+        public List<Skill> RequiredSkills { get; set; }
+        public int SalaryMin { get; set; }
+        public int SalaryMax { get; set; }
+        public List<Language> RequiredLanguages { get; set; }
+        public TypeOfEmployment TypeOfEmployment { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public DateTime DeadlineDate { get; set; }
+        public VacancyStatus Status { get; set; }
+        public Dictionary<Candidate, List<StageInfo>> CandidatesProgress { get; set; }
+        public bool MasterVacancy { get; set; }
+        public List<File> Files { get; set; }
+        public int ChildredVacanciesCount {get; set;}
+        public bool IsDeadlineAddedToCalendar { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

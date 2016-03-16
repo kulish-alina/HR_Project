@@ -9,7 +9,7 @@ namespace BotLibrary.Entities
 {
     public class File: BaseEntity
     {
-        FileInfo FileInfo { get; set; }
-        string Description { get; set; }
+        public FileInfo FileInfo { get; set; }
+        public string Description { get; set; }
     }
 }

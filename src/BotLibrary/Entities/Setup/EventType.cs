@@ -8,6 +8,6 @@ namespace BotLibrary.Entities.Setup
 {
     public class EventType: BaseEntity
     {
-        string Title {get; set;}
+        public string Title {get; set;}
     }
 }

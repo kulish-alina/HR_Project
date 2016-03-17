@@ -8,7 +8,7 @@ namespace BotLibrary.Entities
 {
     public class BaseEntity
     {
-        int Id { get; set; }
-        DateTime EditTime { get; set; }
+        public int Id { get; set; }
+        public DateTime EditTime { get; set; }
     }
 }

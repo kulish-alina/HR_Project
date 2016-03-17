@@ -8,7 +8,7 @@ namespace BotLibrary.Entities
 {
     public class Permission: BaseEntity
     {
-        Role Role { get; set; }
-        string Description { get; set; }
+        public Role Role { get; set; }
+        public string Description { get; set; }
     }
 }

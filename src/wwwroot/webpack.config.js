@@ -22,10 +22,6 @@ module.exports = {
       ],
       loaders: [
          {
-            test: /index.html/,
-            loader: 'file?name=templates/[name]-[hash:6].html'
-         },
-         {
             test: /\.html/,
             loader: 'html'
          },

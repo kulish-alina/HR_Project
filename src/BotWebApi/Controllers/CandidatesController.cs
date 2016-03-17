@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace BotWebApi.Controllers
@@ -13,10 +14,14 @@ namespace BotWebApi.Controllers
     {
         IBotContext _context = new DummyBotContext();
 
-        public string GetCandidates()
+        public HttpResponseMessage GetCandidates()
         {
-            var JsonCandidates = JsonConvert.SerializeObject(_context.Candidates);
-            return JsonCandidates;
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates)),
+            };
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            return response;
         }
     }
 }

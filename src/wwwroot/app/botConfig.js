@@ -1,9 +1,9 @@
-import homeTemplate        from './views/home.view.html';
-import candidatesTemplate  from './views/candidates.view.html';
-import vacanciesTemplate   from './views/vacancies.view.html';
+import homeTemplate        from './views/home/home.view.html';
+import candidatesTemplate  from './views/candidates/candidates.view.html';
+import vacanciesTemplate   from './views/vacancies/vacancies.view.html';
 
-import candidatesController from '.views/candidates/candidates.contoller';
-import vacanciesController from '.views/vacancies/vacancies.controller';
+import candidatesController from './views/candidates/candidates.controller';
+import vacanciesController from './views/vacancies/vacancies.controller';
 
 export default function _config($stateProvider, $urlRouterProvider, $locationProvider) {
    $locationProvider.html5Mode({

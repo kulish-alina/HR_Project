@@ -1,8 +1,14 @@
 {
     "parser": "babel-eslint",
-    "ecmaFeatures": {
-       
+    "parser-options": {
+       "ecmaVersion": 6,
+       "ecmaFeatures": {
+          "classes": true
+       }
     },
+    "plugins": [
+      
+    ],
     "rules": {
         "no-alert": 0,
         "no-array-constructor": 0,
@@ -18,7 +24,7 @@
         "no-constant-condition": 2,
         "no-continue": 0,
         "no-control-regex": 2,
-        "no-debugger": 1,
+        "no-debugger": 2,
         "no-delete-var": 2,
         "no-div-regex": 0,
         "no-dupe-class-members": 0,
@@ -31,7 +37,7 @@
         "no-empty-label": 0,
         "no-empty-pattern": 0,
         "no-eq-null": 0,
-        "no-eval": 0,
+        "no-eval": 2,
         "no-ex-assign": 2,
         "no-extend-native": 0,
         "no-extra-bind": 0,
@@ -110,7 +116,7 @@
         "no-void": 0,
         "no-var": 0,
         "no-warning-comments": [0, { "terms": ["todo", "fixme", "xxx"], "location": "start" }],
-        "no-with": 0,
+        "no-with": 2,
         "no-magic-numbers": 0,
 
         "array-bracket-spacing": [0, "never"],

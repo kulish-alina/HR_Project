@@ -2,19 +2,21 @@
 <html lang="en">
 
 <head>
-   <meta charset="UTF-8">
-   <title>Bot Start Page</title>
+    <meta charset="UTF-8">
+    <title>Bot Start Page</title>
 </head>
-
 <body ng-app="bot">
-   <a ui-sref="home">Home</a>
-   <a ui-sref="candidates">Candidates</a>
-   <a ui-sref="vacancies">Vacancies</a>
-   <div ui-view></div>
-   <!-- Some kind of magic for webpack assets-->
-   {% for (var chunk in o.htmlWebpackPlugin.assets) { %}
-   <script src="{%=o.htmlWebpackPlugin.assets[chunk]%}"></script>
-   {% } %}
+    <nav>
+        <a ui-sref="home">Home</a>
+        <a ui-sref="candidates">Candidates</a>
+        <a ui-sref="vacancies">Vacancies</a>
+    </nav>
+
+    <div ui-view></div>
+    <!-- Some kind of magic for webpack assets-->
+    {% for (var chunk in o.htmlWebpackPlugin.assets) { %}
+    <script src="{%=o.htmlWebpackPlugin.assets[chunk]%}"></script>
+    {% } %}
 </body>
 
 </html>

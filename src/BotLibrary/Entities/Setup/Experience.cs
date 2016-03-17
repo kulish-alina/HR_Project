@@ -8,6 +8,6 @@ namespace BotLibrary.Entities.Setup
 {
     public class Experience: BaseEntity
     {
-        TimeSpan WorkExperience { get; set; }
+        public TimeSpan WorkExperience { get; set; }
     }
 }

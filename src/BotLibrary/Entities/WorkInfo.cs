@@ -10,11 +10,11 @@ namespace BotLibrary.Entities
 {
     public class WorkInfo: BaseEntity
     {
-        string PositionDesired { get; set; }
-        int SalaryDesired { get; set; }
-        List<Skill> Skills { get; set; }
-        LanguageLevel TypeOfEmployment { get; set; }
-        string Practice { get; set; }
-        Experience Experience { get; set; }
+        public string PositionDesired { get; set; }
+        public int SalaryDesired { get; set; }
+        public List<Skill> Skills { get; set; }
+        public TypeOfEmployment TypeOfEmployment { get; set; }
+        public string Practice { get; set; }
+        public Experience Experience { get; set; }
     }
 }

@@ -48,6 +48,7 @@
     <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\Enum\CommentType.cs" />
     <Compile Include="Entities\Enum\LanguageLevel.cs" />
+    <Compile Include="Entities\Enum\Level.cs" />
     <Compile Include="Entities\Enum\TypeOfEmployment.cs" />
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Entities\File.cs" />
@@ -56,13 +57,16 @@
     <Compile Include="Entities\PersonalInfo.cs" />
     <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\Role.cs" />
-    <Compile Include="Entities\Setup\CompanyDevision.cs" />
+    <Compile Include="Entities\Setup\Department.cs" />
+    <Compile Include="Entities\Setup\EventType.cs" />
     <Compile Include="Entities\Setup\Experience.cs" />
     <Compile Include="Entities\Setup\Language.cs" />
     <Compile Include="Entities\Setup\Room.cs" />
     <Compile Include="Entities\Setup\Skill.cs" />
     <Compile Include="Entities\Setup\SocialNetwork.cs" />
+    <Compile Include="Entities\Setup\Source.cs" />
     <Compile Include="Entities\Setup\Stage.cs" />
+    <Compile Include="Entities\Setup\Team.cs" />
     <Compile Include="Entities\Setup\VacancyStatus.cs" />
     <Compile Include="Entities\StageInfo.cs" />
     <Compile Include="Entities\User.cs" />

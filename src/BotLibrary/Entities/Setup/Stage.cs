@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotLibrary.Entities.Setup
+namespace BotDomain.Entities.Setup
 {
     public class Stage: BaseEntity
     {

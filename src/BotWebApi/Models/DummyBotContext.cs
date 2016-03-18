@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using BotLibrary.Entities;
-using BotLibrary.Entities.Setup;
-using BotLibrary.Entities.Enum;
+using BotDomain.Entities;
+using BotDomain.Entities.Setup;
+using BotDomain.Entities.Enum;
 
 namespace BotWebApi.Models
 {

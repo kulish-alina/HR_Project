@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotDomain.Entities.Setup
+namespace BotData
 {
-    public class Skill: BaseEntity
+    public class Class1
     {
-        public String Title { get; set; }
     }
 }

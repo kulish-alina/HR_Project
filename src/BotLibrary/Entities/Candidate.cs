@@ -1,7 +1,7 @@
-using BotLibrary.Entities.Setup;
+using BotDomain.Entities.Setup;
 using System.Collections.Generic;
 
-namespace BotLibrary.Entities
+namespace BotDomain.Entities
 {
     public class Candidate: BaseEntity
     {

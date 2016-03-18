@@ -1,11 +1,11 @@
-using BotLibrary.Entities.Setup;
+using BotDomain.Entities.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotLibrary.Entities
+namespace BotDomain.Entities
 {
     public class Event: BaseEntity
     {

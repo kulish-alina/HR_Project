@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BotLibrary\BotLibrary.csproj">
+    <ProjectReference Include="..\BotLibrary\BotDomain.csproj">
       <Project>{c6a50caf-6731-4692-b1db-26dc1b237239}</Project>
-      <Name>BotLibrary</Name>
+      <Name>BotDomain</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

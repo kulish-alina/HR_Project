@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotDomain.Entities.Setup
+namespace ClassLibrary1.DumbData
 {
-    public class Skill: BaseEntity
+    static class Storage
     {
-        public String Title { get; set; }
     }
 }

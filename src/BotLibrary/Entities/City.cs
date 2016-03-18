@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BotLibrary.Entities
+namespace BotDomain.Entities
 {
     public class City: BaseEntity
     {

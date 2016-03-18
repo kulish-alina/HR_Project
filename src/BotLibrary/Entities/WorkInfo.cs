@@ -1,12 +1,12 @@
-﻿using BotLibrary.Entities.Enum;
-using BotLibrary.Entities.Setup;
+﻿using BotDomain.Entities.Enum;
+using BotDomain.Entities.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotLibrary.Entities
+namespace BotDomain.Entities
 {
     public class WorkInfo: BaseEntity
     {

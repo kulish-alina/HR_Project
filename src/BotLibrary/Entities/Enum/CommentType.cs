@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotLibrary.Entities.Enum
+namespace BotDomain.Entities.Enum
 {
     public enum CommentType
     {

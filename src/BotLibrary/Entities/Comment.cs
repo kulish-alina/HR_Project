@@ -1,11 +1,11 @@
-﻿using BotLibrary.Entities.Enum;
+﻿using BotDomain.Entities.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotLibrary.Entities
+namespace BotDomain.Entities
 {
     public class Comment: BaseEntity
     {

@@ -5,16 +5,20 @@
         <tr>
             <th>№</th>
             <th>Title</th>
-            <th>Location</th>
             <th>Status</th>
+            <th>Location</th>
+            <th>Responsible</th>
+            <th>Added</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="vacancy in vacancies">
             <td>{{vacancy.Id}}</td>
             <td>{{vacancy.Name}}</td>
-            <td>{{vacancy.Location.City}}</td>
             <td>{{vacancy.Status.Title}}</td>
+            <td>{{vacancy.Location.City}}</td>
+            <td>{{vacancy.User.PersonalInfo.LastName}}</td>
+            <td>{{vacancy.Location.EditTime}}</td>
         </tr>
     </tbody>
 </table>

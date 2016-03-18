@@ -228,7 +228,7 @@ namespace BotWebApi.Models
         {
             get
             {
-                return _candidates.AsQueryable();
+                return _candidates;
             }
 
             set
@@ -241,7 +241,7 @@ namespace BotWebApi.Models
         {
             get
             {
-                return _vacancies.AsQueryable();
+                return _vacancies;
             }
         }
     }

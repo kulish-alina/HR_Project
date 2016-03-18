@@ -8,7 +8,7 @@ namespace BotLibrary.Entities.Setup
 {
     public class VacancyStatus: BaseEntity
     {
-        string Title { get; set; }
-        string Description { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -54,10 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BotApplication\BotApplication.csproj">
-      <Project>{67efa94c-4e86-44db-a43b-4a8e68fbdffa}</Project>
-      <Name>BotApplication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BotLibrary\BotLibrary.csproj">
       <Project>{c6a50caf-6731-4692-b1db-26dc1b237239}</Project>
       <Name>BotLibrary</Name>

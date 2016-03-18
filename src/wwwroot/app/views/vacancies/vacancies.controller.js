@@ -3,15 +3,10 @@ export default function VacanciesController($scope, $http) {
 
     var vm = $scope;
 
-    vm.getVacancies = function() {
-        $http({
-            method: 'get',
-            url: 'http://localhost:53031/api/Vacancies/',
-        }).then(function successCallback(response) {
-                vm.vacancies = response.data;
-            },
-            function errorCallback(response) {
-                console.log(response.status)
-            });
+    var urlId = "Vacancies";
+    vm.Vacancies = getVacancies;
+
+    function getVacancies() {
+        VacancyService.getVacancies(urlId).then(value => vm.vacancies = value);
     }
 }

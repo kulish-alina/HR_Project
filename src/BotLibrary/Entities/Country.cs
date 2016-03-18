@@ -7,6 +7,6 @@ namespace BotLibrary.Entities
 {
     public class Country: BaseEntity
     {
-        string Name { get; set; }
+        public string Name { get; set; }
     }
 }

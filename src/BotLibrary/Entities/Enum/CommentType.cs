@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities.Enum
 {
-    enum CommentType
+    public enum CommentType
     {
         Candidate,
         Vacancy,

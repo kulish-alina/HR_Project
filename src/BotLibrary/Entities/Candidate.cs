@@ -1,23 +1,22 @@
-﻿using BotLibrary.Entities.Setup;
-using System;
+using BotLibrary.Entities.Setup;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
     public class Candidate: BaseEntity
     {
-        PersonalInfo PersonalInfo { get; set; }
-        ContactInfo ContactInfo { get; set; }
-        WorkInfo WorkInfo { get; set; }
-        Location Location { get; set; }
-        bool RelocationAgreement { get; set; }
-        List<SocialNetwork> SocialNetworks { get; set; }
-        string Education { get; set; }
-        List<Language> Languages { get; set; }
-        Dictionary<Vacancy, StageInfo> VacanciesProgress { get; set; }
-        List<Comment> Comments { get; set; }
+        public PersonalInfo PersonalInfo { get; set; }
+        public ContactInfo ContactInfo { get; set; }
+        public WorkInfo WorkInfo { get; set; }
+        public string Description { get; set; }
+        public Location Location { get; set; }
+        public bool RelocationAgreement { get; set; }
+        public List<SocialNetwork> SocialNetworks { get; set; }
+        public string Education { get; set; }
+        public List<Language> Languages { get; set; }
+        public List<File> Files { get; set; }
+        public Dictionary<Vacancy, StageInfo> VacanciesProgress { get; set; }
+        public List<Comment> Comments { get; set; }
+        public List<Source> Sources { get; set; }
     }
 }

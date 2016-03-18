@@ -7,6 +7,6 @@ namespace BotLibrary.Entities
 {
     public class Location: BaseEntity
     {
-        City City { get; set; }
+        public City City { get; set; }
     }
 }

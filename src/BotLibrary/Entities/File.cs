@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace BotLibrary.Entities
 {
     public class File: BaseEntity
     {
-        FileInfo FileHr { get; set; }
-        string Description { get; set; }
+        public FileInfo FileInfo { get; set; }
+        public string Description { get; set; }
     }
 }

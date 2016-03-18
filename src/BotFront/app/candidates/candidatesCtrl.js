@@ -4,9 +4,11 @@ export default function CandidatesController($scope, $http) {
     var vm = $scope;
 
     vm.getCandidates = function() {
-        $http.get("").success(
-            function(response) {
-                vm.candidates = response;
-            })
+        $http({
+            method : 'delete',
+            url : 'http://localhost:53031/api/Candidates/All',
+        }).then((response) => {
+            vm.candidates = response.data;
+        });
     }
 }

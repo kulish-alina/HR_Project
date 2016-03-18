@@ -9,7 +9,7 @@ namespace BotLibrary.Entities
 {
     public class Comment: BaseEntity
     {
-        string Message { get; set; }
-        CommentType CommentType { get; set; }
+        public string Message { get; set; }
+        public CommentType CommentType { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotData
+namespace ClassLibrary1.DumbData
 {
-    public class Class1
+    static class Storage
     {
     }
 }

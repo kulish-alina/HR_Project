@@ -16,7 +16,7 @@ module.exports = {
       preLoaders: [
          {
             test: /\.js$/,
-            exclude: /node_modules/,
+            exclude: ['node_modules', 'build'],
             loader: 'eslint-loader'
          }
       ],
@@ -27,7 +27,7 @@ module.exports = {
          },
          {
             test: /\.js$/,
-            exclude: ["node_modules"],
+            exclude: /node_modules/,
             loader: 'ng-annotate?add=true!babel?presets[]=es2015'
          }]
    },

@@ -1,12 +1,12 @@
 export default function VacanciesController($scope, $http) {
-    'ngInject';
+   'ngInject';
 
-    var vm = $scope;
+   var vm = $scope;
 
-    vm.getVacancies = function() {
-        $http.get("").success(
-            function(response) {
-                vm.vacancies = response;
-            })
-    }
+   vm.getVacancies = function() {
+      $http.get('').success(
+         function(response) {
+            vm.vacancies = response;
+         })
+   }
 }

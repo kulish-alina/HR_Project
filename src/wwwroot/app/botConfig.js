@@ -7,24 +7,24 @@ import vacanciesController from './views/vacancies/vacancies.controller';
 
 export default function _config($stateProvider, $urlRouterProvider, $locationProvider) {
    $locationProvider.html5Mode({
-      enabled     : true,
-      requireBase : false
+      enabled: true,
+      requireBase: false
    });
 
    $stateProvider
       .state('home', {
-            url: '/home',
-            template: homeTemplate
+         url: '/home',
+         template: homeTemplate
       })
       .state('candidates', {
-            url: '/candidates',
-            template: candidatesTemplate,
-            controller: candidatesController
+         url: '/candidates',
+         template: candidatesTemplate,
+         controller: candidatesController
       })
       .state('vacancies', {
-            url: '/vacancies',
-            template: vacanciesTemplate,
-            controller: vacanciesController
+         url: '/vacancies',
+         template: vacanciesTemplate,
+         controller: vacanciesController
       })
 
    $urlRouterProvider.otherwise('home');

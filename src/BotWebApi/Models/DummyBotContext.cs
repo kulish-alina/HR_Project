@@ -224,7 +224,7 @@ namespace BotWebApi.Models
 
         }
 
-        public IQueryable<Candidate> Candidates
+        public List<Candidate> Candidates
         {
             get
             {
@@ -237,7 +237,7 @@ namespace BotWebApi.Models
             }
         }
 
-        public IQueryable<Vacancy> Vacancies
+        public List<Vacancy> Vacancies
         {
             get
             {

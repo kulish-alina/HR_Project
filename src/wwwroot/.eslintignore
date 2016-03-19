@@ -1,6 +1,4 @@
 webpack.config.js
-webpack.dev.build.js
-webpack.dist.build.js
-webpack.make.js
+config.webpack/
 build/
 node_modules/

@@ -8,7 +8,7 @@ namespace BotWebApi.Models
 {
     public interface IBotContext
     {
-        IQueryable<Candidate> Candidates { get; }
-        IQueryable<Vacancy> Vacancies { get; }
+        List<Candidate> Candidates { get; }
+        List<Vacancy> Vacancies { get; }
     }
 }

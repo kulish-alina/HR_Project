@@ -6,6 +6,10 @@
          "classes": true
       }
    },
+   "env": {
+      "browser": true,
+      "es6": true
+   },
    "plugins": [],
    "rules": {
       "no-bitwise": 2,

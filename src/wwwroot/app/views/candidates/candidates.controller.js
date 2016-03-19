@@ -1,17 +1,10 @@
-export default function CandidatesController($scope, $http) {
+export default function CandidatesController($scope, CandidateService) {
    'ngInject';
-
+   var urlId = 'Candidates/All';
    var vm = $scope;
-
-   vm.getCandidates = function() {
-      $http({
-         method: 'get',
-         url: 'http://localhost:53031/api/Candidates/GetCandidates'
-      }).then((response) => {
-         vm.candidates = response.data;
-      });
+   function getCandidates() {
+      CandidateService.getCandidates(urlId).then(value => vm.candidates = value);
    }
-   /*$http.jsonp('http://localhost:53031/api/Candidates/GetCandidates').then(() => {
-           console.log(lol);
-       })*/
+
+   vm.getCandidates = getCandidates;
 }

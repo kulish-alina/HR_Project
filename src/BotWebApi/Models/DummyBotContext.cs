@@ -224,11 +224,11 @@ namespace BotWebApi.Models
 
         }
 
-        public IQueryable<Candidate> Candidates
+        public List<Candidate> Candidates
         {
             get
             {
-                return _candidates.AsQueryable();
+                return _candidates;
             }
 
             set
@@ -237,11 +237,11 @@ namespace BotWebApi.Models
             }
         }
 
-        public IQueryable<Vacancy> Vacancies
+        public List<Vacancy> Vacancies
         {
             get
             {
-                return _vacancies.AsQueryable();
+                return _vacancies;
             }
         }
     }

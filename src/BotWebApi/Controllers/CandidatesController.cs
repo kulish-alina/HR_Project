@@ -87,5 +87,25 @@ namespace BotWebApi.Controllers
             return response;
         }
 
+        [HttpPut]
+        public HttpResponseMessage Put([FromBody]JObject entity)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            var changedCandidate = entity.ToObject<Candidate>();
+            var foundedCandidate = _context.Candidates.First(x => x.Id == changedCandidate.Id);
+            if (foundedCandidate != null)
+            {
+                _context.Candidates.Remove(foundedCandidate);
+                _context.Candidates.Add(changedCandidate);
+                _context.Candidates.OrderBy(x => x.Id);
+                response.StatusCode = HttpStatusCode.OK;
+            }
+            else
+            {
+                response.StatusCode = HttpStatusCode.NotFound;
+            }
+            return response;
+        }
+
     }
 }

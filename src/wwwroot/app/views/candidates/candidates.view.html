@@ -1,0 +1,28 @@
+<button ng-click="getCandidates()">GET CANDIDATES</button>
+<div>Candidates</div>
+<table>
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Full name</th>
+            <th>Industru</th>
+            <th>Source</th>
+            <th>Position</th>
+            <th>Salary</th>
+            <th>Stage</th>
+            <th>Added</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="candidate in candidates">
+            <td>{{candidate.Id}}</td>
+            <td>{{candidate.PersonalInfo.LastName}} {{candidate.PersonalInfo.FirstName}}{{candidate.PersonalInfo.MiddleName}}</td>
+            <td>{{candidate.Industry}}</td>
+            <td>{{candidate.Source}}</td>
+            <td>{{candidate.WorkInfo.PositionDesired}}</td>
+            <td>{{candidate.WorkInfo.SalaryDesired}}</td>
+            <td>{{candidate.VacanciesProgress[0]}}</td>
+            <td>{{candidate.EditTime}}</td>
+        </tr>
+    </tbody>
+</table>

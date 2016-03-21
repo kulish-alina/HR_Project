@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities.Enum
 {
-    enum TypeOfEmployment
+    public enum TypeOfEmployment
     {
         FullTime,
         PartTime,

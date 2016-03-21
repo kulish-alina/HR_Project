@@ -8,5 +8,6 @@ namespace BotLibrary.Entities.Setup
 {
     public class Skill: BaseEntity
     {
+        public String Title { get; set; }
     }
 }

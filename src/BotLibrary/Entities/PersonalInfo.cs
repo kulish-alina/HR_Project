@@ -8,11 +8,11 @@ namespace BotLibrary.Entities
 {
     public class PersonalInfo : BaseEntity
     {
-        string FirstName { get; set; }
-        string MiddleName { get; set; }
-        string LastName { get; set; }
-        bool Gender { get; set; }
-        DateTime BirthDate { get; set; }
-        Photo Photo { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public bool Gender { get; set; }
+        public DateTime BirthDate { get; set; }
+        public Photo Photo { get; set; }
     }
 }

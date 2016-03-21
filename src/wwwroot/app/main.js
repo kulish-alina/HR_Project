@@ -11,7 +11,9 @@ var dependencies = [ router ];
 
 angular
    .module('bot', dependencies)
+
    .service('HttpService', HttpService)
    .service('CandidateService', CandidateService)
    .service('VacancyService', VacancyService)
+
    .config(config);

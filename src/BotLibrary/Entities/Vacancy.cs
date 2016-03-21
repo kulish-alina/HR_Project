@@ -24,7 +24,7 @@ namespace BotLibrary.Entities
         public DateTime EndDate { get; set; }
         public DateTime DeadlineDate { get; set; }
         public VacancyStatus Status { get; set; }
-        public Dictionary<Candidate, List<StageInfo>> CandidatesProgress { get; set; }
+        public List<CandidateStageInfo> CandidatesProgress { get; set; }
         public bool MasterVacancy { get; set; }
         public List<File> Files { get; set; }
         public int ChildredVacanciesCount {get; set;}

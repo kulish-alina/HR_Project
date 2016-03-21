@@ -5,6 +5,6 @@ export default class VacancyService {
    }
 
    getVacancies(urlId) {
-      return this.HttpService.getVacancies(urlId);
+      return this.HttpService.getEntity(urlId);
    }
 }

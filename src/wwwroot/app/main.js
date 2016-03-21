@@ -2,6 +2,7 @@ import angular from 'angular';
 import router from 'angular-ui-router';
 
 import config from './botConfig';
+
 import HttpService from './services/httpService';
 import CandidateService from './services/candidateService';
 import VacancyService from './services/vacancyService';

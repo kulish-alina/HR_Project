@@ -1,12 +1,14 @@
 ﻿using BotLibrary.Entities;
 using BotWebApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -20,12 +22,14 @@ namespace BotWebApi.Controllers
         [HttpGet]
         public HttpResponseMessage All()
         {
-            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
+            return new HttpResponseMessage()
             {
-                Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates)),
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates, Formatting.Indented, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                })),
             };
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
-            return response;
         }
 
         [HttpGet]
@@ -35,16 +39,19 @@ namespace BotWebApi.Controllers
             var foundedCandidate = _context.Candidates.First(x => x.Id == id);
             if (foundedCandidate != null)
             {
-                response = new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate))
+                response = new HttpResponseMessage()
+                { 
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }))
                 };
             }
             else
             {
                 response = new HttpResponseMessage(HttpStatusCode.NotFound);
             }
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
             return response;
         }
 
@@ -54,26 +61,33 @@ namespace BotWebApi.Controllers
             HttpResponseMessage response;
             var foundedCandidate = _context.Candidates.First(x => x.Id == id);
             if(foundedCandidate != null)
-            {
-                response = new HttpResponseMessage(HttpStatusCode.Accepted);
+            { 
                 _context.Candidates.Remove(foundedCandidate);
+                if (_context.Candidates.Any(x => x != foundedCandidate)) 
+                {
+                    response = new HttpResponseMessage(HttpStatusCode.OK);
+                }
+                else
+                {
+                    response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                }
             }
             else
             {
                 response = new HttpResponseMessage(HttpStatusCode.NoContent);
             }
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
             return response;
        }
        
-        [HttpPut]
-        public HttpResponseMessage Put(string entity)
+        [HttpPost]
+        public HttpResponseMessage Add([FromBody]JObject entity)
         {
-            HttpResponseMessage response;
-            var newCandidate = JsonConvert.DeserializeObject<Candidate>(entity);
-            _context.Candidates.Add(newCandidate);
+            HttpResponseMessage response = new HttpResponseMessage();
+            var newCandidate = entity.ToObject<Candidate>();
+           // _context.Candidates.Add();
+            response.StatusCode = HttpStatusCode.Created;
             //make connections
-            return new HttpResponseMessage(HttpStatusCode.Accepted);
+            return response;
         }
 
     }

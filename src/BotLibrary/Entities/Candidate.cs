@@ -1,4 +1,5 @@
 using BotLibrary.Entities.Setup;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace BotLibrary.Entities
@@ -15,7 +16,7 @@ namespace BotLibrary.Entities
         public string Education { get; set; }
         public List<Language> Languages { get; set; }
         public List<File> Files { get; set; }
-        public Dictionary<Vacancy, StageInfo> VacanciesProgress { get; set; }
+        public List<VacancyStage> VacanciesProgress { get; set; }
         public List<Comment> Comments { get; set; }
         public List<Source> Sources { get; set; }
     }

@@ -26,7 +26,9 @@ default class HttpService {
             method: 'post',
             data: entity,
             url: BASE_URL + urlId,
-			   headers: {'Content-Type': 'application/json'}
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }).then(
             function successCallback(response) {
                 console.log(response.status);

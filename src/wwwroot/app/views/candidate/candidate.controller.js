@@ -3,14 +3,14 @@ export default function CandidateController($scope, CandidateService) {
 
     var vm = $scope;
     vm.candidate = {};
-    var urlId = "Candidates/Put";
+    var urlId = "Candidates";
     vm.addCandidate = addCandidate;
 
     function addCandidate(firstName, lastName, gender) {
         vm.candidate.firstName = firstName;
         vm.candidate.lastName = lastName;
         vm.candidate.gender = gender;
-        var candidateJson = JSON.stringify(vm.candidate);
+        var candidateJson = vm.candidate;
         CandidateService.addCandidate(urlId, candidateJson);
     }
 }

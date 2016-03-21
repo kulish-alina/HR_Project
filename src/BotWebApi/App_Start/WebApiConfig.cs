@@ -13,12 +13,13 @@ namespace BotWebApi
             // Web API configuration and services
             var corsAtts = new EnableCorsAttribute("http://localhost:9100", "*", "*");
             config.EnableCors(corsAtts);
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
+                routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

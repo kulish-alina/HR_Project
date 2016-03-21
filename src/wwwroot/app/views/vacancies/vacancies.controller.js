@@ -3,10 +3,10 @@ export default function VacanciesController($scope, $http) {
 
     var vm = $scope;
 
-    var urlId = "Vacancies";
+    var additionalUrl = "Vacancies";
     vm.Vacancies = getVacancies;
 
     function getVacancies() {
-        VacancyService.getVacancies(urlId).then(value => vm.vacancies = value);
+        VacancyService.getVacancies(additionalUrl).then(value => vm.vacancies = value);
     }
 }

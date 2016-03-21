@@ -4,7 +4,7 @@ export default class VacancyService {
         this.HttpService = HttpService;
     }
 
-    getVacancies(urlId) {
-       return this.HttpService.getVacancies(urlId);
+    getVacancies(additionalUrl) {
+       return this.HttpService.getVacancies(additionalUrl);
     }
 }

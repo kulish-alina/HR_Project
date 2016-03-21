@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace BotWebApi.Controllers
 {
@@ -66,15 +67,28 @@ namespace BotWebApi.Controllers
             return response;
        }
        
-        [HttpPut]
-        public HttpResponseMessage Put(string entity)
+        [HttpPost]
+        [ResponseType(typeof(Transport))]
+        public HttpResponseMessage AddCandidate([FromBody]Transport entity)
         {
-            HttpResponseMessage response;
-            var newCandidate = JsonConvert.DeserializeObject<Candidate>(entity);
-            _context.Candidates.Add(newCandidate);
+            //HttpResponseMessage response;
+            //var newCandidate = JsonConvert.DeserializeObject<Candidate>(entity);
+            //_context.Candidates.Add(newCandidate);
             //make connections
+            if (entity != null)
+            {
+
+            }
+
             return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
 
+    }
+
+    public class Transport
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Gender { get; set; }
     }
 }

@@ -1,14 +1,33 @@
+const CANDIDATE_URL = 'Candidates/Get/';
+
 export default class CandidateService {
     constructor(HttpService) {
         'ngInject';
         this.HttpService = HttpService;
     }
 
-    getCandidates(urlId) {
-        return this.HttpService.getEntity(urlId);
+    getCandidates() {
+		  var additionalUrl = CANDIDATE_URL;
+        return this.HttpService.getEntities(additionalUrl);
     }
-    
-	 addCandidate(urlId, entity) {
-        this.HttpService.addEntity(urlId, entity);
+	
+	 getCandidate(id) {
+		  var additionalUrl = CANDIDATE_URL + id;
+        return this.HttpService.getEntity(additionalUrl);
+    }
+
+    addCandidate(entity) {
+		  var additionalUrl =  CANDIDATE_URL;
+        return this.HttpService.addEntity(additionalUrl, entity);
+    }
+	
+    editCandidate(entity) {
+		 var additionalUrl = CANDIDATE_URL + entity.id;
+		 return this.HttpService.editEntity(additionalUrl, entity);
+    }
+	
+	 deleteCandidate(entity) {
+		 var additionalUrl = CANDIDATE_URL + entity.id;
+		 return this.HttpService.deleteEntity(additionalUrl, entity);
     }
 }

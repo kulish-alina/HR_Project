@@ -3,10 +3,15 @@ export default function CandidatesController($scope, CandidateService) {
 
     var vm = $scope;
 	
-    var urlId = "Candidates/All";
     vm.getCandidates = getCandidates;
+	
+	 vm.getCandidate = getCandidate;
 
     function getCandidates() {
-        CandidateService.getCandidates(urlId).then(value => vm.candidates = value);
+        CandidateService.getCandidates().then(value => vm.candidates = value);
     }
+	 
+	function getCandidate(candidateId){
+		CandidateService.getCandidate(candidateId).then(value => vm.candidates = value);
+	}
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BotLibrary.Entities
 {
-    public class Vacancy: BaseEntity 
+    public class Vacancy : BaseEntity 
     {
         public string Name { get; set; }
         public Level Level {get; set;}

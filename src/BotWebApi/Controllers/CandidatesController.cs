@@ -37,10 +37,8 @@ namespace BotWebApi.Controllers
         {
             HttpResponseMessage response;
             var foundedCandidate = _context.Candidates.First(x => x.Id == id);
-            if (foundedCandidate != null)
-            {
-                response = new HttpResponseMessage()
-                { 
+            if (foundedCandidate != null) {
+                response = new HttpResponseMessage() { 
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate, Formatting.Indented, new JsonSerializerSettings
                     {
@@ -48,8 +46,7 @@ namespace BotWebApi.Controllers
                     }))
                 };
             }
-            else
-            {
+            else {
                 response = new HttpResponseMessage(HttpStatusCode.NotFound);
             }
             return response;
@@ -84,9 +81,9 @@ namespace BotWebApi.Controllers
         {
             HttpResponseMessage response = new HttpResponseMessage();
             var newCandidate = entity.ToObject<Candidate>();
-           // _context.Candidates.Add();
+            newCandidate.Id = _context.Candidates.Last().Id + 1;
+            _context.Candidates.Add(newCandidate);
             response.StatusCode = HttpStatusCode.Created;
-            //make connections
             return response;
         }
 

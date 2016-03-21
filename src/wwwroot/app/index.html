@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bot Start Page</title>
+</head>
+<body ng-app="bot">
+    <nav>
+        <a ui-sref="home">Home</a>
+        <a ui-sref="candidates">Candidates</a>
+        <a ui-sref="vacancies">Vacancies</a>
+        <a ui-sref="candidate">Add Candidate</a>
+    </nav>
+
+   <div ui-view></div>
+   <!-- Some kind of magic for webpack assets-->
+   {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+    <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+   {% } %}
+</body>
+
+</html>

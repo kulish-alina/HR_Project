@@ -7,20 +7,21 @@ export default function VacanciesController($scope, VacancyService) {
     vm.getVacancies = getVacancies;
 	 vm.getVacancy = getVacancy;
 	 vm.deleteVacancy = deleteVacancy;
+	 vm.editVacancy = editVacancy;
 
     function getVacancies() {
         VacancyService.getVacancies().then(value => vm.vacancies = value);
     }
 	
-	 function getVacancy(){
+	 function getVacancy(vacancyId){
 		 VacancyService.getVacancy(vacancyId).then(value => vm.vacancies = [value]);
 	 }
 	
 	 function editVacancy(vacancy) {
-        VacancyService.editVacancy(vacancy);
+        VacancyService.saveVacancy(vacancy);
     }
 	
 	function deleteVacancy(vacancy){
-		VacancyService.getVacancy(vacancy);
+		VacancyService.deleteVacancy(vacancy);
 	}
 }

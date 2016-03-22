@@ -1,5 +1,5 @@
 <button ng-click="getVacancies()">GET VACANCIES</button>
-<button ng-click="getVacancy()">GET VACANCY</button>
+<button ng-click="getVacancy(vacancyId)">GET VACANCY</button>
 <input type="text" ng-model="vacancyId" placeholder="Id">
 <div>Vacancies</div>
 <table>
@@ -18,7 +18,7 @@
             <td>{{vacancy.Id}}</td>
             <td>{{vacancy.Name}}</td>
             <td>{{vacancy.Status.Title}}</td>
-            <td>{{vacancy.Location.City}}</td>
+            <td>{{vacancy.Location.City.Name}}</td>
             <td>{{vacancy.User.PersonalInfo.LastName}}</td>
             <td>{{vacancy.Location.EditTime}}</td>
             <td>

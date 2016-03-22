@@ -23,7 +23,8 @@ namespace BotWebApi.Controllers
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(JsonConvert.SerializeObject(_context.Vacancies, Formatting.Indented, new JsonSerializerSettings
                 {
-                    DateFormatString = "dd/mm/yyyy",
+                   
+
                 })),
             };
         }
@@ -40,7 +41,7 @@ namespace BotWebApi.Controllers
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedVacancy, Formatting.Indented, new JsonSerializerSettings
                     {
-                        DateFormatString = "dd/mm/yyyy",
+                        
                     }))
                 };
             }
@@ -64,7 +65,7 @@ namespace BotWebApi.Controllers
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedVacancy.CandidatesProgress, Formatting.Indented, new JsonSerializerSettings
                     {
-                        DateFormatString = "dd/mm/yyyy",
+                        
                     }))
                 };
             }

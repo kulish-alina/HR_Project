@@ -27,7 +27,7 @@ namespace BotWebApi.Controllers
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates, Formatting.Indented, new JsonSerializerSettings
                 {
-                    DateFormatString = "dd/mm/yyyy",
+                    
                 })),
             };
         }
@@ -44,7 +44,7 @@ namespace BotWebApi.Controllers
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate, Formatting.Indented, new JsonSerializerSettings
                     {
-                        DateFormatString = "dd/mm/yyyy",
+                        
                     }))
                 };
             }
@@ -68,7 +68,7 @@ namespace BotWebApi.Controllers
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate.VacanciesProgress, Formatting.Indented, new JsonSerializerSettings
                     {
-                        DateFormatString = "dd/mm/yyyy",
+                        
                     }))
                 };
             }
@@ -133,18 +133,8 @@ namespace BotWebApi.Controllers
                 response.StatusCode = HttpStatusCode.NotFound;
             }
             return response;
-            {
-
-            }
-
         }
 
     }
 
-    public class Transport
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Gender { get; set; }
-    }
 }

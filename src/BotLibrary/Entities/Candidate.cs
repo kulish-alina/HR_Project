@@ -16,6 +16,7 @@ namespace BotLibrary.Entities
         public string Education { get; set; }
         public List<Language> Languages { get; set; }
         public List<File> Files { get; set; }
+        [JsonIgnore]
         public List<VacancyStage> VacanciesProgress { get; set; }
         public List<Comment> Comments { get; set; }
         public List<Source> Sources { get; set; }

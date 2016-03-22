@@ -10,5 +10,6 @@ namespace BotLibrary.Entities
     {
         public int Id { get; set; }
         public DateTime EditTime { get; set; }
+        public bool IsActive { get; set; }
     }
 }

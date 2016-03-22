@@ -14,7 +14,6 @@ using System.Web.Http.Cors;
 
 namespace BotWebApi.Controllers
 {
-    
     public class CandidatesController : ApiController
     {
         IBotContext _context = new DummyBotContext();
@@ -27,7 +26,7 @@ namespace BotWebApi.Controllers
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates, Formatting.Indented, new JsonSerializerSettings
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    DateFormatString = "dd/mm/yyyy",
                 })),
             };
         }
@@ -36,21 +35,49 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Get(int id)
         {
             HttpResponseMessage response;
-            var foundedCandidate = _context.Candidates.First(x => x.Id == id);
-            if (foundedCandidate != null) {
-                response = new HttpResponseMessage() { 
+            if(_context.Candidates.Any(x=>x.Id == id))
+            {
+                var foundedCandidate = _context.Candidates.First(x => x.Id == id);
+                response = new HttpResponseMessage()
+                {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate, Formatting.Indented, new JsonSerializerSettings
                     {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        DateFormatString = "dd/mm/yyyy",
                     }))
                 };
             }
-            else {
+            else
+            {
                 response = new HttpResponseMessage(HttpStatusCode.NotFound);
             }
             return response;
         }
+
+        [Route("api/candidates/{candidateId}/vacancies")]
+        [HttpGet]
+        public HttpResponseMessage VacanciesProgress(int candidateId)
+        {
+            HttpResponseMessage response;
+            if (_context.Candidates.Any(x => x.Id == candidateId))
+            {
+                var foundedCandidate = _context.Candidates.First(x => x.Id == candidateId);
+                response = new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate.VacanciesProgress, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        DateFormatString = "dd/mm/yyyy",
+                    }))
+                };
+            }
+            else
+            {
+                response = new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+            return response;
+        }
+
 
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
@@ -88,11 +115,11 @@ namespace BotWebApi.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage Put([FromBody]JObject entity)
+        public HttpResponseMessage Put(int id, [FromBody]JObject entity)
         {
             HttpResponseMessage response = new HttpResponseMessage();
             var changedCandidate = entity.ToObject<Candidate>();
-            var foundedCandidate = _context.Candidates.First(x => x.Id == changedCandidate.Id);
+            var foundedCandidate = _context.Candidates.First(x => x.Id == id);
             if (foundedCandidate != null)
             {
                 _context.Candidates.Remove(foundedCandidate);

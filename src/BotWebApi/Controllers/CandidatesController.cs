@@ -110,6 +110,10 @@ namespace BotWebApi.Controllers
             var newCandidate = entity.ToObject<Candidate>();
             newCandidate.Id = _context.Candidates.Last().Id + 1;
             _context.Candidates.Add(newCandidate);
+            response.Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates.Last(), Formatting.Indented, new JsonSerializerSettings
+            {
+                DateFormatString = "dd/mm/yyyy",
+            }));
             response.StatusCode = HttpStatusCode.Created;
             return response;
         }

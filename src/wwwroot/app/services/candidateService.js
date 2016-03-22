@@ -1,4 +1,4 @@
-const CANDIDATE_URL = 'Candidates/Get/';
+const CANDIDATE_URL = 'candidates/';
 
 export default class CandidateService {
     constructor(HttpService) {
@@ -8,26 +8,27 @@ export default class CandidateService {
 
     getCandidates() {
 		  var additionalUrl = CANDIDATE_URL;
-        return this.HttpService.getEntities(additionalUrl);
+        return this.HttpService.get(additionalUrl);
     }
 	
 	 getCandidate(id) {
 		  var additionalUrl = CANDIDATE_URL + id;
-        return this.HttpService.getEntity(additionalUrl);
+        return this.HttpService.get(additionalUrl);
     }
+	
+	 saveCandidate(entity){
+		 if(entity.Id !== undefined){
+			 var additionalUrl = CANDIDATE_URL + entity.Id;
+			 return this.HttpService.put(additionalUrl, entity);
+		 }
+		 else{
+			 var additionalUrl =  CANDIDATE_URL;
+			 return this.HttpService.post(additionalUrl, entity);
+		 }
+	 }
 
-    addCandidate(entity) {
-		  var additionalUrl =  CANDIDATE_URL;
-        return this.HttpService.addEntity(additionalUrl, entity);
-    }
-	
-    editCandidate(entity) {
-		 var additionalUrl = CANDIDATE_URL + entity.id;
-		 return this.HttpService.editEntity(additionalUrl, entity);
-    }
-	
 	 deleteCandidate(entity) {
-		 var additionalUrl = CANDIDATE_URL + entity.id;
-		 return this.HttpService.deleteEntity(additionalUrl, entity);
+		 var additionalUrl = CANDIDATE_URL + entity.Id;
+		 this.HttpService.remove(additionalUrl, entity);
     }
 }

@@ -6,25 +6,20 @@ export default class HttpService {
         this.http = $http;
     }
 
-    getEntities(additionalUrl) {
+    get(additionalUrl) {
 		  console.log(additionalUrl);
-        return this.ajax('get', additionalUrl);
-		 
-    }
-	
-	 getEntity(additionalUrl) {
         return this.ajax('get', additionalUrl);
     }
 
-    addEntity(additionalUrl, entity) {
+    post(additionalUrl, entity) {
         return this.ajax('post', additionalUrl, entity);
     }
 
-    editEntity(additionalUrl, entity) {
+    put(additionalUrl, entity) {
         return this.ajax('put', additionalUrl, entity);
     }
 	 
-	 deleteEntity(additionalUrl, entity){
+	 remove(additionalUrl, entity){
 		 this.ajax('delete', additionalUrl, entity);
 	 }
 

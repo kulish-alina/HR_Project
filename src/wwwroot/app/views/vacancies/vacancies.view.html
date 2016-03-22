@@ -1,4 +1,6 @@
 <button ng-click="getVacancies()">GET VACANCIES</button>
+<button ng-click="getVacancy()">GET VACANCY</button>
+<input type="text" ng-model="vacancyId" placeholder="Id">
 <div>Vacancies</div>
 <table>
     <thead>
@@ -19,6 +21,14 @@
             <td>{{vacancy.Location.City}}</td>
             <td>{{vacancy.User.PersonalInfo.LastName}}</td>
             <td>{{vacancy.Location.EditTime}}</td>
+            <td>
+                <button ng-click="deleteVacancy(vacancy)">
+                    Delete
+                </button>
+                <button ng-click="editVacancy(vacancy)">
+                    Edit
+                </button>
+            </td>
         </tr>
     </tbody>
 </table>

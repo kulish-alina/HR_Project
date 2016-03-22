@@ -1,5 +1,5 @@
 <button ng-click="getCandidates()">GET CANDIDATES</button>
-<button ng-click = "getCandidate(candidateId)">GET CANDIDATE</button>
+<button ng-click="getCandidate(candidateId)">GET CANDIDATE</button>
 <input type="text" ng-model="candidateId" placeholder="Id">
 
 <div>Candidates</div>
@@ -24,8 +24,16 @@
             <td>{{candidate.Source}}</td>
             <td>{{candidate.WorkInfo.PositionDesired}}</td>
             <td>{{candidate.WorkInfo.SalaryDesired}}</td>
-            <td>{{candidate.VacanciesProgress[0]}}</td>
+            <td>{{candidate.VacanciesProgress[0].StageInfo.Stage.Title}}</td>
             <td>{{candidate.EditTime}}</td>
+            <td>
+                <button ng-click="deleteCandidate(candidate)">
+                    Delete
+                </button>
+                <button ng-click="editCandidate(candidate)">
+                    Edit
+                </button>
+            </td>
         </tr>
     </tbody>
 </table>

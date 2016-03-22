@@ -1,12 +1,27 @@
-export default function VacanciesController($scope, $http) {
+export default function VacanciesController($scope, VacancyService) {
     'ngInject';
 
     var vm = $scope;
+	 vm.vacancies = [];
 
-    var urlId = "Vacancies";
-    vm.Vacancies = getVacancies;
+    vm.getVacancies = getVacancies;
+	 vm.getVacancy = getVacancy;
+	 vm.deleteVacancy = deleteVacancy;
+	 vm.editVacancy = editVacancy;
 
     function getVacancies() {
-        VacancyService.getVacancies(urlId).then(value => vm.vacancies = value);
+        VacancyService.getVacancies().then(value => vm.vacancies = value);
     }
+	
+	 function getVacancy(vacancyId){
+		 VacancyService.getVacancy(vacancyId).then(value => vm.vacancies = [value]);
+	 }
+	
+	 function editVacancy(vacancy) {
+        VacancyService.saveVacancy(vacancy);
+    }
+	
+	function deleteVacancy(vacancy){
+		VacancyService.deleteVacancy(vacancy);
+	}
 }

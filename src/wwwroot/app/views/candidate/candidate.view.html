@@ -1,5 +1,18 @@
 <div>Add new Candidate</div>
-	<input type="text" ng-model="firstName" placeholder="First Name">
-	<input type="text" ng-model="lastName" placeholder="Last Name">
-	<input type="text" ng-model="gender" placeholder="Gender">
-	<button ng-click="addCandidate(firstName, lastName, gender)">ADD</button>
+<div>
+    <input type="text" ng-model="firstName" placeholder="First Name">
+    <input type="text" ng-model="middleName" placeholder="Middle Name">
+    <input type="text" ng-model="lastName" placeholder="Last Name">
+    <input type="text" ng-model="industry" placeholder="Industry">
+    <input type="text" ng-model="positionDesired" placeholder="Position Desired">
+    <input type="text" ng-model="salaryDesired" placeholder="Salary Desired">
+    <button ng-click="addCandidate(firstName, middleName, lastName, industry, positionDesired, salaryDesired)">ADD</button>
+</div>
+<div>Candidate</div>
+<p>{{candidate.id}}</p>
+<p>{{candidate.personalInfo.firstName}}</p>
+<p>{{candidate.personalInfo.middleName}}</p>
+<p>{{candidate.personalInfo.lastName}}</p>
+<p>{{candidate.industry}}</p>
+<p>{{candidate.workInfo.positionDesired}}</p>
+<p>{{candidate.workInfo.salaryDesired}}</p>

@@ -2,11 +2,26 @@ export default function CandidatesController($scope, CandidateService) {
     'ngInject';
 
     var vm = $scope;
-	
-    var urlId = "Candidates/All";
+    vm.candidates = [];
     vm.getCandidates = getCandidates;
+    vm.getCandidate = getCandidate;
+    vm.deleteCandidate = deleteCandidate;
+    vm.editCandidate = editCandidate;
+
 
     function getCandidates() {
-        CandidateService.getCandidates(urlId).then(value => vm.candidates = value);
+        CandidateService.getCandidates().then(value => vm.candidates = value);
+    }
+
+    function getCandidate(candidateId) {
+        CandidateService.getCandidate(candidateId).then(value => vm.candidates = [value]);
+    }
+
+    function deleteCandidate(candidate) {
+        CandidateService.deleteCandidate(candidate);
+    }
+
+    function editCandidate(candidate) {
+        CandidateService. saveCandidate(candidate);
     }
 }

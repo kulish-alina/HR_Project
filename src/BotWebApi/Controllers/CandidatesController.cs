@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace BotWebApi.Controllers
 {
@@ -26,7 +27,7 @@ namespace BotWebApi.Controllers
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates, Formatting.Indented, new JsonSerializerSettings
                 {
-                    DateFormatString = "dd/mm/yyyy",
+                    
                 })),
             };
         }
@@ -43,7 +44,7 @@ namespace BotWebApi.Controllers
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate, Formatting.Indented, new JsonSerializerSettings
                     {
-                        DateFormatString = "dd/mm/yyyy",
+                        
                     }))
                 };
             }
@@ -67,7 +68,7 @@ namespace BotWebApi.Controllers
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate.VacanciesProgress, Formatting.Indented, new JsonSerializerSettings
                     {
-                        DateFormatString = "dd/mm/yyyy",
+                        
                     }))
                 };
             }
@@ -105,7 +106,7 @@ namespace BotWebApi.Controllers
        
         [HttpPost]
         public HttpResponseMessage Add([FromBody]JObject entity)
-        {
+       {
             HttpResponseMessage response = new HttpResponseMessage();
             var newCandidate = entity.ToObject<Candidate>();
             newCandidate.Id = _context.Candidates.Last().Id + 1;
@@ -139,4 +140,5 @@ namespace BotWebApi.Controllers
         }
 
     }
+
 }

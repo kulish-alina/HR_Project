@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DumbData\Repositories\BaseEntityRepository.cs" />
+    <Compile Include="DumbData\Repositories\UserRepository.cs" />
     <Compile Include="DumbData\Storage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-export default function CandidatesController($scope, CandidateService) {
+export default function CandidatesController($scope, CandidateService, LoggerService) {
     'ngInject';
 
     var vm = $scope;
@@ -10,11 +10,11 @@ export default function CandidatesController($scope, CandidateService) {
 
 
     function getCandidates() {
-        CandidateService.getCandidates().then(value => vm.candidates = value);
+        var resronse = CandidateService.getCandidates().then(value => vm.candidates = value).catch(_onError);
     }
 
     function getCandidate(candidateId) {
-        CandidateService.getCandidate(candidateId).then(value => vm.candidates = [value]);
+        CandidateService.getCandidate(candidateId).then(value => vm.candidates = [value]).catch(_onError);
     }
 
     function deleteCandidate(candidate) {
@@ -22,6 +22,12 @@ export default function CandidatesController($scope, CandidateService) {
     }
 
     function editCandidate(candidate) {
-        CandidateService. saveCandidate(candidate);
+        CandidateService.saveCandidate(candidate).catch(_onError);
+    }
+	
+	 function _onError(message) {
+		 if(message.status === -1){
+			 LoggerService.error(new Date(), 'You cannot get a response from the server');
+		 }
     }
 }

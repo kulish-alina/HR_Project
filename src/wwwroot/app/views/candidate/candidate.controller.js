@@ -1,4 +1,4 @@
-export default function CandidateController($scope, CandidateService) {
+export default function CandidateController($scope, CandidateService, LoggerService) {
     'ngInject';
 
     var vm = $scope;
@@ -15,7 +15,12 @@ export default function CandidateController($scope, CandidateService) {
         vm.candidate.industry = industry;
         vm.candidate.workInfo.positionDesired = positionDesired;
         vm.candidate.workInfo.salaryDesired = salaryDesired;
-        CandidateService. saveCandidate(vm.candidate);
+        CandidateService.saveCandidate(vm.candidate).catch(_onError);
+    }
+
+    function _onError(message) {
+        if (message.status === -1) {
+            LoggerService.error(new Date(), 'You cannot get a response from the server');
+        }
     }
 }
-	

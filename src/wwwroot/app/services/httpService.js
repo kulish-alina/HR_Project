@@ -1,13 +1,13 @@
 const BASE_URL = 'http://localhost:53031/api/';
 
 export default class HttpService {
-    constructor($http) {
+    constructor($http, $q) {
         'ngInject';
         this.http = $http;
+        this.$q = $q;
     }
 
     get(additionalUrl) {
-		  console.log(additionalUrl);
         return this.ajax('get', additionalUrl);
     }
 
@@ -18,10 +18,10 @@ export default class HttpService {
     put(additionalUrl, entity) {
         return this.ajax('put', additionalUrl, entity);
     }
-	 
-	 remove(additionalUrl, entity){
-		 this.ajax('delete', additionalUrl, entity);
-	 }
+
+    remove(additionalUrl, entity) {
+        this.ajax('delete', additionalUrl, entity);
+    }
 
     ajax(method, additionalUrl, entity) {
         var options = {
@@ -35,15 +35,16 @@ export default class HttpService {
             options.data = entity;
 
         }
-        return this.http(options).then(successCallback, errorCallback);
+        return this.http(options).then(this._successCallback, this._errorCallback.bind(this));
     }
-}
 
-function successCallback(response) {
-    console.log(response.status);
-    return response.data;
-}
+    _successCallback(response) {
+        console.log(response.status);
+        return response.data;
+    }
 
-function errorCallback(response) {
-    console.log(response.status);
+    _errorCallback(response) {
+        console.log(response.status);
+        return this.$q.reject(response);
+    }
 }

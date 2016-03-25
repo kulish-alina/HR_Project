@@ -115,7 +115,7 @@ namespace BotWebApi.Models
                     Comments = new List<Comment>(),
                     Files = new List<File>(),
                     MasterVacancy = false,
-                    CandidatesProgress = new Dictionary<Candidate, List<StageInfo>>()
+                    CandidatesProgress = new List<CandidateStageInfo>()
                 });
             }
             int _nameIndex = 0;
@@ -178,7 +178,7 @@ namespace BotWebApi.Models
                         Skills = _skills,
                         TypeOfEmployment = TypeOfEmployment.FullTime
                     },
-                    VacanciesProgress = new Dictionary<Vacancy, StageInfo>()
+                    VacanciesProgress = new List<VacancyStage>()
                 });
                 _nameIndex++;
                 if (Names.MaleFirstNames.Count - 1 == _nameIndex || Names.FemaleFirstNames.Count - 1 == _nameIndex) _nameIndex = 0;
@@ -216,8 +216,16 @@ namespace BotWebApi.Models
             int _vacancyIndex = 0;
             foreach (var c in _candidates)
             {
-                c.VacanciesProgress.Add(_vacancies[_vacancyIndex], _stages[0]);
-                _vacancies[_vacancyIndex].CandidatesProgress.Add(c, new List<StageInfo>() { _stages[0] });
+                c.VacanciesProgress.Add(new VacancyStage()
+                {
+                    Vacancy = _vacancies[_vacancyIndex],
+                    StageInfo = _stages[0]
+                });
+                _vacancies[_vacancyIndex].CandidatesProgress.Add(new CandidateStageInfo()
+                {
+                    Candidate = c,
+                    StageInfos = new List<StageInfo>() { _stages[0] }
+                });
                 _vacancyIndex++;
                 if (_vacancyIndex == 19) _vacancyIndex = 0;
             }

@@ -1,9 +1,9 @@
 export default function CandidateController($scope, CandidateService, LoggerService) {
-    'ngInject';
+   'ngInject';
 
-    var vm = $scope;
-    vm.candidate = {};
-    vm.addCandidate = addCandidate;
+   var urlId = 'Candidates/Put';
+   var vm = $scope;
+   vm.candidate = {};
 
     function addCandidate(firstName, middleName, lastName, industry, source, positionDesired, salaryDesired) {
         vm.candidate = {};
@@ -22,5 +22,8 @@ export default function CandidateController($scope, CandidateService, LoggerServ
         if (message.status === -1) {
             LoggerService.error(new Date(), 'You cannot get a response from the server');
         }
-    }
+   }
+
+
+   vm.addCandidate = addCandidate;
 }

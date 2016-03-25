@@ -1,15 +1,13 @@
 export default function CandidatesController($scope, CandidateService, LoggerService) {
-    'ngInject';
-
-    var vm = $scope;
+   'ngInject';
+   var urlId = 'Candidates/All';
+   var vm = $scope;
     vm.candidates = [];
-    vm.getCandidates = getCandidates;
     vm.getCandidate = getCandidate;
     vm.deleteCandidate = deleteCandidate;
     vm.editCandidate = editCandidate;
 
-
-    function getCandidates() {
+   function getCandidates() {
         var resronse = CandidateService.getCandidates().then(value => vm.candidates = value).catch(_onError);
     }
 
@@ -29,5 +27,7 @@ export default function CandidatesController($scope, CandidateService, LoggerSer
 		 if(message.status === -1){
 			 LoggerService.error(new Date(), 'You cannot get a response from the server');
 		 }
-    }
+   }
+
+   vm.getCandidates = getCandidates;
 }

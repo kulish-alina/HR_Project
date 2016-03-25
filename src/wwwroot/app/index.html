@@ -14,11 +14,11 @@
         <a ui-sref="vacancy">Add Vacancy</a>
     </nav>
 
-    <div ui-view></div>
-    <!-- Some kind of magic for webpack assets-->
-    {% for (var chunk in o.htmlWebpackPlugin.assets) { %}
-    <script src="{%=o.htmlWebpackPlugin.assets[chunk]%}"></script>
-    {% } %}
+   <div ui-view></div>
+   <!-- Some kind of magic for webpack assets-->
+   {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+    <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+   {% } %}
 </body>
 
 </html>

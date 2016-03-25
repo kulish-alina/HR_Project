@@ -1,15 +1,15 @@
 const CANDIDATE_URL = 'candidates/';
 
 export default class CandidateService {
-    constructor(HttpService) {
-        'ngInject';
-        this.HttpService = HttpService;
-    }
+   constructor(HttpService) {
+      'ngInject';
+      this.HttpService = HttpService;
+   }
 
     getCandidates() {
 		  var additionalUrl = CANDIDATE_URL;
         return this.HttpService.get(additionalUrl);
-    }
+   }
 	
 	 getCandidate(id) {
 		  var additionalUrl = CANDIDATE_URL + id;
@@ -30,5 +30,5 @@ export default class CandidateService {
 	 deleteCandidate(entity) {
 		 var additionalUrl = CANDIDATE_URL + entity.Id;
 		 this.HttpService.remove(additionalUrl, entity);
-    }
+   }
 }

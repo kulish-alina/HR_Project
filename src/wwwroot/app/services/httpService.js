@@ -2,18 +2,17 @@ const BASE_URL = 'http://localhost:53031/api/';
 
 export default class HttpService {
     constructor($http, $q) {
-        'ngInject';
-        this.http = $http;
+      'ngInject';
+      this.http = $http;
         this.$q = $q;
-    }
+   }
 
     get(additionalUrl) {
         return this.ajax('get', additionalUrl);
     }
-
     post(additionalUrl, entity) {
         return this.ajax('post', additionalUrl, entity);
-    }
+   }
 
     put(additionalUrl, entity) {
         return this.ajax('put', additionalUrl, entity);
@@ -46,5 +45,5 @@ export default class HttpService {
     _errorCallback(response) {
         console.log(response.status);
         return this.$q.reject(response);
-    }
+   }
 }

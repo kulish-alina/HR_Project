@@ -1,15 +1,15 @@
 export default function VacanciesController($scope, VacancyService, LoggerService) {
-    'ngInject';
+   'ngInject';
 
-    var vm = $scope;
+   var urlId = 'Vacancies';
+   var vm = $scope;
     vm.vacancies = [];
 
     vm.getVacancies = getVacancies;
     vm.getVacancy = getVacancy;
     vm.deleteVacancy = deleteVacancy;
     vm.editVacancy = editVacancy;
-
-    function getVacancies() {
+   function getVacancies() {
         VacancyService.getVacancies().then(value => vm.vacancies = value).catch(_onError);
     }
 
@@ -29,5 +29,7 @@ export default function VacanciesController($scope, VacancyService, LoggerServic
         if (message.status === -1) {
             LoggerService.error(new Date(), 'You cannot get a response from the server');
         }
-    }
+   }
+
+   vm.Vacancies = getVacancies;
 }

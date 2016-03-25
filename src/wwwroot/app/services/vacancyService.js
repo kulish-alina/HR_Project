@@ -1,10 +1,10 @@
 const VACANCY_URL = 'vacancies/';
 
 export default class VacancyService {
-    constructor(HttpService) {
-        'ngInject';
-        this.HttpService = HttpService;
-    }
+   constructor(HttpService) {
+      'ngInject';
+      this.HttpService = HttpService;
+   }
 
     getVacancies() {
         var additionalUrl = VACANCY_URL;
@@ -29,5 +29,5 @@ export default class VacancyService {
     deleteVacancy(entity) {
         var additionalUrl = VACANCY_URL + entity.Id;
         this.HttpService.remove(additionalUrl, entity);
-    }
+   }
 }

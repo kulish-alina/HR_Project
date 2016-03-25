@@ -34,11 +34,11 @@ export default function _config($stateProvider, $urlRouterProvider, $locationPro
          url: '/candidate',
          template: candidateTemplate,
          controller: candidateController
-        })
-	     .state('vacancy', {
-            url: '/vacancy',
-            template: vacancyTemplate,
-            controller: vacancyController
+      })
+      .state('vacancy', {
+         url: '/vacancy',
+         template: vacancyTemplate,
+         controller: vacancyController
       })
 
    $urlRouterProvider.otherwise('home');

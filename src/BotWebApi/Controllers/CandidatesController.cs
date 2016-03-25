@@ -27,7 +27,9 @@ namespace BotWebApi.Controllers
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates, Formatting.Indented, new JsonSerializerSettings
                 {
-                    
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+
+                    DateFormatString = "yyyy-MM-dd"
                 })),
             };
         }
@@ -36,15 +38,15 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Get(int id)
         {
             HttpResponseMessage response;
-            if(_context.Candidates.Any(x=>x.Id == id))
+            var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == id);
+            if (foundedCandidate!=null)
             {
-                var foundedCandidate = _context.Candidates.First(x => x.Id == id);
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate, Formatting.Indented, new JsonSerializerSettings
                     {
-                        
+                        DateFormatString = "yyyy-MM-dd"
                     }))
                 };
             }
@@ -60,15 +62,16 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage VacanciesProgress(int candidateId)
         {
             HttpResponseMessage response;
-            if (_context.Candidates.Any(x => x.Id == candidateId))
+            var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidateId);
+            if (foundedCandidate!=null)
             {
-                var foundedCandidate = _context.Candidates.First(x => x.Id == candidateId);
                 response = new HttpResponseMessage()
                 {
+
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate.VacanciesProgress, Formatting.Indented, new JsonSerializerSettings
                     {
-                        
+                        DateFormatString = "yyyy-MM-dd"
                     }))
                 };
             }
@@ -107,24 +110,25 @@ namespace BotWebApi.Controllers
         [HttpPost]
         public HttpResponseMessage Add([FromBody]JObject entity)
        {
-            HttpResponseMessage response = new HttpResponseMessage();
             var newCandidate = entity.ToObject<Candidate>();
             newCandidate.Id = _context.Candidates.Last().Id + 1;
             _context.Candidates.Add(newCandidate);
-            response.Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates.Last(), Formatting.Indented, new JsonSerializerSettings
+            return new HttpResponseMessage()
             {
-                DateFormatString = "dd/mm/yyyy",
-            }));
-            response.StatusCode = HttpStatusCode.Created;
-            return response;
+                StatusCode = HttpStatusCode.Created,
+                Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates.Last(), Formatting.Indented, new JsonSerializerSettings
+                {
+                    DateFormatString = "yyyy-MM-dd"
+                }))
+            };
         }
 
         [HttpPut]
         public HttpResponseMessage Put(int id, [FromBody]JObject entity)
         {
-            HttpResponseMessage response = new HttpResponseMessage();
             var changedCandidate = entity.ToObject<Candidate>();
-            var foundedCandidate = _context.Candidates.First(x => x.Id == id);
+            var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == id);
+            HttpResponseMessage response = new HttpResponseMessage();
             if (foundedCandidate != null)
             {
                 _context.Candidates.Remove(foundedCandidate);

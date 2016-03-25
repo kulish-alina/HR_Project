@@ -47,10 +47,10 @@
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Candidate.cs" />
     <Compile Include="Entities\CandidateStageInfo.cs" />
-    <Compile Include="Entities\City.cs" />
+    <Compile Include="Entities\Setup\City.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\ContactInfo.cs" />
-    <Compile Include="Entities\Country.cs" />
+    <Compile Include="Entities\Setup\Country.cs" />
     <Compile Include="Entities\Enum\CommentType.cs" />
     <Compile Include="Entities\Enum\LanguageLevel.cs" />
     <Compile Include="Entities\Enum\Level.cs" />
@@ -76,7 +76,7 @@
     <Compile Include="Entities\StageInfo.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Vacancy.cs" />
-    <Compile Include="Entities\VacancyStage.cs" />
+    <Compile Include="Entities\VacancyStageInfo.cs" />
     <Compile Include="Entities\WorkInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

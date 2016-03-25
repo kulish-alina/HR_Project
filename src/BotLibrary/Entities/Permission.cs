@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
-    public class Permission: BaseEntity
+    public class Permission : BaseEntity
     {
         public Role Role { get; set; }
         public string Description { get; set; }

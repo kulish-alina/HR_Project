@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using BotLibrary.Entities.Enum;
 
 namespace BotData.DumbData.Repositories
 {
@@ -37,7 +38,7 @@ namespace BotData.DumbData.Repositories
 
         public void Remove(TEntity entity)
         {
-            Collection.First(x => x == entity).IsActive = false;
+            Collection.First(x => x == entity).State = EntityState.Active;
         }
 
         public void Update(TEntity entity)

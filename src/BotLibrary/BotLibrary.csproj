@@ -47,6 +47,7 @@
     <Compile Include="Entities\ContactInfo.cs" />
     <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\Enum\CommentType.cs" />
+    <Compile Include="Entities\Enum\EntityState.cs" />
     <Compile Include="Entities\Enum\LanguageLevel.cs" />
     <Compile Include="Entities\Enum\Level.cs" />
     <Compile Include="Entities\Enum\TypeOfEmployment.cs" />

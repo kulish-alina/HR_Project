@@ -123,21 +123,15 @@ namespace BotWebApi.Models
                 {
                     Id = i,
                     EditTime = DateTime.Now,
-                    PersonalInfo = new PersonalInfo()
-                    {
-                        BirthDate = DateTime.Now.Subtract(new TimeSpan(i, i, i)),
-                        Gender = i % 2 == 0 ? true : false,
-                        FirstName = i % 2 == 0 ? Names.MaleFirstNames[_nameIndex] : Names.FemaleFirstNames[_nameIndex],
-                        MiddleName = i.ToString(),
-                        LastName = i.ToString(),
-                        Photo = null
-                    },
-                    ContactInfo = new ContactInfo()
-                    {
-                        Email = string.Format("email{0}@email.com", i),
-                        PhoneNumbers = new List<string>() { "+38093000" + i },
-                        Skype = "skype" + i,
-                    },
+                    BirthDate = DateTime.Now.Subtract(new TimeSpan(i, i, i)),
+                    Gender = i % 2 == 0 ? true : false,
+                    FirstName = i % 2 == 0 ? Names.MaleFirstNames[_nameIndex] : Names.FemaleFirstNames[_nameIndex],
+                    MiddleName = i.ToString(),
+                    LastName = i.ToString(),
+                    Photo = null,
+                    Email = string.Format("email{0}@email.com", i),
+                    PhoneNumbers = new List<string>() { "+38093000" + i },
+                    Skype = "skype" + i,
                     Comments = new List<Comment>()
                     {
                         new Comment()
@@ -156,20 +150,17 @@ namespace BotWebApi.Models
                     Files = new List<File>(),
                     SocialNetworks = new List<SocialNetwork>(),
                     Sources = new List<Source>(),
-                    WorkInfo = new WorkInfo()
+                    Experience = new Experience()
                     {
-                        Experience = new Experience()
-                        {
-                            Id = i,
-                            EditTime = DateTime.Now,
-                            WorkExperience = new TimeSpan(i)
-                        },
-                        PositionDesired = i%2==0 ? (i%3==0 ? "Senior" : "Middle") : "Junior",
-                        Practice = "Good practice",
-                        SalaryDesired = 500 + i,
-                        Skills = _skills,
-                        TypeOfEmployment = TypeOfEmployment.FullTime
+                        Id = i,
+                        EditTime = DateTime.Now,
+                        WorkExperience = new TimeSpan(i)
                     },
+                    PositionDesired = i % 2 == 0 ? (i % 3 == 0 ? "Senior" : "Middle") : "Junior",
+                    Practice = "Good practice",
+                    SalaryDesired = 500 + i,
+                    Skills = _skills,
+                    TypeOfEmployment = TypeOfEmployment.FullTime,
                     VacanciesProgress = new List<VacancyStageInfo>()
                 });
                 _nameIndex++;
@@ -208,7 +199,7 @@ namespace BotWebApi.Models
                 c.VacanciesProgress.Add(new VacancyStageInfo()
                 {
                     Vacancy = _vacancies[_vacancyIndex],
-                    StageInfo = _stages[_vacancyIndex%2==0 ? 0 : 1]
+                    StageInfos = new List<StageInfo>() { _stages[_vacancyIndex % 2 == 0 ? 0 : 1] }
                 });
                 _vacancies[_vacancyIndex].CandidatesProgress.Add(new CandidateStageInfo()
                 {

@@ -127,6 +127,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CandidatesController.cs" />
     <Compile Include="Controllers\VacanciesController.cs" />
+    <Compile Include="DTOs\CandidateDTO\CandidateDTO.cs" />
+    <Compile Include="DTOs\CandidateDTO\CandidateExtentions.cs" />
+    <Compile Include="DTOs\CandidateDTO\SimplyfiedVacancyStageInfo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

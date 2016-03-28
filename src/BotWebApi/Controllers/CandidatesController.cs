@@ -1,4 +1,6 @@
 ﻿using BotLibrary.Entities;
+using BotWebApi.DTOs;
+using BotWebApi.DTOs.CandidateDTO;
 using BotWebApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,16 +21,19 @@ namespace BotWebApi.Controllers
     {
         IBotContext _context = new DummyBotContext();
 
+        public CandidatesController()
+        {
+        }
+
         [HttpGet]
         public HttpResponseMessage All()
         {
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates, Formatting.Indented, new JsonSerializerSettings
+                Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates.Select(x=> x.ToDTO()), Formatting.Indented, new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-
                     DateFormatString = "yyyy-MM-dd"
                 })),
             };
@@ -39,12 +44,13 @@ namespace BotWebApi.Controllers
         {
             HttpResponseMessage response;
             var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == id);
+
             if (foundedCandidate!=null)
             {
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate, Formatting.Indented, new JsonSerializerSettings
+                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate.ToDTO(), Formatting.Indented, new JsonSerializerSettings
                     {
                         DateFormatString = "yyyy-MM-dd"
                     }))

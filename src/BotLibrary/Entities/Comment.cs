@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
-    public class Comment: BaseEntity
+    public class Comment : BaseEntity
     {
         public string Message { get; set; }
         public CommentType CommentType { get; set; }

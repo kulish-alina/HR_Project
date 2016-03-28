@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
-    public class WorkInfo: BaseEntity
+    public class WorkInfo
     {
         public string PositionDesired { get; set; }
         public int SalaryDesired { get; set; }

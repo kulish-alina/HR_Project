@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
-    public class PersonalInfo : BaseEntity
+    public class PersonalInfo
     {
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

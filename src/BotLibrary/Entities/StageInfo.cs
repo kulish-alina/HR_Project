@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
-    public class StageInfo: BaseEntity
+    public class StageInfo
     {
         public Stage Stage { get; set; }
         public Comment Comment { get; set; }

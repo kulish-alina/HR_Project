@@ -19,8 +19,6 @@ namespace BotWebApi.Models
 
             Location _location = new Location()
             {
-                Id = 1,
-                EditTime = DateTime.Now,
                 City = new City()
                 {
                     Id = 1,
@@ -127,8 +125,6 @@ namespace BotWebApi.Models
                     EditTime = DateTime.Now,
                     PersonalInfo = new PersonalInfo()
                     {
-                        Id = i,
-                        EditTime = DateTime.Now.AddDays(i),
                         BirthDate = DateTime.Now.Subtract(new TimeSpan(i, i, i)),
                         Gender = i % 2 == 0 ? true : false,
                         FirstName = i % 2 == 0 ? Names.MaleFirstNames[_nameIndex] : Names.FemaleFirstNames[_nameIndex],
@@ -138,10 +134,8 @@ namespace BotWebApi.Models
                     },
                     ContactInfo = new ContactInfo()
                     {
-                        Id = i,
-                        EditTime = DateTime.Now.AddDays(i),
                         Email = string.Format("email{0}@email.com", i),
-                        PhoneNumbers = new List<string>() { "+390" + r.Next(000000001, 999999999).ToString() },
+                        PhoneNumbers = new List<string>() { "+38093000" + i },
                         Skype = "skype" + i,
                     },
                     Comments = new List<Comment>()
@@ -164,21 +158,19 @@ namespace BotWebApi.Models
                     Sources = new List<Source>(),
                     WorkInfo = new WorkInfo()
                     {
-                        Id = i,
-                        EditTime = DateTime.Now,
                         Experience = new Experience()
                         {
                             Id = i,
                             EditTime = DateTime.Now,
                             WorkExperience = new TimeSpan(i)
                         },
-                        PositionDesired = "Junior Architechique",
+                        PositionDesired = i%2==0 ? (i%3==0 ? "Senior" : "Middle") : "Junior",
                         Practice = "Good practice",
                         SalaryDesired = 500 + i,
                         Skills = _skills,
                         TypeOfEmployment = TypeOfEmployment.FullTime
                     },
-                    VacanciesProgress = new List<VacancyStage>()
+                    VacanciesProgress = new List<VacancyStageInfo>()
                 });
                 _nameIndex++;
                 if (Names.MaleFirstNames.Count - 1 == _nameIndex || Names.FemaleFirstNames.Count - 1 == _nameIndex) _nameIndex = 0;
@@ -189,8 +181,6 @@ namespace BotWebApi.Models
             {
                 new StageInfo()
                 {
-                    Id = 1,
-                    EditTime = DateTime.Now,
                     Stage = new Stage()
                     {
                         Id = 1,
@@ -201,8 +191,6 @@ namespace BotWebApi.Models
                 },
                 new StageInfo()
                 {
-                    Id = 2,
-                    EditTime = DateTime.Now,
                     Stage = new Stage()
                     {
                         Id = 2,
@@ -216,18 +204,18 @@ namespace BotWebApi.Models
             int _vacancyIndex = 0;
             foreach (var c in _candidates)
             {
-                c.VacanciesProgress.Add(new VacancyStage()
+                if (_vacancyIndex == 20) _vacancyIndex = 0;
+                c.VacanciesProgress.Add(new VacancyStageInfo()
                 {
                     Vacancy = _vacancies[_vacancyIndex],
-                    StageInfo = _stages[0]
+                    StageInfo = _stages[_vacancyIndex%2==0 ? 0 : 1]
                 });
                 _vacancies[_vacancyIndex].CandidatesProgress.Add(new CandidateStageInfo()
                 {
                     Candidate = c,
-                    StageInfos = new List<StageInfo>() { _stages[0] }
+                    StageInfos = new List<StageInfo>() { _stages[_vacancyIndex % 2 == 0 ? 0 : 1] }
                 });
                 _vacancyIndex++;
-                if (_vacancyIndex == 19) _vacancyIndex = 0;
             }
 
         }

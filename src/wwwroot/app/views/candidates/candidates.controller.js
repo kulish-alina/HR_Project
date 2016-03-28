@@ -6,7 +6,7 @@ export default function CandidatesController($scope, CandidateService, LoggerSer
 
    function _onError(message) {
       if (message.status === -1) {
-         LoggerService.error(new Date(), 'You cannot get a response from the server');
+         LoggerService.information('You cannot get a response from the server');
       }
    }
    function getCandidates() {

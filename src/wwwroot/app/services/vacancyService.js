@@ -7,8 +7,7 @@ export default class VacancyService {
    }
 
    getVacancies() {
-      var additionalUrl = VACANCY_URL;
-      return this.HttpService.get(additionalUrl);
+      return this.HttpService.get(VACANCY_URL);
    }
    getVacancy(vacancyId) {
       var additionalUrl = VACANCY_URL + vacancyId;
@@ -19,8 +18,7 @@ export default class VacancyService {
          var additionalUrl = VACANCY_URL + entity.Id;
          return this.HttpService.put(additionalUrl, entity);
       } else {
-         var additionalUrl = VACANCY_URL;
-         return this.HttpService.post(additionalUrl, entity);
+         return this.HttpService.post(VACANCY_URL, entity);
       }
    }
    deleteVacancy(entity) {

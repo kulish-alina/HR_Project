@@ -7,7 +7,7 @@ export default function VacanciesController($scope, VacancyService, LoggerServic
 
    function _onError(message) {
       if (message.status === -1) {
-         LoggerService.error(new Date(), 'You cannot get a response from the server');
+         LoggerService.information('You cannot get a response from the server');
       }
    }
    function getVacancies() {
@@ -20,9 +20,8 @@ export default function VacanciesController($scope, VacancyService, LoggerServic
       VacancyService.saveVacancy(vacancy).catch(_onError);
    }
    function deleteVacancy(vacancy) {
-      VacancyService.deleteVacancy(vacancy).catch(_onError);
+      VacancyService.deleteVacancy(vacancy);
    }
-
 
    vm.getVacancies = getVacancies;
    vm.getVacancy = getVacancy;

@@ -1,10 +1,11 @@
 const BASE_URL = 'http://localhost:53031/api/';
 
 export default class HttpService {
-   constructor($http, $q) {
+   constructor($http, $q, LoggerService) {
       'ngInject';
       this.http = $http;
       this.$q = $q;
+      this.LoggerService = LoggerService;
    }
 
    get(additionalUrl) {
@@ -30,15 +31,17 @@ export default class HttpService {
       if (entity) {
          options.data = entity;
       }
-      return this.http(options).then(this._successCallback, this._errorCallback.bind(this));
+      return this.http(options).then(this._successCallback.bind(this),
+                                     this._errorCallback.bind(this));
    }
 
    _successCallback(response) {
-      console.log(response.status);
+      this.LoggerService.information(new Date (), 'Response status:', response.status,
+                                     response.data);
       return response.data;
    }
    _errorCallback(response) {
-      console.log(response.status);
+      this.LoggerService.error(new Date (), 'Response status:', response.status);
       return this.$q.reject(response);
    }
 }

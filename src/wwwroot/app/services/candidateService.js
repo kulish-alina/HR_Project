@@ -7,8 +7,7 @@ export default class CandidateService {
    }
 
    getCandidates() {
-      var additionalUrl = CANDIDATE_URL;
-      return this.HttpService.get(additionalUrl);
+      return this.HttpService.get(CANDIDATE_URL);
    }
    getCandidate(id) {
       var additionalUrl = CANDIDATE_URL + id;
@@ -20,11 +19,9 @@ export default class CandidateService {
          return this.HttpService.put(additionalUrl, entity);
       }
       else {
-         var additionalUrl =  CANDIDATE_URL;
-         return this.HttpService.post(additionalUrl, entity);
+         return this.HttpService.post(CANDIDATE_URL, entity);
       }
    }
-
    deleteCandidate(entity) {
       var additionalUrl = CANDIDATE_URL + entity.Id;
       this.HttpService.remove(additionalUrl, entity);

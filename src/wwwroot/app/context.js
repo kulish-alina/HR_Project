@@ -2,9 +2,9 @@ import {
    assignIn
 } from 'lodash';
 
-import local from './config/local.json';
-import development from './config/develop.json';
-import production from './config/production.json';
+import local from '../config/config.context/local.json';
+import development from '../config/config.context/develop.json';
+import production from '../config/config.context/production.json';
 
 var context = {};
 

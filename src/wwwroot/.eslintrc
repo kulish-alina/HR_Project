@@ -34,7 +34,7 @@
             "SwitchCase": 1
          }
       ],
-      "no-use-before-define": 2,
+      "no-use-before-define": 0,
       "new-cap": 2,
       "no-caller": 2,
       "no-empty": 0,

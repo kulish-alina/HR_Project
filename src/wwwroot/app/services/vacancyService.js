@@ -1,28 +1,32 @@
 const VACANCY_URL = 'vacancies/';
+let _HttpService;
 
 export default class VacancyService {
    constructor(HttpService) {
       'ngInject';
-      this.HttpService = HttpService;
+      _HttpService = HttpService;
    }
 
    getVacancies() {
-      return this.HttpService.get(VACANCY_URL);
+      return _HttpService.get(VACANCY_URL);
    }
+
    getVacancy(vacancyId) {
       var additionalUrl = VACANCY_URL + vacancyId;
-      return this.HttpService.get(additionalUrl);
+      return _HttpService.get(additionalUrl);
    }
+
    saveVacancy(entity) {
       if (entity.Id !== undefined) {
          var additionalUrl = VACANCY_URL + entity.Id;
-         return this.HttpService.put(additionalUrl, entity);
+         return _HttpService.put(additionalUrl, entity);
       } else {
-         return this.HttpService.post(VACANCY_URL, entity);
+         return _HttpService.post(VACANCY_URL, entity);
       }
    }
+
    deleteVacancy(entity) {
       var additionalUrl = VACANCY_URL + entity.Id;
-      this.HttpService.remove(additionalUrl, entity);
+      _HttpService.remove(additionalUrl, entity);
    }
 }

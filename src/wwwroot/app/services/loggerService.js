@@ -15,15 +15,19 @@ export default class LoggerService {
    debug(...args) {
       this._logger(_$log.debug, DEBUG_COEFFICIENT, arguments);
    }
+
    information() {
       this._logger(_$log.log, LOG_COEFFICIENT, arguments);
    }
+
    warning() {
       this._logger(_$log.warn, WARNING_COEFFICIENT, arguments);
    }
+
    error() {
       this._logger(_$log.error, ERROR_COEFFICIENT, arguments);
    }
+
    _logger(method, coefficient, arg) {
       if (logLevel <= coefficient) {
          method.apply(_$log, arg);

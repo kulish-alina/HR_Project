@@ -2,14 +2,13 @@ export default function CandidateController($scope, CandidateService, LoggerServ
    'ngInject';
 
    var vm = $scope;
-   function _onError(message) {
-      if (message.status === -1) {
-         LoggerService.information('You cannot get a response from the server');
-      }
-   }
+   vm.saveCandidate = saveCandidate;
+
    function saveCandidate() {
       CandidateService.saveCandidate(vm.candidate).catch(_onError);
    }
 
-   vm.saveCandidate = saveCandidate;
+   function _onError(message) {
+      vm.errorMessage = 'Sorry! Some error occurred';
+   }
 }

@@ -8,8 +8,8 @@ import candidatesController from './views/candidates/candidates.controller';
 import candidateController from './views/candidate/candidate.controller';
 import vacanciesController from './views/vacancies/vacancies.controller';
 
-import translationService from './translations/translationService.js';
-//import translationsRu from './translations/translationsRu.js';
+import translationsEn from './translations/translationsEn.json';
+import translationsRu from './translations/translationsRu.json';
 
 export default function
    _config($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider) {
@@ -40,7 +40,7 @@ export default function
 
    $urlRouterProvider.otherwise('home');
    $translateProvider
-      .translations('en', translationService())
-      //.translations('ru', translationsRu())
+      .translations('en', translationsEn)
+      .translations('ru', translationsRu)
       .preferredLanguage('en');
 }

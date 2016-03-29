@@ -13,24 +13,25 @@ export default class LoggerService {
    }
 
    debug(...args) {
-      this._logger(_$log.debug, DEBUG_COEFFICIENT, arguments);
+      this._logger(_$log.debug, DEBUG_COEFFICIENT, args);
    }
 
-   information() {
-      this._logger(_$log.log, LOG_COEFFICIENT, arguments);
+   information(...args) {
+      this._logger(_$log.log, LOG_COEFFICIENT, args);
    }
 
-   warning() {
-      this._logger(_$log.warn, WARNING_COEFFICIENT, arguments);
+   warning(...args) {
+      this._logger(_$log.warn, WARNING_COEFFICIENT, args);
    }
 
-   error() {
-      this._logger(_$log.error, ERROR_COEFFICIENT, arguments);
+   error(...args) {
+      this._logger(_$log.error, ERROR_COEFFICIENT, args);
    }
 
-   _logger(method, coefficient, arg) {
+   _logger(method, coefficient, args) {
       if (logLevel <= coefficient) {
-         method.apply(_$log, arg);
+         args.unshift(new Date());
+         method.apply(_$log, args);
       }
    }
 }

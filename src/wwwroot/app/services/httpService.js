@@ -42,12 +42,11 @@ export default class HttpService {
 }
 
 function _successCallback(response) {
-   _LoggerService.information(new Date (), 'Response status:', response.status,
-                                  response.data);
+   _LoggerService.information('Response status:', response.status);
    return response.data;
 }
 
 function _errorCallback(response) {
-   _LoggerService.error(new Date (), 'Response status:', response.status);
+   _LoggerService.error('Response status:', response.status);
    return _$q.reject(response);
 }

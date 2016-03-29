@@ -8,7 +8,9 @@ import candidatesController from './views/candidates/candidates.controller';
 import candidateController from './views/candidate/candidate.controller';
 import vacanciesController from './views/vacancies/vacancies.controller';
 
-import translations from './translations/translations.js';
+import translationService from './translations/translationService.js';
+//import translationsRu from './translations/translationsRu.js';
+
 export default function
    _config($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider) {
    $locationProvider.html5Mode({
@@ -38,6 +40,7 @@ export default function
 
    $urlRouterProvider.otherwise('home');
    $translateProvider
-      .translations('en', translations())
+      .translations('en', translationService())
+      //.translations('ru', translationsRu())
       .preferredLanguage('en');
 }

@@ -8,11 +8,10 @@
 <body ng-app="bot">
     <nav>
         <a ui-sref="home">Home</a>
-        <a ui-sref="candidates" translate>Candidates_tr</a>
+        <a ui-sref="candidates" >{{'Candidates_tr' | translate}}</a>
         <a ui-sref="vacancies">Vacancies</a>
         <a ui-sref="candidate">Add Candidate</a>
     </nav>
-
    <div ui-view></div>
    <!-- Some kind of magic for webpack assets-->
    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}

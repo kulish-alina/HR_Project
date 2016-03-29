@@ -1,4 +1,5 @@
 {
-   "logLevel":,
-   ""
+   "logLevel": 4,
+   "logPattern": "*",
+   "serverUrl": "http://localhost:53031/api/"
 }

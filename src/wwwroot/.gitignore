@@ -3,3 +3,4 @@ build/
 .vscode/
 typings/
 jsconfig.json
+app/config/local.json

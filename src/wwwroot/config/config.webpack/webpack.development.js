@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = function() {
    return {
       debug: true,
@@ -7,6 +9,9 @@ module.exports = function() {
          hot: true,
          inline: true,
          progress: true,
-      }
+      },
+      plugins: [
+         new webpack.HotModuleReplacementPlugin()
+      ]
    }
 }

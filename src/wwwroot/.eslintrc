@@ -8,7 +8,8 @@
    },
    "env": {
       "browser": true,
-      "es6": true
+      "es6": true,
+      "node": true
    },
    "plugins": [],
    "rules": {
@@ -34,7 +35,7 @@
             "SwitchCase": 1
          }
       ],
-      "no-use-before-define": 2,
+      "no-use-before-define": 0,
       "new-cap": 2,
       "no-caller": 2,
       "no-empty": 0,

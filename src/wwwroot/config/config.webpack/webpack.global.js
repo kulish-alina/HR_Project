@@ -36,6 +36,10 @@ module.exports = function(appPath, buildPath, pkg) {
             {
                test: /\.scss$/,
                loader: 'style-loader!css-loader!sass-loader!postcss-loader'
+            },
+            {
+               test: /\.json$/,
+               loader : 'json-loader'
             }]
       },
       eslint: {

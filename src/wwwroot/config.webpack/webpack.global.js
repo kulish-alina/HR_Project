@@ -11,6 +11,11 @@ module.exports = function(appPath, buildPath, pkg) {
          path: buildPath,
          filename: 'bundle.js'
       },
+      resolve: {
+         alias: {
+            foundation: '../node_modules/foundation-apps/dist'
+         }
+      },
       module: {
          preLoaders: [
             {

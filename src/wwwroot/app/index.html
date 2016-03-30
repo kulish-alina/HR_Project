@@ -5,20 +5,34 @@
     <meta charset="UTF-8">
     <title>Bot Start Page</title>
 </head>
-<body ng-app="bot">
-    <nav>
-        <a ui-sref="home">Home</a>
-        <a ui-sref="candidates">Candidates</a>
-        <a ui-sref="vacancies">Vacancies</a>
-        <a ui-sref="candidate">Add Candidate</a>
-        <a ui-sref="vacancy">Add Vacancy</a>
-    </nav>
 
-   <div ui-view></div>
-   <!-- Some kind of magic for webpack assets-->
-   {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+<body ng-app="bot">
+    <ul class="dark menu-bar">
+        <a zf-open="menu" class="button">Open</a>
+        <li><a ui-sref="home">Home</a>
+        </li>
+        <li><a ui-sref="candidate">Add Candidate</a>
+        </li>
+        <li><a ui-sref="vacancy">Add Vacancy</a>
+        </li>
+    </ul>
+    <zf-offcanvas id="menu" position="left">
+        <a zf-close="" class="close-button">×</a>
+        <ul>
+            <li><a ui-sref="candidates">Candidates</a>
+            </li>
+            <li><a ui-sref="vacancies">Vacancies</a>
+            </li>
+        </ul>
+    </zf-offcanvas>
+    <div class="grid-frame">
+        <div ui-view class="grid-block">
+        </div>
+    </div>
+    <!-- Some kind of magic for webpack assets-->
+    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
     <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
-   {% } %}
+    {% } %}
 </body>
 
 </html>

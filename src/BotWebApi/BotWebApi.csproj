@@ -127,6 +127,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CandidatesController.cs" />
     <Compile Include="Controllers\VacanciesController.cs" />
+    <Compile Include="DTO\DTOModels\CandidateDTO.cs" />
+    <Compile Include="DTO\DTOModels\VacancyDTO.cs" />
+    <Compile Include="DTO\DTOModels\CandidateStageInfoDTO.cs" />
+    <Compile Include="DTO\DTOModels\VacancyStageInfoDTO.cs" />
+    <Compile Include="DTO\DTOService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -137,9 +142,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

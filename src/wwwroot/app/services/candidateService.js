@@ -1,29 +1,33 @@
 const CANDIDATE_URL = 'candidates/';
+let _HttpService;
 
 export default class CandidateService {
    constructor(HttpService) {
       'ngInject';
-      this.HttpService = HttpService;
+      _HttpService = HttpService;
    }
 
    getCandidates() {
-      return this.HttpService.get(CANDIDATE_URL);
+      return _HttpService.get(CANDIDATE_URL);
    }
+
    getCandidate(id) {
       var additionalUrl = CANDIDATE_URL + id;
-      return this.HttpService.get(additionalUrl);
+      return _HttpService.get(additionalUrl);
    }
+
    saveCandidate(entity) {
       if (entity.Id !== undefined) {
          var additionalUrl = CANDIDATE_URL + entity.Id;
-         return this.HttpService.put(additionalUrl, entity);
+         return _HttpService.put(additionalUrl, entity);
       }
       else {
-         return this.HttpService.post(CANDIDATE_URL, entity);
+         return _HttpService.post(CANDIDATE_URL, entity);
       }
    }
+
    deleteCandidate(entity) {
       var additionalUrl = CANDIDATE_URL + entity.Id;
-      this.HttpService.remove(additionalUrl, entity);
+      _HttpService.remove(additionalUrl, entity);
    }
 }

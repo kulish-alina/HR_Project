@@ -1,4 +1,6 @@
 ﻿using BotLibrary.Entities;
+using BotWebApi.DTO;
+using BotWebApi.DTO.DTOModels;
 using BotWebApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,16 +21,19 @@ namespace BotWebApi.Controllers
     {
         IBotContext _context = new DummyBotContext();
 
+        public CandidatesController()
+        {
+        }
+
         [HttpGet]
         public HttpResponseMessage All()
         {
+            var dtoCandidates = _context.Candidates.Select(x => DTOService.CandidateToDTO(x));
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates, Formatting.Indented, new JsonSerializerSettings
+                Content = new StringContent(JsonConvert.SerializeObject(dtoCandidates, Formatting.Indented, new JsonSerializerSettings
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-
                     DateFormatString = "yyyy-MM-dd"
                 })),
             };
@@ -41,10 +46,11 @@ namespace BotWebApi.Controllers
             var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == id);
             if (foundedCandidate!=null)
             {
+                var foundedCandidateDto = DTOService.CandidateToDTO(foundedCandidate);
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate, Formatting.Indented, new JsonSerializerSettings
+                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidateDto, Formatting.Indented, new JsonSerializerSettings
                     {
                         DateFormatString = "yyyy-MM-dd"
                     }))
@@ -65,12 +71,14 @@ namespace BotWebApi.Controllers
             var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidateId);
             if (foundedCandidate!=null)
             {
+                var foundedCandidateDto = DTOService.CandidateToDTO(foundedCandidate);
                 response = new HttpResponseMessage()
                 {
 
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidate.VacanciesProgress, Formatting.Indented, new JsonSerializerSettings
+                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidateDto.VacanciesProgress, Formatting.Indented, new JsonSerializerSettings
                     {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                         DateFormatString = "yyyy-MM-dd"
                     }))
                 };
@@ -110,8 +118,9 @@ namespace BotWebApi.Controllers
         [HttpPost]
         public HttpResponseMessage Add([FromBody]JObject entity)
        {
-            var newCandidate = entity.ToObject<Candidate>();
-            newCandidate.Id = _context.Candidates.Last().Id + 1;
+            var newCandidateDto = entity.ToObject<CandidateDTO>();
+            newCandidateDto.Id = _context.Candidates.Last().Id + 1;
+            var newCandidate = DTOService.DTOToCandidate(newCandidateDto);
             _context.Candidates.Add(newCandidate);
             return new HttpResponseMessage()
             {
@@ -126,11 +135,12 @@ namespace BotWebApi.Controllers
         [HttpPut]
         public HttpResponseMessage Put(int id, [FromBody]JObject entity)
         {
-            var changedCandidate = entity.ToObject<Candidate>();
+            var changedCandidateDto = entity.ToObject<CandidateDTO>();
             var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == id);
             HttpResponseMessage response = new HttpResponseMessage();
             if (foundedCandidate != null)
             {
+                var changedCandidate = DTOService.DTOToCandidate(changedCandidateDto);
                 _context.Candidates.Remove(foundedCandidate);
                 _context.Candidates.Add(changedCandidate);
                 _context.Candidates.OrderBy(x => x.Id);

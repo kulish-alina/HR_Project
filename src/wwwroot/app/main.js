@@ -1,5 +1,6 @@
 import angular from 'angular';
 import router from 'angular-ui-router';
+import translate from 'angular-translate';
 import 'foundation/js/foundation-apps.js';
 import 'foundation/js/foundation-apps-templates.js';
 import 'foundation/css/foundation-apps.min.css';

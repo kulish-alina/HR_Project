@@ -49,9 +49,9 @@
     <Compile Include="Entities\CandidateStageInfo.cs" />
     <Compile Include="Entities\Setup\City.cs" />
     <Compile Include="Entities\Comment.cs" />
-    <Compile Include="Entities\ContactInfo.cs" />
     <Compile Include="Entities\Setup\Country.cs" />
     <Compile Include="Entities\Enum\CommentType.cs" />
+    <Compile Include="Entities\Enum\EntityState.cs" />
     <Compile Include="Entities\Enum\LanguageLevel.cs" />
     <Compile Include="Entities\Enum\Level.cs" />
     <Compile Include="Entities\Enum\TypeOfEmployment.cs" />
@@ -59,7 +59,6 @@
     <Compile Include="Entities\File.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Permission.cs" />
-    <Compile Include="Entities\PersonalInfo.cs" />
     <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\Setup\Department.cs" />
@@ -77,8 +76,24 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Vacancy.cs" />
     <Compile Include="Entities\VacancyStageInfo.cs" />
-    <Compile Include="Entities\WorkInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ICandidateRepository.cs" />
+    <Compile Include="Repositories\ICityRepository.cs" />
+    <Compile Include="Repositories\ICommentRepository.cs" />
+    <Compile Include="Repositories\IContactInfoRepository.cs" />
+    <Compile Include="Repositories\ICountryRepository.cs" />
+    <Compile Include="Repositories\IEventRepository.cs" />
+    <Compile Include="Repositories\IFileRepository.cs" />
+    <Compile Include="Repositories\ILocationRepository.cs" />
+    <Compile Include="Repositories\IPermissionRepository.cs" />
+    <Compile Include="Repositories\IPersonalInfoRepository.cs" />
+    <Compile Include="Repositories\IPhotoRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\IRoleRepository.cs" />
+    <Compile Include="Repositories\IStageInfoRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\IVacancyRepository.cs" />
+    <Compile Include="Repositories\IWorkInfoRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

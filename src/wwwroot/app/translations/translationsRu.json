@@ -1,0 +1,13 @@
+{
+   "INDEX": {
+      "HOME" : "Домой",
+      "CANDIDATES" : "Кандидаты",
+      "VACANCIES" : "Вакансии",
+      "ADD_CANDIDATE" : "Добавить кандидата"
+   },
+   "CANDIDATE" : {},
+   "CANDIDATES" : {},
+   "HOME" : {},
+   "VACANCIES" : {},
+   "COMMON" : {}
+}

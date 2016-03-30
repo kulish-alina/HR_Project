@@ -1,25 +1,19 @@
-﻿using BotLibrary.Entities;
+﻿using BotLibrary.Repositories;
 using BotWebApi.DTO;
 using BotWebApi.DTO.DTOModels;
-using BotWebApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Cors;
-using System.Web.Http.Description;
+using BotData.DumbData.Repositories;
 
 namespace BotWebApi.Controllers
 {
     public class CandidatesController : ApiController
     {
-        IBotContext _context = new DummyBotContext();
+        ICandidateRepository _candidateRepository = new CandidateRepository();
 
         public CandidatesController()
         {
@@ -28,7 +22,7 @@ namespace BotWebApi.Controllers
         [HttpGet]
         public HttpResponseMessage All()
         {
-            var dtoCandidates = _context.Candidates.Select(x => DTOService.CandidateToDTO(x));
+            var dtoCandidates = _candidateRepository.GetAll().Select(x => DTOService.CandidateToDTO(x));
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
@@ -43,7 +37,7 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Get(int id)
         {
             HttpResponseMessage response;
-            var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == id);
+            var foundedCandidate = _candidateRepository.FindBy(x => x.Id == id).FirstOrDefault();
             if (foundedCandidate!=null)
             {
                 var foundedCandidateDto = DTOService.CandidateToDTO(foundedCandidate);
@@ -68,7 +62,7 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage VacanciesProgress(int candidateId)
         {
             HttpResponseMessage response;
-            var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidateId);
+            var foundedCandidate = _candidateRepository.FindBy(x => x.Id == candidateId).FirstOrDefault();
             if (foundedCandidate!=null)
             {
                 var foundedCandidateDto = DTOService.CandidateToDTO(foundedCandidate);
@@ -95,18 +89,11 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Delete(int id)
         {
             HttpResponseMessage response;
-            var foundedCandidate = _context.Candidates.First(x => x.Id == id);
+            var foundedCandidate = _candidateRepository.FindBy(x => x.Id == id).FirstOrDefault();
             if(foundedCandidate != null)
-            { 
-                _context.Candidates.Remove(foundedCandidate);
-                if (_context.Candidates.Any(x => x != foundedCandidate)) 
-                {
-                    response = new HttpResponseMessage(HttpStatusCode.OK);
-                }
-                else
-                {
-                    response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-                }
+            {
+                _candidateRepository.Remove(foundedCandidate);
+                response = new HttpResponseMessage(HttpStatusCode.OK);
             }
             else
             {
@@ -119,13 +106,12 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Add([FromBody]JObject entity)
        {
             var newCandidateDto = entity.ToObject<CandidateDTO>();
-            newCandidateDto.Id = _context.Candidates.Last().Id + 1;
             var newCandidate = DTOService.DTOToCandidate(newCandidateDto);
-            _context.Candidates.Add(newCandidate);
+            _candidateRepository.Add(newCandidate);
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.Created,
-                Content = new StringContent(JsonConvert.SerializeObject(_context.Candidates.Last(), Formatting.Indented, new JsonSerializerSettings
+                Content = new StringContent(JsonConvert.SerializeObject(_candidateRepository.GetAll().Last(), Formatting.Indented, new JsonSerializerSettings
                 {
                     DateFormatString = "yyyy-MM-dd"
                 }))
@@ -136,14 +122,11 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Put(int id, [FromBody]JObject entity)
         {
             var changedCandidateDto = entity.ToObject<CandidateDTO>();
-            var foundedCandidate = _context.Candidates.FirstOrDefault(x => x.Id == id);
             HttpResponseMessage response = new HttpResponseMessage();
-            if (foundedCandidate != null)
+            if (changedCandidateDto != null)
             {
                 var changedCandidate = DTOService.DTOToCandidate(changedCandidateDto);
-                _context.Candidates.Remove(foundedCandidate);
-                _context.Candidates.Add(changedCandidate);
-                _context.Candidates.OrderBy(x => x.Id);
+                _candidateRepository.Update(changedCandidate);
                 response.StatusCode = HttpStatusCode.OK;
             }
             else

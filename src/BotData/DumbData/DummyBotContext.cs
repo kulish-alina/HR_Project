@@ -1,17 +1,32 @@
-﻿using System;
+﻿using BotLibrary.Entities;
+using BotLibrary.Entities.Enum;
+using BotLibrary.Entities.Setup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using BotLibrary.Entities;
-using BotLibrary.Entities.Setup;
-using BotLibrary.Entities.Enum;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BotWebApi.Models
+namespace BotData.DumbData
 {
-    public class DummyBotContext : IBotContext
+
+    public class DummyBotContext
     {
+        public static DummyBotContext _context;
         List<Candidate> _candidates = new List<Candidate>();
         List<Vacancy> _vacancies = new List<Vacancy>();
+
+        public static DummyBotContext Context
+        {
+            get
+            {
+                if (_context == null)
+                {
+                    _context = new DummyBotContext();
+                }
+                return _context;
+            }
+        }
 
         public DummyBotContext()
         {
@@ -125,7 +140,7 @@ namespace BotWebApi.Models
                     EditTime = DateTime.Now,
                     BirthDate = DateTime.Now.Subtract(new TimeSpan(i, i, i)),
                     Gender = i % 2 == 0 ? true : false,
-                    FirstName = i % 2 == 0 ? Names.MaleFirstNames[_nameIndex] : Names.FemaleFirstNames[_nameIndex],
+                    FirstName = i % 2 == 0 ? Storage.MaleFirstNames[_nameIndex] : Storage.FemaleFirstNames[_nameIndex],
                     MiddleName = i.ToString(),
                     LastName = i.ToString(),
                     Photo = null,
@@ -164,7 +179,7 @@ namespace BotWebApi.Models
                     VacanciesProgress = new List<VacancyStageInfo>()
                 });
                 _nameIndex++;
-                if (Names.MaleFirstNames.Count - 1 == _nameIndex || Names.FemaleFirstNames.Count - 1 == _nameIndex) _nameIndex = 0;
+                if (Storage.MaleFirstNames.Count - 1 == _nameIndex || Storage.FemaleFirstNames.Count - 1 == _nameIndex) _nameIndex = 0;
             }
 
 

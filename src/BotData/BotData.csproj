@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DumbData\DummyBotContext.cs" />
     <Compile Include="DumbData\Repositories\BaseEntityRepository.cs" />
+    <Compile Include="DumbData\Repositories\CandidateRepository.cs" />
     <Compile Include="DumbData\Repositories\UserRepository.cs" />
+    <Compile Include="DumbData\Repositories\VacancyRepository.cs" />
     <Compile Include="DumbData\Storage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

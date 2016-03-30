@@ -129,15 +129,10 @@
     <Compile Include="Controllers\VacanciesController.cs" />
     <Compile Include="DTO\DTOModels\CandidateDTO.cs" />
     <Compile Include="DTO\DTOModels\VacancyDTO.cs" />
-    <Compile Include="DTO\DTOModels\CandidateStageInfoDTO.cs" />
-    <Compile Include="DTO\DTOModels\VacancyStageInfoDTO.cs" />
     <Compile Include="DTO\DTOService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\DummyBotContext.cs" />
-    <Compile Include="Models\IBotContext.cs" />
-    <Compile Include="Models\Names.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -151,8 +146,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BotData\BotData.csproj">
+      <Project>{68b9ab45-2df8-4044-9788-4c3e4e60bd77}</Project>
+      <Name>BotData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BotLibrary\BotLibrary.csproj">
       <Project>{c6a50caf-6731-4692-b1db-26dc1b237239}</Project>
       <Name>BotLibrary</Name>

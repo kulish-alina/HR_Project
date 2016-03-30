@@ -18,6 +18,7 @@ namespace BotData.DumbData.Repositories
         {
             if (Collection.Any(x => x == entity))
             {
+                entity.Id = Collection.OrderBy(x => x.Id).Last().Id + 1;
                 Collection.Add(entity);
             }
             else

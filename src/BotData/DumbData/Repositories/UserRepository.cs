@@ -12,11 +12,7 @@ namespace BotData.DumbData.Repositories
     {
         public UserRepository()
         {
-            Collection = Storage.Users;
         }
-        public User GetByEmail(string email)
-        {
-            return FindBy(x => x.ContactInfo.Email == email).FirstOrDefault();
-        }
+       
     }
 }

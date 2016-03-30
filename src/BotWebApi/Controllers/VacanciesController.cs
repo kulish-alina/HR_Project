@@ -8,6 +8,8 @@ using System.Web.Http;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using BotLibrary.Entities;
+using BotWebApi.DTO;
+using BotWebApi.DTO.DTOModels;
 
 namespace BotWebApi.Controllers
 {
@@ -18,10 +20,11 @@ namespace BotWebApi.Controllers
         [HttpGet]
         public HttpResponseMessage All()
         {
+            var vacanciesDto = _context.Vacancies.Select(x => DTOService.VacancyToDTO(x));
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(_context.Vacancies, Formatting.Indented, new JsonSerializerSettings
+                Content = new StringContent(JsonConvert.SerializeObject(vacanciesDto, Formatting.Indented, new JsonSerializerSettings
                 {
                     DateFormatString = "yyyy-MM-dd"
                 })),
@@ -35,10 +38,11 @@ namespace BotWebApi.Controllers
             var foundedVacancy = _context.Vacancies.FirstOrDefault(x => x.Id == id);
             if (foundedVacancy != null)
             {
+                var foundedVacancyDto = DTOService.VacancyToDTO(foundedVacancy);
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(foundedVacancy, Formatting.Indented, new JsonSerializerSettings
+                    Content = new StringContent(JsonConvert.SerializeObject(foundedVacancyDto, Formatting.Indented, new JsonSerializerSettings
                     {
                         DateFormatString = "yyyy-MM-dd"
                     }))
@@ -75,7 +79,6 @@ namespace BotWebApi.Controllers
             return response;
         }
 
-
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
@@ -103,8 +106,9 @@ namespace BotWebApi.Controllers
         [HttpPost]
         public HttpResponseMessage Add([FromBody]JObject entity)
         {
-            var newVacancy = entity.ToObject<Vacancy>();
-            newVacancy.Id = _context.Candidates.Last().Id + 1;
+            var newVacancyDto = entity.ToObject<VacancyDTO>();
+            newVacancyDto.Id = _context.Candidates.Last().Id + 1;
+            var newVacancy = DTOService.DTOToVacancy(newVacancyDto);
             _context.Vacancies.Add(newVacancy);
             return new HttpResponseMessage() {
                 StatusCode = HttpStatusCode.Created
@@ -115,10 +119,11 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Put(int id, [FromBody]JObject entity)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            var changedVacancy = entity.ToObject<Vacancy>();
+            var changedVacancyDto = entity.ToObject<VacancyDTO>();
             var foundedVacancy = _context.Vacancies.FirstOrDefault(x => x.Id == id);
             if (foundedVacancy != null)
             {
+                var changedVacancy = DTOService.DTOToVacancy(changedVacancyDto);
                 _context.Vacancies.Remove(foundedVacancy);
                 _context.Vacancies.Add(changedVacancy);
                 _context.Vacancies.OrderBy(x => x.Id);

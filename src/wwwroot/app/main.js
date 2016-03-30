@@ -12,7 +12,7 @@ var dependencies = [router, translate];
 
 angular
    .module('bot', dependencies)
-	.service('HttpService', HttpService)
+   .service('HttpService', HttpService)
    .service('CandidateService', CandidateService)
    .service('VacancyService', VacancyService)
 

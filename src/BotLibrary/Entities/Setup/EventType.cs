@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities.Setup
 {
-    public class EventType: BaseEntity
+    public class EventType : BaseEntity
     {
         public string Title {get; set;}
     }

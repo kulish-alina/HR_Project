@@ -1,18 +1,14 @@
-export default function CandidateController($scope, CandidateService) {
+export default function CandidateController($scope, CandidateService, LoggerService) {
    'ngInject';
 
-   var urlId = 'Candidates/Put';
    var vm = $scope;
-   vm.candidate = {};
+   vm.saveCandidate = saveCandidate;
 
-   function addCandidate(firstName, lastName, gender) {
-      vm.candidate.firstName = firstName;
-      vm.candidate.lastName = lastName;
-      vm.candidate.gender = gender;
-      var candidateJson = JSON.stringify(vm.candidate);
-      CandidateService.addCandidate(urlId, candidateJson);
+   function saveCandidate() {
+      CandidateService.saveCandidate(vm.candidate).catch(_onError);
    }
 
-
-   vm.addCandidate = addCandidate;
+   function _onError(message) {
+      vm.errorMessage = 'Sorry! Some error occurred';
+   }
 }

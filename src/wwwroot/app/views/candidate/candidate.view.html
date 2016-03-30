@@ -1,5 +1,19 @@
+<div ng-show="errorMessage">{{errorMessage}}</div>
 <div>Add new Candidate</div>
-	<input type="text" ng-model="firstName" placeholder="First Name">
-	<input type="text" ng-model="lastName" placeholder="Last Name">
-	<input type="text" ng-model="gender" placeholder="Gender">
-	<button ng-click="addCandidate(firstName, lastName, gender)">ADD</button>
+<div>
+    <input type="text" ng-model="candidate.FirstName" placeholder="First Name">
+    <input type="text" ng-model="candidate.MiddleName" placeholder="Middle Name">
+    <input type="text" ng-model="candidate.LastName" placeholder="Last Name">
+    <input type="text" ng-model="candidate.Industry" placeholder="Industry">
+    <input type="text" ng-model="candidate.PositionDesired" placeholder="Position Desired">
+    <input type="text" ng-model="candidate.SalaryDesired" placeholder="Salary Desired">
+    <button ng-click="saveCandidate()">ADD</button>
+</div>
+<div>Candidate</div>
+<p>{{candidate.Id}}</p>
+<p>{{candidate.FirstName}}</p>
+<p>{{candidate.MiddleName}}</p>
+<p>{{candidate.LastName}}</p>
+<p>{{candidate.Industry}}</p>
+<p>{{candidate.PositionDesired}}</p>
+<p>{{candidate.SalaryDesired}}</p>

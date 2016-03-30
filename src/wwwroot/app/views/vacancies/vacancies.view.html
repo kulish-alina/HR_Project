@@ -1,4 +1,7 @@
+<div ng-show="errorMessage">{{errorMessage}}</div>
 <button ng-click="getVacancies()">GET VACANCIES</button>
+<button ng-click="getVacancy(vacancyId)">GET VACANCY</button>
+<input type="text" ng-model="vacancyId" placeholder="Id">
 <div>Vacancies</div>
 <table>
     <thead>
@@ -13,12 +16,20 @@
     </thead>
     <tbody>
         <tr ng-repeat="vacancy in vacancies">
-            <td>{{vacancy.Id}}</td>
-            <td>{{vacancy.Name}}</td>
-            <td>{{vacancy.Status.Title}}</td>
-            <td>{{vacancy.Location.City}}</td>
-            <td>{{vacancy.User.PersonalInfo.LastName}}</td>
-            <td>{{vacancy.Location.EditTime}}</td>
+            <td>{{$index+1}}</td>
+            <td>{{vacancy.Title}}</td>
+            <td>{{vacancy.VacancyStatus.Title}}</td>
+            <td>{{vacancy.Location.City.Title}}</td>
+            <td>{{vacancy.User.LastName}}</td>
+            <td>{{vacancy.EditTime}}</td>
+            <td>
+                <button ng-click="deleteVacancy(vacancy)">
+                    Delete
+                </button>
+                <button ng-click="editVacancy(vacancy)">
+                    Edit
+                </button>
+            </td>
         </tr>
     </tbody>
 </table>

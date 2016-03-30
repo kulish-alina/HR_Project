@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
-    public class Photo: BaseEntity
+    public class Photo
     {
         public FileInfo Image { get; set; }
         public string Description { get; set; }

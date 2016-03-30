@@ -1,25 +1,15 @@
+﻿using BotLibrary.Entities;
 using BotLibrary.Entities.Enum;
 using BotLibrary.Entities.Setup;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace BotLibrary.Entities
+namespace BotWebApi.DTOs.CandidateDTO
 {
-    public class Candidate: BaseEntity
+    public class CandidateDTO
     {
-        public Candidate()
-        {
-            PhoneNumbers = new List<string>();
-            Skills = new List<Skill>();
-            SocialNetworks = new List<SocialNetwork>();
-            Languages = new List<Language>();
-            Files = new List<File>();
-            VacanciesProgress = new List<VacancyStageInfo>();
-            Comments = new List<Comment>();
-            Sources = new List<Source>();
-        }
-
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -42,8 +32,9 @@ namespace BotLibrary.Entities
         public string Education { get; set; }
         public List<Language> Languages { get; set; }
         public List<File> Files { get; set; }
-        public List<VacancyStageInfo> VacanciesProgress { get; set; }
+        public List<SimplyfiedVacancyStageInfo> VacanciesProgress { get; set; }
         public List<Comment> Comments { get; set; }
         public List<Source> Sources { get; set; }
     }
+
 }

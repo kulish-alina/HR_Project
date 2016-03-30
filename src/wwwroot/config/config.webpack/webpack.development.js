@@ -6,7 +6,7 @@ module.exports = function() {
       devtool: 'source-map ',
       devServer: {
          historyApiFallback: true,
-         //hot: true,
+         hot: true,
          inline: true,
          progress: true,
       },

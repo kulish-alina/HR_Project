@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
-    public class ContactInfo: BaseEntity
+    public class ContactInfo 
     {
         public List<string> PhoneNumbers { get; set; }
         public string Email { get; set; }

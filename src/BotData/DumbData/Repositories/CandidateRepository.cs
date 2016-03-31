@@ -1,13 +1,14 @@
-﻿using BotLibrary.Entities;
+﻿using BotData.Abstract;
+using BotLibrary.Entities;
 using BotLibrary.Repositories;
 
 namespace BotData.DumbData.Repositories
 {
     public class CandidateRepository : BaseEntityRepository<Candidate>, ICandidateRepository
     {
-        public CandidateRepository()
+        public CandidateRepository(IContext context) : base(context)
         {
-            Collection = DummyBotContext.Context.Candidates;
+            Collection = _context.Candidates;
         }
     }
 }

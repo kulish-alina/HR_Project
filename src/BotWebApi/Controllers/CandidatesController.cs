@@ -13,10 +13,11 @@ namespace BotWebApi.Controllers
 {
     public class CandidatesController : ApiController
     {
-        ICandidateRepository _candidateRepository = new CandidateRepository();
+        ICandidateRepository _candidateRepository;
 
-        public CandidatesController()
+        public CandidatesController(ICandidateRepository candidateRepository)
         {
+            _candidateRepository = candidateRepository;
         }
 
         [HttpGet]

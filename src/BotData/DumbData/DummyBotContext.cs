@@ -1,33 +1,18 @@
-﻿using BotLibrary.Entities;
+﻿using BotData.Abstract;
+using BotLibrary.Entities;
 using BotLibrary.Entities.Enum;
 using BotLibrary.Entities.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BotData.DumbData
 {
-
-    public class DummyBotContext
+    public class DummyBotContext : IContext
     {
-        public static DummyBotContext _context;
         List<Candidate> _candidates = new List<Candidate>();
         List<Vacancy> _vacancies = new List<Vacancy>();
-
-        public static DummyBotContext Context
-        {
-            get
-            {
-                if (_context == null)
-                {
-                    _context = new DummyBotContext();
-                }
-                return _context;
-            }
-        }
-
+    
         public DummyBotContext()
         {
             Random r = new Random();
@@ -226,24 +211,27 @@ namespace BotData.DumbData
 
         }
 
-        public List<Candidate> Candidates
+        public IList<Candidate> Candidates
         {
             get
             {
                 return _candidates;
             }
-
             set
             {
                 throw new NotImplementedException();
             }
         }
 
-        public List<Vacancy> Vacancies
+        public IList<Vacancy> Vacancies
         {
             get
             {
                 return _vacancies;
+            }
+            set
+            {
+                throw new NotImplementedException();
             }
         }
     }

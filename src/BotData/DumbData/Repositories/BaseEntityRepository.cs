@@ -7,12 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 using BotLibrary.Entities.Enum;
+using BotData.Abstract;
 
 namespace BotData.DumbData.Repositories
 {
     public class BaseEntityRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity, new()
     {
         protected static IList<TEntity> Collection;
+        protected IContext _context;
+
+        public BaseEntityRepository(IContext context)
+        {
+            _context = context;
+        }
 
         public void Add(TEntity entity)
         {

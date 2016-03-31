@@ -1,4 +1,5 @@
-﻿using BotLibrary.Entities;
+﻿using BotData.Abstract;
+using BotLibrary.Entities;
 using BotLibrary.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,9 @@ namespace BotData.DumbData.Repositories
 {
     class UserRepository : BaseEntityRepository<User>, IUserRepository
     {
-        public UserRepository()
+        public UserRepository(IContext context) : base(context)
         {
+
         }
        
     }

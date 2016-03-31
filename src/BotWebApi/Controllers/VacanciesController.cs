@@ -16,7 +16,12 @@ namespace BotWebApi.Controllers
 {
     public class VacanciesController : ApiController
     {
-        IVacancyRepository _vacancyRepository = new VacancyRepository();
+        IVacancyRepository _vacancyRepository;
+
+        public VacanciesController(IVacancyRepository vacancyRepository)
+        {
+            _vacancyRepository = vacancyRepository;
+        } 
 
         [HttpGet]
         public HttpResponseMessage All()

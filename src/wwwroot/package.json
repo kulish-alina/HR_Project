@@ -27,6 +27,7 @@
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.22",
+    "karma-jasmine": "^0.3.8",
     "ng-annotate-loader": "^0.1.0",
     "node-sass": "^3.4.2",
     "postcss-loader": "^0.8.2",

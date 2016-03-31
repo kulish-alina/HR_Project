@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Wed Mar 30 2016 19:01:30 GMT+0300 (FLE Daylight Time)
+// Generated on Thu Mar 31 2016 17:19:02 GMT+0300 (FLE Daylight Time)
 
 module.exports = function(config) {
    config.set({
@@ -15,15 +15,12 @@ module.exports = function(config) {
 
       // list of files / patterns to load in the browser
       files: [
-         './tests/*.js',
-         '**/*.test.js'
+         'tests/*.js'
       ],
 
 
       // list of files to exclude
       exclude: [
-         'nodw_modules',
-         'typings'
       ],
 
 
@@ -48,7 +45,8 @@ module.exports = function(config) {
 
 
       // level of logging
-      // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+      // possible values: config.LOG_DISABLE || config.LOG_ERROR ||
+      // config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
       logLevel: config.LOG_INFO,
 
 
@@ -58,12 +56,12 @@ module.exports = function(config) {
 
       // start these browsers
       // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-      browsers: [],
+      browsers: [ 'PhantomJS' ],
 
 
       // Continuous Integration mode
       // if true, Karma captures browsers, runs the tests and exits
-      singleRun: true,
+      singleRun: false,
 
       // Concurrency level
       // how many browser should be started simultaneous

@@ -1,0 +1,22 @@
+.menu-img{
+   width: 55px;
+}
+.secondary-menu{
+   background-color: #80deea;
+}
+
+table {
+	margin:5px;
+   padding:5px;
+	width:100%;
+	border:1px solid #ffffff;
+}
+.content{
+   width: 100%;
+   margin-top: 10px;
+   margin-left: 7px;
+   margin-right: 7px;
+}
+.side-bar{
+   background-color: #424242;
+}

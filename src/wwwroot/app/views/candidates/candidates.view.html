@@ -40,50 +40,90 @@
         </tbody>
     </table>
 </div>-->
+<div class="secondary-menu grid-block">
+    <div class="large-2 grid-block">Candidates
+    </div>
+    <div class="large-6 grid-block">
+    </div>
+    <div class="large-4 grid-block">
+        <a href="#" class="button">Cancel</a>
+        <a href="#" class="button">Add and back</a>
+    </div>
+</div>
 <div class="grid-block">
     <div class="medium-3 grid-block">
-        <div class="card">
-            <button ng-click="getCandidates()">GET CANDIDATES</button>
-            <button ng-click="getCandidate(candidateId)">GET CANDIDATE</button>
-            <input type="text" ng-model="candidateId" placeholder="Id">
+        <div class="card content">
+            <div class="card-divider">
+                Search Candidates
+            </div>
+            <div class="card-section">
+                <input placeholder="Technology or position" type="text">
+                <input placeholder="Full name" type="text">
+                <select name="Location" id="">
+                    <option value="">Dnipropetrovsk</option>
+                    <option value="">Zaporizhzhia</option>
+                    <option value="">Lviv</option>
+                    <option value="">Berdyansk</option>
+                </select>
+                <select name="Industry" id="">
+                    <option value="">IT</option>
+                    <option value="">Others</option>
+                </select>
+                <input placeholder="Experience" type="text">
+                <input placeholder="Salary" type="text">
+                <select name="Langage" id="">
+                    <option value="">English Brgginer</option>
+                    <option value="">English Pre-Intermediate</option>
+                    <option value="">English Intermediate</option>
+                    <option value="">English Upper Intermediate</option>
+                    <option value="">English Advanced</option>
+                    <option value="">English Fluent</option>
+                </select>
+                <a class="expand button" href="#">Search</a>
+            </div>
         </div>
     </div>
     <div class="medium-9 grid-block">
-        <div class="card">
-            <table>
-                <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Full name</th>
-                        <th>Industru</th>
-                        <th>Source</th>
-                        <th>Position</th>
-                        <th>Salary</th>
-                        <th>Stage</th>
-                        <th>Added</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="candidate in candidates">
-                        <td>{{candidate.Id}}</td>
-                        <td>{{candidate.PersonalInfo.LastName}} {{candidate.PersonalInfo.FirstName}}{{candidate.PersonalInfo.MiddleName}}</td>
-                        <td>{{candidate.Industry}}</td>
-                        <td>{{candidate.Source}}</td>
-                        <td>{{candidate.WorkInfo.PositionDesired}}</td>
-                        <td>{{candidate.WorkInfo.SalaryDesired}}</td>
-                        <td>{{candidate.VacanciesProgress[0].StageInfo.Stage.Title}}</td>
-                        <td>{{candidate.EditTime}}</td>
-                        <td>
-                            <button ng-click="deleteCandidate(candidate)">
-                                Delete
-                            </button>
-                            <button ng-click="editCandidate(candidate)">
-                                Edit
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="card content">
+            <div class="card-divider">
+                Candidates
+            </div>
+            <div class="card-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Full name</th>
+                            <th>Industru</th>
+                            <th>Source</th>
+                            <th>Position</th>
+                            <th>Salary</th>
+                            <th>Stage</th>
+                            <th>Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="candidate in candidates">
+                            <td>{{$index+1}}</td>
+                            <td>{{candidate.LastName}} {{candidate.FirstName}}{{candidate.MiddleName}}</td>
+                            <td>{{candidate.Industry}}</td>
+                            <td>{{candidate.Source}}</td>
+                            <td>{{candidate.PositionDesired}}</td>
+                            <td>{{candidate.SalaryDesired}}</td>
+                            <td>{{candidate.VacanciesProgress[0].StageInfos[0].Stage.Title}}</td>
+                            <td>{{candidate.EditTime}}</td>
+                            <td>
+                                <button ng-click="deleteCandidate(candidate)">
+                                    Delete
+                                </button>
+                                <button ng-click="editCandidate(candidate)">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

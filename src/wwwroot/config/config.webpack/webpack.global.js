@@ -11,9 +11,13 @@ module.exports = function(appPath, buildPath, pkg) {
          path: buildPath,
          filename: 'bundle.js'
       },
+      external: {
+         "iconic": "IconicJS"
+      },
       resolve: {
          alias: {
-            foundation: '../node_modules/foundation-apps/dist'
+            foundation: '../Libs/foundation-apps',
+            iconic: '../../js/vendor/iconic.min.js'
          }
       },
       module: {
@@ -40,13 +44,20 @@ module.exports = function(appPath, buildPath, pkg) {
             },
             {
                test: /\.scss$/,
-               loader: 'style-loader!css-loader!sass-loader!postcss-loader'
+               loader: 'style!css!sass'
             },
             {
                test: /\.json$/,
                loader : 'json-loader'
             }]
       },
+      
+      proxy: {
+         'assets/img/iconic/*': {
+            target: '/Libs/foundation-apps/iconic/chevron.svg'
+         },
+      },
+      
       eslint: {
          configFile: '.eslintrc',
          emitError: true,
@@ -54,6 +65,9 @@ module.exports = function(appPath, buildPath, pkg) {
          failOnError: true
       },
       plugins: [
+         new webpack.ProvidePlugin({
+            IconicJS: "iconic"
+         }),
          new HtmlWebpackPlugin({
             filename: 'index.html',
             pkg: pkg,

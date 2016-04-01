@@ -11,7 +11,7 @@ function _getURLParams(urlParameter) {
    let object = {};
 
    for (let aItKey, nKeyId = 0, aCouples = window.location.search.substr(1).split('&');
-         nKeyId < aCouples.length; nKeyId++) {
+      nKeyId < aCouples.length; nKeyId++) {
       aItKey = aCouples[nKeyId].split('=');
       object[unescape(aItKey[0])] = aItKey.length > 1 ? unescape(aItKey[1]) : '';
    }
@@ -19,13 +19,17 @@ function _getURLParams(urlParameter) {
    return object;
 }
 
-var context = {};
-let urlContext = _getURLParams(window.location.search);
+export function generateContext() {
+   let context = {};
+   let urlContext = _getURLParams(window.location.search);
 
-if (process.env.NODE_ENV === 'production') {
-   assignIn(context, common, production, local, urlContext);
-} else {
-   assignIn(context, common, development, local, urlContext);
+   if (process.env.NODE_ENV === 'production') {
+      assignIn(context, common, production, local, urlContext);
+   } else {
+      assignIn(context, common, development, local, urlContext);
+   }
+   return context;
 }
 
+const context = generateContext();
 export default context;

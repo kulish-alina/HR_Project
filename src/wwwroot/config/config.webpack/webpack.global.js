@@ -15,7 +15,7 @@ module.exports = function(appPath, buildPath, pkg) {
          preLoaders: [
             {
                test: /\.js$/,
-               exclude: ['node_modules', 'build'],
+               exclude: ['node_modules', 'build', 'tests'],
                loader: 'eslint-loader'
             }
          ],

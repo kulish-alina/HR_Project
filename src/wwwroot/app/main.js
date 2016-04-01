@@ -1,6 +1,7 @@
 import angular from 'angular';
 import router from 'angular-ui-router';
 import translate from 'angular-translate';
+import validation from 'angular-validation';
 
 import config from './botConfig';
 
@@ -9,7 +10,7 @@ import CandidateService from './services/candidateService';
 import VacancyService from './services/vacancyService';
 import LoggerService from './services/loggerService';
 
-var dependencies = [router, translate];
+var dependencies = [router, translate, 'validation'];
 
 angular
    .module('bot', dependencies)

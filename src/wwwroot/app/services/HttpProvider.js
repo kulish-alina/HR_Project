@@ -1,15 +1,20 @@
-const BASE_URL = 'http://localhost:53031/api/';
+let _$http, _$q, _LoggerService, serverUrl;
 
-let _$http, _$q, _LoggerService;
+export default class HttpProvider {
+   changeApiUrl(url) {
+      serverUrl = url;
+   }
 
-export default class HttpService {
-   constructor($http, $q, LoggerService) {
+   $get($http, $q, LoggerService) {
       'ngInject';
       _$http = $http;
       _$q = $q;
       _LoggerService = LoggerService;
+      return new HttpService();
    }
+}
 
+class HttpService {
    get(additionalUrl) {
       return this.ajax('get', additionalUrl);
    }
@@ -29,7 +34,7 @@ export default class HttpService {
    ajax(method, additionalUrl, entity) {
       var options = {
          method: method,
-         url: BASE_URL + additionalUrl,
+         url: serverUrl + additionalUrl,
          headers: {
             'Content-Type': 'application/json'
          }
@@ -42,7 +47,7 @@ export default class HttpService {
 }
 
 function _successCallback(response) {
-   _LoggerService.information('Response status:', response.status);
+   _LoggerService.log('Response status:', response.status);
    return response.data;
 }
 

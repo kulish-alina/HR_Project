@@ -13,8 +13,17 @@ import vacancyController from './views/vacancy/vacancy.controller';
 import translationsEn from './translations/translationsEn.json';
 import translationsRu from './translations/translationsRu.json';
 
-export default function
-   _config($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider) {
+import context from './context';
+
+export default function _config(
+   $stateProvider,
+   $urlRouterProvider,
+   $locationProvider,
+   $translateProvider,
+   LoggerServiceProvider,
+   HttpServiceProvider
+) {
+
    $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
@@ -49,5 +58,8 @@ export default function
    $translateProvider
       .translations('en', translationsEn)
       .translations('ru', translationsRu)
-      .preferredLanguage('en');
+      .preferredLanguage(context.defaultLang);
+
+   LoggerServiceProvider.changeLogLevel(context.logLevel);
+   HttpServiceProvider.changeApiUrl(context.serverUrl);
 }

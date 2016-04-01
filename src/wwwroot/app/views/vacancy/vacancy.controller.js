@@ -1,4 +1,4 @@
-export default function VacancyController($scope, VacancyService, LoggerService) {
+export default function VacancyController($scope, VacancyService) {
    'ngInject';
 
    var vm = $scope;

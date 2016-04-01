@@ -42,7 +42,7 @@ export default class HttpService {
 }
 
 function _successCallback(response) {
-   _LoggerService.information('Response status:', response.status);
+   _LoggerService.log('Response status:', response.status);
    return response.data;
 }
 

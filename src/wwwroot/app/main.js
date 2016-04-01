@@ -5,17 +5,21 @@ import validation from 'angular-validation';
 
 import config from './botConfig';
 
-import HttpService from './services/httpService';
+import LoggerProvider   from './services/LoggerProvider';
+import HttpProvider     from './services/HttpProvider';
+
 import CandidateService from './services/candidateService';
-import VacancyService from './services/vacancyService';
-import LoggerService from './services/loggerService';
+import VacancyService   from './services/vacancyService';
 
 var dependencies = [router, translate, 'validation'];
 
 angular
    .module('bot', dependencies)
-   .service('HttpService', HttpService)
-   .service('LoggerService', LoggerService)
-   .service('CandidateService', CandidateService)
-   .service('VacancyService', VacancyService)
+
+   .provider('LoggerService', LoggerProvider)
+   .provider('HttpService',   HttpProvider)
+
+   .service('CandidateService',  CandidateService)
+   .service('VacancyService',    VacancyService)
+
    .config(config);

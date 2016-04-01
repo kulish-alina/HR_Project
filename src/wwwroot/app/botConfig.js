@@ -20,7 +20,8 @@ export default function _config(
    $urlRouterProvider,
    $locationProvider,
    $translateProvider,
-   LoggerServiceProvider
+   LoggerServiceProvider,
+   HttpServiceProvider
 ) {
 
    $locationProvider.html5Mode({
@@ -60,4 +61,5 @@ export default function _config(
       .preferredLanguage('en');
 
    LoggerServiceProvider.changeLogLevel(context.logLevel);
+   HttpServiceProvider.changeApiUrl(context.serverUrl);
 }

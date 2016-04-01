@@ -4,10 +4,11 @@ import translate from 'angular-translate';
 
 import config from './botConfig';
 
-import HttpService      from './services/httpService';
+import LoggerProvider   from './services/LoggerProvider';
+import HttpProvider     from './services/HttpProvider';
+
 import CandidateService from './services/candidateService';
 import VacancyService   from './services/vacancyService';
-import LoggerProvider   from './services/LoggerProvider';
 
 var dependencies = [router, translate];
 
@@ -15,9 +16,9 @@ angular
    .module('bot', dependencies)
 
    .provider('LoggerService', LoggerProvider)
+   .provider('HttpService',   HttpProvider)
 
-   .service('HttpService', HttpService)
-   .service('CandidateService', CandidateService)
-   .service('VacancyService', VacancyService)
+   .service('CandidateService',  CandidateService)
+   .service('VacancyService',    VacancyService)
 
    .config(config);

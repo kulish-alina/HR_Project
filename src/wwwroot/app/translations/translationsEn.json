@@ -1,0 +1,13 @@
+{
+   "INDEX": {
+      "HOME" : "Home",
+      "CANDIDATES" : "Candidates",
+      "VACANCIES" : "Vacansies",
+      "ADD_CANDIDATE" : "Add Candidate"
+   },
+   "CANDIDATE" : {},
+   "CANDIDATES" : {},
+   "HOME" : {},
+   "VACANCIES" : {},
+   "COMMON" : {}
+}

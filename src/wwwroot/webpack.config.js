@@ -10,9 +10,9 @@ const paths = {
    buildPath: path.join(__dirname, 'build')
 }
 const wbpk = {
-   global: require('./config.webpack/webpack.global.js'),
-   development: require('./config.webpack/webpack.development.js'),
-   production: require('./config.webpack/webpack.production.js')
+   global: require('./config/config.webpack/webpack.global.js'),
+   development: require('./config/config.webpack/webpack.development.js'),
+   production: require('./config/config.webpack/webpack.production.js')
 }
 
 //Module config

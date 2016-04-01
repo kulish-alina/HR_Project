@@ -1,18 +1,33 @@
 import homeTemplate from './views/home/home.view.html';
+
 import candidatesTemplate from './views/candidates/candidates.view.html';
 import candidateTemplate from './views/candidate/candidate.view.html';
 import vacanciesTemplate from './views/vacancies/vacancies.view.html';
+import vacancyTemplate from './views/vacancy/vacancy.view.html';
 
 import candidatesController from './views/candidates/candidates.controller';
 import candidateController from './views/candidate/candidate.controller';
 import vacanciesController from './views/vacancies/vacancies.controller';
+import vacancyController from './views/vacancy/vacancy.controller';
 
-export default function _config($stateProvider, $urlRouterProvider, $locationProvider) {
+import translationsEn from './translations/translationsEn.json';
+import translationsRu from './translations/translationsRu.json';
+
+import context from './context';
+
+export default function _config(
+   $stateProvider,
+   $urlRouterProvider,
+   $locationProvider,
+   $translateProvider,
+   LoggerServiceProvider,
+   HttpServiceProvider
+) {
+
    $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
    });
-
    $stateProvider
       .state('home', {
          url: '/home',
@@ -33,6 +48,18 @@ export default function _config($stateProvider, $urlRouterProvider, $locationPro
          template: candidateTemplate,
          controller: candidateController
       })
+      .state('vacancy', {
+         url: '/vacancy',
+         template: vacancyTemplate,
+         controller: vacancyController
+      })
 
    $urlRouterProvider.otherwise('home');
+   $translateProvider
+      .translations('en', translationsEn)
+      .translations('ru', translationsRu)
+      .preferredLanguage('en');
+
+   LoggerServiceProvider.changeLogLevel(context.logLevel);
+   HttpServiceProvider.changeApiUrl(context.serverUrl);
 }

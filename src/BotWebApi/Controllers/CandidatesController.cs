@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BotData.DumbData.Repositories;
+using System.Threading.Tasks;
 
 namespace BotWebApi.Controllers
 {
@@ -23,6 +24,7 @@ namespace BotWebApi.Controllers
         [HttpGet]
         public HttpResponseMessage All()
         {
+            var model = ModelState;
             var dtoCandidates = _candidateRepository.GetAll().Select(x => DTOService.CandidateToDTO(x));
             return new HttpResponseMessage()
             {
@@ -38,7 +40,7 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Get(int id)
         {
             HttpResponseMessage response;
-            var foundedCandidate = _candidateRepository.FindBy(x => x.Id == id).FirstOrDefault();
+            var foundedCandidate = _candidateRepository.Get(id);
             if (foundedCandidate!=null)
             {
                 var foundedCandidateDto = DTOService.CandidateToDTO(foundedCandidate);
@@ -63,7 +65,7 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage VacanciesProgress(int candidateId)
         {
             HttpResponseMessage response;
-            var foundedCandidate = _candidateRepository.FindBy(x => x.Id == candidateId).FirstOrDefault();
+            var foundedCandidate = _candidateRepository.Get(candidateId);
             if (foundedCandidate!=null)
             {
                 var foundedCandidateDto = DTOService.CandidateToDTO(foundedCandidate);
@@ -90,7 +92,7 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Delete(int id)
         {
             HttpResponseMessage response;
-            var foundedCandidate = _candidateRepository.FindBy(x => x.Id == id).FirstOrDefault();
+            var foundedCandidate = _candidateRepository.Get(id);
             if(foundedCandidate != null)
             {
                 _candidateRepository.Remove(foundedCandidate);

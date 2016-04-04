@@ -21,6 +21,11 @@ namespace BotData.DumbData.Repositories
             _context = context;
         }
 
+        public TEntity Get(int id)
+        {
+            return Collection.FirstOrDefault(x => x.Id == id);
+        }
+
         public void Add(TEntity entity)
         {
             if (Collection.Any(x => x == entity))

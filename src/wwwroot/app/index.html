@@ -8,53 +8,51 @@
 
 <body ng-app="bot">
     <div class="menu-bar grid-block v-align">
-        <div class="large-1 grid-block  align-center"><a zf-open="menu" class="button">Menu</a>
+        <div class="large-1 grid-block"><a zf-open="menu" class="button">Menu</a>
         </div>
-        <div class="large-1 grid-block align-center">
+        <div class="large-1 grid-block">
             <a ui-sref="home">
                 <img class="menu-img" src="/app/images/bot-home.png">
             </a>
         </div>
-        <div class="large-3 grid-block align-center">
+        <div class="large-3 grid-block">
             <input placeholder="Search" type="search">
             <a href="#" class="button">Search</a>
         </div>
-        <div class="large-5 grid-block align-center">
-            <ul class="menu-bar condense medium-expand">
+        <div class="large-5 grid-block">
+            <ul class="menu-bar medium-expand">
                 <li><a ui-sref="candidate">{{'INDEX.ADD_CANDIDATE' | translate}}</a>
                 </li>
                 <li><a ui-sref="vacancy">{{'INDEX.ADD_VACANCY' | translate}}</a>
                 </li>
             </ul>
         </div>
-        <div class="large-2 grid-block align-center">
+        <div class="large-2 grid-block">
             <a ui-sref="home" class="logo">
                 <img class="menu-img" src="/app/images/user.png">
                 <a href="#">User Name</a>
             </a>
         </div>
     </div>
-    <zf-offcanvas class="text-center" id="menu" position="left">
-        <ul class="vertical menu-bar side-bar grid-frame">
+    <zf-offcanvas id="menu" position="left">
+        <ul class="vertical menu-bar side-bar grid-frame icon-top">
             <li><a zf-close="" class="close-button">×</a>
-            <a ui-sref="candidates">{{'INDEX.CANDIDATES' | translate}}
-            <img class="menu-img" src="/app/images/candidates-icon.png"></a>
+                <a ui-sref="candidates">{{'INDEX.CANDIDATES' | translate}}
+                <img class="menu-img" src="/app/images/candidates-icon.png"></a>
             </li>
-            <li><a ui-sref="vacancies">{{'INDEX.VACANCIES' | translate}}</a>
+            <li><a ui-sref="vacancies">{{'INDEX.VACANCIES' | translate}}
+            </a>
             </li>
-            <li> <a ui-sref="#">Reports</a>
+            <li> <a ui-sref="#">{{'INDEX.REPORTS' | translate}}</a>
             </li>
-            <li><a ui-sref="#">Calendar</a>
+            <li><a ui-sref="#">{{'INDEX.CALENDAR' | translate}}</a>
             </li>
-            <li><a ui-sref="#">Settings</a>
+            <li><a ui-sref="#">{{'INDEX.SETTINGS' | translate}}</a>
             </li>
         </ul>
     </zf-offcanvas>
     <div ui-view class="vertical grid-block">
     </div>
-    <footer>
-
-    </footer>
     <!-- Some kind of magic for webpack assets-->
     {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
     <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>

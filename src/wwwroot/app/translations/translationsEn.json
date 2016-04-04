@@ -3,6 +3,9 @@
       "HOME" : "Home",
       "CANDIDATES" : "Candidates",
       "VACANCIES" : "Vacansies",
+      "REPORTS" : "Reports",
+      "CALENDAR" : "Calendar",
+      "SETTINGS" : "Settings",
       "ADD_CANDIDATE" : "Add Candidate",
       "ADD_VACANCY" : "Add Vacancy"
    },

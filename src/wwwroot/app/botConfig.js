@@ -58,7 +58,7 @@ export default function _config(
    $translateProvider
       .translations('en', translationsEn)
       .translations('ru', translationsRu)
-      .preferredLanguage('en');
+      .preferredLanguage(context.defaultLang);
 
    LoggerServiceProvider.changeLogLevel(context.logLevel);
    HttpServiceProvider.changeApiUrl(context.serverUrl);

@@ -1,10 +1,13 @@
 import angular from 'angular';
 import router from 'angular-ui-router';
 import translate from 'angular-translate';
-//import 'iconic';
-import 'foundation/dist/js/foundation-apps.js';
-import 'foundation/dist/js/foundation-apps-templates.js';
-import 'foundation/scss/foundation.scss';
+
+import 'foundation-apps/dist/js/foundation-apps.js';
+import 'foundation-apps/dist/js/foundation-apps-templates.js';
+
+import 'foundation-icons/foundation_icons_general/sass/general_foundicons.scss';
+import 'foundation-icons/foundation_icons_social/sass/social_foundicons.scss';
+
 import './main.scss';
 
 import config from './botConfig';

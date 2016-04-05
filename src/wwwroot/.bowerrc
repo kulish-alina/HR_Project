@@ -1,0 +1,6 @@
+{
+  "directory": "bower_components",
+  "proxy": "http://proxy.isd.dp.ua:8080",
+  "https-proxy":"http://proxy.isd.dp.ua:8080",
+  "no-proxy":"myserver.mydomain.com"
+}

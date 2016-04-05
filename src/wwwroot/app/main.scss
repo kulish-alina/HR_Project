@@ -1,4 +1,5 @@
-@import "../Libs/foundation-apps/scss/foundation";
+@import "settings";
+@import "foundation";
 
 .menu-img{
    width: 55px;
@@ -8,10 +9,10 @@
 }
 
 table {
-	margin:5px;
+   margin:5px;
    padding:5px;
-	width:100%;
-	border:1px solid #ffffff;
+   width:100%;
+   border:1px solid #ffffff;
 }
 .content{
    width: 100%;
@@ -19,20 +20,6 @@ table {
    margin-left: 7px;
    margin-right: 7px;
 }
-.sidebar{
- 
-}
-.main-menu{
-   background-color: $menubar-background;
-   padding: $global-padding/2;
-   justify-content: center;
-}
-.secondary-menu{
-   padding: $global-padding/4;
-   height: 3em;
-}
-.side-menu{
-   @include grid-frame($orientation: vertical);
-   @include menu-bar-layout( $orientation: vertical);
-   background-color: $offcanvas-background;
+.side-bar{
+   background-color: #424242;
 }

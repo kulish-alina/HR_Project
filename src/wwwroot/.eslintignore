@@ -2,4 +2,4 @@ webpack.config.js
 config.webpack/
 build/
 node_modules/
-Libs/
+bower_component/

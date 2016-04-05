@@ -7,7 +7,7 @@
     "dev-build": "webpack --progress --colors",
     "dist-build": "webpack -p --progress --colors",
     "devserver": "webpack-dev-server -d --port 9100 --progress --colors --display-error-details",
-    "tests": "karma start karma.config.js --log-level debug"
+    "test": "karma start karma.config.js --log-level info --colors"
   },
   "author": "Vaillant-S",
   "license": "ISC",

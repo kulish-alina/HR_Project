@@ -7,17 +7,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 using BotLibrary.Entities.Enum;
+using BotData.Abstract;
 
 namespace BotData.DumbData.Repositories
 {
     public class BaseEntityRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity, new()
     {
         protected static IList<TEntity> Collection;
+        protected IContext _context;
+
+        public BaseEntityRepository(IContext context)
+        {
+            _context = context;
+        }
+
+        public TEntity Get(int id)
+        {
+            return Collection.FirstOrDefault(x => x.Id == id);
+        }
 
         public void Add(TEntity entity)
         {
             if (Collection.Any(x => x == entity))
             {
+                entity.Id = Collection.OrderBy(x => x.Id).Last().Id + 1;
                 Collection.Add(entity);
             }
             else

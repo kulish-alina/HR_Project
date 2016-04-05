@@ -1,3 +1,6 @@
+@import "settings";
+@import "foundation";
+
 .menu-img{
    width: 55px;
 }
@@ -6,10 +9,10 @@
 }
 
 table {
-	margin:5px;
+   margin:5px;
    padding:5px;
-	width:100%;
-	border:1px solid #ffffff;
+   width:100%;
+   border:1px solid #ffffff;
 }
 .content{
    width: 100%;

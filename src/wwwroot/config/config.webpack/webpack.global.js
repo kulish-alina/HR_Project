@@ -15,10 +15,7 @@ module.exports = function(appPath, buildPath, pkg) {
          "iconic": "IconicJS"
       },
       resolve: {
-         alias: {
-            foundation: '../Libs/foundation-apps',
-            iconic: '../../js/vendor/iconic.min.js'
-         }
+         modulesDirectories: ["web_modules", "node_modules", "bower_components"]
       },
       module: {
          preLoaders: [
@@ -44,20 +41,18 @@ module.exports = function(appPath, buildPath, pkg) {
             },
             {
                test: /\.scss$/,
-               loader: 'style!css!sass'
+               loader: 'style!css!sass?outputStyle=expanded&includePaths[]=./bower_components/foundation-apps/scss/'
             },
             {
                test: /\.json$/,
                loader : 'json-loader'
+            },
+            {
+               test   : /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+               loader : 'file-loader'
             }]
       },
-      
-      proxy: {
-         'assets/img/iconic/*': {
-            target: '/Libs/foundation-apps/iconic/chevron.svg'
-         },
-      },
-      
+
       eslint: {
          configFile: '.eslintrc',
          emitError: true,
@@ -65,9 +60,9 @@ module.exports = function(appPath, buildPath, pkg) {
          failOnError: true
       },
       plugins: [
-         new webpack.ProvidePlugin({
-            IconicJS: "iconic"
-         }),
+         new webpack.ResolverPlugin(
+            new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(".bower.json", ["main"])
+         ),
          new HtmlWebpackPlugin({
             filename: 'index.html',
             pkg: pkg,

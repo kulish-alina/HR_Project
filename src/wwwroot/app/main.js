@@ -5,7 +5,7 @@ import translate from 'angular-translate';
 import 'foundation/dist/js/foundation-apps.js';
 import 'foundation/dist/js/foundation-apps-templates.js';
 import 'foundation/scss/foundation.scss';
-import './main.css';
+import './main.scss';
 
 import config from './botConfig';
 

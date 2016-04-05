@@ -1,4 +1,4 @@
-export default function CandidateController($scope, CandidateService, LoggerService) {
+export default function CandidateController($scope, CandidateService) {
    'ngInject';
 
    var vm = $scope;

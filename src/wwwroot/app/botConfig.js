@@ -13,6 +13,7 @@ import vacancyController from './views/vacancy/vacancy.controller';
 import translationsEn from './translations/translationsEn.json';
 import translationsRu from './translations/translationsRu.json';
 
+import defaultMsg from './translations/validationMsgs/validationMsgsProvider.js'
 import context from './context';
 
 export default function _config(
@@ -20,6 +21,7 @@ export default function _config(
    $urlRouterProvider,
    $locationProvider,
    $translateProvider,
+   $validationProvider,
    LoggerServiceProvider,
    HttpServiceProvider
 ) {
@@ -62,4 +64,5 @@ export default function _config(
 
    LoggerServiceProvider.changeLogLevel(context.logLevel);
    HttpServiceProvider.changeApiUrl(context.serverUrl);
+   $validationProvider.setDefaultMsg(defaultMsg(context.defaultLang));
 }

@@ -1,4 +1,5 @@
 ﻿using BotLibrary.Entities;
+using BotLibrary.Entities.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;

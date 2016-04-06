@@ -5,6 +5,7 @@ import {
 import local from '../config/config.context/local.json';
 import development from '../config/config.context/develop.json';
 import production from '../config/config.context/production.json';
+import common from '../config/config.context/common.json';
 
 function _getURLParams(urlParameter) {
    let object = {};
@@ -22,9 +23,9 @@ var context = {};
 let urlContext = _getURLParams(window.location.search);
 
 if (process.env.NODE_ENV === 'production') {
-   assignIn(context, production, local, urlContext);
+   assignIn(context, common, production, local, urlContext);
 } else {
-   assignIn(context, development, local, urlContext);
+   assignIn(context, common, development, local, urlContext);
 }
 
 export default context;

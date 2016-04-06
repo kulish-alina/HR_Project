@@ -1,3 +1,5 @@
+'use strict';
+
 describe('VacancyService tests for', () => {
    beforeEach(module('bot'));
    it('getVacancies not to be undefined', inject((VacancyService) => {

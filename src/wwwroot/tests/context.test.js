@@ -1,13 +1,3 @@
-// describe('inital test specs', function() {
-//    it('true is true', function() {
-//       expect(true).toBe(true);
-//    });
-
-//    it('false is not true', function() {
-//       expect(false).not.toBe(true);
-//    })
-// });
-
 import { generateContext } from '../app/context.js';
 
 describe('inital test specs', () => {
@@ -17,5 +7,10 @@ describe('inital test specs', () => {
 
    it('true to be true', () => {
       expect(true).toBe(true);
+   })
+
+   it('genaerateContext not to be null or undefined', () => {
+      expect(generateContext).not.toBeUndefined();
+      //expect(generateContext).no.toBeNull();
    })
 });

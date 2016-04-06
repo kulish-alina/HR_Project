@@ -10,9 +10,11 @@
       "browser": true,
       "es6": true,
       "node": true,
-      "jasmine": true
+      "jasmine": true,
+      "angular/angular": true,
+      "angular/mocks" : true
    },
-   "plugins": [],
+   "plugins": ["angular"],
    "rules": {
       "no-bitwise": 2,
       "camelcase": [

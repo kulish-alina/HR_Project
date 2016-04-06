@@ -42,7 +42,9 @@
 </div>-->
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
-      <p>Candidates</p>
+      <div class="grid-content">
+         <h5>Base of candidates</h5>
+      </div>
    </div>
    <div class="large-6 grid-block">
    </div>
@@ -53,29 +55,35 @@
 </div>
 <div class="grid-block">
    <div class="medium-3 grid-block">
-      <div class="card content">
+      <div class="card content  side-bar">
          <div class="card-divider">
             Search Candidates
          </div>
          <div class="card-section">
-            <div class="grid-block">
-               <div class="grid-content">
+            <div class="grid-block checkbox-block">
+               <div class="large-6 grid-content">
                   <input id="checkbox1" type="checkbox">
-                  <label for="checkbox1">All</label><br/>
+                  <label for="checkbox1">All</label>
+                  <br/>
                   <input id="checkbox2" type="checkbox">
-                  <label for="checkbox2">Vkontakte</label><br/>
+                  <label for="checkbox2">Vk</label>
+                  <br/>
                   <input id="checkbox3" type="checkbox">
-                  <label for="checkbox3">Rabota</label><br/>
+                  <label for="checkbox3">Rabota</label>
+                  <br/>
                   <input id="checkbox4" type="checkbox">
                   <label for="checkbox4">Djinni</label>
                </div>
-               <div class="grid-content">
+               <div class="large-6 grid-content">
                   <input id="checkbox5" type="checkbox">
-                  <label for="checkbox5">BOT</label><br/>
+                  <label for="checkbox5">BOT</label>
+                  <br/>
                   <input id="checkbox6" type="checkbox">
-                  <label for="checkbox6">LinledIn</label><br/>
+                  <label for="checkbox6">LinledIn</label>
+                  <br/>
                   <input id="checkbox7" type="checkbox">
-                  <label for="checkbox7">Work</label><br/>
+                  <label for="checkbox7">Work</label>
+                  <br/>
                   <input id="checkbox8" type="checkbox">
                   <label for="checkbox8">Hh</label>
                </div>
@@ -115,7 +123,9 @@
             <table>
                <thead>
                   <tr>
-                     <th><input id="checkbox9" type="checkbox"></th>
+                     <th>
+                        <input id="checkbox9" type="checkbox">
+                     </th>
                      <th>№</th>
                      <th>Full name</th>
                      <th>Industru</th>
@@ -128,7 +138,9 @@
                </thead>
                <tbody>
                   <tr ng-repeat="candidate in candidates">
-                     <th><input id="checkbox9" type="checkbox"></th>
+                     <th>
+                        <input id="checkbox9" type="checkbox">
+                     </th>
                      <td>{{$index+1}}</td>
                      <td>{{candidate.LastName}} {{candidate.FirstName}}{{candidate.MiddleName}}</td>
                      <td>{{candidate.Industry}}</td>
@@ -138,16 +150,23 @@
                      <td>{{candidate.VacanciesProgress[0].StageInfos[0].Stage.Title}}</td>
                      <td>{{candidate.EditTime}}</td>
                      <td>
-                        <button ng-click="deleteCandidate(candidate)">
-                           Delete
-                        </button>
-                        <button ng-click="editCandidate(candidate)">
-                           Edit
-                        </button>
+                        <a ng-click="deleteCandidate(candidate)"><i class="foundicon-edit"></i>
+                        </a>
+                        <a ng-click="editCandidate(candidate)"><i class="foundicon-tools"></i>
+                        </a>
                      </td>
                   </tr>
                </tbody>
             </table>
+         </div>
+         <div class="card-section pages">
+            <ul class="button-group segmented">
+               <li><a href="#">1</a></li>
+               <li><a href="#">2</a></li>
+               <li><a href="#">3</a></li>
+               <li><a href="#">4</a></li>
+               <li><a href="#">5</a></li>
+            </ul>
          </div>
       </div>
    </div>

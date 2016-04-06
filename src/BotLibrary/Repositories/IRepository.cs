@@ -12,6 +12,7 @@ namespace BotLibrary.Repositories
         IQueryable<TEntity> GetAll();
         IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
 
+        TEntity Get(int id);
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Remove(TEntity entity);

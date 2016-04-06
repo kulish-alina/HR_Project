@@ -1,4 +1,4 @@
-export default function VacanciesController($scope, VacancyService, LoggerService) {
+export default function VacanciesController($scope, VacancyService) {
    'ngInject';
 
    var urlId = 'Vacancies';

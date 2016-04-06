@@ -1,5 +1,4 @@
-﻿using BotWebApi.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,17 +9,24 @@ using Newtonsoft.Json;
 using BotLibrary.Entities;
 using BotWebApi.DTO;
 using BotWebApi.DTO.DTOModels;
+using BotData.DumbData.Repositories;
+using BotLibrary.Repositories;
 
 namespace BotWebApi.Controllers
 {
     public class VacanciesController : ApiController
     {
-        IBotContext _context = new DummyBotContext();
+        IVacancyRepository _vacancyRepository;
+
+        public VacanciesController(IVacancyRepository vacancyRepository)
+        {
+            _vacancyRepository = vacancyRepository;
+        } 
 
         [HttpGet]
         public HttpResponseMessage All()
         {
-            var vacanciesDto = _context.Vacancies.Select(x => DTOService.VacancyToDTO(x));
+            var vacanciesDto = _vacancyRepository.GetAll().Select(x => DTOService.VacancyToDTO(x));
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
@@ -35,7 +41,7 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Get(int id)
         {
             HttpResponseMessage response;
-            var foundedVacancy = _context.Vacancies.FirstOrDefault(x => x.Id == id);
+            var foundedVacancy = _vacancyRepository.Get(id);
             if (foundedVacancy != null)
             {
                 var foundedVacancyDto = DTOService.VacancyToDTO(foundedVacancy);
@@ -60,7 +66,7 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage VacanciesProgress(int vacancyId)
         {
             HttpResponseMessage response;
-            var foundedVacancy = _context.Vacancies.FirstOrDefault(x => x.Id == vacancyId);
+            var foundedVacancy = _vacancyRepository.Get(vacancyId);
             if (foundedVacancy!=null)
             {
                 response = new HttpResponseMessage()
@@ -83,18 +89,11 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Delete(int id)
         {
             HttpResponseMessage response;
-            var foundedVacancy = _context.Vacancies.FirstOrDefault(x => x.Id == id);
+            var foundedVacancy = _vacancyRepository.FindBy(x => x.Id == id).FirstOrDefault();
             if (foundedVacancy != null)
             {
-                _context.Vacancies.Remove(foundedVacancy);
-                if (_context.Vacancies.Any(x => x != foundedVacancy))
-                {
-                    response = new HttpResponseMessage(HttpStatusCode.OK);
-                }
-                else
-                {
-                    response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-                }
+                _vacancyRepository.Remove(foundedVacancy);
+                response = new HttpResponseMessage(HttpStatusCode.OK);
             }
             else
             {
@@ -107,9 +106,8 @@ namespace BotWebApi.Controllers
         public HttpResponseMessage Add([FromBody]JObject entity)
         {
             var newVacancyDto = entity.ToObject<VacancyDTO>();
-            newVacancyDto.Id = _context.Candidates.Last().Id + 1;
             var newVacancy = DTOService.DTOToVacancy(newVacancyDto);
-            _context.Vacancies.Add(newVacancy);
+            _vacancyRepository.Add(newVacancy);
             return new HttpResponseMessage() {
                 StatusCode = HttpStatusCode.Created
             };
@@ -120,13 +118,10 @@ namespace BotWebApi.Controllers
         {
             HttpResponseMessage response = new HttpResponseMessage();
             var changedVacancyDto = entity.ToObject<VacancyDTO>();
-            var foundedVacancy = _context.Vacancies.FirstOrDefault(x => x.Id == id);
-            if (foundedVacancy != null)
+            if (changedVacancyDto != null)
             {
                 var changedVacancy = DTOService.DTOToVacancy(changedVacancyDto);
-                _context.Vacancies.Remove(foundedVacancy);
-                _context.Vacancies.Add(changedVacancy);
-                _context.Vacancies.OrderBy(x => x.Id);
+                _vacancyRepository.Update(changedVacancy);
                 response.StatusCode = HttpStatusCode.OK;
             }
             else
@@ -135,7 +130,6 @@ namespace BotWebApi.Controllers
             }
             return response;
         }
-
     }
 }
 

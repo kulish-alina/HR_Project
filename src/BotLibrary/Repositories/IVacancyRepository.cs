@@ -9,5 +9,6 @@ namespace BotLibrary.Repositories
 {
     public interface IVacancyRepository : IRepository<Vacancy>
     {
+
     }
 }

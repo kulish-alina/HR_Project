@@ -330,7 +330,7 @@ $button-margin: 0;
 // $card-padding: $global-padding;
 // $card-margin: 0.5rem;
 
-// $card-divider-background: smartscale($card-background, 7%); 
+$card-divider-background: #fff; 
 
 // 12. Extras
 // - - - - - - - - - - - - - - -
@@ -536,10 +536,10 @@ $menubar-background: #26c6da;
 // 20. Off-canvas
 // - - - - - - - - - - - - - - -
 
-$offcanvas-size-horizontal: 170px;
+$offcanvas-size-horizontal: 130px;
 // $offcanvas-size-vertical: 250px;
 
-$offcanvas-background: #424242;
+$offcanvas-background: #2A333D;
 // $offcanvas-color: isitlight($offcanvas-background);
 // $offcanvas-padding: 0;
 // $offcanvas-shadow: 3px 0 10px rgba(black, 0.25);

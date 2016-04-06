@@ -13,8 +13,16 @@
    <div class="large-6 grid-block">
    </div>
    <div class="large-4 grid-block align-right">
-      <a href="#" class="button">Cancel</a>
-      <a href="#" class="button">Add and back</a>
+      <ul class="button-group segmented">
+         <li>
+            <input name="utensil" value="fork" id="utensilFork" type="radio">
+            <label for="utensilFork">Cancel</label>
+         </li>
+         <li>
+            <input name="utensil" value="spork" id="utensilSpork" checked="" type="radio">
+            <label for="utensilSpork">Add and back</label>
+         </li>
+      </ul>
    </div>
 </div>
 <div class="grid-block">
@@ -64,7 +72,7 @@
                <option value="">IT</option>
                <option value="">Others</option>
             </select>
-            <ul class="change-gender">
+            <ul class="some-change">
                <li>
                   <input name="isMale" value="true" id="male" checked="" type="radio">
                   <label for="male">Male</label>

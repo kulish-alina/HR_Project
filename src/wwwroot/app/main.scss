@@ -1,8 +1,10 @@
 @import "settings";
 @import "foundation";
-
+body{
+   background-color: #f5f8f9;
+}
 .menu-img{
-   width: 55px;
+   width: 45px;
 }
 .secondary-menu{
    background-color: #80deea;
@@ -26,7 +28,7 @@ td {
   justify-content: center;
 }
 tr:nth-child(2n) {
-  background: #EDEDED;
+  background: #f5f8f9;
 }
 .content{
    width: 100%;
@@ -44,11 +46,20 @@ tr:nth-child(2n) {
    display: flex;
    align-items: center;
    padding: $global-padding/2;
+   border: 1px solid #d8e3e7;
+   background-color: #fff;
 }
 .side-menu{
    background-color: $offcanvas-background;
    @include grid-frame($orientation: vertical);
    @include menu-bar-icons($position: top);
+   -webkit-box-shadow: inset 0px 0px 13px 9px rgba(0,0,0,0.27);
+   -moz-box-shadow: inset 0px 0px 13px 9px rgba(0,0,0,0.27);
+   box-shadow: inset 0px 0px 13px 9px rgba(0,0,0,0.27);
+}
+.side-menu li{
+   border-bottom: 1px solid #222C37;
+   border-top: 1px solid #313B3D;
 }
 .side-bar{
    max-height: 750px;
@@ -64,13 +75,13 @@ tr:nth-child(2n) {
    justify-content: flex-end;
    align-items: flex-end;
 }
-.change-gender{
+.some-change{
    @include button-group (  
      $segmented: true,
      $expand: true,
      $background: $primary-color,
      $color: #fff);
-   margin-bottom: 16px !important;
+     margin-bottom: 16px !important;
 }
 
 

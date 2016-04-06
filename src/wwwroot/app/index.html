@@ -44,24 +44,22 @@
          <a href="#" class="button">Search</a></div>
       <div class="large-5 grid-content">
          <ul class="menu-bar icon-left medium-expand">
-            <li><a ui-sref="candidate"><i class="foundicon-plus"></i>{{'INDEX.ADD_CANDIDATE' | translate}}</a>
+            <li><a ui-sref="candidate"><i class="foundicon-plus general-icon"></i>{{'INDEX.ADD_CANDIDATE' | translate}}</a>
             </li>
-            <li><a ui-sref="vacancy"><i class="foundicon-plus"></i>{{'INDEX.ADD_VACANCY' | translate}}</a>
+            <li><a ui-sref="vacancy"><i class="foundicon-plus general-icon"></i>{{'INDEX.ADD_VACANCY' | translate}}</a>
             </li>
          </ul>
       </div>
       <div class="large-2 grid-block align-right">
          <a href="#">
-            <i class="foundicon-torso"></i>
+            <i class="foundicon-torso social-icon"></i>
             <a href="#">User Name</a>
          </a>
       </div>
    </div>
-
-
-
    <div ui-view class="vertical grid-block">
    </div>
+
    <!-- Some kind of magic for webpack assets-->
    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
    <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>

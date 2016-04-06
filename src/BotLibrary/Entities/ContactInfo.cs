@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
-    public class ContactInfo: BaseEntity
+    public class ContactInfo 
     {
-        List<string> PhoneNumbers { get; set; }
-        string Email { get; set; }
-        string Skype { get; set; }
+        public List<string> PhoneNumbers { get; set; }
+        public string Email { get; set; }
+        public string Skype { get; set; }
     }
 }

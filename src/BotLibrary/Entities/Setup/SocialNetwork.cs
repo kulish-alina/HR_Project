@@ -8,7 +8,7 @@ namespace BotLibrary.Entities.Setup
 {
     public class SocialNetwork: BaseEntity
     {
-        string Title { get; set; }
-        string Url { get; set; }
+        public string Title { get; set; }
+        public string Url { get; set; }
     }
 }

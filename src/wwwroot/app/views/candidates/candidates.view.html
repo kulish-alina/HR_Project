@@ -1,0 +1,40 @@
+<div ng-show="errorMessage">{{errorMessage}}</div>
+<button ng-click="getCandidates()">GET CANDIDATES</button>
+<button ng-click="getCandidate(candidateId)">GET CANDIDATE</button>
+<input type="text" ng-model="candidateId" placeholder="Id">
+
+<div>Candidates</div>
+<table>
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Full name</th>
+            <th>Industru</th>
+            <th>Source</th>
+            <th>Position</th>
+            <th>Salary</th>
+            <th>Stage</th>
+            <th>Added</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="candidate in candidates">
+            <td>{{$index+1}}</td>
+            <td>{{candidate.LastName}} {{candidate.FirstName}}{{candidate.MiddleName}}</td>
+            <td>{{candidate.Industry}}</td>
+            <td>{{candidate.Source}}</td>
+            <td>{{candidate.PositionDesired}}</td>
+            <td>{{candidate.SalaryDesired}}</td>
+            <td>{{candidate.VacanciesProgress[0].StageInfos[0].Stage.Title}}</td>
+            <td>{{candidate.EditTime}}</td>
+            <td>
+                <button ng-click="deleteCandidate(candidate)">
+                    Delete
+                </button>
+                <button ng-click="editCandidate(candidate)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

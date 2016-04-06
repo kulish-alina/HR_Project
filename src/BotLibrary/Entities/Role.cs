@@ -5,9 +5,9 @@ using System.Text;
 
 namespace BotLibrary.Entities
 {
-    public class Role: BaseEntity
+    public class Role : BaseEntity
     {
-        string Name { get; set; }
-        int PermissionId { get; set; }
+        public string Name { get; set; }
+        public int PermissionId { get; set; }
     }
 }

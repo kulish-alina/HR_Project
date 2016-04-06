@@ -1,0 +1,5 @@
+{
+   "logLevel"  : "ERROR",
+   "logPattern": "*",
+   "serverUrl" : "http://bot.com/api"
+}

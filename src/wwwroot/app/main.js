@@ -11,7 +11,7 @@ import CandidateService from './services/candidateService';
 import VacancyService   from './services/vacancyService';
 import ThesauruseService   from './services/thesaurusService';
 
-import ThesauruseDirective   from './directives/thesaurus';
+import ThesauruseDirective   from './directives/thesaurus/thesaurus';
 
 var dependencies = [router, translate];
 

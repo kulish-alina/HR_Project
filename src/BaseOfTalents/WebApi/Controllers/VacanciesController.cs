@@ -14,7 +14,7 @@ using WebApi.DTO.DTOModels;
 
 namespace WebApi.Controllers
 {
-    public class VacanciesController : ApiController
+    public class VacanciesController : BoTController
     {
         IVacancyRepository _vacancyRepository;
         public VacanciesController(IVacancyRepository vacancyRepository)
@@ -29,10 +29,7 @@ namespace WebApi.Controllers
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(vacanciesDto, Formatting.Indented, new JsonSerializerSettings
-                {
-                    DateFormatString = "yyyy-MM-dd"
-                })),
+                Content = SerializeContent(vacanciesDto),
             };
         }
 
@@ -47,10 +44,7 @@ namespace WebApi.Controllers
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(foundedVacancyDto, Formatting.Indented, new JsonSerializerSettings
-                    {
-                        DateFormatString = "yyyy-MM-dd"
-                    }))
+                    Content = SerializeContent(foundedVacancyDto)
                 };
             }
             else
@@ -71,10 +65,7 @@ namespace WebApi.Controllers
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(foundedVacancy.CandidatesProgress, Formatting.Indented, new JsonSerializerSettings
-                    {
-                        DateFormatString = "yyyy-MM-dd"
-                    }))
+                    Content = SerializeContent(foundedVacancy.CandidatesProgress)
                 };
             }
             else

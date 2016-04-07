@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C6A50CAF-6731-4692-B1DB-26DC1B237239}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Domain</RootNamespace>
+    <AssemblyName>Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\Candidate.cs" />
+    <Compile Include="Entities\CandidateSocial.cs" />
+    <Compile Include="Entities\CandidateSource.cs" />
+    <Compile Include="Entities\Enum\AccessRights.cs" />
+    <Compile Include="Entities\Enum\Setup\City.cs" />
+    <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\Enum\Setup\Country.cs" />
+    <Compile Include="Entities\Enum\CommentType.cs" />
+    <Compile Include="Entities\Enum\EntityState.cs" />
+    <Compile Include="Entities\Enum\LanguageLevel.cs" />
+    <Compile Include="Entities\Enum\Level.cs" />
+    <Compile Include="Entities\Enum\TypeOfEmployment.cs" />
+    <Compile Include="Entities\Event.cs" />
+    <Compile Include="Entities\File.cs" />
+    <Compile Include="Entities\LanguageSkill.cs" />
+    <Compile Include="Entities\Permission.cs" />
+    <Compile Include="Entities\Photo.cs" />
+    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\Enum\Setup\Department.cs" />
+    <Compile Include="Entities\Enum\Setup\EventType.cs" />
+    <Compile Include="Entities\Enum\Setup\Experience.cs" />
+    <Compile Include="Entities\Enum\Setup\Language.cs" />
+    <Compile Include="Entities\Enum\Setup\Room.cs" />
+    <Compile Include="Entities\Enum\Setup\Skill.cs" />
+    <Compile Include="Entities\Enum\Setup\SocialNetwork.cs" />
+    <Compile Include="Entities\Enum\Source.cs" />
+    <Compile Include="Entities\Enum\Setup\Stage.cs" />
+    <Compile Include="Entities\Enum\Setup\Team.cs" />
+    <Compile Include="Entities\StageInfo.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\Vacancy.cs" />
+    <Compile Include="Entities\VacancyStage.cs" />
+    <Compile Include="Entities\VacancyStageInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ICandidateRepository.cs" />
+    <Compile Include="Repositories\ICityRepository.cs" />
+    <Compile Include="Repositories\ICommentRepository.cs" />
+    <Compile Include="Repositories\ICountryRepository.cs" />
+    <Compile Include="Repositories\IEventRepository.cs" />
+    <Compile Include="Repositories\IFileRepository.cs" />
+    <Compile Include="Repositories\IPermissionRepository.cs" />
+    <Compile Include="Repositories\IPhotoRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\IRoleRepository.cs" />
+    <Compile Include="Repositories\IStageInfoRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\IVacancyRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

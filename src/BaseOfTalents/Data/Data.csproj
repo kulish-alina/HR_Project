@@ -58,6 +58,7 @@
     <Compile Include="DumbData\Repositories\DummyVacancyRepository.cs" />
     <Compile Include="DumbData\Storage.cs" />
     <Compile Include="EFData\BOTContext.cs" />
+    <Compile Include="EFData\BoTDbInitializer.cs" />
     <Compile Include="EFData\Repositories\EFBaseEntityRepository.cs" />
     <Compile Include="EFData\Repositories\EFCandidateRepository.cs" />
     <Compile Include="EFData\Repositories\EFVacancyRepository.cs" />

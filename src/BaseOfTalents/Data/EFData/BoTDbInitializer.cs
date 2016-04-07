@@ -1,24 +1,17 @@
-namespace Data.Migrations
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using Domain.Entities;
+using Domain.Entities.Enum;
+using Domain.Entities.Setup;
+
+namespace Data.EFData
 {
-    using Domain.Entities;
-    using Domain.Entities.Enum;
-    using Domain.Entities.Setup;
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<Data.EFData.BOTContext>
+    public class BoTDbInitializer : DropCreateDatabaseAlways<BOTContext>
     {
-        public Configuration()
+        protected override void Seed(BOTContext context)
         {
-            AutomaticMigrationsEnabled = true;
-        }
-
-        protected override void Seed(Data.EFData.BOTContext context)
-        {
-           #region Candidate
+            #region Candidate
             Comment candidateComment = new Comment()
             {
                 CommentType = CommentType.Candidate,
@@ -229,6 +222,7 @@ namespace Data.Migrations
             context.Vacancies.Add(vacancy);
             context.Candidates.Add(candidate);
             context.SaveChanges();
+            base.Seed(context);
         }
     }
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 describe('VacancyService tests for', () => {
-   beforeEach(module('bot'));
+   beforeEach(angular.mock.module('bot'));
    it('getVacancies not to be undefined', inject((VacancyService) => {
       expect(VacancyService.getVacancies).not.toBeUndefined();
    }));

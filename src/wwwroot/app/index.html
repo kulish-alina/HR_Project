@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bot Start Page</title>
+</head>
+<body ng-app="bot">
+    <nav>
+        <a ui-sref="home">{{'INDEX.HOME' | translate}}</a>
+        <a ui-sref="candidates" >{{'INDEX.CANDIDATES' | translate}}</a>
+        <a ui-sref="vacancies">{{'INDEX.VACANCIES' | translate}}</a>
+        <a ui-sref="candidate">{{'INDEX.ADD_CANDIDATE' | translate}}</a>
+        <a ui-sref="vacancy">Add Vacancy</a>
+    </nav>
+   <div ui-view></div>
+   <!-- Some kind of magic for webpack assets-->
+   {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+    <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+   {% } %}
+</body>
+
+</html>

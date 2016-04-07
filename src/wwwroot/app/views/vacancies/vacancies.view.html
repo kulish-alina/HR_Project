@@ -1,0 +1,35 @@
+<div ng-show="errorMessage">{{errorMessage}}</div>
+<button ng-click="getVacancies()">GET VACANCIES</button>
+<button ng-click="getVacancy(vacancyId)">GET VACANCY</button>
+<input type="text" ng-model="vacancyId" placeholder="Id">
+<div>Vacancies</div>
+<table>
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Responsible</th>
+            <th>Added</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="vacancy in vacancies">
+            <td>{{$index+1}}</td>
+            <td>{{vacancy.Title}}</td>
+            <td>{{vacancy.VacancyStatus.Title}}</td>
+            <td>{{vacancy.Location.City.Title}}</td>
+            <td>{{vacancy.User.LastName}}</td>
+            <td>{{vacancy.EditTime}}</td>
+            <td>
+                <button ng-click="deleteVacancy(vacancy)">
+                    Delete
+                </button>
+                <button ng-click="editVacancy(vacancy)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

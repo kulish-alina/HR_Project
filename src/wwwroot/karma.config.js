@@ -3,55 +3,47 @@
 
 var webpackConfig = require('./webpack.config.js');
 
+console.log(webpackConfig);
+
 module.exports = function(config) {
    config.set({
-      basePath: '',
+      // plugins: [
+      //    require('karma-webpack'),
+      //    require('karma-jasmine'),
+      //    require('karma-phantomjs-launcher'),
+      //    require('karma-coverage')
+      // ],
 
-      plugins: [
-         require('karma-webpack'),
-         require('karma-jasmine'),
-         require('karma-phantomjs-launcher')
-      ],
-
-      frameworks: [ 'jasmine' ],
+      frameworks: ['jasmine'],
 
       files: [
-         'node_modules/angular/angular.js',
-         'node_modules/angular-mocks/angular-mocks.js',
-         'tests/*.js'
+         'app/tests.webpack.js'
       ],
 
       preprocessors: {
-         'tests/*.js': [ 'webpack' ]
+         'config/tests.webpack.js': ['webpack', 'sourcemap']
       },
 
-      reporters: [ 'progress' ],
+      reporters: ['progress', 'coverage'],
 
       port: 9876,
 
-      autoWatch: true,
-
-      browsers: [ 'PhantomJS' ],
+      browsers: ['PhantomJS'],
 
       // Continuous Integration mode
       // if true, Karma captures browsers, runs the tests and exits
-      singleRun: false,
+      singleRun: true,
 
-      // Concurrency level
-      // how many browser should be started simultaneous
-      concurrency: Infinity,
-
-      webpack: webpackConfig,
-      // webpack: {
-      //    module: {
-      //       loaders: [
-      //          { test: /\.js$/, exclude: /node_modules/, loader: 'babel?presets[]=es2015' }
-      //       ]
-      //    },
-      //    watch: true
-      // },
-      webpackServer: {
-         noInfo: true
+      coverageReporter: {
+         dir: 'coverage/',
+         reporters: [
+            { type: 'text-summary' },
+            { type: 'html' }
+         ]
       },
+      webpack: webpackConfig,
+      webpackMiddleware: {
+         noInfo: 'errors-only'
+      }
    })
 }

@@ -4,12 +4,13 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev-build": "webpack --progress --colors",
-    "dist-build": "webpack -p --progress --colors",
-    "devserver": "webpack-dev-server -d --port 9100 --progress --colors --display-error-details",
-    "test": "karma start karma.config.js --log-level info --colors"
+    "dev-build": "set NODE_ENV=development&& webpack --progress --colors",
+    "dist-build": "set NODE_ENV=production&& webpack -p --progress --colors",
+    "devserver": "set NODE_ENV=development&& webpack-dev-server -d --port 9100 --progress --colors",
+    "test": "set NODE_ENV=test&& karma start karma.config.js --log-level debug",
+    "test-watch": "set NODE_ENV=test&& karma start karma.config.js --auto-watch --no-single-run"
   },
-  "author": "Vaillant-S",
+  "author": "msvaillant",
   "license": "ISC",
   "devDependencies": {
     "angular-mocks": "^1.5.3",
@@ -25,11 +26,14 @@
     "estraverse-fb": "^1.3.1",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^1.6.2",
+    "isparta-instrumenter-loader": "^1.0.0",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.22",
+    "karma-coverage": "^0.5.5",
     "karma-jasmine": "^0.3.8",
+    "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "ng-annotate-loader": "^0.1.0",
     "node-sass": "^3.4.2",

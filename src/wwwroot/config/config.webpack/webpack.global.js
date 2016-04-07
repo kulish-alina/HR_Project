@@ -1,21 +1,14 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var path = require('path');
-
-module.exports = function(appPath, buildPath, pkg) {
+module.exports = function() {
    return {
-      entry: {
-         entry: path.join(appPath, 'main.js'),
-      },
-      output: {
-         path: buildPath,
-         filename: 'bundle.js'
-      },
       module: {
+         entry: {
+         },
+         output: {
+         },
          preLoaders: [
             {
                test: /\.js$/,
-               exclude: ['node_modules', 'build', 'tests'],
+               exclude: [/node_modules/, /build/, /\.test\.js$/],
                loader: 'eslint-loader'
             }
          ],
@@ -39,23 +32,16 @@ module.exports = function(appPath, buildPath, pkg) {
             },
             {
                test: /\.json$/,
-               loader : 'json-loader'
+               loader: 'json-loader'
             }]
       },
-      eslint: {
-         configFile: '.eslintrc',
-         emitError: true,
-         emitWarning: true,
-         failOnError: true
+      devServer: {
+         // historyApiFallback: true,
+         // hot: true,
+         // inline: true,
+         // progress: true,
+         //contentBase: './src/public',
+         stats: 'minimal'
       },
-      plugins: [
-         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            pkg: pkg,
-            template: path.join(appPath, 'index.html')
-         }),
-         new webpack.optimize.OccurenceOrderPlugin(),
-         new webpack.optimize.DedupePlugin(),
-      ]
    }
 }

@@ -19,7 +19,7 @@ namespace Data.EFData
 
         public DbSet<City> Cities { get; set; }
 
-        public BOTContext() : base()
+        public BOTContext() : base("name=BOTContext")
         {
             Database.SetInitializer(new BoTDbInitializer());
         }

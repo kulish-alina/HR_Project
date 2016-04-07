@@ -1,4 +1,4 @@
-<div ng-show="errorMessage">{{errorMessage}}</div>
+<!--<div ng-show="errorMessage">{{errorMessage}}</div>
 <button ng-click="getVacancies()">GET VACANCIES</button>
 <button ng-click="getVacancy(vacancyId)">GET VACANCY</button>
 <input type="text" ng-model="vacancyId" placeholder="Id">
@@ -32,4 +32,122 @@
             </td>
         </tr>
     </tbody>
-</table>
+</table>-->
+<div class="secondary-menu grid-block">
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5>Vacancies</h5>
+      </div>
+   </div>
+   <div class="large-8 grid-block">
+   </div>
+   <div class="large-2 grid-block">
+      <ul class="menu-bar second-button-bar">
+         <li><a href="#">Cancel</a>
+         </li>
+         <li><a href="#">Add and back</a>
+         </li>
+      </ul>
+   </div>
+</div>
+<div class="grid-block">
+   <div class="medium-3 grid-block">
+      <div class="sidebar">
+         <div class="card-divider">
+            Search Vacancies
+         </div>
+         <div class="card-section">
+            <select name="Industry" id="">
+               <option value="">IT</option>
+               <option value="">Others</option>
+            </select>
+            <select name="Level" id="">
+               <option value="">Trainee</option>
+               <option value="">Junior</option>
+               <option value="">Middle</option>
+               <option value="">Senior</option>
+            </select>
+            <input placeholder="Position" type="text">
+            <select name="Location" id="">
+               <option value="">Dnipropetrovsk</option>
+               <option value="">Zaporizhzhia</option>
+               <option value="">Lviv</option>
+               <option value="">Berdyansk</option>
+            </select>
+            <select name="Type of Employment" id="">
+               <option value="">Full-time</option>
+               <option value="">Part-time</option>
+               <option value="">Remote</option>
+               <option value="">Practice</option>
+               <option value="">Courses</option>
+               <option value="">Project</option>
+            </select>
+            <select name="Status" id="">
+               <option value="">Open</option>
+               <option value="">Processing</option>
+               <option value="">Closed</option>
+               <option value="">Cancelled</option>
+            </select>
+            <select name="Responsible" id="">
+               <option value="">vbre</option>
+               <option value="">tkas</option>
+               <option value="">vles</option>
+            </select>
+            <a class="expand button" ng-click="getCandidates()">Search</a>
+         </div>
+      </div>
+   </div>
+   <div class="medium-9 grid-block">
+      <div class="main-card">
+         <div class="card-divider">
+            Vacancies
+         </div>
+         <div class="card-section">
+            <table>
+               <thead>
+
+                  <tr>
+                     <th>№</th>
+                     <th>Title</th>
+                     <th>Status</th>
+                     <th>Location</th>
+                     <th>Responsible</th>
+                     <th>Added</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="vacancy in vacancies">
+                     <td>{{$index+1}}</td>
+                     <td>{{vacancy.Title}}</td>
+                     <td>{{vacancy.VacancyStatus.Title}}</td>
+                     <td>{{vacancy.Location.City.Title}}</td>
+                     <td>{{vacancy.User.LastName}}</td>
+                     <td>{{vacancy.EditTime}}</td>
+                     <td>
+                        <button ng-click="deleteVacancy(vacancy)">
+                           Delete
+                        </button>
+                        <button ng-click="editVacancy(vacancy)">
+                           Edit
+                        </button>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="card-section pages">
+            <ul class="menu-bar second-button-bar">
+               <li><a href="#"><i class="foundicon-left-arrow general-icon"></i></a>
+               </li>
+               <li><a href="#">1</a></li>
+               <li><a href="#">2</a></li>
+               <li><a href="#">3</a></li>
+               <li><a href="#">4</a></li>
+               <li><a href="#">5</a></li>
+               <li><a href="#"><i class="foundicon-right-arrow general-icon"></i></a>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>

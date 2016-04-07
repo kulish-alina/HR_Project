@@ -46,18 +46,58 @@ tr:nth-child(2n) {
    display: flex;
    align-items: center;
 }
-.button-bar i{
+.main-button-bar{
+     @include menu-bar-layout (
+     $orientation: horizontal,
+     $stretch: false);
+   @include menu-bar-style(
+      $background: $menubar-background,
+      $background-hover: $menubar-background,
+      $background-active: $menubar-background,
+      $color: #fff,
+      $color-hover: #fff,
+      $color-active: #fff);
+   @include menu-bar-align($align: center);
+}
+.main-button-bar i{
    font-size: 0.6rem;
 }
-.button-bar :hover {
-   -webkit-box-shadow: inset 0px 0px 15px 1px rgba(0,151,167,0.74);
-   -moz-box-shadow: inset 0px 0px 15px 1px rgba(0,151,167,0.74);
-   box-shadow: inset 0px 0px 15px 1px rgba(0,151,167,0.74);
+.main-button-bar :hover {
+   -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+   box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+.second-button-bar{
+  @include menu-bar-layout (
+     $orientation: horizontal,
+     $stretch: false);
+   @include menu-bar-style(
+      $background: #fff,
+      $background-hover: #fff,
+      $background-active: #fff,
+      $color: #222,
+      $color-hover: #222,
+      $color-active: #222);
+   @include menu-bar-align($align: right);
+   border-right: 1px solid #d8e3e7;
+}
+.second-button-bar li{
+   border-left: 1px solid #d8e3e7;
+}
+.second-button-bar :hover{
+   -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+   box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+
+
 }
 .secondary-menu{
    display: flex;
    align-items: center;
-   padding: $global-padding/2;
+   padding-left: $global-padding/2;
+   padding-right: $global-padding/2;
+   padding-bottom: 0;
+   padding-top: 0;
    border: 1px solid #d8e3e7;
    background-color: #fff;
 }
@@ -94,6 +134,7 @@ tr:nth-child(2n) {
 .sidebar{
    @include card-container($margin: 0.5rem);
    max-height: 750px;
+   width: 100%;
 }
 .sidebar-content{
    @include card-section($padding: 0 $global-padding);

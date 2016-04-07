@@ -14,7 +14,7 @@ using System.Web.Http;
 
 namespace WebApi.Controllers
 {
-    public class CandidatesController : ApiController
+    public class CandidatesController : BoTController
     {
         ICandidateRepository _candidateRepository;
 
@@ -31,10 +31,7 @@ namespace WebApi.Controllers
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(dtoCandidates, Formatting.Indented, new JsonSerializerSettings
-                {
-                    DateFormatString = "yyyy-MM-dd"
-                })),
+                Content = SerializeContent(dtoCandidates)
             };
         }
 
@@ -49,10 +46,7 @@ namespace WebApi.Controllers
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidateDto, Formatting.Indented, new JsonSerializerSettings
-                    {
-                        DateFormatString = "yyyy-MM-dd"
-                    }))
+                    Content = SerializeContent(foundedCandidateDto)
                 };
             }
             else
@@ -73,13 +67,8 @@ namespace WebApi.Controllers
                 var foundedCandidateDto = DTOService.CandidateToDTO(foundedCandidate);
                 response = new HttpResponseMessage()
                 {
-
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(foundedCandidateDto.VacanciesProgress, Formatting.Indented, new JsonSerializerSettings
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                        DateFormatString = "yyyy-MM-dd"
-                    }))
+                    Content = SerializeContent(foundedCandidateDto)
                 };
             }
             else
@@ -116,10 +105,7 @@ namespace WebApi.Controllers
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.Created,
-                Content = new StringContent(JsonConvert.SerializeObject(_candidateRepository.GetAll().Last(), Formatting.Indented, new JsonSerializerSettings
-                {
-                    DateFormatString = "yyyy-MM-dd"
-                }))
+                Content = SerializeContent(_candidateRepository.GetAll().Last())
             };
         }
 

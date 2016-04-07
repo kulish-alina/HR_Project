@@ -30,7 +30,7 @@ $card-divider-background: smartscale($card-background, 7%) !default;
   $margin: $card-margin
 ) {
   border: $border;
-  margin-bottom: $margin;
+  margin: $margin;
   background: $background;
   color: $color;
   border-radius: $radius;

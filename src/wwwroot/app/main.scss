@@ -2,9 +2,10 @@
 @import "foundation";
 body{
    background-color: #f5f8f9;
+   min-width: 1200px;
 }
 .menu-img{
-   width: 45px;
+   width: 50px;
 }
 .secondary-menu{
    background-color: #80deea;
@@ -38,9 +39,20 @@ tr:nth-child(2n) {
 }
 .main-menu{
    background-color: $menubar-background;
-   padding: $global-padding/2;
+   padding-left: $global-padding/2;
+   padding-right: $global-padding/2;
+   padding-bottom: 0;
+   padding-top: 0;
    display: flex;
    align-items: center;
+}
+.button-bar i{
+   font-size: 0.6rem;
+}
+.button-bar :hover {
+   -webkit-box-shadow: inset 0px 0px 15px 1px rgba(0,151,167,0.74);
+   -moz-box-shadow: inset 0px 0px 15px 1px rgba(0,151,167,0.74);
+   box-shadow: inset 0px 0px 15px 1px rgba(0,151,167,0.74);
 }
 .secondary-menu{
    display: flex;
@@ -50,7 +62,13 @@ tr:nth-child(2n) {
    background-color: #fff;
 }
 .side-menu{
-   background-color: $offcanvas-background;
+   @include menu-bar-style(
+      $background: $offcanvas-background,
+      $background-hover: $offcanvas-background,
+      $background-active: $menubar-background-active,
+      $color: $gray-dark,
+      $color-hover: $body-background,
+      $color-active: $body-background);
    @include grid-frame($orientation: vertical);
    @include menu-bar-icons($position: top);
    -webkit-box-shadow: inset 0px 0px 13px 9px rgba(0,0,0,0.27);
@@ -58,12 +76,36 @@ tr:nth-child(2n) {
    box-shadow: inset 0px 0px 13px 9px rgba(0,0,0,0.27);
 }
 .side-menu li{
+   font-size: 0.7rem;
    border-bottom: 1px solid #222C37;
    border-top: 1px solid #313B3D;
 }
-.side-bar{
+.side-menu li:nth-child(n+2):hover {
+    border-left: 2px solid $primary-color;
+}
+
+.side-menu > :first-child a:hover {
+    font-size: 1.2rem;
+}
+.side-menu img{
+   width: 30px;
+}
+
+.sidebar{
+   @include card-container($margin: 0.5rem);
    max-height: 750px;
 }
+.sidebar-content{
+   @include card-section($padding: 0 $global-padding);
+}
+.sidebar-content ul {
+   padding: $global-padding;
+}
+.main-card{
+   @include card-container($margin: 0.5rem);
+   width: 100%;
+}
+
 .search{
    margin-bottom: 0 !important;
 }
@@ -71,9 +113,9 @@ tr:nth-child(2n) {
    margin-bottom: 10px;
 }
 .pages{
-   display: flex;
-   justify-content: flex-end;
-   align-items: flex-end;
+   bottom: 0;
+   right: 0;
+   position: absolute;
 }
 .some-change{
    @include button-group (  
@@ -83,15 +125,14 @@ tr:nth-child(2n) {
      $color: #fff);
      margin-bottom: 16px !important;
 }
-
-
 .social-icon {
+   margin-right: 5px;
    &:before {
       font-family: "SocialFoundicons"
    }
 }
-
 .general-icon {
+   margin-right: 5px;
    &:before {
       font-family: "GeneralFoundicons"
    }

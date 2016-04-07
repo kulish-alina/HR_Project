@@ -297,7 +297,7 @@ $button-margin: 0;
 // $blocklist-fullbleed: true;
 // $blocklist-fontsize: 1rem;
 
-// $blocklist-item-padding: 0.8rem 1rem;
+$blocklist-item-padding: 0.5rem 0;
 // $blocklist-item-color: isitlight($blocklist-background, #000, #fff);
 // $blocklist-item-background-hover: smartscale($blocklist-background, 4.5%);
 // $blocklist-item-color-disabled: #999;
@@ -536,7 +536,7 @@ $menubar-background: #26c6da;
 // 20. Off-canvas
 // - - - - - - - - - - - - - - -
 
-$offcanvas-size-horizontal: 130px;
+$offcanvas-size-horizontal: 110px;
 // $offcanvas-size-vertical: 250px;
 
 $offcanvas-background: #2A333D;

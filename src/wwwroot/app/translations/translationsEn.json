@@ -3,11 +3,23 @@
       "HOME" : "Home",
       "CANDIDATES" : "Candidates",
       "VACANCIES" : "Vacansies",
-      "ADD_CANDIDATE" : "Add Candidate"
+      "ADD_CANDIDATE" : "Add Candidate",
+      "THESAURUSES" : "Thesauruses"
    },
    "CANDIDATE" : {},
    "CANDIDATES" : {},
    "HOME" : {},
    "VACANCIES" : {},
-   "COMMON" : {}
+   "COMMON" : {
+      "EDIT" : "Edit",
+      "ADD" : "Add",
+      "SAVE" : "Save",
+      "CANCEL" : "Cancel",
+      "REMOVE" : "Remove"
+   },
+   "THESAURUSES" : {
+      "COUNTRIES" : "Countries",
+      "SOCIALS" : "Social networks",
+      "LANGUAGES" : "Languages"
+   }
 }

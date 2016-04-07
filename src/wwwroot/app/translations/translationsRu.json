@@ -3,11 +3,23 @@
       "HOME" : "Домой",
       "CANDIDATES" : "Кандидаты",
       "VACANCIES" : "Вакансии",
-      "ADD_CANDIDATE" : "Добавить кандидата"
+      "ADD_CANDIDATE" : "Добавить кандидата",
+      "THESAURUSES" : "Словари"
    },
    "CANDIDATE" : {},
    "CANDIDATES" : {},
    "HOME" : {},
    "VACANCIES" : {},
-   "COMMON" : {}
+   "COMMON" : {
+      "EDIT" : "Редактировать",
+      "ADD" : "Добавить",
+      "SAVE" : "Сохранить",
+      "CANCEL" : "Отмена",
+      "REMOVE" : "Удалить"
+   },
+   "THESAURUSES" : {
+      "COUNTRIES" : "Страны",
+      "SOCIALS" : "Социальные сети",
+      "LANGUAGES" : "Языки"
+   }
 }

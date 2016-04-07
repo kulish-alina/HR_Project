@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{C6A50CAF-6731-4692-B1DB-26DC1B237239}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{27A80337-7963-4DBC-B6C4-672C750DAE16}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7A68CEF3-47AA-4134-914E-1F4BE43889A9} = {7A68CEF3-47AA-4134-914E-1F4BE43889A9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{7A68CEF3-47AA-4134-914E-1F4BE43889A9}"
 EndProject

@@ -12,28 +12,36 @@
    "COMMON" : {},
    "VALIDATION" : {
       "required": {
-         "error": "This should be Required!!",
-         "success": "It's Required"
+         "error": "*обязательное поле!",
+         "success": "*заполнено"
       },
 	   "url": {
-		   "error": "This should be Url",
-		   "success": "It's Url"
+		   "error": "*необходимо ввести Url",
+		   "success": "*Url"
 	   },
 	   "email": {
-         "error": "This should be Email",
-         "success": "It's Email"
+         "error": "*необходимо ввести E-mail",
+         "success": "*E-mail"
       },
       "number": {
-         "error": "This should be Number",
-         "success": "It's Number"
+         "error": "*необходимо ввести число",
+         "success": "*число"
       },
       "minlength": {
-         "error": "This should be longer",
-         "success": "Long enough!"
+         "error": "*слишком коротко",
+         "success": "*достаточно!"
       },
       "maxlength": {
-         "error": "This should be shorter",
-         "success": "Short enough!"
+         "error": "*необходимо меньше символов",
+         "success": "*достаточно!"
+      },
+      "name": {
+         "error": "*ввод должен быть от 1 до 50 символов",
+         "success": "*верно!"
+      },
+      "title": {
+         "error": "*ввод должен быть от 3 до 50 символов",
+         "success": "*верно!"
       }
    }
 }

@@ -1,0 +1,26 @@
+<table>
+   <caption ng-bind="structure.thesaurusName | translate"></caption>
+   <tr><th ng-repeat = "field in structure.fields" ng-bind="field.name"></th></tr>
+   <tr ng-repeat = "topic in topics">
+      <td ng-repeat = "field in structure.fields" >
+         <span ng-if="!isEdit(topic)" ng-bind="topic[field.name]"></span>
+         <input type="text" ng-if="isEdit(topic)" placeholder="{{field.name}}" ng-model="topic[field.name]">
+      </td>
+      <td>
+         <button class="edit" ng-if="!isEdit(topic)" ng-click="editThesaurusTopic(topic)">{{'COMMON.EDIT' | translate}}</button>
+         <button class="save" ng-if="isEdit(topic)" ng-click="saveThesaurusTopic(topic)">{{'COMMON.SAVE' | translate}}</button>
+      </td>
+      <td>
+         <button class="remove" ng-if="!isEdit(topic)" ng-click="removeThesaurusTopic(topic)">{{'COMMON.REMOVE' | translate}}</button>
+         <button class="cancel" ng-if="isEdit(topic)" ng-click="cancelThesaurusTopicEditing(topic)">{{'COMMON.CANCEL' | translate}}</button>
+      </td>
+   </tr>
+   <tr>
+      <td ng-repeat = "field in structure.fields">
+         <input type="text" placeholder="{{field.name}}" ng-model="newTresauruseTopic[field.name]">
+      </td>
+      <td class="add">
+         <button ng-click="addThesaurusTopic(newTresauruseTopic)">{{'COMMON.ADD' | translate}}</button>
+      </td>
+   </tr>
+</table>

@@ -9,6 +9,9 @@ import HttpProvider     from './services/HttpProvider';
 
 import CandidateService from './services/candidateService';
 import VacancyService   from './services/vacancyService';
+import ThesauruseService   from './services/thesaurusService';
+
+import ThesauruseDirective   from './directives/thesaurus';
 
 var dependencies = [router, translate];
 
@@ -20,5 +23,8 @@ angular
 
    .service('CandidateService',  CandidateService)
    .service('VacancyService',    VacancyService)
+   .service('ThesauruseService', ThesauruseService)
+
+   .directive('thesauruse', ThesauruseDirective.createInstance)
 
    .config(config);

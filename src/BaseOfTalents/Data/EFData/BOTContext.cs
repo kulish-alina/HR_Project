@@ -21,7 +21,7 @@ namespace Data.EFData
 
         public BOTContext() : base("name=BOTContext")
         {
-            Database.SetInitializer(new BoTDbInitializer());
+            Database.SetInitializer<BOTContext>(new BoTDbInitializer());
         }
     }
 }

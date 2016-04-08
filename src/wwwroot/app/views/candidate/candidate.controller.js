@@ -10,10 +10,7 @@ export default function CandidateController(
    vm.submit = _submit;
 
    function _onError(message) {
-      vm.errorMessage = $translate.instant('');
    }
-
-   console.log($translate.instant('INDEX.CANDIDATES'));
 
    function _submit(form) {
       if (ValidationService.validate(form)) {

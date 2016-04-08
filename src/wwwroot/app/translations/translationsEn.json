@@ -5,12 +5,14 @@
 		"VACANCIES": "Vacansies",
 		"ADD_CANDIDATE": "Add Candidate"
 	},
-	"CANDIDATE": {},
-	"CANDIDATES": {},
-	"HOME": {},
-	"VACANCIES": {},
-	"COMMON": {},
-	"VALIDATION": {
+   "CANDIDATE": {
+      "ERROR": "Sorry! Some error occurred"
+   },
+   "CANDIDATES": {},
+   "HOME": {},
+   "VACANCIES": {},
+   "COMMON": {},
+   "VALIDATION": {
 		"required": {
 			"error": "*this should be Required!!",
 			"success": "It's Required"

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace WebApi
                 x.CreateMap<CandidateDTO, Candidate>();
                 x.CreateMap<Vacancy, VacancyDTO>();
                 x.CreateMap<VacancyDTO, Vacancy>();
+                x.CreateMap<SocialNetwork, SocialNetworkDTO>();
+                x.CreateMap<SocialNetworkDTO, SocialNetwork>();
             });
         }
     }

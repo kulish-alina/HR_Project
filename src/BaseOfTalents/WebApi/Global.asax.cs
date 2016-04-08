@@ -4,8 +4,6 @@ using Data.EFData.Repositories;
 using Domain.Repositories;
 using System.Reflection;
 using System.Web.Http;
-using WebApi.DTO.DTOService.Abstract;
-using WebApi.DTO.DTOService.Implementation;
 
 namespace WebApi
 {
@@ -22,11 +20,7 @@ namespace WebApi
 
             builder.RegisterType<EFVacancyRepository>().As<IVacancyRepository>();
             builder.RegisterType<EFCandidateRepository>().As<ICandidateRepository>();
-
-            builder.RegisterType<CandidateDTOService>().As<ICandidateDTOService>();
-            builder.RegisterType<VacancyDTOService>().As<IVacancyDTOService>();
-
-
+            builder.RegisterType<EFSocialNetworkRepository>().As<ISocialNetworkRepository>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 

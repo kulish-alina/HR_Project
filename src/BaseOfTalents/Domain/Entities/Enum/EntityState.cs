@@ -8,8 +8,8 @@ namespace Domain.Entities.Enum
 {
     public enum EntityState
     {
-        Active,
         Inactive,
+        Active,
         Verfied,
         Unverified,
         Open,

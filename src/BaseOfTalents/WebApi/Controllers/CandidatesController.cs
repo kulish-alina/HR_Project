@@ -4,16 +4,15 @@ using WebApi.DTO.DTOModels;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebApi.DTO.DTOService.Abstract;
+using WebApi.DTO.DTOService;
 
 namespace WebApi.Controllers
 {
     public class CandidatesController : BoTController<Candidate, CandidateDTO>
     {
-        public CandidatesController(ICandidateRepository candidateRepository, ICandidateDTOService candidateDTOService)
+        public CandidatesController(ICandidateRepository candidateRepository)
         {
             _repo = candidateRepository;
-            _dtoService = candidateDTOService;
         }
 
         [Route("api/candidates/{candidateId}/vacancies")]
@@ -24,8 +23,8 @@ namespace WebApi.Controllers
             var foundedCandidate = _repo.Get(candidateId);
             if (foundedCandidate != null)
             {
-                var foundedCandidateDto = _dtoService.ToDTO(foundedCandidate);
-                response = new HttpResponseMessage()
+                var foundedCandidateDto = DTOService.ToDTO<Candidate, CandidateDTO>(foundedCandidate);
+                  response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
                     Content = SerializeContent(foundedCandidateDto.VacanciesProgress)

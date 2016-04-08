@@ -86,6 +86,7 @@
     <Compile Include="Repositories\IPhotoRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRoleRepository.cs" />
+    <Compile Include="Repositories\ISocialNetworkRepository.cs" />
     <Compile Include="Repositories\IStageInfoRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\IVacancyRepository.cs" />

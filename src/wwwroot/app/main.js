@@ -5,7 +5,7 @@ import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
 import config from './botConfig';
-import configValidation from '../config/validation/configValidation';
+import configValidation from './configValidation';
 
 import LoggerProvider   from './services/LoggerProvider';
 import HttpProvider     from './services/HttpProvider';

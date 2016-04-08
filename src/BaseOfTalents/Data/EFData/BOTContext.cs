@@ -18,10 +18,13 @@ namespace Data.EFData
         public DbSet<Vacancy> Vacancies { get; set; }
 
         public DbSet<City> Cities { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Stage> Stages { get; set; }
 
-        public BOTContext() : base()
+
+        public BOTContext() : base("name=BOTContext")
         {
-            Database.SetInitializer(new BoTDbInitializer());
+            Database.SetInitializer<BOTContext>(new BoTDbInitializer());
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Domain.Entities
 {
     public class StageInfo : BaseEntity
     {
-        public Stage Stage { get; set; }
+        public virtual Stage Stage { get; set; }
         public virtual Comment Comment { get; set; }
     }
 }

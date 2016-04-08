@@ -1,59 +1,19 @@
 ﻿using Domain.Entities;
-using Domain.Entities.Enum;
-using Domain.Entities.Setup;
 using Domain.Repositories;
-using WebApi.DTO;
 using WebApi.DTO.DTOModels;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using WebApi.DTO.DTOService.Abstract;
 
 namespace WebApi.Controllers
 {
-    public class CandidatesController : BoTController
+    public class CandidatesController : BoTController<Candidate, CandidateDTO>
     {
-        ICandidateRepository _candidateRepository;
-
-        public CandidatesController(ICandidateRepository candidateRepository)
+        public CandidatesController(ICandidateRepository candidateRepository, ICandidateDTOService candidateDTOService)
         {
-            _candidateRepository = candidateRepository;
-        }
-
-        [HttpGet]
-        public HttpResponseMessage All()
-        {
-            var candidates = _candidateRepository.GetAll().ToList();
-            var dtoCandidates = candidates.Select(x => DTOService.CandidateToDTO(x)).ToList<CandidateDTO>();
-            return new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = SerializeContent(dtoCandidates)
-            };
-        }
-
-        [HttpGet]
-        public HttpResponseMessage Get(int id)
-        {
-            HttpResponseMessage response;
-            var foundedCandidate = _candidateRepository.Get(id);
-            if (foundedCandidate!=null)
-            {
-                var foundedCandidateDto = DTOService.CandidateToDTO(foundedCandidate);
-                response = new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = SerializeContent(foundedCandidateDto)
-                };
-            }
-            else
-            {
-                response = new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
-            return response;
+            _repo = candidateRepository;
+            _dtoService = candidateDTOService;
         }
 
         [Route("api/candidates/{candidateId}/vacancies")]
@@ -61,68 +21,19 @@ namespace WebApi.Controllers
         public HttpResponseMessage VacanciesProgress(int candidateId)
         {
             HttpResponseMessage response;
-            var foundedCandidate = _candidateRepository.Get(candidateId);
-            if (foundedCandidate!=null)
+            var foundedCandidate = _repo.Get(candidateId);
+            if (foundedCandidate != null)
             {
-                var foundedCandidateDto = DTOService.CandidateToDTO(foundedCandidate);
+                var foundedCandidateDto = _dtoService.ToDTO(foundedCandidate);
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = SerializeContent(foundedCandidateDto)
+                    Content = SerializeContent(foundedCandidateDto.VacanciesProgress)
                 };
             }
             else
             {
                 response = new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
-            return response;
-        }
-
-
-        [HttpDelete]
-        public HttpResponseMessage Delete(int id)
-        {
-            HttpResponseMessage response;
-            var foundedCandidate = _candidateRepository.Get(id);
-            if(foundedCandidate != null)
-            {
-                _candidateRepository.Remove(foundedCandidate);
-                response = new HttpResponseMessage(HttpStatusCode.OK);
-            }
-            else
-            {
-                response = new HttpResponseMessage(HttpStatusCode.NoContent);
-            }
-            return response;
-       }
-       
-        [HttpPost]
-        public HttpResponseMessage Add([FromBody]JObject entity)
-       {
-            var newCandidateDto = entity.ToObject<CandidateDTO>();
-            var newCandidate = DTOService.DTOToCandidate(newCandidateDto);
-            _candidateRepository.Add(newCandidate);
-            return new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.Created,
-                Content = SerializeContent(_candidateRepository.GetAll().Last())
-            };
-        }
-
-        [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody]JObject entity)
-        {
-            var changedCandidateDto = entity.ToObject<CandidateDTO>();
-            HttpResponseMessage response = new HttpResponseMessage();
-            if (changedCandidateDto != null)
-            {
-                var changedCandidate = DTOService.DTOToCandidate(changedCandidateDto);
-                _candidateRepository.Update(changedCandidate);
-                response.StatusCode = HttpStatusCode.OK;
-            }
-            else
-            {
-                response.StatusCode = HttpStatusCode.NotFound;
             }
             return response;
         }

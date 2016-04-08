@@ -5,7 +5,7 @@ namespace Domain.Entities
 {
     public class LanguageSkill : BaseEntity
     {
-        public Language Language { get; set; }
+        public virtual Language Language { get; set; }
         public LanguageLevel LanguageLevel { get; set; }
     }
 }

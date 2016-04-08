@@ -4,6 +4,10 @@ body{
    background-color: #f5f8f9;
    min-width: 1200px;
 }
+form{
+   width: 98%;
+}
+textarea { resize:vertical; } 
 .menu-img{
    width: 50px;
 }
@@ -17,11 +21,12 @@ table {
    width:100%;
 }
 thead{
-   justify-content: center;
+   align-content: flex-start;
 }
 th {
   font-weight: normal;
   padding: 10px;
+  text-align: left;
 }
 td {
   border-top: 1px solid #EDEDED;
@@ -88,8 +93,6 @@ tr:nth-child(2n) {
    -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
    -moz-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
    box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
-
-
 }
 .secondary-menu{
    display: flex;
@@ -120,12 +123,18 @@ tr:nth-child(2n) {
    border-bottom: 1px solid #222C37;
    border-top: 1px solid #313B3D;
 }
-.side-menu li:nth-child(n+2):hover {
-    border-left: 2px solid $primary-color;
+.side-menu li:nth-child(n+2):nth-child(-n+4):hover {
+    border-left: 3px solid $primary-color;
+}
+.side-menu li:nth-child(n+5) a {
+    color: #757575;
+}
+.side-menu li:nth-child(n+5) a:hover {
+    color: #757575;;
 }
 
 .side-menu > :first-child a:hover {
-    font-size: 1.2rem;
+    transform: scale(1.5, 1.5);
 }
 .side-menu img{
    width: 30px;
@@ -138,6 +147,15 @@ tr:nth-child(2n) {
 }
 .sidebar-content{
    @include card-section($padding: 0 $global-padding);
+}
+.sidebar-content i{
+   font-size: 1.5rem;
+   color: $primary-color;
+}
+.comments i {
+   font-size: 1rem;
+   margin-left: 10px;
+   margin-right: 0;
 }
 .sidebar-content ul {
    padding: $global-padding;
@@ -157,6 +175,10 @@ tr:nth-child(2n) {
    bottom: 0;
    right: 0;
    position: absolute;
+   color: $offcanvas-background;
+}
+.pages i{
+   color: $offcanvas-background;
 }
 .some-change{
    @include button-group (  
@@ -167,17 +189,23 @@ tr:nth-child(2n) {
      margin-bottom: 16px !important;
 }
 .social-icon {
-   margin-right: 5px;
+   margin-right: 10px;
    &:before {
       font-family: "SocialFoundicons"
    }
 }
 .general-icon {
-   margin-right: 5px;
+   margin-right: 10px;
    &:before {
       font-family: "GeneralFoundicons"
    }
 }
 .range-slider{
    margin-bottom: 16px;
+}
+.profile-photo{
+background-image: url(images/upload-photo.png);
+   width: 220px;
+   height: 140px;
+   
 }

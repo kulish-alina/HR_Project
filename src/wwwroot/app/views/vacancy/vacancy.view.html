@@ -1,9 +1,141 @@
 <div ng-show="errorMessage">{{errorMessage}}</div>
-<div>Add new Vacancy</div>
-<div>
-    <input type="text" ng-model="vacancy.Title" placeholder="Title">
-    <input type="text" ng-model="vacancy.VacancyStatus.Title" placeholder="Status">
-    <input type="text" ng-model="vacancy.Location.City.Title" placeholder="Location">
-    <button ng-click="saveVacancy()">ADD</button>
+<div class="secondary-menu grid-block">
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5>Add vacancy</h5>
+      </div>
+   </div>
+   <div class="large-7 grid-block">
+   </div>
+   <div class="large-3 grid-block align-right">
+      <ul class="menu-bar second-button-bar">
+         <li><a href="#">Cancel</a>
+         </li>
+         <li><a ng-click="saveVacancy()">Submit</a>
+         </li>
+      </ul>
+   </div>
 </div>
-<div>Vacancy</div>
+<div class="grid-block">
+   <div class="medium-9 grid-block">
+      <div class="main-card">
+         <div class="card-divider">
+            Vacancy
+         </div>
+         <div class="card-section">
+            <div class="grid-block">
+               <div class="medium-4 grid-block">
+                  <form>
+                     <input ng-model="vacancy.Title" placeholder="Title" type="text">
+                     <select name="Industry" id="">
+                        <option value="">IT</option>
+                        <option value="">Others</option>
+                     </select>
+                     <select name="Level" id="">
+                        <option value="">Trainee</option>
+                        <option value="">Junior</option>
+                        <option value="">Middle</option>
+                        <option value="">Senior</option>
+                     </select>
+                     <select ng-model="vacancy.City.Title" name="Location" id="">
+                        <option value="">Dnipropetrovsk</option>
+                        <option value="">Zaporizhzhia</option>
+                        <option value="">Lviv</option>
+                        <option value="">Berdyansk</option>
+                     </select>
+                     <select name="Langage" id="">
+                        <option value="">English Brgginer</option>
+                        <option value="">English Pre-Intermediate</option>
+                        <option value="">English Intermediate</option>
+                        <option value="">English Upper Intermediate</option>
+                        <option value="">English Advanced</option>
+                        <option value="">English Fluent</option>
+                     </select>
+                     <input id="checkbox2" type="checkbox">
+                     <label for="checkbox2">Master vacancy</label>
+                  </form>
+               </div>
+               <div class="medium-4 grid-block">
+                  <form>
+                     <select name="Team" id="">
+                        <option value="">Team 1</option>
+                        <option value="">Team 2</option>
+                        <option value="">Team 3</option>
+                        <option value="">Team 4</option>
+                        <option value="">Team 5</option>
+                        <option value="">Team 6</option>
+                     </select>
+                     <select name="Department" id="">
+                        <option value="">Department 1</option>
+                        <option value="">Department 2</option>
+                        <option value="">Department 3</option>
+                        <option value="">Department 4</option>
+                        <option value="">Department 5</option>
+                     </select>
+                     <input placeholder="Salary" type="text">
+                     <select name="Type of Employment" id="">
+                        <option value="">Full-time</option>
+                        <option value="">Part-time</option>
+                        <option value="">Remote</option>
+                        <option value="">Practice</option>
+                        <option value="">Courses</option>
+                        <option value="">Project</option>
+                     </select>
+                     <input placeholder="Count of children vacancies" type="text">
+                  </form>
+               </div>
+               <div class="medium-4 grid-block">
+                  <form>
+                     <select name="Responsible" id="">
+                        <option value="">vbre</option>
+                        <option value="">tkas</option>
+                        <option value="">vles</option>
+                     </select>
+                     <select name="Status" ng-model="vacancy.VacancyStatus.Title" id="">
+                        <option value="">Open</option>
+                        <option value="">Processing</option>
+                        <option value="">Closed</option>
+                        <option value="">Cancelled</option>
+                     </select>
+                     <input placeholder="Start date" type="text">
+                     <input placeholder="Deadline date" type="text">
+                     <input placeholder="End date" type="text">
+                     <input id="checkbox1" type="checkbox">
+                     <label for="checkbox1">Add deadline to calendar</label>
+                  </form>
+               </div>
+            </div>
+            <textarea placeholder="Description" type="text"></textarea>
+         </div>
+      </div>
+   </div>
+   <div class="medium-3 grid-block">
+      <div class="vertical medium-horizontal grid-block">
+         <div class="sidebar">
+            <div class="card-divider">
+               Candidates
+            </div>
+            <div class="sidebar-content">
+            
+
+            </div>
+         </div>
+         <div class="sidebar">
+            <div class="card-divider">
+               Comments
+            </div>
+            <div class="sidebar-content">
+               <textarea placeholder="Text field"></textarea>
+               <a class="expand button" href="#">Save</a>
+               <section class="block-list">
+                  <ul>
+                     <li>Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos</li>
+                     <li>Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos</li>
+                     <li>Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos</li>
+                  </ul>
+               </section>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

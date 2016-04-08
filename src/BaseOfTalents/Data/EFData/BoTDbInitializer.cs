@@ -11,6 +11,47 @@ namespace Data.EFData
     {
         protected override void Seed(BOTContext context)
         {
+            List<Country> countries = new List<Country>()
+            {
+                new Country { EditTime=DateTime.Now, Name="Ukraine" }
+            };
+
+            List<City> cities = new List<City>()
+            {
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Kiev" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Kharkiv" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Odessa" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Dnipropetrovsk" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Zaporizhia" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Lviv" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Kryvyi Rih" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Mykolaiv" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Mariupol" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Luhansk" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Donetsk" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Sevastopol" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Vinnytsia" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Makiivka" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Simferopol" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Kherson" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Poltava" },
+                new City { EditTime = DateTime.Now, Country=countries[0], Name="Chernihiv" },
+            };
+            List<Stage> stages = new List<Stage>()
+            {
+                new Stage { EditTime = DateTime.Now, Title="Pool" },
+                new Stage { EditTime = DateTime.Now, Title="Selected" },
+                new Stage { EditTime = DateTime.Now, Title="HR Interview" },
+                new Stage { EditTime = DateTime.Now, Title="Test task" },
+                new Stage { EditTime = DateTime.Now, Title="Tech Interview" },
+                new Stage { EditTime = DateTime.Now, Title="Additional interview" },
+                new Stage { EditTime = DateTime.Now, Title="Final Interview",  },
+                new Stage { EditTime = DateTime.Now, Title="Job Offer Issued" },
+                new Stage { EditTime = DateTime.Now, Title="Job Offer Accepted", },
+                new Stage { EditTime = DateTime.Now, Title="Hired" },
+                new Stage { EditTime = DateTime.Now, Title="Rejected" },
+            };
+
             #region Candidate
             Comment candidateComment = new Comment()
             {
@@ -122,7 +163,6 @@ namespace Data.EFData
             {
                 Description = "file",
                 FilePath = "path",
-
             };
 
             Permission permission = new Permission()
@@ -136,7 +176,6 @@ namespace Data.EFData
             {
                 Name = "adm",
                 Permissions = new List<Permission>() { permission },
-
             };
 
             User user = new User()
@@ -154,7 +193,6 @@ namespace Data.EFData
                 Photo = photo,
                 Role = role,
                 Skype = "skype",
-
             };
 
             Department department = new Department()
@@ -217,12 +255,20 @@ namespace Data.EFData
                 Comment = vsicomment,
                 VacancyStage = vs
             };
+
             candidate.VacanciesProgress.Add(vsi);
             vacancy.CandidatesProgress.Add(vsi);
             context.Vacancies.Add(vacancy);
             context.Candidates.Add(candidate);
+
+            context.Cities.AddRange(cities);
+            context.Countries.AddRange(countries);
+            context.Stages.AddRange(stages);
+
             context.SaveChanges();
             base.Seed(context);
         }
     }
 }
+
+

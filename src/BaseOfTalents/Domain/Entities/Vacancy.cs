@@ -10,20 +10,20 @@ namespace Domain.Entities
         public string Title { get; set; }
         public Level Level {get; set;}
         public string Description { get; set; }
-        public Team Team { get; set; }
+        public virtual Team Team { get; set; }
         public virtual City City { get; set; }
-        public User Responsible { get; set; }
-        public List<Skill> RequiredSkills { get; set; }
+        public virtual User Responsible { get; set; }
+        public virtual List<Skill> RequiredSkills { get; set; }
         public int SalaryMin { get; set; }
         public int SalaryMax { get; set; }
-        public LanguageSkill LanguageSkill { get; set; }
+        public virtual LanguageSkill LanguageSkill { get; set; }
         public TypeOfEmployment TypeOfEmployment { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime DeadlineDate { get; set; }
-        public List<VacancyStageInfo> CandidatesProgress { get; set; }
-        public Vacancy ParentVacancy { get; set; }
-        public List<File> Files { get; set; }
-        public List<Comment> Comments { get; set; }
+        public virtual List<VacancyStageInfo> CandidatesProgress { get; set; }
+        public virtual Vacancy ParentVacancy { get; set; }
+        public virtual List<File> Files { get; set; }
+        public virtual List<Comment> Comments { get; set; }
     }
 }

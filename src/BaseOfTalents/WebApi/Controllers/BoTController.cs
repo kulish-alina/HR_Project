@@ -11,13 +11,13 @@ using WebApi.DTO.DTOService.Abstract;
 
 namespace WebApi.Controllers
 {
-    public class BoTController<TEntity, YEntity> : ApiController
-        where TEntity : BaseEntity, new()
-        where YEntity : new()
+    public abstract class BoTController<DomainEntity, ViewModel> : ApiController
+        where DomainEntity : BaseEntity, new()
+        where ViewModel : new()
     {
-        protected IRepository<TEntity> _repo;
-        protected IDTOService<TEntity, YEntity> _dtoService;
-        public JsonSerializerSettings BotJsonSerializerSettings { get; set; }
+        protected IRepository<DomainEntity> _repo;
+        protected IDTOService<DomainEntity, ViewModel> _dtoService;
+        JsonSerializerSettings BotJsonSerializerSettings { get; set; }
 
         [HttpGet]
         public virtual HttpResponseMessage All()
@@ -73,7 +73,7 @@ namespace WebApi.Controllers
         [HttpPost]
         public virtual HttpResponseMessage Add([FromBody]JObject entity)
         {
-            var newEntityDto = entity.ToObject<YEntity>();
+            var newEntityDto = entity.ToObject<ViewModel>();
             var newEntity = _dtoService.ToEntity(newEntityDto);
             _repo.Add(newEntity);
             return new HttpResponseMessage()
@@ -86,7 +86,7 @@ namespace WebApi.Controllers
         [HttpPut]
         public virtual HttpResponseMessage Put(int id, [FromBody]JObject entity)
         {
-            var changedEntityDto = entity.ToObject<YEntity>();
+            var changedEntityDto = entity.ToObject<ViewModel>();
             HttpResponseMessage response = new HttpResponseMessage();
             if (changedEntityDto != null)
             {

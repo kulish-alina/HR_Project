@@ -28,7 +28,7 @@ namespace WebApi.Controllers
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = SerializeContent(foundedCandidateDto)
+                    Content = SerializeContent(foundedCandidateDto.VacanciesProgress)
                 };
             }
             else

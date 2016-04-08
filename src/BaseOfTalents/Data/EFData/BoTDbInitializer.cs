@@ -255,12 +255,10 @@ namespace Data.EFData
                 Comment = vsicomment,
                 VacancyStage = vs
             };
-
             candidate.VacanciesProgress.Add(vsi);
             vacancy.CandidatesProgress.Add(vsi);
             context.Vacancies.Add(vacancy);
             context.Candidates.Add(candidate);
-
             context.Cities.AddRange(cities);
             context.Countries.AddRange(countries);
             context.Stages.AddRange(stages);

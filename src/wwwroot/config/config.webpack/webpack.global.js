@@ -56,6 +56,9 @@ module.exports = function(appPath, buildPath, pkg) {
          }),
          new webpack.optimize.OccurenceOrderPlugin(),
          new webpack.optimize.DedupePlugin(),
+         new webpack.ProvidePlugin({
+            'window.jQuery': 'jquery',
+         }),
       ]
    }
 }

@@ -1,7 +1,7 @@
 import angular from 'angular';
 import router from 'angular-ui-router';
 import translate from 'angular-translate';
-
+import uiDate from 'angular-ui-date';
 import config from './botConfig';
 
 import LoggerProvider   from './services/LoggerProvider';
@@ -10,7 +10,7 @@ import HttpProvider     from './services/HttpProvider';
 import CandidateService from './services/candidateService';
 import VacancyService   from './services/vacancyService';
 
-var dependencies = [router, translate];
+var dependencies = [router, translate, uiDate.name];
 
 angular
    .module('bot', dependencies)

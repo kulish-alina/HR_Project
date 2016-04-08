@@ -10,6 +10,7 @@ export default function CandidateController(
    vm.submit = _submit;
 
    function _onError(message) {
+      vm.errorMessage = $translate.instant('CANDIDATE.ERROR');
    }
 
    function _submit(form) {

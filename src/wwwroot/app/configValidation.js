@@ -1,6 +1,6 @@
-import translationsEn from '../../app/translations/translationsEn.json';
-import translationsRu from '../../app/translations/translationsRu.json';
-import context from '../../app/context';
+import translationsEn from './translations/translationsEn.json';
+import translationsRu from './translations/translationsRu.json';
+import context from './context';
 import {
    reduce,
    isFunction,

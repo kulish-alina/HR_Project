@@ -25,4 +25,5 @@ angular
    .service('VacancyService',    VacancyService)
    .service('ValidationService', ValidationService)
 
-   .config(config);
+   .config(config)
+   .config(configValidation);

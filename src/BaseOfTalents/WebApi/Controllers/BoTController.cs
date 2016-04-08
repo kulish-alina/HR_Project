@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebApi.DTO.DTOService.Abstract;
+using WebApi.DTO.DTOService;
 
 namespace WebApi.Controllers
 {
@@ -16,14 +16,13 @@ namespace WebApi.Controllers
         where ViewModel : new()
     {
         protected IRepository<DomainEntity> _repo;
-        protected IDTOService<DomainEntity, ViewModel> _dtoService;
         JsonSerializerSettings BotJsonSerializerSettings { get; set; }
 
         [HttpGet]
         public virtual HttpResponseMessage All()
         {
             var entities = _repo.GetAll().ToList();
-            var dtoEntities = entities.Select(x => _dtoService.ToDTO(x)).ToList();
+            var dtoEntities = entities.Select(x => DTOService.ToDTO<DomainEntity, ViewModel>(x)).ToList();
             return new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
@@ -38,7 +37,7 @@ namespace WebApi.Controllers
             var foundedEntity = _repo.Get(id);
             if (foundedEntity != null)
             {
-                var foundedEntityDto = _dtoService.ToDTO(foundedEntity);
+                var foundedEntityDto = DTOService.ToDTO<DomainEntity, ViewModel>(foundedEntity);
                 response = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
@@ -74,7 +73,7 @@ namespace WebApi.Controllers
         public virtual HttpResponseMessage Add([FromBody]JObject entity)
         {
             var newEntityDto = entity.ToObject<ViewModel>();
-            var newEntity = _dtoService.ToEntity(newEntityDto);
+            var newEntity = DTOService.ToEntity<ViewModel, DomainEntity>(newEntityDto);
             _repo.Add(newEntity);
             return new HttpResponseMessage()
             {
@@ -90,7 +89,7 @@ namespace WebApi.Controllers
             HttpResponseMessage response = new HttpResponseMessage();
             if (changedEntityDto != null)
             {
-                var changedEntity = _dtoService.ToEntity(changedEntityDto);
+                var changedEntity = DTOService.ToEntity<ViewModel, DomainEntity>(changedEntityDto);
                 _repo.Update(changedEntity);
                 response.StatusCode = HttpStatusCode.OK;
             }

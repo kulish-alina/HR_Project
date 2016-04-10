@@ -6,8 +6,6 @@ var merge = require('webpack-merge');
 
 const target = process.env.NODE_ENV;
 
-console.log(target);
-
 const paths = {
    appPath: path.join(__dirname, 'app'),
    buildPath: path.join(__dirname, 'dist')
@@ -27,7 +25,7 @@ function _load() {
    } else if (target === 'production') {
       return merge.smart(wbpk.global(), wbpk.output(path, paths.appPath, paths.buildPath, pkg), wbpk.production(webpack));
    }
-   //default state - development (with devserver configs)
+   // default state - development (with devserver configs)
    return merge.smart(wbpk.global(), wbpk.output(path, paths.appPath, paths.buildPath, pkg), wbpk.development(webpack));
 }
 module.exports = _load();

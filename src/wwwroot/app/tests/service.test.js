@@ -1,7 +1,24 @@
 'use strict';
 
+import vacancyService from '../services/vacancyService';
+
 describe('VacancyService tests for', () => {
-   beforeEach(angular.mock.module('bot'));
+   let service = null;
+   let mock    = {
+      get   : jasmine.createSpy(),
+      post  : jasmine.createSpy(),
+      put   : jasmine.createSpy(),
+      remove: jasmine.createSpy()
+   };
+
+   beforeEach(() => {
+      angular.module('test', []).service('VacancyService', vacancyService);
+      angular.mock.module('test');
+      angular.mock.module($provide => {
+         $provide.value('HttpService', mock);
+      });
+   });
+
    it('getVacancies not to be undefined', inject((VacancyService) => {
       expect(VacancyService.getVacancies).not.toBeUndefined();
    }));

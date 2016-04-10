@@ -9,8 +9,8 @@ describe('inital test specs', () => {
       expect(true).toBe(true);
    })
 
-   it('genaerateContext not to be null or undefined', () => {
+   it('generateContext not to be null or undefined', () => {
       expect(generateContext).not.toBeUndefined();
-      //expect(generateContext).no.toBeNull();
+      // expect(generateContext).no.toBeNull();
    })
 });

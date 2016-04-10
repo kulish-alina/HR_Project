@@ -3,47 +3,38 @@
 
 var webpackConfig = require('./webpack.config.js');
 
-console.log(webpackConfig);
-
 module.exports = function(config) {
    config.set({
-      // plugins: [
-      //    require('karma-webpack'),
-      //    require('karma-jasmine'),
-      //    require('karma-phantomjs-launcher'),
-      //    require('karma-coverage')
-      // ],
 
-      frameworks: ['jasmine'],
+      frameworks: [ 'jasmine' ],
 
       files: [
          'config/tests.webpack.js'
       ],
 
       preprocessors: {
-         'config/tests.webpack.js': ['webpack', 'sourcemap']
+         'config/tests.webpack.js': [ 'webpack' ]
       },
 
-      reporters: ['progress', 'coverage'],
+      exclude: [],
+
+      reporters: [ 'progress' ],
 
       port: 9876,
 
-      browsers: ['PhantomJS'],
+      browsers: [ 'PhantomJS' ],
 
       // Continuous Integration mode
       // if true, Karma captures browsers, runs the tests and exits
       singleRun: true,
 
-      coverageReporter: {
-         dir: 'coverage/',
-         reporters: [
-            { type: 'text-summary' },
-            { type: 'html' }
-         ]
-      },
       webpack: webpackConfig,
-      webpackMiddleware: {
-         noInfo: 'errors-only'
-      }
+
+      plugins: [
+         require('karma-webpack'),
+         'karma-jasmine',
+         'karma-phantomjs-launcher',
+         'karma-chrome-launcher'
+      ]
    })
 }

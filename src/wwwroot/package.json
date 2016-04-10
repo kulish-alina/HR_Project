@@ -4,11 +4,11 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev-build": "set NODE_ENV=development&& webpack --progress --colors",
-    "dist-build": "set NODE_ENV=production&& webpack -p --progress --colors",
-    "devserver": "set NODE_ENV=development&& webpack-dev-server -d --port 9100 --progress --colors",
-    "test": "set NODE_ENV=test&& karma start karma.config.js --log-level debug",
-    "test-watch": "set NODE_ENV=test&& karma start karma.config.js --auto-watch --no-single-run"
+    "dev-build": "NODE_ENV='development' webpack --progress --colors",
+    "dist-build": "NODE_ENV='production' webpack -p --progress --colors",
+    "devserver": "NODE_ENV='development' webpack-dev-server -d --port 9100 --progress --colors",
+    "test": "NODE_ENV='test' karma start karma.config.js",
+    "test-watch": "NODE_ENV='test' karma start karma.config.js --auto-watch --no-single-run"
   },
   "author": "msvaillant",
   "license": "ISC",

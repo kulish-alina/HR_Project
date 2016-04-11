@@ -10,7 +10,9 @@ import HttpProvider     from './services/HttpProvider';
 import CandidateService from './services/candidateService';
 import VacancyService   from './services/vacancyService';
 
-var dependencies = [router, translate];
+import uiMask from 'angular-ui-mask';
+
+var dependencies = [router, translate, uiMask];
 
 angular
    .module('bot', dependencies)

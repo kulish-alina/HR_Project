@@ -7,7 +7,7 @@ import development from '../config/config.context/develop.json';
 import production from '../config/config.context/production.json';
 import common from '../config/config.context/common.json';
 
-function _getURLParams(urlParameter) {
+function _getUrlContext(urlParameter) {
    let object = {};
 
    for (let aItKey, nKeyId = 0, aCouples = window.location.search.substr(1).split('&');
@@ -19,9 +19,14 @@ function _getURLParams(urlParameter) {
    return object;
 }
 
+function _getUrlParameters() {
+   return window.location.search;
+}
+
 export function generateContext() {
    let context = {};
-   let urlContext = _getURLParams(window.location.search);
+   let url = _getUrlParameters();
+   let urlContext = _getUrlContext(url);
 
    if (process.env.NODE_ENV === 'production') {
       assignIn(context, common, production, local, urlContext);

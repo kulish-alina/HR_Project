@@ -4,11 +4,11 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev-build": "NODE_ENV='development' webpack --progress --colors",
-    "dist-build": "NODE_ENV='production' webpack -p --progress --colors",
-    "devserver": "NODE_ENV='development' webpack-dev-server -d --port 9100 --progress --colors",
-    "test": "NODE_ENV='test' karma start karma.config.js",
-    "test-watch": "NODE_ENV='test' karma start karma.config.js --auto-watch --no-single-run"
+    "dev-build": "set NODE_ENV=development&& webpack --progress --colors",
+    "dist-build": "set NODE_ENV=production&& webpack -p --progress --colors",
+    "devserver": "set NODE_ENV=development&& webpack-dev-server -d --port 9100 --progress --colors",
+    "test": "set NODE_ENV=test&& karma start karma.config.js",
+    "test-watch": "set NODE_ENV=test&& karma start karma.config.js --auto-watch --no-single-run"
   },
   "author": "msvaillant",
   "license": "ISC",
@@ -31,6 +31,7 @@
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.3",
     "karma-coverage": "^0.5.5",
     "karma-jasmine": "^0.3.8",
     "karma-sourcemap-loader": "^0.3.7",

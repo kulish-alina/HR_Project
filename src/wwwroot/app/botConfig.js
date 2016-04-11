@@ -13,13 +13,6 @@ import vacancyController from './views/vacancy/vacancy.controller';
 import translationsEn from './translations/translationsEn.json';
 import translationsRu from './translations/translationsRu.json';
 
-import {
-   reduce,
-   isFunction,
-   constant,
-   method
-} from 'lodash';
-
 import context from './context';
 
 export default function _config(

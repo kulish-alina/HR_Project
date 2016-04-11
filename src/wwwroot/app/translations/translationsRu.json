@@ -15,11 +15,11 @@
          "error": "*обязательное поле!",
          "success": "*заполнено"
       },
-	   "url": {
-		   "error": "*необходимо ввести Url",
-		   "success": "*Url"
-	   },
-	   "email": {
+      "url": {
+         "error": "*необходимо ввести Url",
+         "success": "*Url"
+      },
+      "email": {
          "error": "*необходимо ввести E-mail",
          "success": "*E-mail"
       },

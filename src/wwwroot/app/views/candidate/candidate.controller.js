@@ -1,8 +1,8 @@
 export default function CandidateController(
    $scope,
-    $translate,
-    CandidateService,
-    ValidationService)
+   $translate,
+   CandidateService,
+   ValidationService)
 {
    'ngInject';
 

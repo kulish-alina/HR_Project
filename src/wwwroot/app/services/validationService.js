@@ -1,6 +1,6 @@
 let _validation;
 
-export default class VacancyService {
+export default class ValidationService {
    constructor($validation) {
       'ngInject';
       _validation = $validation;

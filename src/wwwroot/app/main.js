@@ -2,7 +2,6 @@ import angular from 'angular';
 import router from 'angular-ui-router';
 import translate from 'angular-translate';
 import uiDate from 'angular-ui-date';
-//import 'jquery-ui/themes/base/jquery-ui.css';
 import config from './botConfig';
 
 import LoggerProvider   from './services/LoggerProvider';

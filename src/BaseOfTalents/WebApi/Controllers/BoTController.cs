@@ -16,7 +16,7 @@ namespace WebApi.Controllers
         where ViewModel : new()
     {
         protected IRepository<DomainEntity> _repo;
-        JsonSerializerSettings BotJsonSerializerSettings { get; set; }
+        private JsonSerializerSettings BotJsonSerializerSettings { get; set; }
 
         [HttpGet]
         public virtual HttpResponseMessage All()
@@ -50,7 +50,6 @@ namespace WebApi.Controllers
             }
             return response;
         }
-
 
         [HttpDelete]
         public virtual HttpResponseMessage Delete(int id)
@@ -109,6 +108,7 @@ namespace WebApi.Controllers
                 DateFormatString = "yyyy-MM-dd"
             };
         }
+
         public StringContent SerializeContent(object obj)
         {
             return new StringContent(JsonConvert.SerializeObject(obj, Formatting.Indented, BotJsonSerializerSettings));

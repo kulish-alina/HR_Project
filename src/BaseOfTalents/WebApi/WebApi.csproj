@@ -160,8 +160,15 @@
     <Compile Include="Controllers\CandidatesController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\EventTypesController.cs" />
+    <Compile Include="Controllers\ExperiencesController.cs" />
     <Compile Include="Controllers\LanguagesController.cs" />
+    <Compile Include="Controllers\RoomsController.cs" />
+    <Compile Include="Controllers\SkillsController.cs" />
     <Compile Include="Controllers\SocialNetworksController.cs" />
+    <Compile Include="Controllers\StagesController.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\VacanciesController.cs" />
     <Compile Include="DTO\DTOModels\CandidateDTO.cs" />
     <Compile Include="DTO\DTOModels\VacancyDTO.cs" />

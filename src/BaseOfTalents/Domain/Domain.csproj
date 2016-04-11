@@ -82,6 +82,7 @@
     <Compile Include="Repositories\ICountryRepository.cs" />
     <Compile Include="Repositories\IEventRepository.cs" />
     <Compile Include="Repositories\IFileRepository.cs" />
+    <Compile Include="Repositories\ILanguageRepository.cs" />
     <Compile Include="Repositories\IPermissionRepository.cs" />
     <Compile Include="Repositories\IPhotoRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />

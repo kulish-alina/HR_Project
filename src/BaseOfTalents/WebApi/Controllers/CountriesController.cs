@@ -8,7 +8,7 @@ using WebApi.DTO.DTOModels;
 
 namespace WebApi.Controllers
 {
-    public class CountriesController : BoTController<Country, CountryDTO>
+    public class CountriesController : BoTController<Country, Country>
     {
         public CountriesController(ICountryRepository countryRepository)
         {

@@ -160,12 +160,10 @@
     <Compile Include="Controllers\CandidatesController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
+    <Compile Include="Controllers\LanguagesController.cs" />
     <Compile Include="Controllers\SocialNetworksController.cs" />
     <Compile Include="Controllers\VacanciesController.cs" />
     <Compile Include="DTO\DTOModels\CandidateDTO.cs" />
-    <Compile Include="DTO\DTOModels\CityDTO.cs" />
-    <Compile Include="DTO\DTOModels\CountryDTO.cs" />
-    <Compile Include="DTO\DTOModels\SocialNetworkDTO.cs" />
     <Compile Include="DTO\DTOModels\VacancyDTO.cs" />
     <Compile Include="DTO\DTOService\DTOService.cs" />
     <Compile Include="Global.asax.cs">

@@ -4,16 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WebApi.DTO.DTOModels;
 
 namespace WebApi.Controllers
 {
-    public class CitiesController : BoTController<City, City>
+    public class LanguagesController : BoTController<Language, Language>
     {
-        public CitiesController(ICityRepository cityRepository)
+        public LanguagesController(ILanguageRepository languagesRepository)
         {
-            _repo = cityRepository;
-
+            _repo = languagesRepository;
         }
     }
 }

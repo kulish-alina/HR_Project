@@ -19,12 +19,6 @@ namespace WebApi
                 x.CreateMap<CandidateDTO, Candidate>();
                 x.CreateMap<Vacancy, VacancyDTO>();
                 x.CreateMap<VacancyDTO, Vacancy>();
-                x.CreateMap<SocialNetwork, SocialNetworkDTO>();
-                x.CreateMap<SocialNetworkDTO, SocialNetwork>();
-                x.CreateMap<City, CityDTO>();
-                x.CreateMap<CityDTO, City>();
-                x.CreateMap<Country, CountryDTO>();
-                x.CreateMap<CountryDTO, Country>();
             });
         }
     }

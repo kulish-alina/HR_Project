@@ -1,0 +1,107 @@
+{
+  "id": 0,
+  "editTime": "2016-04-08",
+  "state": 0,
+  "firstName": "Dmitro",
+  "middleName": "Edward",
+  "lastName": "Carl",
+  "isMale": true,
+  "birthDate": "2016-04-08",
+  "photo": {
+    "imagePath": "photopath",
+    "description": "description"
+  },
+  "phoneNumbers": [],
+  "email": "email",
+  "skype": "skype",
+  "positionDesired": "architecht",
+  "salaryDesired": 10500,
+  "skills": [
+    {
+      "title": "C#",
+      "id": 0,
+      "editTime": "2016-04-08",
+      "state": 0
+    }
+  ],
+  "typeOfEmployment": 0,
+  "practice": "best",
+  "experience": {
+    "workExperience": "00:00:00.0000001",
+    "id": 0,
+    "editTime": "2016-04-08",
+    "state": 0
+  },
+  "description": "descrpition",
+  "city": {
+    "country": {
+      "name": "name",
+      "id": 0,
+      "editTime": "2016-04-08",
+      "state": 0
+    },
+    "name": "dnepr",
+    "id": 0,
+    "editTime": "2016-04-08",
+    "state": 0
+  },
+  "relocationAgreement": true,
+  "socialNetworks": [
+    {
+      "socialNetwork": {
+        "title": "Path",
+        "imagePath": "path",
+        "id": 0,
+        "editTime": "2016-04-08",
+        "state": 0
+      },
+      "path": "path",
+      "id": 0,
+      "editTime": "2016-04-08",
+      "state": 0
+    }
+  ],
+  "education": "High",
+  "languageSkills": [
+    {
+      "language": {
+        "title": "language",
+        "id": 0,
+        "editTime": "2016-04-08",
+        "state": 0
+      },
+      "languageLevel": 5,
+      "id": 0,
+      "editTime": "2016-04-08",
+      "state": 0
+    }
+  ],
+  "files": [
+    {
+      "filePath": "path",
+      "description": "description",
+      "id": 0,
+      "editTime": "2016-04-08",
+      "state": 0
+    }
+  ],
+  "comments": [
+    {
+      "message": "msg",
+      "commentType": 0,
+      "relativeId": 0,
+      "id": 0,
+      "editTime": "2016-04-08",
+      "state": 0
+    }
+  ],
+  "sources": [
+    {
+      "source": 5,
+      "path": "Path",
+      "id": 0,
+      "editTime": "2016-04-08",
+      "state": 0
+    }
+  ]
+}

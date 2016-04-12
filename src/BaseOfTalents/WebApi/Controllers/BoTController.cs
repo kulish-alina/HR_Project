@@ -69,6 +69,12 @@ namespace WebApi.Controllers
             return response;
         }
 
+        [HttpHead]
+        public virtual HttpResponseMessage Head()
+        {
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
         [HttpPost]
         public virtual HttpResponseMessage Add([FromBody]JObject entity)
         {

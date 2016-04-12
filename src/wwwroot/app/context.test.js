@@ -1,31 +1,40 @@
 import { generateContext } from './context.js';
 
-describe('inital test specs', () => {
-   it('false is not true', () => {
-      expect(false).not.toBe(true);
+describe('generateContext function test : ', () => {
+   it('Function not to be null or undefined', () => {
+      expect(generateContext).not.toBeUndefined();
+      expect(generateContext).not.toBeNull();
    });
-
-   it('true to be true', () => {
-      expect(true).toBe(true);
-   })
 });
 
 
-describe('urlContext parsing test', () => {
-   it('generateContext not to be null or undefined', () => {
-      expect(generateContext).not.toBeUndefined();
-      // expect(generateContext).no.toBeNull();
+describe('UrlContext parsing test. Expected parameters', () => {
+
+   let contextTestFabric = (urlParameters, expectationObject) => {
+      let context = generateContext(urlParameters);
+      console.log(context);
+      for (var key in expectationObject) {
+         if (context.hasOwnProperty(key)) {
+            var element = expectationObject[key];
+            expect(context[key]).toEqual(element);
+         } else {
+            console.error('The field ' + key + ' is not defined in context');
+         }
+      }
+   };
+
+   it('52031 serverPort on localhost', () => {
+      contextTestFabric('&serverUrl=http://localhost:52031/api/',
+         { 'serverUrl': 'http://localhost:52031/api/' })
    });
 
-   it('Debug and 52031 serverPort', () => {
-      let urlMock = spyOn(generateContext, '_getUrlContext')
-         .and.returnValue('logLevel=DEBUG&serverUrl=http://localhost:52031/api/');
-      let context = generateContext();
-      console.log(context);
-      expect(context).toEqual({
-         logLevel: 'DEBUG',
-         logPattern: '*',
-         serverUrl: 'http://localhost:52031/api/'
-      });
+   it('8093 on bot.com', () => {
+      contextTestFabric('$dasvd=dasfsd&gdfgdf=jghkjghj&serverUrl=http://bot.com:8093/api/',
+         { serverUrl: 'http://bot.com:8093/api/' })
+   });
+
+   it('INFO logLeel and 10000 on localhost', () => {
+      contextTestFabric('&foo=bar&serverUrl=http://localhost:10000/api/&logLevel=INFO',
+      {serverUrl : 'http://localhost:10000/api/', logLevels : 'INFO'})
    });
 });

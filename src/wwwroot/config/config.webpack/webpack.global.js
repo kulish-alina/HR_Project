@@ -19,7 +19,7 @@ module.exports = function() {
             },
             {
                test: /\.js$/,
-               exclude: [/node_modules/, /dist/, /\.test\.js$/],
+               exclude: [/node_modules/, /dist/],
                loader: 'ng-annotate?add=true!babel?presets[]=es2015'
             },
             {

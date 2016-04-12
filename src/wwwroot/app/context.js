@@ -10,7 +10,7 @@ import common from '../config/config.context/common.json';
 function _getUrlContext(urlParameter) {
    let object = {};
 
-   for (let aItKey, nKeyId = 0, aCouples = window.location.search.substr(1).split('&');
+   for (let aItKey, nKeyId = 0, aCouples = urlParameter.substr(1).split('&');
       nKeyId < aCouples.length; nKeyId++) {
       aItKey = aCouples[nKeyId].split('=');
       object[unescape(aItKey[0])] = aItKey.length > 1 ? unescape(aItKey[1]) : '';
@@ -23,10 +23,9 @@ function _getUrlParameters() {
    return window.location.search;
 }
 
-export function generateContext() {
+export function generateContext(urlParameters) {
    let context = {};
-   let url = _getUrlParameters();
-   let urlContext = _getUrlContext(url);
+   let urlContext = _getUrlContext(urlParameters);
 
    if (process.env.NODE_ENV === 'production') {
       assignIn(context, common, production, local, urlContext);
@@ -36,5 +35,5 @@ export function generateContext() {
    return context;
 }
 
-const context = generateContext();
+const context = generateContext(_getUrlParameters());
 export default context;

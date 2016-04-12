@@ -11,6 +11,7 @@ import CandidateService from './services/candidateService';
 import VacancyService   from './services/vacancyService';
 
 import uiMask from 'angular-ui-mask';
+import phoneFormatFilter from './filters/PhoneFormatFilter';
 
 var dependencies = [router, translate, uiMask];
 
@@ -22,5 +23,7 @@ angular
 
    .service('CandidateService',  CandidateService)
    .service('VacancyService',    VacancyService)
+
+   .filter('tel', phoneFormatFilter)
 
    .config(config);

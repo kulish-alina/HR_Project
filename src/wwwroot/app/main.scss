@@ -201,11 +201,27 @@ tr:nth-child(2n) {
    }
 }
 .range-slider{
-   margin-bottom: 16px;
+   margin-bottom: 1rem;
 }
 .profile-photo{
-background-image: url(images/upload-photo.png);
-   width: 220px;
-   height: 140px;
-   
+    background-image: url(images/upload-photo.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 1rem;
+}
+form p {
+    line-height: 1;
+}
+.validation-invalid{
+    color: $alert-color;
+    margin: 0;
+    font-size: 0.8rem;
+}
+form .ng-invalid {
+    margin-bottom: 0.2rem;
+    -webkit-box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
+    -moz-box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
+    box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
 }

@@ -1,6 +1,6 @@
-<form name = "Candidate">
+<!--<form name = "Candidate">
 <div ng-show="errorMessage">{{errorMessage}}</div>
-<!--<div class="grid-block">
+<div class="grid-block">
     <div>Add new Candidate</div>
     <div>
     <input type="text" ng-model="candidate.FirstName" placeholder="First Name" name ="firstName" validator="required, maxlength=50">
@@ -23,132 +23,133 @@
 </form>
 </div>-->
 <div class="secondary-menu grid-block">
-   <div class="large-2 grid-block">
-      <div class="grid-content">
-         <h5>Add candidate</h5>
-      </div>
-   </div>
-   <div class="large-7 grid-block">
-   </div>
-   <div class="large-3 grid-block align-right">
-      <ul class="menu-bar second-button-bar">
-         <li><a href="#">Cancel</a>
-         </li>
-         <li><a ng-click="saveCandidate()">Submit</a>
-         </li>
-      </ul>
-   </div>
+    <div class="large-2 grid-block">
+        <div class="grid-content">
+            <h5>Add candidate</h5>
+        </div>
+    </div>
+    <div class="large-7 grid-block">
+    </div>
+    <div class="large-3 grid-block align-right">
+        <ul class="menu-bar second-button-bar">
+            <li><a href="#">Cancel</a>
+            </li>
+            <li><a ng-click="saveCandidate()">Submit</a>
+            </li>
+        </ul>
+    </div>
 </div>
 <div class="grid-block">
-   <div class="medium-9 grid-block">
-      <div class="main-card">
-         <div class="card-divider">
-            New candidate
-         </div>
-         <div class="card-section">
-            <div class="grid-block">
-               <div class="medium-4 grid-block">
-                  <form>
-                     <input type="text" ng-model="candidate.FirstName" placeholder="First Name">
-                     <input type="text" ng-model="candidate.MiddleName" placeholder="Middle Name">
-                     <input type="text" ng-model="candidate.LastName" placeholder="Last Name">
-                     <ul class="some-change">
-                        <li>
-                           <input name="isMale" value="true" id="male" checked="" type="radio">
-                           <label for="male">Male</label>
-                        </li>
-                        <li>
-                           <input name="isMale" value="false" id="female" type="radio">
-                           <label for="female">Female</label>
-                        </li>
-                     </ul>
-                     <input type="text" placeholder="Day of birth">
-                     <select name="Langage" id="">
-                        <option value="">English Brgginer</option>
-                        <option value="">English Pre-Intermediate</option>
-                        <option value="">English Intermediate</option>
-                        <option value="">English Upper Intermediate</option>
-                        <option value="">English Advanced</option>
-                        <option value="">English Fluent</option>
-                     </select>
-                     <select name="Location" id="">
-                        <option value="">Dnipropetrovsk</option>
-                        <option value="">Zaporizhzhia</option>
-                        <option value="">Lviv</option>
-                        <option value="">Berdyansk</option>
-                     </select>
-                     <input id="checkbox3" type="checkbox">
-                     <label for="checkbox3">Ready to relocate</label>
-                  </form>
-               </div>
-               <div class="medium-4 grid-block">
-                  <form>
-                     <select name="Industry" id="">
-                        <option value="">IT</option>
-                        <option value="">Others</option>
-                     </select>
-                     <select name="Level" id="">
-                        <option value="">Trainee</option>
-                        <option value="">Junior</option>
-                        <option value="">Middle</option>
-                        <option value="">Senior</option>
-                     </select>
-                     <input type="text" ng-model="candidate.PositionDesired" placeholder="Position Desired">
-                     <input type="text" ng-model="candidate.SalaryDesired" placeholder="Salary Desired">
-                     <select name="Type of Employment" id="">
-                        <option value="">Full-time</option>
-                        <option value="">Part-time</option>
-                        <option value="">Remote</option>
-                        <option value="">Practice</option>
-                        <option value="">Courses</option>
-                        <option value="">Project</option>
-                     </select>
-                     <textarea placeholder="Education" type="text"></textarea>
-                  </form>
-               </div>
-               <div class="medium-4 grid-block">
-                  <form>
-                     <div class="profile-photo">
-                        
-                     </div>
-                     <input type="text" placeholder="Phohe number">
-                     <input type="text" placeholder="E-mail">
-                     <input type="text" placeholder="Skype">
-                     <input type="text" placeholder="Source">
-                  </form>
-               </div>
-            </div>
-            <textarea placeholder="Description" type="text"></textarea>
-         </div>
-      </div>
-   </div>
-   <div class="medium-3 grid-block">
-      <div class="vertical medium-horizontal grid-block">
-         <div class="sidebar">
+    <div class="medium-9 grid-block">
+        <div class="main-card">
             <div class="card-divider">
-               Candidates
+                New candidate
             </div>
-            <div class="sidebar-content">
+            <div class="card-section">
+                <div class="grid-block">
+                    <div class="medium-4 grid-block">
+                        <form name = "Candidate">
+                            <input type="text" ng-model="candidate.FirstName" placeholder="First Name" name="firstName" validator="required, maxlength=50">
+                            <input type="text" ng-model="candidate.MiddleName" placeholder="Middle Name" name="middleName" validator="required, maxlength=50">
+                            <input type="text" ng-model="candidate.LastName" placeholder="Last Name" name="lastName" validator="required, maxlength=50">
+                            <ul class="some-change">
+                                <li>
+                                    <input name="isMale" value="true" id="male" checked="" type="radio">
+                                    <label for="male">Male</label>
+                                </li>
+                                <li>
+                                    <input name="isMale" value="false" id="female" type="radio">
+                                    <label for="female">Female</label>
+                                </li>
+                            </ul>
+                            <input type="text" placeholder="Day of birth">
+                            <select name="Langage" id="">
+                                <option value="">English Brgginer</option>
+                                <option value="">English Pre-Intermediate</option>
+                                <option value="">English Intermediate</option>
+                                <option value="">English Upper Intermediate</option>
+                                <option value="">English Advanced</option>
+                                <option value="">English Fluent</option>
+                            </select>
+                            <select name="Location" id="">
+                                <option value="">Dnipropetrovsk</option>
+                                <option value="">Zaporizhzhia</option>
+                                <option value="">Lviv</option>
+                                <option value="">Berdyansk</option>
+                            </select>
+                            <input id="checkbox3" type="checkbox">
+                            <label for="checkbox3">Ready to relocate</label>
+                            <button ng-click="submit(Candidate)">ADD</button>
+                        </form>
+                    </div>
+                    <div class="medium-4 grid-block">
+                        <form>
+                            <select name="Industry" id="">
+                                <option value="">IT</option>
+                                <option value="">Others</option>
+                            </select>
+                            <select name="Level" id="">
+                                <option value="">Trainee</option>
+                                <option value="">Junior</option>
+                                <option value="">Middle</option>
+                                <option value="">Senior</option>
+                            </select>
+                            <input type="text" ng-model="candidate.PositionDesired" placeholder="Position Desired">
+                            <input type="text" ng-model="candidate.SalaryDesired" placeholder="Salary Desired">
+                            <select name="Type of Employment" id="">
+                                <option value="">Full-time</option>
+                                <option value="">Part-time</option>
+                                <option value="">Remote</option>
+                                <option value="">Practice</option>
+                                <option value="">Courses</option>
+                                <option value="">Project</option>
+                            </select>
+                            <textarea placeholder="Education" type="text"></textarea>
+                        </form>
+                    </div>
+                    <div class="medium-4 grid-block">
+                        <form>
+                            <div class="profile-photo">
+
+                            </div>
+                            <input type="text" placeholder="Phohe number">
+                            <input type="text" placeholder="E-mail">
+                            <input type="text" placeholder="Skype">
+                            <input type="text" placeholder="Source">
+                        </form>
+                    </div>
+                </div>
+                <textarea placeholder="Description" type="text"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="medium-3 grid-block">
+        <div class="vertical medium-horizontal grid-block">
+            <div class="sidebar">
+                <div class="card-divider">
+                    Candidates
+                </div>
+                <div class="sidebar-content">
 
 
+                </div>
             </div>
-         </div>
-         <div class="sidebar">
-            <div class="card-divider">
-               Comments
+            <div class="sidebar">
+                <div class="card-divider">
+                    Comments
+                </div>
+                <div class="sidebar-content">
+                    <textarea placeholder="Text field"></textarea>
+                    <a class="expand button" href="#">Save</a>
+                    <section class="block-list">
+                        <ul>
+                            <li>Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos</li>
+                            <li>Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos</li>
+                            <li>Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos</li>
+                        </ul>
+                    </section>
+                </div>
             </div>
-            <div class="sidebar-content">
-               <textarea placeholder="Text field"></textarea>
-               <a class="expand button" href="#">Save</a>
-               <section class="block-list">
-                  <ul>
-                     <li>Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos</li>
-                     <li>Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos</li>
-                     <li>Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos</li>
-                  </ul>
-               </section>
-            </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>

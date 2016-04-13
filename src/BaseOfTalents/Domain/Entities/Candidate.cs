@@ -25,7 +25,7 @@ namespace Domain.Entities
         public bool IsMale { get; set; }
         public DateTime BirthDate { get; set; }
         public virtual Photo Photo { get; set; }
-        public List<string> PhoneNumbers { get; set; }
+        public virtual List<string> PhoneNumbers { get; set; }
         public string Email { get; set; }
         public string Skype { get; set; }
         public string PositionDesired { get; set; }

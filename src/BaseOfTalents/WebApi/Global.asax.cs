@@ -14,11 +14,13 @@ namespace WebApi
 
         protected void Application_Start()
         {
+            AutoMapperWebConfiguration.Configure();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             var builder = new ContainerBuilder();
 
             builder.RegisterType<EFVacancyRepository>().As<IVacancyRepository>();
             builder.RegisterType<EFCandidateRepository>().As<ICandidateRepository>();
+            builder.RegisterType<EFSocialNetworkRepository>().As<ISocialNetworkRepository>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 

@@ -52,6 +52,7 @@ namespace Data.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Countries", t => t.Country_Id)
                 .Index(t => t.Country_Id);
+            
             CreateTable(
                 "dbo.Countries",
                 c => new
@@ -62,6 +63,7 @@ namespace Data.Migrations
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
+            
             CreateTable(
                 "dbo.Comments",
                 c => new

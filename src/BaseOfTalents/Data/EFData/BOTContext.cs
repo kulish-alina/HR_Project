@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Data.Migrations;
+using Domain.Entities;
 using Domain.Entities.Setup;
 using System.Data.Entity;
 using System.Diagnostics;
@@ -18,10 +19,13 @@ namespace Data.EFData
         public DbSet<Vacancy> Vacancies { get; set; }
 
         public DbSet<City> Cities { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Stage> Stages { get; set; }
 
-        public BOTContext() : base("name=BOTContext")
+
+        public BOTContext() : base()
         {
-            Database.SetInitializer(new BoTDbInitializer());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>("BOTContext"));
         }
     }
 }

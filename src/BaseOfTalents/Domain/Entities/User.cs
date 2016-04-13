@@ -14,13 +14,13 @@ namespace Domain.Entities
         public string LastName { get; set; }
         public bool isMale { get; set; }
         public DateTime BirthDate { get; set; }
-        public Photo Photo { get; set; }
-        public List<string> PhoneNumbers { get; set; }
+        public virtual Photo Photo { get; set; }
+        public virtual List<string> PhoneNumbers { get; set; }
         public string Email { get; set; }
         public string Skype { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public virtual City City { get; set; }
-        public Role Role { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

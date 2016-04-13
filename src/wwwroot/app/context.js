@@ -2,6 +2,8 @@ import {
    assignIn
 } from 'lodash';
 
+import utils from './utils.js';
+
 import local from '../config/config.context/local.json';
 import development from '../config/config.context/develop.json';
 import production from '../config/config.context/production.json';
@@ -19,12 +21,9 @@ function _getUrlContext(urlParameter) {
    return object;
 }
 
-function _getUrlParameters() {
-   return window.location.search;
-}
-
-export function generateContext(urlParameters) {
+export function generateContext() {
    let context = {};
+   let urlParameters = utils.getUrlParameters();
    let urlContext = _getUrlContext(urlParameters);
 
    if (process.env.NODE_ENV === 'production') {
@@ -35,5 +34,5 @@ export function generateContext(urlParameters) {
    return context;
 }
 
-const context = generateContext(_getUrlParameters());
+const context = generateContext();
 export default context;

@@ -1,4 +1,6 @@
+import { has } from 'lodash';
 import { generateContext } from './context.js';
+import utils from './utils.js';
 
 describe('generateContext function test : ', () => {
    it('Function not to be null or undefined', () => {
@@ -9,16 +11,18 @@ describe('generateContext function test : ', () => {
 
 
 describe('UrlContext parsing test. Expected parameters', () => {
-
    let contextTestFabric = (urlParameters, expectationObject) => {
-      let context = generateContext(urlParameters);
+
+      spyOn(utils, 'getUrlParameters').and.returnValue(urlParameters);
+      console.log(utils.getUrlParameters());
+      let context = generateContext();
       console.log(context);
       for (var key in expectationObject) {
-         if (context.hasOwnProperty(key)) {
+         if (has(context, key)) {
             var element = expectationObject[key];
             expect(context[key]).toEqual(element);
          } else {
-            console.error('The field ' + key + ' is not defined in context');
+            console.error(`The field ${key} is not defined in context`);
          }
       }
    };
@@ -35,6 +39,6 @@ describe('UrlContext parsing test. Expected parameters', () => {
 
    it('INFO logLeel and 10000 on localhost', () => {
       contextTestFabric('&foo=bar&serverUrl=http://localhost:10000/api/&logLevel=INFO',
-      {serverUrl : 'http://localhost:10000/api/', logLevels : 'INFO'})
+         {serverUrl : 'http://localhost:10000/api/', logLevels : 'INFO'})
    });
 });

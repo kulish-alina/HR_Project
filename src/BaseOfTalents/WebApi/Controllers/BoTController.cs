@@ -58,7 +58,7 @@ namespace WebApi.Controllers
             var newEntityDto = entity.ToObject<ViewModel>();
             var newEntity = DTOService.ToEntity<ViewModel, DomainEntity>(newEntityDto);
             _repo.Add(newEntity);
-            return Json(_repo.GetAll().Last());
+            return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_repo.GetAll().Last()));
         }
 
         [HttpPut]
@@ -69,7 +69,7 @@ namespace WebApi.Controllers
             {
                 var changedEntity = DTOService.ToEntity<ViewModel, DomainEntity>(changedEntityDto);
                 _repo.Update(changedEntity);
-                return Json(_repo.Get(changedEntity.Id), BotJsonSerializerSettings);
+                return Json(DTOService.ToDTO<DomainEntity,ViewModel>(_repo.Get(changedEntity.Id)), BotJsonSerializerSettings);
             }
             return NotFound();
         }

@@ -26,7 +26,7 @@ namespace Data.DumbData.Repositories
 
         public void Add(TEntity entity)
         {
-            if (Collection.Any(x => x.Id == entity.Id))
+            if (!Collection.Any(x => x.Id == entity.Id))
             {
                 if (entity.Id == 0)
                 {
@@ -52,7 +52,7 @@ namespace Data.DumbData.Repositories
 
         public void Remove(TEntity entity)
         {
-            Collection.First(x => x == entity).State = EntityState.Active;
+            Collection.First(x => x == entity).State = EntityState.Inactive;
         }
 
         public void Update(TEntity entity)

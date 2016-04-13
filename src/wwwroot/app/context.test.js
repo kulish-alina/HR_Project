@@ -1,4 +1,4 @@
-import { has } from 'lodash';
+import { has, pick, keys } from 'lodash';
 import { generateContext } from './context.js';
 import utils from './utils.js';
 
@@ -9,36 +9,30 @@ describe('generateContext function test : ', () => {
    });
 });
 
-
 describe('UrlContext parsing test. Expected parameters', () => {
-   let contextTestFabric = (urlParameters, expectationObject) => {
+   function _contextTestFabric(urlParameters, expectationObject) {
 
       spyOn(utils, 'getUrlParameters').and.returnValue(urlParameters);
-      console.log(utils.getUrlParameters());
-      let context = generateContext();
-      console.log(context);
-      for (var key in expectationObject) {
-         if (has(context, key)) {
-            var element = expectationObject[key];
-            expect(context[key]).toEqual(element);
-         } else {
-            console.error(`The field ${key} is not defined in context`);
-         }
-      }
+      let context = pick(generateContext(), keys(expectationObject));
+
+      expect(context).toEqual(expectationObject);
    };
 
    it('52031 serverPort on localhost', () => {
-      contextTestFabric('&serverUrl=http://localhost:52031/api/',
-         { 'serverUrl': 'http://localhost:52031/api/' })
+      let urlParameters = '&serverUrl=http://localhost:52031/api/';
+      let expected = { 'serverUrl': 'http://localhost:52031/api/' };
+      _contextTestFabric(urlParameters, expected);
    });
 
    it('8093 on bot.com', () => {
-      contextTestFabric('$dasvd=dasfsd&gdfgdf=jghkjghj&serverUrl=http://bot.com:8093/api/',
-         { serverUrl: 'http://bot.com:8093/api/' })
+      let urlParameters = '$dasvd=dasfsd&gdfgdf=jghkjghj&serverUrl=http://bot.com:8093/api/';
+      let expected = { serverUrl: 'http://bot.com:8093/api/' };
+      _contextTestFabric(urlParameters, expected);
    });
 
    it('INFO logLeel and 10000 on localhost', () => {
-      contextTestFabric('&foo=bar&serverUrl=http://localhost:10000/api/&logLevel=INFO',
-         {serverUrl : 'http://localhost:10000/api/', logLevels : 'INFO'})
+      let urlParameters = '&foo=bar&serverUrl=http://localhost:10000/api/&logLevel=INFO';
+      let expected = {serverUrl : 'http://localhost:10000/api/', logLevel : 'INFO'};
+      _contextTestFabric(urlParameters, expected);
    });
 });

@@ -1,7 +1,10 @@
-export function getUrlParameters() {
+let utils = {
+   getUrlParameters
+};
+
+export default utils;
+
+function getUrlParameters() {
    return window.location.search;
 }
 
-let utils = {}
-utils.getUrlParameters = getUrlParameters;
-export default utils;

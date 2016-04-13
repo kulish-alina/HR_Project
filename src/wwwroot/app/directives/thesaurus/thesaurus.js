@@ -1,5 +1,5 @@
 import template from './thesaurus.directive.html';
-import { hasIn } from 'lodash';
+import { has, clone, assign } from 'lodash';
 
 export default class ThesaurusDirective {
    constructor() {
@@ -18,56 +18,85 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($scope, ThesauruseService) {
+function ThesaurusController($scope, ThesaurusService) {
 
    'ngInject';
 
    const vm = $scope;
-   vm.topics = [ { title : 'ru'} ];
+   vm.topics = [];
    vm.structure = { } ;
-   vm.newTresauruseTopic = { } ;
+   vm.newTresaurusTopic = { } ;
    vm.editThesaurusTopic = editThesaurusTopic;
-   vm.saveThesaurusTopic = saveThesaurusTopic;
+   vm.saveEditTopic = saveEditTopic;
+   vm.addNewTopic = addNewTopic;
    vm.cancelThesaurusTopicEditing = cancelThesaurusTopicEditing;
-   vm.deleteThesauruseTopic = deleteThesaurusTopic;
-   vm.isEdit = isEdit;
-   getThesaurusStructure();
-   //getThesaurusTopics();
+   vm.removeThesaurusTopic = deleteThesaurusTopic;
+   vm.isEditTopic = isEditTopic;
+   vm.isTopicEditAllow = isTopicEditAllow;
+   _getThesaurusStructure();
+   _getThesaurusTopics();
+   var editTopicClone = null;
 
-   function isEdit(topic) {
-      return hasIn(topic, 'clone');
+   function isEditTopic(topic) {
+      return _isHasEditTopic() && _isEditTopic(topic);
    }
 
-   function getThesaurusStructure() {
-      vm.structure = ThesauruseService.getThesaurusStructure(vm.name);
-   }
-
-   function getThesaurusTopics() {
-      vm.topics = ThesauruseService.getThesaurusTopics(vm.name)
-         .catch(_onError);
+   function isTopicEditAllow(topic) {
+      return !_isHasEditTopic() || _isEditTopic(topic);
    }
 
    function editThesaurusTopic(topic) {
-      topic.clone = topic;
+      editTopicClone = clone(topic);
    }
 
    function cancelThesaurusTopicEditing(topic) {
-      topic = topic.clone;
-      delete topic.clone;
+      assign(topic, editTopicClone);
+      _deleteClone();
    }
 
-   function saveThesaurusTopic(topic) {
-      ThesauruseService.saveThesaurusTopic(vm.name, topic)
-         .catch(_onError);
-      delete topic.clone;
+   function addNewTopic(topic) {
+      _saveThesaurusTopic(topic);
+      vm.newTresaurusTopic = { } ;
+   }
+
+   function saveEditTopic(topic) {
+      _saveThesaurusTopic(topic);
+      _deleteClone();
    }
 
    function deleteThesaurusTopic(topic) {
-      ThesauruseService.deleteThesaurusTopic(vm.name, topic)
+      ThesaurusService.deleteThesaurusTopic(vm.name, topic)
          .catch(_onError);
    }
 
+   function _getThesaurusStructure() {
+      vm.structure = ThesaurusService.getThesaurusStructure(vm.name);
+   }
+
+   function _getThesaurusTopics() {
+      ThesaurusService.getThesaurusTopics(vm.name)
+         .then(topics => vm.topics = topics)
+         .catch(_onError);
+   }
+
+   function _isEditTopic(topic) {
+      return editTopicClone.id === topic.id;
+   }
+
+   function _isHasEditTopic() {
+      return editTopicClone !== null;
+   }
+
+   function _saveThesaurusTopic(topic) {
+      ThesaurusService.saveThesaurusTopic(vm.name, topic)
+         .catch(_onError);
+   }
+
+   function _deleteClone() {
+      editTopicClone = null;
+   }
+
    function _onError(message) {
-      vm.errorMessage = 'Sorry! Some error occurred';
+      vm.message = 'Sorry! Some error occurred: ' + message;
    }
 }

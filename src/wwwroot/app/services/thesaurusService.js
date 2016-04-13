@@ -1,6 +1,6 @@
-import { hasIn, find, concat, remove } from 'lodash';
+import { has, find, concat, remove } from 'lodash';
 
-let _HttpService;
+let _HttpService, _$q;
 
 const cache = { };
 
@@ -23,40 +23,35 @@ const THESAURUS_STRUCTURES = {
 };
 
 export default class ThesaurusService {
-   constructor(HttpService) {
+   constructor(HttpService, $q) {
       'ngInject';
       _HttpService = HttpService;
+      _$q = $q;
    }
 
    getThesaurusTopics(thesaurusName) {
-      if (hasIn(thesaurusName, cache)) {
-         return cache[thesaurusName];
+      if (!has(cache, thesaurusName)) {
+         return _HttpService.get(thesaurusName)
+            .then(topics => cache[thesaurusName] = topics);
       }
-      else {
-         cache[thesaurusName] = _HttpService.get(thesaurusName + '/');
-         return cache[thesaurusName];
-      }
-   }
-
-   getThesaurusTopic(thesaurusName, id) {
-      if (thesaurusName in cache) {
-         return cache[thesaurusName];
-      }
+      return _$q.when(cache[thesaurusName]);
    }
 
    saveThesaurusTopic(thesaurusName, entity) {
-      if (entity.Id !== undefined) {
-         var additionalUrl = thesaurusName + '/' + entity.Id;
+      if (entity.id !== undefined) {
+         var additionalUrl = thesaurusName + '/' + entity.id;
          return _HttpService.put(additionalUrl, entity);
       }
       else {
-         return _HttpService.post(thesaurusName + '/', entity);
+         return _HttpService.post(thesaurusName + '/', entity)
+            .then(_entity => cache[thesaurusName].push(_entity));
       }
    }
 
    deleteThesaurusTopic(thesaurusName, entity) {
-      var additionalUrl = thesaurusName + '/' + entity.Id;
-      _HttpService.remove(additionalUrl, entity);
+      var additionalUrl = thesaurusName + '/' + entity.id;
+      return  _HttpService.remove(additionalUrl, entity)
+         .then(() => remove(cache[thesaurusName], entity));
    }
 
    getThesaurusNames() {

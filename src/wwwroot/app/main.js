@@ -17,7 +17,10 @@ import ValidationService from './services/validationService';
 import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
 
-var dependencies = [router, translate, uiMask, 'validation', 'validation.rule'];
+import 'angularjs-datepicker/src/js/angular-datepicker';
+import 'angularjs-datepicker/src/css/angular-datepicker.css';
+
+var dependencies = [router, translate, uiMask, 'validation', 'validation.rule', '720kb.datepicker'];
 
 angular
    .module('bot', dependencies)

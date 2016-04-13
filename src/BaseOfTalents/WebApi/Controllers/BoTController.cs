@@ -53,25 +53,31 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public virtual IHttpActionResult Add([FromBody]JObject entity)
+        public virtual IHttpActionResult Add([FromBody]ViewModel entity)
         {
-            var newEntityDto = entity.ToObject<ViewModel>();
-            var newEntity = DTOService.ToEntity<ViewModel, DomainEntity>(newEntityDto);
-            _repo.Add(newEntity);
-            return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_repo.GetAll().Last()));
+            if (ModelState.IsValid)
+            {
+                var newEntity = DTOService.ToEntity<ViewModel, DomainEntity>(entity);
+                _repo.Add(newEntity);
+                return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_repo.GetAll().Last()));
+            }
+            return BadRequest();
         }
 
         [HttpPut]
-        public virtual IHttpActionResult Put(int id, [FromBody]JObject entity)
+        public virtual IHttpActionResult Put(int id, [FromBody]ViewModel changedEntity)
         {
-            var changedEntityDto = entity.ToObject<ViewModel>();
-            if (changedEntityDto != null)
+            if (ModelState.IsValid)
             {
-                var changedEntity = DTOService.ToEntity<ViewModel, DomainEntity>(changedEntityDto);
-                _repo.Update(changedEntity);
-                return Json(DTOService.ToDTO<DomainEntity,ViewModel>(_repo.Get(changedEntity.Id)), BotJsonSerializerSettings);
+                if (changedEntity != null)
+                {
+                    var changedDomainEntity = DTOService.ToEntity<ViewModel, DomainEntity>(changedEntity);
+                    _repo.Update(changedDomainEntity);
+                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_repo.Get(changedDomainEntity.Id)), BotJsonSerializerSettings);
+                }
+                return NotFound();
             }
-            return NotFound();
+            return BadRequest();
         }
 
         public BoTController()

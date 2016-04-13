@@ -5,6 +5,7 @@ using Domain.Repositories;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -26,13 +27,17 @@ namespace WebApi.DTO.DTOModels
         public int Id { get; set; }
         public DateTime EditTime { get; set; }
         public EntityState State { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string MiddleName { get; set; }
+        [Required]
         public string LastName { get; set; }
         public bool IsMale { get; set; }
         public DateTime BirthDate { get; set; }
         public virtual Photo Photo { get; set; }
         public List<string> PhoneNumbers { get; set; }
+        [Required]
         public string Email { get; set; }
         public string Skype { get; set; }
         public string PositionDesired { get; set; }

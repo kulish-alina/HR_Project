@@ -1,27 +1,60 @@
 @import "settings";
 @import "foundation";
+
 body{
-   background-color: #f5f8f9;
-   min-width: 1200px;
-}
-form{
-   width: 98%;
-}
-textarea { resize:vertical; } 
-.menu-img{
-   width: 50px;
-}
-.secondary-menu{
-   background-color: #80deea;
+    background-color: #f5f8f9;
+    min-width: 1200px;
 }
 
+// Styles for forms
+form{
+    width: 98%;
+}
+fieldset{
+    width: 100%;
+    border: 0;
+}
+textarea { 
+    resize:vertical;
+    height: 2.4rem;
+    min-height: 2.4rem;
+}
+.checkbox-block{
+   margin-bottom: 10px;
+}
+.some-change{
+   @include button-group (  
+     $segmented: true,
+     $expand: true,
+     $background: $primary-color,
+     $color: #fff);
+     margin-bottom: 16px !important;
+}
+.range-slider{
+   margin-bottom: 1rem;
+}
+
+// Styles for form validation forms
+form p {
+    line-height: 1;
+}
+.validation-invalid{
+    color: $alert-color;
+    margin: 0;
+    font-size: 0.8rem;
+}
+form .ng-invalid {
+    margin-bottom: 0.2rem;
+    -webkit-box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
+    -moz-box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
+    box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
+}
+
+// Styles for tables
 table {
    margin:5px;
    padding:5px;
    width:100%;
-}
-thead{
-   align-content: flex-start;
 }
 th {
   font-weight: normal;
@@ -31,7 +64,6 @@ th {
 td {
   border-top: 1px solid #EDEDED;
   padding: 10px;
-  justify-content: center;
 }
 tr:nth-child(2n) {
   background: #f5f8f9;
@@ -42,6 +74,22 @@ tr:nth-child(2n) {
    margin-left: 7px;
    margin-right: 7px;
 }
+
+// Styles for icons
+.social-icon {
+   margin-right: 10px;
+   &:before {
+      font-family: "SocialFoundicons"
+   }
+}
+.general-icon {
+   margin-right: 10px;
+   &:before {
+      font-family: "GeneralFoundicons"
+   }
+}
+
+// Styles for main menu
 .main-menu{
    background-color: $menubar-background;
    padding-left: $global-padding/2;
@@ -71,6 +119,17 @@ tr:nth-child(2n) {
    -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
    -moz-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
    box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+.menu-img{
+   width: 50px;
+}
+.search{
+   margin-bottom: 0 !important;
+}
+
+// Styles for secondary menu
+.secondary-menu{
+   background-color: #80deea;
 }
 .second-button-bar{
   @include menu-bar-layout (
@@ -104,6 +163,8 @@ tr:nth-child(2n) {
    border: 1px solid #d8e3e7;
    background-color: #fff;
 }
+
+// Styles for side menu
 .side-menu{
    @include menu-bar-style(
       $background: $offcanvas-background,
@@ -140,6 +201,7 @@ tr:nth-child(2n) {
    width: 30px;
 }
 
+// Styles for sidebar
 .sidebar{
    @include card-container($margin: 0.5rem);
    max-height: 750px;
@@ -153,25 +215,38 @@ tr:nth-child(2n) {
    color: $primary-color;
 }
 .comments i {
-   font-size: 1rem;
-   margin-left: 10px;
-   margin-right: 0;
+    font-size: 1rem;
+    color: $gray-dark;
+}
+.comments i:hover {
+    color: $primary-color;
+}
+.events i {
+    font-size: 2rem;
+    color: $gray-dark;
+}
+.events i:hover {
+    color: $primary-color;
+}
+.vacancies select{
+    border: 0;
+    background-color: #fff;
+    font-size: 0.7rem;
 }
 .sidebar-content ul {
    padding: $global-padding;
 }
+
+// Styles for main content
 .main-card{
-   @include card-container($margin: 0.5rem);
-   width: 100%;
+    @include card-container($margin: 0.5rem);
+    width: 100%;
+    min-height: 600px;
+    max-height: 900px;
 }
 
-.search{
-   margin-bottom: 0 !important;
-}
-.checkbox-block{
-   margin-bottom: 10px;
-}
-.pages{
+// Styles for switching pages
+.switch-pages {
    bottom: 0;
    right: 0;
    position: absolute;
@@ -180,29 +255,8 @@ tr:nth-child(2n) {
 .pages i{
    color: $offcanvas-background;
 }
-.some-change{
-   @include button-group (  
-     $segmented: true,
-     $expand: true,
-     $background: $primary-color,
-     $color: #fff);
-     margin-bottom: 16px !important;
-}
-.social-icon {
-   margin-right: 10px;
-   &:before {
-      font-family: "SocialFoundicons"
-   }
-}
-.general-icon {
-   margin-right: 10px;
-   &:before {
-      font-family: "GeneralFoundicons"
-   }
-}
-.range-slider{
-   margin-bottom: 1rem;
-}
+
+//Styles for candidate/user 
 .profile-photo{
     background-image: url(images/upload-photo.png);
     background-repeat: no-repeat;
@@ -210,18 +264,18 @@ tr:nth-child(2n) {
     width: 100%;
     height: 200px;
     margin-bottom: 1rem;
+    padding-bottom: 30%;
+    padding-top: 30%;
+    text-align: center;
 }
-form p {
-    line-height: 1;
+.profile-photo-input{
+    width: 100%;
 }
-.validation-invalid{
-    color: $alert-color;
-    margin: 0;
-    font-size: 0.8rem;
+.upload-title{
+    font-size: 2rem;
+    color: #555555;
 }
-form .ng-invalid {
-    margin-bottom: 0.2rem;
-    -webkit-box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
-    -moz-box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
-    box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
+.button-with-input{
+    height: 2.4rem;
+    width: 100%;
 }

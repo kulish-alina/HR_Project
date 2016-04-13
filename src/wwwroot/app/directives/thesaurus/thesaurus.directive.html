@@ -1,26 +1,34 @@
+<div class="errorMessage" ng-bind="message" ng-disabled="!message"></div>
 <table>
-   <caption ng-bind="structure.thesaurusName | translate"></caption>
-   <tr><th ng-repeat = "field in structure.fields" ng-bind="field.name"></th></tr>
+   <caption ng-bind="::structure.thesaurusName | translate"></caption>
+   <tr><th ng-repeat="field in ::structure.fields" ng-bind="::field.name"></th></tr>
    <tr ng-repeat = "topic in topics">
-      <td ng-repeat = "field in structure.fields" >
-         <span ng-if="!isEdit(topic)" ng-bind="topic[field.name]"></span>
-         <input type="text" ng-if="isEdit(topic)" placeholder="{{field.name}}" ng-model="topic[field.name]">
+      <td ng-repeat = "field in ::structure.fields" >
+         <span ng-if="!isEditTopic(topic)" ng-bind="::topic[field.name]"></span>
+         <input type="text" ng-if="isEditTopic(topic)" placeholder="{{::field.name}}" ng-model="topic[field.name]">
       </td>
       <td>
-         <button class="edit" ng-if="!isEdit(topic)" ng-click="editThesaurusTopic(topic)">{{'COMMON.EDIT' | translate}}</button>
-         <button class="save" ng-if="isEdit(topic)" ng-click="saveThesaurusTopic(topic)">{{'COMMON.SAVE' | translate}}</button>
+         <button class="edit" ng-if="!isEditTopic(topic)" ng-click="editThesaurusTopic(topic)" 
+                 ng-disabled="!isTopicEditAllow(topic)">{{::('COMMON.EDIT' | translate)}}</button>
+         <button class="save" ng-if="isEditTopic(topic)" 
+                 ng-click="saveEditTopic(topic)">{{::('COMMON.SAVE' | translate)}}</button>
       </td>
       <td>
-         <button class="remove" ng-if="!isEdit(topic)" ng-click="removeThesaurusTopic(topic)">{{'COMMON.REMOVE' | translate}}</button>
-         <button class="cancel" ng-if="isEdit(topic)" ng-click="cancelThesaurusTopicEditing(topic)">{{'COMMON.CANCEL' | translate}}</button>
+         <button class="remove" ng-if="!isEditTopic(topic)" ng-click="removeThesaurusTopic(topic)" 
+                 ng-disabled="!isTopicEditAllow(topic)">{{::('COMMON.REMOVE' | translate)}}</button>
+         <button class="cancel" ng-if="isEditTopic(topic)" ng-click="cancelThesaurusTopicEditing(topic)">
+            {{::('COMMON.CANCEL' | translate)}}
+         </button>
       </td>
    </tr>
    <tr>
-      <td ng-repeat = "field in structure.fields">
-         <input type="text" placeholder="{{field.name}}" ng-model="newTresauruseTopic[field.name]">
+      <td ng-repeat = "field in ::structure.fields">
+         <input type="text" placeholder="{{::field.name}}" ng-model="newTresaurusTopic[field.name]"
+                ng-disabled="!isTopicEditAllow(newTresaurusTopic)">
       </td>
       <td class="add">
-         <button ng-click="addThesaurusTopic(newTresauruseTopic)">{{'COMMON.ADD' | translate}}</button>
+         <button ng-click="addNewTopic(newTresaurusTopic)" 
+                 ng-disabled="!isTopicEditAllow(newTresaurusTopic)">{{::('COMMON.ADD' | translate)}}</button>
       </td>
    </tr>
 </table>

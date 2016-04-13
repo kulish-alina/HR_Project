@@ -26,9 +26,12 @@ namespace Data.DumbData.Repositories
 
         public void Add(TEntity entity)
         {
-            if (Collection.Any(x => x == entity))
+            if (Collection.Any(x => x.Id == entity.Id))
             {
-                entity.Id = Collection.Count + 1;
+                if (entity.Id == 0)
+                {
+                    entity.Id = Collection.Count + 1;
+                }
                 Collection.Add(entity);
             }
             else

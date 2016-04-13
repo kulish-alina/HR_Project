@@ -19,23 +19,30 @@ export default class ThesaurusDirective {
 }
 
 function ThesaurusController($scope, ThesaurusService) {
-
    'ngInject';
 
    const vm = $scope;
-   vm.topics = [];
-   vm.structure = { } ;
-   vm.newTresaurusTopic = { } ;
-   vm.editThesaurusTopic = editThesaurusTopic;
-   vm.saveEditTopic = saveEditTopic;
-   vm.addNewTopic = addNewTopic;
+
+   /* --- api --- */
+   vm.topics      = [];
+   vm.structure   = {};
+   vm.newTresaurusTopic = {};
+
+   vm.isEditTopic       = isEditTopic;
+   vm.addNewTopic       = addNewTopic;
+   vm.saveEditTopic     = saveEditTopic;
+   vm.isTopicEditAllow  = isTopicEditAllow;
+   vm.editThesaurusTopic      = editThesaurusTopic;
+   vm.removeThesaurusTopic    = deleteThesaurusTopic;
    vm.cancelThesaurusTopicEditing = cancelThesaurusTopicEditing;
-   vm.removeThesaurusTopic = deleteThesaurusTopic;
-   vm.isEditTopic = isEditTopic;
-   vm.isTopicEditAllow = isTopicEditAllow;
-   _getThesaurusStructure();
-   _getThesaurusTopics();
-   var editTopicClone = null;
+
+
+   /* === impl === */
+   let editTopicClone = null;
+   (function _init() {
+      _getThesaurusStructure();
+      _getThesaurusTopics();
+   }());
 
    function isEditTopic(topic) {
       return _isHasEditTopic() && _isEditTopic(topic);
@@ -56,7 +63,7 @@ function ThesaurusController($scope, ThesaurusService) {
 
    function addNewTopic(topic) {
       _saveThesaurusTopic(topic);
-      vm.newTresaurusTopic = { } ;
+      vm.newTresaurusTopic = {};
    }
 
    function saveEditTopic(topic) {
@@ -65,8 +72,7 @@ function ThesaurusController($scope, ThesaurusService) {
    }
 
    function deleteThesaurusTopic(topic) {
-      ThesaurusService.deleteThesaurusTopic(vm.name, topic)
-         .catch(_onError);
+      ThesaurusService.deleteThesaurusTopic(vm.name, topic).catch(_onError);
    }
 
    function _getThesaurusStructure() {
@@ -88,8 +94,7 @@ function ThesaurusController($scope, ThesaurusService) {
    }
 
    function _saveThesaurusTopic(topic) {
-      ThesaurusService.saveThesaurusTopic(vm.name, topic)
-         .catch(_onError);
+      ThesaurusService.saveThesaurusTopic(vm.name, topic).catch(_onError);
    }
 
    function _deleteClone() {

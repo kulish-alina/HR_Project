@@ -20,6 +20,7 @@ import phoneFormatFilter from './filters/PhoneFormatFilter';
 import 'angularjs-datepicker/src/js/angular-datepicker';
 import 'angularjs-datepicker/src/css/angular-datepicker.css';
 
+import DatePickerDirective from './directives/datepickerwrapper/DatepickerWrapperDirective';
 var dependencies = [router, translate, uiMask, 'validation', 'validation.rule', '720kb.datepicker'];
 
 angular
@@ -33,6 +34,8 @@ angular
    .service('ValidationService', ValidationService)
 
    .filter('tel', phoneFormatFilter)
+
+   .directive('date', DatePickerDirective.createInstance)
 
    .config(config)
    .config(configValidation);

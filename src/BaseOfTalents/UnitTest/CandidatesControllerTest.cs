@@ -30,8 +30,6 @@ namespace UnitTest
                 x.CreateMap<CandidateDTO, Candidate>();
                 x.CreateMap<Vacancy, VacancyDTO>();
                 x.CreateMap<VacancyDTO, Vacancy>();
-                x.CreateMap<SocialNetwork, SocialNetworkDTO>();
-                x.CreateMap<SocialNetworkDTO, SocialNetwork>();
             });
            // System.Diagnostics.Debugger.Launch();
         }

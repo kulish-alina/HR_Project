@@ -26,7 +26,7 @@
    border-left: 1px solid $border-color;
 }
 .second-button-bar :hover {
-   box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+   box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
 }
 .secondary-menu {
    display: flex;

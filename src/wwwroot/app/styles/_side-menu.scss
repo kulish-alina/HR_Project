@@ -10,7 +10,7 @@
    );
    @include grid-frame($orientation: vertical);
    @include menu-bar-icons($position: top);
-   box-shadow: inset 0px 0px 13px 9px rgba(0,0,0,0.27);
+   box-shadow: inset 0px 0px 13px 9px transparentize($body-font-color, 0.73);
 }
 .side-menu li {
    font-size: 0.7rem;

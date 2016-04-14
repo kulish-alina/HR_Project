@@ -38,7 +38,7 @@ form p {
 }
 form .ng-invalid {
    margin-bottom: 0.2rem;
-   box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
+   box-shadow: inset 0px 0px 3px 0px transparentize($alert-color, 0.3);
 }
 .button-with-input {
    height: 2.4rem;

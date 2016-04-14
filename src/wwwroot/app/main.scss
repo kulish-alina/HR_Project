@@ -2,7 +2,7 @@
 @import "foundation";
 
 body {
-   background-color: #f5f8f9;
+   background-color: $light-color;
    min-width: 1200px;
 }
 
@@ -27,7 +27,7 @@ textarea {
      $segmented: true,
      $expand: true,
      $background: $primary-color,
-     $color: #fff
+     $color: $body-background
    );
    margin-bottom: 16px !important;
 }
@@ -46,32 +46,27 @@ form p {
 }
 form .ng-invalid {
    margin-bottom: 0.2rem;
-   // use mixin for vendor prefixes
-   // also check caniuse
-   // as i know we don't need prefixes for `box-shadow`
-   // also use more variables
-   -webkit-box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
-   -moz-box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
    box-shadow: inset 0px 0px 3px 0px rgba(240,65,36,0.8);
 }
 
 // Styles for tables
 table {
-   margin:5px;
-   padding:5px;
-   width:100%;
+   margin: 5px;
+   padding: 5px;
+   width: 100%;
 }
 th {
    font-weight: normal;
    padding: 10px;
    text-align: left;
+   background: lighten($gray-light, 2);
 }
 td {
-   border-top: 1px solid #EDEDED;
+   border-top: 1px solid lighten($gray, 5);
    padding: 10px;
 }
 tr:nth-child(2n) {
-   background: #f5f8f9;
+   background: lighten($gray-light, 2);
 }
 .content {
    width: 100%;
@@ -114,9 +109,9 @@ tr:nth-child(2n) {
       $background: $menubar-background,
       $background-hover: $menubar-background,
       $background-active: $menubar-background,
-      $color: #fff,
-      $color-hover: #fff,
-      $color-active: #fff
+      $color: $body-background,
+      $color-hover: $body-background,
+      $color-active: $body-background
    );
    @include menu-bar-align($align: center);
 }
@@ -124,52 +119,54 @@ tr:nth-child(2n) {
    font-size: 0.6rem;
 }
 .main-button-bar :hover {
-   -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
-   -moz-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
    box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
 }
-.menu-img{
+.menu-img {
    width: 50px;
 }
-.search{
+.search {
    margin-bottom: 0 !important;
 }
 
 // Styles for secondary menu
-.secondary-menu{
-   background-color: #80deea;
+.secondary-menu {
+   background-color: $secondary-color;
 }
-.second-button-bar{
-  @include menu-bar-layout (
+.second-button-bar {
+   @include menu-bar-layout(
      $orientation: horizontal,
-     $stretch: false);
+     $stretch: false
+   );
+   
    @include menu-bar-style(
-      $background: #fff,
-      $background-hover: #fff,
-      $background-active: #fff,
-      $color: #222,
-      $color-hover: #222,
-      $color-active: #222);
-   @include menu-bar-align($align: right);
-   border-right: 1px solid #d8e3e7;
+      $background:  $body-background,
+      $background-hover: $body-background,
+      $background-active: $body-background,
+      $color: $body-font-color,
+      $color-hover: $body-font-color,
+      $color-active: $body-font-color
+   );
+   
+   @include menu-bar-align(
+      $align: right
+   );
+   border-right: 1px solid $border-color;
 }
-.second-button-bar li{
-   border-left: 1px solid #d8e3e7;
+.second-button-bar li {
+   border-left: 1px solid $border-color;
 }
-.second-button-bar :hover{
-   -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
-   -moz-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+.second-button-bar :hover {
    box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
 }
-.secondary-menu{
+.secondary-menu {
    display: flex;
    align-items: center;
    padding-left: $global-padding/2;
    padding-right: $global-padding/2;
    padding-bottom: 0;
    padding-top: 0;
-   border: 1px solid #d8e3e7;
-   background-color: #fff;
+   border: 1px solid $border-color;
+   background-color: $body-background;
 }
 
 // Styles for side menu
@@ -184,74 +181,75 @@ tr:nth-child(2n) {
    );
    @include grid-frame($orientation: vertical);
    @include menu-bar-icons($position: top);
-   -webkit-box-shadow: inset 0px 0px 13px 9px rgba(0,0,0,0.27);
-   -moz-box-shadow: inset 0px 0px 13px 9px rgba(0,0,0,0.27);
    box-shadow: inset 0px 0px 13px 9px rgba(0,0,0,0.27);
 }
-.side-menu li{
+.side-menu li {
    font-size: 0.7rem;
-   border-bottom: 1px solid #222C37;
-   border-top: 1px solid #313B3D;
+   border-bottom: 1px solid $dark-color;
+   border-top: 1px solid lighten($dark-color, 8);
 }
 .side-menu li:nth-child(n+2):nth-child(-n+4):hover {
-    border-left: 3px solid $primary-color;
+   border-left: 3px solid $primary-color;
 }
 .side-menu li:nth-child(n+5) a {
-    color: #757575;
+   color: $gray-dark;
 }
 .side-menu li:nth-child(n+5) a:hover {
-    color: #757575;;
+   color: $gray-dark;
 }
-
 .side-menu > :first-child a:hover {
-    transform: scale(1.5, 1.5);
+   transform: scale(1.5, 1.5);
 }
-.side-menu img{
+.side-menu img {
    width: 30px;
 }
 
 // Styles for sidebar
-.sidebar{
+.sidebar {
    @include card-container($margin: 0.5rem);
    max-height: 750px;
    width: 100%;
 }
-.sidebar-content{
-   @include card-section($padding: 0 $global-padding);
+.sidebar-content {
+   @include card-section(
+      $padding: 0 $global-padding
+   );
 }
-.sidebar-content i{
+.sidebar-content i {
    font-size: 1.5rem;
    color: $primary-color;
 }
 .comments i {
-    font-size: 1rem;
-    color: $gray-dark;
+   font-size: 1rem;
+   color: $gray-dark;
 }
 .comments i:hover {
-    color: $primary-color;
+   color: $primary-color;
 }
 .events i {
-    font-size: 2rem;
-    color: $gray-dark;
+   font-size: 2rem;
+   color: $gray-dark;
 }
 .events i:hover {
-    color: $primary-color;
+   color: $primary-color;
 }
-.vacancies select{
-    border: 0;
-    background-color: #fff;
-    font-size: 0.7rem;
+.vacancies select {
+   border: 0;
+   background-color: $body-background;
+   font-size: 0.7rem;
 }
 .sidebar-content ul {
    padding: $global-padding;
 }
 
 // Styles for main content
-.main-card{
-    @include card-container($margin: 0.5rem);
-    width: 100%;
-    min-height: 600px;
-    max-height: 900px;
+.main-card {
+   @include card-container(
+      $margin: 0.5rem
+   );
+   width: 100%;
+   min-height: 600px;
+   max-height: 900px;
 }
 
 // Styles for switching pages
@@ -261,30 +259,30 @@ tr:nth-child(2n) {
    position: absolute;
    color: $offcanvas-background;
 }
-.pages i{
+.pages i {
    color: $offcanvas-background;
 }
 
 //Styles for candidate/user
 .profile-photo{
-    background-image: url(images/upload-photo.png);
-    background-repeat: no-repeat;
-    background-size: 100%;
-    width: 100%;
-    height: 200px;
-    margin-bottom: 1rem;
-    padding-bottom: 30%;
-    padding-top: 30%;
-    text-align: center;
+   background-image: url(images/upload-photo.png);
+   background-repeat: no-repeat;
+   background-size: 100%;
+   width: 100%;
+   height: 200px;
+   margin-bottom: 1rem;
+   padding-bottom: 30%;
+   padding-top: 30%;
+   text-align: center;
 }
-.profile-photo-input{
-    width: 100%;
+.profile-photo-input {
+   width: 100%;
 }
-.upload-title{
-    font-size: 2rem;
-    color: #555555;
+.upload-title {
+   font-size: 2rem;
+   color: lighten($dark-color, 7);
 }
-.button-with-input{
-    height: 2.4rem;
-    width: 100%;
+.button-with-input {
+   height: 2.4rem;
+   width: 100%;
 }

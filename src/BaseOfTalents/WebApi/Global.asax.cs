@@ -21,6 +21,11 @@ namespace WebApi
             builder.RegisterType<EFVacancyRepository>().As<IVacancyRepository>();
             builder.RegisterType<EFCandidateRepository>().As<ICandidateRepository>();
             builder.RegisterType<EFSocialNetworkRepository>().As<ISocialNetworkRepository>();
+            builder.RegisterType<EFCityRepository>().As<ICityRepository>();
+            builder.RegisterType<EFCountryRepository>().As<ICountryRepository>();
+            builder.RegisterType<EFLanguageRepository>().As<ILanguageRepository>();
+
+
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 

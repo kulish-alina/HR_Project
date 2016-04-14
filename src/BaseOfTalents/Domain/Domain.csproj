@@ -80,14 +80,22 @@
     <Compile Include="Repositories\ICityRepository.cs" />
     <Compile Include="Repositories\ICommentRepository.cs" />
     <Compile Include="Repositories\ICountryRepository.cs" />
+    <Compile Include="Repositories\IDepartmentRepository.cs" />
     <Compile Include="Repositories\IEventRepository.cs" />
+    <Compile Include="Repositories\IEventTypeRepository.cs" />
+    <Compile Include="Repositories\IExperienceRepository.cs" />
     <Compile Include="Repositories\IFileRepository.cs" />
+    <Compile Include="Repositories\ILanguageRepository.cs" />
     <Compile Include="Repositories\IPermissionRepository.cs" />
     <Compile Include="Repositories\IPhotoRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IRoleRepository.cs" />
+    <Compile Include="Repositories\IRoomRepository.cs" />
+    <Compile Include="Repositories\ISkillRepository.cs" />
     <Compile Include="Repositories\ISocialNetworkRepository.cs" />
     <Compile Include="Repositories\IStageInfoRepository.cs" />
+    <Compile Include="Repositories\IStageRepository.cs" />
+    <Compile Include="Repositories\ITeamRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\IVacancyRepository.cs" />
   </ItemGroup>

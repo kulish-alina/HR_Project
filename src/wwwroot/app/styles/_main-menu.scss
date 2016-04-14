@@ -1,0 +1,38 @@
+// Styles for main menu
+.main-menu {
+   background-color: $menubar-background;
+   padding-left: $global-padding/2;
+   padding-right: $global-padding/2;
+   padding-bottom: 0;
+   padding-top: 0;
+   display: flex;
+   align-items: center;
+}
+.main-button-bar {
+   @include menu-bar-layout(
+      $orientation: horizontal,
+      $stretch: false
+   );
+
+   @include menu-bar-style(
+      $background: $menubar-background,
+      $background-hover: $menubar-background,
+      $background-active: $menubar-background,
+      $color: $body-background,
+      $color-hover: $body-background,
+      $color-active: $body-background
+   );
+   @include menu-bar-align($align: center);
+}
+.main-button-bar i {
+   font-size: 0.6rem;
+}
+.main-button-bar :hover {
+   box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+.menu-img {
+   width: 50px;
+}
+.search {
+   margin-bottom: 0 !important;
+}

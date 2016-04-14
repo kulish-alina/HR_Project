@@ -1,0 +1,40 @@
+// Styles for secondary menu
+.secondary-menu {
+   background-color: $secondary-color;
+}
+.second-button-bar {
+   @include menu-bar-layout(
+     $orientation: horizontal,
+     $stretch: false
+   );
+   
+   @include menu-bar-style(
+      $background:  $body-background,
+      $background-hover: $body-background,
+      $background-active: $body-background,
+      $color: $body-font-color,
+      $color-hover: $body-font-color,
+      $color-active: $body-font-color
+   );
+   
+   @include menu-bar-align(
+      $align: right
+   );
+   border-right: 1px solid $border-color;
+}
+.second-button-bar li {
+   border-left: 1px solid $border-color;
+}
+.second-button-bar :hover {
+   box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+.secondary-menu {
+   display: flex;
+   align-items: center;
+   padding-left: $global-padding/2;
+   padding-right: $global-padding/2;
+   padding-bottom: 0;
+   padding-top: 0;
+   border: 1px solid $border-color;
+   background-color: $body-background;
+}

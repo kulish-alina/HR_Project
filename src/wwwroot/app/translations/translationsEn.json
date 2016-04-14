@@ -1,13 +1,49 @@
 {
    "INDEX": {
-      "HOME" : "Home",
-      "CANDIDATES" : "Candidates",
-      "VACANCIES" : "Vacansies",
-      "ADD_CANDIDATE" : "Add Candidate"
+      "HOME": "Home",
+      "CANDIDATES": "Candidates",
+      "VACANCIES": "Vacansies",
+      "ADD_CANDIDATE": "Add Candidate"
+},
+   "CANDIDATE": {
+      "ERROR": "Sorry! Some error occurred"
    },
-   "CANDIDATE" : {},
-   "CANDIDATES" : {},
-   "HOME" : {},
-   "VACANCIES" : {},
-   "COMMON" : {}
+   "CANDIDATES": {},
+   "HOME": {},
+   "VACANCIES": {},
+   "COMMON": {},
+   "VALIDATION": {
+      "required": {
+         "error": "*this should be Required!!",
+         "success": "It's Required"
+      },
+      "url": {
+         "error": "*this should be Url",
+         "success": "It's Url"
+      },
+      "email": {
+         "error": "*this should be Email",
+         "success": "It's Email"
+      },
+      "number": {
+         "error": "*this should be Number",
+         "success": "It's Number"
+      },
+      "minlength": {
+         "error": "*this should be longer",
+         "success": "Long enough!"
+      },
+      "maxlength": {
+         "error": "*this should be shorter",
+         "success": "Short enough!"
+      },
+      "name": {
+         "error": "*this should be from 1 to 50 symbols",
+         "success": "Correct!"
+      },
+      "title": {
+         "error": "*this should be from 3 to 50 symbols",
+         "success": "Correct!"
+      }
+   }
 }

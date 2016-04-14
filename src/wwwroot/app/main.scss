@@ -1,11 +1,11 @@
 @import "settings";
 @import "foundation";
-@import "./styles/table.scss";
-@import "./styles/form.scss";
-@import "./styles/main-menu.scss";
-@import "./styles/secondary-menu.scss";
-@import "./styles/side-menu.scss";
-@import "./styles/sidebar.scss";
+@import "./styles/table";
+@import "./styles/form";
+@import "./styles/main-menu";
+@import "./styles/secondary-menu";
+@import "./styles/side-menu";
+@import "./styles/sidebar";
 
 body {
    background-color: $light-color;

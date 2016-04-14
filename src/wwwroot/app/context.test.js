@@ -11,10 +11,8 @@ describe('generateContext function test : ', () => {
 
 describe('UrlContext parsing test. Expected parameters', () => {
    function _contextTestFabric(urlParameters, expectationObject) {
-
       spyOn(utils, 'getUrlParameters').and.returnValue(urlParameters);
       let context = pick(generateContext(), keys(expectationObject));
-
       expect(context).toEqual(expectationObject);
    };
 

@@ -20,12 +20,16 @@ const wbpk = {
 
 //Module config
 function _load() {
-   if(target === 'test'){
+   if (target === 'test') {
       return merge.smart(wbpk.global(), wbpk.test());
    } else if (target === 'production') {
-      return merge.smart(wbpk.global(), wbpk.output(path, paths.appPath, paths.buildPath, pkg), wbpk.production(webpack));
+      return merge.smart(wbpk.global(),
+         wbpk.output(path, paths.appPath, paths.buildPath, pkg),
+         wbpk.production(webpack));
    }
    // default state - development (with devserver configs)
-   return merge.smart(wbpk.global(), wbpk.output(path, paths.appPath, paths.buildPath, pkg), wbpk.development(webpack));
+   return merge.smart(wbpk.global(),
+      wbpk.output(path, paths.appPath, paths.buildPath, pkg),
+      wbpk.development(webpack));
 }
 module.exports = _load();

@@ -13,6 +13,7 @@ import HttpProvider     from './services/HttpProvider';
 import CandidateService  from './services/candidateService';
 import VacancyService    from './services/vacancyService';
 import ValidationService from './services/validationService';
+import UserService       from './services/userService';
 
 var dependencies = [router, translate, 'validation', 'validation.rule'];
 
@@ -25,6 +26,7 @@ angular
    .service('CandidateService',  CandidateService)
    .service('VacancyService',    VacancyService)
    .service('ValidationService', ValidationService)
+   .service('UserService', UserService)
 
    .config(config)
    .config(configValidation);

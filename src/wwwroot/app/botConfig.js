@@ -4,6 +4,7 @@ import candidatesTemplate from './views/candidates/candidates.view.html';
 import candidateTemplate from './views/candidate/candidate.view.html';
 import vacanciesTemplate from './views/vacancies/vacancies.view.html';
 import vacancyTemplate from './views/vacancy/vacancy.view.html';
+import settingsTemplate from './views/settings/settings.view.html';
 
 import candidatesController from './views/candidates/candidates.controller';
 import candidateController from './views/candidate/candidate.controller';
@@ -52,6 +53,10 @@ export default function _config(
          url: '/vacancy',
          template: vacancyTemplate,
          controller: vacancyController
+      })
+      .state('settings', {
+         url: '/settings',
+         template: settingsTemplate
       })
 
    $urlRouterProvider.otherwise('home');

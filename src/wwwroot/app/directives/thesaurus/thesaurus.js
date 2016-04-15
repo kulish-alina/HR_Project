@@ -36,6 +36,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    vm.additionThesaurusesStore = { };
    vm.topicsSelectedOptions = { };
    vm.getSelected = getSelected;
+   vm.change = change;
    _getThesaurusStructure();
    _getThesaurusTopics();
    var editTopicClone = null;
@@ -106,6 +107,11 @@ function ThesaurusController($scope, ThesaurusService, $q) {
 
    function getSelected(id, thesaurusRef) {
       return find(vm.additionThesaurusesStore[thesaurusRef], s => s.id === id);
+   }
+
+   function change(topic, field) {
+      topic[field.name] =
+         vm.topicsSelectedOptions[topic[field.refTo.labelFieldName]][field.name].id;
    }
 
    function _isEditTopic(topic) {

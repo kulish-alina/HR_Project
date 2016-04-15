@@ -76,5 +76,11 @@
          "error": "*this should be from 3 to 50 symbols",
          "success": "Correct!"
       }
-   }
+   },
+      "SETTINGS" : {
+         "PROFILE" : "Profile",
+         "MEMBERS" : "Team members",
+         "ROLES" : "Roles",
+         "RECRUITING" : "Recruiting settings"
+      }
 }

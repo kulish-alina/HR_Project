@@ -4,7 +4,7 @@ using WebApi.DTO.DTOModels;
 
 namespace WebApi.Controllers
 {
-    public class SocialNetworksController : BoTController<SocialNetwork, SocialNetworkDTO>
+    public class SocialNetworksController : BoTController<SocialNetwork, SocialNetwork>
     {
         public SocialNetworksController(ISocialNetworkRepository socialNetworkRepository)
         {

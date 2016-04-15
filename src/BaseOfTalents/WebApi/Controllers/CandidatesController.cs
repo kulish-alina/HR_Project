@@ -17,24 +17,15 @@ namespace WebApi.Controllers
 
         [Route("api/candidates/{candidateId}/vacancies")]
         [HttpGet]
-        public HttpResponseMessage VacanciesProgress(int candidateId)
+        public IHttpActionResult VacanciesProgress(int candidateId)
         {
-            HttpResponseMessage response;
             var foundedCandidate = _repo.Get(candidateId);
             if (foundedCandidate != null)
             {
                 var foundedCandidateDto = DTOService.ToDTO<Candidate, CandidateDTO>(foundedCandidate);
-                  response = new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = SerializeContent(foundedCandidateDto.VacanciesProgress)
-                };
+                return Json(foundedCandidateDto);
             }
-            else
-            {
-                response = new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
-            return response;
+            return NotFound();
         }
     }
 }

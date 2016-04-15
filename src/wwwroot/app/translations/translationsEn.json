@@ -6,16 +6,43 @@
       "REPORTS" : "Reports",
       "CALENDAR" : "Calendar",
       "SETTINGS" : "Settings",
-      "ADD_CANDIDATE" : "Add Candidate",
-      "ADD_VACANCY" : "Add Vacancy"
-},
-   "CANDIDATE": {
-      "ERROR": "Sorry! Some error occurred"
+      "MY_BOT": "My BOT",
+      "SEARCH": "Search",
+      "USER_NAME": "User Name"
    },
-   "CANDIDATES": {},
-   "HOME": {},
-   "VACANCIES": {},
-   "COMMON": {},
+   "CANDIDATE": {
+      "ERROR": "Sorry! Some error occurred",
+      "NEW_CANDIDATE": "New candidate"
+   },
+   "CANDIDATES": {
+      "CANDIDATES": "Candidates",
+      "BASE_OF_CANDIDATES": "Base of candidates",
+      "SEARCH_CANDIDATES": "Search Candidates"
+   },
+   "HOME": {
+      "HOME": "Home"
+   },
+   "VACANCY": {
+      "NEW_VACANCY": "New vacancy"
+   },
+   "VACANCIES": {
+      "VACANCIES": "Vacancies",
+      "BASE_OF_VACANCIES": "Base of vacancies",
+      "SEARCH_VACANCIES": "Search vacancies"
+   },
+   "COMMON": {
+      "ADD_CANDIDATE" : "Add Candidate",
+      "ADD_VACANCY" : "Add Vacancy",
+      "ADD_EVENT" : "Add Event",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Submit",
+      "ADD_AND_BACK": "Add and back",
+      "ADD": "Add",
+      "SAVE": "Save",
+      "EVENTS": "Events",
+      "NOTES": "Notes",
+      "COMMENTS": "Comments"
+   },
    "VALIDATION": {
       "required": {
          "error": "*this should be Required!!",

@@ -25,16 +25,16 @@
 <div class="secondary-menu grid-block">
     <div class="large-2 grid-block">
         <div class="grid-content">
-            <h5>Add candidate</h5>
+            <h5>{{::'COMMON.ADD_CANDIDATE' | translate}}</h5>
         </div>
     </div>
     <div class="large-7 grid-block">
     </div>
     <div class="large-3 grid-block align-right">
         <ul class="menu-bar second-button-bar">
-            <li><a href="#">Cancel</a>
+            <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
             </li>
-            <li><a ng-click="submit(Candidate)">Submit</a>
+            <li><a ng-click="submit(Candidate)">{{::'COMMON.SUBMIT' | translate}}</a>
             </li>
         </ul>
     </div>
@@ -43,7 +43,7 @@
     <div class="medium-9 grid-block">
         <div class="main-card">
             <div class="card-divider">
-                New candidate
+                {{::'CANDIDATE.NEW_CANDIDATE' | translate}}
             </div>
             <div class="card-section">
                 <form name="Candidate">
@@ -169,7 +169,7 @@
         <div class="vertical medium-horizontal grid-block">
             <div class="sidebar">
                 <div class="card-divider">
-                    Vacancies
+                    {{::'VACANCIES.VACANCIES' | translate}}
                 </div>
                 <div class="sidebar-content">
                     <div class="grid-block">
@@ -182,7 +182,7 @@
                             </select>
                         </div>
                         <div class="medium-3 grid-block">
-                            <a class="button button-with-input" href="#">Add</a>
+                            <a class="button button-with-input" href="#">{{::'COMMON.ADD' | translate}}</a>
                         </div>
                     </div>
                     <section class="block-list">
@@ -240,9 +240,9 @@
             <div class="sidebar">
                 <div class="card-divider">
                     <div class="grid-block">
-                        <div class="medium-9 grid-block">Events</div>
+                        <div class="medium-9 grid-block">{{::'COMMON.EVENTS' | translate}}</div>
                         <div class="medium-3 grid-block">
-                            <a class="button button-with-input" href="#">Add</a>
+                            <a class="button button-with-input" href="#">{{::'COMMON.ADD' | translate}}</a>
                         </div>
                     </div>
                 </div>
@@ -285,7 +285,7 @@
             </div>
             <div class="sidebar">
                 <div class="card-divider">
-                    Comments
+                    {{::'COMMON.COMMENTS' | translate}}
                 </div>
                 <div class="sidebar-content">
                     <div class="grid-block">
@@ -293,7 +293,7 @@
                             <textarea placeholder="Comment"></textarea>
                         </div>
                         <div class="medium-3 grid-block">
-                            <a class="button button-with-input" href="#">Save</a>
+                            <a class="button button-with-input" href="#">{{::'COMMON.SAVE' | translate}}</a>
                         </div>
                     </div>
                     <section class="block-list">

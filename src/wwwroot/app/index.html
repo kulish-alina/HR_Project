@@ -11,23 +11,23 @@
       <ul class="menu-bar side-menu">
          <li><a zf-close="" class="close-button">×</a></li>
          <li>
-            <a ui-sref="home">{{'INDEX.HOME' | translate}}
+            <a ui-sref="home">{{::'INDEX.HOME' | translate}}
                 <img class="menu-img" src="/app/images/home.png"></a>
          </li>
          <li>
-            <a ui-sref="candidates">{{'INDEX.CANDIDATES' | translate}}
+            <a ui-sref="candidates">{{::'INDEX.CANDIDATES' | translate}}
                 <img class="menu-img" src="/app/images/candidates.png"></a>
          </li>
-         <li><a ui-sref="vacancies">{{'INDEX.VACANCIES' | translate}}
+         <li><a ui-sref="vacancies">{{::'INDEX.VACANCIES' | translate}}
             <img class="menu-img" src="/app/images/vacancies.png"></a>
          </li>
-         <li> <a ui-sref="#">{{'INDEX.REPORTS' | translate}}
+         <li> <a ui-sref="#">{{::'INDEX.REPORTS' | translate}}
           <img class="menu-img" src="/app/images/reports.png"></a>
          </li>
-         <li><a ui-sref="#">{{'INDEX.CALENDAR' | translate}}
+         <li><a ui-sref="#">{{::'INDEX.CALENDAR' | translate}}
          <img class="menu-img" src="/app/images/calendar.png"></a>
          </li>
-         <li><a ui-sref="#">{{'INDEX.SETTINGS' | translate}}
+         <li><a ui-sref="#">{{::'INDEX.SETTINGS' | translate}}
               <img class="menu-img" src="/app/images/settings.png"></a>
          </li>
       </ul>
@@ -37,25 +37,25 @@
          <a zf-open="menu"><img src="/app/images/menu.png"></a>
          <a ui-sref="home">
             <img class="menu-img" src="/app/images/bot-home.png">
-            My BOT
+            {{::'INDEX.MY_BOT' | translate}}
          </a>
       </div>
       <div class="large-3 grid-block">
          <input class="search" type="search">
-         <a href="#" class="button">Search</a>
+         <a href="#" class="button">{{::'INDEX.SEARCH' | translate}}</a>
       </div>
       <div class="large-5 grid-content">
          <ul class="menu-bar icon-left main-button-bar">
-            <li><a ui-sref="candidate"><i class="foundicon-plus general-icon"></i>{{'INDEX.ADD_CANDIDATE' | translate}}</a>
+            <li><a ui-sref="candidate"><i class="foundicon-plus general-icon"></i>{{::'COMMON.ADD_CANDIDATE' | translate}}</a>
             </li>
-            <li><a ui-sref="vacancy"><i class="foundicon-plus general-icon"></i>{{'INDEX.ADD_VACANCY' | translate}}</a>
+            <li><a ui-sref="vacancy"><i class="foundicon-plus general-icon"></i>{{::'COMMON.ADD_VACANCY' | translate}}</a>
             </li>
          </ul>
       </div>
       <div class="large-2 grid-block align-right">
          <a href="#">
             <i class="foundicon-torso social-icon"></i>
-            <a href="#">User Name</a>
+            <a href="#">{{::'INDEX.USER_NAME' | translate}}</a>
          </a>
       </div>
    </div>

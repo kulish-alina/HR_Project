@@ -1,7 +1,7 @@
 // Styles for sidebar
 .sidebar {
    @include card-container($margin: 0.5rem);
-   max-height: 750px;
+   max-height: $rem-base*46.88;
    width: 100%;
 }
 .sidebar-content {
@@ -10,18 +10,18 @@
    );
 }
 .sidebar-content i {
-   font-size: 1.5rem;
+   font-size: $rem-base*1.5;
    color: $primary-color;
 }
 .comments i {
-   font-size: 1rem;
+   font-size: $rem-base;
    color: $gray-dark;
 }
 .comments i:hover {
    color: $primary-color;
 }
 .events i {
-   font-size: 2rem;
+   font-size: $rem-base*2;
    color: $gray-dark;
 }
 .events i:hover {
@@ -30,7 +30,7 @@
 .vacancies select {
    border: 0;
    background-color: $body-background;
-   font-size: 0.7rem;
+   font-size: $rem-base*0.7;
 }
 .sidebar-content ul {
    padding: $global-padding;

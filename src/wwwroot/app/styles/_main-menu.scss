@@ -25,13 +25,13 @@
    @include menu-bar-align($align: center);
 }
 .main-button-bar i {
-   font-size: 0.6rem;
+   font-size: $rem-base*0.6;
 }
 .main-button-bar :hover {
    box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
 }
 .menu-img {
-   width: 50px;
+   width: $rem-base*3.125;
 }
 .search {
    margin-bottom: 0 !important;

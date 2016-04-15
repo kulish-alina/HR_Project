@@ -5,16 +5,16 @@
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
       <div class="grid-content">
-         <h5>Vacancies</h5>
+         <h5>{{::'VACANCIES.BASE_OF_VACANCIES' | translate}}</h5>
       </div>
    </div>
    <div class="large-8 grid-block">
    </div>
    <div class="large-2 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a href="#">Cancel</a>
+         <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
          </li>
-         <li><a href="#">Add and back</a>
+         <li><a href="#">{{::'COMMON.ADD_AND_BACK' | translate}}</a>
          </li>
       </ul>
    </div>
@@ -23,7 +23,7 @@
    <div class="medium-3 grid-block">
       <div class="sidebar">
          <div class="card-divider">
-            Search Vacancies
+            {{::'VACANCIES.SEARCH_VACANCIES' | translate}}
          </div>
          <div class="card-section">
             <select name="Industry" id="">
@@ -62,7 +62,7 @@
                <option value="">tkas</option>
                <option value="">vles</option>
             </select>
-            <a class="expand button"  ng-click="getVacancies()">Search</a>
+            <a class="expand button"  ng-click="getVacancies()">{{::'INDEX.SEARCH' | translate}}</a>
          </div>
       </div>
    </div>

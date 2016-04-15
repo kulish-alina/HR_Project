@@ -13,7 +13,7 @@
    box-shadow: inset 0px 0px 13px 9px transparentize($body-font-color, 0.73);
 }
 .side-menu li {
-   font-size: 0.7rem;
+   font-size: $rem-base*0.7;
    border-bottom: 1px solid $dark-color;
    border-top: 1px solid lighten($dark-color, 8);
 }
@@ -30,5 +30,5 @@
    transform: scale(1.5, 1.5);
 }
 .side-menu img {
-   width: 30px;
+   width: $rem-base*1.875;
 }

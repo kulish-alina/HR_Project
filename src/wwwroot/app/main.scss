@@ -9,18 +9,18 @@
 
 body {
    background-color: $light-color;
-   min-width: 1200px;
+   min-width: $rem-base*75;
 }
 
 // Styles for icons
 .social-icon {
-   margin-right: 10px;
+   margin-right: $rem-base*0.625;
    &:before {
       font-family: "SocialFoundicons"
    }
 }
 .general-icon {
-   margin-right: 10px;
+   margin-right: $rem-base*0.625;
    &:before {
       font-family: "GeneralFoundicons"
    }
@@ -29,11 +29,11 @@ body {
 // Styles for main content
 .main-card {
    @include card-container(
-      $margin: 0.5rem
+      $margin: $rem-base*0.5
    );
    width: 100%;
-   min-height: 600px;
-   max-height: 900px;
+   min-height: $rem-base*37.5;
+   max-height: $rem-base*56.25;
 }
 
 // Styles for switching pages

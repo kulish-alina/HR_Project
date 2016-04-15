@@ -1,11 +1,16 @@
 <div class="errorMessage" ng-bind="message" ng-disabled="!message"></div>
 <table>
    <caption ng-bind="::structure.thesaurusName | translate"></caption>
-   <tr><th ng-repeat="field in ::structure.fields" ng-bind="::field.name"></th></tr>
+   <tr><th ng-repeat="field in ::structure.fields" ng-bind="::field.label"></th></tr>
    <tr ng-repeat = "topic in topics">
       <td ng-repeat = "field in ::structure.fields" >
-         <span ng-if="!isEditTopic(topic)" ng-bind="::topic[field.name]"></span>
-         <input type="text" ng-if="isEditTopic(topic)" placeholder="{{::field.name}}" ng-model="topic[field.name]">
+         <span ng-if="!isEditTopic(topic)" ng-bind="::topic[field.name]"></span>         
+         <img ng-if="!isEditTopic(topic)&&field.type==='img'">
+         <input type="text" ng-if="isEditTopic(topic)&&field.type==='text'" placeholder="{{::field.name}}"
+                ng-model="topic[field.name]">
+         <select ng-if="isEditTopic(topic)&&field.type==='select'" 
+                 ng-model="topicsSelectedOptions[topic[field.refTo.labelFieldName]][field.name]"
+                 ng-options="option[field.refTo.labelFieldName] for option in additionThesaurusesStore[field.refTo.thesaurusName] track by option.id"></select>
       </td>
       <td>
          <button class="edit" ng-if="!isEditTopic(topic)" ng-click="editThesaurusTopic(topic)" 
@@ -24,7 +29,7 @@
    <tr>
       <td ng-repeat = "field in ::structure.fields">
          <input type="text" placeholder="{{::field.name}}" ng-model="newTresaurusTopic[field.name]"
-                ng-disabled="!isTopicEditAllow(newTresaurusTopic)">
+                ng-show="::field.type=='text'" ng-disabled="!isTopicEditAllow(newTresaurusTopic)">
       </td>
       <td class="add">
          <button ng-click="addNewTopic(newTresaurusTopic)" 

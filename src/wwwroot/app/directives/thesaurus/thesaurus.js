@@ -1,5 +1,5 @@
 import template from './thesaurus.directive.html';
-import { has, clone, assign } from 'lodash';
+import { has, clone, assign, map, forEach, find, filter } from 'lodash';
 
 export default class ThesaurusDirective {
    constructor() {
@@ -18,7 +18,7 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($scope, ThesaurusService) {
+function ThesaurusController($scope, ThesaurusService, $q) {
 
    'ngInject';
 
@@ -33,6 +33,9 @@ function ThesaurusController($scope, ThesaurusService) {
    vm.removeThesaurusTopic = deleteThesaurusTopic;
    vm.isEditTopic = isEditTopic;
    vm.isTopicEditAllow = isTopicEditAllow;
+   vm.additionThesaurusesStore = { };
+   vm.topicsSelectedOptions = { };
+   vm.getSelected = getSelected;
    _getThesaurusStructure();
    _getThesaurusTopics();
    var editTopicClone = null;
@@ -71,12 +74,38 @@ function ThesaurusController($scope, ThesaurusService) {
 
    function _getThesaurusStructure() {
       vm.structure = ThesaurusService.getThesaurusStructure(vm.name);
+      forEach(vm.structure.fields,
+               field => {
+                  if (has(field, 'refTo')) {
+                     ThesaurusService.getThesaurusTopics(field.refTo.thesaurusName)
+                        .then(topics =>
+                           vm.additionThesaurusesStore[field.refTo.thesaurusName] = topics)
+                        .catch(_onError);
+                  };
+               });
    }
 
    function _getThesaurusTopics() {
       ThesaurusService.getThesaurusTopics(vm.name)
-         .then(topics => vm.topics = topics)
+         .then(topics => {
+            vm.topics = topics;
+            var refFields = filter(vm.structure.fields, field => has(field, 'refTo'));
+            forEach(topics, topic => {
+               forEach(refFields, field => {
+                  vm.topicsSelectedOptions[topic[field.refTo.labelFieldName]] = { };
+                  vm.topicsSelectedOptions[topic[field.refTo.labelFieldName]][field.name] =
+                     find(vm.additionThesaurusesStore[field.refTo.thesaurusName],
+                        s => {
+                           return s.id === topic[field.name];
+                        });
+               });
+            });
+         })
          .catch(_onError);
+   }
+
+   function getSelected(id, thesaurusRef) {
+      return find(vm.additionThesaurusesStore[thesaurusRef], s => s.id === id);
    }
 
    function _isEditTopic(topic) {

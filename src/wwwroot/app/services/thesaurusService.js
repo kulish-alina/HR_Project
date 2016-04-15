@@ -1,4 +1,4 @@
-import { has, find, concat, remove } from 'lodash';
+import { has, find, concat, remove, filter, map, forEach } from 'lodash';
 
 let _HttpService, _$q;
 
@@ -7,18 +7,26 @@ const cache = { };
 const THESAURUS_STRUCTURES = {
    'countries' :  {
       thesaurusName : 'THESAURUSES.COUNTRIES',
-      fields : [ {name : 'title', outputName : 'title' } ]
+      fields : [ {name : 'title', label : 'name', type : 'text' } ]
    },
    'socials' : {
       thesaurusName : 'THESAURUSES.SOCIALS',
       fields : [
-         {name : 'title', outputName : 'title' },
-         {name : 'url', outputName : 'url' }
+         {name : 'title', label : 'name', type : 'text' },
+         {name : 'img', label : 'img', type : 'img' }
       ]
    },
    'languages' : {
       thesaurusName : 'THESAURUSES.LANGUAGES',
-      fields : [ {name : 'title', outputName : 'title' } ]
+      fields : [ {name : 'title', label : 'title', type : 'text' } ]
+   },
+   'locations' : {
+      thesaurusName : 'THESAURUSES.LOCATION',
+      fields : [
+         {name : 'title', label : 'name', type : 'text' },
+         {name : 'country', label : 'country', type : 'select',
+            refTo : {thesaurusName: 'countries', labelFieldName : 'title'} }
+      ]
    }
 };
 
@@ -32,9 +40,40 @@ export default class ThesaurusService {
    getThesaurusTopics(thesaurusName) {
       if (!has(cache, thesaurusName)) {
          return _HttpService.get(thesaurusName)
-            .then(topics => cache[thesaurusName] = topics);
+            .then(topics => {
+               cache[thesaurusName] = topics;
+               var refs = map(filter(THESAURUS_STRUCTURES[thesaurusName].fields,
+                              field => has(field, 'refTo')),
+                          field => field.refTo.thesaurusName);
+               forEach(refs, function(ref) {
+                  if (!has(cache, ref)) {
+                     return _HttpService.get(ref)
+                        .then(_topics => cache[ref] = _topics);
+                  }
+               });
+               /*
+               var refs = THESAURUS_STRUCTURES[thesaurusName].fields
+                  .filter(field => has(field, 'refTo'))
+                  .map(field => field.refTo)
+                  .forEach(thesaurus => getThesaurusTopics(thesaurus));
+
+               forEach(refs, function(ref) { return this.getThesaurusTopics(ref); });
+                  */
+               return topics;
+            });
       }
       return _$q.when(cache[thesaurusName]);
+   }
+
+   getThesaurusTopic(thesaurusName, id) {
+      if (!has(cache, thesaurusName)) {
+         var url = thesaurusName + '/' + id;
+         return this.getThesaurusTopics(thesaurusName)
+            .then(topics => {
+               return find(topics, s => s.id === id);
+            });
+      }
+      return _$q.when(find(cache[thesaurusName], s => s.id === id));
    }
 
    saveThesaurusTopic(thesaurusName, entity) {

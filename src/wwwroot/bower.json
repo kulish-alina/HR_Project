@@ -1,0 +1,24 @@
+{
+   "name": "bot",
+   "description": "base of talants",
+   "directory": "bower_components",
+   "authors": [
+      "isd"
+   ],
+   "license": "ISC",
+   "homepage": "https://github.com/kulish-alina/HR_Project",
+   "moduleType": [
+      "es6"
+   ],
+   "dependencies": {
+      "foundation-apps": ">=1.1.0",
+      "foundation-icons": "*"
+   },
+   "ignore": [
+      "**/.*",
+      "node_modules",
+      "bower_components",
+      "test",
+      "tests"
+   ]
+}

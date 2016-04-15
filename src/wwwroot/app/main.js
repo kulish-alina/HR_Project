@@ -4,6 +4,15 @@ import translate from 'angular-translate';
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
+import 'foundation-apps/dist/js/foundation-apps.js';
+import 'foundation-apps/dist/js/foundation-apps-templates.js';
+
+import 'foundation-icons/foundation_icons_general/sass/general_foundicons.scss';
+import 'foundation-icons/foundation_icons_social/sass/social_foundicons.scss';
+
+
+import './main.scss';
+
 import config from './botConfig';
 import configValidation from './configValidation';
 
@@ -21,7 +30,7 @@ import 'angularjs-datepicker/src/js/angular-datepicker';
 import 'angularjs-datepicker/src/css/angular-datepicker.css';
 
 import DatePickerDirective from './directives/datepickerwrapper/DatepickerWrapperDirective';
-var dependencies = [router, translate, uiMask, 'validation', 'validation.rule', '720kb.datepicker'];
+var dependencies = [router, 'foundation', translate, uiMask, 'validation', 'validation.rule', '720kb.datepicker'];
 
 angular
    .module('bot', dependencies)

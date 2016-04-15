@@ -1,0 +1,24 @@
+table {
+   margin: $rem-base*0.3125;
+   padding: $rem-base*0.3125;
+   width: 100%;
+}
+th {
+   font-weight: normal;
+   padding: $rem-base*0.625;
+   text-align: left;
+   background: lighten($gray-light, 2);
+}
+td {
+   border-top: 1px solid lighten($gray, 5);
+   padding: $rem-base*0.625;
+}
+tr:nth-child(2n) {
+   background: lighten($gray-light, 2);
+}
+.content {
+   width: 100%;
+   margin-top: $rem-base*0.625;
+   margin-left: $rem-base*0.4375;
+   margin-right: $rem-base*0.4375;
+}

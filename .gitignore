@@ -35,6 +35,7 @@ bld/
 # NUNIT
 *.VisualState.xml
 TestResult.xml
+nunit-result.xml
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
@@ -186,6 +187,7 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
+bower_components/
 orleans.codegen.cs
 
 # RIA/Silverlight projects

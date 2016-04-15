@@ -11,6 +11,12 @@ module.exports = function(appPath, buildPath, pkg) {
          path: buildPath,
          filename: 'bundle.js'
       },
+      external: {
+         "iconic": "IconicJS"
+      },
+      resolve: {
+         modulesDirectories: ["web_modules", "node_modules", "bower_components"]
+      },
       module: {
          preLoaders: [
             {
@@ -35,13 +41,18 @@ module.exports = function(appPath, buildPath, pkg) {
             },
             {
                test: /\.scss$/,
-               loader: 'style-loader!css-loader!sass-loader!postcss-loader'
+               loader: 'style!css!sass?outputStyle=expanded&includePaths[]=./bower_components/foundation-apps/scss/'
             },
             {
                test: /\.json$/,
                loader : 'json-loader'
+            },
+            {
+               test   : /\.(ttf|png|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+               loader : 'file-loader'
             }]
       },
+
       eslint: {
          configFile: '.eslintrc',
          emitError: true,
@@ -49,6 +60,9 @@ module.exports = function(appPath, buildPath, pkg) {
          failOnError: true
       },
       plugins: [
+         new webpack.ResolverPlugin(
+            new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(".bower.json", ["main"])
+         ),
          new HtmlWebpackPlugin({
             filename: 'index.html',
             pkg: pkg,

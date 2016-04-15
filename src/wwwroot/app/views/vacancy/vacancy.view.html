@@ -11,7 +11,7 @@
         <ul class="menu-bar second-button-bar">
             <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
             </li>
-            <li><a ng-click="saveVacancy()">{{::'COMMON.SUBMIT' | translate}}</a>
+            <li><a ng-click="saveVacancy(Vacancy)">{{::'COMMON.SUBMIT' | translate}}</a>
             </li>
         </ul>
     </div>
@@ -23,11 +23,11 @@
                 {{::'VACANCY.NEW_VACANCY' | translate}}
             </div>
             <div class="card-section">
-                <form>
+                <form name="Vacancy">
                     <div class="grid-block">
                         <div class="medium-4 grid-block">
                             <fieldset>
-                                <input ng-model="vacancy.Title" placeholder="Title" type="text">
+                                <input name="Title" ng-model="vacancy.Title" placeholder="Title" type="text" validator="required, minlength=3, maxlength=50">
                                 <select name="Industry" id="">
                                     <option value="">IT</option>
                                     <option value="">Others</option>

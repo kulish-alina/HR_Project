@@ -4,6 +4,12 @@ import translate from 'angular-translate';
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
+//import 'rangy/rangy-core';
+//import santize from 'angular-sanitize';
+//import 'textAngular/dist/textAngular';
+//import 'textAngular/dist/textAngularSetup';
+//import 'textAngular/dist/textAngular-sanitize';
+
 import 'foundation-apps/dist/js/foundation-apps.js';
 import 'foundation-apps/dist/js/foundation-apps-templates.js';
 
@@ -23,7 +29,13 @@ import CandidateService  from './services/candidateService';
 import VacancyService    from './services/vacancyService';
 import ValidationService from './services/validationService';
 
-var dependencies = [router, 'foundation', translate, 'validation', 'validation.rule'];
+var dependencies = [
+   router,
+   translate,
+   'foundation',
+   'validation',
+   'validation.rule'
+];
 
 angular
    .module('bot', dependencies)

@@ -7,13 +7,13 @@ export default function CandidateController(
    'ngInject';
 
    var vm = $scope;
-   vm.submit = _submit;
+   vm.saveCandidate = saveCandidate;
 
    function _onError(message) {
       vm.errorMessage = $translate.instant('CANDIDATE.ERROR');
    }
 
-   function _submit(form) {
+   function saveCandidate(form) {
       if (ValidationService.validate(form)) {
          CandidateService.saveCandidate(vm.candidate).catch(_onError);
       }

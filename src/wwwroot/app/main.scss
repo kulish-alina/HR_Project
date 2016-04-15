@@ -28,12 +28,11 @@ body {
 
 // Styles for main content
 .main-card {
-   @include card-container(
-      $margin: $rem-base*0.5
-   );
+   @include card-container();
    width: 100%;
    min-height: $rem-base*37.5;
    max-height: $rem-base*56.25;
+   margin: $rem-base*0.5;
 }
 
 // Styles for switching pages

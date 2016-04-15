@@ -50,7 +50,7 @@
          "single"
       ],
       "no-undef": 2,
-      "no-unused-vars": 0,
+      "no-unused-vars": 2,
       "strict": 0,
       "max-params": [
          2,

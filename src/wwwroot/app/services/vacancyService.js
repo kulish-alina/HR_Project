@@ -26,7 +26,11 @@ export default class VacancyService {
    }
 
    deleteVacancy(entity) {
-      var additionalUrl = VACANCY_URL + entity.Id;
-      _HttpService.remove(additionalUrl, entity);
+      if (entity.Id === undefined) {
+         throw new Error('Id should be specified');
+      } else {
+         var additionalUrl = VACANCY_URL + entity.Id;
+         _HttpService.remove(additionalUrl, entity);
+      }
    }
 }

@@ -19,60 +19,72 @@ describe('VacancyService tests for', () => {
       });
    });
 
-   it('getVacancies not to be undefined or null', inject((VacancyService) => {
-      expect(VacancyService.getVacancies).not.toBeUndefined();
-      expect(VacancyService.getVacancies).not.toBeNull();
-   }));
+   beforeEach(inject(VacancyService => {
+      service = VacancyService;
+   }))
 
-   it('getVacancy not to be null', inject((VacancyService) => {
-      expect(VacancyService.getVacancy).not.toBeUndefined();
-      expect(VacancyService.getVacancy).not.toBeNull();
-   }));
+   it('getVacancies not to be undefined or null', () => {
+      expect(service.getVacancies).not.toBeUndefined();
+      expect(service.getVacancies).not.toBeNull();
+   });
 
-   it('saveVacancy not to be null', inject((VacancyService) => {
-      expect(VacancyService.saveVacancy).not.toBeUndefined();
-      expect(VacancyService.saveVacancy).not.toBeNull();
-   }));
+   it('getVacancy not to be null', () => {
+      expect(service.getVacancy).not.toBeUndefined();
+      expect(service.getVacancy).not.toBeNull();
+   });
 
-   it('deleteVacancy not to be null', inject((VacancyService) => {
-      expect(VacancyService.deleteVacancy).not.toBeUndefined();
-      expect(VacancyService.deleteVacancy).not.toBeNull();
-   }));
+   it('saveVacancy not to be null', () => {
+      expect(service.saveVacancy).not.toBeUndefined();
+      expect(service.saveVacancy).not.toBeNull();
+   });
 
-   it('getVacancies call test', inject((VacancyService) => {
-      let vacancies = VacancyService.getVacancies();
+   it('deleteVacancy not to be null', () => {
+      expect(service.deleteVacancy).not.toBeUndefined();
+      expect(service.deleteVacancy).not.toBeNull();
+   });
+
+   it('getVacancies call test', () => {
+      let vacancies = service.getVacancies();
       expect(mock.get).toHaveBeenCalledWith('vacancies/');
-   }));
+   });
 
-   it('getVacancy with id 1 call test', inject((VacancyService) => {
+   it('getVacancy with id 1 call test', () => {
       let id = 1;
-      let vacancy = VacancyService.getVacancy(id);
+      let vacancy = service.getVacancy(id);
       expect(mock.get).toHaveBeenCalledWith(`vacancies/${id}`);
-   }));
+   });
 
-   it('saveVacancy with id call test', inject((VacancyService) => {
+   it('saveVacancy with id call test', () => {
       let vacancy = {
          Id: 1
       };
 
-      VacancyService.saveVacancy(vacancy);
+      service.saveVacancy(vacancy);
       expect(mock.put).toHaveBeenCalledWith(`vacancies/${vacancy.Id}`, vacancy);
-   }));
+   });
 
-   it('saveVacancy without id call test', inject((VacancyService) => {
+   it('saveVacancy without id call test', () => {
       let vacancy = {
       };
 
-      VacancyService.saveVacancy(vacancy);
+      service.saveVacancy(vacancy);
       expect(mock.post).toHaveBeenCalledWith('vacancies/', vacancy);
-   }));
+   });
 
-   it('deleteVacancy', inject((VacancyService) => {
+   it('deleteVacancy with id', () => {
       let vacancy = {
          Id: 1
       };
 
-      VacancyService.deleteVacancy(vacancy);
+      service.deleteVacancy(vacancy);
       expect(mock.remove).toHaveBeenCalledWith(`vacancies/${vacancy.Id}`, vacancy);
-   }));
+   });
+
+   it('deleteVacancy without id', () => {
+      let vacancy = {
+      };
+
+      expect(service.deleteVacancy).toThrowError(/Id/);
+      expect(mock.remove).not.toHaveBeenCalledWith(`vacancies/${vacancy.Id}`, vacancy);
+   });
 });

@@ -5,7 +5,7 @@ export default class DatePickerWrapperDirective {
       this.restrict = 'E';
       this.template = template;
       this.scope = {
-         dtmodel: '='
+         placeholder: '='
       }
    }
    static createInstance() {

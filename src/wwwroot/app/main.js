@@ -30,7 +30,14 @@ import 'angularjs-datepicker/src/js/angular-datepicker';
 import 'angularjs-datepicker/src/css/angular-datepicker.css';
 
 import DatePickerDirective from './directives/datepickerwrapper/DatepickerWrapperDirective';
-var dependencies = [router, 'foundation', translate, uiMask, 'validation', 'validation.rule', '720kb.datepicker'];
+var dependencies = [
+   router,
+   'foundation',
+   translate,
+   uiMask,
+   'validation',
+   'validation.rule',
+   '720kb.datepicker'];
 
 angular
    .module('bot', dependencies)

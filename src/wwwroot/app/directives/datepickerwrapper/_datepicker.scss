@@ -1,0 +1,23 @@
+.datepicker-input{
+   font-family: $body-font-family;
+}
+._720kb-datepicker-calendar-header:nth-child(odd){
+   background-color: $primary-color !important;
+   font-family: $body-font-family !important;
+}
+._720kb-datepicker-calendar{
+   border-radius: 0 !important;
+   font-family: $body-font-family !important;
+   margin-top: -16px !important;
+   width: 100% !important;
+   margin-left: 0 !important;
+   font-family: $body-font-family !important;
+}
+._720kb-datepicker-calendar-days-header{
+   font-family: $body-font-family !important;
+   display: flex;
+   justify-content: space-around;
+}
+._720kb-datepicker-calendar-body{
+   font-family: $body-font-family !important;
+}

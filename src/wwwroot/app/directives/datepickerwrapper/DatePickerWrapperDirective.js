@@ -5,6 +5,7 @@ export default class DatePickerWrapperDirective {
       this.restrict = 'E';
       this.template = template;
       this.scope = {
+         datemodel: '=',
          placeholder: '='
       }
    }

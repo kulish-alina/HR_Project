@@ -21,7 +21,7 @@ const THESAURUS_STRUCTURES = {
       fields : [ {name : 'title', label : 'title', type : 'text' } ]
    },
    'locations' : {
-      thesaurusName : 'THESAURUSES.LOCATION',
+      thesaurusName : 'THESAURUSES.LOCATIONS',
       fields : [
          {name : 'title', label : 'name', type : 'text' },
          {name : 'country', label : 'country', type : 'select',

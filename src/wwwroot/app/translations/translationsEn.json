@@ -8,7 +8,7 @@
       "SETTINGS" : "Settings",
       "MY_BOT": "My BOT",
       "SEARCH": "Search",
-      "USER_NAME": "User Name"
+      "USER_NAME": "User Name",
       "THESAURUSES" : "Thesauruses"
    },
    "CANDIDATE": {
@@ -43,7 +43,8 @@
       "EVENTS": "Events",
       "NOTES": "Notes",
       "COMMENTS": "Comments",
-      "EDIT" : "Редактировать",
+      "EDIT" : "Edit",
+      "REMOVE" : "Remove"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

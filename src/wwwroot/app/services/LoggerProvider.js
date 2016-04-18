@@ -5,7 +5,7 @@ let _$log;
 
 const OFF_LEVEL      = new Level(0, 'OFF');
 const ERROR_LEVEL    = new Level(1, 'ERROR');
-const WARNING_LEVEL  = new Level(2, 'WARNING');
+const WARNING_LEVEL  = new Level(2, 'WARN');
 const LOG_LEVEL      = new Level(3, 'LOG');
 const DEBUG_LEVEL    = new Level(4, 'DEBUG');
 
@@ -36,7 +36,7 @@ class LoggerService {
       _logger(_$log.log, LOG_LEVEL, args);
    }
 
-   warning(...args) {
+   warn(...args) {
       _logger(_$log.warn, WARNING_LEVEL, args);
    }
 

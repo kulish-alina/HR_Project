@@ -27,6 +27,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    vm.topics      = [];
    vm.structure = {};
    vm.newTresaurusTopic = {};
+   vm.selectedObjectsOfEditeTopic = {};
 
    vm.isEditTopic       = isEditTopic;
    vm.addNewTopic       = addNewTopic;
@@ -34,7 +35,9 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    vm.isTopicEditAllow  = isTopicEditAllow;
    vm.additionThesaurusesStore = {};
    vm.change = change;
+   vm.editThesaurusTopic          = editThesaurusTopic;
    vm.cancelThesaurusTopicEditing = cancelThesaurusTopicEditing;
+   vm.removeThesaurusTopic        = deleteThesaurusTopic;
 
 
    /* === impl === */
@@ -43,8 +46,6 @@ function ThesaurusController($scope, ThesaurusService, $q) {
       _getThesaurusStructure();
       _getThesaurusTopics();
    }());
-   vm.selectedObjectsOfEditeTopic = {};
-
 
    function isEditTopic(topic) {
       return _isHasEditTopic() && _isEditTopic(topic);

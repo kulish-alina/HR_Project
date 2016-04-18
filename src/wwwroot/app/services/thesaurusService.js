@@ -1,9 +1,5 @@
 import { has, find, concat, remove, filter, map, forEach } from 'lodash';
 
-let _HttpService, _$q;
-
-const cache = { };
-
 const THESAURUS_STRUCTURES = {
    'countries' :  {
       thesaurusName : 'THESAURUSES.COUNTRIES',
@@ -46,6 +42,10 @@ const THESAURUS_STRUCTURES = {
    }
 };
 
+let _HttpService, _$q;
+
+const cache = { };
+
 export default class ThesaurusService {
    constructor(HttpService, $q) {
       'ngInject';
@@ -83,6 +83,9 @@ export default class ThesaurusService {
    }
 
    saveThesaurusTopic(thesaurusName, entity) {
+      if (!has(this.getThesaurusNames(), thesaurusName)) {
+         return _$q.reject('Thesaurus name is incorrect.');
+      }
       _actionOfAdditionFieldsForTopic(entity, thesaurusName, cache, _deleteRefTextFieldFunction);
       if (entity.id !== undefined) {
          var additionalUrl = thesaurusName + '/' + entity.id;
@@ -104,6 +107,9 @@ export default class ThesaurusService {
    }
 
    deleteThesaurusTopic(thesaurusName, entity) {
+      if (!has(this.getThesaurusNames(), thesaurusName)) {
+         return _$q.reject('Thesaurus name is incorrect.');
+      }
       var additionalUrl = thesaurusName + '/' + entity.id;
       _actionOfAdditionFieldsForTopic(entity, thesaurusName, cache, _deleteRefTextFieldFunction);
       return  _HttpService.remove(additionalUrl, entity)
@@ -120,7 +126,12 @@ export default class ThesaurusService {
 }
 
 function _getReferenceFields(thesaurusName) {
-   return filter(THESAURUS_STRUCTURES[thesaurusName].fields, field => has(field, 'refTo'));
+   if (has(THESAURUS_STRUCTURES, thesaurusName)) {
+      return filter(THESAURUS_STRUCTURES[thesaurusName].fields, field => has(field, 'refTo'));
+   }
+   else {
+      return [];
+   }
 }
 
 function _getLoadedThesaurusesList(mainThesaurusName) {

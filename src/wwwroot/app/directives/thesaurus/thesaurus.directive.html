@@ -31,8 +31,12 @@
    </tr>
    <tr>
       <td ng-repeat = "field in ::structure.fields | filter : isShowField" >
-         <input type="text" placeholder="{{::field.name}}" ng-model="newTresaurusTopic[field.name]"
+          <input type="text" placeholder="{{::field.name}}" ng-model="newTresaurusTopic[field.name]"
                 ng-show="::field.type=='text'" ng-disabled="!isTopicEditAllow(newTresaurusTopic)">
+          <select ng-show="field.type==='select'" 
+                 ng-model="selectedObjectsOfEditeTopic[field.name]"
+                 ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
+                 ng-change="change(newTresaurusTopic, field)"></select>
       </td>
       <td class="add">
          <button ng-click="addNewTopic(newTresaurusTopic)" 

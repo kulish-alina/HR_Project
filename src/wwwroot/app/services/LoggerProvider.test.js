@@ -3,52 +3,48 @@
 import loggerProvider from './LoggerProvider.js';
 
 describe('Unit: Log Level -', () => {
-   var _provider = null;
-   var _logger = null;
-   let mockProvider = {
-      changeLogLevel: jasmine.createSpy()
+   let logger;
+   let mock = {
+      log: jasmine.createSpy(),
+      debug: jasmine.createSpy(),
+      warn: jasmine.createSpy(),
+      error: jasmine.createSpy()
    };
 
    describe('OFF. ', () => {
       beforeEach(() => {
-         angular.module('test', []).service('LoggerProvider', loggerProvider);
+         angular.module('test', []).provider('LoggerService', loggerProvider);
          angular.mock.module('test');
+         angular.mock.module($provide => {
+            $provide.value('$log', mock);
+         });
+         angular.mock.module((LoggerServiceProvider) => {
+            LoggerServiceProvider.changeLogLevel('OFF');
+         });
       });
 
-      beforeEach(inject((LoggerProvider) => {
-         _provider = LoggerProvider;
-         _provider.changeLogLevel('OFF');
-         expect(mockProvider.changeLogLevel).toHaveBeenCalled();
+      beforeEach(inject((LoggerService) => {
+         logger = LoggerService;
       }));
 
-      beforeEach(() => {
-         console.log(_provider.$get);
-
-         console.log = jasmine.createSpy();
-         console.debug = jasmine.createSpy();
-         console.warn = jasmine.createSpy();
-         console.error = jasmine.createSpy();
-         _logger = _provider.$get.last();
-      })
-
       it('Log test', () => {
-         _logger.log('First test on log with off option');
-         expect(console.log).not.toHaveBeenCalled();
+         logger.log('First test on log with off option');
+         expect(mock.log).not.toHaveBeenCalled();
       });
 
       it('Debug test', () => {
-         _logger.debug('First test on debug with off option');
-         expect(console.debug).not.toHaveBeenCalled();
+         logger.debug('First test on debug with off option');
+         expect(mock.debug).not.toHaveBeenCalled();
       });
 
       it('Warning test', () => {
-         _logger.warning('First test on warning with off option');
-         expect(console.warn).not.toHaveBeenCalled();
+         logger.warning('First test on warning with off option');
+         expect(mock.warn).not.toHaveBeenCalled();
       });
 
       it('Error test', () => {
-         _logger.error('First test on error with off option');
-         expect(console.error).not.toHaveBeenCalled();
+         logger.error('First test on error with off option');
+         expect(mock.error).not.toHaveBeenCalled();
       });
    });
 });

@@ -15,7 +15,7 @@ var dependencies = [router, translate];
 angular
    .module('bot', dependencies)
 
-   .provider('LoggerProvider', LoggerProvider)
+   .provider('LoggerService', LoggerProvider)
    .provider('HttpService',   HttpProvider)
 
    .service('CandidateService',  CandidateService)

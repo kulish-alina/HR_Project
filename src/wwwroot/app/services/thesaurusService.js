@@ -117,7 +117,7 @@ export default class ThesaurusService {
    }
 
    getThesaurusNames() {
-      return THESAURUS_STRUCTURES.keys;
+      return Object.keys(THESAURUS_STRUCTURES);
    }
 
    getThesaurusStructure(thesaurusName) {

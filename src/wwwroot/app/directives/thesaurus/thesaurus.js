@@ -24,8 +24,8 @@ function ThesaurusController($scope, ThesaurusService, $q) {
 
    const vm = $scope;
    vm.topics = [];
-   vm.structure = { } ;
-   vm.newTresaurusTopic = { } ;
+   vm.structure = {};
+   vm.newTresaurusTopic = {};
    vm.editThesaurusTopic = editThesaurusTopic;
    vm.saveEditTopic = saveEditTopic;
    vm.addNewTopic = addNewTopic;
@@ -33,13 +33,13 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    vm.removeThesaurusTopic = deleteThesaurusTopic;
    vm.isEditTopic = isEditTopic;
    vm.isTopicEditAllow = isTopicEditAllow;
-   vm.additionThesaurusesStore = { };
-   vm.topicsSelectedOptions = { };
-   vm.getSelected = getSelected;
+   vm.additionThesaurusesStore = {};
    vm.change = change;
    _getThesaurusStructure();
    _getThesaurusTopics();
    var editTopicClone = null;
+   vm.selectedObjectsOfEditeTopic = {};
+
 
    function isEditTopic(topic) {
       return _isHasEditTopic() && _isEditTopic(topic);
@@ -51,16 +51,18 @@ function ThesaurusController($scope, ThesaurusService, $q) {
 
    function editThesaurusTopic(topic) {
       editTopicClone = clone(topic);
+      _setSelectedObjects(topic);
    }
 
    function cancelThesaurusTopicEditing(topic) {
       assign(topic, editTopicClone);
+      vm.additionThesaurusesStore = {};
       _deleteClone();
    }
 
    function addNewTopic(topic) {
       _saveThesaurusTopic(topic);
-      vm.newTresaurusTopic = { } ;
+      vm.newTresaurusTopic = {} ;
    }
 
    function saveEditTopic(topic) {
@@ -78,9 +80,9 @@ function ThesaurusController($scope, ThesaurusService, $q) {
       forEach(vm.structure.fields,
                field => {
                   if (has(field, 'refTo')) {
-                     ThesaurusService.getThesaurusTopics(field.refTo.thesaurusName)
+                     ThesaurusService.getThesaurusTopics(field.refTo)
                         .then(topics =>
-                           vm.additionThesaurusesStore[field.refTo.thesaurusName] = topics)
+                           vm.additionThesaurusesStore[field.refTo] = topics)
                         .catch(_onError);
                   };
                });
@@ -88,21 +90,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
 
    function _getThesaurusTopics() {
       ThesaurusService.getThesaurusTopics(vm.name)
-         .then(topics => {
-            vm.topics = topics;
-            var refFields = filter(vm.structure.fields, field => has(field, 'refTo'));
-            forEach(topics, topic => {
-               forEach(refFields, field => {
-                  vm.topicsSelectedOptions[topic[field.refTo.labelFieldName]] = { };
-                  vm.topicsSelectedOptions[topic[field.refTo.labelFieldName]][field.name] =
-                     find(vm.additionThesaurusesStore[field.refTo.thesaurusName],
-                        s => {
-                           return s.id === topic[field.name];
-                        });
-               });
-            });
-         })
-         .catch(_onError);
+         .then(topics => vm.topics = topics).catch(_onError);
    }
 
    function getSelected(id, thesaurusRef) {
@@ -111,7 +99,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
 
    function change(topic, field) {
       topic[field.name] =
-         vm.topicsSelectedOptions[topic[field.refTo.labelFieldName]][field.name].id;
+         vm.selectedObjectsOfEditeTopic[field.name].id;
    }
 
    function _isEditTopic(topic) {
@@ -125,6 +113,18 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    function _saveThesaurusTopic(topic) {
       ThesaurusService.saveThesaurusTopic(vm.name, topic)
          .catch(_onError);
+   }
+
+   function _setSelectedObjects(topic) {
+      forEach(_getSelectFields(), field => {
+         vm.selectedObjectsOfEditeTopic[field.name] =
+            find(vm.additionThesaurusesStore[field.refTo], storeTopic =>
+               storeTopic.id === topic[field.name])
+      });
+   }
+
+   function _getSelectFields() {
+      return filter(vm.structure.fields, field => has(field, 'refTo'));
    }
 
    function _deleteClone() {

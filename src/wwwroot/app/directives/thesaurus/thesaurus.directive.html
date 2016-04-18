@@ -6,14 +6,14 @@
       <td ng-repeat = "field in ::structure.fields" >
          <span ng-if="!isEditTopic(topic)&&field.type==='text'" ng-bind="::topic[field.name]"></span>
          <span ng-if="!isEditTopic(topic)&&field.type==='select'" 
-               ng-bind="::topicsSelectedOptions[topic[field.refTo.labelFieldName]]
-               [field.name][field.refTo.labelFieldName]"></span>         
+               ng-bind="::topic[field.additionFieldForText]"></span>         
          <img ng-if="!isEditTopic(topic)&&field.type==='img'">
          <input type="text" ng-if="isEditTopic(topic)&&field.type==='text'" placeholder="{{::field.name}}"
                 ng-model="topic[field.name]">
          <select ng-if="isEditTopic(topic)&&field.type==='select'" 
-                 ng-model="topicsSelectedOptions[topic[field.refTo.labelFieldName]][field.name]"
-                 ng-options="option[field.refTo.labelFieldName] for option in additionThesaurusesStore[field.refTo.thesaurusName] track by option.id" ng-change="change(topic, field)"></select>
+                 ng-model="selectedObjectsOfEditeTopic[field.name]"
+                 ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
+                 ng-change="change(topic, field)"></select>
       </td>
       <td>
          <button class="edit" ng-if="!isEditTopic(topic)" ng-click="editThesaurusTopic(topic)" 

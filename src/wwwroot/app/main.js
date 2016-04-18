@@ -4,6 +4,15 @@ import translate from 'angular-translate';
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
+import 'foundation-apps/dist/js/foundation-apps.js';
+import 'foundation-apps/dist/js/foundation-apps-templates.js';
+
+import 'foundation-icons/foundation_icons_general/sass/general_foundicons.scss';
+import 'foundation-icons/foundation_icons_social/sass/social_foundicons.scss';
+
+
+import './main.scss';
+
 import config from './botConfig';
 import configValidation from './configValidation';
 
@@ -17,7 +26,7 @@ import ThesaurusService   from './services/thesaurusService';
 
 import ThesaurusDirective   from './directives/thesaurus/thesaurus';
 
-var dependencies = [router, translate, 'validation', 'validation.rule'];
+var dependencies = [router, 'foundation', translate, 'validation', 'validation.rule'];
 
 angular
    .module('bot', dependencies)

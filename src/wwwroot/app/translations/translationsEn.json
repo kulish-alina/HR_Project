@@ -3,26 +3,53 @@
       "HOME": "Home",
       "CANDIDATES": "Candidates",
       "VACANCIES": "Vacansies",
-      "ADD_CANDIDATE": "Add Candidate",
+      "REPORTS" : "Reports",
+      "CALENDAR" : "Calendar",
+      "SETTINGS" : "Settings",
+      "MY_BOT": "My BOT",
+      "SEARCH": "Search",
+      "USER_NAME": "User Name"
       "THESAURUSES" : "Thesauruses"
-},
-   "CANDIDATE": {
-      "ERROR": "Sorry! Some error occurred"
    },
-   "CANDIDATES": {},
-   "HOME": {},
-   "VACANCIES": {},
-   "COMMON" : {
-      "EDIT" : "Edit",
-      "ADD" : "Add",
-      "SAVE" : "Save",
-      "CANCEL" : "Cancel",
-      "REMOVE" : "Remove"
+   "CANDIDATE": {
+      "ERROR": "Sorry! Some error occurred",
+      "NEW_CANDIDATE": "New candidate"
+   },
+   "CANDIDATES": {
+      "CANDIDATES": "Candidates",
+      "BASE_OF_CANDIDATES": "Base of candidates",
+      "SEARCH_CANDIDATES": "Search Candidates"
+   },
+   "HOME": {
+      "HOME": "Home"
+   },
+   "VACANCY": {
+      "NEW_VACANCY": "New vacancy"
+   },
+   "VACANCIES": {
+      "VACANCIES": "Vacancies",
+      "BASE_OF_VACANCIES": "Base of vacancies",
+      "SEARCH_VACANCIES": "Search vacancies"
+   },
+   "COMMON": {
+      "ADD_CANDIDATE" : "Add Candidate",
+      "ADD_VACANCY" : "Add Vacancy",
+      "ADD_EVENT" : "Add Event",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Submit",
+      "ADD_AND_BACK": "Add and back",
+      "ADD": "Add",
+      "SAVE": "Save",
+      "EVENTS": "Events",
+      "NOTES": "Notes",
+      "COMMENTS": "Comments",
+      "EDIT" : "Редактировать",
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
       "SOCIALS" : "Social networks",
-      "LANGUAGES" : "Languages"
+      "LANGUAGES" : "Languages",
+      "LOCATIONS" : "Locations"
    },
    "VALIDATION": {
       "required": {

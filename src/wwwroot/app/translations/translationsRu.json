@@ -20,7 +20,8 @@
    "THESAURUSES" : {
       "COUNTRIES" : "Страны",
       "SOCIALS" : "Социальные сети",
-      "LANGUAGES" : "Языки"
+      "LANGUAGES" : "Языки",
+      "LOCATIONS" : "Расположения"
    },
    "VALIDATION" : {
       "required": {

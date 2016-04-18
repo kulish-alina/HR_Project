@@ -30,8 +30,8 @@ body {
 .main-card {
    @include card-container();
    width: 100%;
-   min-height: $rem-base*37.5;
-   max-height: $rem-base*56.25;
+   height: $rem-base*30;
+   max-height: $rem-base*75;
    margin: $rem-base*0.5;
 }
 

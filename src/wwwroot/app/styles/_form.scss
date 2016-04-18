@@ -64,3 +64,12 @@ form .ng-invalid {
    font-size: $rem-base*2;
    color: lighten($dark-color, 7);
 }
+option {
+   height: inherit;
+}
+select :first-child {
+   color: $placeholder-color;
+}
+select :nth-child(n+2) {
+   color: $body-font-color;
+} 

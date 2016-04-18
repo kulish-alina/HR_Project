@@ -33,6 +33,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    vm.addNewTopic       = addNewTopic;
    vm.saveEditTopic     = saveEditTopic;
    vm.isTopicEditAllow  = isTopicEditAllow;
+   vm.isShowField       = isShowField;
    vm.additionThesaurusesStore = {};
    vm.change = change;
    vm.editThesaurusTopic          = editThesaurusTopic;
@@ -46,6 +47,10 @@ function ThesaurusController($scope, ThesaurusService, $q) {
       _getThesaurusStructure();
       _getThesaurusTopics();
    }());
+
+   function isShowField(field) {
+      return field.type !== '';
+   }
 
    function isEditTopic(topic) {
       return _isHasEditTopic() && _isEditTopic(topic);

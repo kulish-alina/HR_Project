@@ -39,7 +39,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'id', label : 'id', type : ''},
          {name : 'name', label : 'name', type : 'text' },
          {name : 'country', label : 'country', type : 'select',
-           refTo : 'countries', labelRefFieldName : 'title', additionFieldForText : 'countryName'},
+           refTo : 'countries', labelRefFieldName : 'name', additionFieldForText : 'countryName'},
          {name : 'editTime', label : 'editTime', type : ''},
          {name : 'state', label : 'state', type : ''}
       ]

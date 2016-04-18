@@ -19,25 +19,30 @@ export default class ThesaurusDirective {
 }
 
 function ThesaurusController($scope, ThesaurusService, $q) {
-
    'ngInject';
 
    const vm = $scope;
-   vm.topics = [];
+
+   /* --- api --- */
+   vm.topics      = [];
    vm.structure = {};
    vm.newTresaurusTopic = {};
-   vm.editThesaurusTopic = editThesaurusTopic;
-   vm.saveEditTopic = saveEditTopic;
-   vm.addNewTopic = addNewTopic;
-   vm.cancelThesaurusTopicEditing = cancelThesaurusTopicEditing;
-   vm.removeThesaurusTopic = deleteThesaurusTopic;
-   vm.isEditTopic = isEditTopic;
-   vm.isTopicEditAllow = isTopicEditAllow;
+
+   vm.isEditTopic       = isEditTopic;
+   vm.addNewTopic       = addNewTopic;
+   vm.saveEditTopic     = saveEditTopic;
+   vm.isTopicEditAllow  = isTopicEditAllow;
    vm.additionThesaurusesStore = {};
    vm.change = change;
-   _getThesaurusStructure();
-   _getThesaurusTopics();
-   var editTopicClone = null;
+   vm.cancelThesaurusTopicEditing = cancelThesaurusTopicEditing;
+
+
+   /* === impl === */
+   let editTopicClone = null;
+   (function _init() {
+      _getThesaurusStructure();
+      _getThesaurusTopics();
+   }());
    vm.selectedObjectsOfEditeTopic = {};
 
 
@@ -62,7 +67,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
 
    function addNewTopic(topic) {
       _saveThesaurusTopic(topic);
-      vm.newTresaurusTopic = {} ;
+      vm.newTresaurusTopic = {};
    }
 
    function saveEditTopic(topic) {
@@ -71,8 +76,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    }
 
    function deleteThesaurusTopic(topic) {
-      ThesaurusService.deleteThesaurusTopic(vm.name, topic)
-         .catch(_onError);
+      ThesaurusService.deleteThesaurusTopic(vm.name, topic).catch(_onError);
    }
 
    function _getThesaurusStructure() {
@@ -111,8 +115,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    }
 
    function _saveThesaurusTopic(topic) {
-      ThesaurusService.saveThesaurusTopic(vm.name, topic)
-         .catch(_onError);
+      ThesaurusService.saveThesaurusTopic(vm.name, topic).catch(_onError);
    }
 
    function _setSelectedObjects(topic) {

@@ -11,13 +11,6 @@ module.exports = function() {
          },
          output: {
          },
-         preLoaders: [
-            {
-               test: /\.js$/,
-               exclude: [/node_modules/, /dist/, /\.test\.js$/],
-               loader: 'eslint-loader'
-            }
-         ],
          loaders: [
             {
                test: /\.html/,

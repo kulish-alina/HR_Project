@@ -1,6 +1,6 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = function(path, appPath, buildPath, pkg) {
+module.exports = function (path, appPath, buildPath, pkg) {
    return {
       entry: {
          app: path.join(appPath, 'main.js'),
@@ -8,6 +8,15 @@ module.exports = function(path, appPath, buildPath, pkg) {
       output: {
          path: buildPath,
          filename: '[name].bundle.js'
+      },
+      module: {
+         preLoaders: [
+            {
+               test: /\.js$/,
+               exclude: [/node_modules/, /dist/, /\.test\.js$/],
+               loader: 'eslint-loader'
+            }
+         ],
       },
       plugins: [
          new HtmlWebpackPlugin({
@@ -18,9 +27,8 @@ module.exports = function(path, appPath, buildPath, pkg) {
       ],
       eslint: {
          configFile: '.eslintrc',
-         emitError: true,
-         emitWarning: true,
-         failOnError: true
+         failOnError: true,
+         quiet: true
       },
    }
 }

@@ -1,7 +1,6 @@
 export default function VacanciesController($scope, VacancyService) {
    'ngInject';
 
-   var urlId = 'Vacancies';
    var vm = $scope;
    vm.vacancies = [];
    vm.getVacancies = getVacancies;
@@ -25,7 +24,7 @@ export default function VacanciesController($scope, VacancyService) {
       VacancyService.deleteVacancy(vacancy);
    }
 
-   function _onError(message) {
+   function _onError() {
       vm.errorMessage = 'Sorry! Some error occurred';
    }
 }

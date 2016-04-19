@@ -1,6 +1,5 @@
-export default function CandidatesController($scope, CandidateService, LoggerService) {
+export default function CandidatesController($scope, CandidateService) {
    'ngInject';
-   var urlId = 'Candidates/All';
    var vm = $scope;
    vm.candidates = [];
    vm.getCandidate = getCandidate;
@@ -26,7 +25,7 @@ export default function CandidatesController($scope, CandidateService, LoggerSer
       CandidateService.saveCandidate(candidate).catch(_onError);
    }
 
-   function _onError(message) {
+   function _onError() {
       vm.errorMessage = 'Sorry! Some error occurred';
    }
 }

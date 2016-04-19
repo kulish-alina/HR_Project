@@ -1,4 +1,5 @@
 import template from  './DatePickerTemplate.html';
+import './datepicker.scss';
 
 export default class DatePickerWrapperDirective {
    constructor() {

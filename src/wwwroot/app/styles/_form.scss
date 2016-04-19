@@ -11,6 +11,9 @@ textarea {
    height: $rem-base*2.4;
    min-height: $rem-base*2.4;
 }
+.main-card textarea{
+   height: $rem-base*5; 
+}
 .checkbox-block {
    margin-bottom: $rem-base*0.625;
 }

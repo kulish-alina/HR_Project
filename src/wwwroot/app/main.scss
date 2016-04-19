@@ -25,13 +25,17 @@ body {
       font-family: "GeneralFoundicons"
    }
 }
+.remove-item{
+   color: $gray-dark;
+}
+.remove-item :hover{
+   color: $alert-color;
+}
 
 // Styles for main content
 .main-card {
    @include card-container();
    width: 100%;
-   height: $rem-base*45;
-   max-height: $rem-base*75;
    margin: $rem-base*0.5;
 }
 
@@ -44,4 +48,7 @@ body {
 }
 .pages i {
    color: $offcanvas-background;
+}
+select[multiple] {
+    height: auto;
 }

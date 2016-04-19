@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "angular": "^1.5.0",
+    "angular-file-upload": "^2.2.0",
     "angular-sanitize": "^1.5.3",
     "angular-translate": "^2.11.0",
     "angular-ui-router": "^0.2.18",

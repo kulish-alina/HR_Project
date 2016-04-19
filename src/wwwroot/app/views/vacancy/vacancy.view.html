@@ -11,7 +11,7 @@
       <ul class="menu-bar second-button-bar">
          <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
          </li>
-         <li><a ng-click="saveVacancy(Vacancy)">{{::'COMMON.SUBMIT' | translate}}</a>
+         <li><a ng-click="saveVacancy($event, Vacancy)">{{::'COMMON.SUBMIT' | translate}}</a>
          </li>
       </ul>
    </div>
@@ -106,17 +106,31 @@
                   </div>
                </div>
                <fieldset>
-                  <textarea ng-model="vacancy.Description" validator="maxlength=3000" placeholder="Description" type="text"></textarea>
+                  <textarea ng-model="vacancy.Description" placeholder="Description" type="text"></textarea>
                </fieldset>
                <div class="grid-block">
-                  <div class="medium-4 grid-block">
+                  <div class="medium-12 grid-block">
                      <fieldset>
-                        <input type="file" file-model="file" ng-model="vacancy.File">
+                        <input type="file" nv-file-select multiple="" uploader="uploader">
+                        <table class="upload-table">
+                           <thead>
+                              <tr>
+                                 <th>№</th>
+                                 <th>Name</th>
+                                 <th>Size</th>
+                                 <th>Actions</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="item in uploader.queue">
+                                 <td>{{$index+1}}</td>
+                                 <td ng-bind="item.file.name"></td>
+                                 <td></td>
+                                 <td><a class="button" ng-click="item.remove()">Remove</a></td>
+                              </tr>
+                           </tbody>
+                        </table>
                      </fieldset>
-                  </div>
-                  <div class="medium-4 grid-block">
-                  </div>
-                  <div class="medium-4 grid-block">
                   </div>
                </div>
             </form>

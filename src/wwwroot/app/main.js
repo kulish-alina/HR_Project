@@ -10,6 +10,8 @@ import 'angular-validation/dist/angular-validation-rule';
 //import 'textAngular/dist/textAngularSetup';
 //import 'textAngular/dist/textAngular-sanitize';
 
+import 'angular-file-upload/dist/angular-file-upload';
+
 import 'foundation-apps/dist/js/foundation-apps.js';
 import 'foundation-apps/dist/js/foundation-apps-templates.js';
 
@@ -34,7 +36,8 @@ var dependencies = [
    translate,
    'foundation',
    'validation',
-   'validation.rule'
+   'validation.rule',
+   'angularFileUpload'
 ];
 
 angular

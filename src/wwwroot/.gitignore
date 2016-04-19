@@ -1,6 +1,7 @@
 node_modules/
 dist/
 coverage/
+bower_components/
 .vscode/
 typings/
 jsconfig.json

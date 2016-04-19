@@ -1,5 +1,11 @@
 module.exports = function() {
    return {
+      external: {
+         'iconic': 'IconicJS'
+      },
+      resolve: {
+         modulesDirectories: ['web_modules', 'node_modules', 'bower_components']
+      },
       module: {
          entry: {
          },
@@ -28,11 +34,15 @@ module.exports = function() {
             },
             {
                test: /\.scss$/,
-               loader: 'style-loader!css-loader!sass-loader!postcss-loader'
+               loader: 'style!css!sass?outputStyle=expanded&includePaths[]=./bower_components/foundation-apps/scss/'
             },
             {
                test: /\.json$/,
-               loader: 'json-loader'
+               loader : 'json-loader'
+            },
+            {
+               test   : /\.(ttf|png|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+               loader : 'file-loader'
             }]
       },
       devServer: {

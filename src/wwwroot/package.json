@@ -1,7 +1,7 @@
 {
   "name": "bot",
   "version": "0.0.1",
-  "description": "",
+  "description": "base of talents",
   "main": "main.js",
   "scripts": {
     "dev-build": "set NODE_ENV=development&& webpack --progress --colors",
@@ -10,7 +10,7 @@
     "test": "set NODE_ENV=test&& karma start karma.config.js",
     "test-watch": "set NODE_ENV=test&& karma start karma.config.js --auto-watch --no-single-run"
   },
-  "author": "msvaillant",
+  "author": "isd",
   "license": "ISC",
   "devDependencies": {
     "angular-mocks": "^1.5.3",
@@ -24,15 +24,13 @@
     "eslint-loader": "^1.3.0",
     "eslint-plugin-angular": "^1.0.0",
     "estraverse-fb": "^1.3.1",
+    "file-loader": "^0.8.5",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^1.6.2",
-    "isparta-instrumenter-loader": "^1.0.0",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.22",
-    "karma-chrome-launcher": "^0.2.3",
-    "karma-coverage": "^0.5.5",
     "karma-jasmine": "^0.3.8",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
@@ -50,6 +48,8 @@
     "angular": "^1.5.0",
     "angular-translate": "^2.11.0",
     "angular-ui-router": "^0.2.18",
+    "bower": "^1.7.7",
+    "angular-validation": "^1.4.1",
     "lodash": "^4.6.1"
   }
 }

@@ -26,9 +26,12 @@ namespace Data.DumbData.Repositories
 
         public void Add(TEntity entity)
         {
-            if (Collection.Any(x => x == entity))
+            if (!Collection.Any(x => x.Id == entity.Id))
             {
-                entity.Id = Collection.OrderBy(x => x.Id).Last().Id + 1;
+                if (entity.Id == 0)
+                {
+                    entity.Id = Collection.Count + 1;
+                }
                 Collection.Add(entity);
             }
             else
@@ -49,7 +52,7 @@ namespace Data.DumbData.Repositories
 
         public void Remove(TEntity entity)
         {
-            Collection.First(x => x == entity).State = EntityState.Active;
+            Collection.First(x => x == entity).State = EntityState.Inactive;
         }
 
         public void Update(TEntity entity)

@@ -60,6 +60,9 @@
     <Compile Include="EFData\BOTContext.cs" />
     <Compile Include="EFData\Repositories\EFBaseEntityRepository.cs" />
     <Compile Include="EFData\Repositories\EFCandidateRepository.cs" />
+    <Compile Include="EFData\Repositories\EFCityRepository.cs" />
+    <Compile Include="EFData\Repositories\EFCountryRepository.cs" />
+    <Compile Include="EFData\Repositories\EFLanguageRepository.cs" />
     <Compile Include="EFData\Repositories\EFSocialNetworkRepository.cs" />
     <Compile Include="EFData\Repositories\EFVacancyRepository.cs" />
     <Compile Include="Migrations\201604081129048_init.cs" />

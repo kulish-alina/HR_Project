@@ -1,14 +1,21 @@
-export default function CandidateController($scope, CandidateService) {
+export default function CandidateController(
+   $scope,
+   $translate,
+   CandidateService,
+   ValidationService)
+{
    'ngInject';
 
    var vm = $scope;
-   vm.saveCandidate = saveCandidate;
-
-   function saveCandidate() {
-      CandidateService.saveCandidate(vm.candidate).catch(_onError);
-   }
+   vm.submit = _submit;
 
    function _onError(message) {
-      vm.errorMessage = 'Sorry! Some error occurred';
+      vm.errorMessage = $translate.instant('CANDIDATE.ERROR');
+   }
+
+   function _submit(form) {
+      if (ValidationService.validate(form)) {
+         CandidateService.saveCandidate(vm.candidate).catch(_onError);
+      }
    }
 }

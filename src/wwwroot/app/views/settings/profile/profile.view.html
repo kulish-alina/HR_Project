@@ -13,10 +13,13 @@
                         </div>
                         <div class="medium-3 grid-block">
                             <fieldset>
+                                <ul class="some-change">
                                     <li>
+                                        <input ng-model="user.IsMale"  value="true"  type="radio" id = "male">
                                         <label for="male">{{::'COMMON.MALE' | translate}}</label>
                                     </li>
                                     <li>
+                                        <input ng-model="user.IsMale" value="false" type="radio" id = "female">
                                         <label for="female">{{::'COMMON.FEMALE' | translate}}</label>
                                     </li>
                                 </ul>

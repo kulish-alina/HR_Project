@@ -6,16 +6,10 @@ export default function ProfileController($scope, UserService) {
    vm.user = {}
 
    function _getAuthUser () {
-      vm.user = {
-         FirstName : 'Administrator',
-         LastName : 'Admin',
-         MiddleName : 'Adminovich',
-         IsMale : 'true'
-      }
-      //vm.user.FirstName = 'Administrator';
-      //vm.user.LastName = 'Admin';
-      //vm.user.MiddleName = 'Adminovich';
-      //vm.user.IsMale = new Boolean(true);
+      vm.user.FirstName = 'Administrator';
+      vm.user.LastName = 'Admin';
+      vm.user.MiddleName = 'Adminovich';
+      vm.user.IsMale = 'false';
    }
    _getAuthUser();
 }

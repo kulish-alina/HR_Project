@@ -67,6 +67,7 @@ export default function _config(
          template: settingsTemplate
       })
       .state('profile', {
+         url: '/profilr',
          parent: 'settings',
          template: profileTemplate,
          controller: profileController

@@ -41,7 +41,13 @@
       "SAVE": "Save",
       "EVENTS": "Events",
       "NOTES": "Notes",
-      "COMMENTS": "Comments"
+      "COMMENTS": "Comments",
+      "EDIT": "Edit",
+      "LAST": "Last Name",
+      "FIRST": "First Name",
+      "MIDDLE": "Middle Name",
+      "MALE": "Male",
+      "FEMALE": "Female"
    },
    "VALIDATION": {
       "required": {
@@ -78,6 +84,7 @@
       }
    },
       "SETTINGS" : {
+         "SETTINGS": "Settings",
          "PROFILE" : "Profile",
          "MEMBERS" : "Team members",
          "ROLES" : "Roles",

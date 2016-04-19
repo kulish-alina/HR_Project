@@ -32,9 +32,9 @@ import 'angularjs-datepicker/src/css/angular-datepicker.css';
 import DatePickerDirective from './directives/datepickerwrapper/DatepickerWrapperDirective';
 var dependencies = [
    router,
-   'foundation',
    translate,
    uiMask,
+   'foundation',
    'validation',
    'validation.rule',
    '720kb.datepicker'];

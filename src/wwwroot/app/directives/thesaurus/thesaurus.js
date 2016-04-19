@@ -87,15 +87,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
 
    function _getThesaurusStructure() {
       vm.structure = ThesaurusService.getThesaurusStructure(vm.name);
-      forEach(vm.structure.fields,
-               field => {
-                  if (has(field, 'refTo')) {
-                     ThesaurusService.getThesaurusTopics(field.refTo)
-                        .then(topics =>
-                           vm.additionThesaurusesStore[field.refTo] = topics)
-                        .catch(_onError);
-                  };
-               });
+      forEach(vm.structure.fields, _fillAdditionThesauruses);
    }
 
    function _getThesaurusTopics() {
@@ -104,12 +96,11 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    }
 
    function getSelected(id, thesaurusRef) {
-      return find(vm.additionThesaurusesStore[thesaurusRef], s => s.id === id);
+      return find(vm.additionThesaurusesStore[thesaurusRef], {id: id});
    }
 
    function change(topic, field) {
-      topic[field.name] =
-         vm.selectedObjectsOfEditeTopic[field.name].id;
+      topic[field.name] = vm.selectedObjectsOfEditeTopic[field.name].id;
    }
 
    function _isEditTopic(topic) {
@@ -127,8 +118,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    function _setSelectedObjects(topic) {
       forEach(_getSelectFields(), field => {
          vm.selectedObjectsOfEditeTopic[field.name] =
-            find(vm.additionThesaurusesStore[field.refTo], storeTopic =>
-               storeTopic.id === topic[field.name])
+            find(vm.additionThesaurusesStore[field.refTo], {id: topic[field.name]});
       });
    }
 
@@ -138,6 +128,14 @@ function ThesaurusController($scope, ThesaurusService, $q) {
 
    function _deleteClone() {
       editTopicClone = null;
+   }
+
+   function _fillAdditionThesauruses(field) {
+      if (has(field, 'refTo')) {
+         ThesaurusService.getThesaurusTopics(field.refTo)
+            .then(topics => vm.additionThesaurusesStore[field.refTo] = topics)
+            .catch(_onError);
+      };
    }
 
    function _onError(message) {

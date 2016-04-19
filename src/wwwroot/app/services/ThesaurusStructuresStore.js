@@ -1,4 +1,4 @@
-export const THESAURUS_STRUCTURES = {
+const THESAURUS_STRUCTURES = {
    'countries' :  {
       thesaurusName : 'THESAURUSES.COUNTRIES',
       fields : [
@@ -39,3 +39,5 @@ export const THESAURUS_STRUCTURES = {
       ]
    }
 };
+
+export default THESAURUS_STRUCTURES;

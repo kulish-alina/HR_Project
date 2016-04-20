@@ -62,7 +62,9 @@
       "LOCATION": "Location",
       "REMOVE": "Remove",
       "NAME": "Name",
-      "SIZE": "Size"
+      "SIZE": "Size",
+      "SKILLS": "Skills",
+      "TAGS": "Tags"
    },
    "VALIDATION": {
       "required": {

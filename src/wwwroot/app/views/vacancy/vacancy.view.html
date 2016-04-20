@@ -28,15 +28,15 @@
                   <div class="medium-4 grid-block">
                      <fieldset>
                         <input name="Title" ng-model="vacancy.Title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, minlength=3, maxlength=50">
-                        <select name="Industry" ng-model="vacancy.Industry" validator="required">
+                        <select name="Industry" ng-model="vacancy.IndustryId" validator="required">
                            <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
                            <option ng-repeat="industry in industries" value="{{industry.id}}">{{::industry.name}}</option>
                         </select>
-                        <select multiple size="4" name="Level" ng-model="vacancy.Level" validator="required">
+                        <select multiple size="4" name="Level" ng-model="vacancy.Levels" validator="required">
                            <option disabled>{{::'COMMON.LEVEL' | translate}}</option>
                            <option ng-repeat="level in levels" value="{{level.id}}">{{::level.name}}</option>
                         </select>
-                        <select multiple size="4" ng-model="vacancy.City" name="City">
+                        <select multiple size="4" ng-model="vacancy.LocationId" name="City">
                            <option disabled>{{::'COMMON.LOCATION' | translate}}</option>
                            <option ng-repeat="city in cities" value="{{city.id}}">
                               {{::city.name}}</option>
@@ -47,7 +47,7 @@
                      <fieldset>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <select name="Language" ng-model="vacancy.LanguageSkill.Language">
+                              <select name="Language" ng-model="vacancy.LanguageSkill">
                                  <option selected value="">{{::'COMMON.LANGUAGE' | translate}}</option>
                                  <option ng-repeat="language in languages" value="{{language.id}}">{{::language.name}}</option>
                               </select>
@@ -59,11 +59,11 @@
                               </select>
                            </div>
                         </div>
-                        <select name="Responsible" ng-model="vacancy.Responsible" validator="required">
+                        <select name="Responsible" ng-model="vacancy.ResponsibleId" validator="required">
                            <option selected value="">{{::'COMMON.RESPONSIBLE' | translate}}</option>
                            <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.lastName}}</option>
                         </select>
-                        <select name="Department" ng-model="vacancy.Department" validator="required">
+                        <select name="Department" ng-model="vacancy.DepartmentId" validator="required">
                            <option selected value="">{{::'COMMON.DEPARTMENT' | translate}}</option>
                            <option ng-repeat="department in departments" value="{{department.id}}">{{::department.name}}
                            </option>
@@ -82,11 +82,11 @@
                         </select>
                         <div class="grid-block">
                            <div class="medium-7 grid-block">
-                              <input id="checkbox2" type="checkbox">
-                              <label for="checkbox2">{{::'COMMON.MASTER_VACANCY' | translate}}</label>
+                              <input id="masterVacancy" type="checkbox" ng-model="vacancy.MaterVacancy" value="true">
+                              <label for="masterVacancy">{{::'COMMON.MASTER_VACANCY' | translate}}</label>
                            </div>
                            <div class="medium-5 grid-block">
-                              <input placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
+                              <input ng-model="vacancy.CountOfChildrenVacancies" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
                            </div>
                         </div>
                      </fieldset>
@@ -106,6 +106,14 @@
                   </div>
                </div>
                <fieldset>
+                  <div class="grid-block">
+                     <div class="medium-6 grid-block">
+                        <textarea ng-model="vacancy.RequiredSkillIds" placeholder="{{::'COMMON.SKILLS' | translate}}" type="text"></textarea>
+                     </div>
+                     <div class="medium-6 grid-block">
+                        <textarea ng-model="vacancy.TagIds" placeholder="{{::'COMMON.TAGS' | translate}}" type="text"></textarea>
+                     </div>
+                  </div>
                   <textarea ng-model="vacancy.Description" placeholder="{{::'COMMON.DESCRIPTION' | translate}}" type="text"></textarea>
                </fieldset>
                <div class="grid-block">

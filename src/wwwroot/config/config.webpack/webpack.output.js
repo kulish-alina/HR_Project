@@ -30,5 +30,5 @@ module.exports = function (path, appPath, buildPath, pkg) {
          failOnError: true,
          quiet: true
       },
-   }
-}
+   };
+};

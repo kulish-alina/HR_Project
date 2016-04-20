@@ -4,11 +4,12 @@
   "description": "base of talents",
   "main": "main.js",
   "scripts": {
-    "dev-build": "set NODE_ENV=development&& webpack --progress --colors",
-    "dist-build": "set NODE_ENV=production&& webpack -p --progress --colors",
-    "devserver": "set NODE_ENV=development&& webpack-dev-server -d --port 9100 --progress --colors",
+    "dev-build": "set NODE_ENV=development&& webpack --progress -c",
+    "dist-build": "set NODE_ENV=production&& webpack -p --progress -c",
+    "devserver": "set NODE_ENV=development&& webpack-dev-server -d --port 9100 --progress -c",
     "test": "set NODE_ENV=test&& karma start karma.config.js",
-    "test-watch": "set NODE_ENV=test&& karma start karma.config.js --auto-watch --no-single-run"
+    "test-watch": "set NODE_ENV=test&& karma start karma.config.js --auto-watch --no-single-run",
+    "lint" : "node ./node_modules/eslint/bin/eslint.js app/**/*.js --ignore-path .eslintignore --debug"
   },
   "author": "isd",
   "license": "ISC",

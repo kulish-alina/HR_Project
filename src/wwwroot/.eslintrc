@@ -72,7 +72,7 @@
          2,
          100
       ],
-      "semi": 0,
+      "semi": ["error", "always"],
       "no-cond-assign": 0,
       "no-debugger": 0,
       "no-eq-null": 2,

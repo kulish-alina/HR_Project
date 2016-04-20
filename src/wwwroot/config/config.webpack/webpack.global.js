@@ -11,9 +11,6 @@ module.exports = function(appPath, buildPath, pkg) {
          path: buildPath,
          filename: 'bundle.js'
       },
-      external: {
-         "iconic": "IconicJS"
-      },
       resolve: {
          modulesDirectories: ["web_modules", "node_modules", "bower_components"]
       },

@@ -1,23 +1,19 @@
-import angular from 'angular';
-import router from 'angular-ui-router';
-import translate from 'angular-translate';
+import angular    from 'angular';
+import router     from 'angular-ui-router';
+import translate  from 'angular-translate';
+
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
-//import 'rangy/rangy-core';
-//import santize from 'angular-sanitize';
-//import 'textAngular/dist/textAngular';
-//import 'textAngular/dist/textAngularSetup';
-//import 'textAngular/dist/textAngular-sanitize';
-
 import 'angular-file-upload/dist/angular-file-upload';
 
-import 'foundation-apps/dist/js/foundation-apps.js';
-import 'foundation-apps/dist/js/foundation-apps-templates.js';
+import 'foundation-apps/dist/js/foundation-apps';
+import 'foundation-apps/dist/js/foundation-apps-templates';
 
 import 'foundation-icons/foundation_icons_general/sass/general_foundicons.scss';
 import 'foundation-icons/foundation_icons_social/sass/social_foundicons.scss';
 
+import './ta';
 
 import './main.scss';
 
@@ -34,10 +30,7 @@ import ValidationService from './services/validationService';
 import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
 
-import 'angularjs-datepicker/src/js/angular-datepicker';
-import 'angularjs-datepicker/src/css/angular-datepicker.css';
-
-import DatePickerDirective from './directives/datepickerwrapper/DatepickerWrapperDirective';
+import DatePickerDirective from './directives/datepickerwrapper/DatePickerWrapperDirective';
 
 var dependencies = [
    router,
@@ -47,7 +40,9 @@ var dependencies = [
    'validation',
    'validation.rule',
    '720kb.datepicker',
-   'angularFileUpload'];
+   'angularFileUpload',
+   'textAngular'
+];
 
 angular
    .module('bot', dependencies)

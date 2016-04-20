@@ -10,6 +10,7 @@ import membersTemplate from './views/settings/members/members.view.html';
 import rolesTemplate from './views/settings/roles/roles.view.html';
 import recruitingTemplate from './views/settings/recruiting/recruiting.view.html';
 
+
 import candidatesController from './views/candidates/candidates.controller';
 import candidateController from './views/candidate/candidate.controller';
 import vacanciesController from './views/vacancies/vacancies.controller';

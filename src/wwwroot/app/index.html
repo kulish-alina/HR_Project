@@ -9,26 +9,42 @@
 <body ng-app="bot">
    <zf-offcanvas id="menu" position="left">
       <ul class="menu-bar side-menu">
-         <li><a zf-close="" class="close-button">×</a></li>
+         <li class="close"><a zf-close="" class="close-button">×</a></li>
          <li>
-            <a ui-sref="home">{{::'INDEX.HOME' | translate}}
-                <img class="menu-img" src="/app/images/home.png"></a>
+            <a ui-sref="home">
+               {{::'INDEX.HOME' | translate}}
+               <img class="menu-img" src="/app/images/home.png">
+            </a>
          </li>
          <li>
-            <a ui-sref="candidates">{{::'INDEX.CANDIDATES' | translate}}
-                <img class="menu-img" src="/app/images/candidates.png"></a>
+            <a ui-sref="candidates">
+                {{::'INDEX.CANDIDATES' | translate}}
+                <img class="menu-img" src="/app/images/candidates.png">
+            </a>
          </li>
-         <li><a ui-sref="vacancies">{{::'INDEX.VACANCIES' | translate}}
-            <img class="menu-img" src="/app/images/vacancies.png"></a>
+         <li>
+            <a ui-sref="vacancies">
+               {{::'INDEX.VACANCIES' | translate}}
+               <img class="menu-img" src="/app/images/vacancies.png">
+            </a>
          </li>
-         <li> <a ui-sref="#">{{::'INDEX.REPORTS' | translate}}
-          <img class="menu-img" src="/app/images/reports.png"></a>
+         <li class="disabled">
+             <a ui-sref="#">
+               {{::'INDEX.REPORTS' | translate}}
+               <img class="menu-img" src="/app/images/reports.png">
+             </a>
          </li>
-         <li><a ui-sref="#">{{::'INDEX.CALENDAR' | translate}}
-         <img class="menu-img" src="/app/images/calendar.png"></a>
+         <li class="disabled">
+             <a ui-sref="#">
+                {{::'INDEX.CALENDAR' | translate}}
+                <img class="menu-img" src="/app/images/calendar.png">
+             </a>
          </li>
-         <li><a ui-sref="#">{{::'INDEX.SETTINGS' | translate}}
-              <img class="menu-img" src="/app/images/settings.png"></a>
+         <li class="disabled">
+             <a ui-sref="#">
+                {{::'INDEX.SETTINGS' | translate}}
+                <img class="menu-img" src="/app/images/settings.png">
+             </a>
          </li>
       </ul>
    </zf-offcanvas>

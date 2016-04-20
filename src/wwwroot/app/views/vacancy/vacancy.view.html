@@ -97,11 +97,11 @@
                            <option selected value="">{{::'COMMON.STATUS' | translate}}</option>
                            <option ng-repeat="status in statuses" value="{{status.id}}">{{::status.name}}</option>
                         </select>
-                        <input name="startDate" ng-model="vacancy.StartDate" placeholder="{{::'COMMON.START_DATE' | translate}}" type="date" validator="required">
-                        <input ng-model="vacancy.DeadlineDate" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" type="date">
-                        <input ng-model="vacancy.EndDate" placeholder="{{::'COMMON.END_DATE' | translate}}" type="date">
-                        <input id="checkbox1" type="checkbox">
-                        <label for="checkbox1">{{::'COMMON.ADD_DEADLINE_TO_CALENDAR' | translate}}</label>
+                        <date datemodel="vacancy.StartDate" placeholder="{{::'COMMON.START_DATE' | translate}}"></date>
+                        <date datemodel="vacancy.DeadlineDate" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}"></date>
+                        <date datemodel="vacancy.EndDate" placeholder="{{::'COMMON.END_DATE' | translate}}"></date>
+                        <input ng-model="vacancy.DeadlineToCalendar" value="true" id="DeadlineToCalendar" type="checkbox">
+                        <label for="DeadlineToCalendar">{{::'COMMON.ADD_DEADLINE_TO_CALENDAR' | translate}}</label>
                      </fieldset>
                   </div>
                </div>

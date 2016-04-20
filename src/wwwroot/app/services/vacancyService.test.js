@@ -56,11 +56,11 @@ describe('VacancyService tests for', () => {
 
    it('saveVacancy with id call test', () => {
       let vacancy = {
-         Id: 1
+         id: 1
       };
 
       service.saveVacancy(vacancy);
-      expect(mock.put).toHaveBeenCalledWith(`vacancies/${vacancy.Id}`, vacancy);
+      expect(mock.put).toHaveBeenCalledWith(`vacancies/${vacancy.id}`, vacancy);
    });
 
    it('saveVacancy without id call test', () => {
@@ -73,18 +73,18 @@ describe('VacancyService tests for', () => {
 
    it('deleteVacancy with id', () => {
       let vacancy = {
-         Id: 1
+         id: 1
       };
 
       service.deleteVacancy(vacancy);
-      expect(mock.remove).toHaveBeenCalledWith(`vacancies/${vacancy.Id}`, vacancy);
+      expect(mock.remove).toHaveBeenCalledWith(`vacancies/${vacancy.id}`, vacancy);
    });
 
    it('deleteVacancy without id', () => {
       let vacancy = {
       };
 
-      expect(service.deleteVacancy).toThrowError(/Id/);
-      expect(mock.remove).not.toHaveBeenCalledWith(`vacancies/${vacancy.Id}`, vacancy);
+      expect(service.deleteVacancy).toThrowError(/id/);
+      expect(mock.remove).not.toHaveBeenCalledWith(`vacancies/${vacancy.id}`, vacancy);
    });
 });

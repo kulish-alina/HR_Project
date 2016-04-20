@@ -17,8 +17,8 @@ export default class VacancyService {
    }
 
    saveVacancy(entity) {
-      if (entity.Id !== undefined) {
-         var additionalUrl = VACANCY_URL + entity.Id;
+      if (entity.id !== undefined) {
+         var additionalUrl = VACANCY_URL + entity.id;
          return _HttpService.put(additionalUrl, entity);
       } else {
          return _HttpService.post(VACANCY_URL, entity);
@@ -26,10 +26,10 @@ export default class VacancyService {
    }
 
    deleteVacancy(entity) {
-      if (entity.Id === undefined) {
+      if (entity.id === undefined) {
          throw new Error('Id should be specified');
       } else {
-         var additionalUrl = VACANCY_URL + entity.Id;
+         var additionalUrl = VACANCY_URL + entity.id;
          _HttpService.remove(additionalUrl, entity);
       }
    }

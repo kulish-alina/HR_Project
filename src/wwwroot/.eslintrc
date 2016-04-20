@@ -67,7 +67,7 @@
       ],
       "max-len": [
          2,
-         100
+         120
       ],
       "semi": 0,
       "no-cond-assign": 0,

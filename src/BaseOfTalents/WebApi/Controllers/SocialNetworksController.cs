@@ -1,14 +1,14 @@
-﻿using Domain.Entities.Setup;
+﻿using Data.EFData.Design;
+using Domain.Entities.Setup;
 using Domain.Repositories;
-using WebApi.DTO.DTOModels;
 
 namespace WebApi.Controllers
 {
     public class SocialNetworksController : BoTController<SocialNetwork, SocialNetwork>
     {
-        public SocialNetworksController(ISocialNetworkRepository socialNetworkRepository)
+        public SocialNetworksController(IRepositoryFacade facade) : base(facade)
         {
-            _repo = socialNetworkRepository;
+            _currentRepo = _repoFacade.SocialNetworkRepository;
         }
     }
 }

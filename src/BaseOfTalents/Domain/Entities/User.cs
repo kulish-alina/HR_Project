@@ -15,12 +15,12 @@ namespace Domain.Entities
         public bool isMale { get; set; }
         public DateTime BirthDate { get; set; }
         public virtual Photo Photo { get; set; }
-        public virtual List<string> PhoneNumbers { get; set; }
+        public virtual List<PhoneNumber> PhoneNumbers { get; set; }
         public string Email { get; set; }
         public string Skype { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public virtual City City { get; set; }
+        public virtual Location Location { get; set; }
         public virtual Role Role { get; set; }
     }
 }

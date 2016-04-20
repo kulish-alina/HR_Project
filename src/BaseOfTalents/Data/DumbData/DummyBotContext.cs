@@ -11,6 +11,12 @@ namespace Data.DumbData
     {
         List<Candidate> _candidates = new List<Candidate>();
         List<Vacancy> _vacancies = new List<Vacancy>();
+        List<SocialNetwork> _socialNetworks = new List<SocialNetwork>();
+        List<Language> _languages = new List<Language>();
+        List<Skill> _skills = new List<Skill>();
+        List<Location> _cities = new List<Location>();
+        List<Department> _teams = new List<Department>();
+
 
         public DummyBotContext()
         {
@@ -21,11 +27,6 @@ namespace Data.DumbData
                 CommentType = CommentType.Candidate,
                 Message = "msg",
                 RelativeId = 0,
-            };
-
-            Experience experience = new Experience()
-            {
-                WorkExperience = new TimeSpan(1),
             };
 
             File candidateFile = new File()
@@ -42,8 +43,10 @@ namespace Data.DumbData
 
             Language language = new Language()
             {
+                Id = 1,
                 Title = "language"
             };
+            _languages.Add(language);
 
             LanguageSkill languageSkill = new LanguageSkill()
             {
@@ -53,14 +56,16 @@ namespace Data.DumbData
 
             Country country = new Country()
             {
-                Name = "name"
+                Title = "name"
             };
 
-            City city = new City()
+            Location city = new Location()
             {
+                Id = 1,
                 Country = country,
-                Name = "dnepr"
+                Title = "dnepr"
             };
+            _cities.Add(city);
 
             Photo photo = new Photo()
             {
@@ -70,15 +75,18 @@ namespace Data.DumbData
 
             Skill skill = new Skill()
             {
+                Id = 1,
                 Title = "C#"
             };
+            _skills.Add(skill);
 
             SocialNetwork socialNetwork = new SocialNetwork()
             {
+                Id = 1,
                 ImagePath = "path",
                 Title = "Path"
             };
-
+            _socialNetworks.Add(socialNetwork);
             CandidateSocial candidateSocial = new CandidateSocial()
             {
                 Path = "path",
@@ -94,16 +102,16 @@ namespace Data.DumbData
                 Description = "descrpition",
                 Education = "High",
                 Email = "email",
-                Experience = experience,
+               
                 Files = new List<File>() { candidateFile },
                 Sources = new List<CandidateSource>() { candidateSource },
                 FirstName = "TESTNAME",
                 IsMale = true,
                 LanguageSkills = new List<LanguageSkill>() { languageSkill },
                 LastName = "lname",
-                City = city,
+                Location = city,
                 MiddleName = "mname",
-                PhoneNumbers = new List<string>() { "+380978762352" },
+                PhoneNumbers = new List<PhoneNumber>() { new PhoneNumber() { Id = 1 ,Number = "+380978762352" } },
                 Photo = photo,
                 PositionDesired = "architecht",
                 Practice = "best",
@@ -133,12 +141,11 @@ namespace Data.DumbData
             {
                 AccessRights = AccessRights.AddCandidateToVacancy,
                 Description = "Permis",
-                Role = null
             };
 
             Role role = new Role()
             {
-                Name = "adm",
+                Title = "adm",
                 Permissions = new List<Permission>() { permission },
             };
 
@@ -149,26 +156,28 @@ namespace Data.DumbData
                 FirstName = "fname",
                 isMale = true,
                 LastName = "lastname",
-                City = city,
+                Location = city,
                 Login = "login",
                 Password = "pass",
                 MiddleName = "mname",
-                PhoneNumbers = new List<string>() { "+3565234662" },
+                PhoneNumbers = new List<PhoneNumber>() { new PhoneNumber() { Number = "+3565234662" } },
                 Photo = photo,
                 Role = role,
                 Skype = "skype",
             };
 
-            Department department = new Department()
+            DepartmentGroup departmentGroup = new DepartmentGroup()
             {
                 Title = "title"
             };
 
-            Team team = new Team()
+            Department department = new Department()
             {
-                Department = department,
+                Id = 1,
+                DepartmentGroup = departmentGroup,
                 Title = "title"
             };
+            _teams.Add(department);
 
             Vacancy vacancy = new Vacancy()
             {
@@ -180,15 +189,15 @@ namespace Data.DumbData
                 EndDate = DateTime.Now,
                 Files = new List<File>() { vacancyFile },
                 LanguageSkill = languageSkill,
-                Level = Level.Senior,
-                City = city,
+                Level = new List<Level>() { Level.Senior },
+                Locations = new List<Location>() { city },
                 ParentVacancy = null,
                 RequiredSkills = new List<Skill>() { skill },
                 Responsible = user,
                 SalaryMax = 100500,
                 SalaryMin = 15,
                 StartDate = DateTime.Now,
-                Team = team,
+                Department = department,
                 CandidatesProgress = new List<VacancyStageInfo>()
 
             };
@@ -232,6 +241,67 @@ namespace Data.DumbData
             get
             {
                 return _candidates;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IList<Location> Cities
+        {
+            get
+            {
+                return _cities;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
+        public IList<Department> Teams
+        {
+            get
+            {
+                return _teams;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IList<Skill> Skills
+        {
+            get
+            {
+                return _skills;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IList<Language> Languages
+        {
+            get
+            {
+                return _languages;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IList<SocialNetwork> SocialNetworks
+        {
+            get
+            {
+                return _socialNetworks;
             }
             set
             {

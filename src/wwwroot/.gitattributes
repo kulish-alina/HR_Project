@@ -1,0 +1,12 @@
+#For all files specified on system info
+* text=auto
+
+#Specified line endings per file extension
+*.js text eol=crlf
+*.css text eol=crlf
+*.scss text eol=crlf
+*.html text eol=crlf
+
+#Binary files
+*.png binary
+*.jpg binary

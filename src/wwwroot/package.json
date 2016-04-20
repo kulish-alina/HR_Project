@@ -39,9 +39,11 @@
     "angular-file-upload": "^2.2.0",
     "angular-sanitize": "^1.5.3",
     "angular-translate": "^2.11.0",
+    "angular-ui-mask": "^1.8.3",
     "angular-ui-router": "^0.2.18",
     "angular-validation": "^1.4.1",
     "bower": "^1.7.7",
+    "angularjs-datepicker": "^2.0.0",
     "lodash": "^4.6.1"
   }
 }

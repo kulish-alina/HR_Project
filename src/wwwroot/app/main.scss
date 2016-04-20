@@ -52,3 +52,7 @@ body {
 select[multiple] {
     height: auto;
 }
+
+.grid-block {
+   overflow: inherit;
+}

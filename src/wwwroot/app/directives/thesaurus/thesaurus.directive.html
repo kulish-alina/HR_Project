@@ -4,27 +4,24 @@
    <tr><th ng-repeat="field in ::structure.fields | filter : isShowField" ng-bind="::field.label"></th></tr>
    <tr ng-repeat = "topic in topics">
       <td ng-repeat = "field in ::structure.fields | filter : isShowField" >
-         <span ng-if="!isEditTopic(topic)&&field.type==='text'" ng-bind="::topic[field.name]"></span>
-         <span ng-if="!isEditTopic(topic)&&field.type==='select'" 
-               ng-bind="::topic[field.additionFieldForText]"></span>         
-         <img ng-if="!isEditTopic(topic)&&field.type==='img'">
-         <input type="text" ng-if="isEditTopic(topic)&&field.type==='text'" placeholder="{{::field.name}}"
-                ng-model="topic[field.name]">
-         <select ng-if="isEditTopic(topic)&&field.type==='select'" 
+         <img ng-show="!isEditTopic(topic)&&field.type==='img'">
+         <input type="text" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='text'" 
+                placeholder="{{::field.name}}" ng-model="topic[field.name]" class="edit">
+         <select ng-disabled="!isEditTopic(topic)" ng-show="field.type==='select'" 
                  ng-model="selectedObjectsOfEditeTopic[field.name]"
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
-                 ng-change="change(topic, field)"></select>
+                 ng-change="change(topic, field)" class="edit"></select>
       </td>
       <td>
-         <button class="edit" ng-if="!isEditTopic(topic)" ng-click="editThesaurusTopic(topic)" 
+         <button class="edit" ng-show="!isEditTopic(topic)" ng-click="editThesaurusTopic(topic)" 
                  ng-disabled="!isTopicEditAllow(topic)">{{::('COMMON.EDIT' | translate)}}</button>
-         <button class="save" ng-if="isEditTopic(topic)" 
+         <button class="save" ng-show="isEditTopic(topic)" 
                  ng-click="saveEditTopic(topic)">{{::('COMMON.SAVE' | translate)}}</button>
       </td>
       <td>
-         <button class="remove" ng-if="!isEditTopic(topic)" ng-click="removeThesaurusTopic(topic)" 
+         <button class="remove" ng-show="!isEditTopic(topic)" ng-click="removeThesaurusTopic(topic)" 
                  ng-disabled="!isTopicEditAllow(topic)">{{::('COMMON.REMOVE' | translate)}}</button>
-         <button class="cancel" ng-if="isEditTopic(topic)" ng-click="cancelThesaurusTopicEditing(topic)">
+         <button class="cancel" ng-show="isEditTopic(topic)" ng-click="cancelThesaurusTopicEditing(topic)">
             {{::('COMMON.CANCEL' | translate)}}
          </button>
       </td>

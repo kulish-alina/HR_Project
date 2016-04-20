@@ -6,6 +6,7 @@ import vacanciesTemplate from './views/vacancies/vacancies.view.html';
 import vacancyTemplate from './views/vacancy/vacancy.view.html';
 import thesaurusesTemplate from './views/thesauruses/thesauruses.view.html';
 
+
 import candidatesController from './views/candidates/candidates.controller';
 import candidateController from './views/candidate/candidate.controller';
 import vacanciesController from './views/vacancies/vacancies.controller';

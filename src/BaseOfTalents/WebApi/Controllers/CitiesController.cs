@@ -1,19 +1,18 @@
-﻿using Domain.Entities.Setup;
+﻿using Data.EFData.Design;
+using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WebApi.DTO.DTOModels;
 
 namespace WebApi.Controllers
 {
-    public class CitiesController : BoTController<City, City>
+    public class CitiesController : BoTController<Location, Location>
     {
-        public CitiesController(ICityRepository cityRepository)
+        public CitiesController(IRepositoryFacade facade) : base(facade)
         {
-            _repo = cityRepository;
-
+            _currentRepo = _repoFacade.CityRepository;
         }
     }
 }

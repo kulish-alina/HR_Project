@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Setup;
+﻿using Data.EFData.Design;
+using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ namespace WebApi.Controllers
 {
     public class DepartmentsController : BoTController<Department, Department>
     {
-        public DepartmentsController(IDepartmentRepository departmentRepository)
+        public DepartmentsController(IRepositoryFacade facade) : base(facade)
         {
-            _repo = departmentRepository;
+            _currentRepo = _repoFacade.DepartmentRepository;
         }
     }
 }

@@ -60,4 +60,4 @@ function Level(priority, name) {
 
 Level.prototype.compareTo = function compareTo(another) {
    return this.priority < another.priority ? -1 : this.priority > another.priority ? 1 : 0;
-}
+};

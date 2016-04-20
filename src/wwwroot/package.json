@@ -9,7 +9,7 @@
     "devserver": "set NODE_ENV=development&& webpack-dev-server -d --port 9100 --progress -c",
     "test": "set NODE_ENV=test&& karma start karma.config.js",
     "test-watch": "set NODE_ENV=test&& karma start karma.config.js --auto-watch --no-single-run",
-    "lint" : "node ./node_modules/eslint/bin/eslint.js app/**/*.js --ignore-path .eslintignore --debug"
+    "lint" : "node ./node_modules/eslint/bin/eslint.js app/**/*.js --ignore-path .eslintignore"
   },
   "author": "isd",
   "license": "ISC",

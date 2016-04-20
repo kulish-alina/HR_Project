@@ -45,6 +45,6 @@ module.exports = function() {
          // progress: true,
          //contentBase: './src/public',
          stats: 'minimal'
-      },
-   }
-}
+      }
+   };
+};

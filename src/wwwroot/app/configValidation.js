@@ -30,7 +30,7 @@ export default function _configValidation($validationProvider) {
       const minTitleLength = 3;
       const maxTitleLength = 50;
       return !!value ? value.length <= maxTitleLength && value.length >= minTitleLength : true;
-   }
+   };
    $validationProvider.showSuccessMessage = false;
    $validationProvider
       .setDefaultMsg({ en: translationsEn.VALIDATION,

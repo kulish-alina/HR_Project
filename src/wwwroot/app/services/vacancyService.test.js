@@ -21,7 +21,7 @@ describe('VacancyService tests for', () => {
 
    beforeEach(inject(VacancyService => {
       service = VacancyService;
-   }))
+   }));
 
    it('getVacancies not to be undefined or null', () => {
       expect(service.getVacancies).not.toBeUndefined();
@@ -44,13 +44,13 @@ describe('VacancyService tests for', () => {
    });
 
    it('getVacancies call test', () => {
-      let vacancies = service.getVacancies();
+      service.getVacancies();
       expect(mock.get).toHaveBeenCalledWith('vacancies/');
    });
 
    it('getVacancy with id 1 call test', () => {
       let id = 1;
-      let vacancy = service.getVacancy(id);
+      service.getVacancy(id);
       expect(mock.get).toHaveBeenCalledWith(`vacancies/${id}`);
    });
 

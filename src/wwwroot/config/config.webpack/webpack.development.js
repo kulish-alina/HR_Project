@@ -4,12 +4,6 @@ module.exports = function(webpack) {
       devtool: 'eval-source-map ',
       plugins: [
          new webpack.HotModuleReplacementPlugin()
-      ],
-      loaders: [
-         {
-            test: /\.js$/,
-            exclude: /\.test\.js$/
-         },
       ]
-   }
-}
+   };
+};

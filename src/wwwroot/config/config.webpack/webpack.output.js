@@ -3,7 +3,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = function (path, appPath, buildPath, pkg) {
    return {
       entry: {
-         app: path.join(appPath, 'main.js'),
+         app: path.join(appPath, 'main.js')
       },
       output: {
          path: buildPath,
@@ -13,10 +13,10 @@ module.exports = function (path, appPath, buildPath, pkg) {
          preLoaders: [
             {
                test: /\.js$/,
-               exclude: [/node_modules/, /dist/, /\.test\.js$/],
+               exclude: [/node_modules/, /dist/],
                loader: 'eslint-loader'
             }
-         ],
+         ]
       },
       plugins: [
          new HtmlWebpackPlugin({
@@ -29,6 +29,6 @@ module.exports = function (path, appPath, buildPath, pkg) {
          configFile: '.eslintrc',
          failOnError: true,
          quiet: true
-      },
+      }
    };
 };

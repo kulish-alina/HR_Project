@@ -70,7 +70,7 @@
       ],
       "max-len": [
          2,
-         100
+         120
       ],
       "semi": ["error", "always"],
       "no-cond-assign": 0,
@@ -155,6 +155,6 @@
       "valid-jsdoc": 2,
       "no-multiple-empty-lines": 2,
       "no-underscore-dangle": 0,
-      "comma-dangle": 0
+      "comma-dangle": ["error", "never"]
    }
 }

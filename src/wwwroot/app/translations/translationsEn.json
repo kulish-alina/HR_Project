@@ -85,5 +85,11 @@
          "error": "*this should be from 3 to 50 symbols",
          "success": "Correct!"
       }
+   },
+   "ERRORS" : {
+      "someErrorMsg" : "Sorry! Some error occurred: ",
+      "thesaurusErrors" : {
+         "incorrectNameMsg" : "Thesaurus name is incorrect."
+      }
    }
 }

@@ -1,16 +1,28 @@
-import { has, find, concat, remove, filter, map, forEach, some } from 'lodash';
+import {
+   has,
+   find,
+   concat,
+   remove,
+   filter,
+   map,
+   forEach,
+   some,
+   each,
+   reduce
+} from 'lodash';
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
-let _HttpService, _$q;
+let _HttpService, _$q, _$translate;
 
 const cache = {};
 
 export default class ThesaurusService {
-   constructor(HttpService, $q) {
+   constructor(HttpService, $q, $translate) {
       'ngInject';
       _HttpService = HttpService;
       _$q = $q;
+      _$translate = $translate;
    }
 
    getThesaurusTopics(thesaurusName) {
@@ -18,16 +30,14 @@ export default class ThesaurusService {
          return _$q.when(cache[thesaurusName]);
       } else {
          let thesaurusesToLoad = _getLoadedThesaurusesList(thesaurusName);
-         return _$q.all(map(thesaurusesToLoad, thesaurus => _HttpService.get(thesaurus)))
-                .then(thesauruses => {
-                   for (var i = 0; i < thesauruses.length; i++) {
-                      cache[thesaurusesToLoad[i]] = thesauruses[i];
-                      _actionOfAdditionFieldsForTopics(cache[thesaurusesToLoad[i]],
-                                                       thesaurusesToLoad[i],
-                                                       _addRefTextFieldFunction);
-                   }
-                   return cache[thesaurusName];
-                });
+         let mapThesaurusPromises = _mapValues(thesaurusesToLoad, name => _HttpService.get(name));
+         return _$q.all(mapThesaurusPromises).then(thesauruses => {
+            each(thesauruses, (thesaurus, name) => {
+               cache[name] = thesaurus;
+               _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
+            });
+            return cache[thesaurusName];
+         });
       }
    }
 
@@ -35,7 +45,6 @@ export default class ThesaurusService {
       if (has(cache, thesaurusName)) {
          return _$q.when(find(cache[thesaurusName], {id: id}));
       } else {
-         var url = thesaurusName + '/' + id;
          return this.getThesaurusTopics(thesaurusName)
             .then(() => find(cache[thesaurusName], {id: id}));
       }
@@ -44,7 +53,7 @@ export default class ThesaurusService {
    saveThesaurusTopic(thesaurusName, entity) {
       if (has(this.getThesaurusNames(), thesaurusName)) {
          _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
-         if (entity.id !== undefined) {
+         if (entity.id) {
             let additionalUrl = thesaurusName + '/' + entity.id;
             return _HttpService.put(additionalUrl, entity)
                .then(_entity => {
@@ -61,7 +70,7 @@ export default class ThesaurusService {
                });
          }
       } else {
-         return _$q.reject('Thesaurus name is incorrect.');
+         return _$q.reject(_$translate.instant('ERRORS.someErrorMsg.thesaurusErrors.incorrectNameMsg'));
       }
    }
 
@@ -69,10 +78,9 @@ export default class ThesaurusService {
       if (has(this.getThesaurusNames(), thesaurusName)) {
          let additionalUrl = thesaurusName + '/' + entity.id;
          _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
-         return  _HttpService.remove(additionalUrl, entity)
-                     .then(() => remove(cache[thesaurusName], entity));
+         return _HttpService.remove(additionalUrl, entity).then(() => remove(cache[thesaurusName], entity));
       } else {
-         return _$q.reject('Thesaurus name is incorrect.');
+         return _$q.reject(_$translate.instant('ERRORS.someErrorMsg.thesaurusErrors.incorrectNameMsg'));
       }
    }
 
@@ -87,7 +95,7 @@ export default class ThesaurusService {
 
 function _getReferenceFields(thesaurusName) {
    let structure = THESAURUS_STRUCTURES[thesaurusName];
-   if (structure !== undefined) {
+   if (structure) {
       return filter(structure.fields, {type: 'select'});
    } else {
       return [];
@@ -95,11 +103,9 @@ function _getReferenceFields(thesaurusName) {
 }
 
 function _getLoadedThesaurusesList(mainThesaurusName) {
-   var list = [];
-   list.push(mainThesaurusName);
-   forEach(map(_getReferenceFields(mainThesaurusName), field => field.refTo),
-           thesaurus => list.push(thesaurus));
-   return list;
+   let array = map(_getReferenceFields(mainThesaurusName), 'refTo');
+   array.unshift(mainThesaurusName);
+   return array;
 }
 
 function _addRefTextFieldFunction(field, topic) {
@@ -114,10 +120,18 @@ function _deleteRefTextFieldFunction(field, topic) {
 }
 
 function _actionOfAdditionFieldsForTopic(topic, thesaurusName, action) {
-   var additionFields = _getReferenceFields(thesaurusName);
+   let additionFields = _getReferenceFields(thesaurusName);
    forEach(_getReferenceFields(thesaurusName), field => action(field, topic));
 }
 
 function _actionOfAdditionFieldsForTopics(topics, thesaurusName, action) {
    forEach(topics, topic => _actionOfAdditionFieldsForTopic(topic, thesaurusName, action));
+}
+
+
+function _mapValues(array, it) {
+   return reduce(array, (memo, name) => {
+      memo[name] = it(name);
+      return memo;
+   }, {});
 }

@@ -1,5 +1,6 @@
 import template from './thesaurus.directive.html';
 import { has, clone, assign, map, forEach, find, filter } from 'lodash';
+import './thesaurus.scss';
 
 export default class ThesaurusDirective {
    constructor() {
@@ -18,7 +19,7 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($scope, ThesaurusService, $q) {
+function ThesaurusController($scope, ThesaurusService, $translate) {
    'ngInject';
 
    const vm = $scope;
@@ -26,6 +27,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    /* --- api --- */
    vm.topics      = [];
    vm.structure   = {};
+   vm.filterdFields     = {};
    vm.newTresaurusTopic = {};
    vm.additionThesaurusesStore    = {};
    vm.selectedObjectsOfEditeTopic = {};
@@ -123,7 +125,7 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    }
 
    function _getSelectFields() {
-      return filter(vm.structure.fields, field => has(field, 'refTo'));
+      return filter(vm.structure.fields, {type: 'select'});
    }
 
    function _deleteClone() {
@@ -133,12 +135,11 @@ function ThesaurusController($scope, ThesaurusService, $q) {
    function _fillAdditionThesauruses(field) {
       if (has(field, 'refTo')) {
          ThesaurusService.getThesaurusTopics(field.refTo)
-            .then(topics => vm.additionThesaurusesStore[field.refTo] = topics)
-            .catch(_onError);
+            .then(topics => vm.additionThesaurusesStore[field.refTo] = topics).catch(_onError);
       };
    }
 
    function _onError(message) {
-      vm.message = 'Sorry! Some error occurred: ' + message;
+      vm.message = $translate.instant('ERRORS.someErrorMsg') + message;
    }
 }

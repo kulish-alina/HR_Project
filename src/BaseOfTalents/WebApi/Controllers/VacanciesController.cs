@@ -1,16 +1,19 @@
 ﻿using System.Linq;
 using Domain.Entities;
 using Domain.Repositories;
-using WebApi.DTO.DTOModels;
+using Domain.DTO.DTOModels;
+using Data.EFData.Design;
+using System.Web.Http;
 
 namespace WebApi.Controllers
 {
     public class VacanciesController : BoTController<Vacancy, VacancyDTO>
     {
-        public VacanciesController(IVacancyRepository vacancyRepository)
+        public VacanciesController(IRepositoryFacade facade) : base(facade)
         {
-            _repo = vacancyRepository;
+            _currentRepo = _repoFacade.VacancyRepository;
         }
+      
     }
 }
 

@@ -9,7 +9,7 @@ export default function ProfileController($scope, UserService) {
       vm.user.FirstName = 'Administrator';
       vm.user.LastName = 'Admin';
       vm.user.MiddleName = 'Adminovich';
-      vm.user.IsMale = 'false';
+      vm.user.IsMale = 'true';
    }
    _getAuthUser();
 }

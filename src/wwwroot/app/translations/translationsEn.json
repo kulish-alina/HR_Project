@@ -47,7 +47,11 @@
       "FIRST": "First Name",
       "MIDDLE": "Middle Name",
       "MALE": "Male",
-      "FEMALE": "Female"
+      "FEMALE": "Female",
+      "CITY": "City",
+      "EMAIL": "Email",
+      "SKYPE": "Skype",
+      "PHONE": "Phone number"
    },
    "VALIDATION": {
       "required": {
@@ -88,6 +92,9 @@
          "PROFILE" : "Profile",
          "MEMBERS" : "Team members",
          "ROLES" : "Roles",
-         "RECRUITING" : "Recruiting settings"
+         "RECRUITING" : "Recruiting settings",
+         "PASS" : "Your password",
+         "NEW_PASS" : "New password",
+         "CONFIRM_PASS" : "Confirm new password"
       }
 }

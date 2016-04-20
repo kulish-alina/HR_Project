@@ -23,10 +23,24 @@
                                         <label for="female">{{::'COMMON.FEMALE' | translate}}</label>
                                     </li>
                                 </ul>
-                                <input ng-model="user.Location.County" placeholder="{{::'COMMON.COUNTRY' | translate}}" type="text">
                                 <input ng-model="user.Location.City" placeholder="{{::'COMMON.CITY' | translate}}" type="text">
+                                <input ng-model="user.BirthDate" placeholder="sdfsdf" type="date">
                             </fieldset>
                         </div>
+                       <div class="medium-3 grid-block">
+                          <fieldset>
+                          <input ng-model="user.Email" placeholder="{{::'COMMON.EMAIL' | translate}}" type="text">
+                          <input ng-model="user.Skype" placeholder="{{::'COMMON.SKYPE' | translate}}" type="text">
+                          <input ng-model="user.PhoneNumber" placeholder="{{::'COMMON.PHONE' | translate}}" type="text">
+                          </fieldset>
+                       </div>
+                       <div class="medium-3 grid-block">
+                          <fieldset>
+                          <input ng-model="user.OldPassword" placeholder="{{::'SETTINGS.PASS' | translate}}" type="text">
+                          <input ng-model="user.Skype" placeholder="{{::'SETTINGS.NEW_PASS' | translate}}" type="text">
+                          <input ng-model="user.PhoneNumber" placeholder="{{::'SETTINGS.CONFIRM_PASS' | translate}}" type="text">
+                          </fieldset>
+                       </div>
                     </div>
                 </form>
             </div>

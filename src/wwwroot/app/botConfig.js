@@ -67,23 +67,26 @@ export default function _config(
          template: settingsTemplate
       })
       .state('profile', {
-         url: '/profilr',
+         url: '/profile',
          parent: 'settings',
          template: profileTemplate,
          controller: profileController
       })
       .state('members', {
+         url: '/members',
          parent: 'settings',
          template: membersTemplate,
          controller: membersController
       })
       .state('roles', {
+         url: '/roles',
          parent: 'settings',
          template: rolesTemplate,
          controller: rolesController
       })
       .state('recruiting', {
          parent: 'settings',
+         url: '/recruiting',
          template: recruitingTemplate,
          controller: recruitingController
       })

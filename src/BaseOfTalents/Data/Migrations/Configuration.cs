@@ -2,6 +2,7 @@ namespace Data.Migrations
 {
     using Domain.Entities;
     using Domain.Entities.Enum;
+    using Domain.Entities.Enum.Setup;
     using Domain.Entities.Setup;
     using System;
     using System.Collections.Generic;
@@ -18,257 +19,305 @@ namespace Data.Migrations
 
         protected override void Seed(Data.EFData.BOTContext context)
         {
+            List<Skill> skills = new List<Skill>()
+            {
+                new Skill { Title="SQL" },
+                new Skill { Title="WinForms" },
+                new Skill { Title="DevExpress" },
+                new Skill { Title=".Net" },
+                new Skill { Title="C#" },
+                new Skill { Title="Spring .Net" },
+                new Skill { Title="JQuery" },
+                new Skill { Title="JavaScript" },
+                new Skill { Title="ASP .NET MVC" },
+                new Skill { Title="HTML5+CSS3" },
+                new Skill { Title="NHibernate" },
+                new Skill { Title="Entity Framework" }
+            };
+
+            context.Skills.AddRange(skills);
+            context.SaveChanges();
+
+            List<Tag> tags = new List<Tag>()
+            {
+                new Tag { Title="SQL" },
+                new Tag { Title="WinForms" },
+                new Tag { Title="DevExpress" },
+                new Tag { Title=".Net" },
+                new Tag { Title="C#" },
+                new Tag { Title="Spring .Net" },
+                new Tag { Title="JQuery" },
+                new Tag { Title="JavaScript" },
+                new Tag { Title="ASP .NET MVC" },
+                new Tag { Title="HTML5+CSS3" },
+                new Tag { Title="NHibernate" },
+                new Tag { Title="Entity Framework" }
+            };
+            context.Tags.AddRange(tags);
+            context.SaveChanges();
+
+            List<Industry> industries = new List<Industry>()
+            {
+                new Industry { Title="IT" },
+                new Industry { Title="Accounting" },
+                new Industry { Title="Administration" }
+            };
+            context.Industries.AddRange(industries);
+            context.SaveChanges();
+
+            List<Role> roles = new List<Role>()
+            {
+                new Role { Title="Manager" },
+                new Role { Title="Recruiter" },
+                new Role { Title="Freelancer" }
+            };
+            context.Roles.AddRange(roles);
+            context.SaveChanges();
+
+            List<DepartmentGroup> departmentGroups = new List<DepartmentGroup>()
+            {
+                new DepartmentGroup { Title="Contract" },
+                new DepartmentGroup { Title="Nonprod" },
+                new DepartmentGroup { Title="Prod" }
+            };
+            context.DepartmentGroups.AddRange(departmentGroups);
+            context.SaveChanges();
+
+            List<Department> departments = new List<Department>()
+            {
+                  new Department { Title = "Contract Programming",  DepartmentGroup = departmentGroups[0]},
+                  new Department { Title = "Sites Design",          DepartmentGroup = departmentGroups[0]},
+                  new Department { Title = "Web apps",              DepartmentGroup = departmentGroups[0]},
+                  new Department { Title = "Accounting",            DepartmentGroup = departmentGroups[1]},
+                  new Department { Title = "Administration",        DepartmentGroup = departmentGroups[1]},
+                  new Department { Title = "Executives",            DepartmentGroup = departmentGroups[1]},
+                  new Department { Title = "DevWorkshop",           DepartmentGroup = departmentGroups[1]},
+                  new Department { Title = "HR",                    DepartmentGroup = departmentGroups[1]},
+                  new Department { Title = "Managers",              DepartmentGroup = departmentGroups[1]},
+                  new Department { Title = "Managers",              DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "QA",                    DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "UPM",                   DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "EPE",                   DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Soft Web",              DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "AR",                    DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Bank/Donor",            DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "iTMS",                  DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Genetics 1",            DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Genetics 2",            DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Genetics 3",            DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Genetics 5",            DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Genetics Analysts",     DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Genetics Autotesting",  DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "HLA",                   DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Portal",                DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Regr.Testing",          DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Total QC",              DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "CM",                    DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "DBA",                   DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "MIS Tech Support",      DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "SA",                    DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "SE",                    DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Architects",            DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "BI",                    DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "CSF",                   DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Interfaces",            DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Lab 5.0",               DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "LabMic",                DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Mic 5.0",               DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "RNV",                   DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Reports",               DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Genetics Support",      DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Support",               DepartmentGroup = departmentGroups[2]},
+                  new Department { Title = "Update",                DepartmentGroup = departmentGroups[2]},
+            };
+            context.Departments.AddRange(departments);
+            context.SaveChanges();
+
+            List<Language> languages = new List<Language>()
+            {
+                new Language { Title="English" },
+                new Language { Title="Polish" }
+            };
+
+            context.Languages.AddRange(languages);
+            context.SaveChanges();
+
             List<Country> countries = new List<Country>()
             {
-                new Country { EditTime=DateTime.Now, Name="Ukraine" }
+                new Country { Title="Ukraine" }
             };
 
-            List<City> cities = new List<City>()
+            context.Countries.AddRange(countries);
+            context.SaveChanges();
+
+            List<Location> locations = new List<Location>()
             {
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Kiev" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Kharkiv" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Odessa" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Dnipropetrovsk" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Zaporizhia" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Lviv" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Kryvyi Rih" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Mykolaiv" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Mariupol" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Luhansk" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Donetsk" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Sevastopol" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Vinnytsia" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Makiivka" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Simferopol" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Kherson" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Poltava" },
-                new City { EditTime = DateTime.Now, Country=countries[0], Name="Chernihiv" },
+                new Location { Country=countries[0], Title="Kiev" },
+                new Location { Country=countries[0], Title="Kharkiv" },
+                new Location { Country=countries[0], Title="Odessa" },
+                new Location { Country=countries[0], Title="Dnipropetrovsk" },
+                new Location { Country=countries[0], Title="Zaporizhia" },
+                new Location { Country=countries[0], Title="Lviv" },
+                new Location { Country=countries[0], Title="Kryvyi Rih" },
+                new Location { Country=countries[0], Title="Mykolaiv" },
+                new Location { Country=countries[0], Title="Mariupol" },
+                new Location { Country=countries[0], Title="Luhansk" },
+                new Location { Country=countries[0], Title="Donetsk" },
+                new Location { Country=countries[0], Title="Sevastopol" },
+                new Location { Country=countries[0], Title="Vinnytsia" },
+                new Location { Country=countries[0], Title="Makiivka" },
+                new Location { Country=countries[0], Title="Simferopol" },
+                new Location { Country=countries[0], Title="Kherson" },
+                new Location { Country=countries[0], Title="Poltava" },
+                new Location { Country=countries[0], Title="Chernihiv" },
             };
+
+            context.Locations.AddRange(locations);
+            context.SaveChanges();
+
             List<Stage> stages = new List<Stage>()
             {
-                new Stage { EditTime = DateTime.Now, Title="Pool" },
-                new Stage { EditTime = DateTime.Now, Title="Selected" },
-                new Stage { EditTime = DateTime.Now, Title="HR Interview" },
-                new Stage { EditTime = DateTime.Now, Title="Test task" },
-                new Stage { EditTime = DateTime.Now, Title="Tech Interview" },
-                new Stage { EditTime = DateTime.Now, Title="Additional interview" },
-                new Stage { EditTime = DateTime.Now, Title="Final Interview",  },
-                new Stage { EditTime = DateTime.Now, Title="Job Offer Issued" },
-                new Stage { EditTime = DateTime.Now, Title="Job Offer Accepted", },
-                new Stage { EditTime = DateTime.Now, Title="Hired" },
-                new Stage { EditTime = DateTime.Now, Title="Rejected" },
+                new Stage { Title="Pool" },
+                new Stage { Title="Selected" },
+                new Stage { Title="HR Interview" },
+                new Stage { Title="Test task" },
+                new Stage { Title="Tech Interview" },
+                new Stage { Title="Additional interview" },
+                new Stage { Title="Final Interview",  },
+                new Stage { Title="Job Offer Issued" },
+                new Stage { Title="Job Offer Accepted", },
+                new Stage { Title="Hired" },
+                new Stage { Title="Rejected" },
             };
 
-            #region Candidate
-            Comment candidateComment = new Comment()
-            {
-                CommentType = CommentType.Candidate,
-                Message = "msg",
-                RelativeId = 0,
-            };
+            context.Stages.AddRange(stages);
+            context.SaveChanges();
 
-            Experience experience = new Experience()
-            {
-                WorkExperience = new TimeSpan(1),
-            };
-
-            File candidateFile = new File()
-            {
-                Description = "description",
-                FilePath = "path",
-            };
-
-            CandidateSource candidateSource = new CandidateSource()
-            {
-                Path = "Path",
-                Source = Source.HeadHunter,
-            };
-
-            Language language = new Language()
-            {
-                Title = "language"
-            };
-
-            LanguageSkill languageSkill = new LanguageSkill()
-            {
-                Language = language,
-                LanguageLevel = LanguageLevel.Fluent,
-            };
-
-            Country country = new Country()
-            {
-                Name = "name"
-            };
-
-            City city = new City()
-            {
-                Country = country,
-                Name = "dnepr"
-            };
-
-            Photo photo = new Photo()
-            {
-                Description = "descr",
-                ImagePath = "path"
-            };
-
-            Skill skill = new Skill()
-            {
-                Title = "C#"
-            };
-
-            SocialNetwork socialNetwork = new SocialNetwork()
-            {
-                ImagePath = "path",
-                Title = "Path"
-            };
-
-            CandidateSocial candidateSocial = new CandidateSocial()
-            {
-                Path = "path",
-                SocialNetwork = socialNetwork,
-            };
-
-            Candidate candidate = new Candidate()
-            {
-                Skype = "skype",
-                BirthDate = DateTime.Now,
-                Comments = new List<Comment>() { candidateComment },
-                Description = "descrpition",
-                Education = "High",
-                Email = "email",
-                Experience = experience,
-                Files = new List<File>() { candidateFile },
-                Sources = new List<CandidateSource>() { candidateSource },
-                FirstName = "fname",
-                IsMale = true,
-                LanguageSkills = new List<LanguageSkill>() { languageSkill },
-                LastName = "lname",
-                City = city,
-                MiddleName = "mname",
-                PhoneNumbers = new List<string>() { "+380978762352" },
-                Photo = photo,
-                PositionDesired = "architecht",
-                Practice = "best",
-                RelocationAgreement = true,
-                SalaryDesired = 10500,
-                Skills = new List<Skill>() { skill },
-                SocialNetworks = new List<CandidateSocial>() { candidateSocial },
-                TypeOfEmployment = TypeOfEmployment.FullTime,
-                VacanciesProgress = new List<VacancyStageInfo>() { }
-            };
-            #endregion
 
             Comment vacancyComment = new Comment()
             {
                 CommentType = CommentType.Vacancy,
-                Message = "msg",
-                RelativeId = 0,
+                Message = "Messg",
+                RelativeId = 0
             };
 
-            File vacancyFile = new File()
+            File vFile = new File()
             {
-                Description = "file",
-                FilePath = "path",
+                Description = "desc",
+                FilePath = "path"
             };
 
-            Permission permission = new Permission()
+            LanguageSkill languageSkill = new LanguageSkill()
             {
-                AccessRights = AccessRights.AddCandidateToVacancy,
-                Description = "Permis",
-                Role = null
+                Language = context.Languages.First(),
+                LanguageLevel = LanguageLevel.Advanced
             };
 
-            Role role = new Role()
+            Photo photo = new Photo()
             {
-                Name = "adm",
-                Permissions = new List<Permission>() { permission },
+                Description = "desc",
+                ImagePath = "path"
             };
 
             User user = new User()
             {
                 BirthDate = DateTime.Now,
-                Email = "mail",
+                Email = "email",
                 FirstName = "fname",
                 isMale = true,
                 LastName = "lastname",
-                City = city,
+                Location = context.Locations.First(),
                 Login = "login",
                 Password = "pass",
                 MiddleName = "mname",
-                PhoneNumbers = new List<string>() { "+3565234662" },
+                PhoneNumbers = new List<PhoneNumber>() { new PhoneNumber() { Number = "+3565234662" } },
                 Photo = photo,
-                Role = role,
+                Role = context.Roles.First(),
                 Skype = "skype",
             };
-
-            Department department = new Department()
+            context.Users.Add(user);
+            context.SaveChanges();
+          
+            Tag tag = new Tag()
             {
-                Title = "title"
+                Title = "tag"
             };
-
-            Team team = new Team()
-            {
-                Department = department,
-                Title = "title"
-            };
+            context.Tags.Add(tag);
+            context.SaveChanges();
 
             Vacancy vacancy = new Vacancy()
             {
+                Industry = context.Industries.First(),
                 TypeOfEmployment = TypeOfEmployment.FullTime,
                 Title = "Architecht",
                 Comments = new List<Comment>() { vacancyComment },
                 DeadlineDate = DateTime.Now,
                 Description = "descr",
                 EndDate = DateTime.Now,
-                Files = new List<File>() { vacancyFile },
+                Files = new List<File>() { vFile },
                 LanguageSkill = languageSkill,
-                Level = Level.Senior,
-                City = city,
+                Level =new List<Level>() { Level.Senior },
+                Locations = new List<Location> { context.Locations.First() },
                 ParentVacancy = null,
-                RequiredSkills = new List<Skill>() { skill },
-                Responsible = user,
+                RequiredSkills = new List<Skill>() { context.Skills.First() },
+                Responsible = context.Users.First(),
                 SalaryMax = 100500,
                 SalaryMin = 15,
                 StartDate = DateTime.Now,
-                Team = team,
-                CandidatesProgress = new List<VacancyStageInfo>()
-
+                Department = context.Departments.First(),
+                CandidatesProgress = new List<VacancyStageInfo>(),
+                Tags = new List<Tag>() { context.Tags.First() },
             };
 
-            Comment vsicomment = new Comment()
+
+            Candidate candidate = new Candidate()
             {
-                CommentType = CommentType.StageInfo,
-                Message = "msg",
-                RelativeId = 0,
+                BirthDate = DateTime.Now,
+                Comments = new List<Comment> { },
+                Education = "Good",
+                FirstName = "Jonny",
+                Industry = context.Industries.First(),
+                Description = "candidate is candi",
+                Email = "killer666@mayl.op",
+                Files = new List<File>() { },
+                IsMale = true,
+                LanguageSkills = new List<LanguageSkill>() { new LanguageSkill() { Language = context.Languages.First(), LanguageLevel = LanguageLevel.Advanced } },
+                LastName = "Yehayy",
+                Location = context.Locations.First(),
+                MiddleName = "Caro",
+                PhoneNumbers = new List<PhoneNumber>() {  },
+                Photo = new Photo() { Description = "desc", ImagePath = "path" },
+                PositionDesired = "Pos",
+                Practice = "Good",
+                RelocationAgreement = true,
+                SalaryDesired = 500,
+                Skills = new List<Skill>() { context.Skills.First() },
+                Skype = "skyper133",
+                SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() { Path="path",SocialNetwork= new SocialNetwork() { ImagePath="imgPath", Title="title" } } },
+                Sources = new List<CandidateSource>() { new CandidateSource() {Source = Source.WorkUa, Path="Path" } },
+                StartExperience = DateTime.Now,
+                Tags = new List<Tag>() { context.Tags.First() },
+                TypeOfEmployment = TypeOfEmployment.FullTime,
+                VacanciesProgress = new List<VacancyStageInfo>() { }
             };
 
-            Stage stage = new Stage()
-            {
-                Title = "pool"
-            };
-
-            VacancyStage vs = new VacancyStage()
-            {
-                IsCommentRequired = true,
-                Order = 1,
-                Stage = stage,
-                Vacacny = vacancy
-            };
-
-            VacancyStageInfo vsi = new VacancyStageInfo()
-            {
-                Candidate = candidate,
-                Comment = vsicomment,
-                VacancyStage = vs
-            };
-            candidate.VacanciesProgress.Add(vsi);
-            vacancy.CandidatesProgress.Add(vsi);
-            context.Vacancies.Add(vacancy);
             context.Candidates.Add(candidate);
-            context.Cities.AddRange(cities);
+            context.SaveChanges();
+
+            Comment comment = new Comment()
+            {
+                CommentType = CommentType.Candidate,
+                Message = "Good paren'",
+                RelativeId = context.Candidates.First().Id,
+            };
+            context.Candidates.First().Comments.Add(comment);
+            context.SaveChanges();
+
+            context.Vacancies.Add(vacancy);
+            /* context.Candidates.Add(candidate);
+            context.Locations.AddRange(locations);
             context.Countries.AddRange(countries);
-            context.Stages.AddRange(stages);
+            context.Stages.AddRange(stages);*/
             context.SaveChanges();
             base.Seed(context);
         }

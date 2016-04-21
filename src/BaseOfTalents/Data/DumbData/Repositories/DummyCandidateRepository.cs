@@ -1,4 +1,7 @@
-﻿using Domain.Entities;
+﻿using System;
+using System.Linq;
+using Domain.DTO.DTOModels;
+using Domain.Entities;
 using Domain.Repositories;
 
 namespace Data.DumbData.Repositories
@@ -9,5 +12,6 @@ namespace Data.DumbData.Repositories
         {
             Collection = _context.Candidates;
         }
+
     }
 }

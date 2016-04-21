@@ -15,6 +15,5 @@ namespace Domain.Entities
         public virtual Vacancy Vacancy { get; set; }
         public virtual Candidate Candidate { get; set; }
         public virtual User Responsible { get; set; }
-        public virtual Room Room { get; set; }
     }
 }

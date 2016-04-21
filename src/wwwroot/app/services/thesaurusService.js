@@ -9,12 +9,14 @@ import {
    some,
    each,
    reduce,
-   includes
+   includes,
+   curry
 } from 'lodash';
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
 let _HttpService, _$q, _$translate;
+let _curryAction = curry(_actionOfAdditionFieldsForTopic, 3);
 
 const cache = {};
 
@@ -53,23 +55,23 @@ export default class ThesaurusService {
 
    saveThesaurusTopic(thesaurusName, entity) {
       if (includes(this.getThesaurusNames(), thesaurusName)) {
-         _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
+         let _action = _curryAction(thesaurusName);
+         _action(_deleteRefTextFieldFunction, entity);
+
+         let promise;
+
          if (entity.id) {
             let additionalUrl = thesaurusName + '/' + entity.id;
-            return _HttpService.put(additionalUrl, entity)
-               .then(_entity => {
-                  _actionOfAdditionFieldsForTopic(_entity, thesaurusName,
-                                                  _addRefTextFieldFunction);
-                  return _entity;
-               });
+            promise = _HttpService.put(additionalUrl, entity);
          } else {
-            return _HttpService.post(thesaurusName + '/', entity)
-               .then(_entity => {
-                  _actionOfAdditionFieldsForTopic(_entity, thesaurusName,
-                                                  _addRefTextFieldFunction);
-                  cache[thesaurusName].push(_entity);
-               });
+            promise = _HttpService.post(thesaurusName + '/', entity);
+            promise = promise.then(_entity => {
+               cache[thesaurusName].push(_entity);
+               return _entity;
+            });
          }
+
+         return promise.then(_action(_addRefTextFieldFunction));
       } else {
          return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
       }

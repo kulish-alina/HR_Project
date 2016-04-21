@@ -44,6 +44,7 @@
     "angular-validation": "^1.4.1",
     "angularjs-datepicker": "^2.0.0",
     "bower": "^1.7.7",
-    "lodash": "^4.6.1"
+    "lodash": "^4.6.1",
+    "rangy": "^1.3.0"
   }
 }

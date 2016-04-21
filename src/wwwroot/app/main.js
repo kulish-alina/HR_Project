@@ -12,6 +12,7 @@ import 'foundation-apps/dist/js/foundation-apps-templates';
 
 import 'foundation-icons/foundation_icons_general/sass/general_foundicons.scss';
 import 'foundation-icons/foundation_icons_social/sass/social_foundicons.scss';
+import 'foundation-icon-fonts/foundation-icons.css';
 
 import './ta';
 

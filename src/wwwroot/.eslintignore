@@ -3,3 +3,4 @@ config.webpack/
 build/
 node_modules/
 bower_component/
+*/ta.js

@@ -122,7 +122,7 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
 
    function _setSelectedObjects(topic) {
       forEach(_getSelectFields(), field => {
-         vm.selectedObjectsOfEditeTopic[field.name] = getSelected(field.refTo, topic[field.name]);
+         vm.selectedObjectsOfEditeTopic[field.name] = getSelected(topic[field.name], field.refTo);
       });
    }
 

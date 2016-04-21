@@ -8,7 +8,8 @@ import {
    forEach,
    some,
    each,
-   reduce
+   reduce,
+   includes
 } from 'lodash';
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
@@ -33,7 +34,7 @@ export default class ThesaurusService {
          let mapThesaurusPromises = _mapValues(thesaurusesToLoad, name => _HttpService.get(name));
          return _$q.all(mapThesaurusPromises).then(thesauruses => {
             each(thesauruses, (thesaurus, name) => {
-               cache[name] = thesaurus;
+               cache[name] = thesaurus.queryResult;
                _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
             });
             return cache[thesaurusName];
@@ -51,7 +52,7 @@ export default class ThesaurusService {
    }
 
    saveThesaurusTopic(thesaurusName, entity) {
-      if (has(this.getThesaurusNames(), thesaurusName)) {
+      if (includes(this.getThesaurusNames(), thesaurusName)) {
          _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
          if (entity.id) {
             let additionalUrl = thesaurusName + '/' + entity.id;
@@ -70,17 +71,17 @@ export default class ThesaurusService {
                });
          }
       } else {
-         return _$q.reject(_$translate.instant('ERRORS.someErrorMsg.thesaurusErrors.incorrectNameMsg'));
+         return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
       }
    }
 
    deleteThesaurusTopic(thesaurusName, entity) {
-      if (has(this.getThesaurusNames(), thesaurusName)) {
+      if (includes(this.getThesaurusNames(), thesaurusName)) {
          let additionalUrl = thesaurusName + '/' + entity.id;
          _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
          return _HttpService.remove(additionalUrl, entity).then(() => remove(cache[thesaurusName], entity));
       } else {
-         return _$q.reject(_$translate.instant('ERRORS.someErrorMsg.thesaurusErrors.incorrectNameMsg'));
+         return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
       }
    }
 

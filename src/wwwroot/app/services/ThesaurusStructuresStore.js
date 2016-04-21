@@ -3,7 +3,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.COUNTRIES',
       fields : [
          {name : 'id', label : 'id', type : ''},
-         {name : 'name', label : 'name', type : 'text'},
+         {name : 'title', label : 'name', type : 'text'},
          {name : 'editTime', label : 'editTime', type : ''},
          {name : 'state', label : 'state', type : ''}
       ]
@@ -27,13 +27,13 @@ const THESAURUS_STRUCTURES = {
          {name : 'state', label : 'state', type : ''}
       ]
    },
-   'cities' : {
+   'locations' : {
       thesaurusName : 'THESAURUSES.LOCATIONS',
       fields : [
          {name : 'id', label : 'id', type : ''},
-         {name : 'name', label : 'name', type : 'text' },
+         {name : 'title', label : 'name', type : 'text' },
          {name : 'country', label : 'country', type : 'select',
-           refTo : 'countries', labelRefFieldName : 'name', additionFieldForText : 'countryName'},
+           refTo : 'countries', labelRefFieldName : 'title', additionFieldForText : 'countryName'},
          {name : 'editTime', label : 'editTime', type : ''},
          {name : 'state', label : 'state', type : ''}
       ]

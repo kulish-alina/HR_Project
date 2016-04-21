@@ -1,6 +1,6 @@
 export default function CandidatesController($scope, CandidateService) {
    'ngInject';
-   var vm = $scope;
+   const vm = $scope;
    vm.candidates = [];
    vm.getCandidate = getCandidate;
    vm.deleteCandidate = deleteCandidate;

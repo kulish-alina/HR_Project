@@ -12,22 +12,21 @@ export default class CandidateService {
    }
 
    getCandidate(id) {
-      var additionalUrl = CANDIDATE_URL + id;
+      let additionalUrl = CANDIDATE_URL + id;
       return _HttpService.get(additionalUrl);
    }
 
    saveCandidate(entity) {
-      if (entity.Id !== undefined) {
-         var additionalUrl = CANDIDATE_URL + entity.Id;
+      if (!!entity.Id) {
+         let additionalUrl = CANDIDATE_URL + entity.Id;
          return _HttpService.put(additionalUrl, entity);
-      }
-      else {
+      } else {
          return _HttpService.post(CANDIDATE_URL, entity);
       }
    }
 
    deleteCandidate(entity) {
-      var additionalUrl = CANDIDATE_URL + entity.Id;
+      let additionalUrl = CANDIDATE_URL + entity.Id;
       _HttpService.remove(additionalUrl, entity);
    }
 }

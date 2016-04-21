@@ -2,11 +2,10 @@ export default function CandidateController(
    $scope,
    $translate,
    CandidateService,
-   ValidationService)
-{
+   ValidationService) {
    'ngInject';
 
-   var vm = $scope;
+   const vm = $scope;
    vm.submit = _submit;
 
    function _onError() {

@@ -23,7 +23,7 @@ import CandidateService  from './services/candidateService';
 import VacancyService    from './services/vacancyService';
 import ValidationService from './services/validationService';
 
-var dependencies = [router, 'foundation', translate, 'validation', 'validation.rule'];
+let dependencies = [router, 'foundation', translate, 'validation', 'validation.rule'];
 
 angular
    .module('bot', dependencies)

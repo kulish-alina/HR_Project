@@ -12,9 +12,11 @@
       "node": true,
       "jasmine": true,
       "angular/angular": true,
-      "angular/mocks" : true
+      "angular/mocks": true
    },
-   "plugins": ["angular"],
+   "plugins": [
+      "angular"
+   ],
    "rules": {
       "no-bitwise": 2,
       "camelcase": [
@@ -29,7 +31,6 @@
       ],
       "eqeqeq": 2,
       "guard-for-in": 2,
-      "no-extend-native": 2,
       "wrap-iife": 2,
       "indent": [
          2,
@@ -38,12 +39,17 @@
             "SwitchCase": 1
          }
       ],
-      "no-use-before-define": [2, {"functions": false, "classes": false}],
+      "no-use-before-define": [
+         2,
+         {
+            "functions": false,
+            "classes": false
+         }
+      ],
       "new-cap": 2,
       "no-caller": 2,
-      "no-empty": 0,
+      "no-empty": 2,
       "no-irregular-whitespace": 2,
-      "no-new": 2,
       "no-plusplus": 0,
       "quotes": [
          2,
@@ -72,7 +78,10 @@
          2,
          120
       ],
-      "semi": ["error", "always"],
+      "semi": [
+         "error",
+         "always"
+      ],
       "no-cond-assign": 0,
       "no-debugger": 0,
       "no-eq-null": 2,
@@ -88,16 +97,24 @@
       "no-proto": 0,
       "no-script-url": 0,
       "no-shadow": 2,
+      //Dot rules
       "dot-notation": 2,
-      "dot-location": [2, "property"],
+      "dot-location": [
+         2,
+         "property"
+      ],
+      //New rules
       "no-new-func": 2,
       "no-new-wrappers": 2,
+      "no-new": 1,
+      //      
       "no-invalid-this": 0,
       "require-yield": 0,
       "operator-linebreak": [
          2,
          "after"
       ],
+      //Spacing rules
       "no-mixed-spaces-and-tabs": 2,
       "no-trailing-spaces": 2,
       "space-unary-ops": 0,
@@ -141,7 +158,6 @@
          2,
          "always"
       ],
-      "eol-last": 2,
       "array-bracket-spacing": [
          2,
          "never",
@@ -153,16 +169,16 @@
          2,
          "never"
       ],
-      "valid-jsdoc": 2,
+      //Multi
       "no-multiple-empty-lines": 2,
-      "no-underscore-dangle": 0,
-      "comma-dangle": ["error", "never"],
+      "no-multi-spaces": 0,
+      //
+      "valid-jsdoc": 2,
       "no-throw-literal": 2,
       "no-useless-call": 2,
       "no-useless-concat": 2,
       "no-unmodified-loop-condition": 2,
       "no-labels": 2,
-      "no-duplicate-case": 2,
       "no-lone-blocks": 2,
       "no-lonely-if": 2,
       "no-magic-numbers": 2,
@@ -170,6 +186,52 @@
       "no-delete-var": 2,
       "func-names": 2,
       "no-array-constructor": 2,
-      "no-fallthrough": 2
+      "no-unneeded-ternary": 2,
+      //Switch-case rules
+      "no-fallthrough": 2,
+      "no-case-declarations": 2,
+      "no-duplicate-case": 2,
+      //Self Rules
+      "no-self-compare": 2,
+      "no-self-assign": 2,
+      //Punctuation mark's rules
+      "no-underscore-dangle": 0,
+      "comma-dangle": [
+         "error",
+         "never"
+      ],
+      "no-sequences": 1,
+      "eol-last": 2,
+      //Rewriting, reassinging
+      "no-redeclare": 2,
+      "no-param-reassign": 0,
+      "no-native-reassign": 2,
+      "no-extend-native": 2,
+      //Style
+      "brace-style": [
+         "error",
+         "1tbs"
+      ],
+      //ES6
+      "prefer-const": 0,
+      "no-var": 2,
+      "no-const-assign": 2,
+      "no-class-assign": 2,
+      "no-confusing-arrow": 2,
+      // "no-duplicate-imports": [
+      //    "error",
+      //    {
+      //       "includeExports": true
+      //    }
+      // ],
+      "arrow-spacing": 2,
+      "arrow-body-style": 1,
+      "prefer-template": 2,
+      "object-shorthand": 1,
+      //Yoda
+      "yoda": [
+         "error",
+         "never"
+      ]
    }
 }

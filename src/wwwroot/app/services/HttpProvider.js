@@ -32,7 +32,7 @@ class HttpService {
    }
 
    ajax(method, additionalUrl, entity) {
-      var options = {
+      const options = {
          method: method,
          url: serverUrl + additionalUrl,
          headers: {

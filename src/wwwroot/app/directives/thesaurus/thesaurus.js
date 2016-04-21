@@ -47,8 +47,8 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
    /* === impl === */
    let editTopicClone = null;
    (function _init() {
-      _getThesaurusStructure();
-      _getThesaurusTopics();
+      _initThesaurusStructure();
+      _initThesaurusTopics();
    }());
 
    function isShowField(field) {
@@ -88,14 +88,14 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
       ThesaurusService.deleteThesaurusTopic(vm.name, topic).catch(_onError);
    }
 
-   function _getThesaurusStructure() {
+   function _initThesaurusStructure() {
       let structure = ThesaurusService.getThesaurusStructure(vm.name);
       vm.thesaurusNameLabel = $translate.instant(structure.thesaurusName);
       vm.fields = filter(structure.fields, isShowField);
       forEach(vm.fields, _fillAdditionThesauruses);
    }
 
-   function _getThesaurusTopics() {
+   function _initThesaurusTopics() {
       ThesaurusService.getThesaurusTopics(vm.name)
          .then(topics => vm.topics = topics).catch(_onError);
    }
@@ -122,8 +122,7 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
 
    function _setSelectedObjects(topic) {
       forEach(_getSelectFields(), field => {
-         vm.selectedObjectsOfEditeTopic[field.name] =
-            find(vm.additionThesaurusesStore[field.refTo], {id: topic[field.name]});
+         vm.selectedObjectsOfEditeTopic[field.name] = getSelected(field.refTo, topic[field.name]);
       });
    }
 

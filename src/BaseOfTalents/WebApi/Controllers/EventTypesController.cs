@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Setup;
+﻿using Data.EFData.Design;
+using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ namespace WebApi.Controllers
 {
     public class EventTypesController : BoTController<EventType, EventType>
     {
-        public EventTypesController(IEventTypeRepository eventTypeRepository)
+        public EventTypesController(IRepositoryFacade facade) : base(facade)
         {
-            _repo = eventTypeRepository;
+            _currentRepo = _repoFacade.EventTypeRepository;
         }
     }
 }

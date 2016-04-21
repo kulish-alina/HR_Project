@@ -23,7 +23,8 @@
       "HOME": "Home"
    },
    "VACANCY": {
-      "NEW_VACANCY": "New vacancy"
+      "NEW_VACANCY": "New vacancy",
+      "START_DATE": "Start Date" 
    },
    "VACANCIES": {
       "VACANCIES": "Vacancies",

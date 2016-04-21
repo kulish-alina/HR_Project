@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Setup;
+﻿using Data.EFData.Design;
+using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ namespace WebApi.Controllers
 {
     public class LanguagesController : BoTController<Language, Language>
     {
-        public LanguagesController(ILanguageRepository languagesRepository)
+        public LanguagesController(IRepositoryFacade facade) : base(facade)
         {
-            _repo = languagesRepository;
+            _currentRepo = _repoFacade.LanguageRepository;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Domain.Entities
 {
     public class Role : BaseEntity
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
         public virtual List<Permission> Permissions { get; set; }
     }
 }

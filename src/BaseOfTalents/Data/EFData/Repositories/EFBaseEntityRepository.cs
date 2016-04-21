@@ -8,8 +8,10 @@ using System.Linq;
 
 namespace Data.EFData.Repositories
 {
+
     public class EFBaseEntityRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity, new()
     {
+
         protected BOTContext _context = new BOTContext();
 
         public void Add(TEntity entity)
@@ -28,7 +30,7 @@ namespace Data.EFData.Repositories
             return _context.Set<TEntity>().FirstOrDefault(x=>x.Id==id);
         }
 
-        public IQueryable<TEntity> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
             return _context.Set<TEntity>().AsQueryable();
         }

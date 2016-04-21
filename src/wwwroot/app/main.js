@@ -23,7 +23,22 @@ import CandidateService  from './services/candidateService';
 import VacancyService    from './services/vacancyService';
 import ValidationService from './services/validationService';
 
-var dependencies = [router, 'foundation', translate, 'validation', 'validation.rule'];
+import uiMask from 'angular-ui-mask';
+import phoneFormatFilter from './filters/PhoneFormatFilter';
+
+import 'angularjs-datepicker/src/js/angular-datepicker';
+import 'angularjs-datepicker/src/css/angular-datepicker.css';
+
+import DatePickerDirective from './directives/datepickerwrapper/DatepickerWrapperDirective';
+
+var dependencies = [
+   router,
+   translate,
+   uiMask,
+   'foundation',
+   'validation',
+   'validation.rule',
+   '720kb.datepicker'];
 
 angular
    .module('bot', dependencies)
@@ -34,6 +49,10 @@ angular
    .service('CandidateService',  CandidateService)
    .service('VacancyService',    VacancyService)
    .service('ValidationService', ValidationService)
+
+   .filter('tel', phoneFormatFilter)
+
+   .directive('date', DatePickerDirective.createInstance)
 
    .config(config)
    .config(configValidation);

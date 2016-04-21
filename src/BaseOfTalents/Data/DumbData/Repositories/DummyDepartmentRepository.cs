@@ -12,7 +12,7 @@ namespace Data.DumbData.Repositories
     {
         public DummyDepartmentRepository(DummyBotContext context) : base(context)
         {
-            Collection = _context.Teams;
+            Collection = _context.Departments;
         }
     }
 }

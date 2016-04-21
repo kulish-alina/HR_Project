@@ -79,6 +79,7 @@
     <Compile Include="DumbData\Repositories\DummySkillRepository.cs" />
     <Compile Include="DumbData\Repositories\DummySocialNetworkRepository.cs" />
     <Compile Include="DumbData\Repositories\DummyDepartmentRepository.cs" />
+    <Compile Include="DumbData\Repositories\DummyStageRepository.cs" />
     <Compile Include="DumbData\Repositories\DummyUserRepository.cs" />
     <Compile Include="DumbData\Repositories\DummyVacancyRepository.cs" />
     <Compile Include="DumbData\Storage.cs" />

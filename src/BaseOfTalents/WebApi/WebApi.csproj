@@ -218,7 +218,7 @@
     <Compile Include="AutoMapperWebConfiguration.cs" />
     <Compile Include="Controllers\BoTController.cs" />
     <Compile Include="Controllers\CandidatesController.cs" />
-    <Compile Include="Controllers\CitiesController.cs" />
+    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\DepartmentGroupsController.cs" />
     <Compile Include="Controllers\EventTypesController.cs" />

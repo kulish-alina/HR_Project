@@ -32,6 +32,8 @@ import 'angularjs-datepicker/src/css/angular-datepicker.css';
 
 import DatePickerDirective from './directives/datepickerwrapper/DatepickerWrapperDirective';
 
+import SettingsService from './services/SettingsService';
+
 var dependencies = [
    router,
    translate,
@@ -50,7 +52,8 @@ angular
    .service('CandidateService',  CandidateService)
    .service('VacancyService',    VacancyService)
    .service('ValidationService', ValidationService)
-   .service('UserService', UserService)
+   .service('UserService',       UserService)
+   .service('SettingsService',   SettingsService)
 
    .filter('tel', phoneFormatFilter)
 

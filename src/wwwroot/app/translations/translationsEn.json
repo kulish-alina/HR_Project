@@ -52,7 +52,8 @@
       "CITY": "City",
       "EMAIL": "Email",
       "SKYPE": "Skype",
-      "PHONE": "Phone number"
+      "PHONE": "Phone number",
+      "BIRTH": "Birth day"
    },
    "VALIDATION": {
       "required": {

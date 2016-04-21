@@ -1,29 +1,30 @@
 import homeTemplate from './views/home/home.view.html';
 
-import candidatesTemplate from './views/candidates/candidates.view.html';
-import candidateTemplate from './views/candidate/candidate.view.html';
-import vacanciesTemplate from './views/vacancies/vacancies.view.html';
-import vacancyTemplate from './views/vacancy/vacancy.view.html';
-import settingsTemplate from './views/settings/settings.view.html';
-import profileTemplate from './views/settings/profile/profile.view.html';
-import membersTemplate from './views/settings/members/members.view.html';
-import rolesTemplate from './views/settings/roles/roles.view.html';
-import recruitingTemplate from './views/settings/recruiting/recruiting.view.html';
+import candidatesTemplate     from './views/candidates/candidates.view.html';
+import candidateTemplate      from './views/candidate/candidate.view.html';
+import vacanciesTemplate      from './views/vacancies/vacancies.view.html';
+import vacancyTemplate        from './views/vacancy/vacancy.view.html';
+import settingsTemplate       from './views/settings/settings.view.html';
+import profileTemplate        from './views/settings/profile/profile.view.html';
+import membersTemplate        from './views/settings/members/members.view.html';
+import rolesTemplate          from './views/settings/roles/roles.view.html';
+import recruitingTemplate     from './views/settings/recruiting/recruiting.view.html';
 
 
-import candidatesController from './views/candidates/candidates.controller';
-import candidateController from './views/candidate/candidate.controller';
-import vacanciesController from './views/vacancies/vacancies.controller';
-import vacancyController from './views/vacancy/vacancy.controller';
-import profileController from './views/settings/profile/profile.controller';
-import membersController from './views/settings/members/members.controller';
-import rolesController from './views/settings/roles/roles.controller';
-import recruitingController from './views/settings/recruiting/recruiting.controller';
+import candidatesController   from './views/candidates/candidates.controller';
+import candidateController    from './views/candidate/candidate.controller';
+import vacanciesController    from './views/vacancies/vacancies.controller';
+import vacancyController      from './views/vacancy/vacancy.controller';
+import settingsController     from './views/settings/settings.controller';
+import profileController      from './views/settings/profile/profile.controller';
+import membersController      from './views/settings/members/members.controller';
+import rolesController        from './views/settings/roles/roles.controller';
+import recruitingController   from './views/settings/recruiting/recruiting.controller';
 
-import translationsEn from './translations/translationsEn.json';
-import translationsRu from './translations/translationsRu.json';
+import translationsEn         from './translations/translationsEn.json';
+import translationsRu         from './translations/translationsRu.json';
 
-import context from './context';
+import context                from './context';
 
 export default function _config(
    $stateProvider,
@@ -65,7 +66,8 @@ export default function _config(
       })
       .state('settings', {
          url: '/settings',
-         template: settingsTemplate
+         template: settingsTemplate,
+         controller: settingsController
       })
       .state('profile', {
          url: '/profile',

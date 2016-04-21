@@ -8,9 +8,9 @@ using System.Web;
 
 namespace WebApi.Controllers
 {
-    public class CitiesController : BoTController<Location, Location>
+    public class LocationsController : BoTController<Location, Location>
     {
-        public CitiesController(IRepositoryFacade facade) : base(facade)
+        public LocationsController(IRepositoryFacade facade) : base(facade)
         {
             _currentRepo = _repoFacade.CityRepository;
         }

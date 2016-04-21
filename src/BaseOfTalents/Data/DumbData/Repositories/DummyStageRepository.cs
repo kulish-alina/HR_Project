@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Data.DumbData.Repositories
 {
-    public class DummyCityRepository : DummyBaseEntityRepository<Location>, ILocationRepository
+    public class DummyStageRepository : DummyBaseEntityRepository<Stage>, IStageRepository
     {
-        public DummyCityRepository(DummyBotContext context) : base(context)
+        public DummyStageRepository(DummyBotContext context) : base(context)
         {
-            Collection = _context.Locations;
+            Collection = _context.Stages;
         }
     }
 }

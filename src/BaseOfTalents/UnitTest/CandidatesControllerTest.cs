@@ -18,6 +18,7 @@ using Domain.Repositories;
 using AutoMapper;
 using Domain.DTO.DTOModels;
 using Data.EFData.Design;
+using System.Web.Http;
 
 namespace UnitTest
 {
@@ -59,10 +60,16 @@ namespace UnitTest
                 x.CreateMap<VacancyStage, VacancyStageDTO>()
                     .ForMember(dest => dest.StageId, opt => opt.MapFrom(src => src.Stage.Id))
                     .ForMember(dest => dest.VacancyId, opt => opt.MapFrom(src => src.Vacacny.Id));
+                x.CreateMap<VacancyStageDTO, VacancyStage>()
+                    .ForMember(dest => dest.Stage, opt => opt.MapFrom(src => _facade.StageRepository.Get(src.StageId)))
+                    .ForMember(dest => dest.Vacacny, opt => opt.MapFrom(src => _facade.VacancyRepository.Get(src.VacancyId)));
 
                 x.CreateMap<VacancyStageInfo, VacancyStageInfoDTO>()
                     .ForMember(dest => dest.VacancyStage, opt => opt.MapFrom(src => Mapper.Map<VacancyStageDTO>(src.VacancyStage)))
                     .ForMember(dest => dest.CandidateId, opt => opt.MapFrom(src => src.Candidate.Id));
+                x.CreateMap<VacancyStageInfoDTO, VacancyStageInfo>()
+                   .ForMember(dest => dest.VacancyStage, opt => opt.MapFrom(src => Mapper.Map<VacancyStage>(src.VacancyStage)))
+                   .ForMember(dest => dest.Candidate, opt => opt.MapFrom(src => _facade.CandidateRepository.Get(src.CandidateId)));
 
                 x.CreateMap<Candidate, CandidateDTO>()
                     .ForMember(dest => dest.VacanciesProgress, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.VacanciesProgress)))
@@ -88,7 +95,7 @@ namespace UnitTest
                     .ForMember(dest => dest.RequiredSkills, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<int>, IEnumerable<Skill>>(src.RequiredSkillsIds)))
                     .ForMember(dest => dest.LanguageSkill, opt => opt.MapFrom(src => Mapper.Map<LanguageSkillDTO, LanguageSkill>(src.LanguageSkill)));
             });
-            //System.Diagnostics.Debugger.Launch();
+            System.Diagnostics.Debugger.Launch();
         }
 
 
@@ -267,8 +274,8 @@ namespace UnitTest
         public void Put_Candidate_OK(int id, string testname)
         {
              var _controller = new CandidatesController(new DummyRepositoryFacade());
-             _controller.Request = new System.Net.Http.HttpRequestMessage();
-             _controller.Configuration = new System.Web.Http.HttpConfiguration();
+             _controller.Request = new HttpRequestMessage();
+             _controller.Configuration = new HttpConfiguration();
 
              var getResult = _controller.Get(id);
              var jsonGetResult = getResult as JsonResult<CandidateDTO>;

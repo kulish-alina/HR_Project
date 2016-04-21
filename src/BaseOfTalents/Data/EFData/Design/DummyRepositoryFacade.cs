@@ -162,7 +162,11 @@ namespace Data.EFData.Design
         {
             get
             {
-                throw new NotImplementedException();
+                if(_stageRepository == null)
+                {
+                    _stageRepository = new DummyStageRepository(new DumbData.DummyBotContext());
+                }
+                return _stageRepository;
             }
         }
 

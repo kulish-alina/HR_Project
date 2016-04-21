@@ -1,4 +1,4 @@
-﻿//using Data.Migrations;
+﻿using Data.Migrations;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using Domain.Entities.Setup;
@@ -30,8 +30,7 @@ namespace Data.EFData
 
         public BOTContext() : base()
         {
-            //this.Configuration.LazyLoadingEnabled = false;
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>("BOTContext"));
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>("BOTContext"));
         }
     }
 }

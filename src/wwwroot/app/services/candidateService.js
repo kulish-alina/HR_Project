@@ -17,7 +17,7 @@ export default class CandidateService {
    }
 
    saveCandidate(entity) {
-      if (!!entity.Id) {
+      if (entity.Id) {
          let additionalUrl = CANDIDATE_URL + entity.Id;
          return _HttpService.put(additionalUrl, entity);
       } else {

@@ -187,6 +187,7 @@
       "func-names": 2,
       "no-array-constructor": 2,
       "no-unneeded-ternary": 2,
+      "no-negated-condition": 2,
       //Switch-case rules
       "no-fallthrough": 2,
       "no-case-declarations": 2,
@@ -212,22 +213,29 @@
          "error",
          "1tbs"
       ],
+      "func-style": [
+         "error",
+         "declaration",
+         {
+            "allowArrowFunctions": true
+         }
+      ],
       //ES6
       "prefer-const": 0,
       "no-var": 2,
       "no-const-assign": 2,
       "no-class-assign": 2,
       "no-confusing-arrow": 2,
-      // "no-duplicate-imports": [
-      //    "error",
-      //    {
-      //       "includeExports": true
-      //    }
-      // ],
+      "no-duplicate-imports": [
+         "error",
+         {
+            "includeExports": true
+         }
+      ],
       "arrow-spacing": 2,
       "arrow-body-style": 1,
       "prefer-template": 2,
-      "object-shorthand": 1,
+      "object-shorthand": 2,
       //Yoda
       "yoda": [
          "error",

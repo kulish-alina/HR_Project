@@ -17,7 +17,7 @@ export default class VacancyService {
    }
 
    saveVacancy(entity) {
-      if (entity.id !== undefined) {
+      if (entity.id) {
          const additionalUrl = VACANCY_URL + entity.id;
          return _HttpService.put(additionalUrl, entity);
       } else {

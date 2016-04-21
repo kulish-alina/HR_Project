@@ -29,18 +29,21 @@ function _getUrlContext(urlParameter) {
       let params = paramGroup[groupId].split('=');
 
       if (params.length < minLength) {
-         throw new Error('Can not attempt empty params string');
+         console.error('Can not attempt empty params string');
+         return {};
       }
 
       if (params.length > maxLength) {
-         throw new Error(`It can not be more than one \'=\' in the ${paramGroup}`);
+         console.error(`It can not be more than one '=' in the ${paramGroup}`);
+         return {};
       }
 
       let key = unescape(params[keyIndex]),
          value = unescape(params[valueIndex]);
 
       if (isEmpty(key)) {
-         throw new Error('Key can not be empty string');
+         console.error('Key can not be empty string');
+         return {};
       }
 
       object[key] = value;

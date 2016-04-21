@@ -33,7 +33,7 @@ class HttpService {
 
    ajax(method, additionalUrl, entity) {
       const options = {
-         method: method,
+         method,
          url: serverUrl + additionalUrl,
          headers: {
             'Content-Type': 'application/json'

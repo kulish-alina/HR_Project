@@ -155,6 +155,16 @@
       "valid-jsdoc": 2,
       "no-multiple-empty-lines": 2,
       "no-underscore-dangle": 0,
-      "comma-dangle": ["error", "never"]
+      "comma-dangle": ["error", "never"],
+      "no-throw-literal": 2,
+      "no-useless-call": 2,
+      "no-useless-concat": 2,
+      "no-unmodified-loop-condition": 2,
+      "no-labels": 2,
+      "no-duplicate-case": 2,
+      "no-lone-blocks": 2,
+      "no-lonely-if": 2,
+      "no-magic-numbers": 2,
+      "no-nested-ternary": 2
    }
 }

@@ -1,13 +1,19 @@
-import { find } from 'lodash';
+import { find, gt } from 'lodash';
 
 let currentLevel;
 let _$log;
 
-const OFF_LEVEL      = new Level(0, 'OFF');
-const ERROR_LEVEL    = new Level(1, 'ERROR');
-const WARNING_LEVEL  = new Level(2, 'WARN');
-const LOG_LEVEL      = new Level(3, 'LOG');
-const DEBUG_LEVEL    = new Level(4, 'DEBUG');
+const offLevel   = 0;
+const errorLevel = 1;
+const warnLevel  = 2;
+const logLevel   = 3;
+const debugLevel = 4;
+
+const OFF_LEVEL      = new Level(offLevel, 'OFF');
+const ERROR_LEVEL    = new Level(errorLevel, 'ERROR');
+const WARNING_LEVEL  = new Level(warnLevel, 'WARN');
+const LOG_LEVEL      = new Level(logLevel, 'LOG');
+const DEBUG_LEVEL    = new Level(debugLevel, 'DEBUG');
 
 const LEVELS = [OFF_LEVEL, DEBUG_LEVEL, LOG_LEVEL, WARNING_LEVEL, ERROR_LEVEL];
 
@@ -46,7 +52,7 @@ class LoggerService {
 }
 
 function _logger(method, level, args) {
-   if (level.compareTo(currentLevel) === 1) {
+   if (gt(level.priority, currentLevel.priority)) {
       return;
    }
    args.unshift(new Date());
@@ -57,7 +63,3 @@ function Level(priority, name) {
    this.name = name;
    this.priority = priority;
 }
-
-Level.prototype.compareTo = function compareTo(another) {
-   return this.priority < another.priority ? -1 : this.priority > another.priority ? 1 : 0;
-};

@@ -1,9 +1,9 @@
 <div class="errorMessage" ng-bind="message" ng-disabled="!message"></div>
 <table>
-   <caption ng-bind="::structure.thesaurusName | translate"></caption>
-   <tr><th ng-repeat="field in ::structure.fields | filter : isShowField" ng-bind="::field.label"></th></tr>
+   <caption ng-bind="::thesaurusNameLabel"></caption>
+   <tr><th ng-repeat="field in ::fields" ng-bind="::field.label"></th></tr>
    <tr ng-repeat = "topic in topics">
-      <td ng-repeat = "field in ::structure.fields | filter : isShowField" >
+      <td ng-repeat = "field in ::fields" >
          <img ng-show="!isEditTopic(topic)&&field.type==='img'">
          <input type="text" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='text'" 
                 placeholder="{{::field.name}}" ng-model="topic[field.name]" class="edit">
@@ -27,7 +27,7 @@
       </td>
    </tr>
    <tr>
-      <td ng-repeat = "field in ::structure.fields | filter : isShowField" >
+      <td ng-repeat = "field in ::fields" >
           <input type="text" placeholder="{{::field.name}}" ng-model="newTresaurusTopic[field.name]"
                 ng-show="::field.type=='text'" ng-disabled="!isTopicEditAllow(newTresaurusTopic)">
           <select ng-show="field.type==='select'" 

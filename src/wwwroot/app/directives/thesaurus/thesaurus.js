@@ -26,9 +26,10 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
 
    /* --- api --- */
    vm.topics      = [];
-   vm.structure   = {};
    vm.filterdFields     = {};
    vm.newTresaurusTopic = {};
+   vm.fields            = [];
+   vm.thesaurusNameLabel          = '';
    vm.additionThesaurusesStore    = {};
    vm.selectedObjectsOfEditeTopic = {};
 
@@ -88,8 +89,10 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
    }
 
    function _getThesaurusStructure() {
-      vm.structure = ThesaurusService.getThesaurusStructure(vm.name);
-      forEach(vm.structure.fields, _fillAdditionThesauruses);
+      let structure = ThesaurusService.getThesaurusStructure(vm.name);
+      vm.thesaurusNameLabel = $translate.instant(structure.thesaurusName);
+      vm.fields = filter(structure.fields, isShowField);
+      forEach(vm.fields, _fillAdditionThesauruses);
    }
 
    function _getThesaurusTopics() {
@@ -125,7 +128,7 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
    }
 
    function _getSelectFields() {
-      return filter(vm.structure.fields, {type: 'select'});
+      return filter(vm.fields, {type: 'select'});
    }
 
    function _deleteClone() {

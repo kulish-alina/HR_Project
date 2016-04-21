@@ -122,13 +122,13 @@ function _deleteRefTextFieldFunction(field, topic) {
    delete topic[field.additionFieldForText];
 }
 
-function _actionOfAdditionFieldsForTopic(topic, thesaurusName, action) {
+function _actionOfAdditionFieldsForTopic(thesaurusName, action, entity) {
    let additionFields = _getReferenceFields(thesaurusName);
-   forEach(_getReferenceFields(thesaurusName), field => action(field, topic));
+   forEach(_getReferenceFields(thesaurusName), field => action(field, entity));
 }
 
 function _actionOfAdditionFieldsForTopics(topics, thesaurusName, action) {
-   forEach(topics, topic => _actionOfAdditionFieldsForTopic(topic, thesaurusName, action));
+   each(topics, _curryAction(thesaurusName, action));
 }
 
 

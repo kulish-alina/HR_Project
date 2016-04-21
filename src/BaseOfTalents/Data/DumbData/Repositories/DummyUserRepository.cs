@@ -10,7 +10,7 @@ namespace Data.DumbData.Repositories
     {
         public DummyUserRepository(DummyBotContext context) : base(context)
         {
-
+            //Collection = context.Users;
         }
        
     }

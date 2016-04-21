@@ -1,18 +1,18 @@
-﻿using Domain.Entities.Setup;
+﻿using Data.EFData.Design;
+using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WebApi.DTO.DTOModels;
 
 namespace WebApi.Controllers
 {
     public class CountriesController : BoTController<Country, Country>
     {
-        public CountriesController(ICountryRepository countryRepository)
+        public CountriesController(IRepositoryFacade facade) : base(facade)
         {
-            _repo = countryRepository;
+            _currentRepo = _repoFacade.CountryRepository;
         }
     }
 }

@@ -88,9 +88,10 @@
       "no-proto": 0,
       "no-script-url": 0,
       "no-shadow": 2,
-      "dot-notation": 0,
-      "no-new-func": 0,
-      "no-new-wrappers": 0,
+      "dot-notation": 2,
+      "dot-location": [2, "property"],
+      "no-new-func": 2,
+      "no-new-wrappers": 2,
       "no-invalid-this": 0,
       "require-yield": 0,
       "operator-linebreak": [
@@ -165,6 +166,10 @@
       "no-lone-blocks": 2,
       "no-lonely-if": 2,
       "no-magic-numbers": 2,
-      "no-nested-ternary": 2
+      "no-nested-ternary": 2,
+      "no-delete-var": 2,
+      "func-names": 2,
+      "no-array-constructor": 2,
+      "no-fallthrough": 2
    }
 }

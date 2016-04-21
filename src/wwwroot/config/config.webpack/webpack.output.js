@@ -1,6 +1,6 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = function (path, appPath, buildPath, pkg) {
+module.exports = function _output(path, appPath, buildPath, pkg) {
    return {
       entry: {
          app: path.join(appPath, 'main.js')

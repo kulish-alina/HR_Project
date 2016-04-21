@@ -1,4 +1,4 @@
-module.exports = function(webpack) {
+module.exports = function _development(webpack) {
    return {
       debug: true,
       devtool: 'eval-source-map ',

@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function _global() {
    return {
       external: {
          'iconic': 'IconicJS'

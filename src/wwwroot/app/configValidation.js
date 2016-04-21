@@ -26,7 +26,7 @@ export default function _configValidation($validationProvider) {
       };
       return memo;
    }, {});
-   validationExpression.title = function(value) {
+   validationExpression.title = function _titleValidation(value) {
       const minTitleLength = 3;
       const maxTitleLength = 50;
       return !!value ? value.length <= maxTitleLength && value.length >= minTitleLength : true;

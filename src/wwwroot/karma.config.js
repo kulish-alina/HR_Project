@@ -3,7 +3,7 @@
 
 var webpackConfig = require('./webpack.config.js');
 
-module.exports = function(config) {
+module.exports = function _karma(config) {
    config.set({
 
       frameworks: [ 'jasmine' ],

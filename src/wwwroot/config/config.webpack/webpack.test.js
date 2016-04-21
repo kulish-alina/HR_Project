@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function _test() {
    return {
       devtool: 'inline-source-map',
       module: {

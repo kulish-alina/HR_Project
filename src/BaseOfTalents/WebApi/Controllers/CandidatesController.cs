@@ -1,31 +1,25 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
-using WebApi.DTO.DTOModels;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApi.DTO.DTOService;
+using System;
+using Data.EFData.Design;
+using AutoMapper.QueryableExtensions;
+using AutoMapper;
+using System.Collections.Generic;
+using Domain.DTO.DTOModels;
 
 namespace WebApi.Controllers
 {
     public class CandidatesController : BoTController<Candidate, CandidateDTO>
     {
-        public CandidatesController(ICandidateRepository candidateRepository)
+        public CandidatesController(IRepositoryFacade facade) : base(facade)
         {
-            _repo = candidateRepository;
+            _currentRepo = _repoFacade.CandidateRepository;
         }
 
-        [Route("api/candidates/{candidateId}/vacancies")]
-        [HttpGet]
-        public IHttpActionResult VacanciesProgress(int candidateId)
-        {
-            var foundedCandidate = _repo.Get(candidateId);
-            if (foundedCandidate != null)
-            {
-                var foundedCandidateDto = DTOService.ToDTO<Candidate, CandidateDTO>(foundedCandidate);
-                return Json(foundedCandidateDto);
-            }
-            return NotFound();
-        }
     }
 }

@@ -139,9 +139,7 @@ namespace UnitTest
             #region Candidate
             Comment candidateComment = new Comment()
             {
-                CommentType = CommentType.Candidate,
                 Message = "msg",
-                RelativeId = 0,
             };
 
             

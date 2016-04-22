@@ -13,5 +13,7 @@ namespace Domain.Entities
         public virtual Stage Stage { get; set; }
         public int Order { get; set; }
         public bool IsCommentRequired { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

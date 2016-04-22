@@ -87,6 +87,33 @@
     <Compile Include="EFData\Design\DummyRepositoryFacade.cs" />
     <Compile Include="EFData\Design\EFRepositoryFacade.cs" />
     <Compile Include="EFData\Design\IRepositoryFacade.cs" />
+    <Compile Include="EFData\Mapping\BaseEntityConfiguration.cs" />
+    <Compile Include="EFData\Mapping\CandidateConfiguration.cs" />
+    <Compile Include="EFData\Mapping\CandidateSocialConfiguration.cs" />
+    <Compile Include="EFData\Mapping\CandidateSourceConfiguration.cs" />
+    <Compile Include="EFData\Mapping\CommentConfiguration.cs" />
+    <Compile Include="EFData\Mapping\CountryConfiguration.cs" />
+    <Compile Include="EFData\Mapping\DepartmentConfiguration.cs" />
+    <Compile Include="EFData\Mapping\DepartmentGroupConfiguration.cs" />
+    <Compile Include="EFData\Mapping\EventConfiguration.cs" />
+    <Compile Include="EFData\Mapping\EventTypeConfiguration.cs" />
+    <Compile Include="EFData\Mapping\FileConfiguration.cs" />
+    <Compile Include="EFData\Mapping\IndustryConfiguration.cs" />
+    <Compile Include="EFData\Mapping\LanguageSkillConfiguration.cs" />
+    <Compile Include="EFData\Mapping\LevelConfiguration.cs" />
+    <Compile Include="EFData\Mapping\LocationConfiguration.cs" />
+    <Compile Include="EFData\Mapping\PermissionConfiguration.cs" />
+    <Compile Include="EFData\Mapping\PhoneNumberConfiguration.cs" />
+    <Compile Include="EFData\Mapping\PhotoConfiguration.cs" />
+    <Compile Include="EFData\Mapping\RoleConfiguration.cs" />
+    <Compile Include="EFData\Mapping\SkillConfiguration.cs" />
+    <Compile Include="EFData\Mapping\SocialNetworkConfiguration.cs" />
+    <Compile Include="EFData\Mapping\StageConfiguration.cs" />
+    <Compile Include="EFData\Mapping\TagConfiguration.cs" />
+    <Compile Include="EFData\Mapping\UserConfiguration.cs" />
+    <Compile Include="EFData\Mapping\VacancyConfiguration.cs" />
+    <Compile Include="EFData\Mapping\VacancyStageConfiguration.cs" />
+    <Compile Include="EFData\Mapping\VacancyStageInfoConfiguration.cs" />
     <Compile Include="EFData\Repositories\EFBaseEntityRepository.cs" />
     <Compile Include="EFData\Repositories\EFCandidateRepository.cs" />
     <Compile Include="EFData\Repositories\EFCityRepository.cs" />
@@ -96,9 +123,9 @@
     <Compile Include="EFData\Repositories\EFSocialNetworkRepository.cs" />
     <Compile Include="EFData\Repositories\EFDepartmentRepository.cs" />
     <Compile Include="EFData\Repositories\EFVacancyRepository.cs" />
-    <Compile Include="Migrations\201604201234187_init.cs" />
-    <Compile Include="Migrations\201604201234187_init.Designer.cs">
-      <DependentUpon>201604201234187_init.cs</DependentUpon>
+    <Compile Include="Migrations\201604221101237_init.cs" />
+    <Compile Include="Migrations\201604221101237_init.Designer.cs">
+      <DependentUpon>201604221101237_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,8 +141,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604201234187_init.resx">
-      <DependentUpon>201604201234187_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604221101237_init.resx">
+      <DependentUpon>201604221101237_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

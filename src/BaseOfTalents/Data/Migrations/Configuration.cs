@@ -65,6 +65,16 @@ namespace Data.Migrations
             context.Industries.AddRange(industries);
             context.SaveChanges();
 
+            List<Level> levels = new List<Level>()
+            {
+                new Level { Title="Trainee" },
+                new Level { Title="Junior" },
+                new Level { Title="Middle" },
+                new Level { Title="Senior" }
+            };
+            context.Levels.AddRange(levels);
+            context.SaveChanges();
+
             List<Role> roles = new List<Role>()
             {
                 new Role { Title="Manager" },
@@ -193,51 +203,32 @@ namespace Data.Migrations
             context.Stages.AddRange(stages);
             context.SaveChanges();
 
-
-            Comment vacancyComment = new Comment()
-            {
-                CommentType = CommentType.Vacancy,
-                Message = "Messg",
-                RelativeId = 0
-            };
-
-            File vFile = new File()
-            {
-                Description = "desc",
-                FilePath = "path"
-            };
-
-            LanguageSkill languageSkill = new LanguageSkill()
-            {
-                Language = context.Languages.First(),
-                LanguageLevel = LanguageLevel.Advanced
-            };
-
             Photo photo = new Photo()
             {
                 Description = "desc",
-                ImagePath = "path"
+                ImagePath = "path",
             };
-
             User user = new User()
             {
+                LocationId = 1,
+                RoleId = 1,
                 BirthDate = DateTime.Now,
                 Email = "email",
                 FirstName = "fname",
                 isMale = true,
                 LastName = "lastname",
-                Location = context.Locations.First(),
                 Login = "login",
                 Password = "pass",
                 MiddleName = "mname",
                 PhoneNumbers = new List<PhoneNumber>() { new PhoneNumber() { Number = "+3565234662" } },
-                Photo = photo,
-                Role = context.Roles.First(),
                 Skype = "skype",
+                Photo = photo
             };
+
             context.Users.Add(user);
             context.SaveChanges();
-          
+
+            
             Tag tag = new Tag()
             {
                 Title = "tag"
@@ -247,20 +238,21 @@ namespace Data.Migrations
 
             Vacancy vacancy = new Vacancy()
             {
+                ResponsibleId = 1,
+                DepartmentId = 1,
                 Industry = context.Industries.First(),
                 TypeOfEmployment = TypeOfEmployment.FullTime,
                 Title = "Architecht",
-                Comments = new List<Comment>() { vacancyComment },
+                Comments = new List<Comment>() { },
                 DeadlineDate = DateTime.Now,
                 Description = "descr",
                 EndDate = DateTime.Now,
-                Files = new List<File>() { vFile },
-                LanguageSkill = languageSkill,
-                Level =new List<Level>() { Level.Senior },
+                Files = new List<File>() { },
+                LanguageSkill = new LanguageSkill() { LanguageId = 1, LanguageLevel = LanguageLevel.Fluent },
+                Level =new List<Level>() { context.Levels.First() },
                 Locations = new List<Location> { context.Locations.First() },
                 ParentVacancy = null,
                 RequiredSkills = new List<Skill>() { context.Skills.First() },
-                Responsible = context.Users.First(),
                 SalaryMax = 100500,
                 SalaryMin = 15,
                 StartDate = DateTime.Now,
@@ -269,9 +261,29 @@ namespace Data.Migrations
                 Tags = new List<Tag>() { context.Tags.First() },
             };
 
+            context.Vacancies.Add(vacancy);
+            context.SaveChanges();
+
+            Comment vacancycomment = new Comment()
+            {
+                Message = "good vacancy"
+            };
+
+            File file = new File()
+            {
+                FilePath = "path",
+                Description = "descri"
+            };
+
+            var vacancyDb = context.Vacancies.First();
+            vacancyDb.Comments.Add(vacancycomment);
+            vacancyDb.Files.Add(file);
+            context.Entry<Vacancy>(vacancyDb).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
 
             Candidate candidate = new Candidate()
             {
+                LocationId = 1,
                 BirthDate = DateTime.Now,
                 Comments = new List<Comment> { },
                 Education = "Good",
@@ -281,9 +293,8 @@ namespace Data.Migrations
                 Email = "killer666@mayl.op",
                 Files = new List<File>() { },
                 IsMale = true,
-                LanguageSkills = new List<LanguageSkill>() { new LanguageSkill() { Language = context.Languages.First(), LanguageLevel = LanguageLevel.Advanced } },
+                LanguageSkills = new List<LanguageSkill>() { new LanguageSkill() { LanguageId=1, LanguageLevel = LanguageLevel.Advanced } },
                 LastName = "Yehayy",
-                Location = context.Locations.First(),
                 MiddleName = "Caro",
                 PhoneNumbers = new List<PhoneNumber>() {  },
                 Photo = new Photo() { Description = "desc", ImagePath = "path" },
@@ -293,12 +304,12 @@ namespace Data.Migrations
                 SalaryDesired = 500,
                 Skills = new List<Skill>() { context.Skills.First() },
                 Skype = "skyper133",
-                SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() { Path="path",SocialNetwork= new SocialNetwork() { ImagePath="imgPath", Title="title" } } },
-                Sources = new List<CandidateSource>() { new CandidateSource() {Source = Source.WorkUa, Path="Path" } },
+                SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() { Path="path",  SocialNetwork = new SocialNetwork() { ImagePath="imgPath", Title="title" } } },
+                Sources = new List<CandidateSource>() { new CandidateSource() { Source = Source.WorkUa, Path="Path" } },
                 StartExperience = DateTime.Now,
                 Tags = new List<Tag>() { context.Tags.First() },
                 TypeOfEmployment = TypeOfEmployment.FullTime,
-                VacanciesProgress = new List<VacancyStageInfo>() { }
+                VacanciesProgress = new List<VacancyStageInfo>() {  }
             };
 
             context.Candidates.Add(candidate);
@@ -306,19 +317,14 @@ namespace Data.Migrations
 
             Comment comment = new Comment()
             {
-                CommentType = CommentType.Candidate,
                 Message = "Good paren'",
-                RelativeId = context.Candidates.First().Id,
             };
-            context.Candidates.First().Comments.Add(comment);
+
+            var candidateDb = context.Candidates.First();
+            candidateDb.Comments.Add(comment);
+            context.Entry<Candidate>(candidateDb).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
 
-            context.Vacancies.Add(vacancy);
-            /* context.Candidates.Add(candidate);
-            context.Locations.AddRange(locations);
-            context.Countries.AddRange(countries);
-            context.Stages.AddRange(stages);*/
-            context.SaveChanges();
             base.Seed(context);
         }
     }

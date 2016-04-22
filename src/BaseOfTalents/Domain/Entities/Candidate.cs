@@ -24,30 +24,38 @@ namespace Domain.Entities
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public virtual Industry Industry { get; set; }
         public bool IsMale { get; set; }
         public DateTime BirthDate { get; set; }
-        public virtual Photo Photo { get; set; }
-        public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
+
         public string Email { get; set; }
         public string Skype { get; set; }
         public string PositionDesired { get; set; }
         public int SalaryDesired { get; set; }
         public TypeOfEmployment TypeOfEmployment { get; set; }
         public DateTime StartExperience { get; set; }
-        public virtual ICollection<Skill> Skills { get; set; }
         public string Practice { get; set; }
         public string Description { get; set; }
+
+        public int LocationId { get; set; }
         public virtual Location Location { get; set; }
+
         public bool RelocationAgreement { get; set; }
-        public virtual ICollection<CandidateSocial> SocialNetworks { get; set; }
         public string Education { get; set; }
+
+        //public virtual ICollection<Event> Events { get; set; }
+        public virtual ICollection<CandidateSocial> SocialNetworks { get; set; }
         public virtual ICollection<LanguageSkill> LanguageSkills { get; set; }
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<VacancyStageInfo> VacanciesProgress { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<CandidateSource> Sources { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
+        public virtual ICollection<Skill> Skills { get; set; }
+
+        public virtual Industry Industry { get; set; }
+        public virtual Photo Photo { get; set; }
+
 
     }
 }

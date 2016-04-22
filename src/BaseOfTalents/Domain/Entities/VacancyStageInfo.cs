@@ -6,7 +6,10 @@ namespace Domain.Entities
     public class VacancyStageInfo : BaseEntity
     {
         public virtual VacancyStage VacancyStage { get; set; }
-        public virtual Candidate Candidate { get; set; }
+
         public virtual Comment Comment { get; set; }
+
+        public int CandidateId { get; set; }
+        public virtual Candidate Candidate { get; set; }
     }
 }

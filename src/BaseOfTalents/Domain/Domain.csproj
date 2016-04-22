@@ -52,13 +52,13 @@
     <Compile Include="Entities\CandidateSocial.cs" />
     <Compile Include="Entities\CandidateSource.cs" />
     <Compile Include="Entities\Enum\AccessRights.cs" />
+    <Compile Include="Entities\Enum\Setup\Level.cs" />
     <Compile Include="Entities\Enum\Setup\Location.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Enum\Setup\Country.cs" />
     <Compile Include="Entities\Enum\CommentType.cs" />
     <Compile Include="Entities\Enum\EntityState.cs" />
     <Compile Include="Entities\Enum\LanguageLevel.cs" />
-    <Compile Include="Entities\Enum\Level.cs" />
     <Compile Include="Entities\Enum\Setup\Industry.cs" />
     <Compile Include="Entities\Enum\Setup\Tag.cs" />
     <Compile Include="Entities\Enum\TypeOfEmployment.cs" />

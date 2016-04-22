@@ -28,7 +28,13 @@ namespace Data.DumbData
                 new Industry { Title="Accounting" },
                 new Industry { Title="Administration" }
             };
-
+        static List<Level> levels = new List<Level>()
+            {
+                new Level { Title="Trainee" },
+                new Level { Title="Junior" },
+                new Level { Title="Middle" },
+                new Level { Title="Senior" }
+            };
         static List<Tag> _tags = new List<Tag>()
             {
                 new Tag { Title="SQL" },
@@ -172,9 +178,7 @@ namespace Data.DumbData
             #region Candidate
             Comment candidateComment = new Comment()
             {
-                CommentType = CommentType.Candidate,
                 Message = "msg",
-                RelativeId = 0,
             };
 
             File candidateFile = new File()
@@ -252,9 +256,7 @@ namespace Data.DumbData
 
             Comment vacancyComment = new Comment()
             {
-                CommentType = CommentType.Vacancy,
                 Message = "msg",
-                RelativeId = 0,
             };
 
             File vacancyFile = new File()
@@ -309,7 +311,7 @@ namespace Data.DumbData
                 EndDate = DateTime.Now,
                 Files = new List<File>() { vacancyFile },
                 LanguageSkill = languageSkill,
-                Level = new List<Level>() { Level.Senior },
+                Level = new List<Level>() { levels[2] },
                 Locations = new List<Location>() { _locations[0] },
                 ParentVacancy = null,
                 RequiredSkills = new List<Skill>() { _skills[0] },
@@ -324,9 +326,7 @@ namespace Data.DumbData
 
             Comment vsicomment = new Comment()
             {
-                CommentType = CommentType.StageInfo,
                 Message = "msg",
-                RelativeId = 0,
             };
 
             VacancyStage vs = new VacancyStage()

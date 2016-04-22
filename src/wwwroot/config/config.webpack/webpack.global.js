@@ -1,30 +1,16 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var path = require('path');
-
-module.exports = function(appPath, buildPath, pkg) {
+module.exports = function() {
    return {
-      entry: {
-         entry: path.join(appPath, 'main.js'),
-      },
-      output: {
-         path: buildPath,
-         filename: 'bundle.js'
-      },
       external: {
-         "iconic": "IconicJS"
+         'iconic': 'IconicJS'
       },
       resolve: {
-         modulesDirectories: ["web_modules", "node_modules", "bower_components"]
+         modulesDirectories: ['web_modules', 'node_modules', 'bower_components']
       },
       module: {
-         preLoaders: [
-            {
-               test: /\.js$/,
-               exclude: ['node_modules', 'build'],
-               loader: 'eslint-loader'
-            }
-         ],
+         entry: {
+         },
+         output: {
+         },
          loaders: [
             {
                test: /\.html/,
@@ -32,7 +18,7 @@ module.exports = function(appPath, buildPath, pkg) {
             },
             {
                test: /\.js$/,
-               exclude: /node_modules/,
+               exclude: [/node_modules/, /dist/],
                loader: 'ng-annotate?add=true!babel?presets[]=es2015'
             },
             {
@@ -52,24 +38,13 @@ module.exports = function(appPath, buildPath, pkg) {
                loader : 'file-loader'
             }]
       },
-
-      eslint: {
-         configFile: '.eslintrc',
-         emitError: true,
-         emitWarning: true,
-         failOnError: true
+      devServer: {
+         // historyApiFallback: true,
+         // hot: true,
+         // inline: true,
+         // progress: true,
+         //contentBase: './src/public',
+         stats: 'minimal'
       },
-      plugins: [
-         new webpack.ResolverPlugin(
-            new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(".bower.json", ["main"])
-         ),
-         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            pkg: pkg,
-            template: path.join(appPath, 'index.html')
-         }),
-         new webpack.optimize.OccurenceOrderPlugin(),
-         new webpack.optimize.DedupePlugin(),
-      ]
    }
 }

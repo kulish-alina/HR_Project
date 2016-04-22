@@ -4,8 +4,7 @@ import context from './context';
 import {
    reduce,
    isFunction,
-   constant,
-   method
+   constant
 } from 'lodash';
 
 export default function _configValidation($validationProvider) {

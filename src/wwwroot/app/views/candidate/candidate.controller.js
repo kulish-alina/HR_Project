@@ -9,7 +9,7 @@ export default function CandidateController(
    var vm = $scope;
    vm.submit = _submit;
 
-   function _onError(message) {
+   function _onError() {
       vm.errorMessage = $translate.instant('CANDIDATE.ERROR');
    }
 

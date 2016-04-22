@@ -8,7 +8,7 @@ export default function VacancyController($scope, VacancyService) {
       VacancyService.saveVacancy(vm.vacancy).catch(_onError);
    }
 
-   function _onError(message) {
+   function _onError() {
       vm.errorMessage = 'Sorry! Some error occurred';
    }
 }

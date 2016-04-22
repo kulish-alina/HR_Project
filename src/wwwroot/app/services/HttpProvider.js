@@ -47,7 +47,7 @@ class HttpService {
 }
 
 function _successCallback(response) {
-   _LoggerService.log('Response status:', response.status);
+   _LoggerService.debug('Response status:', response.status);
    return response.data;
 }
 

@@ -1,7 +1,6 @@
-export default function CandidatesController($scope, CandidateService, LoggerService) {
+export default function CandidatesController($scope, CandidateService) {
    'ngInject';
-   var urlId = 'Candidates/All';
-   var vm = $scope;
+   const vm = $scope;
    vm.candidates = [];
    vm.getCandidate = getCandidate;
    vm.deleteCandidate = deleteCandidate;
@@ -9,13 +8,15 @@ export default function CandidatesController($scope, CandidateService, LoggerSer
    vm.getCandidates = getCandidates;
 
    function getCandidates() {
-      CandidateService.getCandidates().then(value => vm.candidates = value).
-        catch(_onError);
+      CandidateService.getCandidates()
+        .then(value => vm.candidates = value)
+        .catch(_onError);
    }
 
    function getCandidate(candidateId) {
-      CandidateService.getCandidate(candidateId).then(value => vm.candidates = [ value ]).
-      catch(_onError);
+      CandidateService.getCandidate(candidateId)
+        .then(value => vm.candidates = [ value ])
+        .catch(_onError);
    }
 
    function deleteCandidate(candidate) {
@@ -26,7 +27,7 @@ export default function CandidatesController($scope, CandidateService, LoggerSer
       CandidateService.saveCandidate(candidate).catch(_onError);
    }
 
-   function _onError(message) {
+   function _onError() {
       vm.errorMessage = 'Sorry! Some error occurred';
    }
 }

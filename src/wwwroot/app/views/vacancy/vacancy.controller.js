@@ -1,14 +1,14 @@
 export default function VacancyController($scope, VacancyService) {
    'ngInject';
 
-   var vm = $scope;
+   const vm = $scope;
    vm.saveVacancy = saveVacancy;
 
    function saveVacancy() {
       VacancyService.saveVacancy(vm.vacancy).catch(_onError);
    }
 
-   function _onError(message) {
+   function _onError() {
       vm.errorMessage = 'Sorry! Some error occurred';
    }
 }

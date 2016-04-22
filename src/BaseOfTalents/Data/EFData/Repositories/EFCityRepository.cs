@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data.EFData.Repositories
 {
-    public class EFCityRepository : EFBaseEntityRepository<City>, ICityRepository
+    public class EFCityRepository : EFBaseEntityRepository<Location>, ILocationRepository
     {
 
     }

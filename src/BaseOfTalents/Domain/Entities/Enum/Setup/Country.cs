@@ -7,6 +7,6 @@ namespace Domain.Entities.Setup
 {
     public class Country : BaseEntity
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
     }
 }

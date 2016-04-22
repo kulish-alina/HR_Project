@@ -4,8 +4,7 @@ import context from './context';
 import {
    reduce,
    isFunction,
-   constant,
-   method
+   constant
 } from 'lodash';
 
 export default function _configValidation($validationProvider) {
@@ -23,15 +22,15 @@ export default function _configValidation($validationProvider) {
    const validationExpression = reduce(methods, (memo, nameOfMethod) => {
       memo[nameOfMethod] = (value, scope, element, attrs, param) => {
          let orig = _origin[nameOfMethod];
-         return !value ? _true : orig(value, scope, element, attrs, param);
+         return value ? orig(value, scope, element, attrs, param) : _true;
       };
       return memo;
    }, {});
-   validationExpression.title = function(value) {
+   validationExpression.title = function _titleValidation(value) {
       const minTitleLength = 3;
       const maxTitleLength = 50;
-      return !!value ? value.length <= maxTitleLength && value.length >= minTitleLength : true;
-   }
+      return value ? value.length <= maxTitleLength && value.length >= minTitleLength : true;
+   };
    $validationProvider.showSuccessMessage = false;
    $validationProvider
       .setDefaultMsg({ en: translationsEn.VALIDATION,

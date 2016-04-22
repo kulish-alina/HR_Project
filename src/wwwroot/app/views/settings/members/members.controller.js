@@ -1,12 +1,9 @@
-export default function MembersController($element, $scope, UserService, SettingsService) {
+export default function MembersController($element, SettingsService) {
    'ngInject';
 
-   var vm = $scope;
-
-
    function _init() {
-      SettingsService.addOnSubmitListener(_onSubmit)
-      SettingsService.addOnCancelListener(_onCancel)
+      SettingsService.addOnSubmitListener(_onSubmit);
+      SettingsService.addOnCancelListener(_onCancel);
       $element.on('$destroy', _onDestroy);
    }
    _init();
@@ -16,7 +13,7 @@ export default function MembersController($element, $scope, UserService, Setting
    })();*/
 
    function _onDestroy() {
-      SettingsService.removeOnSubmitListener(_onSubmit)
+      SettingsService.removeOnSubmitListener(_onSubmit);
    }
 
    function _onSubmit() {

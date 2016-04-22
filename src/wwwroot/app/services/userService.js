@@ -12,22 +12,21 @@ export default class UserService {
    }
 
    getUser(id) {
-      var additionalUrl = USER_URL + id;
+      let additionalUrl = USER_URL + id;
       return _HttpService.get(additionalUrl);
    }
 
    saveUser(entity) {
-      if (!!entity.Id) {
-         var additionalUrl = USER_URL + entity.Id;
+      if (entity.Id) {
+         let additionalUrl = USER_URL + entity.Id;
          return _HttpService.put(additionalUrl, entity);
-      }
-      else {
+      } else {
          return _HttpService.post(USER_URL, entity);
       }
    }
 
    deleteUser(entity) {
-      var additionalUrl = USER_URL + entity.Id;
+      let additionalUrl = USER_URL + entity.Id;
       _HttpService.remove(additionalUrl, entity);
    }
 }

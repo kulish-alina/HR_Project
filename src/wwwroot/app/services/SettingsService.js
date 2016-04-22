@@ -2,8 +2,8 @@ import {
    remove,
    each,
    curry,
-   isEqual,
-   isFunction
+   isEqual
+   /*isFunction*/
 } from 'lodash';
 
 let submitListeners = [];
@@ -29,15 +29,15 @@ export default class SettingsService {
    }
 
    removeOnSubmitListener(listener) {
-      _removeListner(editListeners, listener)
+      _removeListner(editListeners, listener);
    }
 
    removeOnEditListener(listener) {
-      _removeListner(editListeners, listener)
+      _removeListner(editListeners, listener);
    }
 
    removeOnCancelListener(listener) {
-      _removeListner(cancelListeners, listener)
+      _removeListner(cancelListeners, listener);
    }
 
    onSubmit() {
@@ -58,11 +58,13 @@ export default class SettingsService {
       return this.asEdit;
    }
 }
-
-const equal = curry(isEqual, 2);
+const curryEqual = 2;
+const equal = curry(isEqual, curryEqual);
 
 function _callListeners(listeners) {
-   each(listeners, fnc => isFunction(fnc) ? fnc() : (() => {})());
+   each(listeners, (fnc) => {
+      fnc();
+   });
 }
 
 function _removeListner(listeners, listener) {

@@ -1,5 +1,4 @@
-export default function RecruitingController($scope, UserService) {
+export default function RecruitingController() {
    'ngInject';
 
-   var vm = $scope;
 }

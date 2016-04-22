@@ -1,22 +1,22 @@
 export default function ProfileController($scope, $element, UserService, SettingsService) {
    'ngInject';
 
-   var vm = $scope;
+   let vm = $scope;
 
-   vm.user = {}
+   vm.user = {};
    vm.asEdit = false;
 
    function _init() {
-      SettingsService.addOnSubmitListener(_onSubmit)
-      SettingsService.addOnCancelListener(_onCancel)
-      SettingsService.addOnEditListener(_onEdit)
-      SettingsService.setAsEdit(vm.asEdit)
+      SettingsService.addOnSubmitListener(_onSubmit);
+      SettingsService.addOnCancelListener(_onCancel);
+      SettingsService.addOnEditListener(_onEdit);
+      SettingsService.setAsEdit(vm.asEdit);
       $element.on('$destroy', _onDestroy);
    }
    _init();
 
    function _onDestroy() {
-      SettingsService.removeOnSubmitListener(_onSubmit)
+      SettingsService.removeOnSubmitListener(_onSubmit);
    }
 
    function _onSubmit() {

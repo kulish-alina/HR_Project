@@ -1,5 +1,4 @@
-export default function RolesController($scope, UserService) {
+export default function RolesController() {
    'ngInject';
 
-   var vm = $scope;
 }

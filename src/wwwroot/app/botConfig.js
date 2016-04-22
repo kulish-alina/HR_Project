@@ -92,7 +92,7 @@ export default function _config(
          url: '/recruiting',
          template: recruitingTemplate,
          controller: recruitingController
-      })
+      });
 
    $urlRouterProvider.otherwise('home');
    $translateProvider

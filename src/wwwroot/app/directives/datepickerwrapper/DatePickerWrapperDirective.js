@@ -10,7 +10,7 @@ export default class DatePickerWrapperDirective {
          datemodel: '=',
          datemin: '=',
          placeholder: '@'
-      }
+      };
    }
    static createInstance() {
       'ngInject';

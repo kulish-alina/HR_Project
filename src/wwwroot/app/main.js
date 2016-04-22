@@ -29,7 +29,7 @@ import phoneFormatFilter from './filters/PhoneFormatFilter';
 import 'angularjs-datepicker/src/js/angular-datepicker';
 import 'angularjs-datepicker/src/css/angular-datepicker.css';
 
-import DatePickerDirective from './directives/datepickerwrapper/DatepickerWrapperDirective';
+import DatePickerDirective from './directives/datepickerwrapper/DatePickerWrapperDirective';
 
 const dependencies = [
    router,

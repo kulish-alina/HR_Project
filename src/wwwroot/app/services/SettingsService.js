@@ -12,12 +12,16 @@ let cancelListeners = [];
 
 export default class SettingsService {
 
+   constructor() {
+      this.asEdit = '';
+   }
+
    addOnSubmitListener(listener) {
       _addListner(submitListeners, listener);
    }
 
    addOnEditListener(listener) {
-      _addListner(submitListeners, listener);
+      _addListner(editListeners, listener);
    }
 
    addOnCancelListener(listener) {
@@ -28,8 +32,8 @@ export default class SettingsService {
       _removeListner(editListeners, listener)
    }
 
-   removeOnCancelListener(listener) {
-      _removeListner(cancelListeners, listener)
+   removeOnEditListener(listener) {
+      _removeListner(editListeners, listener)
    }
 
    removeOnCancelListener(listener) {
@@ -46,6 +50,12 @@ export default class SettingsService {
 
    onCancel() {
       _callListeners(cancelListeners);
+   }
+   setAsEdit(condition) {
+      this.asEdit = condition;
+   }
+   getAsEdit() {
+      return this.asEdit;
    }
 }
 

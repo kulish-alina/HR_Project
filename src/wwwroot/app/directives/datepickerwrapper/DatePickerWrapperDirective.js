@@ -9,7 +9,7 @@ export default class DatePickerWrapperDirective {
       this.scope = {
          datemodel: '=',
          datemin: '=',
-         placeholder: '='
+         placeholder: '@'
       }
    }
    static createInstance() {

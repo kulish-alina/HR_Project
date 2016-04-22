@@ -6,6 +6,7 @@ export default function MembersController($element, $scope, UserService, Setting
 
    function _init() {
       SettingsService.addOnSubmitListener(_onSubmit)
+      SettingsService.addOnCancelListener(_onCancel)
       $element.on('$destroy', _onDestroy);
    }
    _init();
@@ -19,7 +20,11 @@ export default function MembersController($element, $scope, UserService, Setting
    }
 
    function _onSubmit() {
-      console.log('foo');
+      console.log('submit');
+   }
+
+   function _onCancel() {
+      console.log('cancell');
    }
 
 }

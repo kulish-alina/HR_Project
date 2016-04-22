@@ -7,4 +7,5 @@ export default function SettingsController($scope, ValidationService, SettingsSe
    vm.submit   = SettingsService.onSubmit;
    vm.edit     = SettingsService.onEdit;
    vm.cancel   = SettingsService.onCancel;
+   vm.$watch(()=> {return SettingsService.asEdit;}, ()=> {vm.asEdit   = SettingsService.asEdit;})
 }

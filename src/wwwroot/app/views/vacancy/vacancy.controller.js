@@ -4,36 +4,36 @@ export default function VacancyController($scope, VacancyService, ValidationServ
    var vm = $scope;
    vm.saveVacancy = saveVacancy;
    vm.industries = [
-      {id: '1', name: 'IT'},
-      {id: '2', name: 'Security'},
-      {id: '3', name: 'Accounting'}
+      {id: '1', title: 'IT'},
+      {id: '2', title: 'Security'},
+      {id: '3', title: 'Accounting'}
    ];
    vm.levels = [
-      {id: '1', name: 'Trainee'},
-      {id: '2', name: 'Junior'},
-      {id: '3', name: 'Middle'},
-      {id: '4', name: 'Senior'}
+      {id: '1', title: 'Trainee'},
+      {id: '2', title: 'Junior'},
+      {id: '3', title: 'Middle'},
+      {id: '4', title: 'Senior'}
    ];
    vm.cities = [
-      {id: '1', name: 'Dnipropetrovsk'},
-      {id: '2', name: 'Zaporizhzhia'},
-      {id: '3', name: 'Berdyansk'},
-      {id: '4', name: 'Lviv'}
+      {id: '1', title: 'Dnipropetrovsk'},
+      {id: '2', title: 'Zaporizhzhia'},
+      {id: '3', title: 'Berdyansk'},
+      {id: '4', title: 'Lviv'}
    ];
    vm.languages = [
-      {id: '1', name: 'English'}
+      {id: '1', title: 'English'}
    ];
    vm.languageLevels = [
-      {id: '1', name: 'Pre-Intermediate'},
-      {id: '2', name: 'Intermediate'},
-      {id: '3', name: 'Upper Intermediate'},
-      {id: '4', name: 'Advanced'},
-      {id: '5', name: 'Fluent'}
+      {id: '1', title: 'Pre-Intermediate'},
+      {id: '2', title: 'Intermediate'},
+      {id: '3', title: 'Upper Intermediate'},
+      {id: '4', title: 'Advanced'},
+      {id: '5', title: 'Fluent'}
    ];
    vm.departments = [
-      {id: '1', name: 'Accounting', departmentGroup: 'Nonprod'},
-      {id: '2', name: 'Managers', departmentGroup: 'Prod'},
-      {id: '3', name: 'Contract Programming', departmentGroup: 'Contract'}
+      {id: '1', title: 'Accounting', departmentGroup: 'Nonprod'},
+      {id: '2', title: 'Managers', departmentGroup: 'Prod'},
+      {id: '3', title: 'Contract Programming', departmentGroup: 'Contract'}
    ];
    vm.responsibles = [
       {id: '1', lastName: 'vbre'},
@@ -41,18 +41,30 @@ export default function VacancyController($scope, VacancyService, ValidationServ
       {id: '3', lastName: 'vles'}
    ];
    vm.typesOfEmployment = [
-      {id: '1', name: 'Full-time'},
-      {id: '2', name: 'Part-time'},
-      {id: '3', name: 'Remote'},
-      {id: '4', name: 'Practice'},
-      {id: '5', name: 'Courses'},
-      {id: '6', name: 'Project'}
+      {id: '1', title: 'Full-time'},
+      {id: '2', title: 'Part-time'},
+      {id: '3', title: 'Remote'},
+      {id: '4', title: 'Practice'},
+      {id: '5', title: 'Courses'},
+      {id: '6', title: 'Project'}
    ];
    vm.statuses = [
-      {id: '1', name: 'Open'},
-      {id: '2', name: 'Processing'},
-      {id: '3', name: 'Closed'},
-      {id: '4', name: 'Cancelled'}
+      {id: '1', title: 'Open'},
+      {id: '2', title: 'Processing'},
+      {id: '3', title: 'Closed'},
+      {id: '4', title: 'Cancelled'}
+   ];
+   vm.skills = [
+      {id: '1', title: 'SQL'},
+      {id: '2', title: 'WinForms'},
+      {id: '3', title: 'DevExpress'},
+      {id: '4', title: '.Net'},
+      {id: '5', title: 'C#'},
+      {id: '6', title: 'Spring .Net'},
+      {id: '7', title: 'JQuery'},
+      {id: '8', title: 'JavaScript'},
+      {id: '9', title: 'ASP .NET MVC'},
+      {id: '10', title: 'HTML5+CSS3'}
    ];
 
    vm.uploader = new FileUploader({

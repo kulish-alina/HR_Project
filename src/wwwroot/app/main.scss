@@ -7,6 +7,7 @@
 @import "./styles/side-menu";
 @import "./styles/sidebar";
 @import "./styles/text-editor";
+@import "./styles/multiple-select";
 
 body {
    background-color: $light-color;
@@ -38,6 +39,7 @@ body {
    @include card-container();
    width: 100%;
    margin: $rem-base*0.5;
+   height: auto;
 }
 
 // Styles for switching pages
@@ -53,7 +55,6 @@ body {
 select[multiple] {
     height: auto;
 }
-
 .grid-block {
    overflow: inherit;
 }

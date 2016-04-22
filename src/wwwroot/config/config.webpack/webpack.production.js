@@ -1,4 +1,4 @@
-module.exports = function (webpack) {
+module.exports = function _production(webpack) {
    return {
       debug: false,
       devtool: 'source-map ',
@@ -8,8 +8,8 @@ module.exports = function (webpack) {
       plugins: [
          new webpack.optimize.UglifyJsPlugin(),
          new webpack.optimize.OccurenceOrderPlugin(),
-         new webpack.optimize.DedupePlugin(),
+         new webpack.optimize.DedupePlugin()
       ]
-   }
-}
+   };
+};
 

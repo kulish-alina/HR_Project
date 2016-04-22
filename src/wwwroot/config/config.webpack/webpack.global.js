@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function _global() {
    return {
       external: {
          'iconic': 'IconicJS'
@@ -45,6 +45,6 @@ module.exports = function() {
          // progress: true,
          //contentBase: './src/public',
          stats: 'minimal'
-      },
-   }
-}
+      }
+   };
+};

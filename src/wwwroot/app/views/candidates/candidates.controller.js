@@ -1,6 +1,6 @@
 export default function CandidatesController($scope, CandidateService) {
    'ngInject';
-   var vm = $scope;
+   const vm = $scope;
    vm.candidates = [];
    vm.getCandidate = getCandidate;
    vm.deleteCandidate = deleteCandidate;
@@ -8,13 +8,15 @@ export default function CandidatesController($scope, CandidateService) {
    vm.getCandidates = getCandidates;
 
    function getCandidates() {
-      CandidateService.getCandidates().then(value => vm.candidates = value).
-        catch(_onError);
+      CandidateService.getCandidates()
+        .then(value => vm.candidates = value)
+        .catch(_onError);
    }
 
    function getCandidate(candidateId) {
-      CandidateService.getCandidate(candidateId).then(value => vm.candidates = [ value ]).
-      catch(_onError);
+      CandidateService.getCandidate(candidateId)
+        .then(value => vm.candidates = [ value ])
+        .catch(_onError);
    }
 
    function deleteCandidate(candidate) {

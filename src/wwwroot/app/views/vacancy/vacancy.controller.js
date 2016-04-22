@@ -1,7 +1,7 @@
 export default function VacancyController($scope, VacancyService) {
    'ngInject';
 
-   var vm = $scope;
+   const vm = $scope;
    vm.saveVacancy = saveVacancy;
 
    function saveVacancy() {

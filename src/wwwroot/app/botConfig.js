@@ -53,7 +53,7 @@ export default function _config(
          url: '/vacancy',
          template: vacancyTemplate,
          controller: vacancyController
-      })
+      });
 
    $urlRouterProvider.otherwise('home');
    $translateProvider

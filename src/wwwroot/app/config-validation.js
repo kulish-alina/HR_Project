@@ -2,28 +2,19 @@ import en from './translations/translations-en.json';
 import ru from './translations/translations-ru.json';
 import context from './context';
 
+import utils from './utils';
+
 import {
-   reduce,
-   isFunction,
-   constant
+   partial,
+   isFunction
 } from 'lodash';
 
 const methods = ['minlength', 'maxlength', 'email', 'number', 'url'];
-const _true = constant(true);
+const { array2map } = utils;
 
 export default function _configValidation($validationProvider) {
-   const _origin = reduce(methods, (memo, nameOfMethod) => {
-      memo[nameOfMethod] = _wrap($validationProvider.getExpression(nameOfMethod));
-      return memo;
-   }, {});
-
-   const validationExpression = reduce(methods, (memo, nameOfMethod) => {
-      memo[nameOfMethod] = (value, scope, element, attrs, param) => {
-         let orig = _origin[nameOfMethod];
-         return value ? orig(value, scope, element, attrs, param) : _true;
-      };
-      return memo;
-   }, {});
+   const _it = partial(_converter, $validationProvider);
+   const validationExpression = array2map(methods, _it);
 
    validationExpression.title = _titleValidation;
 
@@ -36,6 +27,13 @@ export default function _configValidation($validationProvider) {
       .setValidMethod('blur');
 
    $validationProvider.showSuccessMessage = false;
+}
+
+function _converter($validationProvider, nameOfMethod) {
+   let orig = _wrap($validationProvider.getExpression(nameOfMethod));
+   return function _wrapped(value, scope, element, attrs, param) {
+      return value ? orig(value, scope, element, attrs, param) : true;
+   };
 }
 
 function _wrap(validation) {

@@ -8,7 +8,8 @@
       "SETTINGS" : "Settings",
       "MY_BOT": "My BOT",
       "SEARCH": "Search",
-      "USER_NAME": "User Name"
+      "USER_NAME": "User Name",
+      "THESAURUSES" : "Thesauruses"
    },
    "CANDIDATE": {
       "ERROR": "Sorry! Some error occurred",
@@ -42,7 +43,15 @@
       "SAVE": "Save",
       "EVENTS": "Events",
       "NOTES": "Notes",
-      "COMMENTS": "Comments"
+      "COMMENTS": "Comments",
+      "EDIT" : "Edit",
+      "REMOVE" : "Remove"
+   },
+   "THESAURUSES" : {
+      "COUNTRIES" : "Countries",
+      "SOCIALS" : "Social networks",
+      "LANGUAGES" : "Languages",
+      "LOCATIONS" : "Locations"
    },
    "VALIDATION": {
       "required": {
@@ -76,6 +85,12 @@
       "title": {
          "error": "*this should be from 3 to 50 symbols",
          "success": "Correct!"
+      }
+   },
+   "ERRORS" : {
+      "someErrorMsg" : "Sorry! Some error occurred: ",
+      "thesaurusErrors" : {
+         "incorrectNameMsg" : "Thesaurus name is incorrect."
       }
    }
 }

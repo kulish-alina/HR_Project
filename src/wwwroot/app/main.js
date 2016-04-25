@@ -21,6 +21,9 @@ import HttpProvider     from './services/HttpProvider';
 import CandidateService  from './services/CandidateService';
 import VacancyService    from './services/VacancyService';
 import ValidationService from './services/ValidationService';
+import ThesaurusService   from './services/thesaurusService';
+
+import ThesaurusDirective   from './directives/thesaurus/thesaurus';
 
 import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
@@ -46,6 +49,9 @@ angular
    .service('CandidateService',  CandidateService)
    .service('VacancyService',    VacancyService)
    .service('ValidationService', ValidationService)
+   .service('ThesaurusService', ThesaurusService)
+
+   .directive('thesaurus', ThesaurusDirective.createInstance)
 
    .filter('tel', phoneFormatFilter)
 

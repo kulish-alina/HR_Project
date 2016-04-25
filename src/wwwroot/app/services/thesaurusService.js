@@ -6,7 +6,6 @@ import {
    map,
    forEach,
    some,
-   each,
    reduce,
    includes,
    curry
@@ -36,7 +35,7 @@ export default class ThesaurusService {
          let thesaurusesToLoad = _getLoadedThesaurusesList(thesaurusName);
          let mapThesaurusPromises = _mapValues(thesaurusesToLoad, name => _HttpService.get(name));
          return _$q.all(mapThesaurusPromises).then(thesauruses => {
-            each(thesauruses, (thesaurus, name) => {
+            forEach(thesauruses, (thesaurus, name) => {
                cache[name] = thesaurus.queryResult;
                _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
             });
@@ -128,7 +127,7 @@ function _actionOfAdditionFieldsForTopic(thesaurusName, action, entity) {
 }
 
 function _actionOfAdditionFieldsForTopics(topics, thesaurusName, action) {
-   each(topics, _curryAction(thesaurusName, action));
+   forEach(topics, _curryAction(thesaurusName, action));
 }
 
 

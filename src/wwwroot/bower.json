@@ -1,6 +1,6 @@
 {
   "name": "bot",
-   "description": "base of talents",
+  "description": "base of talents",
   "directory": "bower_components",
   "authors": [
     "isd"
@@ -13,7 +13,8 @@
   "dependencies": {
     "foundation-apps": ">=1.1.0",
     "foundation-icons": "*",
-    "textAngular": "^1.5.0"
+    "textAngular": "^1.5.0",
+    "foundation-icon-fonts": "*"
   },
   "ignore": [
     "**/.*",

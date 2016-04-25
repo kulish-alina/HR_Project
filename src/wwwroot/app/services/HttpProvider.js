@@ -28,7 +28,7 @@ class HttpService {
    }
 
    remove(additionalUrl, entity) {
-      this.ajax('delete', additionalUrl, entity);
+      return this.ajax('delete', additionalUrl, entity);
    }
 
    ajax(method, additionalUrl, entity) {

@@ -5,7 +5,6 @@ import {
    filter,
    map,
    forEach,
-   some,
    reduce,
    includes,
    curry
@@ -111,8 +110,8 @@ function _getLoadedThesaurusesList(mainThesaurusName) {
 }
 
 function _addRefTextFieldFunction(field, topic) {
-   if (some(cache[field.refTo], {id: topic[field.name]})) {
-      let referencedTopic = find(cache[field.refTo], {id: topic[field.name]});
+   let referencedTopic = find(cache[field.refTo], {id: topic[field.name]});
+   if (referencedTopic) {
       topic[field.additionFieldForText] = referencedTopic[field.labelRefFieldName];
    }
 }

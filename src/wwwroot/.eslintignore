@@ -1,5 +1,4 @@
-webpack.config.js
-config.webpack/
-build/
+dist/
 node_modules/
 bower_component/
+config/

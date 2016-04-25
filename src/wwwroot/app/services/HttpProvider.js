@@ -32,8 +32,8 @@ class HttpService {
    }
 
    ajax(method, additionalUrl, entity) {
-      var options = {
-         method: method,
+      const options = {
+         method,
          url: serverUrl + additionalUrl,
          headers: {
             'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ class HttpService {
 }
 
 function _successCallback(response) {
-   _LoggerService.log('Response status:', response.status);
+   _LoggerService.debug('Response status:', response.status);
    return response.data;
 }
 

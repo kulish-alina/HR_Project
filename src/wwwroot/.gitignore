@@ -1,6 +1,7 @@
 node_modules/
+dist/
+coverage/
 bower_components/
-build/
 .vscode/
 typings/
 jsconfig.json

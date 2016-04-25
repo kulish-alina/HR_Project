@@ -1,17 +1,15 @@
-var webpack = require('webpack');
-
-module.exports = function() {
+module.exports = function _development(webpack) {
    return {
       debug: true,
-      devtool: 'source-map ',
+      devtool: 'eval-source-map ',
       devServer: {
          historyApiFallback: true,
          hot: true,
          inline: true,
-         progress: true,
+         progress: true
       },
       plugins: [
          new webpack.HotModuleReplacementPlugin()
       ]
-   }
-}
+   };
+};

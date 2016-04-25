@@ -1,5 +1,5 @@
 import template from './thesaurus.directive.html';
-import { has, clone, assign, map, forEach, find, filter } from 'lodash';
+import { has, clone, assign, forEach, find, filter } from 'lodash';
 import './thesaurus.scss';
 
 export default class ThesaurusDirective {
@@ -101,7 +101,7 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
    }
 
    function getSelected(id, thesaurusRef) {
-      return find(vm.additionThesaurusesStore[thesaurusRef], {id: id});
+      return find(vm.additionThesaurusesStore[thesaurusRef], {id});
    }
 
    function change(topic, field) {

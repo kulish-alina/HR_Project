@@ -1,5 +1,5 @@
 export default function ThesaurusesController($scope, ThesaurusService) {
    'ngInject';
-   var vm = $scope;
+   const vm = $scope;
    vm.thesaurusesNames = ThesaurusService.getThesaurusNames();
 }

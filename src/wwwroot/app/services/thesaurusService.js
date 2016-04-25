@@ -1,7 +1,6 @@
 import {
    has,
    find,
-   concat,
    remove,
    filter,
    map,
@@ -13,10 +12,12 @@ import {
    curry
 } from 'lodash';
 
+const curryLength = 3;
+
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
 let _HttpService, _$q, _$translate;
-let _curryAction = curry(_actionOfAdditionFieldsForTopic, 3);
+let _curryAction = curry(_actionOfAdditionFieldsForTopic, curryLength);
 
 const cache = {};
 
@@ -46,10 +47,10 @@ export default class ThesaurusService {
 
    getThesaurusTopic(thesaurusName, id) {
       if (has(cache, thesaurusName)) {
-         return _$q.when(find(cache[thesaurusName], {id: id}));
+         return _$q.when(find(cache[thesaurusName], {id}));
       } else {
          return this.getThesaurusTopics(thesaurusName)
-            .then(() => find(cache[thesaurusName], {id: id}));
+            .then(() => find(cache[thesaurusName], {id}));
       }
    }
 
@@ -61,10 +62,9 @@ export default class ThesaurusService {
          let promise;
 
          if (entity.id) {
-            let additionalUrl = thesaurusName + '/' + entity.id;
-            promise = _HttpService.put(additionalUrl, entity);
+            promise = _HttpService.put('${thesaurusName}/${entity.id}', entity);
          } else {
-            promise = _HttpService.post(thesaurusName + '/', entity);
+            promise = _HttpService.post('${thesaurusName}/', entity);
             promise = promise.then(_entity => {
                cache[thesaurusName].push(_entity);
                return _entity;
@@ -79,7 +79,7 @@ export default class ThesaurusService {
 
    deleteThesaurusTopic(thesaurusName, entity) {
       if (includes(this.getThesaurusNames(), thesaurusName)) {
-         let additionalUrl = thesaurusName + '/' + entity.id;
+         let additionalUrl = '${thesaurusName}/${entity.id}';
          _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
          return _HttpService.remove(additionalUrl, entity).then(() => remove(cache[thesaurusName], entity));
       } else {
@@ -124,7 +124,7 @@ function _deleteRefTextFieldFunction(field, topic) {
 
 function _actionOfAdditionFieldsForTopic(thesaurusName, action, entity) {
    let additionFields = _getReferenceFields(thesaurusName);
-   forEach(_getReferenceFields(thesaurusName), field => action(field, entity));
+   forEach(additionFields, field => action(field, entity));
 }
 
 function _actionOfAdditionFieldsForTopics(topics, thesaurusName, action) {

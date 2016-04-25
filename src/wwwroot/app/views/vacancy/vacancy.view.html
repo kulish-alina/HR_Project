@@ -30,35 +30,35 @@
                         <input name="Title" ng-model="vacancy.Title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, minlength=3, maxlength=50">
                         <select name="Industry" ng-model="vacancy.IndustryId" validator="required">
                            <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
-                           <option ng-repeat="industry in industries" value="{{industry.id}}">{{::industry.title}}</option>
+                           <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
                         </select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
                               <select name="Language" ng-model="vacancy.LanguageSkill">
                                  <option selected value="">{{::'COMMON.LANGUAGE' | translate}}</option>
-                                 <option ng-repeat="language in languages" value="{{language.id}}">{{::language.title}}</option>
+                                 <option ng-repeat="language in thesaurus.languages" value="{{language.id}}">{{::language.title}}</option>
                               </select>
                            </div>
                            <div class="medium-6 grid-block">
                               <select name="LanguageLevel" ng-model="vacancy.LanguageSkill.LanguageLevel">
                                  <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
-                                 <option ng-repeat="languageLevel in languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
+                                 <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
                               </select>
                            </div>
                         </div>
-                        <oi-select class="multiple-select" oi-options="level.id as level.title for level in levels track by level.id" ng-model="vacancy.LevelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
-                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in cities track by city.id" ng-model="vacancy.LocationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.levels track by level.id" ng-model="vacancy.LevelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.LocationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
                         <select name="Responsible" ng-model="vacancy.ResponsibleId" validator="required">
                            <option selected value="">{{::'COMMON.RESPONSIBLE' | translate}}</option>
-                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.lastName}}</option>
+                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.name}}</option>
                         </select>
                         <select name="Department" ng-model="vacancy.DepartmentId" validator="required">
                            <option selected value="">{{::'COMMON.DEPARTMENT' | translate}}</option>
-                           <option ng-repeat="department in departments" value="{{department.id}}">{{::department.title}}
+                           <option ng-repeat="department in thesaurus.departments" value="{{department.id}}">{{::department.title}}
                            </option>
                         </select>
                         <div class="grid-block">
@@ -71,7 +71,7 @@
                         </div>
                         <select name="Type of Employment" ng-model="vacancy.TypeOfEmployment">
                            <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
-                           <option ng-repeat="typeOfEmployment in typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
+                           <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
                         </select>
                         <div class="grid-block">
                            <div class="medium-7 grid-block">
@@ -88,7 +88,7 @@
                      <fieldset>
                         <select name="Status" ng-model="vacancy.Status">
                            <option selected value="">{{::'COMMON.STATUS' | translate}}</option>
-                           <option ng-repeat="status in statuses" value="{{status.id}}">{{::status.title}}</option>
+                           <option ng-repeat="status in thesaurus.statuses" value="{{status.id}}">{{::status.title}}</option>
                         </select>
                         <date datemodel="vacancy.StartDate" placeholder="{{::'COMMON.START_DATE' | translate}}"></date>
                         <date datemodel="vacancy.DeadlineDate" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}"></date>
@@ -101,10 +101,10 @@
                <fieldset>
                   <div class="grid-block">
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="skill.title for skill in skills track by skill.id" ng-model="vacancy.Skills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, name: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="skill.id as skill.title for skill in thesaurus.skills track by skill.id" ng-model="vacancy.Skills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, name: $query}}"></oi-select>
                      </div>
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="skill.title for skill in skills track by skill.id" ng-model="vacancy.Tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, name: $query}}"></oi-select>
+                        <oi-select class="multiple-select"  oi-options="tag.id as tag.title for tag in thesaurus.tags track by tag.id" ng-model="vacancy.Tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, name: $query}}"></oi-select>
                      </div>
                   </div>
                   <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.Description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>

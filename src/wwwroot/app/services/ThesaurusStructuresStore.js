@@ -37,6 +37,13 @@ const THESAURUS_STRUCTURES = {
          {name : 'editTime',        label : 'editTime',              type : ''},
          {name : 'state',           label : 'state',                 type : ''}
       ]
+   },
+   'skills' : {
+      thesaurusName : 'Skills',
+      fields : [
+         {name : 'id',              label : 'id',                    type : ''},
+         {name : 'title',           label : 'name',                  type : 'text' }
+      ]
    }
 };
 

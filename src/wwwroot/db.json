@@ -1,0 +1,40 @@
+{
+   "skills" : {"totalCount":3,"totalPages":1.0,"queryResult": [
+      {
+        "id" : 1,
+        "title" : "sql"
+      },
+      {
+        "id" : 2,
+        "title" : "angular"
+      },
+      {
+        "id" : 3,
+        "title" : "js"
+      }
+   ]},
+   "tags" : {"totalCount":3,"totalPages":1.0,"queryResult": [
+      {
+        "id" : 1,
+        "title" : "sql"
+      },
+      {
+        "id" : 2,
+        "title" : "angular"
+      },
+      {
+        "id" : 3,
+        "title" : "js"
+      }
+   ]},
+   "locations" : {"totalCount":18,"totalPages":1.0,"queryResult":[{"country": 1,"title":"Kiev","id":1,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Kharkiv","id":2,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Odessa","id":3,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Dnipropetrovsk","id":4,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Zaporizhia","id":5,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Lviv","id":6,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Kryvyi Rih","id":7,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Mykolaiv","id":8,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Mariupol","id":9,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Luhansk","id":10,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Donetsk","id":11,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Sevastopol","id":12,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Vinnytsia","id":13,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Makiivka","id":14,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Simferopol","id":15,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Kherson","id":16,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Poltava","id":17,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Chernihiv","id":18,"editTime":"2016-04-21","state":1}]},
+   "countries" : {"totalCount":2,"totalPages":1.0,"queryResult":[{"title":"Ukraine","id":1,"editTime":"2016-04-21","state":1},{"title":"usa","id":2,"editTime":"2016-04-21","state":0}]},
+   "languages" : {"totalCount":2,"totalPages":1.0,"queryResult":[{"title":"English","id":1,"editTime":"2016-04-21","state":1},{"title":"Polish","id":2,"editTime":"2016-04-21","state":1}]},
+   "socialnetworks" : {"totalCount":1,"totalPages":1.0,"queryResult":[{"title":"title","imagePath":"imgPath","id":1,"editTime":"2016-04-21","state":1}]},
+   "industries" : {"totalCount":3,"totalPages":1.0,"queryResult":[{"title":"IT","id":1,"editTime":"2016-04-21","state":1},{"title":"Accounting","id":2,"editTime":"2016-04-21","state":1}, {"title":"Administration","id":3,"editTime":"2016-04-21","state":1}]},
+   "levels" : {"totalCount":4,"totalPages":1.0,"queryResult":[{"title":"Trainee","id":1,"editTime":"2016-04-21","state":1},{"title":"Junior","id":2,"editTime":"2016-04-21","state":1}, {"title":"Middle","id":3,"editTime":"2016-04-21","state":1}, {"title":"Senior","id":4,"editTime":"2016-04-21","state":1}]},
+   "languageLevels" : {"totalCount":5,"totalPages":1.0,"queryResult":[{"title":"Pre-Intermediate","id":1,"editTime":"2016-04-21","state":1},{"title":"Intermediate","id":2,"editTime":"2016-04-21","state":1}, {"title":"Upper Intermediate","id":3,"editTime":"2016-04-21","state":1}, {"title":"Advanced","id":4,"editTime":"2016-04-21","state":1}, {"title":"Fluent","id":5,"editTime":"2016-04-21","state":1}]},
+   "departments" : {"totalCount":3,"totalPages":1.0,"queryResult":[{"department": 1,"title":"Accounting","id":1,"editTime":"2016-04-21","state":1},{"department": 1,"title":"Managers","id":2,"editTime":"2016-04-21","state":1},{"department": 1,"title":"Contract Programming","id":3,"editTime":"2016-04-21","state":1}]},
+   "typesOfEmployment" : {"totalCount":6,"totalPages":1.0,"queryResult":[{"title":"Full-time","id":1,"editTime":"2016-04-21","state":1},{"title":"Part-time","id":2,"editTime":"2016-04-21","state":1}, {"title":"Remote","id":3,"editTime":"2016-04-21","state":1}, {"title":"Practice","id":4,"editTime":"2016-04-21","state":1}, {"title":"Courses","id":5,"editTime":"2016-04-21","state":1}, {"title":"Project","id":6,"editTime":"2016-04-21","state":1}]},
+   "statuses" : {"totalCount":4,"totalPages":1.0,"queryResult":[{"title":"Open","id":1,"editTime":"2016-04-21","state":1},{"title":"Processing","id":2,"editTime":"2016-04-21","state":1}, {"title":"Closed","id":3,"editTime":"2016-04-21","state":1}, {"title":"Cancelled","id":4,"editTime":"2016-04-21","state":1}]}
+}

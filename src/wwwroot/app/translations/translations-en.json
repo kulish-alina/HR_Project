@@ -8,7 +8,8 @@
       "SETTINGS" : "Settings",
       "MY_BOT": "My BOT",
       "SEARCH": "Search",
-      "USER_NAME": "User Name"
+      "USER_NAME": "User Name",
+      "THESAURUSES" : "Thesauruses"
    },
    "CANDIDATE": {
       "ERROR": "Sorry! Some error occurred",
@@ -24,7 +25,7 @@
    },
    "VACANCY": {
       "NEW_VACANCY": "New vacancy",
-      "START_DATE": "Start Date" 
+      "START_DATE": "Start Date"
    },
    "VACANCIES": {
       "VACANCIES": "Vacancies",
@@ -54,6 +55,12 @@
       "SKYPE": "Skype",
       "PHONE": "Phone number",
       "BIRTH": "Birth day"
+   },
+   "THESAURUSES" : {
+      "COUNTRIES" : "Countries",
+      "SOCIALS" : "Social networks",
+      "LANGUAGES" : "Languages",
+      "LOCATIONS" : "Locations"
    },
    "VALIDATION": {
       "required": {
@@ -87,6 +94,12 @@
       "title": {
          "error": "*this should be from 3 to 50 symbols",
          "success": "Correct!"
+      }
+   },
+   "ERRORS" : {
+      "someErrorMsg" : "Sorry! Some error occurred: ",
+      "thesaurusErrors" : {
+         "incorrectNameMsg" : "Thesaurus name is incorrect."
       }
    },
       "SETTINGS" : {

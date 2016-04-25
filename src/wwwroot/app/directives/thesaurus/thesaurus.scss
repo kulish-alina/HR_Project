@@ -1,0 +1,12 @@
+@import '/../../main.scss';
+
+input.edit[type="text"]:disabled {
+   background-color: inherit;
+   border: none;
+}
+
+select.edit:disabled {
+   background-color: inherit;
+   border: none;
+   background-image: none;
+}

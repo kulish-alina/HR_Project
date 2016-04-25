@@ -10,27 +10,26 @@ import 'foundation-apps/dist/js/foundation-apps-templates.js';
 import 'foundation-icons/foundation_icons_general/sass/general_foundicons.scss';
 import 'foundation-icons/foundation_icons_social/sass/social_foundicons.scss';
 
-
 import './main.scss';
 
-import config from './botConfig';
-import configValidation from './configValidation';
+import config from './bot-config';
+import configValidation from './config-validation';
 
 import LoggerProvider   from './services/LoggerProvider';
 import HttpProvider     from './services/HttpProvider';
 
-import CandidateService  from './services/candidateService';
-import VacancyService    from './services/vacancyService';
-import ValidationService from './services/validationService';
+import CandidateService  from './services/CandidateService';
+import VacancyService    from './services/VacancyService';
+import ValidationService from './services/ValidationService';
 import UserService       from './services/userService';
+import ThesaurusService  from './services/thesaurusService';
+
+import ThesaurusDirective   from './directives/thesaurus/thesaurus';
 
 import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
 
-import 'angularjs-datepicker/src/js/angular-datepicker';
-import 'angularjs-datepicker/src/css/angular-datepicker.css';
-
-import DatePickerDirective from './directives/datepickerwrapper/DatepickerWrapperDirective';
+import DatePickerDirective from './directives/datepickerwrapper/DatePickerWrapperDirective';
 import SettingsService from './services/SettingsService';
 
 const dependencies = [
@@ -41,7 +40,8 @@ const dependencies = [
    'foundation',
    'validation',
    'validation.rule',
-   '720kb.datepicker'];
+   '720kb.datepicker'
+];
 
 angular
    .module('bot', dependencies)
@@ -54,6 +54,9 @@ angular
    .service('ValidationService', ValidationService)
    .service('UserService',       UserService)
    .service('SettingsService',   SettingsService)
+   .service('ThesaurusService', ThesaurusService)
+
+   .directive('thesaurus', ThesaurusDirective.createInstance)
 
    .filter('tel', phoneFormatFilter)
 

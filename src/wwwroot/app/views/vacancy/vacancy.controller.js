@@ -1,4 +1,4 @@
-export default function VacancyController($scope, VacancyService, ValidationService, FileUploader) {
+export default function VacancyController($scope, VacancyService, ValidationService, FileUploader, ThesaurusService) {
    'ngInject';
 
    const vm = $scope;
@@ -20,9 +20,10 @@ export default function VacancyController($scope, VacancyService, ValidationServ
       {id: '3', title: 'Berdyansk'},
       {id: '4', title: 'Lviv'}
    ];
-   vm.languages = [
-      {id: '1', title: 'English'}
-   ];
+   vm.languages = [];
+   ThesaurusService.getThesaurusTopics('languages')
+      .then(topics => vm.languages = topics);
+
    vm.languageLevels = [
       {id: '1', title: 'Pre-Intermediate'},
       {id: '2', title: 'Intermediate'},

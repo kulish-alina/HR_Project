@@ -1,7 +1,7 @@
 export default function VacancyController($scope, VacancyService, ValidationService, FileUploader) {
    'ngInject';
 
-   var vm = $scope;
+   const vm = $scope;
    vm.saveVacancy = saveVacancy;
    vm.industries = [
       {id: '1', title: 'IT'},
@@ -88,7 +88,7 @@ export default function VacancyController($scope, VacancyService, ValidationServ
       VacancyService.saveVacancy(vm.vacancy).catch(_onError);
    }
 
-   function _onError(message) {
+   function _onError() {
       vm.errorMessage = 'Sorry! Some error occurred';
    }
 }

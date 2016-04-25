@@ -10,6 +10,7 @@ export default class ValidationService {
       _validation.validate(form);
       return _validation.checkValid(form);
    }
+
    reset(form) {
       _validation.reset(form);
    }

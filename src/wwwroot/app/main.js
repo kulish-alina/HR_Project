@@ -18,25 +18,24 @@ import 'oi.select/dist/select-tpls';
 import 'oi.select/dist/select.css';
 
 import './ta';
-
 import './main.scss';
 
-import config from './botConfig';
-import configValidation from './configValidation';
+import config from './bot-config';
+import configValidation from './config-validation';
 
 import LoggerProvider   from './services/LoggerProvider';
 import HttpProvider     from './services/HttpProvider';
 
-import CandidateService  from './services/candidateService';
-import VacancyService    from './services/vacancyService';
-import ValidationService from './services/validationService';
+import CandidateService  from './services/CandidateService';
+import VacancyService    from './services/VacancyService';
+import ValidationService from './services/ValidationService';
 
 import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
 
 import DatePickerDirective from './directives/datepickerwrapper/DatePickerWrapperDirective';
 
-var dependencies = [
+const dependencies = [
    router,
    translate,
    uiMask,

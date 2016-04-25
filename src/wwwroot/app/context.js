@@ -6,10 +6,10 @@ import {
 
 import utils from './utils.js';
 
-import local from '../config/config.context/local.json';
-import development from '../config/config.context/develop.json';
-import production from '../config/config.context/production.json';
-import common from '../config/config.context/common.json';
+import local         from '../config/config.context/local.json';
+import development   from '../config/config.context/develop.json';
+import production    from '../config/config.context/production.json';
+import common        from '../config/config.context/common.json';
 
 function _getUrlContext(urlParameter) {
    let object = {};

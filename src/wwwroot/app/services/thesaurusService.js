@@ -60,9 +60,9 @@ export default class ThesaurusService {
          let promise;
 
          if (entity.id) {
-            promise = _HttpService.put('${thesaurusName}/${entity.id}', entity);
+            promise = _HttpService.put(`${thesaurusName}/${entity.id}`, entity);
          } else {
-            promise = _HttpService.post('${thesaurusName}/', entity);
+            promise = _HttpService.post(`${thesaurusName}/`, entity);
             promise = promise.then(_entity => {
                cache[thesaurusName].push(_entity);
                return _entity;
@@ -77,7 +77,7 @@ export default class ThesaurusService {
 
    deleteThesaurusTopic(thesaurusName, entity) {
       if (includes(this.getThesaurusNames(), thesaurusName)) {
-         let additionalUrl = '${thesaurusName}/${entity.id}';
+         let additionalUrl = `${thesaurusName}/${entity.id}`;
          _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
          return _HttpService.remove(additionalUrl, entity).then(() => remove(cache[thesaurusName], entity));
       } else {

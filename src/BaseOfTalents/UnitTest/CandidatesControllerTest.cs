@@ -129,7 +129,7 @@ namespace UnitTest
             Comment candidateComment = new Comment()
             {
                 CommentType = CommentType.Candidate,
-                Message = "Message1",
+                Message = "Message2",
                 RelativeId = 0,
             };
 

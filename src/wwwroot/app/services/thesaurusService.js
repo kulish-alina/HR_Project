@@ -5,10 +5,11 @@ import {
    filter,
    map,
    forEach,
-   reduce,
    includes,
    curry
 } from 'lodash';
+
+import utils from '../utils.js';
 
 const curryLength = 3;
 
@@ -32,7 +33,7 @@ export default class ThesaurusService {
          return _$q.when(cache[thesaurusName]);
       } else {
          let thesaurusesToLoad = _getLoadedThesaurusesList(thesaurusName);
-         let mapThesaurusPromises = _mapValues(thesaurusesToLoad, name => _HttpService.get(name));
+         let mapThesaurusPromises = utils.array2map(thesaurusesToLoad, name => _HttpService.get(name));
          return _$q.all(mapThesaurusPromises).then(thesauruses => {
             forEach(thesauruses, (thesaurus, name) => {
                cache[name] = thesaurus.queryResult;
@@ -47,9 +48,13 @@ export default class ThesaurusService {
       if (has(cache, thesaurusName)) {
          return _$q.when(find(cache[thesaurusName], {id}));
       } else {
-         return this.getThesaurusTopics(thesaurusName)
-            .then(() => find(cache[thesaurusName], {id}));
+         return this.getThesaurusTopics(thesaurusName).then(() => find(cache[thesaurusName], {id}));
       }
+   }
+
+   getThesaurusTopicsGroup(thesaurusNames) {
+      let mapThesaurusPromises = utils.array2map(thesaurusNames, this.getThesaurusTopics);
+      return _$q.all(mapThesaurusPromises);
    }
 
    saveThesaurusTopic(thesaurusName, entity) {
@@ -73,6 +78,11 @@ export default class ThesaurusService {
       } else {
          return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
       }
+   }
+
+   saveThesaurusTopics(thesaurusName, entities) {
+      let mapThesaurusPromises = utils.array2map(entities, entity => this.saveThesaurusTopic(thesaurusName, entity));
+      return _$q.all(mapThesaurusPromises);
    }
 
    deleteThesaurusTopic(thesaurusName, entity) {
@@ -127,12 +137,4 @@ function _actionOfAdditionFieldsForTopic(thesaurusName, action, entity) {
 
 function _actionOfAdditionFieldsForTopics(topics, thesaurusName, action) {
    forEach(topics, _curryAction(thesaurusName, action));
-}
-
-
-function _mapValues(array, it) {
-   return reduce(array, (memo, name) => {
-      memo[name] = it(name);
-      return memo;
-   }, {});
 }

@@ -95,7 +95,6 @@ namespace UnitTest
                     .ForMember(dest => dest.RequiredSkills, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<int>, IEnumerable<Skill>>(src.RequiredSkillsIds)))
                     .ForMember(dest => dest.LanguageSkill, opt => opt.MapFrom(src => Mapper.Map<LanguageSkillDTO, LanguageSkill>(src.LanguageSkill)));
             });
-            System.Diagnostics.Debugger.Launch();
         }
 
 

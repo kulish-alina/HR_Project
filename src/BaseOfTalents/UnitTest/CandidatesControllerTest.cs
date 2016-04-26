@@ -97,8 +97,6 @@ namespace UnitTest
             });
         }
 
-
-
         [Test]
         [TestCase(1)]
         public void Get_Candidate(int id)

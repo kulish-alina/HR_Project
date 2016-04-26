@@ -36,7 +36,7 @@ export default class ThesaurusService {
          return _$q.all(mapThesaurusPromises).then(thesauruses => {
             forEach(thesauruses, (thesaurus, name) => {
                cache[name] = thesaurus.queryResult;
-               _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
+               _actionOfAdditionFieldsForTopics(thesaurus.queryResult, name, _addRefTextFieldFunction);
             });
             return cache[thesaurusName];
          });
@@ -112,12 +112,12 @@ function _getLoadedThesaurusesList(mainThesaurusName) {
 function _addRefTextFieldFunction(field, topic) {
    let referencedTopic = find(cache[field.refTo], {id: topic[field.name]});
    if (referencedTopic) {
-      topic[field.additionFieldForText] = referencedTopic[field.labelRefFieldName];
+      topic[field.refObject] = referencedTopic;
    }
 }
 
 function _deleteRefTextFieldFunction(field, topic) {
-   delete topic[field.additionFieldForText];
+   delete topic[field.refObject];
 }
 
 function _actionOfAdditionFieldsForTopic(thesaurusName, action, entity) {

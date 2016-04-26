@@ -1,5 +1,5 @@
 import template from './thesaurus.directive.html';
-import { has, clone, assign, forEach, find, filter } from 'lodash';
+import { has, clone, assign, forEach, filter } from 'lodash';
 import './thesaurus.scss';
 
 export default class ThesaurusDirective {
@@ -31,7 +31,6 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
    vm.fields            = [];
    vm.thesaurusNameLabel          = '';
    vm.additionThesaurusesStore    = {};
-   vm.selectedObjectsOfEditeTopic = {};
 
    vm.isEditTopic       = isEditTopic;
    vm.addNewTopic       = addNewTopic;
@@ -65,12 +64,10 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
 
    function editThesaurusTopic(topic) {
       editTopicClone = clone(topic);
-      _setSelectedObjects(topic);
    }
 
    function cancelThesaurusTopicEditing(topic) {
       assign(topic, editTopicClone);
-      vm.additionThesaurusesStore = {};
       _deleteClone();
    }
 
@@ -100,12 +97,8 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
          .then(topics => vm.topics = topics).catch(_onError);
    }
 
-   function getSelected(id, thesaurusRef) {
-      return find(vm.additionThesaurusesStore[thesaurusRef], {id});
-   }
-
    function change(topic, field) {
-      topic[field.name] = vm.selectedObjectsOfEditeTopic[field.name].id;
+      topic[field.name] = topic[field.refObject].id;
    }
 
    function _isEditTopic(topic) {
@@ -118,16 +111,6 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
 
    function _saveThesaurusTopic(topic) {
       ThesaurusService.saveThesaurusTopic(vm.name, topic).catch(_onError);
-   }
-
-   function _setSelectedObjects(topic) {
-      forEach(_getSelectFields(), field => {
-         vm.selectedObjectsOfEditeTopic[field.name] = getSelected(topic[field.name], field.refTo);
-      });
-   }
-
-   function _getSelectFields() {
-      return filter(vm.fields, {type: 'select'});
    }
 
    function _deleteClone() {

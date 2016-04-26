@@ -13,9 +13,9 @@ import 'foundation-apps/dist/js/foundation-apps-templates';
 import 'foundation-icons/foundation_icons_general/sass/general_foundicons.scss';
 import 'foundation-icons/foundation_icons_social/sass/social_foundicons.scss';
 import 'foundation-icon-fonts/foundation-icons.css';
-import 'oi.select/dist/select';
-import 'oi.select/dist/select-tpls';
-import 'oi.select/dist/select.css';
+import 'oi.select/dist/select.min';
+import 'oi.select/dist/select-tpls.min';
+import 'oi.select/dist/select.min.css';
 
 import './ta';
 import './main.scss';

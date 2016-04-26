@@ -54,7 +54,7 @@
                      <fieldset>
                         <select name="Responsible" ng-model="vacancy.ResponsibleId" validator="required">
                            <option selected value="">{{::'COMMON.RESPONSIBLE' | translate}}</option>
-                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.name}}</option>
+                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.title}}</option>
                         </select>
                         <select name="Department" ng-model="vacancy.DepartmentId" validator="required">
                            <option selected value="">{{::'COMMON.DEPARTMENT' | translate}}</option>
@@ -101,10 +101,10 @@
                <fieldset>
                   <div class="grid-block">
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="skill.id as skill.title for skill in thesaurus.skills track by skill.id" ng-model="vacancy.Skills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, name: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="skill.title for skill in thesaurus.skills track by skill.id" ng-model="vacancy.Skills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, title: $query}}"></oi-select>
                      </div>
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select"  oi-options="tag.id as tag.title for tag in thesaurus.tags track by tag.id" ng-model="vacancy.Tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, name: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tags" ng-model="_vt" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: null, title: $query}}"></oi-select>
                      </div>
                   </div>
                   <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.Description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>

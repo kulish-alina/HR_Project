@@ -25,6 +25,32 @@
       {
         "id" : 3,
         "title" : "js"
+      },
+      {
+        "id" : 4,
+        "title" : "WinForms"
+      },
+      {
+        "id" : 5,
+        "title" : "CSS"
+      },
+      {
+        "id" : 6,
+        "title" : "HTML"
+      }
+   ]},
+   "files" : {"totalCount":3,"totalPages":1.0,"queryResult": [
+      {
+        "id" : 1,
+        "title" : "file1"
+      },
+      {
+        "id" : 2,
+        "title" : "file2"
+      },
+      {
+        "id" : 3,
+        "title" : "file3"
       }
    ]},
    "locations" : {"totalCount":18,"totalPages":1.0,"queryResult":[{"country": 1,"title":"Kiev","id":1,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Kharkiv","id":2,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Odessa","id":3,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Dnipropetrovsk","id":4,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Zaporizhia","id":5,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Lviv","id":6,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Kryvyi Rih","id":7,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Mykolaiv","id":8,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Mariupol","id":9,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Luhansk","id":10,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Donetsk","id":11,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Sevastopol","id":12,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Vinnytsia","id":13,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Makiivka","id":14,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Simferopol","id":15,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Kherson","id":16,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Poltava","id":17,"editTime":"2016-04-21","state":1},{"country": 1,"title":"Chernihiv","id":18,"editTime":"2016-04-21","state":1}]},

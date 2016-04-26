@@ -1,29 +1,22 @@
-﻿using Data.DumbData;
-using Data.DumbData.Repositories;
+﻿using AutoMapper;
+using Data.EFData.Design;
+using Domain.DTO.DTOModels;
 using Domain.Entities;
+using Domain.Entities.Enum;
 using Domain.Entities.Setup;
 using NUnit.Framework;
-using WebApi.Controllers;
-using System.Web.Http.Results;
-using Domain.Entities.Enum;
-using System.Collections.Generic;
 using System;
-using Newtonsoft.Json.Linq;
-using WebApi.DTO.DTOService;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Linq;
-using Domain.Repositories;
-using AutoMapper;
-using Domain.DTO.DTOModels;
-using Data.EFData.Design;
 using System.Web.Http;
+using System.Web.Http.Results;
+using WebApi.Controllers;
 
 namespace UnitTest
 {
     [TestFixture]
-    class CandidatesControllerTest
+    internal class CandidatesControllerTest
     {
         [SetUp]
         public void StartTesting()
@@ -50,7 +43,6 @@ namespace UnitTest
                     .ConstructUsing(source => (source.SourceValue as Department).Id);
                 x.CreateMap<int, Department>()
                      .ConstructUsing(src => _facade.DepartmentRepository.Get(src));
-
 
                 x.CreateMap<Location, int>()
                     .ConstructUsing(source => (source.SourceValue as Location).Id);
@@ -97,8 +89,6 @@ namespace UnitTest
             });
         }
 
-
-
         [Test]
         [TestCase(1)]
         public void Get_Candidate(int id)
@@ -109,7 +99,7 @@ namespace UnitTest
 
             var jsonResult = _controller.Get(id);
             var result = jsonResult as JsonResult<CandidateDTO>;
-            Assert.AreEqual("TESTNAME", result.Content.FirstName); 
+            Assert.AreEqual("TESTNAME", result.Content.FirstName);
             Assert.AreEqual(id, result.Content.Id);
         }
 
@@ -127,7 +117,6 @@ namespace UnitTest
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
-
         [Test]
         public void Add_Candidate()
         {
@@ -136,14 +125,14 @@ namespace UnitTest
             _controller.Configuration = new System.Web.Http.HttpConfiguration();
 
             #region Candidate
+
             Comment candidateComment = new Comment()
             {
                 CommentType = CommentType.Candidate,
-                Message = "msg",
+                Message = "Message",
                 RelativeId = 0,
             };
 
-            
             File candidateFile = new File()
             {
                 Description = "description",
@@ -213,7 +202,7 @@ namespace UnitTest
                 Description = "descrpition",
                 Education = "High",
                 Email = "email",
-                
+
                 Files = new List<File>() { candidateFile },
                 Sources = new List<CandidateSource>() { candidateSource },
                 FirstName = "TESTNAME",
@@ -233,11 +222,9 @@ namespace UnitTest
                 TypeOfEmployment = TypeOfEmployment.FullTime,
                 VacanciesProgress = new List<VacancyStageInfo>() { }
             };
-            #endregion
-        
 
+            #endregion Candidate
         }
-
 
         [Test]
         [TestCase(1)]
@@ -260,9 +247,7 @@ namespace UnitTest
             _controller.Request = new System.Net.Http.HttpRequestMessage();
             _controller.Configuration = new System.Web.Http.HttpConfiguration();
 
-
             var actionResponse = await _controller.Remove(id).ExecuteAsync(new System.Threading.CancellationToken());
-
 
             Assert.AreEqual(HttpStatusCode.NoContent, actionResponse.StatusCode);
         }
@@ -272,21 +257,21 @@ namespace UnitTest
         [TestCase(1, "DRUG")]
         public void Put_Candidate_OK(int id, string testname)
         {
-             var _controller = new CandidatesController(new DummyRepositoryFacade());
-             _controller.Request = new HttpRequestMessage();
-             _controller.Configuration = new HttpConfiguration();
+            var _controller = new CandidatesController(new DummyRepositoryFacade());
+            _controller.Request = new HttpRequestMessage();
+            _controller.Configuration = new HttpConfiguration();
 
-             var getResult = _controller.Get(id);
-             var jsonGetResult = getResult as JsonResult<CandidateDTO>;
-             var candidateDto = jsonGetResult.Content;
+            var getResult = _controller.Get(id);
+            var jsonGetResult = getResult as JsonResult<CandidateDTO>;
+            var candidateDto = jsonGetResult.Content;
 
-             candidateDto.FirstName = testname;
+            candidateDto.FirstName = testname;
 
-             var putResult = _controller.Put(id, candidateDto);
-             var jsonPutResult = getResult as JsonResult<CandidateDTO>;
-             var candidateAfterPut = jsonPutResult.Content;
+            var putResult = _controller.Put(id, candidateDto);
+            var jsonPutResult = getResult as JsonResult<CandidateDTO>;
+            var candidateAfterPut = jsonPutResult.Content;
 
-             Assert.AreEqual(testname, candidateAfterPut.FirstName);
+            Assert.AreEqual(testname, candidateAfterPut.FirstName);
         }
     }
 }

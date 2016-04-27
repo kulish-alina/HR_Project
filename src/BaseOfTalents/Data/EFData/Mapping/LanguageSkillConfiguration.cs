@@ -12,6 +12,8 @@ namespace Data.EFData.Mapping
         public LanguageSkillConfiguration()
         {
             Property(ls => ls.LanguageLevel).IsRequired();
+
+            HasRequired(ls => ls.Language).WithMany().HasForeignKey(ls => ls.LanguageId);
         }
     }
 }

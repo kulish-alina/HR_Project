@@ -13,6 +13,8 @@ namespace Data.EFData.Mapping
         {
             HasRequired(vsi => vsi.VacancyStage).WithRequiredDependent();
             HasOptional(vsi => vsi.Comment).WithOptionalDependent();
+
+            HasRequired(vsi => vsi.Candidate).WithMany().HasForeignKey(vsi => vsi.CandidateId);
         }
     }
 }

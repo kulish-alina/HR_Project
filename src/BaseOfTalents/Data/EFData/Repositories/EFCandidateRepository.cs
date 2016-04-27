@@ -8,24 +8,44 @@ using System.Data.Entity;
 using AutoMapper.QueryableExtensions;
 using System.Linq;
 using Domain.DTO.DTOModels;
+using Data.Infrastructure;
 
 namespace Data.EFData.Repositories
 {
     public class EFCandidateRepository : EFBaseEntityRepository<Candidate>, ICandidateRepository
     {
-        public override IQueryable<Candidate> GetAll()
+        public EFCandidateRepository(IDbFactory dbFactory) : base(dbFactory)
         {
-            return _context.Candidates
+
+        }
+        public override Candidate Get(int id)
+        {
+            return DbContext.Candidates
+                .Include(x=>x.Photo)
+                .Include(x => x.Tags)
+                .Include(x => x.Comments)
                 .Include(x => x.PhoneNumbers)
                 .Include(x => x.SocialNetworks.Select(y => y.SocialNetwork))
                 .Include(x => x.VacanciesProgress)
                 .Include(x => x.Skills)
                 .Include(x => x.Location.Country)
                 .Include(x => x.LanguageSkills.Select(y => y.Language))
-                .Include(x => x.Files)
+                .Include(x => x.VacanciesProgress.Select(y => y.VacancyStage))
+                .Include(x => x.Sources).FirstOrDefault(x=> x.Id==id);
+        }
+
+        public override IQueryable<Candidate> GetAll()
+        {
+            return DbContext.Candidates
+                .Include(x => x.Photo)
+                .Include(x => x.PhoneNumbers)
+                .Include(x => x.SocialNetworks.Select(y => y.SocialNetwork))
+                .Include(x => x.LanguageSkills.Select(y => y.Language))
                 .Include(x => x.Comments)
                 .Include(x => x.VacanciesProgress.Select(y => y.VacancyStage))
-                .Include(x => x.Sources);
+                .Include(x => x.Sources)
+                .Include(x => x.Tags)
+                .Include(x => x.Skills);
         }
     }
 }

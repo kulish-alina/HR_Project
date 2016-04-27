@@ -13,15 +13,9 @@ namespace Data.EFData.Mapping
         {
             Property(vs => vs.Order).IsRequired();
             Property(vs => vs.IsCommentRequired).IsRequired();
-            HasRequired(vs => vs.Vacacny).WithRequiredDependent();
-            HasRequired(vs => vs.Stage).WithRequiredDependent();
+            HasRequired(vs => vs.Vacacny).WithMany().HasForeignKey(vs=>vs.VacancyId);
+            HasRequired(vs => vs.Stage).WithMany().HasForeignKey(vs => vs.StageId);
 
-            HasMany(c => c.Comments).WithMany().Map(x =>
-            {
-                x.MapRightKey("Comment_Id");
-                x.MapLeftKey("VacancyStage_Id");
-                x.ToTable("VacancyStageComment");
-            });
         }
     }
 }

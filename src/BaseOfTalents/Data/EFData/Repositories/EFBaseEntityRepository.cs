@@ -5,48 +5,80 @@ using Domain.Repositories;
 using System.Linq.Expressions;
 using System;
 using System.Linq;
+using Data.Infrastructure;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace Data.EFData.Repositories
 {
 
     public class EFBaseEntityRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity, new()
     {
-
-        protected BOTContext _context = new BOTContext();
-
-        public void Add(TEntity entity)
+        private BOTContext dataContext;
+        #region Properties
+        protected IDbFactory DbFactory
         {
-            _context.Set<TEntity>().Add(entity);
-            _context.SaveChanges();
+            get;
+            private set;
+        }
+        protected BOTContext DbContext
+        {
+            get { return dataContext ?? (dataContext = DbFactory.Init()); }
         }
 
-        public IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
+        public EFBaseEntityRepository(IDbFactory dbFactory)
         {
-            return _context.Set<TEntity>().Where(predicate);
-        }
+            DbFactory = dbFactory;
 
-        public TEntity Get(int id)
-        {
-            return _context.Set<TEntity>().FirstOrDefault(x=>x.Id==id);
         }
+        #endregion
 
         public virtual IQueryable<TEntity> GetAll()
         {
-            return _context.Set<TEntity>().AsQueryable();
+            return DbContext.Set<TEntity>();
         }
 
-        public void Remove(TEntity entity)
+        public virtual IQueryable<TEntity> All
         {
-            entity.State = EntityState.Inactive;
-            _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-            _context.SaveChanges();
+            get
+            {
+                return GetAll();
+            }
         }
 
-        public void Update(TEntity entity)
+        public virtual IQueryable<TEntity> AllIncluding(params Expression<Func<TEntity, object>>[]
+       includeProperties)
         {
-            var attachedEntity = _context.Set<TEntity>().Attach(entity);
-            _context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-            _context.SaveChanges();
+            IQueryable<TEntity> query = DbContext.Set<TEntity>();
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return query;
+        }
+
+        public virtual TEntity Get(int id)
+        {
+            return GetAll().FirstOrDefault(x => x.Id == id);
+        }
+        public virtual IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DbContext.Set<TEntity>().Where(predicate);
+        }
+        public virtual void Add(TEntity entity)
+        {
+            DbEntityEntry dbEntityEntry = DbContext.Entry<TEntity>(entity);
+            DbContext.Set<TEntity>().Add(entity);
+        }
+        public virtual void Update(TEntity entity)
+        {
+            DbEntityEntry dbEntityEntry = DbContext.Entry<TEntity>(entity);
+            dbEntityEntry.State = System.Data.Entity.EntityState.Modified;
+        }
+        public virtual void Remove(TEntity entity)
+        {
+            entity.State = Domain.Entities.Enum.EntityState.Inactive;
+            DbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
     }
 }

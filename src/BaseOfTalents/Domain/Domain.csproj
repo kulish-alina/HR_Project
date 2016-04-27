@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -41,9 +45,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\DTOModels\BaseEntityDTO.cs" />
     <Compile Include="DTO\DTOModels\CandidateDTO.cs" />
     <Compile Include="DTO\DTOModels\CandidateSocialDTO.cs" />
+    <Compile Include="DTO\DTOModels\CandidateSourceDTO.cs" />
+    <Compile Include="DTO\DTOModels\CommentDTO.cs" />
+    <Compile Include="DTO\DTOModels\Error.cs" />
+    <Compile Include="DTO\DTOModels\EventDTO.cs" />
+    <Compile Include="DTO\DTOModels\FileDTO.cs" />
     <Compile Include="DTO\DTOModels\LanguageSkillDTO.cs" />
+    <Compile Include="DTO\DTOModels\PermissionDTO.cs" />
+    <Compile Include="DTO\DTOModels\PhoneNumberDTO.cs" />
+    <Compile Include="DTO\DTOModels\PhotoDTO.cs" />
+    <Compile Include="DTO\DTOModels\RoleDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\CountryDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\DepartmentDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\DepartmentGroupDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\EventTypeDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\IndustryDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\LanguageDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\LevelDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\LocationDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\SkillDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\SocialNetworkDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\StageDTO.cs" />
+    <Compile Include="DTO\DTOModels\SetupDTO\TagDTO.cs" />
+    <Compile Include="DTO\DTOModels\UserDTO.cs" />
     <Compile Include="DTO\DTOModels\VacancyDTO.cs" />
     <Compile Include="DTO\DTOModels\VacancyStageDTO.cs" />
     <Compile Include="DTO\DTOModels\VacancyStageInfoDTO.cs" />
@@ -62,6 +89,7 @@
     <Compile Include="Entities\Enum\Setup\Industry.cs" />
     <Compile Include="Entities\Enum\Setup\Tag.cs" />
     <Compile Include="Entities\Enum\TypeOfEmployment.cs" />
+    <Compile Include="Entities\Error.cs" />
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Entities\File.cs" />
     <Compile Include="Entities\LanguageSkill.cs" />
@@ -83,6 +111,8 @@
     <Compile Include="Entities\VacancyStageInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ICandidateRepository.cs" />
+    <Compile Include="Repositories\IErrorRepository.cs" />
+    <Compile Include="Repositories\ILevelRepository.cs" />
     <Compile Include="Repositories\ILocationRepository.cs" />
     <Compile Include="Repositories\ICommentRepository.cs" />
     <Compile Include="Repositories\ICountryRepository.cs" />
@@ -99,6 +129,7 @@
     <Compile Include="Repositories\ISkillRepository.cs" />
     <Compile Include="Repositories\ISocialNetworkRepository.cs" />
     <Compile Include="Repositories\IStageRepository.cs" />
+    <Compile Include="Repositories\ITagRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\IVacancyRepository.cs" />
   </ItemGroup>
@@ -106,6 +137,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

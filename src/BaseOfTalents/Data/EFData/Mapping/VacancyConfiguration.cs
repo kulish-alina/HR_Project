@@ -11,18 +11,15 @@ namespace Data.EFData.Mapping
     {
         public VacancyConfiguration()
         {
-            HasMany(v => v.Level);
-            //HasMany(c => c.Events).WithOptional(e => e.Vacancy);
-            HasMany(v => v.Tags);
             HasMany(v => v.CandidatesProgress);
             HasMany(v => v.Files);
            
-            HasOptional(v => v.ParentVacancy).WithOptionalDependent();
-            HasOptional(v => v.Industry).WithOptionalDependent();
+            HasOptional(v => v.ParentVacancy).WithMany().HasForeignKey(x=>x.ParentVacancyId);
+            HasOptional(v => v.Industry).WithMany().HasForeignKey(x=>x.IndustryId);
 
             HasRequired(v => v.Department).WithMany().HasForeignKey(v => v.DepartmentId);
             HasRequired(v => v.Responsible).WithMany().HasForeignKey(v => v.ResponsibleId);
-            HasRequired(v => v.LanguageSkill).WithMany().HasForeignKey(v => v.LanguageSkillId);
+            HasRequired(v => v.LanguageSkill).WithRequiredDependent();
 
             HasMany(v => v.Locations).WithMany().Map(x =>
             {
@@ -31,6 +28,20 @@ namespace Data.EFData.Mapping
                 x.ToTable("VacancyLocation");
             });
 
+            HasMany(v => v.Tags).WithMany().Map(x=>
+            {
+                x.MapRightKey("Tag_Id");
+                x.MapLeftKey("Vacancy_Id");
+                x.ToTable("VacancyTag");
+            });
+
+            HasMany(v => v.Levels).WithMany().Map(x => 
+            {
+                x.MapRightKey("Level_Id");
+                x.MapLeftKey("Vacancy_Id");
+                x.ToTable("VacancyLevel");
+            });
+            
             HasMany(v => v.RequiredSkills).WithMany().Map(x =>
             {
                 x.MapRightKey("Skill_Id");

@@ -311,7 +311,7 @@ namespace Data.DumbData
                 EndDate = DateTime.Now,
                 Files = new List<File>() { vacancyFile },
                 LanguageSkill = languageSkill,
-                Level = new List<Level>() { levels[2] },
+                Levels = new List<Level>() { levels[2] },
                 Locations = new List<Location>() { _locations[0] },
                 ParentVacancy = null,
                 RequiredSkills = new List<Skill>() { _skills[0] },

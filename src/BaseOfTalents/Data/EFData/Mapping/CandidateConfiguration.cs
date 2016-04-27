@@ -29,13 +29,13 @@ namespace Data.EFData.Mapping
 
 
             HasOptional(c => c.Photo).WithOptionalDependent();
-            HasOptional(c => c.Industry).WithOptionalDependent();
+            HasOptional(c => c.Industry).WithMany().HasForeignKey(x=>x.IndustryId);
 
             HasRequired(c => c.Location).WithMany().HasForeignKey(c => c.LocationId);
-            HasMany(c => c.SocialNetworks);
             HasMany(c => c.Files);
-            //HasMany(c => c.Events).WithOptional(e => e.Candidate);
             HasMany(c => c.VacanciesProgress).WithRequired(vs => vs.Candidate).HasForeignKey(vs => vs.CandidateId);
+
+            HasMany(c => c.SocialNetworks);
 
             HasMany(c => c.LanguageSkills).WithMany().Map(x=> 
             {
@@ -50,8 +50,15 @@ namespace Data.EFData.Mapping
                 x.MapLeftKey("Candidate_Id");
                 x.ToTable("CandidateComment");
             });
-            HasMany(c => c.Sources);//.WithRequired(cs => cs.Candidate).HasForeignKey(cs => cs.CandidateId);
-            HasMany(c => c.Tags);
+            HasMany(c => c.Sources);
+
+            HasMany(v => v.Tags).WithMany().Map(x =>
+            {
+                x.MapRightKey("Tag_Id");
+                x.MapLeftKey("Candidate_Id");
+                x.ToTable("CandidateTag");
+            });
+
             HasMany(c => c.PhoneNumbers).WithMany().Map(x=> 
             {
                 x.MapRightKey("PhoneNumber_Id");

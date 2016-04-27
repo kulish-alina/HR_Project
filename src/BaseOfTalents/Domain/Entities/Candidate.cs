@@ -20,7 +20,6 @@ namespace Domain.Entities
             Comments = new List<Comment>();
             Sources = new List<CandidateSource>();
         }
-
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -39,10 +38,12 @@ namespace Domain.Entities
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
 
+        public int? IndustryId { get; set; }
+        public virtual Industry Industry { get; set; }
+
         public bool RelocationAgreement { get; set; }
         public string Education { get; set; }
 
-        //public virtual ICollection<Event> Events { get; set; }
         public virtual ICollection<CandidateSocial> SocialNetworks { get; set; }
         public virtual ICollection<LanguageSkill> LanguageSkills { get; set; }
         public virtual ICollection<File> Files { get; set; }
@@ -53,7 +54,6 @@ namespace Domain.Entities
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public virtual ICollection<Skill> Skills { get; set; }
 
-        public virtual Industry Industry { get; set; }
         public virtual Photo Photo { get; set; }
 
 

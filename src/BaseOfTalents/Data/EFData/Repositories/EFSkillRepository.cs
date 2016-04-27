@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Setup;
+﻿using Data.Infrastructure;
+using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,9 @@ namespace Data.EFData.Repositories
 {
     public class EFSkillRepository : EFBaseEntityRepository<Skill>, ISkillRepository
     {
+        public EFSkillRepository(IDbFactory factory) : base(factory)
+        {
+
+        }
     }
 }

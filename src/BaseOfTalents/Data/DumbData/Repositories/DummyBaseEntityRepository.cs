@@ -9,6 +9,7 @@ using Domain.Repositories;
 
 namespace Data.DumbData.Repositories
 {
+
     public class DummyBaseEntityRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity, new()
     {
         protected static IList<TEntity> Collection;
@@ -60,5 +61,9 @@ namespace Data.DumbData.Repositories
             Collection[Collection.IndexOf(Collection.First(x => x.Id == entity.Id))] = entity;
         }
 
+        public IQueryable<TEntity> AllIncluding(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

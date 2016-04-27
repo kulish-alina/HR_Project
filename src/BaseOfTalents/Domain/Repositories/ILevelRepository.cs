@@ -1,16 +1,14 @@
+﻿using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities.Enum
+namespace Domain.Repositories
 {
-    public enum Level
+    public interface ILevelRepository : IRepository<Level>
     {
-        Trainee,
-        Junior,
-        Middle,
-        Senior
+
     }
 }

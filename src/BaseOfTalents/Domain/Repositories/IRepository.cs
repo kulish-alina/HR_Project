@@ -11,6 +11,7 @@ namespace Domain.Repositories
     {
         IQueryable<TEntity> GetAll();
         IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> AllIncluding(params Expression<Func<TEntity, object>>[]includeProperties);
 
         TEntity Get(int id);
         void Add(TEntity entity);

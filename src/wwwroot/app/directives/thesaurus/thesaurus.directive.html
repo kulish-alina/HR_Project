@@ -1,29 +1,35 @@
 <div class="errorMessage" ng-bind="message" ng-disabled="!message"></div>
 <table>
    <caption ng-bind="::thesaurusNameLabel"></caption>
-   <tr><th ng-repeat="field in ::fields" ng-bind="::field.label"></th></tr>
+   <tr><th ng-repeat="field in ::fields" ng-bind="::field.label"></th><th></th><th></th></tr>
    <tr ng-repeat = "topic in topics">
       <td ng-repeat = "field in ::fields" >
          <img ng-show="!isEditTopic(topic)&&field.type==='img'">
-         <input type="text" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='text'" 
+         <input name="{{topic[field.name]}}" type="text" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='text'" 
                 placeholder="{{::field.name}}" ng-model="topic[field.name]" class="edit">
          <select ng-disabled="!isEditTopic(topic)" ng-show="field.type==='select'" 
                  ng-model="topic[field.refObject]"
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
                  ng-change="change(topic, field)" class="edit"></select>
+          <img ng-src="{{::topic[field.name]}}" ng-show="field.type==='img'" class="thesaurus">
       </td>
       <td>
-         <button class="edit" ng-show="!isEditTopic(topic)" ng-click="editThesaurusTopic(topic)" 
-                 ng-disabled="!isTopicEditAllow(topic)">{{::('COMMON.EDIT' | translate)}}</button>
-         <button class="save" ng-show="isEditTopic(topic)" 
-                 ng-click="saveEditTopic(topic)">{{::('COMMON.SAVE' | translate)}}</button>
+         <a href='#' class="button button-with-input" ng-show="!isEditTopic(topic)" 
+            ng-click="editThesaurusTopic(topic)" 
+            ng-disabled="!isTopicEditAllow(topic)" ng-bind="'COMMON.EDIT' | translate">
+          </a>
+         <a href='#' class="button button-with-input" ng-show="isEditTopic(topic)" 
+            ng-click="saveEditTopic(topic)" ng-bind="::'COMMON.SAVE' | translate">
+          </a>
       </td>
       <td>
-         <button class="remove" ng-show="!isEditTopic(topic)" ng-click="removeThesaurusTopic(topic)" 
-                 ng-disabled="!isTopicEditAllow(topic)">{{::('COMMON.REMOVE' | translate)}}</button>
-         <button class="cancel" ng-show="isEditTopic(topic)" ng-click="cancelThesaurusTopicEditing(topic)">
-            {{::('COMMON.CANCEL' | translate)}}
-         </button>
+         <a href='#' class="button button-with-input" ng-show="!isEditTopic(topic)" 
+            ng-click="removeThesaurusTopic(topic)" ng-disabled="!isTopicEditAllow(topic)" 
+            ng-bind="::'COMMON.REMOVE' | translate">
+          </a>
+         <a href='#' class="button button-with-input" ng-show="isEditTopic(topic)" 
+            ng-click="cancelThesaurusTopicEditing(topic)" ng-bind="::'COMMON.CANCEL' | translate">
+          </a>
       </td>
    </tr>
    <tr>
@@ -36,8 +42,10 @@
                  ng-change="change(newTresaurusTopic, field)"></select>
       </td>
       <td class="add">
-         <button ng-click="addNewTopic(newTresaurusTopic)" 
-                 ng-disabled="!isTopicEditAllow(newTresaurusTopic)">{{::('COMMON.ADD' | translate)}}</button>
+         <a class="button button-with-input" ng-click="addNewTopic(newTresaurusTopic)" 
+            ng-disabled="!isTopicEditAllow(newTresaurusTopic)" ng-bind="'COMMON.ADD' | translate">
+          </a>
       </td>
+      <td></td>
    </tr>
 </table>

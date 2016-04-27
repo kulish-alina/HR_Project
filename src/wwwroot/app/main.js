@@ -70,3 +70,5 @@ angular
 
    .config(config)
    .config(configValidation);
+
+angular.bootstrap(document.body, [ 'bot' ]);

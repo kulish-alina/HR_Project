@@ -11,7 +11,7 @@ import candidatesController   from './views/candidates/candidates.controller';
 import candidateController    from './views/candidate/candidate.controller';
 import vacanciesController    from './views/vacancies/vacancies.controller';
 import vacancyController      from './views/vacancy/vacancy.controller';
-import thesaurusesController from './views/thesauruses/thesauruses.controller';
+import thesaurusesController  from './views/thesauruses/thesauruses.controller';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -64,6 +64,7 @@ export default function _config(
 
    $urlRouterProvider.otherwise('home');
    $translateProvider
+      .useSanitizeValueStrategy('sanitize')
       .translations('en', translationsEn)
       .translations('ru', translationsRu)
       .preferredLanguage(context.defaultLang);

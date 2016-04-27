@@ -1,0 +1,96 @@
+{
+   "INDEX": {
+      "HOME": "Home",
+      "CANDIDATES": "Candidates",
+      "VACANCIES": "Vacansies",
+      "REPORTS" : "Reports",
+      "CALENDAR" : "Calendar",
+      "SETTINGS" : "Settings",
+      "MY_BOT": "My BOT",
+      "SEARCH": "Search",
+      "USER_NAME": "User Name",
+      "THESAURUSES" : "Thesauruses"
+   },
+   "CANDIDATE": {
+      "ERROR": "Sorry! Some error occurred",
+      "NEW_CANDIDATE": "New candidate"
+   },
+   "CANDIDATES": {
+      "CANDIDATES": "Candidates",
+      "BASE_OF_CANDIDATES": "Base of candidates",
+      "SEARCH_CANDIDATES": "Search Candidates"
+   },
+   "HOME": {
+      "HOME": "Home"
+   },
+   "VACANCY": {
+      "NEW_VACANCY": "New vacancy",
+      "START_DATE": "Start Date"
+   },
+   "VACANCIES": {
+      "VACANCIES": "Vacancies",
+      "BASE_OF_VACANCIES": "Base of vacancies",
+      "SEARCH_VACANCIES": "Search vacancies"
+   },
+   "COMMON": {
+      "ADD_CANDIDATE" : "Add Candidate",
+      "ADD_VACANCY" : "Add Vacancy",
+      "ADD_EVENT" : "Add Event",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Submit",
+      "ADD_AND_BACK": "Add and back",
+      "ADD": "Add",
+      "SAVE": "Save",
+      "EVENTS": "Events",
+      "NOTES": "Notes",
+      "COMMENTS": "Comments",
+      "EDIT" : "Edit",
+      "REMOVE" : "Remove"
+   },
+   "THESAURUSES" : {
+      "COUNTRIES" : "Countries",
+      "SOCIALS" : "Social networks",
+      "LANGUAGES" : "Languages",
+      "LOCATIONS" : "Locations"
+   },
+   "VALIDATION": {
+      "required": {
+         "error": "*this should be Required!!",
+         "success": "It's Required"
+      },
+      "url": {
+         "error": "*this should be Url",
+         "success": "It's Url"
+      },
+      "email": {
+         "error": "*this should be Email",
+         "success": "It's Email"
+      },
+      "number": {
+         "error": "*this should be Number",
+         "success": "It's Number"
+      },
+      "minlength": {
+         "error": "*this should be longer",
+         "success": "Long enough!"
+      },
+      "maxlength": {
+         "error": "*this should be shorter",
+         "success": "Short enough!"
+      },
+      "name": {
+         "error": "*this should be from 1 to 50 symbols",
+         "success": "Correct!"
+      },
+      "title": {
+         "error": "*this should be from 3 to 50 symbols",
+         "success": "Correct!"
+      }
+   },
+   "ERRORS" : {
+      "someErrorMsg" : "Sorry! Some error occurred: ",
+      "thesaurusErrors" : {
+         "incorrectNameMsg" : "Thesaurus name is incorrect."
+      }
+   }
+}

@@ -1,3 +1,6 @@
+import 'angularjs-datepicker/src/js/angular-datepicker';
+import 'angularjs-datepicker/src/css/angular-datepicker.css';
+
 import template from  './DatePickerTemplate.html';
 import './datepicker.scss';
 
@@ -7,11 +10,12 @@ export default class DatePickerWrapperDirective {
       this.template = template;
       this.controller = DatePickerController;
       this.scope = {
-         datemodel: '=',
-         datemin: '=',
-         placeholder: '='
-      }
+         datemodel   : '=',
+         datemin     : '=',
+         placeholder : '='
+      };
    }
+
    static createInstance() {
       'ngInject';
       DatePickerWrapperDirective.instance = new DatePickerWrapperDirective();

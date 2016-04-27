@@ -69,7 +69,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CandidatesControllerTest.cs" />
-    <Compile Include="DummyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

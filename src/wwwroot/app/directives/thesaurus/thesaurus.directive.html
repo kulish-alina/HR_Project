@@ -1,0 +1,43 @@
+<div class="errorMessage" ng-bind="message" ng-disabled="!message"></div>
+<table>
+   <caption ng-bind="::thesaurusNameLabel"></caption>
+   <tr><th ng-repeat="field in ::fields" ng-bind="::field.label"></th></tr>
+   <tr ng-repeat = "topic in topics">
+      <td ng-repeat = "field in ::fields" >
+         <img ng-show="!isEditTopic(topic)&&field.type==='img'">
+         <input type="text" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='text'" 
+                placeholder="{{::field.name}}" ng-model="topic[field.name]" class="edit">
+         <select ng-disabled="!isEditTopic(topic)" ng-show="field.type==='select'" 
+                 ng-model="selectedObjectsOfEditeTopic[field.name]"
+                 ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
+                 ng-change="change(topic, field)" class="edit"></select>
+      </td>
+      <td>
+         <button class="edit" ng-show="!isEditTopic(topic)" ng-click="editThesaurusTopic(topic)" 
+                 ng-disabled="!isTopicEditAllow(topic)">{{::('COMMON.EDIT' | translate)}}</button>
+         <button class="save" ng-show="isEditTopic(topic)" 
+                 ng-click="saveEditTopic(topic)">{{::('COMMON.SAVE' | translate)}}</button>
+      </td>
+      <td>
+         <button class="remove" ng-show="!isEditTopic(topic)" ng-click="removeThesaurusTopic(topic)" 
+                 ng-disabled="!isTopicEditAllow(topic)">{{::('COMMON.REMOVE' | translate)}}</button>
+         <button class="cancel" ng-show="isEditTopic(topic)" ng-click="cancelThesaurusTopicEditing(topic)">
+            {{::('COMMON.CANCEL' | translate)}}
+         </button>
+      </td>
+   </tr>
+   <tr>
+      <td ng-repeat = "field in ::fields" >
+          <input type="text" placeholder="{{::field.name}}" ng-model="newTresaurusTopic[field.name]"
+                ng-show="::field.type=='text'" ng-disabled="!isTopicEditAllow(newTresaurusTopic)">
+          <select ng-show="field.type==='select'" 
+                 ng-model="selectedObjectsOfEditeTopic[field.name]"
+                 ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
+                 ng-change="change(newTresaurusTopic, field)"></select>
+      </td>
+      <td class="add">
+         <button ng-click="addNewTopic(newTresaurusTopic)" 
+                 ng-disabled="!isTopicEditAllow(newTresaurusTopic)">{{::('COMMON.ADD' | translate)}}</button>
+      </td>
+   </tr>
+</table>

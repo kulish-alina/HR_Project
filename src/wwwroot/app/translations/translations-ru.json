@@ -1,0 +1,67 @@
+{
+   "INDEX": {
+      "HOME" : "Домой",
+      "CANDIDATES" : "Кандидаты",
+      "VACANCIES" : "Вакансии",
+      "ADD_CANDIDATE" : "Добавить кандидата",
+      "THESAURUSES" : "Словари"
+   },
+   "CANDIDATE" : {},
+   "CANDIDATES" : {},
+   "HOME" : {},
+   "VACANCIES" : {},
+   "COMMON" : {
+      "EDIT" : "Редактировать",
+      "ADD" : "Добавить",
+      "SAVE" : "Сохранить",
+      "CANCEL" : "Отмена",
+      "REMOVE" : "Удалить",
+      "EDIT" : "Редактировать"
+   },
+   "THESAURUSES" : {
+      "COUNTRIES" : "Страны",
+      "SOCIALS" : "Социальные сети",
+      "LANGUAGES" : "Языки",
+      "LOCATIONS" : "Расположения"
+   },
+   "VALIDATION" : {
+      "required": {
+         "error": "*обязательное поле!",
+         "success": "*заполнено"
+      },
+      "url": {
+         "error": "*необходимо ввести Url",
+         "success": "*Url"
+      },
+      "email": {
+         "error": "*необходимо ввести E-mail",
+         "success": "*E-mail"
+      },
+      "number": {
+         "error": "*необходимо ввести число",
+         "success": "*число"
+      },
+      "minlength": {
+         "error": "*слишком коротко",
+         "success": "*достаточно!"
+      },
+      "maxlength": {
+         "error": "*необходимо меньше символов",
+         "success": "*достаточно!"
+      },
+      "name": {
+         "error": "*ввод должен быть от 1 до 50 символов",
+         "success": "*верно!"
+      },
+      "title": {
+         "error": "*ввод должен быть от 3 до 50 символов",
+         "success": "*верно!"
+      }
+   },
+   "ERRORS" : {
+      "someErrorMsg" : "Извините! Произошла ошибка: ",
+      "thesaurusErrors" : {
+         "incorrectNameMsg" : "Некорректное имя словаря."
+      }
+   }
+}

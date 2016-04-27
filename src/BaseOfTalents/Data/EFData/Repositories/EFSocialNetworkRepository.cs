@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Setup;
+﻿using Data.Infrastructure;
+using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,9 @@ namespace Data.EFData.Repositories
 {
     public class EFSocialNetworkRepository : EFBaseEntityRepository<SocialNetwork>, ISocialNetworkRepository
     {
+        public EFSocialNetworkRepository(IDbFactory factory) : base(factory)
+        {
 
+        }
     }
 }

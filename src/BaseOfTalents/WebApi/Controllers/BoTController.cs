@@ -1,4 +1,4 @@
-﻿using Data.EFData.Design;
+﻿using Data.Infrastructure;
 using Domain.Entities;
 using Domain.Repositories;
 using Newtonsoft.Json;
@@ -6,9 +6,11 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Results;
 using WebApi.DTO.DTOService;
@@ -19,105 +21,168 @@ namespace WebApi.Controllers
         where DomainEntity : BaseEntity, new()
         where ViewModel : new()
     {
-        protected IRepositoryFacade _repoFacade;
-        protected IRepository<DomainEntity> _currentRepo;
+        protected IDataRepositoryFactory _repoFactory;
+        protected IErrorRepository _errorRepository;
 
+        protected readonly IUnitOfWork _unitOfWork;
         protected static int ENTITIES_PER_PAGE = 30;
-        protected static JsonSerializerSettings SERIALIZER_SETTINGS = new JsonSerializerSettings
+        protected static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            DateFormatString = "yyyy-MM-dd"
+            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
         
-        public BoTController(IRepositoryFacade facade)
+        public BoTController(IDataRepositoryFactory repoFatory, IUnitOfWork unitOfWork, IErrorRepository errorRepo)
         {
-            _repoFacade = facade;
+            _repoFactory = repoFatory;
+            _unitOfWork = unitOfWork;
+            _errorRepository = errorRepo;
         }
-
         public BoTController()
         {
 
         }
 
+
         [HttpGet]
         // GET: api/Entities/
-        [Route("api/{controller}{pageNumber:int}")]
-        public virtual IHttpActionResult All(int? pageNumber = 1)
+        [Route("api/{controller}")]
+        public virtual IHttpActionResult All(HttpRequestMessage request)
         {
-            var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id);
-            if (pageNumber.HasValue)
+            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
+            return CreateResponse(request, () =>
             {
-                var totalCount = _currentRepo.GetAll().Count();
-                var totalPages = Math.Ceiling((double)totalCount / ENTITIES_PER_PAGE);
+                var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id);
 
                 var entities = entitiesQuery
-                                    .Skip((pageNumber.Value - 1) * ENTITIES_PER_PAGE)
-                                    .Take(ENTITIES_PER_PAGE)
                                     .ToList()
                                     .Select(x => DTOService.ToDTO<DomainEntity, ViewModel>(x));
-                return Json(new
-                {
-                    totalCount = totalCount,
-                    totalPages = totalPages,
-                    queryResult = entities
-                }, SERIALIZER_SETTINGS);
-            }
-            return Json(entitiesQuery, SERIALIZER_SETTINGS);
+                return Json(entities, BOT_SERIALIZER_SETTINGS);
+            });
         }
 
         [HttpGet]
-        public virtual IHttpActionResult Get(int id)
+        public virtual IHttpActionResult Get(HttpRequestMessage request, int id)
         {
-            var foundedEntity = _currentRepo.Get(id);
-            if (foundedEntity != null)
+            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
+
+            return CreateResponse(request, () =>
             {
-                var foundedEntityDto = DTOService.ToDTO<DomainEntity, ViewModel>(foundedEntity);
-                return Json(foundedEntityDto, SERIALIZER_SETTINGS);
-            }
-            return NotFound();
+                var foundedEntity = _currentRepo.Get(id);
+                if (foundedEntity != null)
+                {
+                    var foundedEntityDto = DTOService.ToDTO<DomainEntity, ViewModel>(foundedEntity);
+                    return Json(foundedEntityDto);
+                }
+                return NotFound();
+            });
         }
 
         [HttpDelete]
-        public virtual IHttpActionResult Remove(int id)
+        public virtual IHttpActionResult Remove(HttpRequestMessage request, int id)
         {
-             var entityToRemove = _currentRepo.Get(id);
-             if (entityToRemove != null)
-             {
-                _currentRepo.Remove(entityToRemove);
-                 return Ok();
-             }
-             return StatusCode(HttpStatusCode.NoContent);
+            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
+
+            return CreateResponse(request, () => 
+            {
+                var entityToRemove = _currentRepo.Get(id);
+                if (entityToRemove != null)
+                {
+                    _currentRepo.Remove(entityToRemove);
+                    _unitOfWork.Commit();
+                    return Ok();
+                }
+                return StatusCode(HttpStatusCode.NoContent);
+            });
+            
         }
 
         [HttpPost]
-        public virtual IHttpActionResult Add([FromBody]ViewModel entity)
+        public virtual IHttpActionResult Add(HttpRequestMessage request, [FromBody]ViewModel entity)
         {
-             if (ModelState.IsValid)
-             {
-                var newEntity = DTOService.ToEntity<ViewModel, DomainEntity>(entity);
-                _currentRepo.Add(newEntity);
-                return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_currentRepo.GetAll().Last()));
-            }
-             return BadRequest();
+            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
+
+            return CreateResponse(request, () =>
+            {
+                if (!ModelState.IsValid)
+                {
+                    var errorList = ModelState.Keys.SelectMany(k => ModelState[k].Errors).Select(x => x.ErrorMessage);
+
+                    return Json(new
+                    {
+                        summary = "Bad request",
+                        errorList = errorList
+                    });
+                }
+                else
+                {
+                    var newEntity = DTOService.ToEntity<ViewModel, DomainEntity>(entity);
+                    _currentRepo.Add(newEntity);
+                    _unitOfWork.Commit();
+                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_currentRepo.GetAll().OrderByDescending(x => x.Id).First()));
+                }
+            });
         }
 
         [HttpPut]
-        public virtual IHttpActionResult Put(int id, [FromBody]ViewModel changedEntity)
+        public virtual IHttpActionResult Put(HttpRequestMessage request, int id, [FromBody]ViewModel changedEntity)
         {
-            if (ModelState.IsValid)
-             {
-                 if (changedEntity != null)
-                 {
+            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
+
+            return CreateResponse(request, () =>
+            {
+                if (!ModelState.IsValid)
+                {
+                    var errorList = ModelState.Keys.SelectMany(k => ModelState[k].Errors).Select(x => x.ErrorMessage);
+
+                    return Json(new
+                    {
+                        summary = "Bad request",
+                        errorList = errorList
+                    });
+                }
+                else
+                {
                     var changedDomainEntity = DTOService.ToEntity<ViewModel, DomainEntity>(changedEntity);
                     _currentRepo.Update(changedDomainEntity);
-                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_currentRepo.Get(changedDomainEntity.Id)), SERIALIZER_SETTINGS);
+                    _unitOfWork.Commit();
+                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_currentRepo.Get(changedDomainEntity.Id)));
                 }
-                return NotFound();
-             }
-             return BadRequest();
+            });
         }
 
-        
+        protected IHttpActionResult CreateResponse(HttpRequestMessage request, Func<IHttpActionResult> function)
+        {
+            IHttpActionResult response = null;
+            try
+            {
+                response = function.Invoke();
+            }
+            catch (DbUpdateException ex)
+            {
+                LogError(ex);
+                response = BadRequest(ex.InnerException.Message);
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                response = InternalServerError(ex);
+            }
+            return response;
+        }
+        private void LogError(Exception ex)
+        {
+            try
+            {
+                Error _error = new Error()
+                {
+                    Message = ex.Message,
+                    StackTrace = ex.StackTrace,
+                };
+                _errorRepository.Add(_error);
+                _unitOfWork.Commit();
+            }
+            catch { }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Enum;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
@@ -6,5 +7,6 @@ namespace Domain.Entities
     {
         public Source Source { get; set; }
         public string Path { get; set; }
+
     }
 }

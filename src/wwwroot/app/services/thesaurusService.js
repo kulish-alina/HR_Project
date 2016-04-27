@@ -36,8 +36,8 @@ export default class ThesaurusService {
          let mapThesaurusPromises = utils.array2map(thesaurusesToLoad, name => _HttpService.get(name));
          return _$q.all(mapThesaurusPromises).then(thesauruses => {
             forEach(thesauruses, (thesaurus, name) => {
-               cache[name] = thesaurus.queryResult;
-               _actionOfAdditionFieldsForTopics(thesaurus.queryResult, name, _addRefTextFieldFunction);
+               cache[name] = thesaurus;
+               _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
             });
             return cache[thesaurusName];
          });

@@ -3,7 +3,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.COUNTRIES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'name',      type : 'text'},
+         {name : 'title',     label : 'name',      type : 'text',     minLength : 3,    maxLength : 50},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
@@ -11,7 +11,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.SOCIALS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'name',      type : 'text' },
+         {name : 'title',     label : 'name',      type : 'text',      minLength : 3,    maxLength : 50},
          {name : 'imagePath', label : 'image',     type : 'img' },
          {name : 'state',     label : 'state',     type : ''}
       ]
@@ -20,7 +20,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.LANGUAGES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text' },
+         {name : 'title',     label : 'title',     type : 'text',      minLength : 3,    maxLength : 50},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
@@ -28,10 +28,62 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.LOCATIONS',
       fields : [
          {name : 'id',              label : 'id',                    type : ''},
-         {name : 'title',           label : 'name',                  type : 'text' },
-         {name : 'countryId',       label : 'country',               type : 'select',
+         {name : 'title',           label : 'name',                  type : 'text',
+          minLength : 3,             maxLength : 50},
+         {name : 'countryId',         label : 'country',               type : 'select',
           refTo : 'countries',      labelRefFieldName : 'title',     refObject : 'countryObject'},
          {name : 'state',           label : 'state',                 type : ''}
+      ]
+   },
+   'departments' : {
+      thesaurusName : 'THESAURUSES.DEPARTMENTS',
+      fields : [
+         {name : 'id',                    label : 'id',                    type : ''},
+         {name : 'title',                 label : 'name',                  type : 'text',
+          minLength : 3,                  maxLength : 50},
+         {name : 'departmentGroupId',     label : 'department group',      type : 'select',
+          refTo : 'departmentGroups',     labelRefFieldName : 'title',     refObject : 'departmentGroupObject'},
+         {name : 'state',                 label : 'state',                 type : ''}
+      ]
+   },
+   'departmentgroups' : {
+      thesaurusName : 'THESAURUSES.DEPARTMENT_GROUPS',
+      fields : [
+         {name : 'id',        label : 'id',        type : ''},
+         {name : 'title',     label : 'title',     type : 'text',      minLength : 3,    maxLength : 50},
+         {name : 'state',     label : 'state',     type : ''}
+      ]
+   },
+   'industries' : {
+      thesaurusName : 'THESAURUSES.INDUSTRIES',
+      fields : [
+         {name : 'id',        label : 'id',        type : ''},
+         {name : 'title',     label : 'title',     type : 'text',      minLength : 3,    maxLength : 50},
+         {name : 'state',     label : 'state',     type : ''}
+      ]
+   },
+   'skills' : {
+      thesaurusName : 'THESAURUSES.SKILLS',
+      fields : [
+         {name : 'id',        label : 'id',        type : ''},
+         {name : 'title',     label : 'title',     type : 'text',      minLength : 1,    maxLength : 50},
+         {name : 'state',     label : 'state',     type : ''}
+      ]
+   },
+   'tags' : {
+      thesaurusName : 'THESAURUSES.TAGS',
+      fields : [
+         {name : 'id',        label : 'id',        type : ''},
+         {name : 'title',     label : 'title',     type : 'text',      minLength : 1,    maxLength : 50},
+         {name : 'state',     label : 'state',     type : ''}
+      ]
+   },
+   'stages' : {
+      thesaurusName : 'THESAURUSES.STAGES',
+      fields : [
+         {name : 'id',        label : 'id',        type : ''},
+         {name : 'title',     label : 'title',     type : 'text',      minLength : 3,    maxLength : 50},
+         {name : 'state',     label : 'state',     type : ''}
       ]
    }
 };

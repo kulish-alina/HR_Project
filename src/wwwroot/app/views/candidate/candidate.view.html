@@ -105,8 +105,8 @@
                               </div>
                            </div>
                         </div>
-                        <oi-select type="tel" class="multiple-select" oi-options="phoneNumber.title for phoneNumber in candidate.phoneNumbers" ng-model="candidate.phoneNumbers" multiple placeholder="{{::'COMMON.PHONE_NUMBERS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: null, title: $query}}"></oi-select>
-                        <input type="email" placeholder="E-mail">
+                        <input ng-model="candidate.phoneNumbers" type="text" ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_" placeholder="{{::'COMMON.PHONE_NUMBERS' | translate}}">
+                        <input ng-model="candidate.eMail" name="e-mail" type="text" placeholder="E-mail" validator="email">
                         <input type="text" placeholder="Skype">
                      </fieldset>
                   </div>

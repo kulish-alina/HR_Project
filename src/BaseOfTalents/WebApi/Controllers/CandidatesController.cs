@@ -23,9 +23,9 @@ namespace WebApi.Controllers
     public class CandidatesController : BoTController<Candidate, CandidateDTO>
     {
         public CandidatesController(IDataRepositoryFactory repoFatory, IUnitOfWork unitOfWork, IErrorRepository errorRepo)
-            : base (repoFatory, unitOfWork, errorRepo)
+            : base(repoFatory, unitOfWork, errorRepo)
         {
-            
+
         }
 
         public CandidatesController()
@@ -46,7 +46,7 @@ namespace WebApi.Controllers
             var _currentRepo = _repoFactory.GetDataRepository<Candidate>(request);
             return CreateResponse(request, () =>
             {
-            var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id);
+                var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id);
                 if (pageNumber.HasValue)
                 {
                     var totalCount = _currentRepo.GetAll().Count();
@@ -76,7 +76,7 @@ namespace WebApi.Controllers
                 if (!ModelState.IsValid)
                 {
                     StringBuilder errorString = new StringBuilder();
-                    foreach(var error in ModelState.Keys.SelectMany(k=>ModelState[k].Errors))
+                    foreach (var error in ModelState.Keys.SelectMany(k => ModelState[k].Errors))
                     {
                         errorString.Append(error.ErrorMessage + '\n');
                     }
@@ -84,7 +84,7 @@ namespace WebApi.Controllers
                 }
                 else
                 {
-                    if(candidate.Id!=0)
+                    if (candidate.Id != 0)
                     {
                         return BadRequest();
                     }
@@ -100,5 +100,38 @@ namespace WebApi.Controllers
             });
         }
 
+        public override IHttpActionResult Put(HttpRequestMessage request, int id, [FromBody] CandidateDTO changedEntity)
+        {
+            var _candidateRepo = _repoFactory.GetDataRepository<Candidate>(request);
+
+            return CreateResponse(request, () =>
+            {
+                if (!ModelState.IsValid)
+                {
+                    StringBuilder errorString = new StringBuilder();
+                    foreach (var error in ModelState.Keys.SelectMany(k => ModelState[k].Errors))
+                    {
+                        errorString.Append(error.ErrorMessage + '\n');
+                    }
+                    return BadRequest(errorString.ToString());
+                }
+                else
+                {
+                    if (changedEntity.Id != id)
+                    {
+                        return BadRequest();
+                    }
+                    else
+                    {
+                        Candidate _candidate = _candidateRepo.Get(id);
+                        _candidate.Update(changedEntity, _repoFactory.GetDataRepository<Skill>(request), _repoFactory.GetDataRepository<Tag>(request));
+                        _candidateRepo.Update(_candidate);
+                        _unitOfWork.Commit();
+                        return Json(_candidate, BOT_SERIALIZER_SETTINGS);
+                    }
+                }
+            });
+        }
     }
 }
+

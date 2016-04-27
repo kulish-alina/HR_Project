@@ -96,6 +96,7 @@
     <Compile Include="DumbData\Storage.cs" />
     <Compile Include="EFData\BOTContext.cs" />
     <Compile Include="EFData\Extentions\RequestMessageExtensions.cs" />
+    <Compile Include="EFData\Extentions\UserExtensions.cs" />
     <Compile Include="EFData\Extentions\VacancyExtensions.cs" />
     <Compile Include="EFData\Mapping\ErrorConfiguration.cs" />
     <Compile Include="EFData\Repositories\EFErrorRepository.cs" />

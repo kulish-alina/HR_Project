@@ -3,11 +3,13 @@
    <caption ng-bind="::thesaurusNameLabel"></caption>
    <tr><th ng-repeat="field in ::fields" ng-bind="::field.label"></th><th></th><th></th></tr>
    <tr ng-repeat = "topic in topics">
+    <form name="topic.form">
       <td ng-repeat = "field in ::fields" >
          <img ng-show="!isEditTopic(topic)&&field.type==='img'">
-         <input name="{{topic[field.name]}}" type="text" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='text'" 
-                placeholder="{{::field.name}}" ng-model="topic[field.name]" class="edit">
-         <select ng-disabled="!isEditTopic(topic)" ng-show="field.type==='select'" 
+         <input name="{{field.name}}" type="text" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='text'" 
+                placeholder="{{::field.name}}" ng-model="topic[field.name]" class="edit"
+                validator="{{field.validator}}">
+         <select name="{{field.name}}" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='select'" 
                  ng-model="topic[field.refObject]"
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
                  ng-change="change(topic, field)" class="edit"></select>
@@ -31,6 +33,7 @@
             ng-click="cancelThesaurusTopicEditing(topic)" ng-bind="::'COMMON.CANCEL' | translate">
           </a>
       </td>
+   </form>
    </tr>
    <tr>
       <td ng-repeat = "field in ::fields" >

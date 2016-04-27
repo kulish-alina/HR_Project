@@ -19,7 +19,7 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($scope, ThesaurusService, $translate) {
+function ThesaurusController($scope, ThesaurusService, $translate, ValidationService) {
    'ngInject';
 
    const vm = $scope;
@@ -69,16 +69,21 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
    function cancelThesaurusTopicEditing(topic) {
       assign(topic, editTopicClone);
       _deleteClone();
+      ValidationService.reset(topic.form);
    }
 
    function addNewTopic(topic) {
-      _saveThesaurusTopic(topic);
-      vm.newTresaurusTopic = {};
+      if (ValidationService.validate(topic.form)) {
+         _saveThesaurusTopic(topic);
+         vm.newTresaurusTopic = {};
+      }
    }
 
    function saveEditTopic(topic) {
-      _saveThesaurusTopic(topic);
-      _deleteClone();
+      if (ValidationService.validate(topic.form)) {
+         _saveThesaurusTopic(topic);
+         _deleteClone();
+      }
    }
 
    function deleteThesaurusTopic(topic) {

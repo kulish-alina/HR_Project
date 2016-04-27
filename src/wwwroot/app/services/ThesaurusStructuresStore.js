@@ -3,7 +3,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.COUNTRIES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'name',      type : 'text',     minLength : 3,    maxLength : 50},
+         {name : 'title',     label : 'name',      type : 'text',   validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
@@ -11,7 +11,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.SOCIALS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'name',      type : 'text',      minLength : 3,    maxLength : 50},
+         {name : 'title',     label : 'name',      type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'imagePath', label : 'image',     type : 'img' },
          {name : 'state',     label : 'state',     type : ''}
       ]
@@ -20,7 +20,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.LANGUAGES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',      minLength : 3,    maxLength : 50},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
@@ -29,7 +29,7 @@ const THESAURUS_STRUCTURES = {
       fields : [
          {name : 'id',              label : 'id',                    type : ''},
          {name : 'title',           label : 'name',                  type : 'text',
-          minLength : 3,             maxLength : 50},
+          validator : 'required, maxlength=50, minlength=3'},
          {name : 'countryId',         label : 'country',               type : 'select',
           refTo : 'countries',      labelRefFieldName : 'title',     refObject : 'countryObject'},
          {name : 'state',           label : 'state',                 type : ''}
@@ -40,7 +40,7 @@ const THESAURUS_STRUCTURES = {
       fields : [
          {name : 'id',                    label : 'id',                    type : ''},
          {name : 'title',                 label : 'name',                  type : 'text',
-          minLength : 3,                  maxLength : 50},
+          validator : 'required, maxlength=50, minlength=3'},
          {name : 'departmentGroupId',     label : 'department group',      type : 'select',
           refTo : 'departmentGroups',     labelRefFieldName : 'title',     refObject : 'departmentGroupObject'},
          {name : 'state',                 label : 'state',                 type : ''}
@@ -50,7 +50,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.DEPARTMENT_GROUPS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',      minLength : 3,    maxLength : 50},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
@@ -58,7 +58,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.INDUSTRIES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',      minLength : 3,    maxLength : 50},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
@@ -66,7 +66,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.SKILLS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',      minLength : 1,    maxLength : 50},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
@@ -74,7 +74,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.TAGS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',      minLength : 1,    maxLength : 50},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
@@ -82,7 +82,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.STAGES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',      minLength : 3,    maxLength : 50},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
    }

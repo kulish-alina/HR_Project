@@ -26,43 +26,27 @@
             {{::'VACANCIES.SEARCH_VACANCIES' | translate}}
          </div>
          <div class="card-section">
-            <select name="Industry" id="">
-               <option value="">IT</option>
-               <option value="">Others</option>
+            <select name="Industry" ng-model="vacancy.IndustryId">
+               <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
+               <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
             </select>
-            <select name="Level" id="">
-               <option value="">Trainee</option>
-               <option value="">Junior</option>
-               <option value="">Middle</option>
-               <option value="">Senior</option>
-            </select>
+            <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.levels track by level.id" ng-model="vacancy.LevelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
             <input placeholder="Position" type="text">
-            <select name="Location" id="">
-               <option value="">Dnipropetrovsk</option>
-               <option value="">Zaporizhzhia</option>
-               <option value="">Lviv</option>
-               <option value="">Berdyansk</option>
+            <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.LocationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+            <select name="Type of Employment" ng-model="vacancy.TypeOfEmployment">
+               <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
+               <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
             </select>
-            <select name="Type of Employment" id="">
-               <option value="">Full-time</option>
-               <option value="">Part-time</option>
-               <option value="">Remote</option>
-               <option value="">Practice</option>
-               <option value="">Courses</option>
-               <option value="">Project</option>
-            </select>
-            <select name="Status" id="">
-               <option value="">Open</option>
-               <option value="">Processing</option>
-               <option value="">Closed</option>
-               <option value="">Cancelled</option>
+            <select name="Status" ng-model="vacancy.Status">
+               <option selected value="">{{::'COMMON.STATUS' | translate}}</option>
+               <option ng-repeat="status in thesaurus.statuses" value="{{status.id}}">{{::status.title}}</option>
             </select>
             <select name="Responsible" id="">
                <option value="">vbre</option>
                <option value="">tkas</option>
                <option value="">vles</option>
             </select>
-            <a class="expand button"  ng-click="getVacancies()">{{::'INDEX.SEARCH' | translate}}</a>
+            <a class="expand button" ng-click="getVacancies()">{{::'INDEX.SEARCH' | translate}}</a>
          </div>
       </div>
    </div>

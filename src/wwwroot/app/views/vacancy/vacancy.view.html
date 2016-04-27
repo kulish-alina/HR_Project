@@ -9,7 +9,7 @@
    </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
+         <li><a ng-click="cancel(Vacancy)">{{::'COMMON.CANCEL' | translate}}</a>
          </li>
          <li><a ng-click="saveVacancy($event, Vacancy)">{{::'COMMON.SUBMIT' | translate}}</a>
          </li>
@@ -34,7 +34,7 @@
                         </select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <select name="Language" ng-model="vacancy.LanguageSkill">
+                              <select name="Language" ng-model="vacancy.LanguageSkill.LanguageId">
                                  <option selected value="">{{::'COMMON.LANGUAGE' | translate}}</option>
                                  <option ng-repeat="language in thesaurus.languages" value="{{language.id}}">{{::language.title}}</option>
                               </select>
@@ -75,11 +75,11 @@
                         </select>
                         <div class="grid-block">
                            <div class="medium-7 grid-block">
-                              <input id="masterVacancy" type="checkbox" ng-model="vacancy.MaterVacancy" value="true">
+                              <input id="masterVacancy" type="checkbox" ng-model="vacancy.MasterVacancy" value="true">
                               <label for="masterVacancy">{{::'COMMON.MASTER_VACANCY' | translate}}</label>
                            </div>
                            <div class="medium-5 grid-block">
-                              <input ng-model="vacancy.CountOfChildrenVacancies" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
+                              <input ng-disabled ="!vacancy.MasterVacancy" ng-model="vacancy.CountOfChildrenVacancies" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
                            </div>
                         </div>
                      </fieldset>
@@ -101,10 +101,10 @@
                <fieldset>
                   <div class="grid-block">
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="skill.title for skill in thesaurus.skills track by skill.id" ng-model="vacancy.Skills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="skill.title for skill in thesaurus.skills" ng-model="vacancy.RequiredSkillIds" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, title: $query}}"></oi-select>
                      </div>
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tags" ng-model="_vt" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: null, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tags" ng-model="vacancy.TagIds" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: null, title: $query}}"></oi-select>
                      </div>
                   </div>
                   <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.Description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
@@ -146,21 +146,18 @@
                {{::'CANDIDATES.CANDIDATES' | translate}}
             </div>
             <div class="sidebar-content">
-               <div class="grid-block">
-                  <div class="medium-9 grid-block">
-                     <select name="Open vacancies" id="">
-                        <option value="">Candidate 1</option>
-                        <option value="">Candidate 2</option>
-                        <option value="">Candidate 3</option>
-                        <option value="">Candidate 4</option>
-                     </select>
-                  </div>
-                  <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#">{{::'COMMON.ADD' | translate}}</a>
-                  </div>
-               </div>
+               <ul class="some-change">
+                  <li>
+                     <input name="isMale" value="true" id="male" checked="" type="radio" ui-sref="candidate">
+                     <label for="male">New</label>
+                  </li>
+                  <li>
+                     <input name="isMale" value="false" id="female" type="radio" ui-sref="candidates">
+                     <label for="female">From BOT</label>
+                  </li>
+               </ul>
                <section class="block-list">
-                  <ul class="vacancies">
+                  <ul class="candidates">
                      <li>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">

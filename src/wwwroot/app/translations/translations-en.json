@@ -13,7 +13,9 @@
    },
    "CANDIDATE": {
       "ERROR": "Sorry! Some error occurred",
-      "NEW_CANDIDATE": "New candidate"
+      "NEW_CANDIDATE": "New candidate",
+      "DESIRED_SALARY": "Desired salary",
+      "DESIRED_POSITION": "Desired position"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
@@ -68,7 +70,10 @@
       "NAME": "Name",
       "SIZE": "Size",
       "SKILLS": "Skills",
-      "TAGS": "Tags"
+      "TAGS": "Tags",
+      "PHONE_NUMBERS": "Phone numbers",
+      "UPLOAD": "Upload",
+      "DATE_OF_BIRTH": "Date of Birth"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

@@ -5,11 +5,18 @@ import {
    each
 } from 'lodash';
 
-export default function VacancyController($scope, VacancyService, ValidationService,
-                                           FileUploader, ThesaurusService, $q) {
+export default function VacancyController(
+   $scope,
+   VacancyService,
+   ValidationService,
+   FileUploader,
+   ThesaurusService,
+   $q
+) {
    'ngInject';
 
    const vm = $scope;
+   vm.cancel = cancel;
    vm.saveVacancy = saveVacancy;
    vm.vacancy = {};
    vm.vacancy.File = {};
@@ -46,6 +53,11 @@ export default function VacancyController($scope, VacancyService, ValidationServ
       vm.File.Ids.push(item.id);
       console.log(item.id);
    };
+
+   function cancel(form) {
+      ValidationService.reset(form);
+      vm.vacancy = {};
+   }
 
    function saveVacancy(ev, form) {
       ev.preventDefault();

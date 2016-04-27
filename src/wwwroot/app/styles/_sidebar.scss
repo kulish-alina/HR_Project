@@ -14,12 +14,18 @@
    font-size: $rem-base*1.5;
    color: $primary-color;
 }
+.comments {
+   font-size: $rem-base*0.9;
+}
 .comments i {
    font-size: $rem-base;
    color: $gray-dark;
 }
 .comments i:hover {
    color: $primary-color;
+}
+.events {
+   font-size: $rem-base*0.9;
 }
 .events i {
    font-size: $rem-base*2;
@@ -29,6 +35,14 @@
    color: $primary-color;
 }
 .vacancies select {
+   border: 0;
+   background-color: $body-background;
+   font-size: $rem-base*0.7;
+}
+.candidates {
+   font-size: $rem-base*0.9;
+}
+.candidates select {
    border: 0;
    background-color: $body-background;
    font-size: $rem-base*0.7;

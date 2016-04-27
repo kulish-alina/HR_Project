@@ -1,4 +1,4 @@
-const VACANCY_URL = 'vacancies/';
+const VACANCY_URL = 'vacancy';
 let _HttpService;
 
 export default class VacancyService {

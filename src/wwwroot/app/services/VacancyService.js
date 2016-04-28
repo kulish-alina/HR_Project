@@ -1,10 +1,14 @@
 const VACANCY_URL = 'vacancy';
 let _HttpService;
+let _ThesaurusService;
+let _$q;
 
 export default class VacancyService {
-   constructor(HttpService) {
+   constructor(HttpService, ThesaurusService, $q) {
       'ngInject';
       _HttpService = HttpService;
+      _ThesaurusService = ThesaurusService;
+      _$q = $q;
    }
 
    getVacancies() {
@@ -32,5 +36,17 @@ export default class VacancyService {
          const additionalUrl = VACANCY_URL + entity.id;
          _HttpService.remove(additionalUrl, entity);
       }
+   }
+
+   saveNewTopicsToThesaurus (skills, tags) {
+      let arrayLength = 0;
+      if (skills.length === arrayLength && tags.length === arrayLength) {
+         return _$q.when(true);
+      }
+      let promises = [
+         _ThesaurusService.saveThesaurusTopics('skills', skills),
+         _ThesaurusService.saveThesaurusTopics('tags', tags)
+      ];
+      return _$q.all(promises);
    }
 }

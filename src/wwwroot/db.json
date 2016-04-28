@@ -88,6 +88,273 @@
       "DepartmentId": 2,
       "IndustryId": 3,
       "id": 2
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "title": "gfhgh",
+      "industryId": 1,
+      "languageSkill": {
+        "languageId": "1",
+        "languageLevel": "1"
+      },
+      "responsibleId": 2,
+      "departmentId": 1,
+      "status": 2,
+      "requiredSkillIds": [
+        {
+          "id": 1,
+          "title": "sql"
+        },
+        {
+          "id": null,
+          "title": "ggg"
+        }
+      ],
+      "tagIds": [
+        {
+          "id": null,
+          "title": "hhh"
+        }
+      ],
+      "description": "<p>cvbvgh</p>",
+      "id": 3
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "title": "jhkhj",
+      "industryId": 2,
+      "responsibleId": 1,
+      "departmentId": 1,
+      "status": 2,
+      "requiredSkillIds": [
+        {
+          "id": null,
+          "title": "kkk"
+        },
+        {
+          "id": null,
+          "title": "hh"
+        }
+      ],
+      "tagIds": [
+        {
+          "id": null,
+          "title": "hhh"
+        },
+        {
+          "id": null,
+          "title": "gg"
+        }
+      ],
+      "id": 4
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "title": "yjhu",
+      "industryId": 2,
+      "responsibleId": 2,
+      "departmentId": 2,
+      "status": 2,
+      "requiredSkillIds": [
+        {
+          "id": null,
+          "title": "jjj"
+        }
+      ],
+      "tagIds": [
+        {
+          "id": null,
+          "title": "hhh"
+        }
+      ],
+      "id": 5
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "title": "jkjhk",
+      "industryId": 2,
+      "responsibleId": 2,
+      "departmentId": 1,
+      "status": 2,
+      "requiredSkillIds": [
+        {
+          "id": null,
+          "title": "hhhh"
+        },
+        {
+          "id": 1,
+          "title": "sql"
+        }
+      ],
+      "tagIds": [
+        {
+          "id": null,
+          "title": "hhh"
+        },
+        {
+          "id": 2,
+          "title": "angular"
+        }
+      ],
+      "id": 6
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "title": "ghghj",
+      "industryId": 2,
+      "responsibleId": 2,
+      "departmentId": 1,
+      "status": 3,
+      "requiredSkillIds": [
+        {
+          "id": null,
+          "title": "jhjhj"
+        },
+        {
+          "id": 2,
+          "title": "angular"
+        }
+      ],
+      "tagIds": [
+        {
+          "id": null,
+          "title": "kkk"
+        },
+        {
+          "id": 2,
+          "title": "angular"
+        }
+      ],
+      "id": 7
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "title": "tgftt",
+      "industryId": 1,
+      "responsibleId": 2,
+      "departmentId": 1,
+      "status": 2,
+      "requiredSkillIds": [
+        {
+          "id": null,
+          "title": "tttt"
+        },
+        {
+          "id": null,
+          "title": "hhh"
+        }
+      ],
+      "tagIds": [
+        {
+          "id": null,
+          "title": "hhhh\\"
+        }
+      ],
+      "id": 8
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "title": "ffff",
+      "industryId": 3,
+      "responsibleId": 3,
+      "departmentId": 1,
+      "status": 2,
+      "requiredSkillIds": [
+        {
+          "id": 2,
+          "title": "angular"
+        },
+        {
+          "id": null,
+          "title": "fffff"
+        },
+        {
+          "id": null,
+          "title": "aaa"
+        }
+      ],
+      "tagIds": [
+        {
+          "id": null,
+          "title": "aaa"
+        },
+        {
+          "id": null,
+          "title": "dd"
+        }
+      ],
+      "id": 9
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "title": "ggg",
+      "industryId": 1,
+      "responsibleId": 2,
+      "departmentId": 2,
+      "status": 2,
+      "requiredSkills": [
+        {
+          "id": null,
+          "title": "ggg"
+        }
+      ],
+      "tags": [],
+      "id": 10
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "title": "gfhgf",
+      "industryId": 2,
+      "responsibleId": 2,
+      "departmentId": 1,
+      "status": 2,
+      "id": 11
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "title": "gfhhgfh",
+      "industryId": 2,
+      "responsibleId": 1,
+      "departmentId": 2,
+      "status": 2,
+      "id": 12
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "title": "hjgh",
+      "industryId": 1,
+      "responsibleId": 2,
+      "departmentId": 1,
+      "status": 2,
+      "id": 13
     }
   ],
   "locations": {

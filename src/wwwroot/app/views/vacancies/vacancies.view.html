@@ -26,22 +26,22 @@
             {{::'VACANCIES.SEARCH_VACANCIES' | translate}}
          </div>
          <div class="card-section">
-            <select name="Industry" ng-model="vacancy.IndustryId">
+            <select name="Industry" ng-model="vacancy.industryId">
                <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
                <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
             </select>
-            <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.levels track by level.id" ng-model="vacancy.LevelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
-            <input placeholder="Position" type="text">
-            <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.LocationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
-            <select name="Type of Employment" ng-model="vacancy.TypeOfEmployment">
+            <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.levels track by level.id" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
+            <input ng-model="vacancy.title" placeholder="Position" type="text">
+            <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+            <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
                <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
                <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
             </select>
-            <select name="Status" ng-model="vacancy.Status">
+            <select name="Status" ng-model="vacancy.status">
                <option selected value="">{{::'COMMON.STATUS' | translate}}</option>
                <option ng-repeat="status in thesaurus.statuses" value="{{status.id}}">{{::status.title}}</option>
             </select>
-            <select name="Responsible" id="">
+            <select ng-model="vacancy.responsibleId" name="Responsible" id="">
                <option value="">vbre</option>
                <option value="">tkas</option>
                <option value="">vles</option>
@@ -70,7 +70,7 @@
                <tbody>
                   <tr ng-repeat="vacancy in vacancies">
                      <td>{{$index+1}}</td>
-                     <td>{{vacancy.Title}}</td>
+                     <td>{{vacancy.title}}</td>
                      <td>{{vacancy.VacancyStatus.Title}}</td>
                      <td>{{vacancy.City.Title}}</td>
                      <td>{{vacancy.User.LastName}}</td>

@@ -5,6 +5,10 @@ import {
    each
 } from 'lodash';
 
+const MAX_SIZE_OF_FILE = 5120;
+const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
+    'departments', 'typesOfEmployment', 'statuses', 'tags', 'skills'];
+
 export default function VacancyController(
    $scope,
    VacancyService,
@@ -21,11 +25,11 @@ export default function VacancyController(
    vm.vacancy = {};
    vm.vacancy.File = {};
    vm.vacancy.File.Ids = [];
+   vm.uploader = createNewUploader();
+   vm.vacancy.requiredSkills = [];
+   vm.vacancy.tags = [];
 
-   let listOfThesaurus = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
-    'departments', 'typesOfEmployment', 'statuses', 'tags', 'skills'];
-
-   let map = utils.array2map(listOfThesaurus, ThesaurusService.getThesaurusTopics);
+   let map = utils.array2map(LIST_OF_THESAURUS, ThesaurusService.getThesaurusTopics);
    $q.all(map).then((data) => vm.thesaurus = data);
 
    vm.responsibles = [
@@ -33,26 +37,26 @@ export default function VacancyController(
       {id: '2', title: 'tkas'},
       {id: '3', title: 'vles'}
    ];
-   vm.uploader = new FileUploader({
-      url: './api/files',
-      onCompleteAll: _vs
-   });
 
-   let maxSizeOfFile = 5120;
-
-   vm.uploader.filters.push({
-      name: 'sizeFilter',
-      fn: function sizeFilter (item) {
-         if (item.size <= maxSizeOfFile) {
-            return true;
+   function createNewUploader() {
+      let newUploader = new FileUploader({
+         url: './api/files',
+         onCompleteAll: _vs
+      });
+      newUploader.filters.push({
+         name: 'sizeFilter',
+         fn: function sizeFilter (item) {
+            if (item.size <= MAX_SIZE_OF_FILE) {
+               return true;
+            }
          }
-      }
-   });
-
-   vm.uploader.onSuccessItem = function onSuccessUpload (item) {
-      vm.File.Ids.push(item.id);
-      console.log(item.id);
-   };
+      });
+      newUploader.onSuccessItem = function onSuccessUpload (item) {
+         vm.File.Ids.push(item.id);
+         console.log(item.id);
+      };
+      return newUploader;
+   }
 
    function cancel(form) {
       ValidationService.reset(form);
@@ -72,30 +76,20 @@ export default function VacancyController(
    }
 
    function _vs() {
-      _saveThesaurusItems().then(() => {
+      let thesaurusSkills = filter(vm.vacancy.requiredSkills, {id: null});
+      let thesaurusTags = filter(vm.vacancy.tags, {id: null});
+      let indexOfSkillsPromise = 0;
+      let indexOfTagssPromise = 1;
+      console.log(thesaurusSkills, thesaurusTags);
+      VacancyService.saveNewTopicsToThesaurus(thesaurusSkills, thesaurusTags).then((promicesArray) => {
+         remove(vm.vacancy.requiredSkills, {id: null});
+         each(promicesArray[indexOfSkillsPromise], skill => vm.vacancy.requiredSkills.push(skill));
+         remove(vm.vacancy.tags, {id: null});
+         each(promicesArray[indexOfTagssPromise], tag => vm.vacancy.tags.push(tag));
+         return promicesArray;
+      }).then(() => {
          return VacancyService.saveVacancy(vm.vacancy);
       }).catch(_onError);
-   }
-
-   function _saveThesaurusItems() {
-      let thesaurusSlills = filter(vm.vacancy.Skills, {id: null});
-      let thesaurusTags = filter(vm.vacancy.Tags, {id: null});
-      let arrayLength = 0;
-
-      if (thesaurusSlills.length === arrayLength && thesaurusTags.length === arrayLength) {
-         return $q.when(true);
-      }
-      let promises = [
-         ThesaurusService.saveThesaurusTopics('skills', thesaurusSlills).then((newSkills) => {
-            remove(vm.vacancy.Skills, {id: null});
-            each(newSkills, skill => vm.vacancy.Skills.push(skill));
-         }),
-         ThesaurusService.saveThesaurusTopics('tags', thesaurusTags).then((newTags) => {
-            remove(vm.vacancy.Tags, {id: null});
-            each(newTags, tag => vm.vacancy.Tags.push(tag));
-         })
-      ];
-      return $q.all(promises);
    }
 
    function _onError() {

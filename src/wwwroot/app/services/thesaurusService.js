@@ -75,6 +75,11 @@ export default class ThesaurusService {
       }
    }
 
+   saveThesaurusTopics(entities) {
+      console.log(entities);
+      return _$q.when(true);
+   }
+
    deleteThesaurusTopic(thesaurusName, entity) {
       if (includes(this.getThesaurusNames(), thesaurusName)) {
          let additionalUrl = '${thesaurusName}/${entity.id}';

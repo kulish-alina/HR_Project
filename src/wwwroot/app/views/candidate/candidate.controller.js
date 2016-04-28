@@ -11,6 +11,7 @@ export default function CandidateController(
 
    const vm = $scope;
    vm.saveCandidate = saveCandidate;
+   vm.keys = Object.keys;
 
    let listOfThesaurus = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
     'departments', 'typesOfEmployment', 'statuses', 'tags', 'skills'];

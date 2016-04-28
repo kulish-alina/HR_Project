@@ -12,7 +12,7 @@
          <select name="{{field.name}}" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='select'" 
                  ng-model="topic[field.refObject]"
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
-                 ng-change="change(topic, field)" class="edit"></select>
+                 ng-change="change(topic, field)" class="edit" validator="required"></select>
           <img ng-src="{{::topic[field.name]}}" ng-show="field.type==='img'" class="thesaurus">
       </td>
       <td>
@@ -36,11 +36,13 @@
    </form>
    </tr>
    <tr>
+      <form name="newTresaurusTopic.form">
       <td ng-repeat = "field in ::fields" >
-          <input type="text" placeholder="{{::field.name}}" ng-model="newTresaurusTopic[field.name]"
+          <input name="{{field.name}}" type="text" placeholder="{{::field.name}}" 
+                ng-model="newTresaurusTopic[field.name]"
                 ng-show="::field.type=='text'" ng-disabled="!isTopicEditAllow(newTresaurusTopic)">
-          <select ng-show="field.type==='select'" 
-                 ng-model="newTresaurusTopic[refObject]"
+          <select ng-show="field.type==='select'" name="{{field.name}}"
+                 ng-model="newTresaurusTopic[field.refObject]"
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
                  ng-change="change(newTresaurusTopic, field)"></select>
       </td>
@@ -50,5 +52,6 @@
           </a>
       </td>
       <td></td>
+      </form>
    </tr>
 </table>

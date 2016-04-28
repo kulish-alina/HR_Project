@@ -23,6 +23,7 @@ function ThesaurusController($scope, ThesaurusService, $translate, ValidationSer
    'ngInject';
 
    const vm = $scope;
+   //const activeStateId = 1;
 
    /* --- api --- */
    vm.topics      = [];
@@ -87,7 +88,7 @@ function ThesaurusController($scope, ThesaurusService, $translate, ValidationSer
    }
 
    function deleteThesaurusTopic(topic) {
-      ThesaurusService.deleteThesaurusTopic(vm.name, topic).catch(_onError);
+      ThesaurusService.deleteThesaurusTopic(vm.name, topic).then(() => _initThesaurusTopics()).catch(_onError);
    }
 
    function _initThesaurusStructure() {
@@ -115,7 +116,7 @@ function ThesaurusController($scope, ThesaurusService, $translate, ValidationSer
    }
 
    function _saveThesaurusTopic(topic) {
-      ThesaurusService.saveThesaurusTopic(vm.name, topic).catch(_onError);
+      ThesaurusService.saveThesaurusTopic(vm.name, topic).then(() => _initThesaurusTopics()).catch(_onError);
    }
 
    function _deleteClone() {

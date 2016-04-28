@@ -12,6 +12,7 @@ import {
 import utils from '../utils.js';
 
 const curryLength = 3;
+const activeStateId = 1;
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
@@ -36,7 +37,7 @@ export default class ThesaurusService {
          let mapThesaurusPromises = utils.array2map(thesaurusesToLoad, name => _HttpService.get(name));
          return _$q.all(mapThesaurusPromises).then(thesauruses => {
             forEach(thesauruses, (thesaurus, name) => {
-               cache[name] = thesaurus;
+               cache[name] = filter(thesaurus, {state : activeStateId});
                _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
             });
             return cache[thesaurusName];
@@ -69,6 +70,7 @@ export default class ThesaurusService {
          } else {
             promise = _HttpService.post(`${thesaurusName}/`, entity);
             promise = promise.then(_entity => {
+               debugger;
                cache[thesaurusName].push(_entity);
                return _entity;
             });

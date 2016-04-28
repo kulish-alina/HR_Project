@@ -7,6 +7,7 @@ import vacancyTemplate     from './views/vacancy/vacancy.view.html';
 import settingsTemplate    from './views/settings/settings.view.html';
 import thesaurusesTemplate from './views/thesauruses/thesauruses.view.html';
 import profileTemplate     from './views/settings/profile/profile.view.html';
+import profileEditTemplate from './views/settings/profile/profileEdit.view.html';
 import membersTemplate     from './views/settings/members/members.view.html';
 import rolesTemplate       from './views/settings/roles/roles.view.html';
 import recruitingTemplate  from './views/settings/recruiting/recruiting.view.html';
@@ -74,13 +75,21 @@ export default function _config(
       .state('settings', {
          url: '/settings',
          template: settingsTemplate,
-         controller: settingsController
+         controller: settingsController,
+         data: {asEdit: false}
       })
       .state('profile', {
          url: '/profile',
          parent: 'settings',
          template: profileTemplate,
-         controller: profileController
+         controller: profileController,
+         data: {asEdit: false}
+      })
+      .state('profile.edit', {
+         url: '/edit',
+         parent: 'profile',
+         template: profileEditTemplate,
+         data: {asEdit: true}
       })
       .state('members', {
          url: '/members',

@@ -12,6 +12,7 @@ export default class DatePickerWrapperDirective {
       this.scope = {
          datemodel   : '=',
          datemin     : '=',
+         dateset     : '=',
          placeholder : '@'
       };
    }
@@ -25,6 +26,6 @@ export default class DatePickerWrapperDirective {
 
 function DatePickerController ($scope) {
 // datepicker settings
-   $scope.dateFormat = 'dd-MM-yyyy';
+   $scope.dateFormat = 'dd.MM.yyyy';
    $scope.minLimit = $scope.datemin || '01-01-1901';
 }

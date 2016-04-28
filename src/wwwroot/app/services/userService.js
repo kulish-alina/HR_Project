@@ -1,13 +1,34 @@
-const USER_URL = 'users/';
-let _HttpService;
+import {
+   cloneDeep
+} from  'lodash';
+/*const USER_URL = 'users/';
+let _HttpService;*/
 
 export default class UserService {
-   constructor(HttpService) {
+   constructor(/*HttpService*/) {
       'ngInject';
-      _HttpService = HttpService;
+      /*_HttpService = HttpService;*/
    }
 
-   getUsers() {
+   getCurrentUser() {
+      return cloneDeep({
+         LastName   : 'Antonov',
+         FirstName  : 'Dmitriy',
+         MiddleName : 'Valentinovich',
+         IsMale     : 'true',
+         BirthDate  : '07.06.1989',
+         Location   : 'Dnniepropetrovsk',
+         Email      : 'antonov@mail.be',
+         Skype      : 'antonov_skype',
+         Login      : 'dant',
+         Role       : 'Manager'
+      });
+   }
+
+   saveUser(entty) {
+      console.log('user saved', entty);
+   }
+   /*getUsers() {
       return _HttpService.get(USER_URL);
    }
 
@@ -28,5 +49,5 @@ export default class UserService {
    deleteUser(entity) {
       let additionalUrl = USER_URL + entity.Id;
       _HttpService.remove(additionalUrl, entity);
-   }
+   }*/
 }

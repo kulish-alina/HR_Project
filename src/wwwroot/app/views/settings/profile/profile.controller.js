@@ -1,45 +1,67 @@
-export default function ProfileController($scope, $element, UserService, SettingsService) {
+import {
+   floor
+} from 'lodash';
+
+export default function ProfileController (
+   $q,
+   $scope,
+   $element,
+   $state,
+   UserService,
+   SettingsService,
+   ValidationService) {
    'ngInject';
 
-   let vm = $scope;
+   /*---api---*/
+   let vm    = $scope;
+   vm.form   = {};
+   vm.user   = {};
+   vm.age    = _age;
 
-   vm.user = {};
-   vm.asEdit = false;
-
+   /*---impl---*/
    function _init() {
       SettingsService.addOnSubmitListener(_onSubmit);
       SettingsService.addOnCancelListener(_onCancel);
       SettingsService.addOnEditListener(_onEdit);
-      SettingsService.setAsEdit(vm.asEdit);
       $element.on('$destroy', _onDestroy);
+      _getCurrentUser ();
    }
    _init();
 
-   function _onDestroy() {
-      SettingsService.removeOnSubmitListener(_onSubmit);
-   }
-
    function _onSubmit() {
-      console.log('submit');
-      vm.asEdit = false;
-      SettingsService.setAsEdit(vm.asEdit);
+      if (ValidationService.validate(vm.form.userEdit)) {
+         $state.go('profile');
+         return UserService.saveUser(vm.user);
+      } else {
+         return $q.reject();
+      };
    }
 
    function _onCancel() {
-      console.log('cancel');
+      return $state.go('profile');
    }
 
    function _onEdit() {
-      console.log('edit');
-      vm.asEdit = true;
-      SettingsService.setAsEdit(vm.asEdit);
+      return $state.go('profile.edit');
    }
 
-   function _getAuthUser () {
-      vm.user.FirstName = 'Administrator';
-      vm.user.LastName = 'Admin';
-      vm.user.MiddleName = 'Adminovich';
-      vm.user.IsMale = 'true';
+   function _age () {
+      return _calcAge(vm.user.BirthDate);
    }
-   _getAuthUser();
+
+   function _getCurrentUser () {
+      vm.user = UserService.getCurrentUser();
+   }
+
+   function _onDestroy() {
+      SettingsService.removeOnSubmitListener(_onSubmit);
+      SettingsService.removeOnCancelListener(_onCancel);
+      SettingsService.removeOnEditListener(_onEdit);
+   }
+}
+
+function _calcAge(dateString) {
+   const msInYear = 31557600000;
+   let birthday = new Date(dateString);
+   return floor((Date.now() - birthday) / (msInYear));
 }

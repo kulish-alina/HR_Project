@@ -1,21 +1,21 @@
 import {
+   map,
    remove,
-   each,
    curry,
-   isEqual
-   /*isFunction*/
+   isEqual,
+   isFunction
 } from 'lodash';
 
 let submitListeners = [];
 let editListeners = [];
 let cancelListeners = [];
+let _$q;
 
 export default class SettingsService {
 
-   constructor() {
-      this.asEdit = '';
+   constructor($q) {
+      _$q = $q;
    }
-
    addOnSubmitListener(listener) {
       _addListner(submitListeners, listener);
    }
@@ -29,7 +29,7 @@ export default class SettingsService {
    }
 
    removeOnSubmitListener(listener) {
-      _removeListner(editListeners, listener);
+      _removeListner(submitListeners, listener);
    }
 
    removeOnEditListener(listener) {
@@ -41,30 +41,23 @@ export default class SettingsService {
    }
 
    onSubmit() {
-      _callListeners(submitListeners);
+      return _callListeners(submitListeners);
    }
 
    onEdit() {
-      _callListeners(editListeners);
+      return _callListeners(editListeners);
    }
 
    onCancel() {
-      _callListeners(cancelListeners);
-   }
-   setAsEdit(condition) {
-      this.asEdit = condition;
-   }
-   getAsEdit() {
-      return this.asEdit;
+      return _callListeners(cancelListeners);
    }
 }
 const curryEqual = 2;
 const equal = curry(isEqual, curryEqual);
 
 function _callListeners(listeners) {
-   each(listeners, (fnc) => {
-      fnc();
-   });
+   let array = map(listeners, (listener) => listener());
+   return _$q.all(array);
 }
 
 function _removeListner(listeners, listener) {
@@ -72,5 +65,7 @@ function _removeListner(listeners, listener) {
 }
 
 function _addListner(listeners, listener) {
-   listeners.push(listener);
+   if (isFunction(listener)) {
+      listeners.push(listener);
+   }
 }

@@ -64,7 +64,7 @@
    },
    "VALIDATION": {
       "required": {
-         "error": "*this should be Required!!",
+         "error": "*this should be Required!",
          "success": "It's Required"
       },
       "url": {

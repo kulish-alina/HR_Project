@@ -18,9 +18,9 @@
     </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar align-right">
-         <li class = "secondary-menu-button"><a ng-click="cancel()">{{::'COMMON.CANCEL' | translate}}</a>
+         <li ng-if ="asEdit" class = "secondary-menu-button"><a ng-click="cancel()">{{::'COMMON.CANCEL' | translate}}</a>
          </li>
-         <li ng-if ="asEdit" class = "secondary-menu-button"><a ng-click="submit()">{{::'COMMON.SUBMIT' | translate}}</a>
+         <li ng-if ="asEdit" class = "secondary-menu-button"><a ng-click="submit()"id = "_onSubmit">{{::'COMMON.SUBMIT' | translate}}</a>
          </li>
          <li ng-if ="!asEdit" class = "secondary-menu-button"><a ng-click="edit()">{{::'COMMON.EDIT' | translate}}</a>
          </li>

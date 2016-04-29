@@ -3,22 +3,32 @@
       <div class="grid-block">
          <div class="medium-3 grid-block">
             <fieldset>
+               <input type="text" ng-model="user.lastName" placeholder="{{::'COMMON.LAST' | translate}}" name="lastName" validator="required, maxlength=50">
+               <input type="text" ng-model="user.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" name="firstName" validator="required, maxlength=50">
+               <input type="text" ng-model="user.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName" validator="required, maxlength=50">
             </fieldset>
          </div>
          <div class="medium-3 grid-block">
             <fieldset>
                <ul class="some-change">
                   <li>
+                     <input ng-model="user.isMale" value="true" type="radio" id="male">
                      <label for="male">{{::'COMMON.MALE' | translate}}</label>
                   </li>
                   <li>
+                     <input ng-model="user.isMale" value="false" type="radio" id="female">
                      <label for="female">{{::'COMMON.FEMALE' | translate}}</label>
                   </li>
                </ul>
+               <input type="text" ng-model="user.location" placeholder="{{::'COMMON.CITY' | translate}}" name="Location" validator="title">
+               <date datemodel="user.birthDate" dateset="user.birthDate" placeholder="{{::'COMMON.BIRTH' | translate}}"></date>
             </fieldset>
          </div>
          <div class="medium-3 grid-block">
             <fieldset>
+               <input type="text" ng-model="user.email" placeholder="{{::'COMMON.EMAIL' | translate}}" name="Email" validator="required, email">
+               <input type="text" ng-model="user.skype" placeholder="{{::'COMMON.SKYPE' | translate}}" name="Skype" validator="minlength=6, maxlength=32">
+               <input type="text" ng-model="user.phoneNumber" "{{::'COMMON.PHONE' | translate}}" ui-mask = "(999)999-99-99">
             </fieldset>
          </div>
          <div class="medium-3 grid-block">

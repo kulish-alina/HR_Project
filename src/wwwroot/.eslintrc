@@ -107,7 +107,7 @@
       "no-new-func": 2,
       "no-new-wrappers": 2,
       "no-new": 1,
-      //      
+      //
       "no-invalid-this": 0,
       "require-yield": 0,
       "operator-linebreak": [
@@ -181,7 +181,7 @@
       "no-labels": 2,
       "no-lone-blocks": 2,
       "no-lonely-if": 2,
-      "no-magic-numbers": 2,
+      "no-magic-numbers": 1,
       "no-nested-ternary": 2,
       "no-delete-var": 2,
       "func-names": 2,

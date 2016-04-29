@@ -12,7 +12,7 @@ import {
 const methods = ['minlength', 'maxlength', 'email', 'number', 'url'];
 const { array2map } = utils;
 
-export default function _configValidation($validationProvider) {
+export default function _configValidation($validationProvider, ValidationServiceProvider) {
    const _it = partial(_converter, $validationProvider);
    const validationExpression = array2map(methods, _it);
 
@@ -27,6 +27,7 @@ export default function _configValidation($validationProvider) {
       .setValidMethod('blur');
 
    $validationProvider.showSuccessMessage = false;
+   $validationProvider.resetCallback = ValidationServiceProvider.resetCallback;
 }
 
 function _converter($validationProvider, nameOfMethod) {

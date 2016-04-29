@@ -119,7 +119,7 @@ namespace WebApi.Controllers
                     var newEntity = DTOService.ToEntity<ViewModel, DomainEntity>(entity);
                     _currentRepo.Add(newEntity);
                     _unitOfWork.Commit();
-                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_currentRepo.GetAll().OrderByDescending(x => x.Id).First()));
+                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_currentRepo.GetAll().OrderByDescending(x => x.Id).First()), BOT_SERIALIZER_SETTINGS);
                 }
             });
         }
@@ -146,7 +146,7 @@ namespace WebApi.Controllers
                     var changedDomainEntity = DTOService.ToEntity<ViewModel, DomainEntity>(changedEntity);
                     _currentRepo.Update(changedDomainEntity);
                     _unitOfWork.Commit();
-                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_currentRepo.Get(changedDomainEntity.Id)));
+                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(_currentRepo.Get(changedDomainEntity.Id)), BOT_SERIALIZER_SETTINGS);
                 }
             });
         }

@@ -2,18 +2,19 @@
 
 import config from './config-validation';
 
-import { first } from 'lodash';
+import { first, constant } from 'lodash';
 
 const fields = ['getExpression', 'setDefaultMsg', 'setExpression', 'setValidMethod'];
 
 describe('Validation must', () => {
 
    let mock    = _createMock();
+   let ValidationProvider = { resetCallback: constant('fake') };
    let origin  = jasmine.createSpy();
 
    beforeEach(() => {
       mock.getExpression = () => origin;
-      config(mock);
+      config(mock, ValidationProvider);
    });
 
    it('checking when user already out of the field', () => {
@@ -22,6 +23,10 @@ describe('Validation must', () => {
 
    it('don\'t shown success message on valid value', () => {
       expect(mock.showSuccessMessage).toBe(false);
+   });
+
+   it('use own `resetCallback`', () => {
+      expect(mock.resetCallback).toBe(ValidationProvider.resetCallback);
    });
 
    describe('have rule "minlength". ', () => {

@@ -10,3 +10,11 @@ select.edit:disabled {
    border: none;
    background-image: none;
 }
+
+div.row {
+   clear: both;
+}
+
+div.column {
+   float: left;
+}

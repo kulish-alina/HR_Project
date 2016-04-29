@@ -70,7 +70,6 @@ export default class ThesaurusService {
          } else {
             promise = _HttpService.post(`${thesaurusName}/`, entity);
             promise = promise.then(_entity => {
-               debugger;
                cache[thesaurusName].push(_entity);
                return _entity;
             });

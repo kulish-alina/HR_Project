@@ -68,9 +68,12 @@ function ThesaurusController($scope, ThesaurusService, $translate, ValidationSer
    }
 
    function cancelThesaurusTopicEditing(topic) {
-      assign(topic, editTopicClone);
-      _deleteClone();
-      ValidationService.reset(topic.form);
+      //assign(topic, editTopicClone);
+      //_deleteClone();
+      ValidationService.reset(topic.form).then(() => {
+         assign(topic, editTopicClone);
+         _deleteClone();
+      });
    }
 
    function addNewTopic(topic) {

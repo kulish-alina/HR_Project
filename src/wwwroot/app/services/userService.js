@@ -19,7 +19,7 @@ export default class UserService {
          skype       : 'antonov_skype',
          login       : 'dant',
          role        : 'Manager',
-         phoneNumber : '0680686868'
+         phoneNumber : '380680686868'
       };
    }
 

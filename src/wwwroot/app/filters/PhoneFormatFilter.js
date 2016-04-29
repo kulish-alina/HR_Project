@@ -42,7 +42,7 @@ export default function () {
             break;
 
          case asNumberLength: // +CCCPP####### -> CCC (PP) ###-##-##
-            country = value.slice(asCountryBlockStartIndex, asCountryBlockEndIndex);
+            country = `+${value.slice(asCountryBlockStartIndex, asCountryBlockEndIndex)}`;
             city = value.slice(asCityBlockStartIndex, asCityBlockEndIndex);
             number = value.slice(asCityBlockEndIndex);
             break;

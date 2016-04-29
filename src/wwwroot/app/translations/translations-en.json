@@ -64,7 +64,7 @@
    },
    "VALIDATION": {
       "required": {
-         "error": "*this should be Required!",
+         "error": "*Required!",
          "success": "It's Required"
       },
       "url": {
@@ -102,14 +102,14 @@
          "incorrectNameMsg" : "Thesaurus name is incorrect."
       }
    },
-      "SETTINGS" : {
-         "SETTINGS": "Settings",
-         "PROFILE" : "Profile",
-         "MEMBERS" : "Team members",
-         "ROLES" : "Roles",
-         "RECRUITING" : "Recruiting settings",
-         "PASS" : "Your password",
-         "NEW_PASS" : "New password",
-         "CONFIRM_PASS" : "Confirm new password"
-      }
+   "SETTINGS" : {
+      "SETTINGS": "Settings",
+      "PROFILE" : "Profile",
+      "MEMBERS" : "Team members",
+      "ROLES" : "Roles",
+      "RECRUITING" : "Recruiting settings",
+      "PASS" : "Your password",
+      "NEW_PASS" : "New password",
+      "CONFIRM_PASS" : "Confirm new password"
+   }
 }

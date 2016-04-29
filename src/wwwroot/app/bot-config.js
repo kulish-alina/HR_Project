@@ -34,6 +34,7 @@ export default function _config(
    $urlRouterProvider,
    $locationProvider,
    $translateProvider,
+   $compileProvider,
    LoggerServiceProvider,
    HttpServiceProvider
 ) {
@@ -111,10 +112,13 @@ export default function _config(
       });
 
    $urlRouterProvider.otherwise('home');
+
    $translateProvider
       .translations('en', translationsEn)
       .translations('ru', translationsRu)
       .preferredLanguage(context.defaultLang);
+
+   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|skype|tel):/);
 
    LoggerServiceProvider.changeLogLevel(context.logLevel);
    HttpServiceProvider.changeApiUrl(context.serverUrl);

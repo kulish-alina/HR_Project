@@ -1,4 +1,7 @@
-export default function SettingsController($scope, ValidationService, SettingsService, $state) {
+export default function SettingsController(
+   $scope,
+   ValidationService,
+   SettingsService) {
    'ngInject';
 
    let vm = $scope;
@@ -7,7 +10,6 @@ export default function SettingsController($scope, ValidationService, SettingsSe
    vm.submit = _submit;
    vm.edit   = _edit;
    vm.cancel = _cancel;
-   vm.asEdit = $state.current.data.asEdit;
 
    /* --- impl --- */
 
@@ -28,11 +30,4 @@ export default function SettingsController($scope, ValidationService, SettingsSe
          vm.asEdit = false;
       });
    }
-
-   vm.$watch(() => {
-      return $state.current.data.asEdit;
-   },
-   () => {
-      vm.asEdit = $state.current.data.asEdit;
-   });
 }

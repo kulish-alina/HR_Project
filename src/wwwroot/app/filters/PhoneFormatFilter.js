@@ -51,10 +51,11 @@ export default function () {
             return tel;
       }
 
-      number = `${number.slice(numberFirstBlockStartIndex, numberFirstBlockEndIndex)}
-               -${number.slice(numberSecondBlockStartIndex, numberSecondBlockEndIndex)}
-               -${number.slice(numberSecondBlockEndIndex)}`;
+      number = `${
+      number.slice(numberFirstBlockStartIndex, numberFirstBlockEndIndex)}-${
+      number.slice(numberSecondBlockStartIndex, numberSecondBlockEndIndex)}-${
+      number.slice(numberSecondBlockEndIndex)}`;
 
-      return `${country} (${city}) ${number}`;
+      return `${country}(${city}) ${number}`;
    };
 }

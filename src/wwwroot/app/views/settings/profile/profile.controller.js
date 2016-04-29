@@ -38,6 +38,7 @@ export default function ProfileController (
    }
 
    function _onCancel() {
+      _getCurrentUser ();
       return $state.go('profile');
    }
 
@@ -46,7 +47,7 @@ export default function ProfileController (
    }
 
    function _age () {
-      return _calcAge(vm.user.BirthDate);
+      return _calcAge(vm.user.birthDate);
    }
 
    function _getCurrentUser () {

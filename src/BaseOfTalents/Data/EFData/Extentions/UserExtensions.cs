@@ -25,7 +25,6 @@ namespace Data.EFData.Extentions
             domain.Photo = new Photo {
                 Id = dto.Photo.Id,
                 Description = dto.Photo.Description,
-                EditTime = DateTime.Now,
                 ImagePath = dto.Photo.ImagePath,
                 State = dto.Photo.State
             };
@@ -33,7 +32,6 @@ namespace Data.EFData.Extentions
             domain.PhoneNumbers = dto.PhoneNumbers.Select(x => new PhoneNumber()
             {
                 Id = x.Id,
-                EditTime = DateTime.Now,
                 Number = x.Number,
                 State = x.State
             }).ToList();

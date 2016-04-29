@@ -16,7 +16,6 @@ namespace Data.EFData.Extentions
         public static void Update(this Candidate domain, CandidateDTO dto, IRepository<Skill> skillRepo, IRepository<Tag> tagRepo)
         {
             domain.State = dto.State;
-            domain.EditTime = DateTime.Now;
 
             domain.FirstName = dto.FirstName;
             domain.MiddleName = dto.MiddleName;
@@ -39,7 +38,6 @@ namespace Data.EFData.Extentions
 
             domain.SocialNetworks = dto.SocialNetworks.Select(x => new CandidateSocial()
             {
-                EditTime = DateTime.Now,
                 Id = x.Id,
                 Path = x.Path,
                 State = x.State,
@@ -48,7 +46,6 @@ namespace Data.EFData.Extentions
 
             domain.LanguageSkills = dto.LanguageSkills.Select(x => new LanguageSkill()
             {
-                EditTime = DateTime.Now,
                 Id = x.Id,
                 State = x.State,
                 LanguageId = x.LanguageId,
@@ -57,13 +54,11 @@ namespace Data.EFData.Extentions
 
             domain.VacanciesProgress = dto.VacanciesProgress.Select(x => new VacancyStageInfo()
             {
-                EditTime = DateTime.Now,
                 Id = x.Id,
                 CandidateId = x.CandidateId,
                 State = x.State,
                 VacancyStage = new VacancyStage()
                 {
-                    EditTime = DateTime.Now,
                     Id = x.Id,
                     State = x.State,
                     IsCommentRequired = x.VacancyStage.IsCommentRequired,
@@ -76,7 +71,6 @@ namespace Data.EFData.Extentions
             domain.Sources = dto.Sources.Select(x => new CandidateSource()
             {
                 Id = x.Id,
-                EditTime = DateTime.Now,
                 Path = x.Path,
                 Source = x.Source,
                 State = x.State
@@ -87,7 +81,6 @@ namespace Data.EFData.Extentions
             {
                 Id = x.Id,
                 Number = x.Number,
-                EditTime = DateTime.Now,
                 State = x.State
             }).ToList();
             domain.Skills = dto.SkillIds.Select(x => skillRepo.Get(x)).ToList();
@@ -96,7 +89,6 @@ namespace Data.EFData.Extentions
             domain.Photo = new Photo()
             {
                 Description = dto.Photo.Description,
-                EditTime = DateTime.Now,
                 Id = dto.Photo.Id,
                 ImagePath = dto.Photo.ImagePath,
                 State = dto.Photo.State

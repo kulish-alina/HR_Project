@@ -8,7 +8,7 @@ namespace Data.EFData.Mapping
         public BaseEntityConfiguration()
         {
             HasKey(e => e.Id);
-            Property(e => e.EditTime).IsRequired();
+            Property(e => e.EditTime);
             Property(e => e.State).IsRequired();
         }
     }

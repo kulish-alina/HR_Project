@@ -13,7 +13,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Data.EFData.Mapping
 {
-    public class CandidateConfiguration : EntityTypeConfiguration<Candidate>
+    public class CandidateConfiguration : BaseEntityConfiguration<Candidate>
     {
         public CandidateConfiguration()
         {

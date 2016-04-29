@@ -17,10 +17,10 @@ import configValidation from './config-validation';
 
 import LoggerProvider   from './services/LoggerProvider';
 import HttpProvider     from './services/HttpProvider';
+import ValidationProvider  from './services/ValidationProvider';
 
 import CandidateService  from './services/CandidateService';
 import VacancyService    from './services/VacancyService';
-import ValidationService from './services/ValidationService';
 import UserService       from './services/userService';
 import ThesaurusService  from './services/thesaurusService';
 import SettingsService   from './services/SettingsService';
@@ -46,12 +46,12 @@ const dependencies = [
 angular
    .module('bot', dependencies)
 
-   .provider('LoggerService', LoggerProvider)
-   .provider('HttpService',   HttpProvider)
+   .provider('LoggerService',     LoggerProvider)
+   .provider('HttpService',       HttpProvider)
+   .provider('ValidationService', ValidationProvider)
 
    .service('CandidateService',  CandidateService)
    .service('VacancyService',    VacancyService)
-   .service('ValidationService', ValidationService)
    .service('UserService',       UserService)
    .service('SettingsService',   SettingsService)
    .service('ThesaurusService',  ThesaurusService)

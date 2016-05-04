@@ -14,7 +14,7 @@ namespace Domain.Entities
         public string Description { get; set; }
 
         public int EventTypeId { get; set; }
-        public virtual EventTypeDTO EventType { get; set; }
+        public virtual EventType EventType { get; set; }
 
         public virtual Vacancy Vacancy { get; set; }
         public virtual Candidate Candidate { get; set; }

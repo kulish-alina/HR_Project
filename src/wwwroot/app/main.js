@@ -25,11 +25,11 @@ import configValidation from './config-validation';
 
 import LoggerProvider   from './services/LoggerProvider';
 import HttpProvider     from './services/HttpProvider';
+import ValidationProvider  from './services/ValidationProvider';
 
 import CandidateService  from './services/CandidateService';
 import VacancyService    from './services/VacancyService';
-import ValidationService from './services/ValidationService';
-import ThesaurusService   from './services/thesaurusService';
+import ThesaurusService  from './services/thesaurusService';
 
 import ThesaurusDirective   from './directives/thesaurus/thesaurus';
 
@@ -56,10 +56,10 @@ angular
 
    .provider('LoggerService', LoggerProvider)
    .provider('HttpService',   HttpProvider)
+   .provider('ValidationService',   ValidationProvider)
 
    .service('CandidateService',  CandidateService)
    .service('VacancyService',    VacancyService)
-   .service('ValidationService', ValidationService)
    .service('ThesaurusService', ThesaurusService)
 
    .directive('thesaurus', ThesaurusDirective.createInstance)

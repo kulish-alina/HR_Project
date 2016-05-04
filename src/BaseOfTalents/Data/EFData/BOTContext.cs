@@ -4,13 +4,12 @@ using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using Domain.Entities.Setup;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration;
-using System.Data.Entity.ModelConfiguration.Configuration;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 
 namespace Data.EFData
 {
@@ -39,7 +38,7 @@ namespace Data.EFData
 
         public BOTContext() : base()
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<BOTContext>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
         }
 
         public virtual void Commit()
@@ -65,6 +64,24 @@ namespace Data.EFData
             modelBuilder.Configurations.Add(new ErrorConfiguration());
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override int SaveChanges()
+        {
+            ObjectContext context = ((IObjectContextAdapter)this).ObjectContext;
+            IEnumerable<ObjectStateEntry> objectStateEntries =
+                from e in context.ObjectStateManager.GetObjectStateEntries(EntityState.Added | EntityState.Modified)
+                where
+                    e.IsRelationship == false &&
+                    e.Entity != null &&
+                    typeof(BaseEntity).IsAssignableFrom(e.Entity.GetType())
+                select e;
+            foreach (var entry in objectStateEntries)
+            {
+                var entityBase = entry.Entity as BaseEntity;
+                entityBase.EditTime = DateTime.Now;
+            }
+            return base.SaveChanges();
         }
     }
 }

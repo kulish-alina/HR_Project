@@ -17,7 +17,6 @@ namespace Data.EFData.Extentions
         public static void Update(this Vacancy domain, VacancyDTO dto, IRepository<Level> levelrepo, IRepository<Location> locRepo, IRepository<Skill> skillRepo, IRepository<Tag> tagRepo)
         {
             domain.Id = dto.Id;
-            domain.EditTime = DateTime.Now;
             domain.State = dto.State;
 
             domain.Title = dto.Title;
@@ -36,12 +35,10 @@ namespace Data.EFData.Extentions
             {
                 Id = x.Id,
                 CandidateId = x.CandidateId,
-                EditTime = DateTime.Now,
                 State = x.State,
                 VacancyStage = new VacancyStage()
                 {
                     Id = x.VacancyStage.Id,
-                    EditTime = DateTime.Now,
                     StageId = x.VacancyStage.StageId,
                     Order = x.VacancyStage.Order,
                     IsCommentRequired = x.VacancyStage.IsCommentRequired,

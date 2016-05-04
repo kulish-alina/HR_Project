@@ -2,14 +2,13 @@
 <div>
    <caption ng-bind="::thesaurusNameLabel"></caption>
    <div class="row">
-    <div class="column" ng-repeat="field in ::fields" ng-bind="::field.label"></div>
-    <div class="column"></div>
-    <div class="column"></div>
+    <div class="columnHeader" ng-repeat="field in ::fields" ng-bind="::field.label"></div>
+    <div class="columnHeader"></div>
+    <div class="columnHeader"></div>
   </div>
    <div class="row" ng-repeat = "topic in topics">
     <form name="topic.form">
       <div class="column" ng-repeat = "field in ::fields" >
-         <img ng-show="!isEditTopic(topic)&&field.type==='img'">
          <input name="{{field.name}}" type="text" ng-disabled="!isEditTopic(topic)" ng-show="field.type==='text'" 
                 placeholder="{{::field.name}}" ng-model="topic[field.name]" class="edit"
                 validator="{{field.validator}}">
@@ -17,9 +16,9 @@
                  ng-model="topic[field.refObject]"
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
                  ng-change="change(topic, field)" class="edit" validator="required"></select>
-          <img ng-src="{{::topic[field.name]}}" ng-show="field.type==='img'" class="thesaurus">
+          <img ng-src="{{::topic[field.name]}}" ng-show="field.type==='img'">
       </div>
-      <div class="column">
+      <div class="actionColumn">
          <a href='#' class="button button-with-input" ng-show="!isEditTopic(topic)" 
             ng-click="editThesaurusTopic(topic)" 
             ng-disabled="!isTopicEditAllow(topic)" ng-bind="'COMMON.EDIT' | translate">
@@ -28,7 +27,7 @@
             ng-click="saveEditTopic(topic)" ng-bind="::'COMMON.SAVE' | translate">
           </a>
       </div >
-      <div class="column">
+      <div class="actionColumn">
          <a href='#' class="button button-with-input" ng-show="!isEditTopic(topic)" 
             ng-click="removeThesaurusTopic(topic)" ng-disabled="!isTopicEditAllow(topic)" 
             ng-bind="::'COMMON.REMOVE' | translate">
@@ -50,7 +49,7 @@
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
                  ng-change="change(newThesaurusTopic, field)"></select>
       </div>
-      <div class="column" class="add">
+      <div class="actionColumn" class="add">
          <a class="button button-with-input" ng-click="addNewTopic(newThesaurusTopic)" 
             ng-disabled="!isTopicEditAllow(newThesaurusTopic)" ng-bind="'COMMON.ADD' | translate">
           </a>

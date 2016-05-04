@@ -1,5 +1,5 @@
-<div>
-<select ng-model="currentThesaurusName" ng-options="thesaurusName for thesaurusName in thesaurusNames"></select>
+<div  class="main-card thesaurus">
+<select class="thesaurusesList" ng-model="currentThesaurusName" ng-options="thesaurusName for thesaurusName in thesaurusNames"></select>
 <thesaurus ng-repeat="thesaurusName in ::thesaurusNames" name="{{::thesaurusName}}" 
            ng-show="thesaurusName===currentThesaurusName"></thesaurus>
 </div>

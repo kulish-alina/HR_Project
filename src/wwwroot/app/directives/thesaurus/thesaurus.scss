@@ -3,18 +3,34 @@
 input.edit[type="text"]:disabled {
    background-color: inherit;
    border: none;
+   margin: 0px;
 }
 
 select.edit:disabled {
    background-color: inherit;
    border: none;
    background-image: none;
+   margin: 0px;
 }
 
 div.row {
    clear: both;
+   margin: 0px;
 }
 
 div.column {
    float: left;
+   margin: $rem-base*0.25;
+   width: $rem-base*15.63;
+}
+
+div.actionColumn {
+   @extend .column;
+   width : $rem-base*5;
+}
+
+div.columnHeader {
+   @extend .column;
+   padding-left: $rem-base*0.5;
+   font-weight: bolder;
 }

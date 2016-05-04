@@ -9,6 +9,11 @@ namespace Domain.DTO.DTOModels
 {
     public class BaseEntityDTO
     {
+        public BaseEntityDTO()
+        {
+            State = EntityState.Active;
+        }
+
         public int Id { get; set; }
         public EntityState State { get; set; }
     }

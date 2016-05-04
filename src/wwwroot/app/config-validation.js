@@ -13,6 +13,8 @@ const methods = ['minlength', 'maxlength', 'email', 'number', 'url'];
 const { array2map } = utils;
 
 export default function _configValidation($validationProvider, ValidationServiceProvider) {
+   'ngInject';
+
    const _it = partial(_converter, $validationProvider);
    const validationExpression = array2map(methods, _it);
 

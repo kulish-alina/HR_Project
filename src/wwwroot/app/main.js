@@ -37,6 +37,7 @@ import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
 
 import DatePickerDirective from './directives/datepickerwrapper/DatePickerWrapperDirective';
+import CanvasPreviewDirective from './directives/filePreview/CanvasPreview';
 
 const dependencies = [
    router,
@@ -67,6 +68,7 @@ angular
    .filter('tel', phoneFormatFilter)
 
    .directive('date', DatePickerDirective.createInstance)
+   .directive('ngThumb', CanvasPreviewDirective)
 
    .config(config)
    .config(configValidation);

@@ -355,6 +355,542 @@
       "departmentId": 1,
       "status": 2,
       "id": 13
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "id": 14
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "id": 15
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "id": 16
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "id": 17
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [
+        {
+          "id": 1,
+          "title": "sql"
+        }
+      ],
+      "tags": [
+        {
+          "id": 1,
+          "title": "sql"
+        }
+      ],
+      "title": "ghghjghj",
+      "industryId": 2,
+      "responsibleId": 2,
+      "departmentId": 2,
+      "status": 2,
+      "id": 18
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "id": 19
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [
+        {
+          "id": 1,
+          "title": "sql"
+        }
+      ],
+      "tags": [
+        {
+          "id": 2,
+          "title": "angular"
+        }
+      ],
+      "title": "jjhjj",
+      "languageSkill": {
+        "languageId": "1",
+        "languageLevel": "1"
+      },
+      "departmentId": 1,
+      "status": 3,
+      "startDate": "03-05-2016",
+      "responsibleId": 1,
+      "industryId": 2,
+      "id": 20
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [
+        {
+          "id": 1,
+          "title": "sql"
+        }
+      ],
+      "tags": [
+        {
+          "id": 2,
+          "title": "angular"
+        }
+      ],
+      "title": "jjhjj",
+      "languageSkill": {
+        "languageId": "1",
+        "languageLevel": "1"
+      },
+      "departmentId": 1,
+      "status": 3,
+      "startDate": "03-05-2016",
+      "responsibleId": 1,
+      "industryId": 2,
+      "id": 21
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [
+        {
+          "id": 1,
+          "title": "sql"
+        }
+      ],
+      "tags": [
+        {
+          "id": 2,
+          "title": "angular"
+        }
+      ],
+      "title": "jjhjj",
+      "languageSkill": {
+        "languageId": "1",
+        "languageLevel": "1"
+      },
+      "departmentId": 1,
+      "status": 3,
+      "startDate": "03-05-2016",
+      "responsibleId": 1,
+      "industryId": 2,
+      "id": 22
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "id": 23
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "id": 24
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "id": 25
+    },
+    {
+      "File": {
+        "Ids": []
+      },
+      "requiredSkills": [],
+      "tags": [],
+      "title": "l;,l;'",
+      "industryId": 1,
+      "responsibleId": 1,
+      "status": 2,
+      "departmentId": 1,
+      "startDate": "03-05-2016",
+      "id": 26
+    },
+    {
+      "File": {},
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "id": 27
+    },
+    {
+      "File": {},
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "id": 28
+    },
+    {
+      "File": {},
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "id": 29
+    },
+    {
+      "File": {},
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "title": "uyuiui",
+      "industryId": 2,
+      "responsibleId": 3,
+      "departmentId": 1,
+      "status": 3,
+      "id": 30
+    },
+    {
+      "File": {},
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "id": 31
+    },
+    {
+      "File": {},
+      "fileIds": [],
+      "requiredSkills": [
+        {
+          "id": 2,
+          "title": "angular"
+        }
+      ],
+      "tags": [
+        {
+          "id": 2,
+          "title": "angular"
+        }
+      ],
+      "title": "qqqqqqqqqqqqq",
+      "industryId": 1,
+      "languageSkill": {
+        "languageId": "1",
+        "languageLevel": "1"
+      },
+      "levelIds": [
+        2
+      ],
+      "locationIds": [
+        2
+      ],
+      "responsibleId": 2,
+      "departmentId": 1,
+      "salaryMin": 150,
+      "salaryMax": 200,
+      "typeOfEmployment": 1,
+      "masterVacancy": true,
+      "countOfChildrenVacancies": 2,
+      "status": 1,
+      "startDate": "09-05-2016",
+      "deadlineDate": "24-05-2016",
+      "endDate": "31-05-2016",
+      "deadlineToCalendar": true,
+      "description": "<p>klk;ll[</p>",
+      "id": 32
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "id": 33
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "title": "yuiyui",
+      "industryId": 1,
+      "languageSkill": {
+        "languageId": "1"
+      },
+      "responsibleId": 2,
+      "departmentId": 1,
+      "status": 2,
+      "id": 34
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [
+        {
+          "id": 2,
+          "title": "angular"
+        },
+        {
+          "id": 3,
+          "title": "js"
+        }
+      ],
+      "tags": [
+        {
+          "id": 2,
+          "title": "angular"
+        }
+      ],
+      "title": "jkjljk",
+      "industryId": 1,
+      "languageSkill": {
+        "languageId": "1",
+        "languageLevel": "1"
+      },
+      "levelIds": [
+        1,
+        3
+      ],
+      "locationIds": [
+        1,
+        3,
+        5
+      ],
+      "responsibleId": 1,
+      "departmentId": 2,
+      "status": 3,
+      "id": 35
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "title": "ghjhj",
+      "industryId": 2,
+      "languageSkill": {
+        "languageId": "1"
+      },
+      "levelIds": [
+        2,
+        1
+      ],
+      "locationIds": [
+        2,
+        3
+      ],
+      "responsibleId": 2,
+      "status": 2,
+      "departmentId": 1,
+      "id": 36
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [
+        {
+          "id": 2,
+          "title": "angular"
+        },
+        {
+          "id": 1,
+          "title": "sql"
+        }
+      ],
+      "tags": [],
+      "title": "ghjhj",
+      "industryId": 2,
+      "languageSkill": {
+        "languageId": "1"
+      },
+      "levelIds": [
+        2,
+        1
+      ],
+      "locationIds": [
+        2,
+        3
+      ],
+      "responsibleId": 2,
+      "status": 2,
+      "departmentId": 1,
+      "deadlineDate": "11-05-2016",
+      "startDate": "19-05-2016",
+      "description": "<p>edfx cdfg</p>",
+      "id": 37
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [
+        {
+          "id": 2,
+          "title": "angular"
+        },
+        {
+          "id": 1,
+          "title": "sql"
+        }
+      ],
+      "tags": [],
+      "title": "ghjhj",
+      "industryId": 2,
+      "languageSkill": {
+        "languageId": "1"
+      },
+      "levelIds": [
+        2,
+        1
+      ],
+      "locationIds": [
+        2,
+        3
+      ],
+      "responsibleId": 2,
+      "status": 2,
+      "departmentId": 1,
+      "deadlineDate": "11-05-2016",
+      "startDate": "19-05-2016",
+      "description": "<p>edfx cdfg</p>",
+      "id": 38
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "levelIds": [
+        "Junior",
+        "Middle",
+        "Senior"
+      ],
+      "title": "tyhjgy",
+      "industryId": 2,
+      "responsibleId": 2,
+      "departmentId": 1,
+      "status": 4,
+      "startDate": "09-05-2016",
+      "id": 39
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [
+        "sql"
+      ],
+      "tags": [],
+      "title": "tyuy",
+      "industryId": 1,
+      "languageSkill": {
+        "languageId": "1",
+        "languageLevel": "2"
+      },
+      "responsibleId": 3,
+      "status": 2,
+      "departmentId": 1,
+      "id": 40
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [
+        null,
+        null
+      ],
+      "tags": [
+        1,
+        null,
+        null
+      ],
+      "title": ";kl;",
+      "industryId": 1,
+      "languageSkill": {
+        "languageId": "1",
+        "languageLevel": "2"
+      },
+      "responsibleId": 2,
+      "departmentId": 3,
+      "salaryMin": 150,
+      "salaryMax": 150,
+      "status": 2,
+      "startDate": "10-05-2016",
+      "id": 41
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "industryId": 1,
+      "title": "vhjg",
+      "responsibleId": 3,
+      "departmentId": 1,
+      "levelIds": [
+        {
+          "title": "Trainee",
+          "id": 1,
+          "editTime": "2016-04-21",
+          "state": 1
+        },
+        {
+          "title": "Middle",
+          "id": 3,
+          "editTime": "2016-04-21",
+          "state": 1
+        }
+      ],
+      "status": 1,
+      "id": 42
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "title": "gh ghj",
+      "industryId": 1,
+      "languageSkill": {
+        "languageId": "1"
+      },
+      "responsibleId": 2,
+      "departmentId": 2,
+      "status": 2,
+      "levelIds": [
+        3,
+        1
+      ],
+      "id": 43
+    },
+    {
+      "fileIds": [],
+      "requiredSkills": [],
+      "tags": [],
+      "title": "jhjh",
+      "industryId": 3,
+      "responsibleId": 2,
+      "departmentId": 1,
+      "status": 4,
+      "requiredSkillIds": [
+        2,
+        null,
+        null
+      ],
+      "tagIds": [
+        null
+      ],
+      "id": 44
     }
   ],
   "locations": {

@@ -1,9 +1,4 @@
 import utils from '../../utils';
-import {
-   filter,
-   remove,
-   each
-} from 'lodash';
 
 const MAX_SIZE_OF_FILE = 5120;
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
@@ -23,8 +18,7 @@ export default function VacancyController(
    vm.cancel = cancel;
    vm.saveVacancy = saveVacancy;
    vm.vacancy = {};
-   vm.vacancy.File = {};
-   vm.vacancy.File.Ids = [];
+   vm.vacancy.fileIds = [];
    vm.uploader = createNewUploader();
    vm.vacancy.requiredSkills = [];
    vm.vacancy.tags = [];
@@ -52,8 +46,7 @@ export default function VacancyController(
          }
       });
       newUploader.onSuccessItem = function onSuccessUpload (item) {
-         vm.File.Ids.push(item.id);
-         console.log(item.id);
+         vm.vacancy.fileIds.push(item.id);
       };
       return newUploader;
    }
@@ -76,23 +69,6 @@ export default function VacancyController(
    }
 
    function _vs() {
-      let thesaurusSkills = filter(vm.vacancy.requiredSkills, {id: null});
-      let thesaurusTags = filter(vm.vacancy.tags, {id: null});
-      let indexOfSkillsPromise = 0;
-      let indexOfTagssPromise = 1;
-      console.log(thesaurusSkills, thesaurusTags);
-      VacancyService.saveNewTopicsToThesaurus(thesaurusSkills, thesaurusTags).then((promicesArray) => {
-         remove(vm.vacancy.requiredSkills, {id: null});
-         each(promicesArray[indexOfSkillsPromise], skill => vm.vacancy.requiredSkills.push(skill));
-         remove(vm.vacancy.tags, {id: null});
-         each(promicesArray[indexOfTagssPromise], tag => vm.vacancy.tags.push(tag));
-         return promicesArray;
-      }).then(() => {
-         return VacancyService.saveVacancy(vm.vacancy);
-      }).catch(_onError);
-   }
-
-   function _onError() {
-      vm.errorMessage = 'Sorry! Some error occurred';
+      return VacancyService.saveVacancy(vm.vacancy);
    }
 }

@@ -66,7 +66,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.SKILLS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=1'},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
@@ -74,7 +74,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.TAGS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=1'},
          {name : 'state',     label : 'state',     type : ''}
       ]
    },

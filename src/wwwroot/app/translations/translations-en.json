@@ -79,7 +79,13 @@
       "COUNTRIES" : "Countries",
       "SOCIALS" : "Social networks",
       "LANGUAGES" : "Languages",
-      "LOCATIONS" : "Locations"
+      "LOCATIONS" : "Locations",
+      "DEPARTMENTS" : "Departments",
+      "DEPARTMENT_GROUPS" : "Department groups",
+      "INDUSTRIES" : "Industries",
+      "SKILLS" : "Skills",
+      "TAGS" : "Tags",
+      "STAGES" : "Stages"
    },
    "VALIDATION": {
       "required": {

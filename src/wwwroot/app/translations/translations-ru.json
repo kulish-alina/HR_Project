@@ -22,7 +22,13 @@
       "COUNTRIES" : "Страны",
       "SOCIALS" : "Социальные сети",
       "LANGUAGES" : "Языки",
-      "LOCATIONS" : "Расположения"
+      "LOCATIONS" : "Расположения",
+      "DEPARTMENTS" : "",
+      "DEPARTMENT_GROUPS" : "",
+      "INDUSTRIES" : "Отрасли",
+      "SKILLS" : "Навыки",
+      "TAGS" : "Теги",
+      "STAGES" : "Этапы"
    },
    "VALIDATION" : {
       "required": {

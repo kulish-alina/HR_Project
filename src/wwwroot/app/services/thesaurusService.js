@@ -5,12 +5,14 @@ import {
    filter,
    map,
    forEach,
-   reduce,
    includes,
    curry
 } from 'lodash';
 
+import utils from '../utils.js';
+
 const curryLength = 3;
+const activeStateId = 1;
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
@@ -32,10 +34,10 @@ export default class ThesaurusService {
          return _$q.when(cache[thesaurusName]);
       } else {
          let thesaurusesToLoad = _getLoadedThesaurusesList(thesaurusName);
-         let mapThesaurusPromises = _mapValues(thesaurusesToLoad, name => _HttpService.get(name));
+         let mapThesaurusPromises = utils.array2map(thesaurusesToLoad, name => _HttpService.get(name));
          return _$q.all(mapThesaurusPromises).then(thesauruses => {
             forEach(thesauruses, (thesaurus, name) => {
-               cache[name] = thesaurus.queryResult;
+               cache[name] = filter(thesaurus, {state : activeStateId});
                _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
             });
             return cache[thesaurusName];
@@ -47,9 +49,13 @@ export default class ThesaurusService {
       if (has(cache, thesaurusName)) {
          return _$q.when(find(cache[thesaurusName], {id}));
       } else {
-         return this.getThesaurusTopics(thesaurusName)
-            .then(() => find(cache[thesaurusName], {id}));
+         return this.getThesaurusTopics(thesaurusName).then(() => find(cache[thesaurusName], {id}));
       }
+   }
+
+   getThesaurusTopicsGroup(thesaurusNames) {
+      let mapThesaurusPromises = utils.array2map(thesaurusNames, this.getThesaurusTopics);
+      return _$q.all(mapThesaurusPromises);
    }
 
    saveThesaurusTopic(thesaurusName, entity) {
@@ -60,9 +66,9 @@ export default class ThesaurusService {
          let promise;
 
          if (entity.id) {
-            promise = _HttpService.put('${thesaurusName}/${entity.id}', entity);
+            promise = _HttpService.put(`${thesaurusName}/${entity.id}`, entity);
          } else {
-            promise = _HttpService.post('${thesaurusName}/', entity);
+            promise = _HttpService.post(`${thesaurusName}/`, entity);
             promise = promise.then(_entity => {
                cache[thesaurusName].push(_entity);
                return _entity;
@@ -75,14 +81,14 @@ export default class ThesaurusService {
       }
    }
 
-   saveThesaurusTopics(entities) {
-      console.log(entities);
-      return _$q.when(true);
+   saveThesaurusTopics(thesaurusName, entities) {
+      let mapThesaurusPromises = utils.array2map(entities, entity => this.saveThesaurusTopic(thesaurusName, entity));
+      return _$q.all(mapThesaurusPromises);
    }
 
    deleteThesaurusTopic(thesaurusName, entity) {
       if (includes(this.getThesaurusNames(), thesaurusName)) {
-         let additionalUrl = '${thesaurusName}/${entity.id}';
+         let additionalUrl = `${thesaurusName}/${entity.id}`;
          _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
          return _HttpService.remove(additionalUrl, entity).then(() => remove(cache[thesaurusName], entity));
       } else {
@@ -117,12 +123,12 @@ function _getLoadedThesaurusesList(mainThesaurusName) {
 function _addRefTextFieldFunction(field, topic) {
    let referencedTopic = find(cache[field.refTo], {id: topic[field.name]});
    if (referencedTopic) {
-      topic[field.additionFieldForText] = referencedTopic[field.labelRefFieldName];
+      topic[field.refObject] = referencedTopic;
    }
 }
 
 function _deleteRefTextFieldFunction(field, topic) {
-   delete topic[field.additionFieldForText];
+   delete topic[field.refObject];
 }
 
 function _actionOfAdditionFieldsForTopic(thesaurusName, action, entity) {
@@ -132,12 +138,4 @@ function _actionOfAdditionFieldsForTopic(thesaurusName, action, entity) {
 
 function _actionOfAdditionFieldsForTopics(topics, thesaurusName, action) {
    forEach(topics, _curryAction(thesaurusName, action));
-}
-
-
-function _mapValues(array, it) {
-   return reduce(array, (memo, name) => {
-      memo[name] = it(name);
-      return memo;
-   }, {});
 }

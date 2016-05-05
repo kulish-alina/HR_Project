@@ -75,9 +75,9 @@ export default class ThesaurusService {
             });
          }
 
-         return promise.then((entity) => {
-            _action(_addRefTextFieldFunction, entity);
-            return entity;
+         return promise.then((_entity) => {
+            _action(_addRefTextFieldFunction, _entity);
+            return _entity;
          });
       } else {
          return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));

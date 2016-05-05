@@ -79,3 +79,6 @@ select :first-child {
 select :nth-child(n+2) {
    color: $body-font-color;
 } 
+select[multiple] {
+    height: auto;
+}

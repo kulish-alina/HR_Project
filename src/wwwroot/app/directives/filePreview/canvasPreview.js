@@ -43,7 +43,6 @@ export default function CanvasPreviewDirective($window) {
          }
 
          function onLoadImage() {
-            debugger;
             let width = params.width || this.width / this.height * params.height;
             let height = params.height || this.height / this.width * params.width;
             //canvas.attr({ width: width, height: height });

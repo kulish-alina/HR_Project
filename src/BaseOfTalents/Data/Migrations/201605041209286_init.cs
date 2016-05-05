@@ -136,7 +136,7 @@ namespace Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Number = c.String(),
+                        Number = c.String(nullable: false),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
                     })

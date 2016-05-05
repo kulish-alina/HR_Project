@@ -27,6 +27,6 @@ namespace Domain.Entities
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
 
-        public virtual List<PhoneNumber> PhoneNumbers { get; set; }
+        public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
     }
 }

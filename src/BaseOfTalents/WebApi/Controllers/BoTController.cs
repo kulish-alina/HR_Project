@@ -72,7 +72,7 @@ namespace WebApi.Controllers
                 if (foundedEntity != null)
                 {
                     var foundedEntityDto = DTOService.ToDTO<DomainEntity, ViewModel>(foundedEntity);
-                    return Json(foundedEntityDto);
+                    return Json(foundedEntityDto, BOT_SERIALIZER_SETTINGS);
                 }
                 return NotFound();
             });

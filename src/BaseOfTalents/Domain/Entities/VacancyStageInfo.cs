@@ -11,6 +11,5 @@ namespace Domain.Entities
         public virtual Candidate Candidate { get; set; }
 
         public virtual Comment Comment { get; set; }
-
     }
 }

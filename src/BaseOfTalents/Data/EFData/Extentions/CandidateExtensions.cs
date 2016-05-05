@@ -36,21 +36,92 @@ namespace Data.EFData.Extentions
             domain.RelocationAgreement = dto.RelocationAgreement;
             domain.Education = dto.Education;
 
-            domain.SocialNetworks = dto.SocialNetworks.Select(x => new CandidateSocial()
+            foreach (var dtoSocial in dto.SocialNetworks)
             {
-                Id = x.Id,
-                Path = x.Path,
-                State = x.State,
-                SocialNetworkId = x.SocialNetworkId
-            }).ToList();
+                if (domain.SocialNetworks.Any(x => x.Id == dtoSocial.Id))
+                {
 
-            domain.LanguageSkills = dto.LanguageSkills.Select(x => new LanguageSkill()
+                }
+            }
+
+            foreach (var dtoSocial in dto.SocialNetworks)
             {
-                Id = x.Id,
-                State = x.State,
-                LanguageId = x.LanguageId,
-                LanguageLevel = x.LanguageLevel
-            }).ToList();
+
+                if (!domain.SocialNetworks.Any(x => x.Id == dtoSocial.Id)) //Is Domain Entity Doesnt Contains That Social
+                {
+                    domain.SocialNetworks.Add(new CandidateSocial()  //add to domain entity
+                    {
+                        Path = dtoSocial.Path,
+                        SocialNetworkId = dtoSocial.SocialNetworkId,
+                    });
+                }
+            }
+
+            foreach (var domainSocial in domain.SocialNetworks)
+            {
+                if (!dto.SocialNetworks.Any(x => x.Id == domainSocial.Id)) //is domain entity contains social that DTO doesnt contains 
+                {
+                    domain.SocialNetworks.Remove(domainSocial); //delete from domain entity
+                }
+            }
+
+
+            foreach (var social in dto.SocialNetworks)
+            {
+                var domainSocial = domain.SocialNetworks.FirstOrDefault(x => x.Id == social.Id);
+                if (domainSocial == null)
+                {
+                    domain.SocialNetworks.Add(new CandidateSocial()
+                    {
+                        Path = social.Path,
+                        SocialNetworkId = social.SocialNetworkId,
+                    });
+                }
+                else
+                {
+                    domainSocial.Path = social.Path;
+                    domainSocial.SocialNetworkId = social.SocialNetworkId;
+                    domainSocial.State = social.State;
+                }
+            }
+
+            foreach (var languageSkill in dto.LanguageSkills)
+            {
+                var domainLangSkill = domain.LanguageSkills.FirstOrDefault(x => x.Id == languageSkill.Id);
+                if (domainLangSkill == null)
+                {
+                    domain.LanguageSkills.Add(new LanguageSkill()
+                    {
+                       LanguageId = languageSkill.LanguageId,
+                       LanguageLevel = languageSkill.LanguageLevel,
+                    });
+                }
+                else
+                {
+                    domainLangSkill.LanguageId = languageSkill.LanguageId;
+                    domainLangSkill.LanguageLevel = languageSkill.LanguageLevel;
+                    domainLangSkill.State = languageSkill.State;
+                }
+            }
+
+            foreach (var source in dto.Sources)
+            {
+                var domainSource = domain.Sources.FirstOrDefault(x => x.Id == source.Id);
+                if (domainSource == null)
+                {
+                    domain.Sources.Add(new CandidateSource()
+                    {
+                        Path = source.Path,
+                        Source = source.Source,
+                    });
+                }
+                else
+                {
+                    domainSource.Path = source.Path;
+                    domainSource.Source = source.Source;
+                    domainSource.State = source.State;
+                }
+            }
 
             domain.VacanciesProgress = dto.VacanciesProgress.Select(x => new VacancyStageInfo()
             {
@@ -68,31 +139,64 @@ namespace Data.EFData.Extentions
                 }
             }).ToList();
 
-            domain.Sources = dto.Sources.Select(x => new CandidateSource()
-            {
-                Id = x.Id,
-                Path = x.Path,
-                Source = x.Source,
-                State = x.State
-            }).ToList();
 
-            domain.Tags = dto.TagIds.Select(x => tagRepo.Get(x)).ToList();
-            domain.PhoneNumbers = dto.PhoneNumbers.Select(x => new PhoneNumber()
+            foreach (var tagId in dto.TagIds)
             {
-                Id = x.Id,
-                Number = x.Number,
-                State = x.State
-            }).ToList();
-            domain.Skills = dto.SkillIds.Select(x => skillRepo.Get(x)).ToList();
+                if(!domain.Tags.Any(x=>x.Id == tagId))
+                {
+                    domain.Tags.Add(tagRepo.Get(tagId));
+                }
+            }
 
+            foreach (var dtoPhone in dto.PhoneNumbers)
+            {
+                var domainPhone = domain.PhoneNumbers.FirstOrDefault(x => x.Id == dtoPhone.Id);
+                if (domainPhone == null)
+                {
+                    var number = new PhoneNumber()
+                    {
+                        Number = dtoPhone.Number
+                    };
+                    domain.PhoneNumbers.Add(number);
+                }
+                else
+                {
+                    domainPhone.Number = dtoPhone.Number;
+                    domainPhone.State = dtoPhone.State;
+                }
+            }
+
+            foreach (var skillId in dto.SkillIds)
+            {
+                if(!domain.Skills.Any(x=>x.Id==skillId))
+                {
+                    domain.Skills.Add(skillRepo.Get(skillId));
+                }
+            }
             domain.IndustryId = dto.IndustryId;
-            domain.Photo = new Photo()
+
+            if (dto.Photo.Id != 0)
             {
-                Description = dto.Photo.Description,
-                Id = dto.Photo.Id,
-                ImagePath = dto.Photo.ImagePath,
-                State = dto.Photo.State
-            };
+                var photoBd = domain.Photo;
+                photoBd.Description = dto.Photo.Description;
+                photoBd.ImagePath = dto.Photo.ImagePath;
+                photoBd.State = dto.Photo.State;
+            }
+            else
+            {
+                domain.Photo = new Photo
+                {
+                    Id = dto.Photo.Id,
+                    Description = dto.Photo.Description,
+                    ImagePath = dto.Photo.ImagePath,
+                    State = dto.Photo.State
+                };
+            }
+        }
+
+        private static bool IsDomainEntityContainsSocial()
+        {
+            throw new NotImplementedException();
         }
     }
 }

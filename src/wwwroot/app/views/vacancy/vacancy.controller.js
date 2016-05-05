@@ -1,16 +1,13 @@
-import utils from '../../utils';
-
 const MAX_SIZE_OF_FILE = 5120;
-const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
-    'departments', 'typesOfEmployment', 'statuses', 'tags', 'skills'];
+const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
+    'departments', 'tags', 'skills'];
 
 export default function VacancyController(
    $scope,
    VacancyService,
    ValidationService,
    FileUploader,
-   ThesaurusService,
-   $q
+   ThesaurusService
 ) {
    'ngInject';
 
@@ -23,8 +20,7 @@ export default function VacancyController(
    vm.vacancy.requiredSkills = [];
    vm.vacancy.tags = [];
 
-   let map = utils.array2map(LIST_OF_THESAURUS, ThesaurusService.getThesaurusTopics);
-   $q.all(map).then((data) => vm.thesaurus = data);
+   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
    vm.responsibles = [
       {id: '1', title: 'vbre'},

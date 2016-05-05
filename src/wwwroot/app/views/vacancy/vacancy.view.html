@@ -101,10 +101,10 @@
                <fieldset>
                   <div class="grid-block">
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="skill.id as skill.title for skill in thesaurus.skills" ng-model="vacancy.requiredSkillIds" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="skill.title for skill in thesaurus.skills" ng-model="vacancy.requiredSkills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="tag.id as tag.title for tag in thesaurus.tags" ng-model="vacancy.tagIds" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: null, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tags" ng-model="vacancy.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                   </div>
                   <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
@@ -112,7 +112,8 @@
                <div class="grid-block">
                   <div class="medium-6 grid-block">
                      <fieldset>
-                        <input type="file" nv-file-select multiple="" uploader="uploader">
+                        <input type="file" nv-file-select="" multiple uploader="uploader">
+                        <p>{{uploader.queue.length}}</p>
                         <table class="upload-table" ng-hide="!uploader.queue.length">
                            <thead>
                               <tr>

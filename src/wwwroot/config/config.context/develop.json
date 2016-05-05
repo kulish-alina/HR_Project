@@ -1,5 +1,5 @@
 {
    "logLevel"  : "DEBUG",
    "logPattern": "*",
-   "serverUrl" : "http://localhost:3000/"
+   "serverUrl" : "http://localhost:53031/api/"
 }

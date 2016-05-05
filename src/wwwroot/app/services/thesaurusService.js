@@ -75,14 +75,17 @@ export default class ThesaurusService {
             });
          }
 
-         return promise.then(_action(_addRefTextFieldFunction));
+         return promise.then((entity) => {
+            _action(_addRefTextFieldFunction, entity);
+            return entity;
+         });
       } else {
          return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
       }
    }
 
    saveThesaurusTopics(thesaurusName, entities) {
-      let mapThesaurusPromises = utils.array2map(entities, entity => this.saveThesaurusTopic(thesaurusName, entity));
+      let mapThesaurusPromises = map(entities, entity => this.saveThesaurusTopic(thesaurusName, entity));
       return _$q.all(mapThesaurusPromises);
    }
 

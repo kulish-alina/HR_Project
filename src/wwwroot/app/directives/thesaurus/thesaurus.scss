@@ -13,24 +13,24 @@ select.edit:disabled {
    margin: 0px;
 }
 
-div.row {
-   clear: both;
+div.thesaurus-row {
+   @extend .row;
    margin: 0px;
 }
 
-div.column {
-   float: left;
+div.thesaurus-column {
+   @extend .column;
    margin: $rem-base*0.25;
-   width: $rem-base*15.63;
+   width: $rem-base*15;
 }
 
-div.actionColumn {
-   @extend .column;
+div.action-column {
+   @extend .thesaurus-column;
    width : $rem-base*5;
 }
 
-div.columnHeader {
-   @extend .column;
+div.thesaurus-column-header {
+   @extend .header-column;
+   @extend .thesaurus-column;
    padding-left: $rem-base*0.5;
-   font-weight: bolder;
 }

@@ -127,7 +127,7 @@ namespace WebApi.Controllers
                         _candidate.Update(changedEntity, _repoFactory.GetDataRepository<Skill>(request), _repoFactory.GetDataRepository<Tag>(request));
                         _candidateRepo.Update(_candidate);
                         _unitOfWork.Commit();
-                        return Json(_candidate, BOT_SERIALIZER_SETTINGS);
+                        return Json(DTOService.ToDTO<Candidate, CandidateDTO>(_candidate), BOT_SERIALIZER_SETTINGS);
                     }
                 }
             });

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
+using WebApi.DTO.DTOService;
 
 namespace WebApi.Controllers
 {
@@ -44,7 +45,7 @@ namespace WebApi.Controllers
                     else
                     {
                         User _user = new User();
-                        _user.Update(user);
+                        _user.Update(user, _repoFactory.GetDataRepository<Photo>(request),_repoFactory.GetDataRepository<PhoneNumber>(request));
                         _userRepo.Add(_user);
                         _unitOfWork.Commit();
                         return Ok();
@@ -77,14 +78,13 @@ namespace WebApi.Controllers
                     else
                     {
                         User _user = _userRepo.Get(id);
-                        _user.Update(changedUser);
+                        _user.Update(changedUser, _repoFactory.GetDataRepository<Photo>(request), _repoFactory.GetDataRepository<PhoneNumber>(request));
                         _userRepo.Update(_user);
                         _unitOfWork.Commit();
-                        return Json(_user, BOT_SERIALIZER_SETTINGS);
+                        return Json(DTOService.ToDTO<User,UserDTO>(_user), BOT_SERIALIZER_SETTINGS);
                     }
                 }
             });
         }
-
     }
 }

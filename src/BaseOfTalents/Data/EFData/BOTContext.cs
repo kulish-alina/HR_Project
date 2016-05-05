@@ -27,6 +27,8 @@ namespace Data.EFData
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Level> Levels { get; set; }
 
+        public DbSet<PhoneNumber> PhoneNumbers { get; set; }
+
 
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Vacancy> Vacancies { get; set; }
@@ -38,12 +40,12 @@ namespace Data.EFData
 
         public BOTContext() : base()
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
         }
 
         public virtual void Commit()
         {
-            base.SaveChanges();
+            this.SaveChanges();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -61,6 +63,7 @@ namespace Data.EFData
             modelBuilder.Configurations.Add(new EventConfiguration());
             modelBuilder.Configurations.Add(new DepartmentConfiguration());
             modelBuilder.Configurations.Add(new LocationConfiguration());
+            modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
             modelBuilder.Configurations.Add(new ErrorConfiguration());
 
             base.OnModelCreating(modelBuilder);

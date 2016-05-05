@@ -12,6 +12,7 @@ namespace Domain.Entities
             Permissions = new List<Permission>();
         }
         public string Title { get; set; }
+
         public virtual ICollection<Permission> Permissions { get; set; }
     }
 }

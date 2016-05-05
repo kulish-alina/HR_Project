@@ -1,5 +1,6 @@
 ﻿using Domain.DTO.DTOModels;
 using Domain.Entities;
+using Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Data.EFData.Extentions
 {
     public static class UserExtensions
     {
-        public static void Update(this User domain, UserDTO dto)
+        public static void Update(this User domain, UserDTO dto, IRepository<Photo> photoRepo, IRepository<PhoneNumber> phoneRepo)
         {
             domain.FirstName = dto.FirstName;
             domain.MiddleName = dto.MiddleName;
@@ -22,19 +23,43 @@ namespace Data.EFData.Extentions
             domain.Login = dto.Login;
             domain.Password = dto.Password;
             domain.RoleId = dto.RoleId;
-            domain.Photo = new Photo {
-                Id = dto.Photo.Id,
-                Description = dto.Photo.Description,
-                ImagePath = dto.Photo.ImagePath,
-                State = dto.Photo.State
-            };
-            domain.LocationId = dto.LocationId;
-            domain.PhoneNumbers = dto.PhoneNumbers.Select(x => new PhoneNumber()
+            if(dto.Photo.Id!=0)
             {
-                Id = x.Id,
-                Number = x.Number,
-                State = x.State
-            }).ToList();
+                var photoBd = photoRepo.Get(dto.Photo.Id);
+                photoBd.Description = dto.Photo.Description;
+                photoBd.ImagePath = dto.Photo.ImagePath;
+                photoBd.State = dto.Photo.State;
+                domain.Photo = photoBd;
+            }
+            else
+            {
+                domain.Photo = new Photo
+                {
+                    Id = dto.Photo.Id,
+                    Description = dto.Photo.Description,
+                    ImagePath = dto.Photo.ImagePath,
+                    State = dto.Photo.State
+                };
+            }
+            domain.LocationId = dto.LocationId;
+
+            foreach(var dtoPhone in dto.PhoneNumbers)
+            {
+                var domainPhone = domain.PhoneNumbers.FirstOrDefault(x=> x.Id == dtoPhone.Id);
+                if (domainPhone == null)
+                {
+                    var number = new PhoneNumber()
+                    {
+                        Number = dtoPhone.Number
+                    };
+                    domain.PhoneNumbers.Add(number);
+                }
+                else
+                {
+                    domainPhone.Number = dtoPhone.Number;
+                    domainPhone.State = dtoPhone.State;
+                }
+            }
         }
     }
 }

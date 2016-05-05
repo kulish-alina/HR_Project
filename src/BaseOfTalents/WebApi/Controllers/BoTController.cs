@@ -72,7 +72,7 @@ namespace WebApi.Controllers
                 if (foundedEntity != null)
                 {
                     var foundedEntityDto = DTOService.ToDTO<DomainEntity, ViewModel>(foundedEntity);
-                    return Json(foundedEntityDto);
+                    return Json(foundedEntityDto, BOT_SERIALIZER_SETTINGS);
                 }
                 return NotFound();
             });
@@ -154,9 +154,10 @@ namespace WebApi.Controllers
         protected IHttpActionResult CreateResponse(HttpRequestMessage request, Func<IHttpActionResult> function)
         {
             IHttpActionResult response = null;
-            try
+            response = function.Invoke();
+            /*try
             {
-                response = function.Invoke();
+                
             }
             catch (DbUpdateException ex)
             {
@@ -167,7 +168,7 @@ namespace WebApi.Controllers
             {
                 LogError(ex);
                 response = InternalServerError(ex);
-            }
+            }*/
             return response;
         }
         private void LogError(Exception ex)

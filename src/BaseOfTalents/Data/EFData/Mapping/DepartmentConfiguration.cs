@@ -12,6 +12,7 @@ namespace Data.EFData.Mapping
         public DepartmentConfiguration()
         {
             Property(d => d.Title).IsRequired();
+            HasRequired(d => d.DepartmentGroup).WithMany(d => d.Departments).HasForeignKey(d => d.DepartmentGroupId);
         }
     }
 }

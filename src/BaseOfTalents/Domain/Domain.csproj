@@ -50,6 +50,7 @@
     <Compile Include="DTO\DTOModels\CandidateSocialDTO.cs" />
     <Compile Include="DTO\DTOModels\CandidateSourceDTO.cs" />
     <Compile Include="DTO\DTOModels\CommentDTO.cs" />
+    <Compile Include="DTO\DTOModels\Error.cs" />
     <Compile Include="DTO\DTOModels\EventDTO.cs" />
     <Compile Include="DTO\DTOModels\FileDTO.cs" />
     <Compile Include="DTO\DTOModels\LanguageSkillDTO.cs" />

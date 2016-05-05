@@ -26,46 +26,59 @@ namespace WebApi
                 x.CreateMap<PhotoDTO, Photo>();
 
                 x.CreateMap<Country, CountryDTO>();
-                x.CreateMap<CountryDTO, Country>();
+                x.CreateMap<CountryDTO, Country>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Department, DepartmentDTO>();
-                x.CreateMap<DepartmentDTO, Department>();
+                x.CreateMap<DepartmentDTO, Department>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src=> DateTime.Now));
 
                 x.CreateMap<DepartmentGroup, DepartmentGroupDTO>();
-                x.CreateMap<DepartmentGroupDTO, DepartmentGroup>();
+                x.CreateMap<DepartmentGroupDTO, DepartmentGroup>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<EventType, EventTypeDTO>();
-                x.CreateMap<EventTypeDTO, EventType>();
+                x.CreateMap<EventTypeDTO, EventType>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Industry, IndustryDTO>();
-                x.CreateMap<IndustryDTO, Industry>();
+                x.CreateMap<IndustryDTO, Industry>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Language, LanguageDTO>();
-                x.CreateMap<LanguageDTO, Language>();
+                x.CreateMap<LanguageDTO, Language>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<PhoneNumber, PhoneNumberDTO>();
-                x.CreateMap<PhoneNumberDTO, PhoneNumber>();
+                x.CreateMap<PhoneNumberDTO, PhoneNumber>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+
 
                 x.CreateMap<Level, LevelDTO>();
-                x.CreateMap<LevelDTO, Level>();
+                x.CreateMap<LevelDTO, Level>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Location, LocationDTO>();
-                x.CreateMap<LocationDTO, Location>();
+                x.CreateMap<LocationDTO, Location>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Skill, SkillDTO>();
-                x.CreateMap<SkillDTO, Skill>();
+                x.CreateMap<SkillDTO, Skill>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<SocialNetwork, SocialNetworkDTO>();
-                x.CreateMap<SocialNetworkDTO, SocialNetwork>();
+                x.CreateMap<SocialNetworkDTO, SocialNetwork>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Stage, StageDTO>();
-                x.CreateMap<StageDTO, Stage>();
+                x.CreateMap<StageDTO, Stage>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Tag, TagDTO>();
-                x.CreateMap<TagDTO, Tag>();
+                x.CreateMap<TagDTO, Tag>()
+                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<CandidateSource, CandidateSourceDTO>();
-                x.CreateMap<CandidateSourceDTO, CandidateSource>();
 
                 x.CreateMap<LanguageSkill, LanguageSkillDTO>();
                 x.CreateMap<LanguageSkillDTO, LanguageSkill>();

@@ -35,7 +35,7 @@ namespace Data.EFData.Repositories
 
         public virtual IQueryable<TEntity> GetAll()
         {
-            return DbContext.Set<TEntity>().Where(x=>x.State!=Domain.Entities.Enum.EntityState.Inactive);
+            return DbContext.Set<TEntity>();
         }
 
         public virtual IQueryable<TEntity> All
@@ -59,11 +59,11 @@ namespace Data.EFData.Repositories
 
         public virtual TEntity Get(int id)
         {
-            return GetAll().SingleOrDefault(x => x.Id == id);
+            return GetAll().FirstOrDefault(x => x.Id == id);
         }
         public virtual IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
         {
-            return GetAll().Where(predicate);
+            return DbContext.Set<TEntity>().Where(predicate);
         }
         public virtual void Add(TEntity entity)
         {

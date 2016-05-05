@@ -19,11 +19,10 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($scope, ThesaurusService, $translate/*, ValidationService*/) {
+function ThesaurusController($scope, ThesaurusService, $translate) {
    'ngInject';
 
    const vm = $scope;
-   //const activeStateId = 1;
 
    /* --- api --- */
    vm.topics      = [];

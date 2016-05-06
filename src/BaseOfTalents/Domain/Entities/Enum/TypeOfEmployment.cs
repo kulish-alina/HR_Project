@@ -8,7 +8,7 @@ namespace Domain.Entities.Enum
 {
     public enum TypeOfEmployment
     {
-        FullTime,
+        FullTime = 1,
         PartTime,
         Remote,
         Practice,

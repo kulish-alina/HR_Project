@@ -8,7 +8,7 @@ namespace Domain.Entities.Enum
 {
     public enum EntityState
     {
-        Inactive,
+        Inactive = 1,
         Active,
         Verfied,
         Unverified,

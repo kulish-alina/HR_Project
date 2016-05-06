@@ -19,7 +19,8 @@ namespace Data.EFData.Mapping
 
             HasRequired(v => v.Department).WithMany().HasForeignKey(v => v.DepartmentId);
             HasRequired(v => v.Responsible).WithMany().HasForeignKey(v => v.ResponsibleId);
-            HasRequired(v => v.LanguageSkill).WithRequiredDependent();
+
+            HasOptional(v => v.LanguageSkill).WithOptionalDependent();
 
             HasMany(v => v.Locations).WithMany().Map(x =>
             {

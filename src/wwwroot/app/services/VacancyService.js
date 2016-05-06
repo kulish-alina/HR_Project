@@ -1,13 +1,15 @@
+import utils from '../utils.js';
 import {
    filter,
    remove,
    each,
-   map,
-   split,
-   trimEnd
+   map
+//   split,
+//   trimEnd
 } from 'lodash';
 
 const VACANCY_URL = 'vacancies';
+const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate'];
 let _HttpService;
 let _ThesaurusService;
 let _$q;
@@ -44,15 +46,12 @@ export default class VacancyService {
    }
 
    saveVacancy(entity) {
-      let dateType = ['startDate', 'deadlineDate', 'endDate'];
-      each(dateType, (type) => {
-         let partsOfDate = split(entity[type], '.');
-         let indexOfParts = [2, 0, 1];
-         let newDate = '';
-         each(indexOfParts, (index) => {
-            newDate += `${partsOfDate[index]}-`;
+      let newDates = [];
+      each(DATE_TYPE, (type) => {
+         newDates.push(utils.formatDateToServer(entity[type]));
+         each(newDates, (date) => {
+            entity[type] = date;
          });
-         entity[type] = `${trimEnd(newDate, '-')}T00:00:00`;
       });
       let mapEntity = {
          'skills' : 'requiredSkills',
@@ -75,9 +74,13 @@ export default class VacancyService {
 
          if (entity.id) {
             const additionalUrl = VACANCY_URL + entity.id;
-            return _HttpService.put(additionalUrl, entity);
+            return _HttpService.put(additionalUrl, entity)
+               .then(_changeFormateToFrontend)
+               .catch(() => _changeFormateToFrontend(entity));
          } else {
-            return _HttpService.post(VACANCY_URL, entity);
+            return _HttpService.post(VACANCY_URL, entity)
+               .then(_changeFormateToFrontend)
+               .catch(() => _changeFormateToFrontend(entity));
          }
       }).catch(this._onError);
    }
@@ -90,4 +93,16 @@ export default class VacancyService {
          _HttpService.remove(additionalUrl, entity);
       }
    }
+}
+
+function _changeFormateToFrontend(_entity) {
+   console.log(_entity);
+   let oldDates = [];
+   each(DATE_TYPE, (type) => {
+      oldDates.push(utils.formatDateFromServer(_entity[type]));
+      each(oldDates, (date) => {
+         _entity[type] = date;
+      });
+   });
+   return _entity;
 }

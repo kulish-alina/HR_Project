@@ -7,7 +7,8 @@ export default function VacancyController(
    VacancyService,
    ValidationService,
    FileUploader,
-   ThesaurusService
+   ThesaurusService,
+   UserService
 ) {
    'ngInject';
 
@@ -22,11 +23,9 @@ export default function VacancyController(
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
-   vm.responsibles = [
-      {id: '1', title: 'vbre'},
-      {id: '2', title: 'tkas'},
-      {id: '3', title: 'vles'}
-   ];
+   UserService.getUsers().then((users) => {
+      vm.responsibles = users;
+   });
 
    function createNewUploader() {
       let newUploader = new FileUploader({

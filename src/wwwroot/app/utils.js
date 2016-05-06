@@ -1,6 +1,5 @@
 import {
    reduce,
-   each,
    split,
    trimEnd
 } from 'lodash';
@@ -27,20 +26,10 @@ function array2map(arr, it) {
 
 function formatDateToServer(entityDate) {
    let partsOfDate = split(entityDate, '.');
-   let indexOfParts = [2, 1, 0];
-   let newDate = '';
-   each(indexOfParts, (index) => {
-      newDate += `${partsOfDate[index]}-`;
-   });
-   return `${trimEnd(newDate, '-')}T00:00:00`;
+   return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]}T00:00:00`; // eslint-disable-line no-magic-numbers
 }
 
 function formatDateFromServer(entityDate) {
-   let partsOfDate = split(trimEnd(entityDate, 'T00:00:00'), '-');
-   let indexOfParts = [2, 1, 0];
-   let newDate = '';
-   each(indexOfParts, (index) => {
-      newDate += `${partsOfDate[index]}.`;
-   });
-   return trimEnd(newDate, '.');
+   let partsOfDate = split(trimEnd(trimEnd(entityDate, '00:00:00'), 'T'), '-');
+   return `${partsOfDate[2]}.${partsOfDate[1]}.${partsOfDate[0]}`; // eslint-disable-line no-magic-numbers
 }

@@ -30,6 +30,7 @@ import ValidationProvider  from './services/ValidationProvider';
 import CandidateService  from './services/CandidateService';
 import VacancyService    from './services/VacancyService';
 import ThesaurusService  from './services/thesaurusService';
+import UserService  from './services/UserService';
 
 import ThesaurusDirective   from './directives/thesaurus/thesaurus';
 
@@ -62,6 +63,7 @@ angular
    .service('CandidateService',  CandidateService)
    .service('VacancyService',    VacancyService)
    .service('ThesaurusService', ThesaurusService)
+   .service('UserService', UserService)
 
    .directive('thesaurus', ThesaurusDirective.createInstance)
 

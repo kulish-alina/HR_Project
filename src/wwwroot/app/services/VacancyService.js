@@ -4,8 +4,6 @@ import {
    remove,
    each,
    map
-//   split,
-//   trimEnd
 } from 'lodash';
 
 const VACANCY_URL = 'vacancies';
@@ -41,8 +39,9 @@ export default class VacancyService {
       return _$q.all(promises);
    }
 
-   _onError() {
-      _LoggerService.error();
+   _onError(err) {
+      _LoggerService.error(err);
+      return _$q.reject(err);
    }
 
    saveVacancy(entity) {

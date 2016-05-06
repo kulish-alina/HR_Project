@@ -54,7 +54,7 @@
                      <fieldset>
                         <select name="Responsible" ng-model="vacancy.responsibleId" validator="required">
                            <option selected value="">{{::'COMMON.RESPONSIBLE' | translate}}</option>
-                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.title}}</option>
+                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.lastName}}</option>
                         </select>
                         <select name="Department" ng-model="vacancy.departmentId" validator="required">
                            <option selected value="">{{::'COMMON.DEPARTMENT' | translate}}</option>
@@ -113,7 +113,6 @@
                   <div class="medium-6 grid-block">
                      <fieldset>
                         <input type="file" nv-file-select="" multiple uploader="uploader">
-                        <p>{{uploader.queue.length}}</p>
                         <table class="upload-table" ng-hide="!uploader.queue.length">
                            <thead>
                               <tr>

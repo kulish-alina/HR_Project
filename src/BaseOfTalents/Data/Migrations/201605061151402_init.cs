@@ -274,7 +274,7 @@ namespace Data.Migrations
                 "dbo.Vacancy",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         Description = c.String(),
                         SalaryMin = c.Int(nullable: false),
@@ -289,18 +289,19 @@ namespace Data.Migrations
                         ResponsibleId = c.Int(nullable: false),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        LanguageSkill_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Department", t => t.DepartmentId)
                 .ForeignKey("dbo.Industry", t => t.IndustryId)
-                .ForeignKey("dbo.LanguageSkill", t => t.Id)
+                .ForeignKey("dbo.LanguageSkill", t => t.LanguageSkill_Id)
                 .ForeignKey("dbo.Vacancy", t => t.ParentVacancyId)
                 .ForeignKey("dbo.User", t => t.ResponsibleId)
-                .Index(t => t.Id)
                 .Index(t => t.ParentVacancyId)
                 .Index(t => t.IndustryId)
                 .Index(t => t.DepartmentId)
-                .Index(t => t.ResponsibleId);
+                .Index(t => t.ResponsibleId)
+                .Index(t => t.LanguageSkill_Id);
             
             CreateTable(
                 "dbo.Department",
@@ -621,7 +622,7 @@ namespace Data.Migrations
             DropForeignKey("dbo.VacancyLocation", "Vacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyLevel", "Level_Id", "dbo.Level");
             DropForeignKey("dbo.VacancyLevel", "Vacancy_Id", "dbo.Vacancy");
-            DropForeignKey("dbo.Vacancy", "Id", "dbo.LanguageSkill");
+            DropForeignKey("dbo.Vacancy", "LanguageSkill_Id", "dbo.LanguageSkill");
             DropForeignKey("dbo.Vacancy", "IndustryId", "dbo.Industry");
             DropForeignKey("dbo.File", "Vacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "DepartmentId", "dbo.Department");
@@ -682,11 +683,11 @@ namespace Data.Migrations
             DropIndex("dbo.User", new[] { "LocationId" });
             DropIndex("dbo.User", new[] { "RoleId" });
             DropIndex("dbo.Department", new[] { "DepartmentGroupId" });
+            DropIndex("dbo.Vacancy", new[] { "LanguageSkill_Id" });
             DropIndex("dbo.Vacancy", new[] { "ResponsibleId" });
             DropIndex("dbo.Vacancy", new[] { "DepartmentId" });
             DropIndex("dbo.Vacancy", new[] { "IndustryId" });
             DropIndex("dbo.Vacancy", new[] { "ParentVacancyId" });
-            DropIndex("dbo.Vacancy", new[] { "Id" });
             DropIndex("dbo.VacancyStage", new[] { "StageId" });
             DropIndex("dbo.VacancyStage", new[] { "VacancyId" });
             DropIndex("dbo.VacancyStageInfo", new[] { "Vacancy_Id" });

@@ -11,7 +11,7 @@ textarea {
    height: $rem-base*2.4;
    min-height: $rem-base*2.4;
 }
-.main-card textarea{
+.main-card textarea {
    height: $rem-base*5; 
 }
 .checkbox-block {
@@ -80,5 +80,5 @@ select :nth-child(n+2) {
    color: $body-font-color;
 } 
 select[multiple] {
-    height: auto;
+   height: auto;
 }

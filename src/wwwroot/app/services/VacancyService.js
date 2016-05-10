@@ -3,7 +3,8 @@ import {
    filter,
    remove,
    each,
-   map
+   map,
+   concat
 } from 'lodash';
 
 const VACANCY_URL = 'vacancies';
@@ -33,7 +34,7 @@ export default class VacancyService {
 
    _saveNewTopicsToThesaurus(data) {
       let promises = {};
-      each(data, (list, thesaurusName) => {
+      map(data, (list, thesaurusName) => {
          promises[thesaurusName] = _ThesaurusService.saveThesaurusTopics(thesaurusName, list);
       });
       return _$q.all(promises);
@@ -45,12 +46,8 @@ export default class VacancyService {
    }
 
    saveVacancy(entity) {
-      let newDates = [];
       each(DATE_TYPE, (type) => {
-         newDates.push(utils.formatDateToServer(entity[type]));
-         each(newDates, (date) => {
-            entity[type] = date;
-         });
+         entity[type] = utils.formatDateToServer(entity[type]);
       });
       let mapEntity = {
          'skills' : 'requiredSkills',
@@ -58,16 +55,14 @@ export default class VacancyService {
       };
 
       let data = {};
-      each(mapEntity, (vacancyKey, thesaurusName) => {
+      map(mapEntity, (vacancyKey, thesaurusName) => {
          data[thesaurusName] = filter(entity[vacancyKey], {id: undefined});
       });
 
       this._saveNewTopicsToThesaurus(data).then((promises) => {
          each(mapEntity, (vacancyKey, thesaurusName) => {
             remove(entity[vacancyKey], {id: undefined});
-            each(promises[thesaurusName], topic => {
-               entity[vacancyKey].push(topic);
-            });
+            entity[vacancyKey] = concat(entity[vacancyKey], promises[thesaurusName]);
             entity[vacancyKey] = map(entity[vacancyKey], item => item.id);
          });
 
@@ -95,13 +90,8 @@ export default class VacancyService {
 }
 
 function _changeFormateToFrontend(_entity) {
-   console.log(_entity);
-   let oldDates = [];
    each(DATE_TYPE, (type) => {
-      oldDates.push(utils.formatDateFromServer(_entity[type]));
-      each(oldDates, (date) => {
-         _entity[type] = date;
-      });
+      _entity[type] = utils.formatDateFromServer(_entity[type]);
    });
    return _entity;
 }

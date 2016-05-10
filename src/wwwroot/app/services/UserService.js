@@ -8,8 +8,6 @@ export default class UserService {
    }
 
    getUsers() {
-      'ngInject';
-      console.log(_HttpService.get(USER_URL));
       return _HttpService.get(USER_URL);
    }
 }

@@ -56,14 +56,14 @@ const dependencies = [
 angular
    .module('bot', dependencies)
 
-   .provider('LoggerService', LoggerProvider)
-   .provider('HttpService',   HttpProvider)
-   .provider('ValidationService',   ValidationProvider)
+   .provider('LoggerService',     LoggerProvider)
+   .provider('HttpService',       HttpProvider)
+   .provider('ValidationService', ValidationProvider)
 
-   .service('CandidateService',  CandidateService)
-   .service('VacancyService',    VacancyService)
-   .service('ThesaurusService', ThesaurusService)
-   .service('UserService', UserService)
+   .service('CandidateService',   CandidateService)
+   .service('VacancyService',     VacancyService)
+   .service('ThesaurusService',   ThesaurusService)
+   .service('UserService',        UserService)
 
    .directive('thesaurus', ThesaurusDirective.createInstance)
 

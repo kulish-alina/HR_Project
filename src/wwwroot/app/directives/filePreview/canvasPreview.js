@@ -9,8 +9,6 @@ export default function CanvasPreviewDirective($window) {
       },
       isImage: function isImage(file) {
          let type =  concat('|', file.type.slice(file.type.lastIndexOf('/') + 1), '|').toString().replace(/,/g, '');
-         console.log(type);
-         console.log('|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1);
          return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
       }
    };
@@ -39,7 +37,6 @@ export default function CanvasPreviewDirective($window) {
             let img = new Image();
             img.onload = onLoadImage;
             img.src = event.target.result;
-            console.log(img);
          }
 
          function onLoadImage() {

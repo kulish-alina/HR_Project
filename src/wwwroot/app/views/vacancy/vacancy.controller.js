@@ -34,13 +34,13 @@ export default function VacancyController(
       });
       newUploader.filters.push({
          name: 'sizeFilter',
-         fn: function sizeFilter (item) {
+         fn: function sizeFilter(item) {
             if (item.size <= MAX_SIZE_OF_FILE) {
                return true;
             }
          }
       });
-      newUploader.onSuccessItem = function onSuccessUpload (item) {
+      newUploader.onSuccessItem = function onSuccessUpload(item) {
          vm.vacancy.fileIds.push(item.id);
       };
       return newUploader;

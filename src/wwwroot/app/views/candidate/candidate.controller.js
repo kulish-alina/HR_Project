@@ -1,23 +1,20 @@
-import utils from '../../utils';
+const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
+    'departments', 'tags', 'skills'];
 export default function CandidateController(
    $scope,
    $translate,
    CandidateService,
    ValidationService,
    FileUploader,
-   ThesaurusService,
-   $q) {
+   ThesaurusService
+   ) {
    'ngInject';
 
    const vm = $scope;
    vm.saveCandidate = saveCandidate;
    vm.keys = Object.keys;
 
-   let listOfThesaurus = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
-    'departments', 'typesOfEmployment', 'statuses', 'tags', 'skills'];
-
-   let map = utils.array2map(listOfThesaurus, ThesaurusService.getThesaurusTopics);
-   $q.all(map).then((data) => vm.thesaurus = data);
+   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
    vm.uploader = new FileUploader({
       url: './api/files'

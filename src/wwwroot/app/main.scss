@@ -32,8 +32,9 @@ body {
       $margin: $rem-base*0.5
    );
    width: 100%;
-   min-height: $rem-base*37.5;
-   max-height: $rem-base*56.25;
+  // min-height: $rem-base*37.5;
+   //max-height: $rem-base*56.25;
+   height: auto;
 }
 
 // Styles for switching pages
@@ -54,6 +55,45 @@ body {
 .button change-pass {
    width: 100%;
 }
-.main-card userProfile {
-   height: $rem-base*9;
+.userProfile {
+   @extend .main-card;
+   min-height: $rem-base*15;
+}
+.tabs {
+   @include tabstrip(
+      $orientation: vertical
+   );
+   @include tabstrip-item(
+	$background: $body-background,
+	$background-hover: $body-background,
+	$background-active: $body-background,
+	$color: $tab-title-color,
+	$color-active: $tab-title-color-active,
+	$padding: 0
+);
+   width: 100%;
+}
+.tabs-container {
+   width: 100%;
+}
+.tab-item {
+   height: $rem-base*8;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: $body-background !important;
+   border: 1px solid $border-color;
+}
+.tab-contents {
+   width: 100%;
+   padding: 0;
+   border: 1px solid $border-color;
+}
+.roles-table {
+   margin-top: 0;
+   margin-left: 0;
+}
+.tab-item.is-active {
+   box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
+   font-weight: 600;
 }

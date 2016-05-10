@@ -24,6 +24,7 @@ import VacancyService    from './services/VacancyService';
 import UserService       from './services/userService';
 import ThesaurusService  from './services/thesaurusService';
 import SettingsService   from './services/SettingsService';
+import RolesService      from './services/RolesService';
 
 import ThesaurusDirective   from './directives/thesaurus/thesaurus';
 import DatePickerDirective  from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -54,6 +55,7 @@ angular
    .service('VacancyService',    VacancyService)
    .service('UserService',       UserService)
    .service('SettingsService',   SettingsService)
+   .service('RolesService',      RolesService)
    .service('ThesaurusService',  ThesaurusService)
 
    .directive('thesaurus', ThesaurusDirective.createInstance)

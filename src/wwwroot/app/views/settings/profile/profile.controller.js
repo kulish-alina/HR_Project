@@ -63,6 +63,15 @@ export default function ProfileController (
 
 function _calcAge(dateString) {
    const msInYear = 31557600000;
-   let birthday = new Date(dateString);
+   let parts = dateString.split('.');
+   const dayBlock = 0;
+   const monthBlock = 1;
+   const yearBlock = 2;
+   const metricSystemIndex = 10;
+   const moveToZeroBasedSys = 1;
+   let birthday  = new Date(
+      parseInt(parts[yearBlock], metricSystemIndex),
+      parseInt(parts[monthBlock] -  moveToZeroBasedSys, metricSystemIndex),
+      parseInt(parts[dayBlock], metricSystemIndex));
    return floor((Date.now() - birthday) / (msInYear));
 }

@@ -1,11 +1,11 @@
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
-        <div class="grid-content">
-            <h5>{{::'SETTINGS.SETTINGS' | translate}}</h5>
-        </div>
-    </div>
-    <div class="large-7 grid-block">
-         <ul class="menu-bar second-button-bar">
+      <div class="grid-content">
+         <h5>{{::'SETTINGS.SETTINGS' | translate}}</h5>
+      </div>
+   </div>
+   <div class="large-7 grid-block">
+      <ul class="menu-bar second-button-bar">
          <li><a ui-sref="profile">{{::'SETTINGS.PROFILE' | translate}}</a>
          </li>
          <li><a ui-sref="members">{{::'SETTINGS.MEMBERS' | translate}}</a>
@@ -15,14 +15,14 @@
          <li><a ui-sref="recruiting">{{::'SETTINGS.RECRUITING' | translate}}</a>
          </li>
       </ul>
-    </div>
+   </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar align-right">
-         <li ng-if ="$state.current.data.asEdit" class = "secondary-menu-button"><a ng-click="cancel()">{{::'COMMON.CANCEL' | translate}}</a>
+         <li ng-if="$state.current.data.asEdit" class="secondary-menu-button"><a ng-click="cancel()">{{::'COMMON.CANCEL' | translate}}</a>
          </li>
-         <li ng-if ="$state.current.data.asEdit" class = "secondary-menu-button"><a ng-click="submit()"id = "_onSubmit">{{::'COMMON.SUBMIT' | translate}}</a>
+         <li ng-if="$state.current.data.asEdit" class="secondary-menu-button"><a ng-click="submit()" id="_onSubmit">{{::'COMMON.SUBMIT' | translate}}</a>
          </li>
-         <li ng-if ="!$state.current.data.asEdit" class = "secondary-menu-button"><a ng-click="edit()">{{::'COMMON.EDIT' | translate}}</a>
+         <li ng-if="!$state.current.data.asEdit" class="secondary-menu-button"><a ng-click="edit()">{{::'COMMON.EDIT' | translate}}</a>
          </li>
       </ul>
    </div>

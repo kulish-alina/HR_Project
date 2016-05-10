@@ -102,7 +102,8 @@ export default function _config(
          url: '/roles',
          parent: 'settings',
          template: rolesTemplate,
-         controller: rolesController
+         controller: rolesController,
+         data: {asEdit: true}
       })
       .state('recruiting', {
          parent: 'settings',

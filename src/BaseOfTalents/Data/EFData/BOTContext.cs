@@ -63,6 +63,8 @@ namespace Data.EFData
             modelBuilder.Configurations.Add(new LocationConfiguration());
             modelBuilder.Configurations.Add(new ErrorConfiguration());
 
+            modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
+
             base.OnModelCreating(modelBuilder);
         }
 

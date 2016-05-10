@@ -86,7 +86,6 @@ export default class VacancyService {
 }
 
 function _changeFormateToFrontend(_entity) {
-   debugger;
    each(DATE_TYPE, (type) => {
       _entity[type] = utils.formatDateFromServer(_entity[type]);
    });

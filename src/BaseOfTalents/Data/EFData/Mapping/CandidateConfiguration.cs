@@ -17,6 +17,7 @@ namespace Data.EFData.Mapping
     {
         public CandidateConfiguration()
         {
+
             Property(c => c.FirstName).IsRequired();
             Property(c => c.MiddleName).IsRequired();
             Property(c => c.LastName).IsRequired();

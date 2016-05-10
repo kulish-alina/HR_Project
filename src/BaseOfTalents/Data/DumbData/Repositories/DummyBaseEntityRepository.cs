@@ -53,7 +53,7 @@ namespace Data.DumbData.Repositories
 
         public void Remove(TEntity entity)
         {
-            Collection.First(x => x == entity).State = EntityState.Inactive;
+            Collection.Remove(entity);
         }
 
         public void Update(TEntity entity)

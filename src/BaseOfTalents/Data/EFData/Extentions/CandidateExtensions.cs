@@ -43,9 +43,6 @@ namespace Data.EFData.Extentions
             PerformSourcesSaving(domain, dto);
             PerformVacanciesProgressSaving(domain, dto);
             
-            
-            
-
             foreach (var dtoTagId in dto.TagIds.ToList())
             {
                 if (!domain.Tags.Any(x => x.Id == dtoTagId))
@@ -162,7 +159,19 @@ namespace Data.EFData.Extentions
                 }
             }
 
+            RefreshExistingVacanciesProgress(destination, source);
+            CreateNewVacanciesProgress(destination, source);
 
+        }
+
+        private static void CreateNewVacanciesProgress(Candidate destination, CandidateDTO source)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void RefreshExistingVacanciesProgress(Candidate destination, CandidateDTO source)
+        {
+            throw new NotImplementedException();
         }
 
         private static void PerformSourcesSaving(Candidate destination, CandidateDTO source)

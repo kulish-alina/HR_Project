@@ -17,5 +17,7 @@ namespace Domain.Entities
         public int Id { get; set; }
         public DateTime? EditTime { get; set; }
         public EntityState State { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace Data.EFData.Repositories
 
         public virtual IQueryable<TEntity> GetAll()
         {
-            return DbContext.Set<TEntity>().Where(x=>x.State!=Domain.Entities.Enum.EntityState.Inactive);
+            return DbContext.Set<TEntity>();
         }
 
         public virtual IQueryable<TEntity> All
@@ -77,8 +77,8 @@ namespace Data.EFData.Repositories
         }
         public virtual void Remove(TEntity entity)
         {
-            entity.State = Domain.Entities.Enum.EntityState.Inactive;
-            DbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+            var attachedEntity = DbContext.Set<TEntity>().Attach(entity);
+            DbContext.Set<TEntity>().Remove(attachedEntity);
         }
     }
 }

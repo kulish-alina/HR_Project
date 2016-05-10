@@ -7,6 +7,8 @@ namespace Data.EFData.Mapping
     {
         public BaseEntityConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             HasKey(e => e.Id);
             Property(e => e.EditTime);
             Property(e => e.State).IsRequired();

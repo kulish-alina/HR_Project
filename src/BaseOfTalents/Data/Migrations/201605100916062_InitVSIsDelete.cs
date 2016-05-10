@@ -3,7 +3,7 @@ namespace Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class InitVSIsDelete : DbMigration
     {
         public override void Up()
         {
@@ -32,6 +32,7 @@ namespace Data.Migrations
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
                         Photo_Id = c.Int(),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Industry", t => t.IndustryId)
@@ -49,6 +50,7 @@ namespace Data.Migrations
                         Message = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -61,6 +63,7 @@ namespace Data.Migrations
                         Description = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                         Candidate_Id = c.Int(),
                         Vacancy_Id = c.Int(),
                     })
@@ -78,6 +81,7 @@ namespace Data.Migrations
                         Title = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -90,6 +94,7 @@ namespace Data.Migrations
                         LanguageId = c.Int(nullable: false),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Language", t => t.LanguageId)
@@ -103,6 +108,7 @@ namespace Data.Migrations
                         Title = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -115,6 +121,7 @@ namespace Data.Migrations
                         CountryId = c.Int(nullable: false),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Country", t => t.CountryId)
@@ -128,6 +135,7 @@ namespace Data.Migrations
                         Title = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -139,6 +147,7 @@ namespace Data.Migrations
                         Number = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -151,6 +160,7 @@ namespace Data.Migrations
                         Description = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -162,6 +172,7 @@ namespace Data.Migrations
                         Title = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -175,6 +186,7 @@ namespace Data.Migrations
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
                         Candidate_Id = c.Int(),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.SocialNetwork", t => t.SocialNetworkId)
@@ -191,6 +203,7 @@ namespace Data.Migrations
                         ImagePath = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -203,6 +216,7 @@ namespace Data.Migrations
                         Path = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                         Candidate_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
@@ -217,6 +231,7 @@ namespace Data.Migrations
                         Title = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -230,6 +245,7 @@ namespace Data.Migrations
                         State = c.Int(nullable: false),
                         Comment_Id = c.Int(),
                         Vacancy_Id = c.Int(),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Comment", t => t.Comment_Id)
@@ -252,6 +268,7 @@ namespace Data.Migrations
                         StageId = c.Int(nullable: false),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Stage", t => t.StageId)
@@ -267,6 +284,7 @@ namespace Data.Migrations
                         Title = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -290,6 +308,7 @@ namespace Data.Migrations
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
                         LanguageSkill_Id = c.Int(),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Department", t => t.DepartmentId)
@@ -312,6 +331,7 @@ namespace Data.Migrations
                         DepartmentGroupId = c.Int(nullable: false),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.DepartmentGroup", t => t.DepartmentGroupId)
@@ -325,6 +345,7 @@ namespace Data.Migrations
                         Title = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -336,6 +357,7 @@ namespace Data.Migrations
                         Title = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -358,6 +380,7 @@ namespace Data.Migrations
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
                         Photo_Id = c.Int(),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Location", t => t.LocationId)
@@ -375,6 +398,7 @@ namespace Data.Migrations
                         Title = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -387,6 +411,7 @@ namespace Data.Migrations
                         AccessRights = c.Int(nullable: false),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -403,6 +428,7 @@ namespace Data.Migrations
                         State = c.Int(nullable: false),
                         Candidate_Id = c.Int(),
                         Vacancy_Id = c.Int(),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
@@ -423,6 +449,7 @@ namespace Data.Migrations
                         ImagePath = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -435,6 +462,7 @@ namespace Data.Migrations
                         StackTrace = c.String(),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             

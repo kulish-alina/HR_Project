@@ -38,119 +38,13 @@ namespace Data.EFData.Extentions
 
             domain.IndustryId = dto.IndustryId;
 
-            foreach (var dtoSocial in dto.SocialNetworks.ToList())
-            {
-                var socialdb = domain.SocialNetworks.ToList().FirstOrDefault(x => x.Id == dtoSocial.Id);
-                if (socialdb == null) //Is Domain Entity Doesnt Contains That Social
-                {
-                    domain.SocialNetworks.Add(new CandidateSocial()  //add to domain entity
-                    {
-                        Path = dtoSocial.Path,
-                        SocialNetworkId = dtoSocial.SocialNetworkId,
-                    });
-                }
-                else                                            //if CONTAINS replace with freAsh information
-                {
-                    socialdb.Path = dtoSocial.Path;
-                    socialdb.SocialNetworkId = dtoSocial.SocialNetworkId;
-                }
-            }
-            foreach (var domainSocial in domain.SocialNetworks.ToList())
-            {
-                if (!dto.SocialNetworks.Any(x => x.Id == domainSocial.Id)) //is domain entity contains social that DTO doesnt contains 
-                {
-                    domain.SocialNetworks.Remove(domainSocial); //delete from domain entity
-                }
-            }
-
-
-            foreach (var languageSkill in dto.LanguageSkills.ToList())
-            {
-                var domainLangSkill = domain.LanguageSkills.FirstOrDefault(x => x.Id == languageSkill.Id);
-                if (domainLangSkill == null)
-                {
-                    domain.LanguageSkills.Add(new LanguageSkill()
-                    {
-                       LanguageId = languageSkill.LanguageId,
-                       LanguageLevel = languageSkill.LanguageLevel,
-                    });
-                }
-                else
-                {
-                    domainLangSkill.LanguageId = languageSkill.LanguageId;
-                    domainLangSkill.LanguageLevel = languageSkill.LanguageLevel;
-                }
-            }
-            foreach (var domainLangSkill in domain.LanguageSkills.ToList())
-            {
-                if(!dto.LanguageSkills.Any(x=> x.Id == domainLangSkill.Id))
-                {
-                    domain.LanguageSkills.Remove(domainLangSkill);
-                }
-            }
-
-
-
-            foreach (var source in dto.Sources.ToList())
-            {
-                var domainSource = domain.Sources.FirstOrDefault(x => x.Id == source.Id);
-                if (domainSource == null)
-                {
-                    domain.Sources.Add(new CandidateSource()
-                    {
-                        Path = source.Path,
-                        Source = source.Source,
-                    });
-                }
-                else
-                {
-                    domainSource.Path = source.Path;
-                    domainSource.Source = source.Source;
-                    domainSource.State = source.State;
-                }
-            }
-            foreach (var domainSource in domain.Sources.ToList())
-            {
-                if(!dto.Sources.Any( x=> x.Id == domainSource.Id))
-                {
-                    domain.Sources.Remove(domainSource);
-                }    
-            }
+            PerformSocialSaving(domain, dto);
+            PerformLanguageSkillsSaving(domain, dto);
+            PerformSourcesSaving(domain, dto);
+            PerformVacanciesProgressSaving(domain, dto);
             
-            foreach (var dtoVp in dto.VacanciesProgress.ToList())
-            {
-                var domainVp = domain.VacanciesProgress.FirstOrDefault(x => x.VacancyStage.VacancyId == dtoVp.VacancyStage.VacancyId);
-                if (domainVp == null)
-                {
-                    domain.VacanciesProgress.Add(new VacancyStageInfo()
-                    {
-                        CandidateId = dtoVp.CandidateId == default(int) ? domain.Id : dtoVp.CandidateId,
-                        VacancyStage = new VacancyStage()
-                        {
-                            IsCommentRequired = dtoVp.VacancyStage.IsCommentRequired,
-                            Order = dtoVp.VacancyStage.Order,
-                            StageId = dtoVp.VacancyStage.StageId,
-                            VacancyId = dtoVp.VacancyStage.VacancyId,
-                        },
-                        Comment = dtoVp.Comment != null ? new Comment() { Message = dtoVp.Comment.Message } : null
-                    });
-                }
-                else
-                {
-                    domainVp.CandidateId = dtoVp.CandidateId == default(int) ? domain.Id : dtoVp.CandidateId;
-                    domainVp.VacancyStage.IsCommentRequired = dtoVp.VacancyStage.IsCommentRequired;
-                    domainVp.VacancyStage.Order = dtoVp.VacancyStage.Order;
-                    domainVp.VacancyStage.StageId = dtoVp.VacancyStage.StageId;
-                    domainVp.Comment = dtoVp.Comment != null ? new Comment() { Message = dtoVp.Comment.Message } : domainVp.Comment;
-                }
-            }
-            foreach (var domainVp in domain.VacanciesProgress.ToList())
-            {
-                if (!dto.VacanciesProgress.Any(x => x.VacancyStage.VacancyId == domainVp.VacancyStage.VacancyId))
-                {
-                    domain.VacanciesProgress.Remove(domainVp);
-                }
-            }
+            
+            
 
             foreach (var dtoTagId in dto.TagIds.ToList())
             {
@@ -228,6 +122,133 @@ namespace Data.EFData.Extentions
                         State = dto.Photo.State
                     };
                 }
+            }
+        }
+
+        private static void PerformVacanciesProgressSaving(Candidate destination, CandidateDTO source)
+        {
+            foreach (var dtoVp in source.VacanciesProgress.ToList())
+            {
+                var domainVp = destination.VacanciesProgress.FirstOrDefault(x => x.VacancyStage.VacancyId == dtoVp.VacancyStage.VacancyId);
+                if (domainVp == null)
+                {
+                    destination.VacanciesProgress.Add(new VacancyStageInfo()
+                    {
+                        CandidateId = dtoVp.CandidateId == default(int) ? destination.Id : dtoVp.CandidateId,
+                        VacancyStage = new VacancyStage()
+                        {
+                            IsCommentRequired = dtoVp.VacancyStage.IsCommentRequired,
+                            Order = dtoVp.VacancyStage.Order,
+                            StageId = dtoVp.VacancyStage.StageId,
+                            VacancyId = dtoVp.VacancyStage.VacancyId,
+                        },
+                        Comment = dtoVp.Comment != null ? new Comment() { Message = dtoVp.Comment.Message } : null
+                    });
+                }
+                else
+                {
+                    domainVp.CandidateId = dtoVp.CandidateId == default(int) ? destination.Id : dtoVp.CandidateId;
+                    domainVp.VacancyStage.IsCommentRequired = dtoVp.VacancyStage.IsCommentRequired;
+                    domainVp.VacancyStage.Order = dtoVp.VacancyStage.Order;
+                    domainVp.VacancyStage.StageId = dtoVp.VacancyStage.StageId;
+                    domainVp.Comment = dtoVp.Comment != null ? new Comment() { Message = dtoVp.Comment.Message } : domainVp.Comment;
+                }
+            }
+            foreach (var domainVp in destination.VacanciesProgress.ToList())
+            {
+                if (!source.VacanciesProgress.Any(x => x.VacancyStage.VacancyId == domainVp.VacancyStage.VacancyId))
+                {
+                    destination.VacanciesProgress.Remove(domainVp);
+                }
+            }
+
+
+        }
+
+        private static void PerformSourcesSaving(Candidate destination, CandidateDTO source)
+        {
+            RefreshExistingSources(destination, source);
+            CreateNewSources(destination, source);
+        }
+
+        private static void CreateNewSources(Candidate destination, CandidateDTO source)
+        {
+            foreach (var newSource in source.Sources.Where(x=> x.Id == 0).ToList())
+            {
+                destination.Sources.Add(new CandidateSource()
+                {
+                    Path = newSource.Path,
+                    Source = newSource.Source
+                });
+            }
+        }
+
+        private static void RefreshExistingSources(Candidate destination, CandidateDTO source)
+        {
+            foreach (var oldSource in source.Sources.Where(x => x.Id != 0))
+            {
+                var domainSource = destination.Sources.FirstOrDefault(x => x.Id == oldSource.Id);
+                domainSource.Path = oldSource.Path;
+                domainSource.Source = oldSource.Source;
+                domainSource.State = oldSource.State;
+            }
+        }
+
+        private static void PerformLanguageSkillsSaving(Candidate destination, CandidateDTO source)
+        {
+            RefreshExistingLS(destination, source);
+            CreateNewLS(destination, source);
+        }
+
+        private static void CreateNewLS(Candidate destination, CandidateDTO source)
+        {
+            foreach (var newLS in source.LanguageSkills.Where(x => x.Id == 0).ToList())
+            {
+                destination.LanguageSkills.Add(new LanguageSkill()
+                {
+                    LanguageId = newLS.LanguageId,
+                    LanguageLevel = newLS.LanguageLevel
+                });
+            }
+        }
+
+        private static void RefreshExistingLS(Candidate destination, CandidateDTO source)
+        {
+            foreach (var oldLS in source.LanguageSkills.Where(x => x.Id != 0).ToList())
+            {
+                var domainLS = destination.LanguageSkills.ToList().FirstOrDefault(x => x.Id == oldLS.Id);
+                domainLS.LanguageLevel = oldLS.LanguageLevel;
+                domainLS.LanguageId = oldLS.LanguageId;
+                domainLS.State = oldLS.State;
+            }
+        }
+
+        private static void PerformSocialSaving(Candidate destination, CandidateDTO source)
+        {
+            RefreshExistingSocials(destination, source);
+            CreateNewSocials(destination, source);
+        }
+
+        private static void CreateNewSocials(Candidate destination, CandidateDTO source)
+        {
+            foreach (var newSocial in source.SocialNetworks.Where(x => x.Id == 0).ToList())
+            {
+                destination.SocialNetworks.Add(new CandidateSocial()
+                {
+                    Path = newSocial.Path,
+                    SocialNetworkId = newSocial.SocialNetworkId,
+                });
+            }
+        }
+
+        private static void RefreshExistingSocials(Candidate destination, CandidateDTO source)
+        {
+            foreach (var oldSocial in source.SocialNetworks.Where(x => x.Id != 0).ToList())
+            {
+                var domainSocial = destination.SocialNetworks.ToList().FirstOrDefault(x => x.Id == oldSocial.Id);
+                domainSocial.Path = oldSocial.Path;
+                domainSocial.SocialNetworkId = oldSocial.SocialNetworkId;
+                domainSocial.State = oldSocial.State;
             }
         }
     }

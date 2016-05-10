@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Data.Infrastructure;
 using Domain.DTO.DTOModels.SetupDTO;
 using System;
+using System.Linq;
 
 namespace WebApi
 {
@@ -24,6 +25,8 @@ namespace WebApi
                 
                 x.CreateMap<Photo, PhotoDTO>();
                 x.CreateMap<PhotoDTO, Photo>();
+
+               
 
                 x.CreateMap<Country, CountryDTO>();
                 x.CreateMap<CountryDTO, Country>();
@@ -79,6 +82,9 @@ namespace WebApi
                 x.CreateMap<Skill, int>()
                      .ConstructUsing(   source => (source.SourceValue as Skill).Id);
 
+                x.CreateMap<Permission, int>()
+                    .ConstructUsing(source => (source.SourceValue as Permission).Id);
+
                 x.CreateMap<Tag, int>()
                      .ConstructUsing(   source => (source.SourceValue as Tag).Id);
 
@@ -90,6 +96,9 @@ namespace WebApi
 
                 x.CreateMap<Location, int>()
                     .ConstructUsing(    source => (source.SourceValue as Location).Id);
+
+                x.CreateMap<Role, RoleDTO>()
+                        .ForMember(dest => dest.PermissionIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Permission>, IEnumerable<int>>(src.Permissions)));
 
                 x.CreateMap<User, UserDTO>()
                    .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<PhotoDTO>(src.Photo)))

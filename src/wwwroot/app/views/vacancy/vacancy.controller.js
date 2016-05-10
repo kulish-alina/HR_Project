@@ -64,6 +64,8 @@ export default function VacancyController(
    }
 
    function _vs() {
-      return VacancyService.saveVacancy(vm.vacancy);
+      VacancyService.saveVacancy(vm.vacancy).then(vacancy => {
+         vm.vacancy = vacancy;
+      });
    }
 }

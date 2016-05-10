@@ -59,7 +59,7 @@ export default class VacancyService {
          data[thesaurusName] = filter(entity[vacancyKey], {id: undefined});
       });
 
-      this._saveNewTopicsToThesaurus(data).then((promises) => {
+      return this._saveNewTopicsToThesaurus(data).then((promises) => {
          each(mapEntity, (vacancyKey, thesaurusName) => {
             remove(entity[vacancyKey], {id: undefined});
             entity[vacancyKey] = concat(entity[vacancyKey], promises[thesaurusName]);
@@ -68,15 +68,11 @@ export default class VacancyService {
 
          if (entity.id) {
             const additionalUrl = VACANCY_URL + entity.id;
-            return _HttpService.put(additionalUrl, entity)
-               .then(_changeFormateToFrontend)
-               .catch(() => _changeFormateToFrontend(entity));
+            return _HttpService.put(additionalUrl, entity);
          } else {
-            return _HttpService.post(VACANCY_URL, entity)
-               .then(_changeFormateToFrontend)
-               .catch(() => _changeFormateToFrontend(entity));
+            return _HttpService.post(VACANCY_URL, entity);
          }
-      }).catch(this._onError);
+      }).then(_changeFormateToFrontend).catch(this._onError);
    }
 
    deleteVacancy(entity) {
@@ -90,6 +86,7 @@ export default class VacancyService {
 }
 
 function _changeFormateToFrontend(_entity) {
+   debugger;
    each(DATE_TYPE, (type) => {
       _entity[type] = utils.formatDateFromServer(_entity[type]);
    });

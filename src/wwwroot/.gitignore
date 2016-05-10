@@ -6,4 +6,3 @@ bower_components/
 typings/
 jsconfig.json
 config/config.context/local.json
-db.json

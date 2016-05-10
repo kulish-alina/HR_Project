@@ -74,11 +74,11 @@
                            <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
                         </select>
                         <div class="grid-block">
-                           <div class="medium-7 grid-block">
+                           <div class="medium-6 grid-block">
                               <input id="masterVacancy" type="checkbox" ng-model="vacancy.masterVacancy" value="true">
                               <label for="masterVacancy">{{::'COMMON.MASTER_VACANCY' | translate}}</label>
                            </div>
-                           <div class="medium-5 grid-block">
+                           <div class="medium-6 grid-block">
                               <input ng-disabled ="!vacancy.masterVacancy" ng-model="vacancy.countOfChildrenVacancies" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
                            </div>
                         </div>
@@ -160,10 +160,10 @@
                   <ul class="candidates">
                      <li>
                         <div class="grid-block">
-                           <div class="medium-6 grid-block">
-                              <a href="#">Candidate 1</a>
+                           <div class="medium-5 grid-block">
+                              <a href="#">Antonov Anton</a>
                            </div>
-                           <div class="medium-6 grid-block">
+                           <div class="medium-7 grid-block">
                               <select name="Candidate stage" id="">
                                  <option value="">Pool</option>
                                  <option value="">Selected</option>
@@ -183,10 +183,10 @@
                      </li>
                      <li>
                         <div class="grid-block">
-                           <div class="medium-6 grid-block">
-                              <a href="#">Candidate 1</a>
+                           <div class="medium-5 grid-block">
+                              <a href="#">Petrova Margarita</a>
                            </div>
-                           <div class="medium-6 grid-block">
+                           <div class="medium-7 grid-block">
                               <select name="Candidate stage" id="">
                                  <option value="">Pool</option>
                                  <option value="">Selected</option>

@@ -94,7 +94,8 @@ namespace WebApi.Controllers
                         _candidate.Update(candidate, _repoFactory.GetDataRepository<Skill>(request), _repoFactory.GetDataRepository<Tag>(request));
                         _candidateRepo.Add(_candidate);
                         _unitOfWork.Commit();
-                        return Ok();
+                        return Json(DTOService.ToDTO<Candidate, CandidateDTO>(_candidate), BOT_SERIALIZER_SETTINGS);
+
                     }
                 }
             });

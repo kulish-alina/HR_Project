@@ -28,9 +28,9 @@ namespace Data.EFData.Extentions
             domain.EndDate = dto.EndDate;
             domain.DeadlineDate = dto.DeadlineDate;
 
-            domain.Levels = dto.LevelIds.Select(x => levelrepo.Get(x)).ToList();
-            domain.Locations = dto.LocationIds.Select(x => locRepo.Get(x)).ToList();
-            domain.RequiredSkills = dto.RequiredSkillIds.Select(x => skillRepo.Get(x)).ToList();
+            domain.Levels = dto.LevelIds != null ? dto.LevelIds.Select(x => levelrepo.Get(x)).ToList() : domain.Levels;
+            domain.Locations = domain.Locations != null ? dto.LocationIds.Select(x => locRepo.Get(x)).ToList() : domain.Locations;
+            domain.RequiredSkills = domain.RequiredSkills != null ? dto.RequiredSkillIds.Select(x => skillRepo.Get(x)).ToList() : domain.RequiredSkills;
             domain.CandidatesProgress = dto.CandidatesProgress!=null ? dto.CandidatesProgress.Select(x => new VacancyStageInfo()
             {
                 Id = x.Id,
@@ -45,8 +45,9 @@ namespace Data.EFData.Extentions
                     State = x.VacancyStage.State,
                     VacancyId = x.VacancyStage.VacancyId,
                 }
-            }).ToList() : new List<VacancyStageInfo>();
-            domain.Tags = dto.TagIds.Select(x => tagRepo.Get(x)).ToList();
+            }).ToList() : domain.CandidatesProgress;
+
+            domain.Tags = domain.Tags != null ? dto.TagIds.Select(x => tagRepo.Get(x)).ToList() : domain.Tags;
 
             domain.ParentVacancyId = dto.ParentVacancyId;
 
@@ -56,11 +57,11 @@ namespace Data.EFData.Extentions
 
             domain.ResponsibleId = dto.ResponsibleId;
 
-            domain.LanguageSkill = new LanguageSkill()
+            domain.LanguageSkill = dto.LanguageSkill != null ? new LanguageSkill()
             {
                 LanguageId = dto.LanguageSkill.LanguageId,
                 LanguageLevel = dto.LanguageSkill.LanguageLevel,
-            };
+            } : domain.LanguageSkill;
         }
     }
 }

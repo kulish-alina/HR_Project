@@ -8,7 +8,7 @@ namespace Domain.Entities.Enum
 {
     public enum AccessRights
     {
-        InviteNewMember,
+        InviteNewMember = 1,
         EditUserProfile,
         ViewUsers,
         ViewUserProfile,

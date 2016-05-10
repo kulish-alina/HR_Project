@@ -1,21 +1,26 @@
 import {
    each,
-   method
+   method,
+   debounce
 } from 'lodash';
+
+const DEBOUNCE_TIME = 25;
 
 let _q;
 let validation;
+let _rootScope;
 let _defers = [];
+let _resetCallback = debounce(_reset, DEBOUNCE_TIME);
 
 export default class ValidationProvider {
    resetCallback() {
-      each(_defers, method('resolve'));
-      _defers = [];
+      _resetCallback();
    }
 
-   $get($validation, $q) {
+   $get($validation, $rootScope, $q) {
       'ngInject';
       _q          = $q;
+      _rootScope  = $rootScope;
       validation  = $validation;
       return new ValidationService();
    }
@@ -33,4 +38,11 @@ class ValidationService {
       validation.reset(form);
       return deferred.promise;
    }
+}
+
+function _reset() {
+   _rootScope.$evalAsync(() => {
+      each(_defers, method('resolve'));
+      _defers = [];
+   });
 }

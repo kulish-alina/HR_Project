@@ -18,14 +18,14 @@ export default class DatePickerWrapperDirective {
    }
 
    static createInstance() {
-      'ngInject';
       DatePickerWrapperDirective.instance = new DatePickerWrapperDirective();
       return DatePickerWrapperDirective.instance;
    }
 }
 
 function DatePickerController ($scope) {
-// datepicker settings
+   'ngInject';
+   // datepicker settings
    $scope.dateFormat = 'dd.MM.yyyy';
    $scope.minLimit = $scope.datemin || '01-01-1901';
 }

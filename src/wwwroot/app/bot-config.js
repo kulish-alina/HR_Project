@@ -38,6 +38,7 @@ export default function _config(
    LoggerServiceProvider,
    HttpServiceProvider
 ) {
+   'ngInject';
 
    $locationProvider.html5Mode({
       enabled: true,

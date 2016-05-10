@@ -6,6 +6,8 @@ namespace Data.EFData.Mapping
     {
         public UserConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             Property(u => u.FirstName).IsRequired();
             Property(u => u.MiddleName).IsRequired();
             Property(u => u.LastName).IsRequired();

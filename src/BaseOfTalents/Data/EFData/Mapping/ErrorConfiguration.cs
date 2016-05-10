@@ -11,6 +11,7 @@ namespace Data.EFData.Mapping
     {
         public ErrorConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
         }
     }
 }

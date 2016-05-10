@@ -11,6 +11,8 @@ namespace Data.EFData.Mapping
     {
         public VacancyStageInfoConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             HasRequired(vsi => vsi.VacancyStage).WithRequiredDependent();
             HasOptional(vsi => vsi.Comment).WithOptionalDependent();
 

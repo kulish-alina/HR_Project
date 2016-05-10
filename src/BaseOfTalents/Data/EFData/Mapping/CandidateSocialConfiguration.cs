@@ -11,6 +11,8 @@ namespace Data.EFData.Mapping
     {
         public CandidateSocialConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             Property(cs => cs.Path).IsRequired();
             HasRequired(cs => cs.SocialNetwork).WithMany().HasForeignKey(cs=>cs.SocialNetworkId);
         }

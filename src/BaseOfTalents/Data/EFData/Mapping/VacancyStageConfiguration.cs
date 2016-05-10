@@ -11,6 +11,8 @@ namespace Data.EFData.Mapping
     {
         public VacancyStageConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             Property(vs => vs.Order).IsRequired();
             Property(vs => vs.IsCommentRequired).IsRequired();
             HasRequired(vs => vs.Vacacny).WithMany().HasForeignKey(vs=>vs.VacancyId);

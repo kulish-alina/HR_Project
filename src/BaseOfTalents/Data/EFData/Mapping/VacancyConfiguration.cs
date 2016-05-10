@@ -11,6 +11,8 @@ namespace Data.EFData.Mapping
     {
         public VacancyConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             HasMany(v => v.CandidatesProgress);
             HasMany(v => v.Files);
            

@@ -11,6 +11,8 @@ namespace Data.EFData.Mapping
     {
         public LocationConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             Property(l => l.Title).IsRequired();
             HasRequired(l => l.Country).WithMany().HasForeignKey(l => l.CountryId);
         }

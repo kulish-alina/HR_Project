@@ -11,6 +11,8 @@ namespace Data.EFData.Mapping
     {
         public DepartmentConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             Property(d => d.Title).IsRequired();
             HasRequired(d => d.DepartmentGroup).WithMany(d => d.Departments).HasForeignKey(d => d.DepartmentGroupId);
         }

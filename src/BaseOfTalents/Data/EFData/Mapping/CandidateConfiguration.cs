@@ -17,6 +17,8 @@ namespace Data.EFData.Mapping
     {
         public CandidateConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             Property(c => c.FirstName).IsRequired();
             Property(c => c.MiddleName).IsRequired();
             Property(c => c.LastName).IsRequired();

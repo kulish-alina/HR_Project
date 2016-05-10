@@ -11,6 +11,8 @@ namespace Data.EFData.Mapping
     {
         public EventConfiguration()
         {
+            Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
             Property(e => e.EventDate).IsRequired();
             Property(e => e.Description).IsRequired();
 

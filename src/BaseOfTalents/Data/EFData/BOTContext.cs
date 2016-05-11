@@ -96,7 +96,8 @@ namespace Data.EFData
                                      typeof(BaseEntity).IsAssignableFrom(e.Entity.GetType())
                                  select e;
 
-            foreach (var entry in deletedEntries)
+            foreach (var entry in ChangeTracker.Entries()
+                  .Where(p => p.State == EntityState.Deleted).ToList())
                 SoftDelete(entry);
 
             return base.SaveChanges();

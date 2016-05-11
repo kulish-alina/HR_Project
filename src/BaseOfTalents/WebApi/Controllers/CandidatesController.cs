@@ -46,7 +46,7 @@ namespace WebApi.Controllers
             var _currentRepo = _repoFactory.GetDataRepository<Candidate>(request);
             return CreateResponse(request, () =>
             {
-                var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id);
+                var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id).ToList();
                 if (pageNumber.HasValue)
                 {
                     var totalCount = _currentRepo.GetAll().Count();
@@ -54,8 +54,7 @@ namespace WebApi.Controllers
                     var entities = entitiesQuery
                                         .Skip((pageNumber.Value - 1) * ENTITIES_PER_PAGE)
                                         .Take(ENTITIES_PER_PAGE)
-                                        .ToList()
-                                        .Select(x => DTOService.ToDTO<Candidate, CandidateDTO>(x));
+                                        .Select(x => DTOService.ToDTO<Candidate, CandidateDTO>(x)).ToList();
                     return Json(new
                     {
                         totalCount = totalCount,

@@ -185,13 +185,16 @@ namespace Data.Migrations
                         SocialNetworkId = c.Int(nullable: false),
                         EditTime = c.DateTime(),
                         State = c.Int(nullable: false),
+                        SocialNetwork_Id = c.Int(),
                         Candidate_Id = c.Int(),
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.SocialNetwork", t => t.SocialNetwork_Id)
                 .ForeignKey("dbo.SocialNetwork", t => t.SocialNetworkId)
                 .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
                 .Index(t => t.SocialNetworkId)
+                .Index(t => t.SocialNetwork_Id)
                 .Index(t => t.Candidate_Id);
             
             CreateTable(
@@ -665,6 +668,7 @@ namespace Data.Migrations
             DropForeignKey("dbo.CandidateSource", "Candidate_Id", "dbo.Candidate");
             DropForeignKey("dbo.CandidateSocial", "Candidate_Id", "dbo.Candidate");
             DropForeignKey("dbo.CandidateSocial", "SocialNetworkId", "dbo.SocialNetwork");
+            DropForeignKey("dbo.CandidateSocial", "SocialNetwork_Id", "dbo.SocialNetwork");
             DropForeignKey("dbo.CandidateSkill", "Skill_Id", "dbo.Skill");
             DropForeignKey("dbo.CandidateSkill", "Candidate_Id", "dbo.Candidate");
             DropForeignKey("dbo.Candidate", "Photo_Id", "dbo.Photo");
@@ -724,6 +728,7 @@ namespace Data.Migrations
             DropIndex("dbo.VacancyStageInfo", new[] { "Id" });
             DropIndex("dbo.CandidateSource", new[] { "Candidate_Id" });
             DropIndex("dbo.CandidateSocial", new[] { "Candidate_Id" });
+            DropIndex("dbo.CandidateSocial", new[] { "SocialNetwork_Id" });
             DropIndex("dbo.CandidateSocial", new[] { "SocialNetworkId" });
             DropIndex("dbo.Location", new[] { "CountryId" });
             DropIndex("dbo.LanguageSkill", new[] { "LanguageId" });

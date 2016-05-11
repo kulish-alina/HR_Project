@@ -11,12 +11,11 @@ namespace Domain.Entities
     {
         public BaseEntity()
         {
-            EditTime = DateTime.Now;
             State = EntityState.Active;
         }
 
         public int Id { get; set; }
-        public DateTime EditTime { get; set; }
+        public DateTime? EditTime { get; set; }
         public EntityState State { get; set; }
     }
 }

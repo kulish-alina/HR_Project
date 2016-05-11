@@ -1,0 +1,36 @@
+@import '/../../main.scss';
+
+input.edit[type="text"]:disabled {
+   background-color: inherit;
+   border: none;
+   margin: 0px;
+}
+
+select.edit:disabled {
+   background-color: inherit;
+   border: none;
+   background-image: none;
+   margin: 0px;
+}
+
+div.thesaurus-row {
+   @extend .row;
+   margin: 0px;
+}
+
+div.thesaurus-column {
+   @extend .column;
+   margin: $rem-base*0.25;
+   width: $rem-base*15;
+}
+
+div.action-column {
+   @extend .thesaurus-column;
+   width : $rem-base*5;
+}
+
+div.thesaurus-column-header {
+   @extend .header-column;
+   @extend .thesaurus-column;
+   padding-left: $rem-base*0.5;
+}

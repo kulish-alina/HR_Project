@@ -4,32 +4,58 @@
 <head>
    <meta charset="UTF-8">
    <title>Bot Start Page</title>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+   <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
 </head>
 
-<body ng-app="bot">
+<body>
+   <style>
+      body {
+         opacity: 0;
+      }
+   </style>
+
    <zf-offcanvas id="menu" position="left">
       <ul class="menu-bar side-menu">
-         <li><a zf-close="" class="close-button">×</a></li>
+         <li class="close"><a zf-close="" class="close-button">×</a></li>
          <li>
-            <a ui-sref="home">{{::'INDEX.HOME' | translate}}
-                <img class="menu-img" src="/app/images/home.png"></a>
+            <a ui-sref="home">
+               {{::'INDEX.HOME' | translate}}
+               <img class="menu-img" src="/app/images/home.png">
+            </a>
          </li>
          <li>
-            <a ui-sref="candidates">{{::'INDEX.CANDIDATES' | translate}}
-                <img class="menu-img" src="/app/images/candidates.png"></a>
+            <a ui-sref="candidates">
+                {{::'INDEX.CANDIDATES' | translate}}
+                <img class="menu-img" src="/app/images/candidates.png">
+            </a>
          </li>
-         <li><a ui-sref="vacancies">{{::'INDEX.VACANCIES' | translate}}
-            <img class="menu-img" src="/app/images/vacancies.png"></a>
+         <li>
+            <a ui-sref="vacancies">
+               {{::'INDEX.VACANCIES' | translate}}
+               <img class="menu-img" src="/app/images/vacancies.png">
+            </a>
          </li>
-         <li> <a ui-sref="#">{{::'INDEX.REPORTS' | translate}}
-          <img class="menu-img" src="/app/images/reports.png"></a>
+         <li class="disabled">
+             <a ui-sref="#">
+               {{::'INDEX.REPORTS' | translate}}
+               <img class="menu-img" src="/app/images/reports.png">
+             </a>
          </li>
-         <li><a ui-sref="#">{{::'INDEX.CALENDAR' | translate}}
-         <img class="menu-img" src="/app/images/calendar.png"></a>
+         <li class="disabled">
+             <a ui-sref="#">
+                {{::'INDEX.CALENDAR' | translate}}
+                <img class="menu-img" src="/app/images/calendar.png">
+             </a>
          </li>
-         <li><a ui-sref="#">{{::'INDEX.SETTINGS' | translate}}
-              <img class="menu-img" src="/app/images/settings.png"></a>
+         <li class="disabled">
+             <a ui-sref="#">
+                {{::'INDEX.SETTINGS' | translate}}
+                <img class="menu-img" src="/app/images/settings.png">
+             </a>
          </li>
+<!--         <li><a ui-sref="thesauruses" ng-bind="'INDEX.THESAURUSES' | translate"></a>
+         </li>-->
       </ul>
    </zf-offcanvas>
    <div class="grid-block main-menu">

@@ -1,0 +1,13 @@
+div.row {
+   clear: both;
+   margin: 0px;
+}
+
+div.column {
+   float: left;
+}
+
+div.header-column {
+   @extend .column;
+   font-weight: bolder;
+}

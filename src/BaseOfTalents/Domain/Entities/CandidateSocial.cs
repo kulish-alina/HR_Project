@@ -9,7 +9,10 @@ namespace Domain.Entities
 {
     public class CandidateSocial : BaseEntity
     {
-        public virtual SocialNetwork SocialNetwork { get; set; }
         public string Path { get; set; }
+
+        public int SocialNetworkId { get; set; }
+        public virtual SocialNetwork SocialNetwork { get; set; }
+
     }
 }

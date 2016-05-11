@@ -1,4 +1,5 @@
-﻿using Data.EFData.Design;
+﻿using Data.Infrastructure;
+using Domain.DTO.DTOModels.SetupDTO;
 using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
@@ -8,11 +9,12 @@ using System.Web;
 
 namespace WebApi.Controllers
 {
-    public class LanguagesController : BoTController<Language, Language>
+    public class LanguagesController : BoTController<Language, LanguageDTO>
     {
-        public LanguagesController(IRepositoryFacade facade) : base(facade)
+        public LanguagesController(IDataRepositoryFactory repoFatory, IUnitOfWork unitOfWork, IErrorRepository errorRepo)
+            : base (repoFatory, unitOfWork, errorRepo)
         {
-            _currentRepo = _repoFacade.LanguageRepository;
+
         }
     }
 }

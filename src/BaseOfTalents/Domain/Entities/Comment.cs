@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Enum;
+using Domain.Entities.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,5 @@ namespace Domain.Entities
     public class Comment : BaseEntity
     {
         public string Message { get; set; }
-        public CommentType CommentType { get; set; }
-        public int RelativeId { get; set; }
     }
 }

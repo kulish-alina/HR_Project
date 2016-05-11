@@ -3,13 +3,33 @@
       "HOME" : "Домой",
       "CANDIDATES" : "Кандидаты",
       "VACANCIES" : "Вакансии",
-      "ADD_CANDIDATE" : "Добавить кандидата"
+      "ADD_CANDIDATE" : "Добавить кандидата",
+      "THESAURUSES" : "Словари"
    },
    "CANDIDATE" : {},
    "CANDIDATES" : {},
    "HOME" : {},
    "VACANCIES" : {},
-   "COMMON" : {},
+   "COMMON" : {
+      "EDIT" : "Редактировать",
+      "ADD" : "Добавить",
+      "SAVE" : "Сохранить",
+      "CANCEL" : "Отмена",
+      "REMOVE" : "Удалить",
+      "EDIT" : "Редактировать"
+   },
+   "THESAURUSES" : {
+      "COUNTRIES" : "Страны",
+      "SOCIALS" : "Социальные сети",
+      "LANGUAGES" : "Языки",
+      "LOCATIONS" : "Расположения",
+      "DEPARTMENTS" : "",
+      "DEPARTMENT_GROUPS" : "",
+      "INDUSTRIES" : "Отрасли",
+      "SKILLS" : "Навыки",
+      "TAGS" : "Теги",
+      "STAGES" : "Этапы"
+   },
    "VALIDATION" : {
       "required": {
          "error": "*обязательное поле!",
@@ -42,6 +62,12 @@
       "title": {
          "error": "*ввод должен быть от 3 до 50 символов",
          "success": "*верно!"
+      }
+   },
+   "ERRORS" : {
+      "someErrorMsg" : "Извините! Произошла ошибка: ",
+      "thesaurusErrors" : {
+         "incorrectNameMsg" : "Некорректное имя словаря."
       }
    }
 }

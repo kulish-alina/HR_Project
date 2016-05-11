@@ -2,33 +2,23 @@
    <div class="card-section">
       <div class="grid-block">
          <div class="medium-2 grid-block">
-          
-          <div class="tabs-container">
-             <div class="tabs">
-                <div ng-repeat="(roleName, perms) in roles" class="tab-item" 
-                     ng-bind="::roleName" ng-click="selectRole(roleName)"
-                     ng-class="{'is-active': roleName === currentRoleName}">
-                </div>
-             </div>
-          </div>
+            <div class="tabs-container">
+               <div class="tabs">
+                  <div ng-repeat="(roleName, perms) in roles" class="tab-item" 
+                       ng-bind="::roleName" ng-click="selectRole(roleName)" 
+                       ng-class="{'is-active': roleName === currentRoleName}">
+                  </div>
+               </div>
+            </div>
          </div>
          <div class="medium-10 grid-block">
-           <table class="roles-table">
-               <thead>
-                  <tr>
-                     <th><input type="checkbox" ng-model="model" ng-change="setAll(model)"></th>
-                     <th>Permission</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr ng-repeat="(permissionName, permission) in permissions">
-                     <td>
-                        <input type="checkbox" ng-model="currentRole[permissionName]">
-                     </td>
-                     <td>{{permission.description}}</td>
-                  </tr>
-               </tbody>
-            </table>
+            <div class="permission-group" ng-repeat="(groupName, permissions) in permissions">
+               <h5>{{groupName}}</h5>
+               <div ng-repeat="permission in permissions">
+                  <input type="checkbox" ng-model="currentRole[permission.name].flag"> 
+                  {{permission.name}}
+               </div>
+            </div>
          </div>
       </div>
    </div>

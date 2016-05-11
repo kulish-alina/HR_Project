@@ -1,5 +1,15 @@
-import utils from '../../utils';
-export default function VacanciesController($scope, VacancyService, ThesaurusService, $q) {
+//import utils from '../../utils';
+const LIST_OF_THESAURUS = ['industries', 'levels', 'locations',
+    'typesOfEmployment', 'entityStates'];
+//const LIST_OF_THESAURUS_TO_FRONTEND = ['industryId', 'levelIds', 'locationIds',
+//    'typeOfEmployment', 'entityStates'];
+export default function VacanciesController(
+   $scope,
+   VacancyService,
+   ThesaurusService,
+   $q,
+   UserService
+   ) {
    'ngInject';
 
    const vm = $scope;
@@ -8,19 +18,24 @@ export default function VacanciesController($scope, VacancyService, ThesaurusSer
    vm.getVacancy = getVacancy;
    vm.deleteVacancy = deleteVacancy;
    vm.editVacancy = editVacancy;
+   vm.thesaurus = [];
+   vm.responsibles = [];
 
-   let listOfThesaurus = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
-    'departments', 'typesOfEmployment', 'statuses', 'tags', 'skills'];
+   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
-   let map = utils.array2map(listOfThesaurus, ThesaurusService.getThesaurusTopics);
-   $q.all(map).then((data) => vm.thesaurus = data);
+   UserService.getUsers().then((users) => {
+      vm.responsibles = users;
+   });
 
    function getVacancies() {
       VacancyService.getVacancies().then(value => vm.vacancies = value).catch(_onError);
    }
 
    function getVacancy(vacancyId) {
-      VacancyService.getVacancy(vacancyId).then(value => vm.vacancies = [ value ]).catch(_onError);
+      VacancyService.getVacancy(vacancyId).then(value => {
+         vm.vacancies = [ value ];
+         console.log('vm.vacancies', vm.vacancies);
+      }).catch(_onError);
    }
 
    function editVacancy(vacancy) {

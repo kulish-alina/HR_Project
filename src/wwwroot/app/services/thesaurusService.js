@@ -53,6 +53,12 @@ export default class ThesaurusService {
       }
    }
 
+   getThesaurusTopicsByIds(thesaurusName, arrIds) {
+      return this.getThesaurusTopics(thesaurusName).then((topics) => {
+         return filter(topics, (topic) => includes(arrIds, topic.id));
+      });
+   }
+
    getThesaurusTopicsGroup(thesaurusNames) {
       let mapThesaurusPromises = utils.array2map(thesaurusNames, this.getThesaurusTopics);
       return _$q.all(mapThesaurusPromises);

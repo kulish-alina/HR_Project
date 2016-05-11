@@ -42,11 +42,12 @@
                <option ng-repeat="status in thesaurus.statuses" value="{{status.id}}">{{::status.title}}</option>
             </select>
             <select ng-model="vacancy.responsibleId" name="Responsible" id="">
-               <option value="">vbre</option>
-               <option value="">tkas</option>
-               <option value="">vles</option>
+               <option selected value="">{{::'COMMON.RESPONSIBLE' | translate}}</option>
+               <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.lastName}}</option>
             </select>
             <a class="expand button" ng-click="getVacancies()">{{::'INDEX.SEARCH' | translate}}</a>
+            <input type="text" ng-model="vacancyId" placeholder="Id">
+            <a class="expand button" ng-click="getVacancy(vacancyId)">GET VACANCY</a>
          </div>
       </div>
    </div>
@@ -65,12 +66,13 @@
                      <th>Location</th>
                      <th>Responsible</th>
                      <th>Added</th>
+                     <th></th>
                   </tr>
                </thead>
                <tbody>
                   <tr ng-repeat="vacancy in vacancies">
                      <td>{{$index+1}}</td>
-                     <td>{{vacancy.title}}</td>
+                     <td>{{vacancy.Title}}</td>
                      <td>{{vacancy.VacancyStatus.Title}}</td>
                      <td>{{vacancy.City.Title}}</td>
                      <td>{{vacancy.User.LastName}}</td>

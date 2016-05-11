@@ -29,7 +29,23 @@ export default class VacancyService {
 
    getVacancy(vacancyId) {
       const additionalUrl = VACANCY_URL + vacancyId;
-      return _HttpService.get(additionalUrl);
+      return _HttpService.get(additionalUrl).then((vacancy) => {
+         let mapListThesauruses = {
+            'industries' : 'IndustryId',
+            'levels': 'LevelIds',
+            'locations': 'LocationIds',
+            'typesOfEmployment': 'TypeOfEmployment',
+            'entityStates': 'State'
+         };
+         each(mapListThesauruses, (thesaurusKey, thesaurusName) => {
+            _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, vacancy[thesaurusKey]).then((promise) => {
+               console.log('promise', promise);
+               vacancy[thesaurusKey] = promise;
+            });
+         }
+         );
+         return vacancy;
+      });
    }
 
    _saveNewTopicsToThesaurus(data) {

@@ -4,10 +4,10 @@ import {
    remove,
    each,
    map,
+   mapValues,
    concat
 } from 'lodash';
-
-const VACANCY_URL = 'vacancies';
+const VACANCY_URL = 'vacancies/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate'];
 let _HttpService;
 let _ThesaurusService;
@@ -33,9 +33,8 @@ export default class VacancyService {
    }
 
    _saveNewTopicsToThesaurus(data) {
-      let promises = {};
-      map(data, (list, thesaurusName) => {
-         promises[thesaurusName] = _ThesaurusService.saveThesaurusTopics(thesaurusName, list);
+      let promises = map(data, (list, thesaurusName) => {
+         return _ThesaurusService.saveThesaurusTopics(thesaurusName, list);
       });
       return _$q.all(promises);
    }
@@ -54,16 +53,15 @@ export default class VacancyService {
          'tags': 'tags'
       };
 
-      let data = {};
-      map(mapEntity, (vacancyKey, thesaurusName) => {
-         data[thesaurusName] = filter(entity[vacancyKey], {id: undefined});
+      let data = mapValues(mapEntity, (vacancyKey) => {
+         return filter(entity[vacancyKey], {id: undefined});
       });
 
       return this._saveNewTopicsToThesaurus(data).then((promises) => {
          each(mapEntity, (vacancyKey, thesaurusName) => {
             remove(entity[vacancyKey], {id: undefined});
             entity[vacancyKey] = concat(entity[vacancyKey], promises[thesaurusName]);
-            entity[vacancyKey] = map(entity[vacancyKey], item => item.id);
+            entity[vacancyKey] = map(entity[vacancyKey], 'id');
          });
 
          if (entity.id) {

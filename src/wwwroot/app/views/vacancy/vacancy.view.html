@@ -69,7 +69,7 @@
                               <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="number" min="0" step="50">
                            </div>
                         </div>
-                        <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
+                        <select name="Type of Employment" ng-model="vacancy.typesOfEmployment">
                            <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
                            <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
                         </select>

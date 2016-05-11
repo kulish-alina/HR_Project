@@ -1,6 +1,6 @@
 const MAX_SIZE_OF_FILE = 5120;
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
-    'departments', 'tags', 'skills'];
+    'departments', 'tags', 'skills', 'typesOfEmployment', 'languageLevels', 'entityStates'];
 
 export default function VacancyController(
    $scope,
@@ -13,14 +13,18 @@ export default function VacancyController(
    'ngInject';
 
    const vm = $scope;
+
+   /* --- api --- */
    vm.cancel = cancel;
    vm.saveVacancy = saveVacancy;
    vm.vacancy = {};
    vm.vacancy.fileIds = [];
+   vm.thesaurus = [];
+   vm.responsibles = [];
    vm.uploader = createNewUploader();
    vm.vacancy.requiredSkills = [];
    vm.vacancy.tags = [];
-
+   /* === impl === */
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
    UserService.getUsers().then((users) => {

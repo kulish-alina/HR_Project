@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
+using WebApi.DTO.DTOService;
 
 namespace WebApi.Controllers
 {
@@ -80,7 +81,7 @@ namespace WebApi.Controllers
                         _user.Update(changedUser);
                         _userRepo.Update(_user);
                         _unitOfWork.Commit();
-                        return Json(_user, BOT_SERIALIZER_SETTINGS);
+                        return Json(DTOService.ToDTO<User, UserDTO>(_user), BOT_SERIALIZER_SETTINGS);
                     }
                 }
             });

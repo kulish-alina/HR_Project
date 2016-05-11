@@ -1,16 +1,22 @@
-@import "settings";
-@import "foundation";
-@import "./styles/table";
-@import "./styles/form";
-@import "./styles/main-menu";
-@import "./styles/secondary-menu";
-@import "./styles/side-menu";
-@import "./styles/sidebar";
-@import "./grid.scss";
+@import 'settings';
+@import 'foundation';
+@import './styles/table';
+@import './styles/form';
+@import './styles/main-menu';
+@import './styles/secondary-menu';
+@import './styles/side-menu';
+@import './styles/sidebar';
+@import './styles/text-editor';
+@import './grid.scss';
+@import './styles/multiple-select';
 
 body {
    background-color: $light-color;
    min-width: $rem-base*75;
+
+   &.ng-scope {
+       opacity: 1;
+   }
 }
 
 // Styles for icons
@@ -26,15 +32,15 @@ body {
       font-family: "GeneralFoundicons"
    }
 }
+.remove-item{
+   color: $gray-dark;
+}
 
 // Styles for main content
 .main-card {
-   @include card-container(
-      $margin: $rem-base*0.5
-   );
+   @include card-container();
    width: 100%;
-  // min-height: $rem-base*37.5;
-   //max-height: $rem-base*56.25;
+   margin: $rem-base*0.5;
    height: auto;
 }
 
@@ -48,7 +54,6 @@ body {
 .pages i {
    color: $offcanvas-background;
 }
-
 .grid-block {
    overflow: inherit;
 }
@@ -71,6 +76,25 @@ body {
 	$color: $tab-title-color,
 	$color-active: $tab-title-color-active,
 	$padding: 0
+
+.modal {
+   width: $rem-base*31.25 !important;
+   height: auto !important;
+   max-height: $rem-base*10 !important;
+}
+.upload-button{
+   @include button(
+      $size: medium,
+      $expand: true
+      );
+   max-height: $rem-base*2.4;
+}
+.upload-input {
+   height: $rem-base*2.4;
+}
+.image-container {
+   margin-left: -$rem-base*19 !important;
+   margin-top: $rem-base*1.875 !important;
 );
    width: 100%;
 }

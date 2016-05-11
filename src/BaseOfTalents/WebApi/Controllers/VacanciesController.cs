@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using Domain.Entities.Enum.Setup;
 using Domain.Entities.Setup;
+using WebApi.DTO.DTOService;
 
 namespace WebApi.Controllers
 {
@@ -53,7 +54,8 @@ namespace WebApi.Controllers
                         _vacancy.Update(vacancy, _repoFactory.GetDataRepository<Level>(request), _repoFactory.GetDataRepository<Location>(request), _repoFactory.GetDataRepository<Skill>(request), _repoFactory.GetDataRepository<Tag>(request));
                         _vacancyRepo.Add(_vacancy);
                         _unitOfWork.Commit();
-                        return Ok();
+                        return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);
+
                     }
                 }
             });

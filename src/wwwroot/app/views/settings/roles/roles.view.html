@@ -2,32 +2,33 @@
    <div class="card-section">
       <div class="grid-block">
          <div class="medium-2 grid-block">
-            <div class="tabs-container" zf-tabs="" id="displaced-tabs" displaced="true">
-               <div ng-repeat="(roleName, role) in roles" class="tab-item_" zf-tab="" title="{{roleName}}">
-                  <table class="roles-table">
-                     <thead>
-                        <tr>
-                           <th></th>
-                           <th>Permission</th>
-                           <th>Description</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr ng-repeat="(permissionName, permission) in $parent.permissions">
-                           <td>
-                              <input type="checkbox" ng-checked="$parent.$parent.getFlag($parent.$parent.role, permission.id)" ng-click="$parent.$parent.setFlag($parent.$parent.roleName, permission.id)">
-                           </td>
-                           <td>{{permissionName}}</td>
-                           <td>{{permission.description}}</td>
-                        </tr>
-                     </tbody>
-                  </table>
-               </div>
-            </div>
+          
+          <div class="tabs-container">
+             <div class="tabs">
+                <div ng-repeat="(roleName, perms) in roles" class="tab-item" 
+                     ng-bind="::roleName" ng-click="selectRole(roleName)"
+                     ng-class="{'is-active': roleName === currentRoleName}">
+                </div>
+             </div>
+          </div>
          </div>
          <div class="medium-10 grid-block">
-            <div zf-tab-content="" target="displaced-tabs">
-            </div>
+           <table class="roles-table">
+               <thead>
+                  <tr>
+                     <th><input type="checkbox" ng-model="model" ng-change="setAll(model)"></th>
+                     <th>Permission</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="(permissionName, permission) in permissions">
+                     <td>
+                        <input type="checkbox" ng-model="currentRole[permissionName]">
+                     </td>
+                     <td>{{permission.description}}</td>
+                  </tr>
+               </tbody>
+            </table>
          </div>
       </div>
    </div>

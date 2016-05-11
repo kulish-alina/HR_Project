@@ -71,7 +71,7 @@ export default class RoleService {
       };
    }
 
-   saveRoles(roles) {
-      console.log('roles saved', roles);
+   saveRole(role) {
+      console.log('role saved', role);
    }
 }

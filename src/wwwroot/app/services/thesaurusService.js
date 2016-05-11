@@ -12,7 +12,7 @@ import {
 import utils from '../utils.js';
 
 const curryLength = 3;
-const activeStateId = 1;
+const activeStateId = 2;
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
@@ -75,14 +75,17 @@ export default class ThesaurusService {
             });
          }
 
-         return promise.then(_action(_addRefTextFieldFunction));
+         return promise.then((_entity) => {
+            _action(_addRefTextFieldFunction, _entity);
+            return _entity;
+         });
       } else {
          return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
       }
    }
 
    saveThesaurusTopics(thesaurusName, entities) {
-      let mapThesaurusPromises = utils.array2map(entities, entity => this.saveThesaurusTopic(thesaurusName, entity));
+      let mapThesaurusPromises = map(entities, entity => this.saveThesaurusTopic(thesaurusName, entity));
       return _$q.all(mapThesaurusPromises);
    }
 
@@ -134,6 +137,7 @@ function _deleteRefTextFieldFunction(field, topic) {
 function _actionOfAdditionFieldsForTopic(thesaurusName, action, entity) {
    let additionFields = _getReferenceFields(thesaurusName);
    forEach(additionFields, field => action(field, entity));
+   return entity;
 }
 
 function _actionOfAdditionFieldsForTopics(topics, thesaurusName, action) {

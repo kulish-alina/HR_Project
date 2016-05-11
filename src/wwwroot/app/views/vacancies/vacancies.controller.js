@@ -1,4 +1,5 @@
-export default function VacanciesController($scope, VacancyService) {
+import utils from '../../utils';
+export default function VacanciesController($scope, VacancyService, ThesaurusService, $q) {
    'ngInject';
 
    const vm = $scope;
@@ -7,6 +8,12 @@ export default function VacanciesController($scope, VacancyService) {
    vm.getVacancy = getVacancy;
    vm.deleteVacancy = deleteVacancy;
    vm.editVacancy = editVacancy;
+
+   let listOfThesaurus = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
+    'departments', 'typesOfEmployment', 'statuses', 'tags', 'skills'];
+
+   let map = utils.array2map(listOfThesaurus, ThesaurusService.getThesaurusTopics);
+   $q.all(map).then((data) => vm.thesaurus = data);
 
    function getVacancies() {
       VacancyService.getVacancies().then(value => vm.vacancies = value).catch(_onError);

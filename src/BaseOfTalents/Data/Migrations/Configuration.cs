@@ -75,7 +75,7 @@ namespace Data.Migrations
             context.Levels.AddRange(levels);
             context.SaveChanges();
 
-           
+
 
             List<DepartmentGroup> departmentGroups = new List<DepartmentGroup>()
             {
@@ -198,33 +198,33 @@ namespace Data.Migrations
 
             List<Permission> permissions = new List<Permission>()
             {
-                new Permission { AccessRights=AccessRights.AddCandidate,                        Description = "Right to create a candidate" },
-                new Permission { AccessRights=AccessRights.AddCandidateToVacancy,               Description = "Right to attach exsisting candidate to a vacancy" },
-                new Permission { AccessRights=AccessRights.AddEvent,                            Description = "Right to create an event" },
-                new Permission { AccessRights=AccessRights.AddRole,                             Description = "Right to create a role" },
-                new Permission { AccessRights=AccessRights.AddVacancy,                          Description = "Right to create a vacancy" },
-                new Permission { AccessRights=AccessRights.EditCandidate,                       Description = "Right to edit a candidate" },
-                new Permission { AccessRights=AccessRights.EditEvent,                           Description = "Right to edit an event" },
-                new Permission { AccessRights=AccessRights.EditRole,                            Description = "Right to edit a role" },
-                new Permission { AccessRights=AccessRights.EditUserProfile,                     Description = "Right to edit user profile" },
-                new Permission { AccessRights=AccessRights.EditVacancy,                         Description = "Right to edit a vacancy" },
-                new Permission { AccessRights=AccessRights.GenerateReports,                     Description = "Right to generate reports" },
-                new Permission { AccessRights=AccessRights.InviteNewMember,                     Description = "Right to invite a new member to program" },
-                new Permission { AccessRights=AccessRights.RemoveCandidate,                     Description = "Right to remove candidate" },
-                new Permission { AccessRights=AccessRights.RemoveCandidateFromVacancy,          Description = "Right to remove candidate from a vacancy" },
-                new Permission { AccessRights=AccessRights.RemoveEvent,                         Description = "Right to remove event" },
-                new Permission { AccessRights=AccessRights.RemoveRole,                          Description = "Right to remove role" },
-                new Permission { AccessRights=AccessRights.RemoveUserProfile,                   Description = "Right to remove user profile" },
-                new Permission { AccessRights=AccessRights.RemoveVacancy,                       Description = "Right to remove vacancy" },
-                new Permission { AccessRights=AccessRights.SearchCandidatesInExternalSource,    Description = "Right to search candidates on another work-searching sites" },
-                new Permission { AccessRights=AccessRights.SearchCandidatesInInternalSource,    Description = "Right to search candidates inside the base" },
-                new Permission { AccessRights=AccessRights.SystemSetup,                         Description = "Right to provide system setup" },
-                new Permission { AccessRights=AccessRights.ViewCalendar,                        Description = "Right to view a calendar" },
-                new Permission { AccessRights=AccessRights.ViewListOfCandidates,                Description = "Right to view list of candidates" },
-                new Permission { AccessRights=AccessRights.ViewListOfVacancies,                 Description = "Right to view list of vacancies" },
-                new Permission { AccessRights=AccessRights.ViewRoles,                           Description = "Right to view roles" },
-                new Permission { AccessRights=AccessRights.ViewUserProfile,                     Description = "Right to view user profile" },
-                new Permission { AccessRights=AccessRights.ViewUsers,                           Description = "Right to view users" }
+                new Permission { AccessRights=AccessRights.AddCandidate,                        Description = "Right to create a candidate",                                Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.AddCandidateToVacancy,               Description = "Right to attach exsisting candidate to a vacancy",           Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.AddEvent,                            Description = "Right to create an event",                                   Group = "Calendar" },
+                new Permission { AccessRights=AccessRights.AddRole,                             Description = "Right to create a role",                                     Group = "Roles" },
+                new Permission { AccessRights=AccessRights.AddVacancy,                          Description = "Right to create a vacancy",                                  Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.EditCandidate,                       Description = "Right to edit a candidate",                                  Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.EditEvent,                           Description = "Right to edit an event",                                     Group = "Calendar" },
+                new Permission { AccessRights=AccessRights.EditRole,                            Description = "Right to edit a role",                                       Group = "Roles" },
+                new Permission { AccessRights=AccessRights.EditUserProfile,                     Description = "Right to edit user profile",                                 Group = "Users" },
+                new Permission { AccessRights=AccessRights.EditVacancy,                         Description = "Right to edit a vacancy",                                    Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.GenerateReports,                     Description = "Right to generate reports",                                  Group = "Reports" },
+                new Permission { AccessRights=AccessRights.InviteNewMember,                     Description = "Right to invite a new member to program",                    Group = "Users" },
+                new Permission { AccessRights=AccessRights.RemoveCandidate,                     Description = "Right to remove candidate",                                  Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.RemoveCandidateFromVacancy,          Description = "Right to remove candidate from a vacancy",                   Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.RemoveEvent,                         Description = "Right to remove event",                                      Group = "Calendar" },
+                new Permission { AccessRights=AccessRights.RemoveRole,                          Description = "Right to remove role",                                       Group = "Roles" },
+                new Permission { AccessRights=AccessRights.RemoveUserProfile,                   Description = "Right to remove user profile",                               Group = "Users" },
+                new Permission { AccessRights=AccessRights.RemoveVacancy,                       Description = "Right to remove vacancy",                                    Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.SearchCandidatesInExternalSource,    Description = "Right to search candidates on another work-searching sites", Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.SearchCandidatesInInternalSource,    Description = "Right to search candidates inside the base",                 Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.SystemSetup,                         Description = "Right to provide system setup",                              Group = "System" },
+                new Permission { AccessRights=AccessRights.ViewCalendar,                        Description = "Right to view a calendar",                                   Group = "Calendar" },
+                new Permission { AccessRights=AccessRights.ViewListOfCandidates,                Description = "Right to view list of candidates",                           Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.ViewListOfVacancies,                 Description = "Right to view list of vacancies",                            Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.ViewRoles,                           Description = "Right to view roles",                                        Group = "Roles" },
+                new Permission { AccessRights=AccessRights.ViewUserProfile,                     Description = "Right to view user profile",                                 Group = "Users" },
+                new Permission { AccessRights=AccessRights.ViewUsers,                           Description = "Right to view users",                                        Group = "Users" }
             };
 
             context.Permissions.AddRange(permissions);
@@ -263,7 +263,7 @@ namespace Data.Migrations
 
             context.Users.Add(user);
             context.SaveChanges();
-            
+
             Tag tag = new Tag()
             {
                 Title = "tag"
@@ -327,10 +327,10 @@ namespace Data.Migrations
                 Email = "killer666@mayl.op",
                 Files = new List<File>() { },
                 IsMale = true,
-                LanguageSkills = new List<LanguageSkill>() { new LanguageSkill() { LanguageId=1, LanguageLevel = LanguageLevel.Advanced } },
+                LanguageSkills = new List<LanguageSkill>() { new LanguageSkill() { LanguageId = 1, LanguageLevel = LanguageLevel.Advanced } },
                 LastName = "Yehayy",
                 MiddleName = "Caro",
-                PhoneNumbers = new List<PhoneNumber>() {  },
+                PhoneNumbers = new List<PhoneNumber>() { },
                 Photo = new Photo() { Description = "desc", ImagePath = "path" },
                 PositionDesired = "Pos",
                 Practice = "Good",
@@ -338,12 +338,12 @@ namespace Data.Migrations
                 SalaryDesired = 500,
                 Skills = new List<Skill>() { context.Skills.First() },
                 Skype = "skyper133",
-                SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() { Path="path",  SocialNetwork = new SocialNetwork() { ImagePath="imgPath", Title="title" } } },
-                Sources = new List<CandidateSource>() { new CandidateSource() { Source = Source.WorkUa, Path="Path" } },
+                SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() { Path = "path", SocialNetwork = new SocialNetwork() { ImagePath = "imgPath", Title = "title" } } },
+                Sources = new List<CandidateSource>() { new CandidateSource() { Source = Source.WorkUa, Path = "Path" } },
                 StartExperience = DateTime.Now,
                 Tags = new List<Tag>() { context.Tags.First() },
                 TypeOfEmployment = TypeOfEmployment.FullTime,
-                VacanciesProgress = new List<VacancyStageInfo>() {  }
+                VacanciesProgress = new List<VacancyStageInfo>() { }
             };
 
             context.Candidates.Add(candidate);

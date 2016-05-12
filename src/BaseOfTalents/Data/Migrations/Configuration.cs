@@ -75,7 +75,7 @@ namespace Data.Migrations
             context.Levels.AddRange(levels);
             context.SaveChanges();
 
-           
+
 
             List<DepartmentGroup> departmentGroups = new List<DepartmentGroup>()
             {
@@ -263,7 +263,7 @@ namespace Data.Migrations
 
             context.Users.Add(user);
             context.SaveChanges();
-            
+
             Tag tag = new Tag()
             {
                 Title = "tag"
@@ -327,10 +327,10 @@ namespace Data.Migrations
                 Email = "killer666@mayl.op",
                 Files = new List<File>() { },
                 IsMale = true,
-                LanguageSkills = new List<LanguageSkill>() { new LanguageSkill() { LanguageId=1, LanguageLevel = LanguageLevel.Advanced } },
+                LanguageSkills = new List<LanguageSkill>() { new LanguageSkill() { LanguageId = 1, LanguageLevel = LanguageLevel.Advanced } },
                 LastName = "Yehayy",
                 MiddleName = "Caro",
-                PhoneNumbers = new List<PhoneNumber>() {  },
+                PhoneNumbers = new List<PhoneNumber>() { },
                 Photo = new Photo() { Description = "desc", ImagePath = "path" },
                 PositionDesired = "Pos",
                 Practice = "Good",
@@ -338,12 +338,12 @@ namespace Data.Migrations
                 SalaryDesired = 500,
                 Skills = new List<Skill>() { context.Skills.First() },
                 Skype = "skyper133",
-                SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() { Path="path",  SocialNetwork = new SocialNetwork() { ImagePath="imgPath", Title="title" } } },
-                Sources = new List<CandidateSource>() { new CandidateSource() { Source = Source.WorkUa, Path="Path" } },
+                SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() { Path = "path", SocialNetwork = new SocialNetwork() { ImagePath = "imgPath", Title = "title" } } },
+                Sources = new List<CandidateSource>() { new CandidateSource() { Source = Source.WorkUa, Path = "Path" } },
                 StartExperience = DateTime.Now,
                 Tags = new List<Tag>() { context.Tags.First() },
                 TypeOfEmployment = TypeOfEmployment.FullTime,
-                VacanciesProgress = new List<VacancyStageInfo>() {  }
+                VacanciesProgress = new List<VacancyStageInfo>() { }
             };
 
             context.Candidates.Add(candidate);

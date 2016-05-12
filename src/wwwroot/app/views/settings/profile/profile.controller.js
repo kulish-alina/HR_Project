@@ -1,7 +1,7 @@
 import {
    floor
 } from 'lodash';
-
+const MAX_SIZE_OF_FILE = 5120;
 export default function ProfileController (
    $q,
    $scope,
@@ -9,7 +9,8 @@ export default function ProfileController (
    $state,
    UserService,
    SettingsService,
-   ValidationService) {
+   ValidationService,
+   FileUploader) {
    'ngInject';
 
    /*---api---*/
@@ -17,6 +18,7 @@ export default function ProfileController (
    vm.form   = {};
    vm.user   = {};
    vm.age    = _age;
+   vm.uploader = {};
 
    /*---impl---*/
    function _init() {
@@ -25,8 +27,24 @@ export default function ProfileController (
       SettingsService.addOnEditListener(_onEdit);
       $element.on('$destroy', _onDestroy);
       _getCurrentUser ();
+      vm.uploader = _createNewUploader();
    }
    _init();
+
+   function _createNewUploader() {
+      let newUploader = new FileUploader({
+         url: './api/files'
+      });
+      newUploader.filters.push({
+         name: 'sizeFilter',
+         fn: function sizeFilter(item) {
+            if (item.size <= MAX_SIZE_OF_FILE) {
+               return true;
+            }
+         }
+      });
+      return newUploader;
+   }
 
    function _onSubmit() {
       if (ValidationService.validate(vm.form.userEdit)) {

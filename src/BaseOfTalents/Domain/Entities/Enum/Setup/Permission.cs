@@ -1,11 +1,7 @@
 ﻿using Domain.Entities.Enum;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Domain.Entities.Setup
 {
     public class Permission : BaseEntity
     {
@@ -16,6 +12,7 @@ namespace Domain.Entities
 
         public string Description { get; set; }
         public AccessRights AccessRights { get; set; }
+        public string Group { get; set; }
 
         public virtual ICollection<Role> Roles { get; set; }
     }

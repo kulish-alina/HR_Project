@@ -8,7 +8,7 @@ namespace Domain.Entities.Enum
 {
     public enum LanguageLevel
     {
-        Beginner,
+        Beginner = 1,
         PreIntermediate,
         Intermediate,
         UpperIntermediate,

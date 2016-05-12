@@ -93,10 +93,10 @@
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Entities\File.cs" />
     <Compile Include="Entities\LanguageSkill.cs" />
-    <Compile Include="Entities\Permission.cs" />
+    <Compile Include="Entities\Enum\Setup\Permission.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Entities\Photo.cs" />
-    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\Enum\Setup\Role.cs" />
     <Compile Include="Entities\Enum\Setup\DepartmentGroup.cs" />
     <Compile Include="Entities\Enum\Setup\EventType.cs" />
     <Compile Include="Entities\Enum\Setup\Language.cs" />

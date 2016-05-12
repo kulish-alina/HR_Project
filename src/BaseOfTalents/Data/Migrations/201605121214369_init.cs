@@ -29,7 +29,8 @@ namespace Data.Migrations
                         IndustryId = c.Int(),
                         RelocationAgreement = c.Boolean(nullable: false),
                         Education = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         Photo_Id = c.Int(),
                     })
@@ -47,7 +48,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Message = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -59,7 +61,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         FilePath = c.String(),
                         Description = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         Candidate_Id = c.Int(),
                         Vacancy_Id = c.Int(),
@@ -76,7 +79,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -88,7 +92,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         LanguageLevel = c.Int(nullable: false),
                         LanguageId = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -101,7 +106,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -113,7 +119,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
                         CountryId = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -126,7 +133,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -137,7 +145,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Number = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -149,7 +158,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         ImagePath = c.String(),
                         Description = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -160,7 +170,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -172,7 +183,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Path = c.String(nullable: false),
                         SocialNetworkId = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         Candidate_Id = c.Int(),
                     })
@@ -189,7 +201,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         ImagePath = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -201,7 +214,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Source = c.Int(nullable: false),
                         Path = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         Candidate_Id = c.Int(),
                     })
@@ -215,7 +229,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -226,7 +241,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false),
                         CandidateId = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         Comment_Id = c.Int(),
                         Vacancy_Id = c.Int(),
@@ -250,7 +266,8 @@ namespace Data.Migrations
                         IsCommentRequired = c.Boolean(nullable: false),
                         VacancyId = c.Int(nullable: false),
                         StageId = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -265,7 +282,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -274,7 +292,7 @@ namespace Data.Migrations
                 "dbo.Vacancy",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         Description = c.String(),
                         SalaryMin = c.Int(nullable: false),
@@ -287,20 +305,22 @@ namespace Data.Migrations
                         IndustryId = c.Int(),
                         DepartmentId = c.Int(nullable: false),
                         ResponsibleId = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
+                        LanguageSkill_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Department", t => t.DepartmentId)
                 .ForeignKey("dbo.Industry", t => t.IndustryId)
-                .ForeignKey("dbo.LanguageSkill", t => t.Id)
+                .ForeignKey("dbo.LanguageSkill", t => t.LanguageSkill_Id)
                 .ForeignKey("dbo.Vacancy", t => t.ParentVacancyId)
                 .ForeignKey("dbo.User", t => t.ResponsibleId)
-                .Index(t => t.Id)
                 .Index(t => t.ParentVacancyId)
                 .Index(t => t.IndustryId)
                 .Index(t => t.DepartmentId)
-                .Index(t => t.ResponsibleId);
+                .Index(t => t.ResponsibleId)
+                .Index(t => t.LanguageSkill_Id);
             
             CreateTable(
                 "dbo.Department",
@@ -309,7 +329,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
                         DepartmentGroupId = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -322,7 +343,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -333,7 +355,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -354,7 +377,8 @@ namespace Data.Migrations
                         Password = c.String(nullable: false),
                         RoleId = c.Int(nullable: false),
                         LocationId = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         Photo_Id = c.Int(),
                     })
@@ -372,7 +396,8 @@ namespace Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -384,7 +409,9 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Description = c.String(),
                         AccessRights = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        Group = c.String(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -398,7 +425,8 @@ namespace Data.Migrations
                         Description = c.String(nullable: false),
                         EventTypeId = c.Int(nullable: false),
                         ResponsibleId = c.Int(nullable: false),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         Candidate_Id = c.Int(),
                         Vacancy_Id = c.Int(),
@@ -420,7 +448,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         ImagePath = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -432,7 +461,8 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Message = c.String(),
                         StackTrace = c.String(),
-                        EditTime = c.DateTime(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -621,7 +651,7 @@ namespace Data.Migrations
             DropForeignKey("dbo.VacancyLocation", "Vacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyLevel", "Level_Id", "dbo.Level");
             DropForeignKey("dbo.VacancyLevel", "Vacancy_Id", "dbo.Vacancy");
-            DropForeignKey("dbo.Vacancy", "Id", "dbo.LanguageSkill");
+            DropForeignKey("dbo.Vacancy", "LanguageSkill_Id", "dbo.LanguageSkill");
             DropForeignKey("dbo.Vacancy", "IndustryId", "dbo.Industry");
             DropForeignKey("dbo.File", "Vacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "DepartmentId", "dbo.Department");
@@ -682,11 +712,11 @@ namespace Data.Migrations
             DropIndex("dbo.User", new[] { "LocationId" });
             DropIndex("dbo.User", new[] { "RoleId" });
             DropIndex("dbo.Department", new[] { "DepartmentGroupId" });
+            DropIndex("dbo.Vacancy", new[] { "LanguageSkill_Id" });
             DropIndex("dbo.Vacancy", new[] { "ResponsibleId" });
             DropIndex("dbo.Vacancy", new[] { "DepartmentId" });
             DropIndex("dbo.Vacancy", new[] { "IndustryId" });
             DropIndex("dbo.Vacancy", new[] { "ParentVacancyId" });
-            DropIndex("dbo.Vacancy", new[] { "Id" });
             DropIndex("dbo.VacancyStage", new[] { "StageId" });
             DropIndex("dbo.VacancyStage", new[] { "VacancyId" });
             DropIndex("dbo.VacancyStageInfo", new[] { "Vacancy_Id" });

@@ -11,6 +11,9 @@ textarea {
    height: $rem-base*2.4;
    min-height: $rem-base*2.4;
 }
+.main-card textarea {
+   height: $rem-base*5; 
+}
 .checkbox-block {
    margin-bottom: $rem-base*0.625;
 }
@@ -22,6 +25,8 @@ textarea {
      $color: $body-background
    );
    margin-bottom: $rem-base !important;
+   height: $rem-base*2.4;
+   padding: 0 !important;
 }
 .range-slider {
    margin-bottom: $rem-base;
@@ -47,8 +52,9 @@ form .ng-invalid {
 
 //Styles for candidate/user
 .profile-photo {
-   background-image: url(/images/upload-photo.png);
-   background-repeat: no-repeat;
+   //background-image: url(/images/upload-photo.png);
+   //background-repeat: no-repeat;
+   background-color: $gray;
    background-size: 100%;
    width: 100%;
    height: 200px;
@@ -57,10 +63,22 @@ form .ng-invalid {
    padding-top: 30%;
    text-align: center;
 }
-.profile-photo-input {
-   width: 100%;
+.modal {
+   height: 120px;
 }
 .upload-title {
    font-size: $rem-base*2;
    color: lighten($dark-color, 7);
+}
+option {
+   height: inherit;
+}
+select :first-child {
+   color: $placeholder-color;
+}
+select :nth-child(n+2) {
+   color: $body-font-color;
+} 
+select[multiple] {
+   height: auto;
 }

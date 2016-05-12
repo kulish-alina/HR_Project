@@ -12,7 +12,7 @@ import {
 import utils from '../utils.js';
 
 const curryLength = 3;
-const activeStateId = 1;
+const activeStateId = 2;
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
@@ -137,6 +137,7 @@ function _deleteRefTextFieldFunction(field, topic) {
 function _actionOfAdditionFieldsForTopic(thesaurusName, action, entity) {
    let additionFields = _getReferenceFields(thesaurusName);
    forEach(additionFields, field => action(field, entity));
+   return entity;
 }
 
 function _actionOfAdditionFieldsForTopics(topics, thesaurusName, action) {

@@ -43,7 +43,7 @@ namespace Data.EFData
 
         public virtual void Commit()
         {
-            base.SaveChanges();
+            this.SaveChanges();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -79,7 +79,12 @@ namespace Data.EFData
             foreach (var entry in objectStateEntries)
             {
                 var entityBase = entry.Entity as BaseEntity;
-                entityBase.EditTime = DateTime.Now;
+
+                if(entry.State == EntityState.Added)
+                {
+                    entityBase.CreatedOn = DateTime.Now;
+                }
+                entityBase.LastModified = DateTime.Now;
             }
             return base.SaveChanges();
         }

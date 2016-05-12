@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Data.Infrastructure;
 using Domain.DTO.DTOModels.SetupDTO;
 using System;
+using System.Linq;
 
 namespace WebApi
 {
@@ -25,58 +26,60 @@ namespace WebApi
                 x.CreateMap<Photo, PhotoDTO>();
                 x.CreateMap<PhotoDTO, Photo>();
 
+               
+
                 x.CreateMap<Country, CountryDTO>();
                 x.CreateMap<CountryDTO, Country>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Department, DepartmentDTO>();
                 x.CreateMap<DepartmentDTO, Department>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src=> DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src=> DateTime.Now));
 
                 x.CreateMap<DepartmentGroup, DepartmentGroupDTO>();
                 x.CreateMap<DepartmentGroupDTO, DepartmentGroup>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<EventType, EventTypeDTO>();
                 x.CreateMap<EventTypeDTO, EventType>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Industry, IndustryDTO>();
                 x.CreateMap<IndustryDTO, Industry>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Language, LanguageDTO>();
                 x.CreateMap<LanguageDTO, Language>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<PhoneNumber, PhoneNumberDTO>();
                 x.CreateMap<PhoneNumberDTO, PhoneNumber>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
 
                 x.CreateMap<Level, LevelDTO>();
                 x.CreateMap<LevelDTO, Level>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Location, LocationDTO>();
                 x.CreateMap<LocationDTO, Location>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Skill, SkillDTO>();
                 x.CreateMap<SkillDTO, Skill>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<SocialNetwork, SocialNetworkDTO>();
                 x.CreateMap<SocialNetworkDTO, SocialNetwork>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Stage, StageDTO>();
                 x.CreateMap<StageDTO, Stage>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Tag, TagDTO>();
                 x.CreateMap<TagDTO, Tag>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<CandidateSource, CandidateSourceDTO>();
 
@@ -92,6 +95,9 @@ namespace WebApi
                 x.CreateMap<Skill, int>()
                      .ConstructUsing(   source => (source.SourceValue as Skill).Id);
 
+                x.CreateMap<Permission, int>()
+                    .ConstructUsing(source => (source.SourceValue as Permission).Id);
+
                 x.CreateMap<Tag, int>()
                      .ConstructUsing(   source => (source.SourceValue as Tag).Id);
 
@@ -103,6 +109,9 @@ namespace WebApi
 
                 x.CreateMap<Location, int>()
                     .ConstructUsing(    source => (source.SourceValue as Location).Id);
+
+                x.CreateMap<Role, RoleDTO>()
+                        .ForMember(dest => dest.PermissionIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Permission>, IEnumerable<int>>(src.Permissions)));
 
                 x.CreateMap<User, UserDTO>()
                    .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<PhotoDTO>(src.Photo)))

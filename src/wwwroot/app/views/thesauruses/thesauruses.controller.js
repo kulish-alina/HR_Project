@@ -1,5 +1,8 @@
+import './thesauruses.scss';
+
 export default function ThesaurusesController($scope, ThesaurusService) {
    'ngInject';
    const vm = $scope;
-   vm.thesaurusesNames = ThesaurusService.getThesaurusNames();
+   vm.thesaurusNames = ThesaurusService.getThesaurusNames();
+   vm.currentThesaurusName = '';
 }

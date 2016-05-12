@@ -8,7 +8,7 @@ namespace Domain.Entities.Enum
 {
     public enum CommentType
     {
-        Candidate,
+        Candidate = 1,
         Vacancy,
         StageInfo,
         Note

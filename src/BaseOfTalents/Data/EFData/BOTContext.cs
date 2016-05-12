@@ -43,7 +43,7 @@ namespace Data.EFData
 
         public virtual void Commit()
         {
-            base.SaveChanges();
+            this.SaveChanges();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -1,323 +1,362 @@
-
 <div class="secondary-menu grid-block">
-    <div class="large-2 grid-block">
-        <div class="grid-content">
-            <h5>{{::'COMMON.ADD_CANDIDATE' | translate}}</h5>
-        </div>
-    </div>
-    <div class="large-7 grid-block">
-    </div>
-    <div class="large-3 grid-block align-right">
-        <ul class="menu-bar second-button-bar">
-            <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
-            </li>
-            <li><a ng-click="submit(Candidate)">{{::'COMMON.SUBMIT' | translate}}</a>
-            </li>
-        </ul>
-    </div>
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5>{{::'COMMON.ADD_CANDIDATE' | translate}}</h5>
+      </div>
+   </div>
+   <div class="large-7 grid-block">
+   </div>
+   <div class="large-3 grid-block align-right">
+      <ul class="menu-bar second-button-bar">
+         <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
+         </li>
+         <li><a ng-click="saveCandidate(Candidate)">{{::'COMMON.SUBMIT' | translate}}</a>
+         </li>
+      </ul>
+   </div>
 </div>
 <div class="grid-block">
-    <div class="medium-9 grid-block">
-        <div class="main-card">
-            <div class="card-divider">
-                {{::'CANDIDATE.NEW_CANDIDATE' | translate}}
-            </div>
-            <div class="card-section">
-                <form name="Candidate">
-                    <div class="grid-block">
-                        <div class="medium-4 grid-block">
-                            <fieldset>
-                                <input type="text" ng-model="candidate.FirstName" placeholder="First Name" name="firstName" validator="required, maxlength=50">
-                                <input type="text" ng-model="candidate.MiddleName" placeholder="Middle Name" name="middleName" validator="required, maxlength=50">
-                                <input type="text" ng-model="candidate.LastName" placeholder="Last Name" name="lastName" validator="required, maxlength=50">
-                                <ul class="some-change">
-                                    <li>
-                                        <input name="isMale" value="true" id="male" checked="" type="radio">
-                                        <label for="male">Male</label>
-                                    </li>
-                                    <li>
-                                        <input name="isMale" value="false" id="female" type="radio">
-                                        <label for="female">Female</label>
-                                    </li>
-                                </ul>
-                                <input type="date" placeholder="Day of birth">
-                                <select name="Langage" id="">
-                                    <option value="">English Brgginer</option>
-                                    <option value="">English Pre-Intermediate</option>
-                                    <option value="">English Intermediate</option>
-                                    <option value="">English Upper Intermediate</option>
-                                    <option value="">English Advanced</option>
-                                    <option value="">English Fluent</option>
-                                </select>
-                                <select name="Location" id="">
-                                    <option value="">Dnipropetrovsk</option>
-                                    <option value="">Zaporizhzhia</option>
-                                    <option value="">Lviv</option>
-                                    <option value="">Berdyansk</option>
-                                </select>
-                            </fieldset>
+   <div class="medium-9 grid-block">
+      <div class="main-card">
+         <div class="card-divider">
+            {{::'CANDIDATE.NEW_CANDIDATE' | translate}}
+         </div>
+         <div class="card-section">
+            <form name="Candidate">
+               <div class="grid-block">
+                  <div class="medium-4 grid-block">
+                     <fieldset>
+                        <input type="text" ng-model="candidate.FirstName" placeholder="First Name" name="firstName" validator="required, maxlength=50">
+                        <input type="text" ng-model="candidate.MiddleName" placeholder="Middle Name" name="middleName" validator="required, maxlength=50">
+                        <input type="text" ng-model="candidate.LastName" placeholder="Last Name" name="lastName" validator="required, maxlength=50">
+                        <ul class="some-change">
+                           <li>
+                              <input name="isMale" value="true" id="male" checked="" type="radio">
+                              <label for="male">Male</label>
+                           </li>
+                           <li>
+                              <input name="isMale" value="false" id="female" type="radio">
+                              <label for="female">Female</label>
+                           </li>
+                        </ul>
+                        <date datemodel="candidate.birthDate" placeholder="{{::'COMMON.DATE_OF_BIRTH' | translate}}"></date>
+                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.LocationIds" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                        <div class="grid-block">
+                           <div class="medium-6 grid-block">
+                              <select name="Language" ng-model="vacancy.LanguageSkill.LanguageId">
+                                 <option selected value="">{{::'COMMON.LANGUAGE' | translate}}</option>
+                                 <option ng-repeat="language in thesaurus.languages" value="{{language.id}}">{{::language.title}}</option>
+                              </select>
+                           </div>
+                           <div class="medium-6 grid-block">
+                              <select name="LanguageLevel" ng-model="vacancy.LanguageSkill.LanguageLevel">
+                                 <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
+                                 <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
+                              </select>
+                           </div>
                         </div>
-                        <div class="medium-4 grid-block">
-                            <fieldset>
-                                <select name="Industry" id="">
-                                    <option value="">IT</option>
-                                    <option value="">Others</option>
-                                </select>
-                                <select name="Level" id="">
-                                    <option value="">Trainee</option>
-                                    <option value="">Junior</option>
-                                    <option value="">Middle</option>
-                                    <option value="">Senior</option>
-                                </select>
-                                <input type="text" ng-model="candidate.PositionDesired" placeholder="Position Desired">
-                                <input type="text" ng-model="candidate.SalaryDesired" placeholder="Salary Desired">
-                                <select name="Type of Employment" id="">
-                                    <option value="">Full-time</option>
-                                    <option value="">Part-time</option>
-                                    <option value="">Remote</option>
-                                    <option value="">Practice</option>
-                                    <option value="">Courses</option>
-                                    <option value="">Project</option>
-                                </select>
-                                <input placeholder="Education" type="text">
-                                <input id="checkbox3" type="checkbox">
-                                <label for="checkbox3">Ready to relocate</label>
-                            </fieldset>
+                     </fieldset>
+                  </div>
+                  <div class="medium-4 grid-block">
+                     <fieldset>
+                        <select name="Industry" ng-model="vacancy.IndustryId">
+                           <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
+                           <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
+                        </select>
+                        <select name="LanguageLevel" ng-model="vacancy.LanguageSkill.LanguageLevel">
+                           <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
+                           <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
+                        </select>
+                        <input type="text" ng-model="candidate.PositionDesired" placeholder="{{::'CANDIDATE.DESIRED_POSITION' | translate}}">
+                        <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
+                        <select name="Type of Employment" ng-model="vacancy.TypeOfEmployment">
+                           <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
+                           <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
+                        </select>
+                        <label>Experience</label>
+                        <div class="grid-block">
+                           <div class="medium-6 grid-block">
+                              <input placeholder="Years" type="number" min="0" step="1">
+                           </div>
+                           <div class="medium-6 grid-block">
+                              <input placeholder="Months" type="number" min="0" step="1">
+                           </div>
                         </div>
-                        <div class="medium-4 grid-block">
-                            <fieldset>
-                                <div zf-open="basicModal" class="profile-photo" title="Upload Photo">
-                                    <span class="upload-title">Upload Photo</span>
-                                </div>
-                                <div zf-modal="" id="basicModal">
-                                    <a zf-close="" class="close-button">×</a>
-                                    <h3>Add a photo</h3>
-                                    <input type="file" file-model="photo" class="profile-photo-input">
-                                </div>
-                                <input type="tel" placeholder="Phohe number">
-                                <input type="email" placeholder="E-mail">
-                                <input type="text" placeholder="Skype">
-                            </fieldset>
+                        <input id="checkbox3" type="checkbox">
+                        <label for="checkbox3">Ready to relocate</label>
+                     </fieldset>
+                  </div>
+                  <div class="medium-4 grid-block">
+                     <fieldset>
+                        <div zf-open="basicModal" class="profile-photo" title="Upload Photo">
+                           <span class="upload-title">Upload Photo</span>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="grid-block">
-                        <div class="medium-4 grid-block">
-                            <fieldset>
-                                <input type="url" placeholder="Facebook">
-                                <input type="url" placeholder="LinkedIn">
-                            </fieldset>
+                        <div class="uploader-photo" zf-modal="" id="basicModal">
+                           <div class="grid-block">
+                              <div class="medium-8 grid-block">
+                                 <input class="upload-input" type="file" nv-file-select="" uploader="uploader">
+                                 <div class="grid-block image-container">
+                                    <div class="medium-4 grid-block">
+                                       <div class="" ng-repeat="item in uploader.queue">
+                                          <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                       </div>
+                                    </div>
+                                    <div class="medium-8 grid-block">
+                                       <a ng-hide="!uploader.queue.length" class="remove-item" ng-click="uploader.clearQueue()"><i class="foundicon-remove general-icon"></i></a>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="medium-4 grid-block">
+                                 <a class="upload-button" href="#">{{::'COMMON.UPLOAD' | translate}}</a>
+                              </div>
+                           </div>
                         </div>
-                        <div class="medium-4 grid-block">
-                            <fieldset>
-                                <input type="url" placeholder="Google+">
-                                <input type="url" placeholder="Vkontakte">
-                            </fieldset>
+                        <input ng-model="candidate.phoneNumbers" type="text" ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_" placeholder="{{::'COMMON.PHONE_NUMBERS' | translate}}">
+                        <input ng-model="candidate.eMail" name="e-mail" type="text" placeholder="E-mail" validator="email">
+                        <input type="text" placeholder="Skype">
+                     </fieldset>
+                  </div>
+               </div>
+               <hr>
+               <div class="grid-block">
+                  <div class="medium-4 grid-block">
+                     <fieldset>
+                        <input type="url" placeholder="Facebook">
+                        <input type="url" placeholder="LinkedIn">
+                     </fieldset>
+                  </div>
+                  <div class="medium-4 grid-block">
+                     <fieldset>
+                        <input type="url" placeholder="Google+">
+                        <input type="url" placeholder="Vkontakte">
+                     </fieldset>
 
-                        </div>
-                        <div class="medium-4 grid-block">
-                            <fieldset>
-                                <input type="url" placeholder="Source">
-                                <input type="url" placeholder="Home page">
-                            </fieldset>
-                        </div>
-                    </div>
-                    <hr>
-                    <fieldset>
-                        <textarea placeholder="Skills" type="text"></textarea>
-                        <textarea placeholder="Description" type="text"></textarea>
-                    </fieldset>
-                    <div class="grid-block">
-                        <div class="medium-4 grid-block">
-                            <fieldset>
-                                <input type="file" file-model="file">
-                            </fieldset>
-                        </div>
-                        <div class="medium-4 grid-block">
-                        </div>
-                        <div class="medium-4 grid-block">
-                        </div>
-                    </div>
-                </form>
+                  </div>
+                  <div class="medium-4 grid-block">
+                     <fieldset>
+                        <input type="url" placeholder="Source">
+                        <input type="url" placeholder="Home page">
+                     </fieldset>
+                  </div>
+               </div>
+               <hr>
+               <fieldset>
+                  <div class="grid-block">
+                     <div class="medium-6 grid-block">
+                        <oi-select class="multiple-select" oi-options="skill.title for skill in thesaurus.skills" ng-model="candidate.skillIds" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, title: $query}}"></oi-select>
+                     </div>
+                     <div class="medium-6 grid-block">
+                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tags" ng-model="candidate.tagIds" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: null, title: $query}}"></oi-select>
+                     </div>
+                  </div>
+                  <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.Description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
+               </fieldset>
+               <div class="grid-block">
+                  <div class="medium-6 grid-block">
+                     <fieldset>
+                        <input type="file" nv-file-select multiple="" uploader="uploader">
+                        <table class="upload-table" ng-hide="!uploader.queue.length">
+                           <thead>
+                              <tr>
+                                 <th>№</th>
+                                 <th>{{::'COMMON.NAME' | translate}}</th>
+                                 <th>{{::'COMMON.SIZE' | translate}}</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="item in uploader.queue">
+                                 <td>{{$index+1}}</td>
+                                 <td ng-bind="item.file.name"></td>
+                                 <td ng-bind="item.file.size"></td>
+                                 <td><a class="remove-item" ng-click="item.remove()"><i class="foundicon-remove general-icon"></i></a></td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </fieldset>
+                  </div>
+                  <div class="medium-6 grid-block"></div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div class="medium-3 grid-block">
+      <div class="vertical medium-horizontal grid-block">
+         <div class="sidebar">
+            <div class="card-divider">
+               {{::'VACANCIES.VACANCIES' | translate}}
             </div>
-        </div>
-    </div>
-    <div class="medium-3 grid-block">
-        <div class="vertical medium-horizontal grid-block">
-            <div class="sidebar">
-                <div class="card-divider">
-                    {{::'VACANCIES.VACANCIES' | translate}}
-                </div>
-                <div class="sidebar-content">
-                    <div class="grid-block">
-                        <div class="medium-9 grid-block">
-                            <select name="Open vacancies" id="">
-                                <option value="">Vacancy 1</option>
-                                <option value="">Vacancy 2</option>
-                                <option value="">Vacancy 3</option>
-                                <option value="">Vacancy 4</option>
-                            </select>
+            <div class="sidebar-content">
+               <div class="grid-block">
+                  <div class="medium-9 grid-block">
+                     <select name="Open vacancies" id="">
+                        <option value="">Vacancy 1</option>
+                        <option value="">Vacancy 2</option>
+                        <option value="">Vacancy 3</option>
+                        <option value="">Vacancy 4</option>
+                     </select>
+                  </div>
+                  <div class="medium-3 grid-block">
+                     <a class="button button-with-input" href="#">{{::'COMMON.ADD' | translate}}</a>
+                  </div>
+               </div>
+               <section class="block-list">
+                  <ul class="vacancies">
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-6 grid-block">
+                              <a href="#">.NET Developer</a>
+                           </div>
+                           <div class="medium-6 grid-block">
+                              <select name="Candidate stage" id="">
+                                 <option value="">Pool</option>
+                                 <option value="">Selected</option>
+                                 <option value="">HR Interview</option>
+                                 <option value="">Test Task</option>
+                                 <option value="">Tech Interview</option>
+                                 <option value="">Additional Interview</option>
+                                 <option value="">Final Interview</option>
+                                 <option value="">Job Offer Issued</option>
+                                 <option value="">Job Offer Accepted</option>
+                                 <option value="">Hired</option>
+                                 <option value="">Rejected by company</option>
+                                 <option value="">Rejected by candidate</option>
+                              </select>
+                           </div>
                         </div>
-                        <div class="medium-3 grid-block">
-                            <a class="button button-with-input" href="#">{{::'COMMON.ADD' | translate}}</a>
+                     </li>
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-6 grid-block">
+                              <a href="#">.NET Developer</a>
+                           </div>
+                           <div class="medium-6 grid-block">
+                              <select name="Candidate stage" id="">
+                                 <option value="">Pool</option>
+                                 <option value="">Selected</option>
+                                 <option value="">HR Interview</option>
+                                 <option value="">Test Task</option>
+                                 <option value="">Tech Interview</option>
+                                 <option value="">Additional Interview</option>
+                                 <option value="">Final Interview</option>
+                                 <option value="">Job Offer Issued</option>
+                                 <option value="">Job Offer Accepted</option>
+                                 <option value="">Hired</option>
+                                 <option value="">Rejected by company</option>
+                                 <option value="">Rejected by candidate</option>
+                              </select>
+                           </div>
                         </div>
-                    </div>
-                    <section class="block-list">
-                        <ul class="vacancies">
-                            <li>
-                                <div class="grid-block">
-                                    <div class="medium-6 grid-block">
-                                        <a href="#">.NET Developer</a>
-                                    </div>
-                                    <div class="medium-6 grid-block">
-                                        <select name="Candidate stage" id="">
-                                            <option value="">Pool</option>
-                                            <option value="">Selected</option>
-                                            <option value="">HR Interview</option>
-                                            <option value="">Test Task</option>
-                                            <option value="">Tech Interview</option>
-                                            <option value="">Additional Interview</option>
-                                            <option value="">Final Interview</option>
-                                            <option value="">Job Offer Issued</option>
-                                            <option value="">Job Offer Accepted</option>
-                                            <option value="">Hired</option>
-                                            <option value="">Rejected by company</option>
-                                            <option value="">Rejected by candidate</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="grid-block">
-                                    <div class="medium-6 grid-block">
-                                        <a href="#">.NET Developer</a>
-                                    </div>
-                                    <div class="medium-6 grid-block">
-                                        <select name="Candidate stage" id="">
-                                            <option value="">Pool</option>
-                                            <option value="">Selected</option>
-                                            <option value="">HR Interview</option>
-                                            <option value="">Test Task</option>
-                                            <option value="">Tech Interview</option>
-                                            <option value="">Additional Interview</option>
-                                            <option value="">Final Interview</option>
-                                            <option value="">Job Offer Issued</option>
-                                            <option value="">Job Offer Accepted</option>
-                                            <option value="">Hired</option>
-                                            <option value="">Rejected by company</option>
-                                            <option value="">Rejected by candidate</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </section>
-                </div>
+                     </li>
+                  </ul>
+               </section>
             </div>
-            <div class="sidebar">
-                <div class="card-divider">
-                    <div class="grid-block">
-                        <div class="medium-9 grid-block">{{::'COMMON.EVENTS' | translate}}</div>
-                        <div class="medium-3 grid-block">
-                            <a class="button button-with-input" href="#">{{::'COMMON.ADD' | translate}}</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sidebar-content">
-                    <section class="block-list">
-                        <ul class="icon-left events">
-                            <li>
-                                <div class="grid-block">
-                                    <div class="medium-2 grid-block">
-                                        <i class="foundicon-people general-icon"></i>
-                                    </div>
-                                    <div class="medium-10 grid-block">
-                                        <a href="#"><span>15.05.16 at 11.00 HR-Interviev with Antonov Viktor</span></a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="grid-block">
-                                    <div class="medium-2 grid-block">
-                                        <i class="foundicon-website general-icon"></i>
-                                    </div>
-                                    <div class="medium-10 grid-block">
-                                        <a href="#"><span>16.05.16 at 14.00 Tech-Interviev with Antonov Viktor</span></a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="grid-block">
-                                    <div class="medium-2 grid-block">
-                                        <i class="foundicon-phone general-icon"></i>
-                                    </div>
-                                    <div class="medium-10 grid-block">
-                                        <a href="#"><span>25.05.16 Call to Vasilenko Anna</span></a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </section>
-                </div>
+         </div>
+         <div class="sidebar">
+            <div class="card-divider">
+               <div class="grid-block">
+                  <div class="medium-9 grid-block">{{::'COMMON.EVENTS' | translate}}</div>
+                  <div class="medium-3 grid-block">
+                     <a class="button button-with-input" href="#">{{::'COMMON.ADD' | translate}}</a>
+                  </div>
+               </div>
             </div>
-            <div class="sidebar">
-                <div class="card-divider">
-                    {{::'COMMON.COMMENTS' | translate}}
-                </div>
-                <div class="sidebar-content">
-                    <div class="grid-block">
-                        <div class="medium-9 grid-block">
-                            <textarea placeholder="Comment"></textarea>
+            <div class="sidebar-content">
+               <section class="block-list">
+                  <ul class="icon-left events">
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-2 grid-block">
+                              <i class="foundicon-people general-icon"></i>
+                           </div>
+                           <div class="medium-10 grid-block">
+                              <a href="#"><span>15.05.16 at 11.00 HR-Interviev with Antonov Viktor</span></a>
+                           </div>
                         </div>
-                        <div class="medium-3 grid-block">
-                            <a class="button button-with-input" href="#">{{::'COMMON.SAVE' | translate}}</a>
+                     </li>
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-2 grid-block">
+                              <i class="foundicon-website general-icon"></i>
+                           </div>
+                           <div class="medium-10 grid-block">
+                              <a href="#"><span>16.05.16 at 14.00 Tech-Interviev with Antonov Viktor</span></a>
+                           </div>
                         </div>
-                    </div>
-                    <section class="block-list">
-                        <ul class="comments">
-                            <li>
-                                <div class="grid-block">
-                                    <div class="medium-10 grid-block">
-                                        Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                                    </div>
-                                    <div class="medium-1 grid-block">
-                                        <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                                    </div>
-                                    <div class="medium-1 grid-block">
-                                        <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="grid-block">
-                                    <div class="medium-10 grid-block">
-                                        Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                                    </div>
-                                    <div class="medium-1 grid-block">
-                                        <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                                    </div>
-                                    <div class="medium-1 grid-block">
-                                        <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="grid-block">
-                                    <div class="medium-10 grid-block">
-                                        Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                                    </div>
-                                    <div class="medium-1 grid-block">
-                                        <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                                    </div>
-                                    <div class="medium-1 grid-block">
-                                        <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </section>
-                </div>
+                     </li>
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-2 grid-block">
+                              <i class="foundicon-phone general-icon"></i>
+                           </div>
+                           <div class="medium-10 grid-block">
+                              <a href="#"><span>25.05.16 Call to Vasilenko Anna</span></a>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </section>
             </div>
-        </div>
-    </div>
+         </div>
+         <div class="sidebar">
+            <div class="card-divider">
+               {{::'COMMON.COMMENTS' | translate}}
+            </div>
+            <div class="sidebar-content">
+               <div class="grid-block">
+                  <div class="medium-9 grid-block">
+                     <textarea placeholder="Comment"></textarea>
+                  </div>
+                  <div class="medium-3 grid-block">
+                     <a class="button button-with-input" href="#">{{::'COMMON.SAVE' | translate}}</a>
+                  </div>
+               </div>
+               <section class="block-list">
+                  <ul class="comments">
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-10 grid-block">
+                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
+                           </div>
+                        </div>
+                     </li>
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-10 grid-block">
+                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
+                           </div>
+                        </div>
+                     </li>
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-10 grid-block">
+                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </section>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>

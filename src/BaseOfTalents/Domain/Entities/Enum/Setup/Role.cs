@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Domain.Entities
+namespace Domain.Entities.Setup
 {
     public class Role : BaseEntity
     {
@@ -12,6 +12,7 @@ namespace Domain.Entities
             Permissions = new List<Permission>();
         }
         public string Title { get; set; }
+
         public virtual ICollection<Permission> Permissions { get; set; }
     }
 }

@@ -58,15 +58,10 @@
             </div>
             <input placeholder="Technology or position" type="text">
             <input placeholder="Full name" type="text">
-            <select name="Location" id="">
-               <option value="">Dnipropetrovsk</option>
-               <option value="">Zaporizhzhia</option>
-               <option value="">Lviv</option>
-               <option value="">Berdyansk</option>
-            </select>
-            <select name="Industry" id="">
-               <option value="">IT</option>
-               <option value="">Others</option>
+            <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.LocationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+            <select name="Industry" ng-model="vacancy.IndustryId">
+               <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
+               <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
             </select>
             <ul class="some-change">
                <li>
@@ -79,20 +74,34 @@
                </li>
             </ul>
             <div class="range-slider">
-               <span>Candidate's age:</span>
+               <label>Candidate's age:</label>
                <output name="amount" id="age" for="rangeInput">15</output>
                <input type="range" id="rangeInput" name="rangeInput" min="15" max="65" value="15" oninput="age.value=rangeInput.value">
             </div>
-            <input placeholder="Experience" type="text">
-            <input placeholder="Salary" type="text">
-            <select name="Langage" id="">
-               <option value="">English Beginner</option>
-               <option value="">English Pre-Intermediate</option>
-               <option value="">English Intermediate</option>
-               <option value="">English Upper Intermediate</option>
-               <option value="">English Advanced</option>
-               <option value="">English Fluent</option>
-            </select>
+            <label>Experience</label>
+            <div class="grid-block">
+               <div class="medium-6 grid-block">
+                  <input placeholder="Years" type="text">
+               </div>
+               <div class="medium-6 grid-block">
+                  <input placeholder="Months" type="text">
+               </div>
+            </div>
+            <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
+            <div class="grid-block">
+               <div class="medium-6 grid-block">
+                  <select name="Language" ng-model="vacancy.LanguageSkill.LanguageId">
+                     <option selected value="">{{::'COMMON.LANGUAGE' | translate}}</option>
+                     <option ng-repeat="language in thesaurus.languages" value="{{language.id}}">{{::language.title}}</option>
+                  </select>
+               </div>
+               <div class="medium-6 grid-block">
+                  <select name="LanguageLevel" ng-model="vacancy.LanguageSkill.LanguageLevel">
+                     <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
+                     <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
+                  </select>
+               </div>
+            </div>
             <a class="expand button" ng-click="getCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
          </div>
       </div>

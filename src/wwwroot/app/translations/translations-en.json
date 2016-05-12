@@ -13,7 +13,9 @@
    },
    "CANDIDATE": {
       "ERROR": "Sorry! Some error occurred",
-      "NEW_CANDIDATE": "New candidate"
+      "NEW_CANDIDATE": "New candidate",
+      "DESIRED_SALARY": "Desired salary",
+      "DESIRED_POSITION": "Desired position"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
@@ -45,13 +47,45 @@
       "NOTES": "Notes",
       "COMMENTS": "Comments",
       "EDIT" : "Edit",
-      "REMOVE" : "Remove"
+      "REMOVE" : "Remove",
+      "TITLE": "Title",
+      "INDUSTRY": "Industry",
+      "LEVEL": "Level",
+      "LANGUAGE": "Language",
+      "RESPONSIBLE": "Responsible",
+      "DEPARTMENT": "Department",
+      "SALARY_MIN": "Salary min",
+      "SALARY_MAX": "Salary max",
+      "TYPE_OF_EMPLOYMENT": "Type of Employment",
+      "MASTER_VACANCY": "Master vacancy",
+      "COUNT": "Count",
+      "STATUS": "Status",
+      "START_DATE": "Start date",
+      "DEADLINE_DATE": "Deadline date",
+      "END_DATE": "End date",
+      "ADD_DEADLINE_TO_CALENDAR": "Add deadline to calendar",
+      "DESCRIPTION": "Description",
+      "LOCATION": "Location",
+      "REMOVE": "Remove",
+      "NAME": "Name",
+      "SIZE": "Size",
+      "SKILLS": "Skills",
+      "TAGS": "Tags",
+      "PHONE_NUMBERS": "Phone numbers",
+      "UPLOAD": "Upload",
+      "DATE_OF_BIRTH": "Date of Birth"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
       "SOCIALS" : "Social networks",
       "LANGUAGES" : "Languages",
-      "LOCATIONS" : "Locations"
+      "LOCATIONS" : "Locations",
+      "DEPARTMENTS" : "Departments",
+      "DEPARTMENT_GROUPS" : "Department groups",
+      "INDUSTRIES" : "Industries",
+      "SKILLS" : "Skills",
+      "TAGS" : "Tags",
+      "STAGES" : "Stages"
    },
    "VALIDATION": {
       "required": {

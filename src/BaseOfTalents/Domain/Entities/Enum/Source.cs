@@ -9,7 +9,7 @@ namespace Domain.Entities.Enum
 {
     public enum Source
     {
-        LinkedIn,
+        LinkedIn = 1,
         Vkontakte,
         Djinni,
         RabotaUa,

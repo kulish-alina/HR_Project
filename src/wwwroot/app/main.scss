@@ -65,17 +65,6 @@ body {
    @extend .main-card;
    min-height: $rem-base*15;
 }
-.tabs {
-   @include tabstrip(
-      $orientation: vertical
-   );
-   @include tabstrip-item(
-	$background: $body-background,
-	$background-hover: $body-background,
-	$background-active: $body-background,
-	$color: $tab-title-color,
-	$color-active: $tab-title-color-active,
-	$padding: 0
 
 .modal {
    width: $rem-base*31.25 !important;
@@ -95,8 +84,6 @@ body {
 .image-container {
    margin-left: -$rem-base*19 !important;
    margin-top: $rem-base*1.875 !important;
-);
-   width: 100%;
 }
 .tabs-container {
    width: 100%;
@@ -121,4 +108,17 @@ body {
 .tab-item.is-active {
    box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
    font-weight: 600;
+}
+.tabs {
+   @include tabstrip(
+      $orientation: vertical
+   );
+   @include tabstrip-item(
+	$background: $body-background,
+	$background-hover: $body-background,
+	$background-active: $body-background,
+	$color: $tab-title-color,
+	$color-active: $tab-title-color-active,
+	$padding: 0);
+   width: 100%;
 }

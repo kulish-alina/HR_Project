@@ -75,6 +75,13 @@ namespace Data.EFData.Repositories
             DbEntityEntry dbEntityEntry = DbContext.Entry<TEntity>(entity);
             dbEntityEntry.State = System.Data.Entity.EntityState.Modified;
         }
+
+        public virtual void Remove(int entityId)
+        {
+            var entityToRemove = Get(entityId);
+            Remove(entityToRemove);
+        }
+
         public virtual void Remove(TEntity entity)
         {
             var attachedEntity = DbContext.Set<TEntity>().Attach(entity);

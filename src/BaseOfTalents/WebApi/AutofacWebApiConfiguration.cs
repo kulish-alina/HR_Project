@@ -4,14 +4,9 @@ using Data.EFData;
 using Data.EFData.Repositories;
 using Data.Infrastructure;
 using Domain.Repositories;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Http;
-using Data.Infrastructure;
 using Domain.Entities;
 
 namespace WebApi
@@ -42,6 +37,10 @@ namespace WebApi
 
             builder.RegisterType<EFCandidateRepository>()
                 .As<IRepository<Candidate>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<EFVacancyStageInfoRepository>()
+                .As<IRepository<VacancyStageInfo>>()
                 .InstancePerRequest();
 
             builder.RegisterType<EFVacancyRepository>()

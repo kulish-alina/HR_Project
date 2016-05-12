@@ -56,6 +56,11 @@ namespace Data.DumbData.Repositories
             Collection.Remove(entity);
         }
 
+        public void Remove(int entityId)
+        {
+            Collection.Remove(Collection.FirstOrDefault(x => x.Id == entityId));
+        }
+
         public void Update(TEntity entity)
         {
             Collection[Collection.IndexOf(Collection.First(x => x.Id == entity.Id))] = entity;

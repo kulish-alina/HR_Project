@@ -13,252 +13,266 @@ namespace Data.EFData.Extentions
 {
     public static class CandidateExtensions
     {
-        public static void Update(this Candidate domain, CandidateDTO dto, IRepository<Skill> skillRepo, IRepository<Tag> tagRepo)
+        public static void Update(this Candidate destination, CandidateDTO source, 
+            IRepository<Skill> skillRepository, 
+            IRepository<Tag> tagRepository, 
+            IRepository<CandidateSocial> candidateSocialRepository, 
+            IRepository<LanguageSkill> languageSkillRepository,
+            IRepository<CandidateSource> candidateSourceRepository,
+            IRepository<VacancyStageInfo> vacancyStageInfoRepository,
+            IRepository<PhoneNumber> phoneNumberRepository,
+            IRepository<Photo> photoRepository)
         {
-            domain.State = dto.State;
+            destination.State = source.State;
 
-            domain.FirstName = dto.FirstName;
-            domain.MiddleName = dto.MiddleName;
-            domain.LastName = dto.LastName;
-            domain.IsMale = dto.IsMale;
-            domain.BirthDate = dto.BirthDate;
+            destination.FirstName = source.FirstName;
+            destination.MiddleName = source.MiddleName;
+            destination.LastName = source.LastName;
+            destination.IsMale = source.IsMale;
+            destination.BirthDate = source.BirthDate;
 
-            domain.Email = dto.Email;
-            domain.Skype = dto.Skype;
-            domain.PositionDesired = dto.PositionDesired;
-            domain.SalaryDesired = dto.SalaryDesired;
-            domain.TypeOfEmployment = dto.TypeOfEmployment;
-            domain.StartExperience = dto.StartExperience;
-            domain.Practice = dto.Practice;
-            domain.Description = dto.Description;
+            destination.Email = source.Email;
+            destination.Skype = source.Skype;
+            destination.PositionDesired = source.PositionDesired;
+            destination.SalaryDesired = source.SalaryDesired;
+            destination.TypeOfEmployment = source.TypeOfEmployment;
+            destination.StartExperience = source.StartExperience;
+            destination.Practice = source.Practice;
+            destination.Description = source.Description;
 
-            domain.LocationId = dto.LocationId;
-            domain.RelocationAgreement = dto.RelocationAgreement;
-            domain.Education = dto.Education;
+            destination.LocationId = source.LocationId;
+            destination.RelocationAgreement = source.RelocationAgreement;
+            destination.Education = source.Education;
 
-            domain.IndustryId = dto.IndustryId;
+            destination.IndustryId = source.IndustryId;
 
-            PerformSocialSaving(domain, dto);
-            PerformLanguageSkillsSaving(domain, dto);
-            PerformSourcesSaving(domain, dto);
-            PerformVacanciesProgressSaving(domain, dto);
-            
-            foreach (var dtoTagId in dto.TagIds.ToList())
+            PerformSocialSaving(destination, source, candidateSocialRepository);
+            PerformLanguageSkillsSaving(destination, source, languageSkillRepository);
+            PerformSourcesSaving(destination, source, candidateSourceRepository);
+            PerformVacanciesProgressSaving(destination, source, vacancyStageInfoRepository);
+            PerformTagsSaving(destination, source, tagRepository);
+            PerformPhoneNumbersSaving(destination, source, phoneNumberRepository);
+            PerformSkillsSaving(destination, source, skillRepository);
+            PerformPhotoSaving(destination, source, photoRepository);
+        }
+
+        private static void PerformPhotoSaving(Candidate destination, CandidateDTO source, IRepository<Photo> photoRepository)
+        {
+            if (source.Photo != null)
             {
-                if (!domain.Tags.Any(x => x.Id == dtoTagId))
+                if (source.Photo.Id != 0)
                 {
-                    domain.Tags.Add(tagRepo.Get(dtoTagId));
-                }
-            }
-
-            foreach (var domainTag in domain.Tags.ToList())
-            {
-                if (!dto.TagIds.Any(x => x== domainTag.Id))
-                {
-                    domain.Tags.Remove(domainTag);
-                }
-            }
-            
-            foreach (var dtoPhone in dto.PhoneNumbers.ToList())
-            {
-                var domainPhone = domain.PhoneNumbers.FirstOrDefault(x => x.Id == dtoPhone.Id);
-                if (domainPhone == null)
-                {
-                    var number = new PhoneNumber()
-                    {
-                        Number = dtoPhone.Number
-                    };
-                    domain.PhoneNumbers.Add(number);
+                    var photoBd = destination.Photo;
+                    photoBd.Description = source.Photo.Description;
+                    photoBd.ImagePath = source.Photo.ImagePath;
+                    photoBd.State = source.Photo.State;
                 }
                 else
                 {
-                    domainPhone.Number = dtoPhone.Number;
-                    domainPhone.State = dtoPhone.State;
-                }
-            }
-            foreach (var domainPhone in domain.PhoneNumbers.ToList())
-            {
-                if (!dto.PhoneNumbers.Any(x => x.Id == domainPhone.Id))
-                {
-                    domain.PhoneNumbers.Remove(domainPhone);
-                }
-            }
-
-            foreach (var skillId in dto.SkillIds.ToList())
-            {
-                if(!domain.Skills.Any(x=>x.Id==skillId))
-                {
-                    domain.Skills.Add(skillRepo.Get(skillId));
-                }
-            }
-
-            foreach (var domainSkill in domain.Skills.ToList())
-            {
-                if (!dto.SkillIds.Any(x => x == domainSkill.Id))
-                {
-                    domain.Skills.Remove(domainSkill);
-                }
-            }
-
-            if (dto.Photo != null)
-            {
-                if (dto.Photo.Id != 0)
-                {
-                    var photoBd = domain.Photo;
-                    photoBd.Description = dto.Photo.Description;
-                    photoBd.ImagePath = dto.Photo.ImagePath;
-                    photoBd.State = dto.Photo.State;
-                }
-                else
-                {
-                    domain.Photo = new Photo
+                    destination.Photo = new Photo
                     {
-                        Id = dto.Photo.Id,
-                        Description = dto.Photo.Description,
-                        ImagePath = dto.Photo.ImagePath,
-                        State = dto.Photo.State
+                        Id = source.Photo.Id,
+                        Description = source.Photo.Description,
+                        ImagePath = source.Photo.ImagePath,
+                        State = source.Photo.State
                     };
                 }
             }
         }
 
-        private static void PerformVacanciesProgressSaving(Candidate destination, CandidateDTO source)
+        private static void PerformSkillsSaving(Candidate destination, CandidateDTO source, IRepository<Skill> skillRepository)
         {
-            foreach (var dtoVp in source.VacanciesProgress.ToList())
+            destination.Skills.Clear();
+            source.SkillIds.ToList().ForEach(skillId =>
             {
-                var domainVp = destination.VacanciesProgress.FirstOrDefault(x => x.VacancyStage.VacancyId == dtoVp.VacancyStage.VacancyId);
-                if (domainVp == null)
+                destination.Skills.Add(skillRepository.Get(skillId));
+            });
+        }
+
+        private static void PerformTagsSaving(Candidate destination, CandidateDTO source, IRepository<Tag> tagRepository)
+        {
+            destination.Tags.Clear();
+            source.TagIds.ToList().ForEach(tagId =>
+            {
+                destination.Tags.Add(tagRepository.Get(tagId));
+            });
+        }
+
+        private static void PerformPhoneNumbersSaving(Candidate destination, CandidateDTO source, IRepository<PhoneNumber> phoneNumberRepository)
+        {
+            RefreshExistingPhoneNumbers(destination, source, phoneNumberRepository);
+            CreateNewPhoneNumbers(destination, source);
+        }
+        private static void CreateNewPhoneNumbers(Candidate destination, CandidateDTO source)
+        {
+            source.PhoneNumbers.Where(x => x.Id == 0).ToList().ForEach(newPhoneNumber =>
+            {
+                var toDomain = new PhoneNumber();
+                toDomain.Update(newPhoneNumber);
+                destination.PhoneNumbers.Add(toDomain);
+            });
+        }
+        private static void RefreshExistingPhoneNumbers(Candidate destination, CandidateDTO source, IRepository<PhoneNumber> phoneNumberRepository)
+        {
+            source.PhoneNumbers.Where(x => x.Id != 0).ToList().ForEach(updatedPhoneNumber =>
+            {
+                var domainPhoneNumber = destination.PhoneNumbers.FirstOrDefault(x => x.Id == updatedPhoneNumber.Id);
+                if (domainPhoneNumber == null)
                 {
-                    destination.VacanciesProgress.Add(new VacancyStageInfo()
-                    {
-                        CandidateId = dtoVp.CandidateId == default(int) ? destination.Id : dtoVp.CandidateId,
-                        VacancyStage = new VacancyStage()
-                        {
-                            IsCommentRequired = dtoVp.VacancyStage.IsCommentRequired,
-                            Order = dtoVp.VacancyStage.Order,
-                            StageId = dtoVp.VacancyStage.StageId,
-                            VacancyId = dtoVp.VacancyStage.VacancyId,
-                        },
-                        Comment = dtoVp.Comment != null ? new Comment() { Message = dtoVp.Comment.Message } : null
-                    });
+                    throw new ArgumentNullException("Request contains unknown entity");
+                }
+                if (updatedPhoneNumber.ShouldBeRemoved())
+                {
+                    phoneNumberRepository.Remove(updatedPhoneNumber.Id);
                 }
                 else
                 {
-                    domainVp.CandidateId = dtoVp.CandidateId == default(int) ? destination.Id : dtoVp.CandidateId;
-                    domainVp.VacancyStage.IsCommentRequired = dtoVp.VacancyStage.IsCommentRequired;
-                    domainVp.VacancyStage.Order = dtoVp.VacancyStage.Order;
-                    domainVp.VacancyStage.StageId = dtoVp.VacancyStage.StageId;
-                    domainVp.Comment = dtoVp.Comment != null ? new Comment() { Message = dtoVp.Comment.Message } : domainVp.Comment;
+                    domainPhoneNumber.Update(updatedPhoneNumber);
                 }
-            }
-            foreach (var domainVp in destination.VacanciesProgress.ToList())
-            {
-                if (!source.VacanciesProgress.Any(x => x.VacancyStage.VacancyId == domainVp.VacancyStage.VacancyId))
-                {
-                    destination.VacanciesProgress.Remove(domainVp);
-                }
-            }
+            });
+        }
 
-            RefreshExistingVacanciesProgress(destination, source);
+        private static void PerformVacanciesProgressSaving(Candidate destination, CandidateDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository)
+        {
+            RefreshExistingVacanciesProgress(destination, source, vacancyStageInfoRepository);
             CreateNewVacanciesProgress(destination, source);
-
         }
-
         private static void CreateNewVacanciesProgress(Candidate destination, CandidateDTO source)
         {
-            throw new NotImplementedException();
+            source.VacanciesProgress.Where(x => x.Id == 0).ToList().ForEach(newVacancyStageInfo => 
+            {
+                var toDomain = new VacancyStageInfo();
+                toDomain.Update(newVacancyStageInfo);
+                destination.VacanciesProgress.Add(toDomain);
+            });
+        }
+        private static void RefreshExistingVacanciesProgress(Candidate destination, CandidateDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository)
+        {
+            source.VacanciesProgress.Where(x => x.Id != 0).ToList().ForEach(updatedVacanciesStageInfo =>
+            {
+                var domainVacancyStageInfo = destination.VacanciesProgress.FirstOrDefault(x => x.Id == updatedVacanciesStageInfo.Id);
+                if (domainVacancyStageInfo == null)
+                {
+                    throw new ArgumentNullException("Request contains unknown entity");
+                }
+                if (updatedVacanciesStageInfo.VacancyStage.IsCommentRequired)
+                {
+                    if (updatedVacanciesStageInfo.Comment == null)
+                    {
+                        throw new ArgumentNullException("Vacancy stage info should have comment");
+                    }
+                }
+                if (updatedVacanciesStageInfo.ShouldBeRemoved())
+                {
+                    vacancyStageInfoRepository.Remove(updatedVacanciesStageInfo.Id);
+                }
+                else
+                {
+                    domainVacancyStageInfo.Update(updatedVacanciesStageInfo);
+                }
+            });
         }
 
-        private static void RefreshExistingVacanciesProgress(Candidate destination, CandidateDTO source)
+        private static void PerformSourcesSaving(Candidate destination, CandidateDTO source, IRepository<CandidateSource> candidateSourceRepository)
         {
-            throw new NotImplementedException();
-        }
-
-        private static void PerformSourcesSaving(Candidate destination, CandidateDTO source)
-        {
-            RefreshExistingSources(destination, source);
+            RefreshExistingSources(destination, source, candidateSourceRepository);
             CreateNewSources(destination, source);
         }
-
         private static void CreateNewSources(Candidate destination, CandidateDTO source)
         {
-            foreach (var newSource in source.Sources.Where(x=> x.Id == 0).ToList())
+            source.Sources.Where(x => x.Id == 0).ToList().ForEach(newSource=> 
             {
-                destination.Sources.Add(new CandidateSource()
+                var toDomain = new CandidateSource();
+                toDomain.Update(newSource);
+                destination.Sources.Add(toDomain);
+            });
+        }
+        private static void RefreshExistingSources(Candidate destination, CandidateDTO source, IRepository<CandidateSource> candidateSourceRepository)
+        {
+            source.Sources.Where(x => x.Id != 0).ToList().ForEach(updatedSource =>
+            {
+                var domainSource = destination.Sources.FirstOrDefault(x => x.Id == updatedSource.Id);
+                if (domainSource == null)
                 {
-                    Path = newSource.Path,
-                    Source = newSource.Source
-                });
-            }
-        }
-
-        private static void RefreshExistingSources(Candidate destination, CandidateDTO source)
-        {
-            foreach (var oldSource in source.Sources.Where(x => x.Id != 0))
-            {
-                var domainSource = destination.Sources.FirstOrDefault(x => x.Id == oldSource.Id);
-                domainSource.Path = oldSource.Path;
-                domainSource.Source = oldSource.Source;
-                domainSource.State = oldSource.State;
-            }
-        }
-
-        private static void PerformLanguageSkillsSaving(Candidate destination, CandidateDTO source)
-        {
-            RefreshExistingLS(destination, source);
-            CreateNewLS(destination, source);
-        }
-
-        private static void CreateNewLS(Candidate destination, CandidateDTO source)
-        {
-            foreach (var newLS in source.LanguageSkills.Where(x => x.Id == 0).ToList())
-            {
-                destination.LanguageSkills.Add(new LanguageSkill()
+                    throw new ArgumentNullException("Request contains unknown entity");
+                }
+                if (updatedSource.ShouldBeRemoved())
                 {
-                    LanguageId = newLS.LanguageId,
-                    LanguageLevel = newLS.LanguageLevel
-                });
-            }
+                    candidateSourceRepository.Remove(updatedSource.Id);
+                }
+                else
+                {
+                    domainSource.Update(updatedSource);
+                }
+            });
         }
 
-        private static void RefreshExistingLS(Candidate destination, CandidateDTO source)
+        private static void PerformLanguageSkillsSaving(Candidate destination, CandidateDTO source, IRepository<LanguageSkill> languageSkillRepository)
         {
-            foreach (var oldLS in source.LanguageSkills.Where(x => x.Id != 0).ToList())
+            CreateNewLanguageSkills(destination, source);
+            RefreshExistingLanguageSkills(destination, source, languageSkillRepository);
+        }
+        private static void CreateNewLanguageSkills(Candidate destination, CandidateDTO source)
+        {
+            source.LanguageSkills.Where(x => x.Id == 0).ToList().ForEach(newLanguageSkill =>
             {
-                var domainLS = destination.LanguageSkills.ToList().FirstOrDefault(x => x.Id == oldLS.Id);
-                domainLS.LanguageLevel = oldLS.LanguageLevel;
-                domainLS.LanguageId = oldLS.LanguageId;
-                domainLS.State = oldLS.State;
-            }
+                var toDomain = new LanguageSkill();
+                toDomain.Update(newLanguageSkill);
+                destination.LanguageSkills.Add(toDomain);
+            });
+        }
+        private static void RefreshExistingLanguageSkills(Candidate destination, CandidateDTO source, IRepository<LanguageSkill> languageSkillRepository)
+        {
+            source.LanguageSkills.Where(x => x.Id != 0).ToList().ForEach(updatedLanguageSkills =>
+            {
+                var domainLS = destination.LanguageSkills.ToList().FirstOrDefault(x => x.Id == updatedLanguageSkills.Id);
+                if (domainLS == null)
+                {
+                    throw new ArgumentNullException("Request contains unknown entity");
+                }
+                if (updatedLanguageSkills.ShouldBeRemoved())
+                {
+                    languageSkillRepository.Remove(updatedLanguageSkills.Id);
+                }
+                else
+                {
+                    domainLS.Update(updatedLanguageSkills);
+                }
+            });
         }
 
-        private static void PerformSocialSaving(Candidate destination, CandidateDTO source)
+        private static void PerformSocialSaving(Candidate destination, CandidateDTO source, IRepository<CandidateSocial> candidateSocialRepository)
         {
-            RefreshExistingSocials(destination, source);
+            RefreshExistingSocials(destination, source, candidateSocialRepository);
             CreateNewSocials(destination, source);
         }
-
         private static void CreateNewSocials(Candidate destination, CandidateDTO source)
         {
-            foreach (var newSocial in source.SocialNetworks.Where(x => x.Id == 0).ToList())
+            source.SocialNetworks.Where(x => x.Id == 0).ToList().ForEach(newSocial =>
             {
-                destination.SocialNetworks.Add(new CandidateSocial()
-                {
-                    Path = newSocial.Path,
-                    SocialNetworkId = newSocial.SocialNetworkId,
-                });
-            }
+                var toDomain = new CandidateSocial();
+                toDomain.Update(newSocial);
+                destination.SocialNetworks.Add(toDomain);
+            });
         }
-
-        private static void RefreshExistingSocials(Candidate destination, CandidateDTO source)
+        private static void RefreshExistingSocials(Candidate destination, CandidateDTO source, IRepository<CandidateSocial> candidateSocialRepository)
         {
-            foreach (var oldSocial in source.SocialNetworks.Where(x => x.Id != 0).ToList())
+            source.SocialNetworks.Where(x => x.Id != 0).ToList().ForEach(updatedSocial =>
             {
-                var domainSocial = destination.SocialNetworks.ToList().FirstOrDefault(x => x.Id == oldSocial.Id);
-                domainSocial.Path = oldSocial.Path;
-                domainSocial.SocialNetworkId = oldSocial.SocialNetworkId;
-                domainSocial.State = oldSocial.State;
-            }
+                var domainSocial = destination.SocialNetworks.ToList().FirstOrDefault(x => x.Id == updatedSocial.Id);
+                if (domainSocial == null)
+                {
+                    throw new ArgumentNullException("Request contains unknown entity");
+                }
+                if (updatedSocial.ShouldBeRemoved())
+                {
+                    candidateSocialRepository.Remove(updatedSocial.Id);
+                }
+                else
+                {
+                    domainSocial.Update(updatedSocial);
+                }
+            });
         }
     }
 }

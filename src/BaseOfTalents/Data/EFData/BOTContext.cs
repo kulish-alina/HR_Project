@@ -25,12 +25,17 @@ namespace Data.EFData
         public DbSet<Industry> Industries { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<DepartmentGroup> DepartmentGroups { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<Photo> Photos { get; set; }
         public DbSet<Level> Levels { get; set; }
 
+        public DbSet<CandidateSocial> CandidateSocials { get; set; }
+        public DbSet<LanguageSkill> LanguageSkills { get; set; }
+        public DbSet<CandidateSource> CandidateSources { get; set; }
+        public DbSet<VacancyStageInfo> VacanciesStageInfos { get; set; }
+        public DbSet<VacancyStage> VacancyStages { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
-
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Vacancy> Vacancies { get; set; }
@@ -61,12 +66,15 @@ namespace Data.EFData
             modelBuilder.Configurations.Add(new VacancyStageConfiguration());
             modelBuilder.Configurations.Add(new VacancyStageInfoConfiguration());
             modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
+            modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
             modelBuilder.Configurations.Add(new UserConfiguration());
             modelBuilder.Configurations.Add(new EventConfiguration());
             modelBuilder.Configurations.Add(new DepartmentConfiguration());
             modelBuilder.Configurations.Add(new LocationConfiguration());
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
             modelBuilder.Configurations.Add(new ErrorConfiguration());
+            modelBuilder.Configurations.Add(new LanguageSkillConfiguration());
+            modelBuilder.Configurations.Add(new PhotoConfiguration());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 

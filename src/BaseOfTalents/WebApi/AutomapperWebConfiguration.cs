@@ -30,56 +30,56 @@ namespace WebApi
 
                 x.CreateMap<Country, CountryDTO>();
                 x.CreateMap<CountryDTO, Country>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Department, DepartmentDTO>();
                 x.CreateMap<DepartmentDTO, Department>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src=> DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src=> DateTime.Now));
 
                 x.CreateMap<DepartmentGroup, DepartmentGroupDTO>();
                 x.CreateMap<DepartmentGroupDTO, DepartmentGroup>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<EventType, EventTypeDTO>();
                 x.CreateMap<EventTypeDTO, EventType>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Industry, IndustryDTO>();
                 x.CreateMap<IndustryDTO, Industry>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Language, LanguageDTO>();
                 x.CreateMap<LanguageDTO, Language>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<PhoneNumber, PhoneNumberDTO>();
                 x.CreateMap<PhoneNumberDTO, PhoneNumber>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
 
                 x.CreateMap<Level, LevelDTO>();
                 x.CreateMap<LevelDTO, Level>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Location, LocationDTO>();
                 x.CreateMap<LocationDTO, Location>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Skill, SkillDTO>();
                 x.CreateMap<SkillDTO, Skill>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<SocialNetwork, SocialNetworkDTO>();
                 x.CreateMap<SocialNetworkDTO, SocialNetwork>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Stage, StageDTO>();
                 x.CreateMap<StageDTO, Stage>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<Tag, TagDTO>();
                 x.CreateMap<TagDTO, Tag>()
-                    .ForMember(dest => dest.EditTime, opt => opt.MapFrom(src => DateTime.Now));
+                    .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
                 x.CreateMap<CandidateSource, CandidateSourceDTO>();
 

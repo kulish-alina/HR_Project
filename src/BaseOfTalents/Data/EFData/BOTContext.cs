@@ -80,7 +80,7 @@ namespace Data.EFData
             {
                 var entityBase = entry.Entity as BaseEntity;
 
-                if(entry.State == EntityState.Added)
+               if(entry.State == EntityState.Added)
                 {
                     entityBase.CreatedOn = DateTime.Now;
                 }

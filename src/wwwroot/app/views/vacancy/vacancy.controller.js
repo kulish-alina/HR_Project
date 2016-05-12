@@ -4,6 +4,7 @@ const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
 
 export default function VacancyController(
    $scope,
+   $translate,
    VacancyService,
    ValidationService,
    FileUploader,
@@ -24,6 +25,7 @@ export default function VacancyController(
    vm.uploader = createNewUploader();
    vm.vacancy.requiredSkills = [];
    vm.vacancy.tags = [];
+   vm.errorMessageFromFileUploader = '';
    /* === impl === */
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
@@ -46,6 +48,9 @@ export default function VacancyController(
       });
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          vm.vacancy.fileIds.push(item.id);
+      };
+      newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
+         vm.errorMessageFromFileUploader = $translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE');
       };
       return newUploader;
    }

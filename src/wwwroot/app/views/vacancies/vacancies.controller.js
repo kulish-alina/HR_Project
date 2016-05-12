@@ -33,7 +33,7 @@ export default function VacanciesController(
 
    function getVacancy(vacancyId) {
       VacancyService.getVacancy(vacancyId).then(value => {
-         vm.vacancies = [ value ];
+         vm.vacancies.push(value);
          console.log('vm.vacancies', vm.vacancies);
       }).catch(_onError);
    }

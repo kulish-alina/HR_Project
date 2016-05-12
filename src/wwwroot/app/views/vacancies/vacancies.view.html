@@ -74,9 +74,9 @@
                      <td>{{$index+1}}</td>
                      <td>{{vacancy.Title}}</td>
                      <td>{{vacancy.VacancyStatus.Title}}</td>
-                     <td>{{vacancy.City.Title}}</td>
-                     <td>{{vacancy.User.LastName}}</td>
-                     <td>{{vacancy.EditTime}}</td>
+                     <td ng-repeat = "location in vacancy.locations">{{location.title}}</td>
+                     <td>{{vacancy.responsible.LastName}}</td>
+                     <td>{{vacancy.StartDate}}</td>
                      <td>
                         <button ng-click="deleteVacancy(vacancy)">
                            Delete

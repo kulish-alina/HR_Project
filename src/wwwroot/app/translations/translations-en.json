@@ -73,7 +73,8 @@
       "TAGS": "Tags",
       "PHONE_NUMBERS": "Phone numbers",
       "UPLOAD": "Upload",
-      "DATE_OF_BIRTH": "Date of Birth"
+      "DATE_OF_BIRTH": "Date of Birth",
+      "FILE_UPLOADER_ERROR_MESSAGE": "The size of file exceeds the allowable size!"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

@@ -13,38 +13,30 @@ let _HttpService;
 let _ThesaurusService;
 let _$q;
 let _LoggerService;
+let _UserService;
 
 export default class VacancyService {
-   constructor(HttpService, ThesaurusService, $q, LoggerService) {
+   constructor(HttpService, ThesaurusService, $q, LoggerService, UserService) {
       'ngInject';
       _HttpService = HttpService;
       _ThesaurusService = ThesaurusService;
       _$q = $q;
       _LoggerService = LoggerService;
+      _UserService = UserService;
    }
 
    getVacancies() {
-      return _HttpService.get(VACANCY_URL);
+      return _HttpService.get(VACANCY_URL).then((vacancies) => {
+         each(vacancies, (vacancy) => {
+            return this._convertIdsToEntities(vacancy);
+         });
+      });
    }
 
    getVacancy(vacancyId) {
       const additionalUrl = VACANCY_URL + vacancyId;
       return _HttpService.get(additionalUrl).then((vacancy) => {
-         let mapListThesauruses = {
-            'industries' : 'IndustryId',
-            'levels': 'LevelIds',
-            'locations': 'LocationIds',
-            'typesOfEmployment': 'TypeOfEmployment',
-            'entityStates': 'State'
-         };
-         each(mapListThesauruses, (thesaurusKey, thesaurusName) => {
-            _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, vacancy[thesaurusKey]).then((promise) => {
-               console.log('promise', promise);
-               vacancy[thesaurusKey] = promise;
-            });
-         }
-         );
-         return vacancy;
+         return vacancy = this._convertIdsToEntities(vacancy);
       });
    }
 
@@ -96,6 +88,28 @@ export default class VacancyService {
          const additionalUrl = VACANCY_URL + entity.id;
          _HttpService.remove(additionalUrl, entity);
       }
+   }
+
+   _convertIdsToEntities(entity) {
+      each(DATE_TYPE, (type) => {
+         entity[type] = utils.formatDateFromServer(entity[type]);
+      });
+      _UserService.getUser(entity.ResponsibleId).then((user) => entity.responsible = user);
+      let mapListThesauruses = {
+         'industries' : 'IndustryId',
+         'levels': 'LevelIds',
+         'locations': 'LocationIds',
+         'typesOfEmployment': 'TypeOfEmployment',
+         'entityStates': 'State'
+      };
+      each(mapListThesauruses, (thesaurusKey, thesaurusName) => {
+         _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, entity[thesaurusKey]).then((promise) => {
+            console.log('promise', promise);
+            entity[thesaurusName] = promise;
+         });
+      }
+      );
+      return entity;
    }
 }
 

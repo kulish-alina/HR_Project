@@ -10,4 +10,9 @@ export default class UserService {
    getUsers() {
       return _HttpService.get(USER_URL);
    }
+
+   getUser(id) {
+      let additionalUrl = USER_URL + id;
+      return _HttpService.get(additionalUrl);
+   }
 }

@@ -26,8 +26,6 @@ namespace WebApi
                 x.CreateMap<Photo, PhotoDTO>();
                 x.CreateMap<PhotoDTO, Photo>();
 
-               
-
                 x.CreateMap<Country, CountryDTO>();
                 x.CreateMap<CountryDTO, Country>()
                     .ForMember(dest => dest.CreatedOn, opt => opt.MapFrom(src => DateTime.Now));
@@ -96,7 +94,10 @@ namespace WebApi
                      .ConstructUsing(   source => (source.SourceValue as Skill).Id);
 
                 x.CreateMap<Permission, int>()
-                    .ConstructUsing(source => (source.SourceValue as Permission).Id);
+                    .ConstructUsing(        source => (source.SourceValue as Permission).Id);
+
+                x.CreateMap<Role, int>()
+                        .ConstructUsing( source => (source.SourceValue as Role).Id);
 
                 x.CreateMap<Tag, int>()
                      .ConstructUsing(   source => (source.SourceValue as Tag).Id);
@@ -112,6 +113,9 @@ namespace WebApi
 
                 x.CreateMap<Role, RoleDTO>()
                         .ForMember(dest => dest.PermissionIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Permission>, IEnumerable<int>>(src.Permissions)));
+
+                x.CreateMap<Permission, PermissionDTO>()
+                        .ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Role>, IEnumerable<int>>(src.Roles)));
 
                 x.CreateMap<User, UserDTO>()
                    .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<PhotoDTO>(src.Photo)))

@@ -85,30 +85,6 @@ body {
    margin-left: -$rem-base*19 !important;
    margin-top: $rem-base*1.875 !important;
 }
-.tabs-container {
-   width: 100%;
-}
-.tab-item {
-   height: $rem-base*8;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   background-color: $body-background !important;
-   border: 1px solid $border-color;
-}
-.tab-contents {
-   width: 100%;
-   padding: 0;
-   border: 1px solid $border-color;
-}
-.roles-table {
-   margin-top: 0;
-   margin-left: 0;
-}
-.tab-item.is-active {
-   box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
-   font-weight: 600;
-}
 .tabs {
    @include tabstrip(
       $orientation: vertical

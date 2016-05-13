@@ -3,7 +3,15 @@
 import  vacancyService from './VacancyService';
 
 describe('VacancyService tests for', () => {
-   let service = null;
+   let service = null;   
+   let promiseMock = {
+      when:    () => promiseMock,
+      all:     () => promiseMock,
+      then:    () => promiseMock,
+      finally: () => promiseMock,
+      reject:  () => promiseMock,
+      catch:   () => promiseMock
+   };
    let mock = {
       get: jasmine.createSpy().and.returnValue(promiseMock),
       post: jasmine.createSpy().and.returnValue(promiseMock),
@@ -12,29 +20,9 @@ describe('VacancyService tests for', () => {
    };
    let thesaurusMock = {
       saveThesaurusTopics: jasmine.createSpy()
-   }
+   };
    let loggerMock = {
       error: jasmine.createSpy()
-   }
-   let promiseMock = {
-      when: function() {
-         return this;
-      },
-      all: function () {
-         return this;
-      },
-      then: function () {
-         return this;
-      },
-      finally: function () {
-         return this;
-      },
-      reject: function () {
-         return this;
-      },
-      catch: function() {
-         return this;
-      }
    };
 
    beforeEach(() => {

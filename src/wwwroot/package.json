@@ -14,6 +14,7 @@
   "author": "isd",
   "license": "ISC",
   "devDependencies": {
+    "angular-file-upload": "^2.3.1",
     "angular-mocks": "^1.5.3",
     "babel": "^6.5.2",
     "babel-core": "^6.7.2",
@@ -37,6 +38,7 @@
     "karma-webpack": "^1.7.0",
     "ng-annotate-loader": "^0.1.0",
     "node-sass": "^3.4.2",
+    "oi.select": "^0.2.21",
     "postcss-loader": "^0.8.2",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.0",

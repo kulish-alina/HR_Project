@@ -10,7 +10,9 @@ namespace Domain.Entities
         public int CandidateId { get; set; }
         public virtual Candidate Candidate { get; set; }
 
-        public virtual Comment Comment { get; set; }
+        public int VacancyId { get; set; }
+        public virtual Vacancy Vacancy { get; set; }
 
+        public virtual Comment Comment { get; set; }
     }
 }

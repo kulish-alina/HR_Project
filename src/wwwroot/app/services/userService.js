@@ -1,14 +1,15 @@
 const USER_URL = 'users/';
-let _HttpService;
+let _HttpService, _$q;
 
 export default class UserService {
-   constructor(HttpService) {
+   constructor(HttpService, $q) {
       'ngInject';
       _HttpService = HttpService;
+      _$q = $q;
    }
 
    getCurrentUser() {
-      return {
+      return _$q.when({
          lastName    : 'Antonov',
          firstName   : 'Dmitriy',
          middleName  : 'Valentinovich',
@@ -20,11 +21,11 @@ export default class UserService {
          login       : 'dant',
          role        : 'Manager',
          phoneNumber : '380680686868'
-      };
+      });
    }
 
    saveUser(entty) {
-      console.log('user saved', entty);
+      _$q.when(console.log('user saved', entty));
    }
 
    getUsers() {

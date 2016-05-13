@@ -16,6 +16,7 @@ namespace Domain.Repositories
         TEntity Get(int id);
         void Add(TEntity entity);
         void Update(TEntity entity);
+        void Remove(int entityId);
         void Remove(TEntity entity);
     }
 }

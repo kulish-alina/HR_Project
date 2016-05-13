@@ -86,9 +86,12 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <select name="Status" ng-model="vacancy.status">
+                        <select name="Status" ng-model="vacancy.state">
                            <option selected value="">{{::'COMMON.STATUS' | translate}}</option>
-                           <option ng-repeat="state in thesaurus.entityStates" value="{{entityState.id}}" }>{{::state.title}}</option>
+                           <option selected value="5">{{::'VACANCY.OPEN' | translate}}</option>
+                           <option selected value="6">{{::'VACANCY.PROCESSING' | translate}}</option>
+                           <option selected value="7">{{::'VACANCY.CLOSED' | translate}}</option>
+                           <option selected value="8">{{::'VACANCY.CANCELLED' | translate}}</option>
                         </select>
                         <date datemodel="vacancy.startDate" placeholder="{{::'COMMON.START_DATE' | translate}}"></date>
                         <date datemodel="vacancy.deadlineDate" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}"></date>

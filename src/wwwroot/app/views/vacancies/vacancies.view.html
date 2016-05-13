@@ -73,10 +73,10 @@
                   <tr ng-repeat="vacancy in vacancies">
                      <td>{{$index+1}}</td>
                      <td>{{vacancy.title}}</td>
-                     <td>{{vacancy.state}}</td>
-                     <td class="col4" ng-repeat="location in vacancy.locations">{{location.title}}</td>
+                     <td>{{vacancy.entityStates[0].title}}</td>
+                     <td class="col4"><p ng-repeat="location in vacancy.locations">{{::location.title}}</p></td>
                      <td>{{vacancy.responsible.lastName}}</td>
-                     <td>{{vacancy.lastModified}}</td>
+                     <td>{{vacancy.createdOn}}</td>
                      <td>
                         <a href="#"><i class="foundicon-edit general-icon"></i></a>
                         <a href="#"><i class="foundicon-trash general-icon"></i></a>
@@ -84,7 +84,7 @@
                   </tr>
                </tbody>
             </table>
-            <div class="switch-pages">
+            <div ng-show="vacancies.length !== 0" class="switch-pages">
                <ul class="menu-bar second-button-bar">
                   <li><a href="#"><i class="foundicon-left-arrow general-icon"></i></a>
                   </li>

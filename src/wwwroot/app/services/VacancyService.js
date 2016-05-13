@@ -27,9 +27,10 @@ export default class VacancyService {
    }
 
    getVacancies() {
+      DATE_TYPE.push('createdOn');
       return _HttpService.get(VACANCY_URL).then((vacancies) => {
-         DATE_TYPE.push('lastModified');
-         return each(vacancies, (vacancy) => {
+         let allVacancies = vacancies.queryResult;
+         return each(allVacancies, (vacancy) => {
             each(DATE_TYPE, (type) => {
                vacancy[type] = utils.formatDateFromServer(vacancy[type]);
             });
@@ -40,8 +41,8 @@ export default class VacancyService {
 
    getVacancy(vacancyId) {
       const additionalUrl = VACANCY_URL + vacancyId;
+      DATE_TYPE.push('createdOn');
       return _HttpService.get(additionalUrl).then((vacancy) => {
-         DATE_TYPE.push('lastModified');
          each(DATE_TYPE, (type) => {
             vacancy[type] = utils.formatDateFromServer(vacancy[type]);
          });

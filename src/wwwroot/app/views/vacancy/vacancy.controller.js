@@ -1,6 +1,6 @@
 const MAX_SIZE_OF_FILE = 5120;
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
-    'departments', 'tags', 'skills', 'typesOfEmployment', 'languageLevels', 'entityStates'];
+    'departments', 'tags', 'skills', 'typesOfEmployment', 'languageLevels'];
 
 export default function VacancyController(
    $scope,

@@ -27,7 +27,11 @@
    },
    "VACANCY": {
       "NEW_VACANCY": "New vacancy",
-      "START_DATE": "Start Date"
+      "START_DATE": "Start Date",
+      "OPEN": "Open",
+      "PROCESSING": "Processing",
+      "CLOSED": "Closed",
+      "CANCELLED": "Canceled"
    },
    "VACANCIES": {
       "VACANCIES": "Vacancies",

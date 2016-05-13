@@ -27,7 +27,10 @@ export default function VacanciesController(
    });
 
    function getVacancies() {
-      VacancyService.getVacancies().then(value => vm.vacancies = value).catch(_onError);
+      VacancyService.getVacancies().then(value => {
+         console.log('vm.vacancies', value);
+         vm.vacancies = value;
+      }).catch(_onError);
    }
 
    function getVacancy(vacancyId) {

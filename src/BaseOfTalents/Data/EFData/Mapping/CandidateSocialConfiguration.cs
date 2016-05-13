@@ -12,7 +12,8 @@ namespace Data.EFData.Mapping
         public CandidateSocialConfiguration()
         {
             Property(cs => cs.Path).IsRequired();
-            HasRequired(cs => cs.SocialNetwork).WithMany().HasForeignKey(cs=>cs.SocialNetworkId);
+
+            HasRequired(cs => cs.SocialNetwork).WithMany(x=>x.CandidateSocials).HasForeignKey(cs=>cs.SocialNetworkId);
         }
     }
 }

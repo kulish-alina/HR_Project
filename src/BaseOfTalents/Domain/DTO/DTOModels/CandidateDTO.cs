@@ -8,19 +8,23 @@ namespace Domain.DTO.DTOModels
 {
     public class CandidateDTO : BaseEntityDTO
     {
-        [Required]
+        public CandidateDTO()
+        {
+            SkillIds = new List<int>();
+            TagIds = new List<int>();
+            PhoneNumbers = new List<PhoneNumberDTO>();
+            SocialNetworks = new List<CandidateSocialDTO>();
+            LanguageSkills = new List<LanguageSkillDTO>();
+            VacanciesProgress = new List<VacancyStageInfoDTO>();
+            Sources = new List<CandidateSourceDTO>();
+        }
         public string FirstName { get; set; }
-        [Required]
         public string MiddleName { get; set; }
-        [Required]
         public string LastName { get; set; }
         public string Education { get; set; }
         public bool IsMale { get; set; }
         public DateTime BirthDate { get; set; }
-
         public PhotoDTO Photo { get; set; }
-        public IEnumerable<PhoneNumberDTO> PhoneNumbers { get; set; }
-        [Required]
         public string Email { get; set; }
         public string Skype { get; set; }
         public string PositionDesired { get; set; }
@@ -32,6 +36,7 @@ namespace Domain.DTO.DTOModels
         public int LocationId { get; set; }
         public bool RelocationAgreement { get; set; }
         public IEnumerable<int> SkillIds { get; set; }
+        public IEnumerable<PhoneNumberDTO> PhoneNumbers { get; set; }
         public IEnumerable<CandidateSocialDTO> SocialNetworks { get; set; }
         public IEnumerable<LanguageSkillDTO> LanguageSkills { get; set; }
         public IEnumerable<VacancyStageInfoDTO> VacanciesProgress { get; set; }

@@ -181,7 +181,7 @@
       "no-labels": 2,
       "no-lone-blocks": 2,
       "no-lonely-if": 2,
-      "no-magic-numbers": 1,
+      "no-magic-numbers": 0,
       "no-nested-ternary": 2,
       "no-delete-var": 2,
       "func-names": 2,

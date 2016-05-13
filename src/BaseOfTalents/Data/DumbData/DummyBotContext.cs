@@ -334,14 +334,14 @@ namespace Data.DumbData
                 IsCommentRequired = true,
                 Order = 1,
                 Stage = _stages[0],
-                Vacacny = vacancy
             };
 
             VacancyStageInfo vsi = new VacancyStageInfo()
             {
                 Candidate = candidate,
                 Comment = vsicomment,
-                VacancyStage = vs
+                VacancyStage = vs,
+                Vacancy = vacancy
             };
             candidate.VacanciesProgress.Add(vsi);
             vacancy.CandidatesProgress.Add(vsi);

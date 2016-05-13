@@ -14,5 +14,7 @@ namespace Domain.Entities
         public int SocialNetworkId { get; set; }
         public virtual SocialNetwork SocialNetwork { get; set; }
 
+        public int CandidateId { get; set; }
+        public virtual Candidate Candidate { get; set; }
     }
 }

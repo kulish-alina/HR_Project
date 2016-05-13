@@ -10,7 +10,7 @@ import {
    isArray
 } from 'lodash';
 
-import utils from '../utils.js';
+import  utils from '../utils.js';
 
 const curryLength = 3;
 const activeStateId = 2;

@@ -59,11 +59,11 @@ namespace Data.EFData.Repositories
 
         public virtual TEntity Get(int id)
         {
-            return GetAll().FirstOrDefault(x => x.Id == id);
+            return GetAll().SingleOrDefault(x => x.Id == id);
         }
         public virtual IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
         {
-            return DbContext.Set<TEntity>().Where(predicate);
+            return GetAll().Where(predicate);
         }
         public virtual void Add(TEntity entity)
         {
@@ -75,10 +75,17 @@ namespace Data.EFData.Repositories
             DbEntityEntry dbEntityEntry = DbContext.Entry<TEntity>(entity);
             dbEntityEntry.State = System.Data.Entity.EntityState.Modified;
         }
+
+        public virtual void Remove(int entityId)
+        {
+            var entityToRemove = Get(entityId);
+            Remove(entityToRemove);
+        }
+
         public virtual void Remove(TEntity entity)
         {
-            entity.State = Domain.Entities.Enum.EntityState.Inactive;
-            DbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+            var attachedEntity = DbContext.Set<TEntity>().Attach(entity);
+            DbContext.Set<TEntity>().Remove(attachedEntity);
         }
     }
 }

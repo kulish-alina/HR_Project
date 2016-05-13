@@ -15,6 +15,6 @@ namespace Domain.Entities.Enum
         Open,
         Processing,
         Closed,
-        Cancelled,
+        Cancelled
     }
 }

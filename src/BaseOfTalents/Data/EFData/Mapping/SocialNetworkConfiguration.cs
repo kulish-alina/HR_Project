@@ -13,6 +13,8 @@ namespace Data.EFData.Mapping
         {
             Property(sn => sn.Title).IsRequired();
             Property(sn => sn.ImagePath).IsRequired();
+
+            HasMany(x => x.CandidateSocials).WithRequired(x => x.SocialNetwork).HasForeignKey(x => x.SocialNetworkId);
         }
     }
 }

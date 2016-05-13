@@ -4,6 +4,7 @@
     {
         public VacancyStageDTO VacancyStage { get; set; }
         public int CandidateId { get; set; }
+        public int VacancyId { get; set; }
         public CommentDTO Comment { get; set; }
     }
 }

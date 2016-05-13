@@ -15,6 +15,7 @@ namespace Domain.DTO.DTOModels
         }
 
         public int Id { get; set; }
+        public DateTime? LastModified { get; set; }
         public EntityState State { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace Domain.Entities.Setup
 
         public string Description { get; set; }
         public AccessRights AccessRights { get; set; }
+        public string Group { get; set; }
 
         public virtual ICollection<Role> Roles { get; set; }
     }

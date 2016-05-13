@@ -1,4 +1,5 @@
 ﻿using Data.Infrastructure;
+using Domain.DTO.DTOModels;
 using Domain.Entities;
 using Domain.Repositories;
 using Newtonsoft.Json;
@@ -19,7 +20,7 @@ namespace WebApi.Controllers
 {
     public abstract class BoTController<DomainEntity, ViewModel> : ApiController
         where DomainEntity : BaseEntity, new()
-        where ViewModel : new()
+        where ViewModel : BaseEntityDTO, new()
     {
         protected IDataRepositoryFactory _repoFactory;
         protected IErrorRepository _errorRepository;
@@ -65,14 +66,13 @@ namespace WebApi.Controllers
         public virtual IHttpActionResult Get(HttpRequestMessage request, int id)
         {
             var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
-
             return CreateResponse(request, () =>
             {
                 var foundedEntity = _currentRepo.Get(id);
                 if (foundedEntity != null)
                 {
                     var foundedEntityDto = DTOService.ToDTO<DomainEntity, ViewModel>(foundedEntity);
-                    return Json(foundedEntityDto);
+                    return Json(foundedEntityDto, BOT_SERIALIZER_SETTINGS);
                 }
                 return NotFound();
             });
@@ -82,7 +82,6 @@ namespace WebApi.Controllers
         public virtual IHttpActionResult Remove(HttpRequestMessage request, int id)
         {
             var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
-
             return CreateResponse(request, () => 
             {
                 var entityToRemove = _currentRepo.Get(id);
@@ -101,7 +100,6 @@ namespace WebApi.Controllers
         public virtual IHttpActionResult Add(HttpRequestMessage request, [FromBody]ViewModel entity)
         {
             var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
-
             return CreateResponse(request, () =>
             {
                 if (!ModelState.IsValid)

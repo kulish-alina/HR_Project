@@ -7,6 +7,7 @@ namespace Domain.DTO.DTOModels
     {
         public string Description { get; set; }
         public AccessRights AccessRights { get; set; }
+        public string Group { get; set; }
 
         public IEnumerable<int> RoleIds { get; set; }
     }

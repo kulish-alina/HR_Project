@@ -15,7 +15,8 @@ namespace Domain.Entities
         }
 
         public int Id { get; set; }
-        public DateTime? EditTime { get; set; }
+        public DateTime? LastModified { get; set; }
+        public DateTime? CreatedOn { get; set; }
         public EntityState State { get; set; }
     }
 }

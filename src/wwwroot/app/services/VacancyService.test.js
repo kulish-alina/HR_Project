@@ -1,6 +1,6 @@
 'use strict';
 
-import  vacancyService from './VacancyService';
+import   vacancyService from './VacancyService';
 
 describe('VacancyService tests for', () => {
    let service = null;   

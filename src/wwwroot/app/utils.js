@@ -1,7 +1,7 @@
 import {
    reduce,
-   split,
-   trimEnd
+   split
+//   trimEnd
 } from 'lodash';
 
 let utils = {
@@ -30,6 +30,7 @@ function formatDateToServer(entityDate) {
 }
 
 function formatDateFromServer(entityDate) {
-   let partsOfDate = split(trimEnd(trimEnd(entityDate, '00:00:00'), 'T'), '-');
+   let trimOfDate = split(entityDate, 'T');
+   let partsOfDate = split(trimOfDate[0], '-');
    return `${partsOfDate[2]}.${partsOfDate[1]}.${partsOfDate[0]}`; // eslint-disable-line no-magic-numbers
 }

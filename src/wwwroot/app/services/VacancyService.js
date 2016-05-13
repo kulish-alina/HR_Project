@@ -5,7 +5,8 @@ import {
    each,
    map,
    mapValues,
-   concat
+   concat,
+   clone
 } from 'lodash';
 const VACANCY_URL = 'vacancies/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate'];
@@ -27,7 +28,11 @@ export default class VacancyService {
 
    getVacancies() {
       return _HttpService.get(VACANCY_URL).then((vacancies) => {
-         each(vacancies, (vacancy) => {
+         DATE_TYPE.push('lastModified');
+         return each(vacancies, (vacancy) => {
+            each(DATE_TYPE, (type) => {
+               vacancy[type] = utils.formatDateFromServer(vacancy[type]);
+            });
             return this._convertIdsToEntities(vacancy);
          });
       });
@@ -36,12 +41,16 @@ export default class VacancyService {
    getVacancy(vacancyId) {
       const additionalUrl = VACANCY_URL + vacancyId;
       return _HttpService.get(additionalUrl).then((vacancy) => {
+         DATE_TYPE.push('lastModified');
+         each(DATE_TYPE, (type) => {
+            vacancy[type] = utils.formatDateFromServer(vacancy[type]);
+         });
          return vacancy = this._convertIdsToEntities(vacancy);
       });
    }
 
    _saveNewTopicsToThesaurus(data) {
-      let promises = map(data, (list, thesaurusName) => {
+      let promises = mapValues(data, (list, thesaurusName) => {
          return _ThesaurusService.saveThesaurusTopics(thesaurusName, list);
       });
       return _$q.all(promises);
@@ -53,6 +62,7 @@ export default class VacancyService {
    }
 
    saveVacancy(entity) {
+      entity = clone(entity);
       each(DATE_TYPE, (type) => {
          entity[type] = utils.formatDateToServer(entity[type]);
       });
@@ -60,16 +70,20 @@ export default class VacancyService {
          'skills' : 'requiredSkills',
          'tags': 'tags'
       };
+      let mapEntity2 = {
+         requiredSkills: 'requiredSkillIds',
+         tags: 'tagIds'
+      };
 
       let data = mapValues(mapEntity, (vacancyKey) => {
          return filter(entity[vacancyKey], {id: undefined});
       });
-
       return this._saveNewTopicsToThesaurus(data).then((promises) => {
          each(mapEntity, (vacancyKey, thesaurusName) => {
             remove(entity[vacancyKey], {id: undefined});
             entity[vacancyKey] = concat(entity[vacancyKey], promises[thesaurusName]);
-            entity[vacancyKey] = map(entity[vacancyKey], 'id');
+            entity[mapEntity2[vacancyKey]] = map(entity[vacancyKey], 'id');
+            delete entity[vacancyKey];
          });
 
          if (entity.id) {
@@ -91,20 +105,16 @@ export default class VacancyService {
    }
 
    _convertIdsToEntities(entity) {
-      each(DATE_TYPE, (type) => {
-         entity[type] = utils.formatDateFromServer(entity[type]);
-      });
-      _UserService.getUser(entity.ResponsibleId).then((user) => entity.responsible = user);
+      _UserService.getUser(entity.responsibleId).then((user) => entity.responsible = user);
       let mapListThesauruses = {
-         'industries' : 'IndustryId',
-         'levels': 'LevelIds',
-         'locations': 'LocationIds',
-         'typesOfEmployment': 'TypeOfEmployment',
-         'entityStates': 'State'
+         'industries' : 'industryId',
+         'levels': 'levelIds',
+         'locations': 'locationIds',
+         'typesOfEmployment': 'typeOfEmployment',
+         'entityStates': 'state'
       };
       each(mapListThesauruses, (thesaurusKey, thesaurusName) => {
          _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, entity[thesaurusKey]).then((promise) => {
-            console.log('promise', promise);
             entity[thesaurusName] = promise;
          });
       }

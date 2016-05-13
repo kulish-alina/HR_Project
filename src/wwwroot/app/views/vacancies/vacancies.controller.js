@@ -1,8 +1,7 @@
 //import utils from '../../utils';
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations',
     'typesOfEmployment', 'entityStates'];
-//const LIST_OF_THESAURUS_TO_FRONTEND = ['industryId', 'levelIds', 'locationIds',
-//    'typeOfEmployment', 'entityStates'];
+
 export default function VacanciesController(
    $scope,
    VacancyService,

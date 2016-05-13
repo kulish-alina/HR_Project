@@ -1,7 +1,6 @@
 import {
    floor
 } from 'lodash';
-const MAX_SIZE_OF_FILE = 5120;
 export default function ProfileController (
    $q,
    $scope,
@@ -26,22 +25,20 @@ export default function ProfileController (
       SettingsService.addOnCancelListener(_onCancel);
       SettingsService.addOnEditListener(_onEdit);
       $element.on('$destroy', _onDestroy);
-      _getCurrentUser ();
+      _initCurrentUser();
       vm.uploader = _createNewUploader();
    }
    _init();
 
+   function _onDestroy() {
+      SettingsService.removeOnSubmitListener(_onSubmit);
+      SettingsService.removeOnCancelListener(_onCancel);
+      SettingsService.removeOnEditListener(_onEdit);
+   }
+
    function _createNewUploader() {
       let newUploader = new FileUploader({
          url: './api/files'
-      });
-      newUploader.filters.push({
-         name: 'sizeFilter',
-         fn: function sizeFilter(item) {
-            if (item.size <= MAX_SIZE_OF_FILE) {
-               return true;
-            }
-         }
       });
       return newUploader;
    }
@@ -56,7 +53,7 @@ export default function ProfileController (
    }
 
    function _onCancel() {
-      _getCurrentUser ();
+      _initCurrentUser ();
       return $state.go('profile');
    }
 
@@ -64,18 +61,12 @@ export default function ProfileController (
       return $state.go('profile.edit');
    }
 
-   function _age () {
+   function _age() {
       return _calcAge(vm.user.birthDate);
    }
 
-   function _getCurrentUser () {
+   function _initCurrentUser() {
       vm.user = UserService.getCurrentUser();
-   }
-
-   function _onDestroy() {
-      SettingsService.removeOnSubmitListener(_onSubmit);
-      SettingsService.removeOnCancelListener(_onCancel);
-      SettingsService.removeOnEditListener(_onEdit);
    }
 }
 

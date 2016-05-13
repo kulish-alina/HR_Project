@@ -25,10 +25,15 @@ export default function RolesController($scope, $element, $state, RolesService, 
       SettingsService.addOnSubmitListener(_onSubmit);
       SettingsService.addOnCancelListener(_onCancel);
       $element.on('$destroy', _onDestroy);
-      _getRoles();
-      _getPermissions();
+      _initRoles();
+      _initPermissions();
    }
    _init();
+
+   function _onDestroy() {
+      SettingsService.removeOnSubmitListener(_onSubmit);
+      SettingsService.removeOnCancelListener(_onCancel);
+   }
 
    function _onSubmit() {
       vm.roles[vm.currentRoleName] = 0;
@@ -46,11 +51,11 @@ export default function RolesController($scope, $element, $state, RolesService, 
       return $state.reload('roles');
    }
 
-   function _getRoles() {
+   function _initRoles() {
       vm.roles = RolesService.getRoles();
    }
 
-   function _getPermissions() {
+   function _initPermissions() {
       RolesService.getPermissions().then((value) => {
          vm.permissions = value;
          vm.selectRole(Object.keys(vm.roles)[0]);
@@ -80,10 +85,5 @@ export default function RolesController($scope, $element, $state, RolesService, 
       forEach(vm.currentRole, (val) => {
          val.flag = value;
       });
-   }
-
-   function _onDestroy() {
-      SettingsService.removeOnSubmitListener(_onSubmit);
-      SettingsService.removeOnCancelListener(_onCancel);
    }
 }

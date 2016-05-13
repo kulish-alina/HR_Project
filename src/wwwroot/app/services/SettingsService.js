@@ -1,5 +1,5 @@
 import {
-   map,
+   invokeMap,
    remove,
    curry,
    isEqual,
@@ -56,7 +56,7 @@ const curryEqual = 2;
 const equal = curry(isEqual, curryEqual);
 
 function _callListeners(listeners) {
-   let array = map(listeners, (listener) => listener());
+   let array = invokeMap(listeners, 'call');
    return _$q.all(array);
 }
 

@@ -79,7 +79,7 @@
                               <label for="masterVacancy">{{::'COMMON.MASTER_VACANCY' | translate}}</label>
                            </div>
                            <div class="medium-6 grid-block">
-                              <input ng-disabled ="!vacancy.masterVacancy" ng-model="vacancy.countOfChildrenVacancies" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
+                              <input ng-disabled="!vacancy.masterVacancy" ng-model="vacancy.countOfChildrenVacancies" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
                            </div>
                         </div>
                      </fieldset>
@@ -88,7 +88,7 @@
                      <fieldset>
                         <select name="Status" ng-model="vacancy.status">
                            <option selected value="">{{::'COMMON.STATUS' | translate}}</option>
-                           <option ng-repeat="status in thesaurus.statuses" value="{{status.id}}">{{::status.title}}</option>
+                           <option ng-repeat="state in thesaurus.entityStates" value="{{entityState.id}}" }>{{::state.title}}</option>
                         </select>
                         <date datemodel="vacancy.startDate" placeholder="{{::'COMMON.START_DATE' | translate}}"></date>
                         <date datemodel="vacancy.deadlineDate" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}"></date>

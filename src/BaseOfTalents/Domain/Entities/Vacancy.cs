@@ -8,6 +8,16 @@ namespace Domain.Entities
 {
     public class Vacancy : BaseEntity 
     {
+        public Vacancy()
+        {
+            Levels = new List<Level>();
+            Locations = new List<Location>();
+            RequiredSkills = new List<Skill>();
+            CandidatesProgress = new List<VacancyStageInfo>();
+            Files = new List<File>();
+            Comments = new List<Comment>();
+            Tags = new List<Tag>();
+        }
         public string Title { get; set; }
         public string Description { get; set; }
         public int SalaryMin { get; set; }

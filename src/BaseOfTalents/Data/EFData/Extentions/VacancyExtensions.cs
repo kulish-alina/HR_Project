@@ -14,54 +14,140 @@ namespace Data.EFData.Extentions
 {
     public static class VacancyExtensions
     {
-        public static void Update(this Vacancy domain, VacancyDTO dto, IRepository<Level> levelrepo, IRepository<Location> locRepo, IRepository<Skill> skillRepo, IRepository<Tag> tagRepo)
+        public static void Update(this Vacancy destination, VacancyDTO source,
+            IRepository<Level> levelRepository,
+            IRepository<Location> locationRepository,
+            IRepository<Skill> skillRepository,
+            IRepository<Tag> tagRepository,
+            IRepository<LanguageSkill> languageSkillRepository,
+            IRepository<VacancyStageInfo> vacancyStageInfoRepository)
         {
-            domain.Id = dto.Id;
-            domain.State = dto.State;
+            destination.Id = source.Id;
+            destination.State = source.State;
 
-            domain.Title = dto.Title;
-            domain.Description = dto.Title;
-            domain.SalaryMin = dto.SalaryMin;
-            domain.SalaryMax = dto.SalaryMax;
-            domain.TypeOfEmployment = dto.TypeOfEmployment;
-            domain.StartDate = dto.StartDate;
-            domain.EndDate = dto.EndDate;
-            domain.DeadlineDate = dto.DeadlineDate;
+            destination.Title = source.Title;
+            destination.Description = source.Title;
+            destination.SalaryMin = source.SalaryMin;
+            destination.SalaryMax = source.SalaryMax;
+            destination.TypeOfEmployment = source.TypeOfEmployment;
+            destination.StartDate = source.StartDate;
+            destination.EndDate = source.EndDate;
+            destination.DeadlineDate = source.DeadlineDate;
 
-            domain.Levels = dto.LevelIds != null ? dto.LevelIds.Select(x => levelrepo.Get(x)).ToList() : domain.Levels;
-            domain.Locations = domain.Locations != null ? dto.LocationIds.Select(x => locRepo.Get(x)).ToList() : domain.Locations;
-            domain.RequiredSkills = domain.RequiredSkills != null ? dto.RequiredSkillIds.Select(x => skillRepo.Get(x)).ToList() : domain.RequiredSkills;
-            domain.CandidatesProgress = dto.CandidatesProgress!=null ? dto.CandidatesProgress.Select(x => new VacancyStageInfo()
+            destination.ParentVacancyId = source.ParentVacancyId;
+            destination.IndustryId = source.IndustryId;
+            destination.DepartmentId = source.DepartmentId;
+            destination.ResponsibleId = source.ResponsibleId;
+
+            PerformLevelsSaving(destination, source, levelRepository);
+            PerformLocationsSaving(destination, source, locationRepository);
+            PerformTagsSaving(destination, source, tagRepository);
+            PerformSkillsSaving(destination, source, skillRepository);
+            PerformLanguageSkillsSaving(destination, source, languageSkillRepository);
+            PerformVacanciesProgressSaving(destination, source, vacancyStageInfoRepository);
+        }
+
+        private static void PerformVacanciesProgressSaving(Vacancy destination, VacancyDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository)
+        {
+            RefreshExistingVacanciesProgress(destination, source, vacancyStageInfoRepository);
+            CreateNewVacanciesProgress(destination, source);
+        }
+        private static void CreateNewVacanciesProgress(Vacancy destination, VacancyDTO source)
+        {
+            source.CandidatesProgress.Where(x => x.Id == 0).ToList().ForEach(newVacancyStageInfo =>
             {
-                Id = x.Id,
-                CandidateId = x.CandidateId,
-                State = x.State,
-                VacancyStage = new VacancyStage()
+                var toDomain = new VacancyStageInfo();
+                toDomain.Update(newVacancyStageInfo);
+                if (toDomain.VacancyId == 0)
                 {
-                    Id = x.VacancyStage.Id,
-                    StageId = x.VacancyStage.StageId,
-                    Order = x.VacancyStage.Order,
-                    IsCommentRequired = x.VacancyStage.IsCommentRequired,
-                    State = x.VacancyStage.State,
-                    VacancyId = x.VacancyStage.VacancyId,
+                    toDomain.Vacancy = destination;
                 }
-            }).ToList() : domain.CandidatesProgress;
-
-            domain.Tags = domain.Tags != null ? dto.TagIds.Select(x => tagRepo.Get(x)).ToList() : domain.Tags;
-
-            domain.ParentVacancyId = dto.ParentVacancyId;
-
-            domain.IndustryId = dto.IndustryId;
-
-            domain.DepartmentId = dto.DepartmentId;
-
-            domain.ResponsibleId = dto.ResponsibleId;
-
-            domain.LanguageSkill = dto.LanguageSkill != null ? new LanguageSkill()
+                destination.CandidatesProgress.Add(toDomain);
+            });
+        }
+        private static void RefreshExistingVacanciesProgress(Vacancy destination, VacancyDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository)
+        {
+            source.CandidatesProgress.Where(x => x.Id != 0).ToList().ForEach(updatedVacanciesStageInfo =>
             {
-                LanguageId = dto.LanguageSkill.LanguageId,
-                LanguageLevel = dto.LanguageSkill.LanguageLevel,
-            } : domain.LanguageSkill;
+                var domainVacancyStageInfo = destination.CandidatesProgress.FirstOrDefault(x => x.Id == updatedVacanciesStageInfo.Id);
+                if (domainVacancyStageInfo == null)
+                {
+                    throw new ArgumentNullException("Request contains unknown entity");
+                }
+                if (updatedVacanciesStageInfo.VacancyStage.IsCommentRequired)
+                {
+                    if (updatedVacanciesStageInfo.Comment == null)
+                    {
+                        throw new ArgumentNullException("Vacancy stage info should have comment");
+                    }
+                }
+                if (updatedVacanciesStageInfo.ShouldBeRemoved())
+                {
+                    vacancyStageInfoRepository.Remove(updatedVacanciesStageInfo.Id);
+                }
+                else
+                {
+                    domainVacancyStageInfo.Update(updatedVacanciesStageInfo);
+                }
+            });
+        }
+
+        private static void PerformSkillsSaving(Vacancy destination, VacancyDTO source, IRepository<Skill> skillRepository)
+        {
+            destination.RequiredSkills.Clear();
+            source.RequiredSkillIds.ToList().ForEach(skillId =>
+            {
+                destination.RequiredSkills.Add(skillRepository.Get(skillId));
+            });
+        }
+
+        private static void PerformLocationsSaving(Vacancy destination, VacancyDTO source, IRepository<Location> locationRepository)
+        {
+            destination.Locations.Clear();
+            source.LocationIds.ToList().ForEach(locationId =>
+            {
+                destination.Locations.Add(locationRepository.Get(locationId));
+            });
+        }
+
+        private static void PerformTagsSaving(Vacancy destination, VacancyDTO source, IRepository<Tag> tagRepository)
+        {
+            destination.Tags.Clear();
+            source.TagIds.ToList().ForEach(tagId =>
+            {
+                destination.Tags.Add(tagRepository.Get(tagId));
+            });
+        }
+
+        private static void PerformLevelsSaving(Vacancy destination, VacancyDTO source, IRepository<Level> levelRepository)
+        {
+            destination.Levels.Clear();
+            source.LevelIds.ToList().ForEach(levelId =>
+            {
+                destination.Levels.Add(levelRepository.Get(levelId));
+            });
+        }
+
+        private static void PerformLanguageSkillsSaving(Vacancy destination, VacancyDTO source, IRepository<LanguageSkill> languageSkillRepository)
+        {
+            var updatedLanguageSkill = source.LanguageSkill;
+            LanguageSkill domainLanguageSkill = destination.LanguageSkill;
+            if (destination.LanguageSkill == null)
+            {
+                domainLanguageSkill = destination.LanguageSkill = new LanguageSkill();
+            }
+            if (updatedLanguageSkill == null)
+            {
+                throw new ArgumentNullException("Request contains unknown entity");
+            }
+            if (updatedLanguageSkill.ShouldBeRemoved())
+            {
+                languageSkillRepository.Remove(updatedLanguageSkill.Id);
+            }
+            else
+            {
+                domainLanguageSkill.Update(updatedLanguageSkill);
+            }
         }
     }
 }

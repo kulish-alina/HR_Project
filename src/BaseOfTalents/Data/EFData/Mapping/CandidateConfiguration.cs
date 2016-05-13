@@ -17,6 +17,7 @@ namespace Data.EFData.Mapping
     {
         public CandidateConfiguration()
         {
+
             Property(c => c.FirstName).IsRequired();
             Property(c => c.MiddleName).IsRequired();
             Property(c => c.LastName).IsRequired();
@@ -27,15 +28,13 @@ namespace Data.EFData.Mapping
             Property(c => c.PositionDesired).IsRequired();
             Property(c => c.IsMale).IsRequired();
 
-
-            HasOptional(c => c.Photo).WithOptionalDependent();
             HasOptional(c => c.Industry).WithMany().HasForeignKey(x=>x.IndustryId);
 
             HasRequired(c => c.Location).WithMany().HasForeignKey(c => c.LocationId);
             HasMany(c => c.Files);
             HasMany(c => c.VacanciesProgress).WithRequired(vs => vs.Candidate).HasForeignKey(vs => vs.CandidateId);
 
-            HasMany(c => c.SocialNetworks);
+            HasMany(c => c.SocialNetworks).WithRequired().HasForeignKey(x=>x.CandidateId);
 
             HasMany(c => c.LanguageSkills).WithMany().Map(x=> 
             {

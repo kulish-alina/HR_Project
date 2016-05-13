@@ -152,9 +152,10 @@ namespace WebApi.Controllers
         protected IHttpActionResult CreateResponse(HttpRequestMessage request, Func<IHttpActionResult> function)
         {
             IHttpActionResult response = null;
-            try
+            response = function.Invoke();
+            /*try
             {
-                response = function.Invoke();
+                
             }
             catch (DbUpdateException ex)
             {
@@ -165,7 +166,7 @@ namespace WebApi.Controllers
             {
                 LogError(ex);
                 response = InternalServerError(ex);
-            }
+            }*/
             return response;
         }
         private void LogError(Exception ex)

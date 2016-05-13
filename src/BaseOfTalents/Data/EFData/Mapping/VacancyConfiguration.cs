@@ -22,6 +22,8 @@ namespace Data.EFData.Mapping
 
             HasOptional(v => v.LanguageSkill).WithOptionalDependent();
 
+            HasMany(v => v.CandidatesProgress).WithRequired().HasForeignKey(vsi => vsi.VacancyId);
+
             HasMany(v => v.Locations).WithMany().Map(x =>
             {
                 x.MapRightKey("Location_Id");

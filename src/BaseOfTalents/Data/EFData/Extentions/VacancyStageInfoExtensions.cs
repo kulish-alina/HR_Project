@@ -30,16 +30,16 @@ namespace Data.EFData.Extentions
                     Message = dto.Comment.Message
                 };
             }
-
             domain.VacancyStage = new VacancyStage()
             {
                 Order = dto.VacancyStage.Order,
                 IsCommentRequired = dto.VacancyStage.IsCommentRequired,
                 StageId = dto.VacancyStage.StageId,
                 State = dto.VacancyStage.State,
-                VacancyId = dto.VacancyStage.VacancyId
             };
             domain.State = dto.State;
+            domain.CandidateId = dto.CandidateId;
+            domain.VacancyId = dto.VacancyId;
         }
     }
 }

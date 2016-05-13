@@ -85,10 +85,55 @@ namespace WebApi.Controllers
                     else
                     {
                         Vacancy _vacancy = new Vacancy();
-                        _vacancy.Update(vacancy, _repoFactory.GetDataRepository<Level>(request), _repoFactory.GetDataRepository<Location>(request), _repoFactory.GetDataRepository<Skill>(request), _repoFactory.GetDataRepository<Tag>(request));
+                        _vacancy.Update(vacancy,
+                            _repoFactory.GetDataRepository<Level>(request), 
+                            _repoFactory.GetDataRepository<Location>(request),
+                            _repoFactory.GetDataRepository<Skill>(request),
+                            _repoFactory.GetDataRepository<Tag>(request),
+                            _repoFactory.GetDataRepository<LanguageSkill>(request),
+                            _repoFactory.GetDataRepository<VacancyStageInfo>(request));
                         _vacancyRepo.Add(_vacancy);
                         _unitOfWork.Commit();
-                        return Ok();
+                        return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);
+                    }
+                }
+            });
+        }
+
+        public override IHttpActionResult Put(HttpRequestMessage request, int id, [FromBody] VacancyDTO changedEntity)
+        {
+            var _vacancyRepository = _repoFactory.GetDataRepository<Vacancy>(request);
+
+            return CreateResponse(request, () =>
+            {
+                if (!ModelState.IsValid)
+                {
+                    StringBuilder errorString = new StringBuilder();
+                    foreach (var error in ModelState.Keys.SelectMany(k => ModelState[k].Errors))
+                    {
+                        errorString.Append(error.ErrorMessage + '\n');
+                    }
+                    return BadRequest(errorString.ToString());
+                }
+                else
+                {
+                    if (changedEntity.Id != id)
+                    {
+                        return BadRequest();
+                    }
+                    else
+                    {
+                        Vacancy _vacancy = _vacancyRepository.Get(id);
+                        _vacancy.Update(changedEntity,
+                            _repoFactory.GetDataRepository<Level>(request),
+                            _repoFactory.GetDataRepository<Location>(request),
+                            _repoFactory.GetDataRepository<Skill>(request),
+                            _repoFactory.GetDataRepository<Tag>(request),
+                            _repoFactory.GetDataRepository<LanguageSkill>(request),
+                            _repoFactory.GetDataRepository<VacancyStageInfo>(request));
+                        _vacancyRepository.Update(_vacancy);
+                        _unitOfWork.Commit();
+                        return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);
                     }
                 }
             });

@@ -94,7 +94,12 @@ namespace Data.EFData
             foreach (var entry in objectStateEntries)
             {
                 var entityBase = entry.Entity as BaseEntity;
-                entityBase.EditTime = DateTime.Now;
+
+               if(entry.State == EntityState.Added)
+                {
+                    entityBase.CreatedOn = DateTime.Now;
+                }
+                entityBase.LastModified = DateTime.Now;
             }
 
             var deletedEntries = from e in context.ObjectStateManager.GetObjectStateEntries(EntityState.Deleted)

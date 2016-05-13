@@ -4,7 +4,6 @@ namespace Domain.DTO.DTOModels
 {
     public class VacancyStageDTO : BaseEntityDTO
     {
-        public int VacancyId { get; set; }
         public int StageId { get; set; }
         public int Order { get; set; }
         public bool IsCommentRequired { get; set; }

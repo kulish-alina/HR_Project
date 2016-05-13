@@ -101,10 +101,12 @@ namespace WebApi.Controllers
                             _repoFactory.GetDataRepository<CandidateSource>(request),
                             _repoFactory.GetDataRepository<VacancyStageInfo>(request),
                             _repoFactory.GetDataRepository<PhoneNumber>(request),
-                            _repoFactory.GetDataRepository<Photo>(request));
+                            _repoFactory.GetDataRepository<Photo>(request),
+                            _repoFactory.GetDataRepository<Vacancy>(request));
                         _candidateRepo.Add(_candidate);
                         _unitOfWork.Commit();
-                        return Ok();
+                        return Json(DTOService.ToDTO<Candidate, CandidateDTO>(_candidate), BOT_SERIALIZER_SETTINGS);
+
                     }
                 }
             });
@@ -142,7 +144,8 @@ namespace WebApi.Controllers
                             _repoFactory.GetDataRepository<CandidateSource>(request),
                             _repoFactory.GetDataRepository<VacancyStageInfo>(request),
                             _repoFactory.GetDataRepository<PhoneNumber>(request),
-                            _repoFactory.GetDataRepository<Photo>(request));
+                            _repoFactory.GetDataRepository<Photo>(request),
+                            _repoFactory.GetDataRepository<Vacancy>(request));
                         _candidateRepo.Update(_candidate);
                         _unitOfWork.Commit();
                         return Json(DTOService.ToDTO<Candidate, CandidateDTO>(_candidate), BOT_SERIALIZER_SETTINGS);

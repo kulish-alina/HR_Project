@@ -24,7 +24,6 @@ namespace WebApi.Controllers
         public override IHttpActionResult Add(HttpRequestMessage request, [FromBody]UserDTO user)
         {
             var _userRepo = _repoFactory.GetDataRepository<User>(request);
-
             return CreateResponse(request, () =>
             {
                 if (!ModelState.IsValid)
@@ -48,7 +47,7 @@ namespace WebApi.Controllers
                         _user.Update(user, _repoFactory.GetDataRepository<Photo>(request),_repoFactory.GetDataRepository<PhoneNumber>(request));
                         _userRepo.Add(_user);
                         _unitOfWork.Commit();
-                        return Ok();
+                        return Json(DTOService.ToDTO<User, UserDTO>(_user), BOT_SERIALIZER_SETTINGS);
                     }
                 }
             });
@@ -81,7 +80,7 @@ namespace WebApi.Controllers
                         _user.Update(changedUser, _repoFactory.GetDataRepository<Photo>(request), _repoFactory.GetDataRepository<PhoneNumber>(request));
                         _userRepo.Update(_user);
                         _unitOfWork.Commit();
-                        return Json(DTOService.ToDTO<User,UserDTO>(_user), BOT_SERIALIZER_SETTINGS);
+                        return Json(DTOService.ToDTO<User, UserDTO>(_user), BOT_SERIALIZER_SETTINGS);
                     }
                 }
             });

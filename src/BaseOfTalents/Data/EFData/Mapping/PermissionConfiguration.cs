@@ -8,6 +8,9 @@ namespace Data.EFData.Mapping
         {
             Property(p => p.Description).IsRequired();
             Property(p => p.AccessRights).IsRequired();
+            Property(p => p.Group).IsRequired();
+
+            HasMany(p => p.Roles).WithMany(r => r.Permissions);
         }
     }
 }

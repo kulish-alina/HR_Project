@@ -21,16 +21,15 @@ namespace Data.EFData.Extentions
             IRepository<CandidateSource> candidateSourceRepository,
             IRepository<VacancyStageInfo> vacancyStageInfoRepository,
             IRepository<PhoneNumber> phoneNumberRepository,
-            IRepository<Photo> photoRepository)
+            IRepository<Photo> photoRepository, 
+            IRepository<Vacancy> vacancyRepository)
         {
             destination.State = source.State;
-
             destination.FirstName = source.FirstName;
             destination.MiddleName = source.MiddleName;
             destination.LastName = source.LastName;
             destination.IsMale = source.IsMale;
             destination.BirthDate = source.BirthDate;
-
             destination.Email = source.Email;
             destination.Skype = source.Skype;
             destination.PositionDesired = source.PositionDesired;
@@ -39,17 +38,15 @@ namespace Data.EFData.Extentions
             destination.StartExperience = source.StartExperience;
             destination.Practice = source.Practice;
             destination.Description = source.Description;
-
             destination.LocationId = source.LocationId;
             destination.RelocationAgreement = source.RelocationAgreement;
             destination.Education = source.Education;
-
             destination.IndustryId = source.IndustryId;
 
             PerformSocialSaving(destination, source, candidateSocialRepository);
             PerformLanguageSkillsSaving(destination, source, languageSkillRepository);
             PerformSourcesSaving(destination, source, candidateSourceRepository);
-            PerformVacanciesProgressSaving(destination, source, vacancyStageInfoRepository);
+            PerformVacanciesProgressSaving(destination, source, vacancyStageInfoRepository, vacancyRepository);
             PerformTagsSaving(destination, source, tagRepository);
             PerformPhoneNumbersSaving(destination, source, phoneNumberRepository);
             PerformSkillsSaving(destination, source, skillRepository);
@@ -60,22 +57,19 @@ namespace Data.EFData.Extentions
         {
             if (source.Photo != null)
             {
-                if (source.Photo.Id != 0)
+                if (source.Photo.IsNew())
                 {
-                    var photoBd = destination.Photo;
-                    photoBd.Description = source.Photo.Description;
-                    photoBd.ImagePath = source.Photo.ImagePath;
-                    photoBd.State = source.Photo.State;
+                    var photoBd = photoRepository.Get(source.Photo.Id);
+                    photoBd.Update(source.Photo);
+                    destination.Photo = photoBd;
+                }
+                else if (source.Photo.ShouldBeRemoved())
+                {
+                    photoRepository.Remove(destination.Photo.Id);
                 }
                 else
                 {
-                    destination.Photo = new Photo
-                    {
-                        Id = source.Photo.Id,
-                        Description = source.Photo.Description,
-                        ImagePath = source.Photo.ImagePath,
-                        State = source.Photo.State
-                    };
+                    destination.Photo.Update(source.Photo);
                 }
             }
         }
@@ -105,7 +99,7 @@ namespace Data.EFData.Extentions
         }
         private static void CreateNewPhoneNumbers(Candidate destination, CandidateDTO source)
         {
-            source.PhoneNumbers.Where(x => x.Id == 0).ToList().ForEach(newPhoneNumber =>
+            source.PhoneNumbers.Where(x => x.IsNew()).ToList().ForEach(newPhoneNumber =>
             {
                 var toDomain = new PhoneNumber();
                 toDomain.Update(newPhoneNumber);
@@ -114,7 +108,7 @@ namespace Data.EFData.Extentions
         }
         private static void RefreshExistingPhoneNumbers(Candidate destination, CandidateDTO source, IRepository<PhoneNumber> phoneNumberRepository)
         {
-            source.PhoneNumbers.Where(x => x.Id != 0).ToList().ForEach(updatedPhoneNumber =>
+            source.PhoneNumbers.Where(x => !x.IsNew()).ToList().ForEach(updatedPhoneNumber =>
             {
                 var domainPhoneNumber = destination.PhoneNumbers.FirstOrDefault(x => x.Id == updatedPhoneNumber.Id);
                 if (domainPhoneNumber == null)
@@ -132,14 +126,14 @@ namespace Data.EFData.Extentions
             });
         }
 
-        private static void PerformVacanciesProgressSaving(Candidate destination, CandidateDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository)
+        private static void PerformVacanciesProgressSaving(Candidate destination, CandidateDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository, IRepository<Vacancy> vacancyRepository)
         {
             RefreshExistingVacanciesProgress(destination, source, vacancyStageInfoRepository);
             CreateNewVacanciesProgress(destination, source);
         }
         private static void CreateNewVacanciesProgress(Candidate destination, CandidateDTO source)
         {
-            source.VacanciesProgress.Where(x => x.Id == 0).ToList().ForEach(newVacancyStageInfo => 
+            source.VacanciesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo => 
             {
                 var toDomain = new VacancyStageInfo();
                 toDomain.Update(newVacancyStageInfo);
@@ -148,7 +142,7 @@ namespace Data.EFData.Extentions
         }
         private static void RefreshExistingVacanciesProgress(Candidate destination, CandidateDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository)
         {
-            source.VacanciesProgress.Where(x => x.Id != 0).ToList().ForEach(updatedVacanciesStageInfo =>
+            source.VacanciesProgress.Where(x => !x.IsNew()).ToList().ForEach(updatedVacanciesStageInfo =>
             {
                 var domainVacancyStageInfo = destination.VacanciesProgress.FirstOrDefault(x => x.Id == updatedVacanciesStageInfo.Id);
                 if (domainVacancyStageInfo == null)
@@ -180,7 +174,7 @@ namespace Data.EFData.Extentions
         }
         private static void CreateNewSources(Candidate destination, CandidateDTO source)
         {
-            source.Sources.Where(x => x.Id == 0).ToList().ForEach(newSource=> 
+            source.Sources.Where(x => x.IsNew()).ToList().ForEach(newSource=> 
             {
                 var toDomain = new CandidateSource();
                 toDomain.Update(newSource);
@@ -189,7 +183,7 @@ namespace Data.EFData.Extentions
         }
         private static void RefreshExistingSources(Candidate destination, CandidateDTO source, IRepository<CandidateSource> candidateSourceRepository)
         {
-            source.Sources.Where(x => x.Id != 0).ToList().ForEach(updatedSource =>
+            source.Sources.Where(x => !x.IsNew()).ToList().ForEach(updatedSource =>
             {
                 var domainSource = destination.Sources.FirstOrDefault(x => x.Id == updatedSource.Id);
                 if (domainSource == null)
@@ -214,7 +208,7 @@ namespace Data.EFData.Extentions
         }
         private static void CreateNewLanguageSkills(Candidate destination, CandidateDTO source)
         {
-            source.LanguageSkills.Where(x => x.Id == 0).ToList().ForEach(newLanguageSkill =>
+            source.LanguageSkills.Where(x => x.IsNew()).ToList().ForEach(newLanguageSkill =>
             {
                 var toDomain = new LanguageSkill();
                 toDomain.Update(newLanguageSkill);
@@ -223,7 +217,7 @@ namespace Data.EFData.Extentions
         }
         private static void RefreshExistingLanguageSkills(Candidate destination, CandidateDTO source, IRepository<LanguageSkill> languageSkillRepository)
         {
-            source.LanguageSkills.Where(x => x.Id != 0).ToList().ForEach(updatedLanguageSkills =>
+            source.LanguageSkills.Where(x => !x.IsNew()).ToList().ForEach(updatedLanguageSkills =>
             {
                 var domainLS = destination.LanguageSkills.ToList().FirstOrDefault(x => x.Id == updatedLanguageSkills.Id);
                 if (domainLS == null)
@@ -248,7 +242,7 @@ namespace Data.EFData.Extentions
         }
         private static void CreateNewSocials(Candidate destination, CandidateDTO source)
         {
-            source.SocialNetworks.Where(x => x.Id == 0).ToList().ForEach(newSocial =>
+            source.SocialNetworks.Where(x => x.IsNew()).ToList().ForEach(newSocial =>
             {
                 var toDomain = new CandidateSocial();
                 toDomain.Update(newSocial);
@@ -257,7 +251,7 @@ namespace Data.EFData.Extentions
         }
         private static void RefreshExistingSocials(Candidate destination, CandidateDTO source, IRepository<CandidateSocial> candidateSocialRepository)
         {
-            source.SocialNetworks.Where(x => x.Id != 0).ToList().ForEach(updatedSocial =>
+            source.SocialNetworks.Where(x => !x.IsNew()).ToList().ForEach(updatedSocial =>
             {
                 var domainSocial = destination.SocialNetworks.ToList().FirstOrDefault(x => x.Id == updatedSocial.Id);
                 if (domainSocial == null)

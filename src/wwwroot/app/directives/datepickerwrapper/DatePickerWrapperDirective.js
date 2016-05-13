@@ -12,7 +12,7 @@ export default class DatePickerWrapperDirective {
       this.scope = {
          datemodel   : '=',
          datemin     : '=',
-         placeholder : '='
+         placeholder : '@'
       };
    }
 
@@ -25,6 +25,6 @@ export default class DatePickerWrapperDirective {
 function DatePickerController ($scope) {
    'ngInject';
    // datepicker settings
-   $scope.dateFormat = 'dd-MM-yyyy';
+   $scope.dateFormat = 'dd.MM.yyyy';
    $scope.minLimit = $scope.datemin || '01-01-1901';
 }

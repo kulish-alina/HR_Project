@@ -99,6 +99,7 @@
     <Compile Include="EFData\Extentions\CandidateSourceExtensions.cs" />
     <Compile Include="EFData\Extentions\LanguageSkillExtensions.cs" />
     <Compile Include="EFData\Extentions\PhoneNumberExtension.cs" />
+    <Compile Include="EFData\Extentions\PhotoExtensions.cs" />
     <Compile Include="EFData\Extentions\RequestMessageExtensions.cs" />
     <Compile Include="EFData\Extentions\UserExtensions.cs" />
     <Compile Include="EFData\Extentions\VacancyExtensions.cs" />
@@ -152,9 +153,9 @@
     <Compile Include="Infrasctucture\IDbFactory.cs" />
     <Compile Include="Infrasctucture\IUnitOfWork.cs" />
     <Compile Include="Infrasctucture\UnitOfWork.cs" />
-    <Compile Include="Migrations\201605111626468_init.cs" />
-    <Compile Include="Migrations\201605111626468_init.Designer.cs">
-      <DependentUpon>201605111626468_init.cs</DependentUpon>
+    <Compile Include="Migrations\201605131142089_init.cs" />
+    <Compile Include="Migrations\201605131142089_init.Designer.cs">
+      <DependentUpon>201605131142089_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,8 +171,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605111626468_init.resx">
-      <DependentUpon>201605111626468_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605131142089_init.resx">
+      <DependentUpon>201605131142089_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

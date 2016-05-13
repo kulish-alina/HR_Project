@@ -35,6 +35,11 @@ div.thesaurus-column-header {
    padding-left: $rem-base*0.5;
 }
 
-img.thesaurus-img {
+.main-card img.thesaurus-img {
    float: left;
+   width: $rem-base*2;
+}
+
+input.thesaurus-file-uploader[type="file"] {
+   width: $rem-base*12;
 }

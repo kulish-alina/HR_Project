@@ -16,9 +16,9 @@
                  ng-model="topic[field.refObject]"
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
                  ng-change="change(topic, field)" class="edit" validator="required"></select>          
-         <img ng-src="{{topic[field.name]}}" ng-show="field.type==='img'" class=thesaurus-img>
+         <img ng-src="{{topic[field.name]}}" ng-show="field.type==='img'" class="thesaurus-img">
          <input type="file" nv-file-select="" multiple uploader="uploader" 
-                ng-show="field.type==='img'&&isEditTopic(topic)">
+                class="thesaurus-file-uploader" ng-show="isEditTopic(topic)&&field.type==='img'">
       </div>
       <div class="action-column">
          <a href='#' class="button button-with-input" ng-show="!isEditTopic(topic)" 

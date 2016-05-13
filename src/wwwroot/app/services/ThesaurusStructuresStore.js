@@ -85,6 +85,14 @@ const THESAURUS_STRUCTURES = {
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
+   },
+   'levels' : {
+      thesaurusName : 'THESAURUSES.LEVELS',
+      fields : [
+         {name : 'id',        label : 'id',        type : ''},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
+         {name : 'state',     label : 'state',     type : ''}
+      ]
    }
 };
 

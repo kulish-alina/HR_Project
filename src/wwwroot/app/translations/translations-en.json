@@ -85,7 +85,8 @@
       "INDUSTRIES" : "Industries",
       "SKILLS" : "Skills",
       "TAGS" : "Tags",
-      "STAGES" : "Stages"
+      "STAGES" : "Stages",
+      "LEVELS" : "Levels"
    },
    "VALIDATION": {
       "required": {

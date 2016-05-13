@@ -34,3 +34,7 @@ div.thesaurus-column-header {
    @extend .thesaurus-column;
    padding-left: $rem-base*0.5;
 }
+
+img.thesaurus-img {
+   float: left;
+}

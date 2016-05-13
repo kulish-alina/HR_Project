@@ -2,6 +2,8 @@ import template from './thesaurus.directive.html';
 import { has, clone, assign, forEach, filter } from 'lodash';
 import './thesaurus.scss';
 
+const MAX_SIZE_OF_FILE = 5120;
+
 export default class ThesaurusDirective {
    constructor() {
       this.restrict = 'E';
@@ -19,13 +21,14 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($scope, ThesaurusService, $translate) {
+function ThesaurusController($scope, ThesaurusService, $translate, FileUploader) {
    'ngInject';
 
    const vm = $scope;
 
    /* --- api --- */
    vm.topics      = [];
+   vm.newUploader = createNewUploader();
    vm.filterdFields     = {};
    vm.newTresaurusTopic = {};
    vm.fields            = [];
@@ -49,6 +52,25 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
       _initThesaurusStructure();
       _initThesaurusTopics();
    }());
+
+   function createNewUploader() {
+      let newUploader = new FileUploader({
+         url: './api/files'
+         //onCompleteAll: _vs
+      });
+      newUploader.filters.push({
+         name: 'sizeFilter',
+         fn: function sizeFilter(item) {
+            if (item.size <= MAX_SIZE_OF_FILE) {
+               return true;
+            }
+         }
+      });
+      //newUploader.onSuccessItem = function onSuccessUpload(item) {
+         //vm.vacancy.fileIds.push(item.id);
+      //};
+      return newUploader;
+   }
 
    function isShowField(field) {
       return field.type !== '';

@@ -52,7 +52,9 @@ export default function RolesController($scope, $element, $state, RolesService, 
    }
 
    function _initRoles() {
-      vm.roles = RolesService.getRoles();
+      RolesService.getRoles().then((value) => {
+         vm.roles = value;
+      });
    }
 
    function _initPermissions() {

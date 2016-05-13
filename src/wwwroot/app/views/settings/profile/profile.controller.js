@@ -45,16 +45,18 @@ export default function ProfileController (
 
    function _onSubmit() {
       if (ValidationService.validate(vm.form.userEdit)) {
-         $state.go('profile');
-         return UserService.saveUser(vm.user);
+         return UserService.saveUser(vm.user).then(() => {
+            $state.go('profile');
+         });
       } else {
          return $q.reject();
       };
    }
 
    function _onCancel() {
-      _initCurrentUser ();
-      return $state.go('profile');
+      _initCurrentUser().then(() => {
+         return $state.go('profile');
+      });
    }
 
    function _onEdit() {
@@ -66,7 +68,9 @@ export default function ProfileController (
    }
 
    function _initCurrentUser() {
-      vm.user = UserService.getCurrentUser();
+      return UserService.getCurrentUser().then((val) => {
+         vm.user = val;
+      });
    }
 }
 

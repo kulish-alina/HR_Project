@@ -20,15 +20,15 @@ export default class RoleService {
       });
    }
    getRoles () {
-      return {
+      return _$q.when({
          Administrator : 268435454,
          Manager       : 56788558,
          Frelancer     : 5565844
-      };
+      });
    }
 
    saveRole(role) {
-      console.log('role saved', role);
+      return _$q.when(console.log('role saved', role));
    }
 }
 function _getPerm() {
@@ -51,7 +51,8 @@ function _getPerm() {
          description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
          group: 'Users'
       },
-      ViewUserProfile : {
+      ViewUserProfile :
+      {
          id: 4,
          description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
          group: 'Users'

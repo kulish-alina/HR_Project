@@ -41,6 +41,8 @@ import ContactInfoDirective from './directives/contacts/ContactInfo';
 import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
 
+import StateRunner from './state-runner';
+
 import CanvasPreviewDirective from './directives/filePreview/CanvasPreview';
 const dependencies = [
 
@@ -78,11 +80,8 @@ angular
 
    .filter('tel', phoneFormatFilter)
 
-   .run(['$rootScope', '$state', '$stateParams',
-   ($rootScope, $state, $stateParams) => {
-      $rootScope.$state = $state;
-      $rootScope.$stateParams = $stateParams;
-   }])
+   .run(StateRunner)
+
    .config(config)
    .config(configValidation);
 

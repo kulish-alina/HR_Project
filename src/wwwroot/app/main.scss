@@ -57,14 +57,6 @@ body {
 .grid-block {
    overflow: inherit;
 }
-// settings profile
-.button change-pass {
-   width: 100%;
-}
-.userProfile {
-   @extend .main-card;
-   min-height: $rem-base*15;
-}
 
 .modal {
    width: $rem-base*31.25 !important;
@@ -97,4 +89,7 @@ body {
 	$color-active: $tab-title-color-active,
 	$padding: 0);
    width: 100%;
+}
+i.profile-icons {
+   width: $rem-base*2;
 }

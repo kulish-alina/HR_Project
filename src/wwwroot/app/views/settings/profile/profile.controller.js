@@ -1,6 +1,8 @@
 import {
    floor
 } from 'lodash';
+import './profile.scss';
+
 export default function ProfileController (
    $q,
    $scope,

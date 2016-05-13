@@ -1,5 +1,5 @@
 import template from './contact-info.directive.html';
-
+import './contact-info.scss';
 export default class ContactInfoDirective {
    constructor() {
       this.restrict = 'E';

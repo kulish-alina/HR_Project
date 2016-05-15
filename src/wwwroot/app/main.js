@@ -38,7 +38,7 @@ import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
 
 import DatePickerDirective from './directives/datepickerwrapper/DatePickerWrapperDirective';
-import CanvasPreviewDirective from './directives/filePreview/CanvasPreview';
+import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 
 const dependencies = [
    router,

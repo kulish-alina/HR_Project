@@ -26,28 +26,36 @@
             {{::'VACANCIES.SEARCH_VACANCIES' | translate}}
          </div>
          <div class="card-section">
-            <select name="Industry" ng-model="vacancy.industryId">
-               <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
-               <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
-            </select>
-            <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.levels track by level.id" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
-            <input ng-model="vacancy.title" placeholder="Position" type="text">
-            <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
-            <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
-               <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
-               <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
-            </select>
-            <select name="Status" ng-model="vacancy.status">
-               <option selected value="">{{::'COMMON.STATUS' | translate}}</option>
-               <option ng-repeat="status in thesaurus.statuses" value="{{status.id}}">{{::status.title}}</option>
-            </select>
-            <select ng-model="vacancy.responsibleId" name="Responsible" id="">
-               <option selected value="">{{::'COMMON.RESPONSIBLE' | translate}}</option>
-               <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.lastName}}</option>
-            </select>
-            <a class="expand button" ng-click="getVacancies()">{{::'INDEX.SEARCH' | translate}}</a>
-            <input type="text" ng-model="vacancyId" placeholder="Id">
-            <a class="expand button" ng-click="getVacancy(vacancyId)">GET VACANCY</a>
+            <form name="searchVacancy">
+               <select name="Industry" ng-model="vacancy.industryId">
+                  <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
+                  <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
+               </select>
+               <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.levels" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
+               <input ng-model="vacancy.title" placeholder="Position" type="text">
+               <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+               <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
+                  <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
+                  <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
+               </select>
+               <select name="State" ng-model="vacancy.vacancyState">
+                  <option selected value="">{{::'COMMON.STATUS' | translate}}</option>
+                  <option selected value="5">{{::'VACANCY.OPEN' | translate}}</option>
+                  <option selected value="6">{{::'VACANCY.PROCESSING' | translate}}</option>
+                  <option selected value="7">{{::'VACANCY.CLOSED' | translate}}</option>
+                  <option selected value="8">{{::'VACANCY.CANCELLED' | translate}}</option>
+               </select>
+               <select ng-model="vacancy.userId" name="Responsible">
+                  <option selected value="">{{::'COMMON.RESPONSIBLE' | translate}}</option>
+                  <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.lastName}}</option>
+               </select>
+               <a class="expand button" ng-click="searchVacancies()">{{::'INDEX.SEARCH' | translate}}</a>
+               <a class="expand button" ng-click="getVacancies()">{{::'INDEX.SEARCH' | translate}}</a>
+               <!--
+               <input type="text" ng-model="vacancyId" placeholder="Id">
+               <a class="expand button" ng-click="getVacancy(vacancyId)">GET VACANCY</a>
+-->
+            </form>
          </div>
       </div>
    </div>
@@ -70,11 +78,13 @@
                   </tr>
                </thead>
                <tbody>
-                  <tr ng-repeat="vacancy in vacancies">
+                  <tr dir-paginate="vacancy in vacancies | itemsPerPage: pageSize">
                      <td>{{$index+1}}</td>
                      <td>{{vacancy.title}}</td>
                      <td>{{vacancy.entityStates[0].title}}</td>
-                     <td class="col4"><p ng-repeat="location in vacancy.locations">{{::location.title}}</p></td>
+                     <td class="col4">
+                        <p ng-repeat="location in vacancy.locations">{{::location.title}}</p>
+                     </td>
                      <td>{{vacancy.responsible.lastName}}</td>
                      <td>{{vacancy.createdOn}}</td>
                      <td>
@@ -84,20 +94,11 @@
                   </tr>
                </tbody>
             </table>
-            <div ng-show="vacancies.length !== 0" class="switch-pages">
-               <ul class="menu-bar second-button-bar">
-                  <li><a href="#"><i class="foundicon-left-arrow general-icon"></i></a>
-                  </li>
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                  <li><a href="#"><i class="foundicon-right-arrow general-icon"></i></a>
-                  </li>
-               </ul>
+            <div class="switch-pages">
+               <dir-pagination-controls max-size="5" boundary-links="true" template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html" [auto-hide="" ]>
+               </dir-pagination-controls>
+               <div data-pagination="" data-num-pages="numPages()" data-current-page="currentPage" data-max-size="maxSize" data-boundary-links="true"></div>
             </div>
          </div>
       </div>
    </div>
-</div>

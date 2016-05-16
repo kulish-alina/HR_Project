@@ -26,12 +26,34 @@ export default class VacancyService {
       _UserService = UserService;
    }
 
-   getVacancies() {
-      DATE_TYPE.push('createdOn');
-      return _HttpService.get(VACANCY_URL).then((vacancies) => {
+   searchVacancies(entity) {
+      const dateFields = this._addCreatedOnDate(DATE_TYPE);
+      const searchUrl = 'search';
+      const additionalUrl = VACANCY_URL + searchUrl;
+      entity = clone(entity);
+      each(entity, (property, key) => {
+         if (property === undefined) {
+            delete entity[key];
+         }
+      });
+      return _HttpService.post(additionalUrl, entity).then((vacancies) => {
          let allVacancies = vacancies.queryResult;
          return each(allVacancies, (vacancy) => {
-            each(DATE_TYPE, (type) => {
+            each(dateFields, (type) => {
+               vacancy[type] = utils.formatDateFromServer(vacancy[type]);
+            });
+            return this._convertIdsToEntities(vacancy);
+         });
+      });
+   }
+
+   getVacancies() {
+      const dateFields = this._addCreatedOnDate(DATE_TYPE);
+      return _HttpService.get(VACANCY_URL).then((vacancies) => {
+         let allVacancies = vacancies.queryResult;
+         allVacancies.countOfPages = vacancies.totalPages;
+         return each(allVacancies, (vacancy) => {
+            each(dateFields, (type) => {
                vacancy[type] = utils.formatDateFromServer(vacancy[type]);
             });
             return this._convertIdsToEntities(vacancy);
@@ -41,9 +63,9 @@ export default class VacancyService {
 
    getVacancy(vacancyId) {
       const additionalUrl = VACANCY_URL + vacancyId;
-      DATE_TYPE.push('createdOn');
+      const dateFields = this._addCreatedOnDate(DATE_TYPE);
       return _HttpService.get(additionalUrl).then((vacancy) => {
-         each(DATE_TYPE, (type) => {
+         each(dateFields, (type) => {
             vacancy[type] = utils.formatDateFromServer(vacancy[type]);
          });
          return vacancy = this._convertIdsToEntities(vacancy);
@@ -121,6 +143,10 @@ export default class VacancyService {
       }
       );
       return entity;
+   }
+
+   _addCreatedOnDate(dates) {
+      return dates.concat([ 'createdOn' ]);
    }
 }
 

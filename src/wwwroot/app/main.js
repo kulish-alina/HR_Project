@@ -6,6 +6,7 @@ import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
 import 'angular-file-upload/dist/angular-file-upload';
+import pagination from 'angular-utils-pagination';
 
 import 'foundation-apps/dist/js/foundation-apps';
 import 'foundation-apps/dist/js/foundation-apps-templates';
@@ -50,7 +51,8 @@ const dependencies = [
    '720kb.datepicker',
    'angularFileUpload',
    'textAngular',
-   'oi.select'
+   'oi.select',
+   pagination
 ];
 
 angular

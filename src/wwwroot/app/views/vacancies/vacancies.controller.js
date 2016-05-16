@@ -1,6 +1,5 @@
-//import utils from '../../utils';
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations',
-    'typesOfEmployment', 'entityStates'];
+    'typesOfEmployment'];
 
 export default function VacanciesController(
    $scope,
@@ -19,6 +18,10 @@ export default function VacanciesController(
    vm.editVacancy = editVacancy;
    vm.thesaurus = [];
    vm.responsibles = [];
+   vm.searchVacancies = searchVacancies;
+   vm.vacancy = {};
+   vm.currentPage = 1;
+   vm.pageSize = 4;
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
@@ -26,10 +29,16 @@ export default function VacanciesController(
       vm.responsibles = users;
    });
 
+   function searchVacancies() {
+      VacancyService.searchVacancies(vm.vacancy).then(value => {
+         vm.vacancies = value;
+      }).catch(_onError);
+   }
+
    function getVacancies() {
       VacancyService.getVacancies().then(value => {
-         console.log('vm.vacancies', value);
          vm.vacancies = value;
+         console.log(vm.vacancies.countOfPages);
       }).catch(_onError);
    }
 

@@ -11,7 +11,8 @@ th {
 }
 td {
    border-top: 1px solid lighten($gray, 5);
-   padding: $rem-base*0.625;
+   padding-left: $rem-base*0.625;
+   padding-right: $rem-base*0.625;
 }
 tr:nth-child(2n) {
    background: lighten($gray-light, 2);
@@ -27,4 +28,7 @@ tr:nth-child(2n) {
 }
 .col4 {
    min-width: 100px;
+}
+td p {
+   margin-bottom: 0;
 }

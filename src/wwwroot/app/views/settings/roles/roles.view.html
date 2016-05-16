@@ -12,9 +12,10 @@
          <div class="medium-10 grid-block">
             <ul class ="roles-tab">
                <li ng-repeat="(groupName, permissions) in permissions">
-                  <h5>{{groupName}}</h5>
+                  <h5 ng-bind="::groupName"></h5>
                   <div ng-repeat="permission in permissions">
-                     <input type="checkbox" ng-model="currentRole[permission.name].flag"> {{permission.name}}
+                     <input type="checkbox" ng-model="currentRole[permission.name].flag" id="{{permission.id}}">
+                     <label ng-bind="::permission.name" for="{{permission.id}}"></label>
                   </div>
                </li>
             </ul>

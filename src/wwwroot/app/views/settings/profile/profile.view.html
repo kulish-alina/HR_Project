@@ -2,8 +2,8 @@
    <div class="card-section">
       <div class="grid-block">
          <div class="medium-3 grid-block">
-            <div zf-open="basicModal" class="user-profile-photo" title="Upload Photo">
-               <span class="upload-title">Upload Photo</span>
+            <div zf-open="basicModal" class="user-profile-photo">
+               <span class="upload-title" ng-bind="::('COMMON.UPLOAD_PHOTO' | translate)"></span>
             </div>
             <div class="uploader-photo" zf-modal="" id="basicModal">
                <div class="grid-block">
@@ -21,26 +21,26 @@
                      </div>
                   </div>
                   <div class="medium-4 grid-block">
-                     <a class="upload-button" href="#">{{::'COMMON.UPLOAD' | translate}}</a>
+                     <a class="upload-button" href="#" ng-bind ="::('COMMON.UPLOAD' | translate)"></a>
                   </div>
                </div>
             </div>
          </div>
          <div class="vertical medium-9 grid-block">
             <div class="grid-block">
-               <h3>{{user.firstName+" "+user.lastName+" ["+user.login+"]"}}</h3>
+               <h3 ng-bind="::(user.firstName+' '+user.lastName+' ['+user.login+']')"></h3>
             </div>
             <div class="grid-block">
                <div class="medium-4 grid-block">
                   <contacts class="profile-contacts" phone="user.phoneNumber" skype="user.skype" email="user.email"></contacts>
                </div>
                <div class="medium-4 profile-info">
-                  <div><i class="fi-marker"></i> {{user.location}}</div>
-                  <div><i class="fi-torso"></i> {{user.role}}</div>
-                  <div><i class="fi-calendar"></i> {{age()}}</div>
+                  <div><i class="fi-marker"></i> <span ng-bind="::user.location"></span></div>
+                  <div><i class="fi-torso"></i> <span ng-bind="::user.role"></span></div>
+                  <div><i class="fi-calendar"></i> <span ng-bind="::age()"></span></div>
                </div>
                <div class="medium-4">
-                  <a class="button change-pass">Change password</a>
+                  <a class="button change-pass" ng-bind="::('PROFILE.CHANGE_PASS'|translate)"></a>
                </div>
             </div>
          </div>

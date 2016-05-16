@@ -83,6 +83,7 @@
       "TAGS": "Tags",
       "PHONE_NUMBERS": "Phone numbers",
       "UPLOAD": "Upload",
+      "UPLOAD_PHOTO": "Upload photo",
       "DATE_OF_BIRTH": "Date of Birth"
    },
    "THESAURUSES" : {
@@ -146,5 +147,8 @@
       "PASS" : "Your password",
       "NEW_PASS" : "New password",
       "CONFIRM_PASS" : "Confirm new password"
+   },
+   "PROFILE" : {
+      "CHANGE_PASS": "Change password"
    }
 }

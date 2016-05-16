@@ -43,7 +43,8 @@ export default function RolesController($scope, $element, $state, RolesService, 
          }
       });
       let role = {};
-      role[vm.currentRoleName] = vm.roles[vm.currentRoleName];
+      role.title = vm.currentRoleName;
+      role.value = vm.roles[vm.currentRoleName];
       return RolesService.saveRole(role);
    }
 

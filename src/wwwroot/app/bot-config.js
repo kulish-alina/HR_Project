@@ -97,7 +97,8 @@ export default function _config(
          url: '/members',
          parent: 'settings',
          template: membersTemplate,
-         controller: membersController
+         controller: membersController,
+         data: {asEdit: true}
       })
       .state('roles', {
          url: '/roles',

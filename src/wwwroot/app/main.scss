@@ -39,7 +39,7 @@ body {
 // Styles for main content
 .main-card {
    @include card-container();
-   width: 100%;
+   width: 99%;
    margin: $rem-base*0.5;
    height: auto;
 }

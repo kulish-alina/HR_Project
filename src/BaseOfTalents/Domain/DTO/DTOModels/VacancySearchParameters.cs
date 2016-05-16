@@ -1,0 +1,25 @@
+﻿using Domain.Entities.Enum;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain.DTO.DTOModels
+{
+    public class VacancySearchParameters
+    {
+        public VacancySearchParameters()
+        {
+            LevelIds = new List<int>();
+            LocationIds = new List<int>();
+        }
+        public int? UserId { get; set; }
+        public int? IndustryId { get; set; }
+
+        public IEnumerable<int> LevelIds { get; set; }
+        public IEnumerable<int> LocationIds { get; set; }
+        public TypeOfEmployment? TypeOfEmployment { get; set; }
+        public EntityState? VacancyState { get; set; }
+    }
+}

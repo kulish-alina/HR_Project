@@ -12,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFSkillRepository : EFBaseEntityRepository<Skill>, ISkillRepository
     {
-        public EFSkillRepository(DbContext context) : base(context)
+        public EFSkillRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

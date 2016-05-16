@@ -15,7 +15,7 @@ namespace Data.EFData.Repositories
 {
     public class EFVacancyRepository : EFBaseEntityRepository<Vacancy>, IVacancyRepository
     {
-        public EFVacancyRepository(DbContext context) : base(context)
+        public EFVacancyRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

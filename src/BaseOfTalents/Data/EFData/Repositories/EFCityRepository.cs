@@ -12,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFCityRepository : EFBaseEntityRepository<Location>, ILocationRepository
     {
-        public EFCityRepository(DbContext context) : base(context)
+        public EFCityRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

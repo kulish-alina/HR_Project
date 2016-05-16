@@ -12,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFCountryRepository : EFBaseEntityRepository<Country>, ICountryRepository
     {
-        public EFCountryRepository(DbContext context) : base(context)
+        public EFCountryRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

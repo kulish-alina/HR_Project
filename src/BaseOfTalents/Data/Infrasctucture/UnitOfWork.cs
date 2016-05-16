@@ -17,9 +17,12 @@ namespace Data.Infrastructure
             this.dbContext = context;
         }
 
-        public DbContext DbContext
+        public DbContext Context
         {
-            get { return dbContext; }
+            get
+            {
+                return dbContext;
+            }
         }
 
         public void Commit()

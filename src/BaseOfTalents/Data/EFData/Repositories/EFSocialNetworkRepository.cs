@@ -12,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFSocialNetworkRepository : EFBaseEntityRepository<SocialNetwork>, ISocialNetworkRepository
     {
-        public EFSocialNetworkRepository(DbContext context) : base(context)
+        public EFSocialNetworkRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

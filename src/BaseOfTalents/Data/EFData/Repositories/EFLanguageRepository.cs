@@ -12,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFLanguageRepository : EFBaseEntityRepository<Language>, ILanguageRepository
     {
-        public EFLanguageRepository(DbContext context) : base(context)
+        public EFLanguageRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

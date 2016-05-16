@@ -12,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFLevelRepository : EFBaseEntityRepository<Level>, ILevelRepository
     {
-        public EFLevelRepository(DbContext context) : base(context)
+        public EFLevelRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         { 
 
         }

@@ -12,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFErrorRepository : EFBaseEntityRepository<Error>, IErrorRepository
     {
-        public EFErrorRepository(DbContext context) : base(context)
+        public EFErrorRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

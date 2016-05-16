@@ -14,18 +14,17 @@ namespace Data.EFData.Repositories
 
     public class EFBaseEntityRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity, new()
     {
-        private DbContext context;
         #region Properties
+        IUnitOfWork uov = null;
 
         protected DbContext DbContext
         {
-            get { return context; }
+            get { return uov.Context; }
         }
 
-        public EFBaseEntityRepository(DbContext context)
+        public EFBaseEntityRepository(IUnitOfWork unitOfWork)
         {
-            this.context = context;
-
+            this.uov = unitOfWork;
         }
         #endregion
 
@@ -82,6 +81,11 @@ namespace Data.EFData.Repositories
         {
             var attachedEntity = DbContext.Set<TEntity>().Attach(entity);
             DbContext.Set<TEntity>().Remove(attachedEntity);
+        }
+
+        public void Commit()
+        {
+            uov.Commit();
         }
     }
 }

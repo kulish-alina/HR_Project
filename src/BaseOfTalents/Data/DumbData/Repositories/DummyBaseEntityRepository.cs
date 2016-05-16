@@ -70,5 +70,10 @@ namespace Data.DumbData.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public void Commit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

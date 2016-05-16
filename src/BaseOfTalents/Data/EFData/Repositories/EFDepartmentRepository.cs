@@ -12,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFDepartmentRepository : EFBaseEntityRepository<Department>, IDepartmentRepository
     {
-        public EFDepartmentRepository(DbContext context) : base(context)
+        public EFDepartmentRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

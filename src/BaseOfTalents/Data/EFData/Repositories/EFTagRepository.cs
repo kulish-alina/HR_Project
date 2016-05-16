@@ -12,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFTagRepository : EFBaseEntityRepository<Tag>, ITagRepository
     {
-        public EFTagRepository(DbContext context) : base(context)
+        public EFTagRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

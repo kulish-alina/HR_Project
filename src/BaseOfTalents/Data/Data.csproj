@@ -147,10 +147,8 @@
     <Compile Include="EFData\Repositories\EFVacancyRepository.cs" />
     <Compile Include="EFData\Repositories\EFVacancyStageInfoRepository.cs" />
     <Compile Include="Infrasctucture\DataRepositoryFactory.cs" />
-    <Compile Include="Infrasctucture\DbFactory.cs" />
     <Compile Include="Infrasctucture\Disposable.cs" />
     <Compile Include="Infrasctucture\IDataRepositoryFactory.cs" />
-    <Compile Include="Infrasctucture\IDbFactory.cs" />
     <Compile Include="Infrasctucture\IUnitOfWork.cs" />
     <Compile Include="Infrasctucture\UnitOfWork.cs" />
     <Compile Include="Migrations\201605131142089_init.cs" />

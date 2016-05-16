@@ -1,6 +1,7 @@
 ﻿using Data.EFData;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,22 +10,21 @@ namespace Data.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IDbFactory dbFactory;
-        private BOTContext dbContext;
+        private DbContext dbContext;
 
-        public UnitOfWork(IDbFactory dbFactory)
+        public UnitOfWork(DbContext context)
         {
-            this.dbFactory = dbFactory;
+            this.dbContext = context;
         }
 
-        public BOTContext DbContext
+        public DbContext DbContext
         {
-            get { return dbContext ?? (dbContext = dbFactory.Init()); }
+            get { return dbContext; }
         }
 
         public void Commit()
         {
-            DbContext.Commit();
+            dbContext.SaveChanges();
         }
     }
 }

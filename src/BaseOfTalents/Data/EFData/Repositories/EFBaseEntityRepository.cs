@@ -14,21 +14,17 @@ namespace Data.EFData.Repositories
 
     public class EFBaseEntityRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity, new()
     {
-        private BOTContext dataContext;
+        private DbContext context;
         #region Properties
-        protected IDbFactory DbFactory
+
+        protected DbContext DbContext
         {
-            get;
-            private set;
-        }
-        protected BOTContext DbContext
-        {
-            get { return dataContext ?? (dataContext = DbFactory.Init()); }
+            get { return context; }
         }
 
-        public EFBaseEntityRepository(IDbFactory dbFactory)
+        public EFBaseEntityRepository(DbContext context)
         {
-            DbFactory = dbFactory;
+            this.context = context;
 
         }
         #endregion

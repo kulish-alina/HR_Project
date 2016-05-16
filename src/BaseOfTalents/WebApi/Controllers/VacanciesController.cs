@@ -61,6 +61,55 @@ namespace WebApi.Controllers
             });
         }
 
+        [HttpPost]
+        public IHttpActionResult Search(HttpRequestMessage request, [FromBody]VacancySearchParameters searchParams)
+        {
+            var _vacancyRepository = _repoFactory.GetDataRepository<Vacancy>(request);
+
+            return CreateResponse(request, () => {
+                var vacanciesQuery = _vacancyRepository.GetAll();
+                if (searchParams.IndustryId.HasValue)
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.IndustryId == searchParams.IndustryId);
+                }
+                if (searchParams.UserId.HasValue)
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.ResponsibleId == searchParams.UserId);
+                }
+                if (!String.IsNullOrEmpty(searchParams.Title))
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.Title == searchParams.Title);
+                }
+                if (searchParams.LevelIds.Any())
+                {
+                    foreach (var levelId in searchParams.LevelIds)
+                    {
+                        vacanciesQuery = vacanciesQuery.Where(x => x.Levels.Any(level => level.Id == levelId));
+                    }
+                }
+                if (searchParams.LocationIds.Any())
+                {
+                    foreach (var locationId in searchParams.LocationIds)
+                    {
+                        vacanciesQuery = vacanciesQuery.Where(x => x.Locations.Any(location => location.Id == locationId));
+                    }
+                }
+                if (searchParams.TypeOfEmployment.HasValue)
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.TypeOfEmployment == searchParams.TypeOfEmployment);
+                }
+                if (searchParams.VacancyState.HasValue)
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.State == searchParams.VacancyState);
+                }
+
+                var entities = vacanciesQuery
+                                       .ToList()
+                                       .Select(x => DTOService.ToDTO<Vacancy, VacancyDTO>(x));
+                return Json(entities, BOT_SERIALIZER_SETTINGS);
+            });
+        }
+
         public override IHttpActionResult Add(HttpRequestMessage request, [FromBody]VacancyDTO vacancy)
         {
             var _vacancyRepo = _repoFactory.GetDataRepository<Vacancy>(request);

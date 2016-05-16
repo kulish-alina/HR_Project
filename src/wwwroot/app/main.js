@@ -34,16 +34,16 @@ import ThesaurusService  from './services/thesaurusService';
 import SettingsService   from './services/SettingsService';
 import RolesService      from './services/RolesService';
 
-import ThesaurusDirective   from './directives/thesaurus/thesaurus';
-import DatePickerDirective  from './directives/datepickerwrapper/DatePickerWrapperDirective';
-import ContactInfoDirective from './directives/contacts/ContactInfo';
+import ThesaurusDirective     from './directives/thesaurus/thesaurus';
+import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
+import ContactInfoDirective   from './directives/contacts/ContactInfo';
+import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 
 import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
 
 import StateRunner from './state-runner';
 
-import CanvasPreviewDirective from './directives/filePreview/CanvasPreview';
 const dependencies = [
 
    router,

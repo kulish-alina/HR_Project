@@ -47,10 +47,6 @@ namespace WebApi
                 .As<IRepository<Vacancy>>()
                 .InstancePerRequest();
 
-            builder.RegisterType<DbFactory>()
-            .As<IDbFactory>()
-            .InstancePerRequest();
-
             builder.RegisterType<UnitOfWork>()
             .As<IUnitOfWork>()
             .InstancePerRequest();

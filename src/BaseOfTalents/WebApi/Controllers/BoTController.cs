@@ -3,17 +3,12 @@ using Domain.DTO.DTOModels;
 using Domain.Entities;
 using Domain.Repositories;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Web.Http;
-using System.Web.Http.Results;
 using WebApi.DTO.DTOService;
 
 namespace WebApi.Controllers
@@ -25,25 +20,23 @@ namespace WebApi.Controllers
         protected IDataRepositoryFactory _repoFactory;
         protected IErrorRepository _errorRepository;
 
-        protected readonly IUnitOfWork _unitOfWork;
         protected static int ENTITIES_PER_PAGE = 30;
+
         protected static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        
-        public BoTController(IDataRepositoryFactory repoFatory, IUnitOfWork unitOfWork, IErrorRepository errorRepo)
+
+        public BoTController(IDataRepositoryFactory repoFatory, IErrorRepository errorRepo)
         {
             _repoFactory = repoFatory;
-            _unitOfWork = unitOfWork;
             _errorRepository = errorRepo;
         }
+
         public BoTController()
         {
-
         }
-
 
         [HttpGet]
         // GET: api/Entities/
@@ -82,18 +75,17 @@ namespace WebApi.Controllers
         public virtual IHttpActionResult Remove(HttpRequestMessage request, int id)
         {
             var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
-            return CreateResponse(request, () => 
+            return CreateResponse(request, () =>
             {
                 var entityToRemove = _currentRepo.Get(id);
                 if (entityToRemove != null)
                 {
                     _currentRepo.Remove(entityToRemove);
-                    _unitOfWork.Commit();
+                    _currentRepo.Commit();
                     return Ok();
                 }
                 return StatusCode(HttpStatusCode.NoContent);
             });
-            
         }
 
         [HttpPost]
@@ -116,7 +108,7 @@ namespace WebApi.Controllers
                 {
                     var newEntity = DTOService.ToEntity<ViewModel, DomainEntity>(entity);
                     _currentRepo.Add(newEntity);
-                    _unitOfWork.Commit();
+                    _currentRepo.Commit();
                     return Json(DTOService.ToDTO<DomainEntity, ViewModel>(newEntity), BOT_SERIALIZER_SETTINGS);
                 }
             });
@@ -143,7 +135,7 @@ namespace WebApi.Controllers
                 {
                     var changedDomainEntity = DTOService.ToEntity<ViewModel, DomainEntity>(changedEntity);
                     _currentRepo.Update(changedDomainEntity);
-                    _unitOfWork.Commit();
+                    _currentRepo.Commit();
                     return Json(DTOService.ToDTO<DomainEntity, ViewModel>(changedDomainEntity), BOT_SERIALIZER_SETTINGS);
                 }
             });
@@ -153,22 +145,9 @@ namespace WebApi.Controllers
         {
             IHttpActionResult response = null;
             response = function.Invoke();
-            /*try
-            {
-                
-            }
-            catch (DbUpdateException ex)
-            {
-                LogError(ex);
-                response = BadRequest(ex.InnerException.Message);
-            }
-            catch (Exception ex)
-            {
-                LogError(ex);
-                response = InternalServerError(ex);
-            }*/
             return response;
         }
+
         private void LogError(Exception ex)
         {
             try
@@ -179,7 +158,7 @@ namespace WebApi.Controllers
                     StackTrace = ex.StackTrace,
                 };
                 _errorRepository.Add(_error);
-                _unitOfWork.Commit();
+                _errorRepository.Commit();
             }
             catch { }
         }

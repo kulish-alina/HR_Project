@@ -3,6 +3,7 @@ using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Data.EFData.Repositories
 {
     public class EFSkillRepository : EFBaseEntityRepository<Skill>, ISkillRepository
     {
-        public EFSkillRepository(IDbFactory factory) : base(factory)
+        public EFSkillRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

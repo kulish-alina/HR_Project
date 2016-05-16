@@ -2,8 +2,6 @@
 using Data.Infrastructure;
 using Domain.DTO.DTOModels;
 using Domain.Entities;
-using Domain.Entities.Enum.Setup;
-using Domain.Entities.Setup;
 using Domain.Repositories;
 using System.Linq;
 using System.Net.Http;
@@ -15,10 +13,9 @@ namespace WebApi.Controllers
 {
     public class UsersController : BoTController<User, UserDTO>
     {
-        public UsersController(IDataRepositoryFactory repoFatory, IUnitOfWork unitOfWork, IErrorRepository errorRepo)
-            : base (repoFatory, unitOfWork, errorRepo)
+        public UsersController(IDataRepositoryFactory repoFatory, IErrorRepository errorRepo)
+            : base(repoFatory, errorRepo)
         {
-
         }
 
         public override IHttpActionResult Add(HttpRequestMessage request, [FromBody]UserDTO user)
@@ -44,9 +41,9 @@ namespace WebApi.Controllers
                     else
                     {
                         User _user = new User();
-                        _user.Update(user, _repoFactory.GetDataRepository<Photo>(request),_repoFactory.GetDataRepository<PhoneNumber>(request));
+                        _user.Update(user, _repoFactory.GetDataRepository<Photo>(request), _repoFactory.GetDataRepository<PhoneNumber>(request));
                         _userRepo.Add(_user);
-                        _unitOfWork.Commit();
+                        _userRepo.Commit();
                         return Json(DTOService.ToDTO<User, UserDTO>(_user), BOT_SERIALIZER_SETTINGS);
                     }
                 }
@@ -79,7 +76,7 @@ namespace WebApi.Controllers
                         User _user = _userRepo.Get(id);
                         _user.Update(changedUser, _repoFactory.GetDataRepository<Photo>(request), _repoFactory.GetDataRepository<PhoneNumber>(request));
                         _userRepo.Update(_user);
-                        _unitOfWork.Commit();
+                        _userRepo.Commit();
                         return Json(DTOService.ToDTO<User, UserDTO>(_user), BOT_SERIALIZER_SETTINGS);
                     }
                 }

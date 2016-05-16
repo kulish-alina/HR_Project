@@ -1,30 +1,28 @@
-﻿using System.Linq;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.DTO.DTOModels;
-using System.Web.Http;
+﻿using Data.EFData.Extentions;
 using Data.Infrastructure;
-using System.Net.Http;
-using Data.EFData.Extentions;
-using Newtonsoft.Json.Linq;
-using System.Text;
+using Domain.DTO.DTOModels;
+using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using Domain.Entities.Setup;
+using Domain.Repositories;
 using System;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Web.Http;
 using WebApi.DTO.DTOService;
 
 namespace WebApi.Controllers
 {
     public class VacanciesController : BoTController<Vacancy, VacancyDTO>
     {
-        public VacanciesController(IDataRepositoryFactory repoFatory, IUnitOfWork unitOfWork, IErrorRepository errorRepo)
-            : base (repoFatory, unitOfWork, errorRepo)
+        public VacanciesController(IDataRepositoryFactory repoFatory, IErrorRepository errorRepo)
+            : base(repoFatory, errorRepo)
         {
-
         }
+
         public VacanciesController()
         {
-
         }
 
         public override IHttpActionResult All(HttpRequestMessage request)
@@ -86,14 +84,14 @@ namespace WebApi.Controllers
                     {
                         Vacancy _vacancy = new Vacancy();
                         _vacancy.Update(vacancy,
-                            _repoFactory.GetDataRepository<Level>(request), 
+                            _repoFactory.GetDataRepository<Level>(request),
                             _repoFactory.GetDataRepository<Location>(request),
                             _repoFactory.GetDataRepository<Skill>(request),
                             _repoFactory.GetDataRepository<Tag>(request),
                             _repoFactory.GetDataRepository<LanguageSkill>(request),
                             _repoFactory.GetDataRepository<VacancyStageInfo>(request));
                         _vacancyRepo.Add(_vacancy);
-                        _unitOfWork.Commit();
+                        _vacancyRepo.Commit();
                         return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);
                     }
                 }
@@ -132,7 +130,7 @@ namespace WebApi.Controllers
                             _repoFactory.GetDataRepository<LanguageSkill>(request),
                             _repoFactory.GetDataRepository<VacancyStageInfo>(request));
                         _vacancyRepository.Update(_vacancy);
-                        _unitOfWork.Commit();
+                        _vacancyRepository.Commit();
                         return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);
                     }
                 }
@@ -140,4 +138,3 @@ namespace WebApi.Controllers
         }
     }
 }
-

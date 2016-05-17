@@ -1,6 +1,3 @@
-import {
-   floor
-} from 'lodash';
 import './profile.scss';
 
 export default function ProfileController (
@@ -18,7 +15,6 @@ export default function ProfileController (
    let vm    = $scope;
    vm.form   = {};
    vm.user   = {};
-   vm.age    = _age;
    vm.uploader = {};
 
    /*---impl---*/
@@ -65,10 +61,6 @@ export default function ProfileController (
       return $state.go('profile.edit');
    }
 
-   function _age() {
-      return _calcAge(vm.user.birthDate);
-   }
-
    function _initCurrentUser() {
       return UserService.getCurrentUser().then((val) => {
          vm.user = val;
@@ -76,12 +68,3 @@ export default function ProfileController (
    }
 }
 
-function _calcAge(dateString) {
-   const msInYear = 31557600000;
-   let parts = dateString.split('.');
-   let birthday  = new Date(
-      parseInt(parts[2], 10),
-      parseInt(parts[1] -  1, 10),
-      parseInt(parts[0], 10));
-   return floor((Date.now() - birthday) / (msInYear));
-}

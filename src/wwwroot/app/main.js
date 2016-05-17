@@ -17,6 +17,8 @@ import 'oi.select/dist/select.min';
 import 'oi.select/dist/select-tpls.min';
 import 'oi.select/dist/select.min.css';
 
+import 'angular-srph-age-filter/angular-age-filter';
+
 import './ta';
 import './main.scss';
 
@@ -55,7 +57,8 @@ const dependencies = [
    '720kb.datepicker',
    'angularFileUpload',
    'textAngular',
-   'oi.select'
+   'oi.select',
+   'srph.age-filter'
 ];
 
 angular

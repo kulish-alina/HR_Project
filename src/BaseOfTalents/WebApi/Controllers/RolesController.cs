@@ -7,10 +7,9 @@ namespace WebApi.Controllers
 {
     public class RolesController : BoTController<Role, RoleDTO>
     {
-        public RolesController(IDataRepositoryFactory repoFatory, IUnitOfWork unitOfWork, IErrorRepository errorRepo)
-            : base (repoFatory, unitOfWork, errorRepo)
+        public RolesController(IDataRepositoryFactory repoFatory, IErrorRepository errorRepo)
+            : base(repoFatory, errorRepo)
         {
-
         }
     }
 }

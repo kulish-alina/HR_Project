@@ -3,7 +3,6 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
@@ -30,6 +29,7 @@ namespace WebApi.Controllers
 
             return Json(objectedEnums, BOT_SERIALIZER_SETTINGS);
         }
+
         [HttpGet]
         // GET: api/Entities/
         public virtual IHttpActionResult Get(HttpRequestMessage request, int id)
@@ -40,8 +40,8 @@ namespace WebApi.Controllers
                 enums.Add((TEnum)item);
             }
             var objectedEnums = enums.Select(x => new { id = x, title = Enum.GetName(typeof(TEnum), x) });
-            var foundedEnum = objectedEnums.FirstOrDefault(y=>Convert.ToInt32(y.id)==id);
-            if(foundedEnum==null)
+            var foundedEnum = objectedEnums.FirstOrDefault(y => Convert.ToInt32(y.id) == id);
+            if (foundedEnum == null)
             {
                 return BadRequest();
             }

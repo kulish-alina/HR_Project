@@ -109,6 +109,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("api/vacancies/search")]
         public IHttpActionResult Search(HttpRequestMessage request, [FromBody]VacancySearchParameters searchParams)
         {
             var _vacancyRepository = _repoFactory.GetDataRepository<Vacancy>(request);

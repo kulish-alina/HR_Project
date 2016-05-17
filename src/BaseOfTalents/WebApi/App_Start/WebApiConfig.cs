@@ -21,23 +21,9 @@ namespace WebApi
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "SearchApi",
-                routeTemplate: "api/{controller}/{action}",
-                defaults: new { },
-                constraints: new
-                {
-                    action = new AlphaRouteConstraint()
-                }
-            );
-
-            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional },
-                constraints: new
-                {
-                    id = new IntRouteConstraint()
-                }
+                defaults: new { id = RouteParameter.Optional }
             );
         }
     }

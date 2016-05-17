@@ -16,10 +16,12 @@ namespace Domain.DTO.DTOModels
         }
         public int? UserId { get; set; }
         public int? IndustryId { get; set; }
+        public string Title { get; set; }
+
+        public EntityState? VacancyState { get; set; }
+        public TypeOfEmployment? TypeOfEmployment { get; set; }
 
         public IEnumerable<int> LevelIds { get; set; }
         public IEnumerable<int> LocationIds { get; set; }
-        public TypeOfEmployment? TypeOfEmployment { get; set; }
-        public EntityState? VacancyState { get; set; }
     }
 }

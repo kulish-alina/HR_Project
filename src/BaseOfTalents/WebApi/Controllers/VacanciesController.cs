@@ -80,17 +80,23 @@ namespace WebApi.Controllers
                 }
                 if (searchParams.LevelIds.Any())
                 {
-                    foreach (var levelId in searchParams.LevelIds)
-                    {
-                        vacanciesQuery = vacanciesQuery.Where(x => x.Levels.Any(level => level.Id == levelId));
-                    }
+                    vacanciesQuery = vacanciesQuery
+                    .Where(x => x.Levels.Any(l => searchParams.LevelIds.Contains(l.Id)));
+
+
+                    //foreach (var levelId in searchParams.LevelIds)
+                    //{
+                    //    vacanciesQuery = vacanciesQuery.Where(x => x.Levels.Any(level => level.Id == levelId));
+                    //}
                 }
                 if (searchParams.LocationIds.Any())
                 {
-                    foreach (var locationId in searchParams.LocationIds)
-                    {
-                        vacanciesQuery = vacanciesQuery.Where(x => x.Locations.Any(location => location.Id == locationId));
-                    }
+                    //foreach (var locationId in searchParams.LocationIds)
+                    //{
+                    //    vacanciesQuery = vacanciesQuery.Where(x => x.Locations.Any(location => location.Id == locationId));
+                    //}
+                    vacanciesQuery = vacanciesQuery
+                    .Where(x => x.Locations.Any(loc => searchParams.LocationIds.Contains(loc.Id)));
                 }
                 if (searchParams.TypeOfEmployment.HasValue)
                 {

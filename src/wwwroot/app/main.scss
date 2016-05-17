@@ -68,3 +68,9 @@ body {
    margin-left: -$rem-base*19 !important;
    margin-top: $rem-base*1.875 !important;
 }
+.card-section {
+   padding-top: 0 !important;
+}
+.card-divider {
+   padding-bottom: $rem-base/2;
+}

@@ -50,11 +50,6 @@
                   <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.lastName}}</option>
                </select>
                <a class="expand button" ng-click="searchVacancies()">{{::'INDEX.SEARCH' | translate}}</a>
-               <a class="expand button" ng-click="getVacancies()">{{::'INDEX.SEARCH' | translate}}</a>
-               <!--
-               <input type="text" ng-model="vacancyId" placeholder="Id">
-               <a class="expand button" ng-click="getVacancy(vacancyId)">GET VACANCY</a>
--->
             </form>
          </div>
       </div>
@@ -62,7 +57,19 @@
    <div class="medium-9 grid-block">
       <div class="main-card">
          <div class="card-divider">
-            Vacancies
+            <div class="grid-block">
+               <div class="medium-4 grid-block">
+                  Vacancies
+               </div>
+               <div class="medium-4 grid-block">
+                  <label for="search" class="label-pagination">Items per page:</label>
+                  <input type="number" min="10" max="100" step="10" class="items-per-page" ng-model="pageSize">
+               </div>
+               <div class="medium-4 grid-block">
+                  <label for="search" class="label-pagination">Filter:</label>
+                  <input ng-model="q" id="search" class="filter-items" placeholder="Filter text">
+               </div>
+            </div>
          </div>
          <div class="card-section">
             <table>
@@ -78,7 +85,7 @@
                   </tr>
                </thead>
                <tbody>
-                  <tr dir-paginate="vacancy in vacancies | itemsPerPage: pageSize">
+                  <tr dir-paginate="vacancy in vacancies | filter:q | itemsPerPage: pageSize">
                      <td>{{$index+1}}</td>
                      <td>{{vacancy.title}}</td>
                      <td>{{vacancy.entityStates[0].title}}</td>

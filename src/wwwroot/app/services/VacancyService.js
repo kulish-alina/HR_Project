@@ -37,8 +37,7 @@ export default class VacancyService {
          }
       });
       return _HttpService.post(additionalUrl, entity).then((vacancies) => {
-         let allVacancies = vacancies.queryResult;
-         return each(allVacancies, (vacancy) => {
+         return each(vacancies, (vacancy) => {
             each(dateFields, (type) => {
                vacancy[type] = utils.formatDateFromServer(vacancy[type]);
             });

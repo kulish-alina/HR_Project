@@ -21,7 +21,7 @@ export default function VacanciesController(
    vm.searchVacancies = searchVacancies;
    vm.vacancy = {};
    vm.currentPage = 1;
-   vm.pageSize = 4;
+   vm.pageSize = 10;
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 

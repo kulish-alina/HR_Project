@@ -9,6 +9,7 @@
 @import './styles/text-editor';
 @import './grid.scss';
 @import './styles/multiple-select';
+@import './styles/pagination';
 
 body {
    background-color: $light-color;
@@ -44,16 +45,6 @@ body {
    height: auto;
 }
 
-// Styles for switching pages
-.switch-pages {
-   bottom: 0;
-   right: 0;
-   position: relative;
-   color: $offcanvas-background;
-}
-.pages i {
-   color: $offcanvas-background;
-}
 .grid-block {
    overflow: inherit;
 }

@@ -51,3 +51,18 @@ ul.roles-tab li {
    height: 200px;
    margin-left: 5px;
 }
+.roles-close-button {
+   position: absolute;
+   top: 1rem;
+   right: 1rem;
+   font-size: 1.5em;
+   line-height: 0.5;
+   cursor: pointer;
+}
+.role-header {
+   padding-bottom: 0.5rem;
+}
+
+.role-body {
+   width: 102%;
+}

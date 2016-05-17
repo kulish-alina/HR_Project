@@ -150,5 +150,10 @@
    },
    "PROFILE" : {
       "CHANGE_PASS": "Change password"
+   },
+   "ROLES" : {
+      "NEW": "New role",
+      "NAME": "Enter role name",
+      "CREATE": "Create new role"
    }
 }

@@ -6,7 +6,14 @@ import {
    flatten
 } from 'lodash';
 
-export default function RolesController($scope, $element, $state, RolesService, SettingsService) {
+export default function RolesController(
+   $scope,
+   $element,
+   $state,
+   RolesService,
+   SettingsService,
+   ValidationService,
+   FoundationApi) {
    'ngInject';
 
    /*---api---*/
@@ -19,6 +26,8 @@ export default function RolesController($scope, $element, $state, RolesService, 
    vm.setFlag = _setFlag;
    vm.setAll = _setAll;
    vm.selectRole = _selectRole;
+   vm.createNewRole = _createNewRole;
+   vm.removeRole = _removeRole;
 
    /*---impl---*/
    function _init() {
@@ -73,6 +82,19 @@ export default function RolesController($scope, $element, $state, RolesService, 
          return memo;
       }, {});
    };
+
+   function _createNewRole(roleName, form) {
+      if (ValidationService.validate(form)) {
+         vm.roles[roleName] = vm.roles[roleName] || 0;
+         FoundationApi.closeActiveElements('newRoleModal');
+         _selectRole(roleName);
+         console.log(FoundationApi);
+      }
+   }
+
+   function _removeRole(roleName) {
+      vm.roles.remove(roleName);
+   }
 
    function _getFlag(roleName, bitNumber) {
       let value = 1 << bitNumber;                    // eslint-disable-line no-bitwise

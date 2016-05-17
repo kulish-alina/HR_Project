@@ -6,11 +6,25 @@
                <div class="tabs">
                   <div ng-repeat="(roleName, perms) in roles" class="tab-item" ng-bind="::roleName" ng-click="selectRole(roleName)" ng-class="{'is-active': roleName === currentRoleName}">
                   </div>
+                  <div class="tab-item" ng-class="{'is-active': roleName === currentRoleName}" ng-bind="::('ROLES.NEW'|translate)" zf-open="newRoleModal">
+                  </div>
+                  <div zf-modal="" id="newRoleModal">
+                     <form name="roleForm">
+                        <div class="role-header">
+                           <div ng-bind="::('ROLES.NEW'|translate)"></div>
+                           <a zf-close="" class="roles-close-button">×</a>
+                        </div>
+                        <div class="role-body">
+                           <input type="text" ng-model="name" placeholder="{{::'ROLES.NAME' | translate}}" name="roleName" validator="required, title">
+                           <a class="upload-button" ng-bind="::('ROLES.CREATE' | translate)" ng-click="createNewRole(name, roleForm)"></a>
+                        </div>
+                     </form>
+                  </div>
                </div>
             </div>
          </div>
          <div class="medium-10 grid-block">
-            <ul class ="roles-tab">
+            <ul class="roles-tab">
                <li ng-repeat="(groupName, permissions) in permissions">
                   <h5 ng-bind="::groupName"></h5>
                   <div ng-repeat="permission in permissions">

@@ -1,14 +1,28 @@
 'use strict';
 
-import vacancyService from './VacancyService';
+import  vacancyService from './VacancyService';
 
 describe('VacancyService tests for', () => {
-   let service = null;
+   let service = null;   
+   let promiseMock = {
+      when:    () => promiseMock,
+      all:     () => promiseMock,
+      then:    () => promiseMock,
+      finally: () => promiseMock,
+      reject:  () => promiseMock,
+      catch:   () => promiseMock
+   };
    let mock = {
-      get: jasmine.createSpy(),
-      post: jasmine.createSpy(),
-      put: jasmine.createSpy(),
-      remove: jasmine.createSpy()
+      get: jasmine.createSpy().and.returnValue(promiseMock),
+      post: jasmine.createSpy().and.returnValue(promiseMock),
+      put: jasmine.createSpy().and.returnValue(promiseMock),
+      remove: jasmine.createSpy().and.returnValue(promiseMock)
+   };
+   let thesaurusMock = {
+      saveThesaurusTopics: jasmine.createSpy()
+   };
+   let loggerMock = {
+      error: jasmine.createSpy()
    };
 
    beforeEach(() => {
@@ -16,6 +30,9 @@ describe('VacancyService tests for', () => {
       angular.mock.module('test');
       angular.mock.module($provide => {
          $provide.value('HttpService', mock);
+         $provide.value('ThesaurusService', thesaurusMock);
+         $provide.value('LoggerService', loggerMock);
+         $provide.value('$q', promiseMock);
       });
    });
 
@@ -58,14 +75,32 @@ describe('VacancyService tests for', () => {
       let vacancy = {
          id: 1
       };
-
+      spyOn(service, '_saveNewTopicsToThesaurus').and.callThrough();
+      spyOn(promiseMock, 'then').and.returnValue(promiseMock);
       service.saveVacancy(vacancy);
+      let response = {
+         'skills' : [],
+         'tags': []
+      };
+      let callback = promiseMock.then.calls.first().args[0];
+      callback(response);
+      promiseMock.then.calls.reset();
       expect(mock.put).toHaveBeenCalledWith(`vacancies/${vacancy.id}`, vacancy);
    });
 
    it('saveVacancy without id call test', () => {
       let vacancy = {
       };
+      spyOn(service, '_saveNewTopicsToThesaurus').and.callThrough();
+      spyOn(promiseMock, 'then').and.returnValue(promiseMock);
+      service.saveVacancy(vacancy);
+      let response = {
+         'skills' : [],
+         'tags': []
+      };
+      let callback = promiseMock.then.calls.first().args[0];
+      callback(response);
+      promiseMock.then.calls.reset();
 
       service.saveVacancy(vacancy);
       expect(mock.post).toHaveBeenCalledWith('vacancies/', vacancy);

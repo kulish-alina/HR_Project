@@ -50,11 +50,6 @@ namespace Data.EFData
             //Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
         }
 
-        public virtual void Commit()
-        {
-            this.SaveChanges();
-        }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

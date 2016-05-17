@@ -82,18 +82,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DumbData\DummyBotContext.cs" />
-    <Compile Include="DumbData\Repositories\DummyBaseEntityRepository.cs" />
-    <Compile Include="DumbData\Repositories\DummyCandidateRepository.cs" />
-    <Compile Include="DumbData\Repositories\DummyCityRepository.cs" />
-    <Compile Include="DumbData\Repositories\DummyLanguageRepository.cs" />
-    <Compile Include="DumbData\Repositories\DummySkillRepository.cs" />
-    <Compile Include="DumbData\Repositories\DummySocialNetworkRepository.cs" />
-    <Compile Include="DumbData\Repositories\DummyDepartmentRepository.cs" />
-    <Compile Include="DumbData\Repositories\DummyStageRepository.cs" />
-    <Compile Include="DumbData\Repositories\DummyUserRepository.cs" />
-    <Compile Include="DumbData\Repositories\DummyVacancyRepository.cs" />
-    <Compile Include="DumbData\Storage.cs" />
     <Compile Include="EFData\BOTContext.cs" />
     <Compile Include="EFData\Extentions\CandidateSocialExtensions.cs" />
     <Compile Include="EFData\Extentions\CandidateSourceExtensions.cs" />
@@ -147,10 +135,8 @@
     <Compile Include="EFData\Repositories\EFVacancyRepository.cs" />
     <Compile Include="EFData\Repositories\EFVacancyStageInfoRepository.cs" />
     <Compile Include="Infrasctucture\DataRepositoryFactory.cs" />
-    <Compile Include="Infrasctucture\DbFactory.cs" />
     <Compile Include="Infrasctucture\Disposable.cs" />
     <Compile Include="Infrasctucture\IDataRepositoryFactory.cs" />
-    <Compile Include="Infrasctucture\IDbFactory.cs" />
     <Compile Include="Infrasctucture\IUnitOfWork.cs" />
     <Compile Include="Infrasctucture\UnitOfWork.cs" />
     <Compile Include="Migrations\201605131142089_init.cs" />

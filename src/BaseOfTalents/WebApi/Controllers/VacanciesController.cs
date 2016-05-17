@@ -25,40 +25,6 @@ namespace WebApi.Controllers
         {
         }
 
-        public override IHttpActionResult All(HttpRequestMessage request)
-        {
-            return this.All(request);
-        }
-
-        [HttpGet]
-        // GET: api/Entities/
-        [Route("api/{controller}{pageNumber:int}")]
-        private IHttpActionResult All(HttpRequestMessage request, int? pageNumber = 1)
-        {
-            var _currentRepo = _repoFactory.GetDataRepository<Vacancy>(request);
-            return CreateResponse(request, () =>
-            {
-                var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id).ToList();
-                if (pageNumber.HasValue)
-                {
-                    var totalCount = _currentRepo.GetAll().Count();
-                    var totalPages = Math.Ceiling((double)totalCount / ENTITIES_PER_PAGE);
-                    var entities = entitiesQuery
-                                        .Skip((pageNumber.Value - 1) * ENTITIES_PER_PAGE)
-                                        .Take(ENTITIES_PER_PAGE)
-                                        .ToList()
-                                        .Select(x => DTOService.ToDTO<Vacancy, VacancyDTO>(x));
-                    return Json(new
-                    {
-                        totalCount = totalCount,
-                        totalPages = totalPages,
-                        queryResult = entities
-                    }, BOT_SERIALIZER_SETTINGS);
-                }
-                return BadRequest();
-            });
-        }
-
         public override IHttpActionResult Add(HttpRequestMessage request, [FromBody]VacancyDTO vacancy)
         {
             var _vacancyRepo = _repoFactory.GetDataRepository<Vacancy>(request);
@@ -98,6 +64,11 @@ namespace WebApi.Controllers
             });
         }
 
+        public override IHttpActionResult All(HttpRequestMessage request)
+        {
+            return this.All(request);
+        }
+
         public override IHttpActionResult Put(HttpRequestMessage request, int id, [FromBody] VacancyDTO changedEntity)
         {
             var _vacancyRepository = _repoFactory.GetDataRepository<Vacancy>(request);
@@ -134,6 +105,83 @@ namespace WebApi.Controllers
                         return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);
                     }
                 }
+            });
+        }
+
+        [HttpPost]
+        [Route("api/vacancies/search")]
+        public IHttpActionResult Search(HttpRequestMessage request, [FromBody]VacancySearchParameters searchParams)
+        {
+            var _vacancyRepository = _repoFactory.GetDataRepository<Vacancy>(request);
+
+            return CreateResponse(request, () =>
+            {
+                var vacanciesQuery = _vacancyRepository.GetAll();
+
+                if (searchParams.IndustryId.HasValue)
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.IndustryId == searchParams.IndustryId);
+                }
+                if (searchParams.UserId.HasValue)
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.ResponsibleId == searchParams.UserId);
+                }
+                if (!String.IsNullOrWhiteSpace(searchParams.Title))
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.Title.StartsWith(searchParams.Title));
+                }
+                if (searchParams.LevelIds.Any())
+                {
+                    vacanciesQuery = vacanciesQuery
+                    .Where(x => x.Levels.Any(l => searchParams.LevelIds.Contains(l.Id)));
+                }
+                if (searchParams.LocationIds.Any())
+                {
+                    vacanciesQuery = vacanciesQuery
+                    .Where(x => x.Locations.Any(loc => searchParams.LocationIds.Contains(loc.Id)));
+                }
+                if (searchParams.TypeOfEmployment.HasValue)
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.TypeOfEmployment == searchParams.TypeOfEmployment);
+                }
+                if (searchParams.VacancyState.HasValue)
+                {
+                    vacanciesQuery = vacanciesQuery.Where(x => x.State == searchParams.VacancyState);
+                }
+
+                var entities = vacanciesQuery
+                                       .ToList()
+                                       .Select(x => DTOService.ToDTO<Vacancy, VacancyDTO>(x));
+                return Json(entities, BOT_SERIALIZER_SETTINGS);
+            });
+        }
+
+        [HttpGet]
+        // GET: api/Entities/
+        [Route("api/{controller}{pageNumber:int}")]
+        private IHttpActionResult All(HttpRequestMessage request, int? pageNumber = 1)
+        {
+            var _currentRepo = _repoFactory.GetDataRepository<Vacancy>(request);
+            return CreateResponse(request, () =>
+            {
+                var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id).ToList();
+                if (pageNumber.HasValue)
+                {
+                    var totalCount = _currentRepo.GetAll().Count();
+                    var totalPages = Math.Ceiling((double)totalCount / ENTITIES_PER_PAGE);
+                    var entities = entitiesQuery
+                                        .Skip((pageNumber.Value - 1) * ENTITIES_PER_PAGE)
+                                        .Take(ENTITIES_PER_PAGE)
+                                        .ToList()
+                                        .Select(x => DTOService.ToDTO<Vacancy, VacancyDTO>(x));
+                    return Json(new
+                    {
+                        totalCount = totalCount,
+                        totalPages = totalPages,
+                        queryResult = entities
+                    }, BOT_SERIALIZER_SETTINGS);
+                }
+                return BadRequest();
             });
         }
     }

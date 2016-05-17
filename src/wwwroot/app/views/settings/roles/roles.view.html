@@ -12,11 +12,11 @@
                      <form name="roleForm">
                         <div class="role-header">
                            <div ng-bind="::('ROLES.NEW'|translate)"></div>
-                           <a zf-close="" class="roles-close-button">×</a>
+                           <a zf-close="" class="roles-close-button" ng-click="clearModalModel()">×</a>
                         </div>
                         <div class="role-body">
-                           <input type="text" ng-model="name" placeholder="{{::'ROLES.NAME' | translate}}" name="roleName" validator="required, title">
-                           <a class="upload-button" ng-bind="::('ROLES.CREATE' | translate)" ng-click="createNewRole(name, roleForm)"></a>
+                           <input type="text" ng-model="newRole.title" placeholder="{{::'ROLES.NAME' | translate}}" name="roleName" validator="required, title">
+                           <a class="upload-button" ng-bind="::('ROLES.CREATE' | translate)" ng-click="createNewRole(roleForm)"></a>
                         </div>
                      </form>
                   </div>

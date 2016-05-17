@@ -18,16 +18,19 @@ export default function RolesController(
 
    /*---api---*/
    let vm = $scope;
-   vm.roles = {};
-   vm.permissions = {};
-   vm.currentRole = {};
+   vm.roles           = {};
+   vm.permissions     = {};
+   vm.currentRole     = {};
+   vm.newRole         = {title: ''};
    vm.currentRoleName = '';
-   vm.getFlag = _getFlag;
-   vm.setFlag = _setFlag;
-   vm.setAll = _setAll;
-   vm.selectRole = _selectRole;
-   vm.createNewRole = _createNewRole;
-   vm.removeRole = _removeRole;
+   vm.getFlag         = _getFlag;
+   vm.setFlag         = _setFlag;
+   vm.setAll          = _setAll;
+   vm.selectRole      = _selectRole;
+   vm.createNewRole   = _createNewRole;
+   vm.removeRole      = _removeRole;
+
+   vm.clearModalModel = _clearModalModel;
 
    /*---impl---*/
    function _init() {
@@ -83,17 +86,24 @@ export default function RolesController(
       }, {});
    };
 
-   function _createNewRole(roleName, form) {
+   function _createNewRole(form) {
       if (ValidationService.validate(form)) {
-         vm.roles[roleName] = vm.roles[roleName] || 0;
+         vm.roles[vm.newRole.title] = vm.roles[vm.newRole.title] || 0;
          FoundationApi.closeActiveElements('newRoleModal');
-         _selectRole(roleName);
-         console.log(FoundationApi);
+         _selectRole(vm.newRole.title);
+         vm.newRole.value = 0;
+         RolesService.saveRole(vm.newRole).then(() => {
+            _clearModalModel();
+         });
       }
    }
 
-   function _removeRole(roleName) {
-      vm.roles.remove(roleName);
+   function _removeRole() {
+      //vm.roles.remove(roleName);
+   }
+
+   function _clearModalModel() {
+      vm.newRole = { title : '' };
    }
 
    function _getFlag(roleName, bitNumber) {

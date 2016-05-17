@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Routing.Constraints;
 
 namespace WebApi
 {
@@ -21,13 +22,22 @@ namespace WebApi
 
             config.Routes.MapHttpRoute(
                 name: "SearchApi",
-                routeTemplate: "api/{controller}/{action}"
+                routeTemplate: "api/{controller}/{action}",
+                defaults: new { },
+                constraints: new
+                {
+                    action = new AlphaRouteConstraint()
+                }
             );
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { id = RouteParameter.Optional },
+                constraints: new
+                {
+                    id = new IntRouteConstraint()
+                }
             );
         }
     }

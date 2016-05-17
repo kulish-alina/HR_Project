@@ -1,6 +1,6 @@
 'use strict';
 
-import thesaurusService from './ThesaurusService';
+import ThesaurusService from './ThesaurusService';
 
 import {
    forEach,
@@ -13,21 +13,11 @@ import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 describe('ThesaurusService testing: ', function() {
    let service = null;
    let promiseMock = {
-      when: function() {
-         return this;
-      },
-      all: function () {
-         return this;
-      },
-      then: function () {
-         return this;
-      },
-      finally: function () {
-         return this;
-      },
-      reject: function () {
-         return this;
-      }
+      when:    () => promiseMock,
+      all:     () => promiseMock,
+      then:    () => promiseMock,
+      finally: () => promiseMock,
+      reject:  () => promiseMock
    };
    let mockHttp = {
       get: jasmine.createSpy().and.returnValue(promiseMock),
@@ -39,30 +29,23 @@ describe('ThesaurusService testing: ', function() {
       instant: jasmine.createSpy()
    };
 
+   beforeEach(function() {
+      service = new ThesaurusService(mockHttp, promiseMock, mockTranslate);
+      mockHttp.get.calls.reset();
+      mockHttp.put.calls.reset();
+      mockHttp.post.calls.reset();
+      mockHttp.remove.calls.reset();
+      spyOn(service, 'getThesaurusTopics').and.callThrough();
+   }); 
+
    function _sendToCacheThesaurus(thesaurusName) {
       spyOn(promiseMock, 'then');
       service.getThesaurusTopics(thesaurusName);
       let callback = promiseMock.then.calls.first().args[0];
-      let response = {};
-      response[thesaurusName] = [];
-      callback(response);
+      callback({[thesaurusName]: []});
       promiseMock.then.calls.reset();  
    }
-
-   beforeEach(() => {
-      angular.module('test', []).service('ThesaurusService', thesaurusService);
-      angular.mock.module('test');
-      angular.mock.module($provide => {
-         $provide.value('HttpService', mockHttp);
-         $provide.value('$translate', mockTranslate);
-         $provide.value('$q', promiseMock);
-      });
-   });
-
-   beforeEach(inject(ThesaurusService => {
-      service = ThesaurusService;
-   }));
-
+   
    it('getThesaurusTopics not to be undefined or null', function() {
       expect(service.getThesaurusTopics).not.toBeUndefined();
       expect(service.getThesaurusTopics).not.toBeNull();
@@ -105,7 +88,6 @@ describe('ThesaurusService testing: ', function() {
    });
 
    it('test cache: http calls once', function() {
-      mockHttp.get.calls.reset();
       _sendToCacheThesaurus('languages');
       service.getThesaurusTopics('languages');
       expect(mockHttp.get.calls.count()).toEqual(1);
@@ -113,7 +95,6 @@ describe('ThesaurusService testing: ', function() {
 
    it('getThesaurusTopic with id 1 call test for simple thesaurus not existed to cache', function() {      
       const skillId = 1;
-      spyOn(service, 'getThesaurusTopics').and.callThrough();
       service.getThesaurusTopic('skills', skillId);
       expect(service.getThesaurusTopics).toHaveBeenCalledWith(`skills`);
    });
@@ -121,7 +102,6 @@ describe('ThesaurusService testing: ', function() {
    it('getThesaurusTopic with id 1 call test for simple thesaurus existed to cache', function() {
       const skillId = 1;
       _sendToCacheThesaurus('skills');
-      spyOn(service, 'getThesaurusTopics').and.callThrough();
       service.getThesaurusTopics.calls.reset();
       service.getThesaurusTopic('skills', skillId);
       expect(service.getThesaurusTopics).not.toHaveBeenCalled();
@@ -142,8 +122,6 @@ describe('ThesaurusService testing: ', function() {
    });
 
    it('saveThesaurusTopic test for only thesaurus saving', function() {
-      mockHttp.put.calls.reset();
-      mockHttp.post.calls.reset();
       service.saveThesaurusTopic('notThesaurus', {});
       expect(mockHttp.put).not.toHaveBeenCalled();
       expect(mockHttp.post).not.toHaveBeenCalled();
@@ -158,7 +136,6 @@ describe('ThesaurusService testing: ', function() {
    });
 
    it('deleteThesaurusTopic test for only thesaurus deletning', function() {
-      mockHttp.remove.calls.reset();
       service.deleteThesaurusTopic('notThesaurus', {});
       expect(mockHttp.remove).not.toHaveBeenCalled();
    });

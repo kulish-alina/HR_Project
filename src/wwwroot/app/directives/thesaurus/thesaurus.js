@@ -1,5 +1,5 @@
 import template from './thesaurus.directive.html';
-import { has, clone, assign, forEach, filter } from 'lodash';
+import { has, clone, assign, forEach, filter, isEmpty, find } from 'lodash';
 import './thesaurus.scss';
 
 export default class ThesaurusDirective {
@@ -19,13 +19,14 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($scope, ThesaurusService, $translate) {
+function ThesaurusController($scope, ThesaurusService, $translate, FileUploader) {
    'ngInject';
 
    const vm = $scope;
 
    /* --- api --- */
    vm.topics      = [];
+   vm.uploader    = _createNewUploader();
    vm.filterdFields     = {};
    vm.newTresaurusTopic = {};
    vm.fields            = [];
@@ -48,6 +49,9 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
    (function _init() {
       _initThesaurusStructure();
       _initThesaurusTopics();
+      FileUploader.FileSelect.prototype.isEmptyAfterSelection = () => {
+         return true;
+      };
    }());
 
    function isShowField(field) {
@@ -72,13 +76,19 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
    }
 
    function addNewTopic(topic) {
-      _saveThesaurusTopic(topic);
-      vm.newThesaurusTopic = {};
+      if (isEmpty(vm.uploader.getNotUploadedItems())) {
+         _saveThesaurusTopic(topic).finally(() => vm.newThesaurusTopic = {});
+      } else {
+         vm.uploader.uploadAll();
+      }
    }
 
    function saveEditTopic(topic) {
-      _saveThesaurusTopic(topic);
-      _deleteClone();
+      if (isEmpty(vm.uploader.getNotUploadedItems())) {
+         _saveThesaurusTopic(topic).then(() => _deleteClone()).catch(() => cancelThesaurusTopicEditing(topic));
+      } else {
+         vm.uploader.uploadAll();
+      }
    }
 
    function deleteThesaurusTopic(topic) {
@@ -110,7 +120,7 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
    }
 
    function _saveThesaurusTopic(topic) {
-      ThesaurusService.saveThesaurusTopic(vm.name, topic).then(_initThesaurusTopics).catch(_onError);
+      return ThesaurusService.saveThesaurusTopic(vm.name, topic).then(_initThesaurusTopics).catch(_onError);
    }
 
    function _deleteClone() {
@@ -122,6 +132,36 @@ function ThesaurusController($scope, ThesaurusService, $translate) {
          ThesaurusService.getThesaurusTopics(field.refTo)
             .then(topics => vm.additionThesaurusesStore[field.refTo] = topics).catch(_onError);
       };
+   }
+
+   function _getEditTopic() {
+      return editTopicClone ? find(vm.topics, {id: editTopicClone.id}) : vm.newThesaurusTopic;
+   }
+
+   function _createNewUploader() {
+      let newUploader = new FileUploader({
+         url: '.api/files'
+      });
+
+      function saveTopic(topic) {
+         _saveThesaurusTopic(topic)
+            .then(() => _deleteClone())
+            .catch(() => cancelThesaurusTopicEditing(topic))
+            .finally(() => vm.newThesaurusTopic = {});
+      }
+      newUploader.onSuccessItem = (item, response, status, headers) => {
+         let editTopic = _getEditTopic();
+         let imageFieldName = filter(vm.fields, {type: 'img'});
+         editTopic[imageFieldName] = response.filePath;
+         saveTopic(editTopic);
+         console.info('onSuccessItem', item, response, status, headers);
+      };
+      newUploader.onErrorItem = (fileItem, response, status, headers) => {
+         let editTopic = _getEditTopic();
+         saveTopic(editTopic);
+         console.info('onErrorItem', fileItem, response, status, headers);
+      };
+      return newUploader;
    }
 
    function _onError(message) {

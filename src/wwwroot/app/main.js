@@ -29,7 +29,7 @@ import ValidationProvider  from './services/ValidationProvider';
 
 import CandidateService  from './services/CandidateService';
 import VacancyService    from './services/VacancyService';
-import ThesaurusService  from './services/thesaurusService';
+import ThesaurusService  from './services/ThesaurusService';
 import UserService  from './services/UserService';
 
 import ThesaurusDirective   from './directives/thesaurus/thesaurus';

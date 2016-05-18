@@ -12,6 +12,18 @@ namespace Data.Migrations
 {
     public static class DummyData
     {
+
+        static DummyData()
+        {
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //    System.Diagnostics.Debugger.Launch();
+
+            Roles = GetRoles(42);
+            Users = GetUsers(150);
+            Vacancies = GetVacancies(1080);
+            Candidates = GetCandidates(31337);
+        }
+
         public static readonly List<Skill> Skills = new List<Skill>()
             {
                 new Skill { Title="SQL" },
@@ -120,6 +132,16 @@ namespace Data.Migrations
                 new Language { Title="Polish" }
             };
 
+        public static readonly List<LanguageSkill> LanguageSkills = new List<LanguageSkill>
+        {
+            new LanguageSkill {Language = Languages[0], LanguageLevel = LanguageLevel.Beginner },
+            new LanguageSkill {Language = Languages[0], LanguageLevel = LanguageLevel.Advanced },
+            new LanguageSkill {Language = Languages[0], LanguageLevel = LanguageLevel.Fluent },
+            new LanguageSkill {Language = Languages[0], LanguageLevel = LanguageLevel.Intermediate },
+            new LanguageSkill {Language = Languages[0], LanguageLevel = LanguageLevel.PreIntermediate },
+            new LanguageSkill {Language = Languages[0], LanguageLevel = LanguageLevel.UpperIntermediate }
+        };
+
         public static readonly List<Country> Countries = new List<Country>()
             {
                 new Country { Title="Ukraine" }
@@ -206,18 +228,44 @@ namespace Data.Migrations
                 new Photo {Description="photo 9", ImagePath=@"~\images\ph19.jpg" }
             };
 
-        public static readonly List<Role> Roles = GetRoles(25);
+        public static readonly List<SocialNetwork> Socials = new List<SocialNetwork>
+        {
+            new SocialNetwork { ImagePath = GetRandomNumbers(12), Title="Facebook"},
+            new SocialNetwork { ImagePath = GetRandomNumbers(12), Title="VK"},
+            new SocialNetwork { ImagePath = GetRandomNumbers(12), Title="LinkedIn"},
+            new SocialNetwork { ImagePath = GetRandomNumbers(12), Title="MySpace"}
+        };
 
-        public static readonly List<User> Users = GetUsers(152);
-
+        public static List<User> Users;
         private static List<User> GetUsers(int count)
         {
-            var users = new List<User>
-            {
+            var users = new List<User>();
 
-            };
+            for (int i = 0; i < count; i++)
+            {
+                users.Add(
+                    new User
+                    {
+                        BirthDate = DateTime.Now.AddYears(-rnd.Next(20, 40)),
+                        Email = string.Format("{0}@{1}.ua", GetRandomString(8), GetRandomString(6)),
+                        FirstName = names.GetRandom(),
+                        isMale = true,
+                        LastName = lastNames.GetRandom(),
+                        Location = Locations.GetRandom(),
+                        Login = GetRandomString(4),
+                        MiddleName = names.GetRandom(),
+                        Password = GetRandomString(8),
+                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = GetRandomNumbers(7) } },
+                        Photo = Photos.GetRandom(),
+                        Role = Roles.GetRandom(),
+                        Skype = GetRandomString(8),
+                    }
+                    );
+            }
+            return users;
         }
 
+        public static List<Role> Roles;
         private static List<Role> GetRoles(int count)
         {
             var roles = new List<Role>();
@@ -238,11 +286,124 @@ namespace Data.Migrations
             }
             return roles;
         }
+        public static List<Vacancy> Vacancies;
+        private static List<Vacancy> GetVacancies(int count)
+        {
+            List<Vacancy> vacancies = new List<Vacancy>();
+            for (int i = 0; i < count; i++)
+            {
+                vacancies.Add(
+                    new Vacancy
+                    {
+                        DeadlineDate = DateTime.Now.AddDays(rnd.Next(-40, 40)),
+                        Department = Departments.GetRandom(),
+                        Description = GetRandomString(250),
+                        Industry = Industries.GetRandom(),
+                        LanguageSkill = LanguageSkills.GetRandom(),
+                        Levels = Levels.Take(rnd.Next(Levels.Count)).ToList(),
+                        Locations = Locations.Take(rnd.Next(Levels.Count)).ToList(),
+                        RequiredSkills = Skills.Take(rnd.Next(Skills.Count)).ToList(),
+                        Responsible = Users.GetRandom(),
+                        SalaryMax = rnd.Next(1000, 2000),
+                        SalaryMin = rnd.Next(0, 1000),
+                        StartDate = DateTime.Now.AddDays(rnd.Next(-80, -40)),
+                        Title = professons.GetRandom(),
+                        TypeOfEmployment = TypeOfEmployment.FullTime,
+                        EndDate = DateTime.Now.AddDays(rnd.Next(30)),
+                    }
+                    );
+            }
+            return vacancies;
+        }
+
+        public static readonly List<Candidate> Candidates;
+        private static List<Candidate> GetCandidates(int count)
+        {
+            var candidates = new List<Candidate>();
+
+            for (int i = 0; i < count; i++)
+            {
+                Candidate candidate = new Candidate()
+                {
+                    LocationId = rnd.Next(1, Locations.Count - 1),
+                    BirthDate = DateTime.Now.AddYears(rnd.Next(-40, -20)),
+                    Comments = new List<Comment> { },
+                    Education = GetRandomString(15),
+                    FirstName = names.GetRandom(),
+                    IndustryId = rnd.Next(1, Industries.Count - 1),
+                    Description = professons.GetRandom(),
+                    Email = string.Format("{0}@{1}.me", GetRandomString(5), GetRandomString(6)),
+                    Files = new List<File>() { },
+                    IsMale = true,
+                    LanguageSkills = new List<LanguageSkill>() { LanguageSkills.GetRandom() },
+                    LastName = lastNames.GetRandom(),
+                    MiddleName = names.GetRandom(),
+                    PhoneNumbers = new List<PhoneNumber>() { },
+                    Photo = new Photo() { Description = GetRandomString(25), ImagePath = GetRandomNumbers(25) },
+                    PositionDesired = professons.GetRandom(),
+                    Practice = GetRandomString(20),
+                    RelocationAgreement = true,
+                    SalaryDesired = rnd.Next(300, 3000),
+                    Skills = new List<Skill>() { Skills.GetRandom() },
+                    Skype = "skyper133",
+                    //SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() {SocialNetwork = Socials.GetRandom(), Path = GetRandomString(15) } },
+                    Sources = new List<CandidateSource>() { new CandidateSource() { Source = Source.WorkUa, Path = "Path" } },
+                    StartExperience = DateTime.Now.AddYears(-rnd.Next(10)),
+                    Tags = new List<Tag>(),
+                    TypeOfEmployment = TypeOfEmployment.FullTime,
+                    VacanciesProgress = new List<VacancyStageInfo>() { }
+                };
+                candidates.Add(candidate);
+            }
+            return candidates;
+        }
 
         static Random rnd = new Random();
         public static T GetRandom<T>(this List<T> list)
         {
-            return list[rnd.Next(list.Count)];
+            return list[rnd.Next(list.Count - 1)];
         }
+
+        private static string GetRandomString(int count)
+        {
+            var random = new Random();
+            var chars = "abcdefghijklmnopqrstuvwxyz";
+            var stringChars = new char[count];
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+            return new String(stringChars);
+        }
+        private static string GetRandomNumbers(int count)
+        {
+            var random = new Random();
+            var nums = "1234567890";
+            var stringChars = new char[count];
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = nums[random.Next(nums.Length)];
+            }
+
+            return new String(stringChars);
+        }
+
+        private readonly static List<string> names = new List<string> { "Велизар", "Велимир", "Венедикт", "Вениамин", "Венцеслав", "Веньямин", "Викентий",
+            "Виктор", "Викторий", "Викул", "Викула", "Вилен", "Виленин", "Вильгельм", "Виссарион", "Вит", "Виталий", "Витовт", "Витольд",
+            "Владилен", "Владимир", "Владислав", "Владлен", "Влас", "Власий", "Вонифат", "Вонифатий", "Всеволод", "Всеслав", "Вукол", "Вышеслав",
+            "Вячеслав", "Гавриил", "Гаврил", "Гаврила", "Галактион", "Гедеон", "Гедимин", "Геласий", "Гелий", "Геннадий", "Генрих", "Георгий",
+            "Герасим", "Гервасий", "Герман", "Гермоген", "Геронтий", "Гиацинт", "Глеб", "Гораций", "Горгоний", "Гордей", "Гостомысл", "Гремислав",
+            "Григорий", "Гурий", "Гурьян", "Давид", "Давыд", "Далмат", "Даниил", "Данил", "Данила", "Дементий", "Демид", "Демьян", "Денис",
+            "Денисий", "Димитрий", "Диомид", "Дионисий", "Дмитрий", "Добромысл", "Добрыня", "Довмонт", "Доминик", "Донат", "Доримедонт",
+            "Дормедонт", "Дормидбнт", "Дорофей", "Досифей", "Евгений", "Евграф", "Евграфий", "Евдоким", "Евлампий", "Евлогий", "Евмен",
+            "Евмений", "Евсей", "Евстафий", "Евстахий", "Евстигней", "Евстрат", "Евстратий" };
+        private readonly static List<string> lastNames = new List<string>{"Иванов","Смирнов","Кузнецов","Попов","Васильев","Петров","Соколов","Михайлов",
+            "Новиков","Фёдоров","Морозов","Волков","Алексеев","Лебедев","Семёнов","Егоров","Павлов","Козлов","Степанов","Николаев","Орлов",
+            "Андреев","Макаров","Никитин","Захаров"};
+        private static readonly List<string> professons = new List<string> { "Страховой аналитик", "Аудиолог", "Математик", "Статистик",
+            "Специалист в области биомедицины", "Научный аналитик", "Стоматолог-гигиенист", "Инженер-программист", "Терапевт",
+            "Специалист компьютерных систем", "Журналист", "Лесоруб", "Военнослужащий в нижних воинских званиях", "Шеф-повар",
+            "Конферансье (тамада, шоумен и прочие смежные профессии)", "Фоторепортер", "Редактор", "Водитель такси", "Пожарный", "Почтовый курьер" };
+
     }
 }

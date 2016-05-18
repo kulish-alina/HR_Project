@@ -83,8 +83,8 @@ angular
    .directive('contacts',  ContactInfoDirective.createInstance)
    .directive('ngThumb',   CanvasPreviewDirective)
 
-   .filter('tel',     PhoneFormatFilter)
-   .filter('arrShow', ArrayShowFilter)
+   .filter('tel',           PhoneFormatFilter)
+   .filter('arrayAsString', ArrayShowFilter)
 
    .run(StateRunner)
 

@@ -46,7 +46,17 @@
       "EVENTS": "Events",
       "NOTES": "Notes",
       "COMMENTS": "Comments",
-      "EDIT" : "Edit",
+      "EDIT": "Edit",
+      "LAST": "Last Name",
+      "FIRST": "First Name",
+      "MIDDLE": "Middle Name",
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "CITY": "City",
+      "EMAIL": "Email",
+      "SKYPE": "Skype",
+      "PHONE": "Phone number",
+      "BIRTH": "Birth day",
       "REMOVE" : "Remove",
       "TITLE": "Title",
       "INDUSTRY": "Industry",
@@ -73,6 +83,7 @@
       "TAGS": "Tags",
       "PHONE_NUMBERS": "Phone numbers",
       "UPLOAD": "Upload",
+      "UPLOAD_PHOTO": "Upload photo",
       "DATE_OF_BIRTH": "Date of Birth"
    },
    "THESAURUSES" : {
@@ -90,7 +101,7 @@
    },
    "VALIDATION": {
       "required": {
-         "error": "*this should be Required!!",
+         "error": "*Required!",
          "success": "It's Required"
       },
       "url": {
@@ -127,5 +138,23 @@
       "thesaurusErrors" : {
          "incorrectNameMsg" : "Thesaurus name is incorrect."
       }
+   },
+   "SETTINGS" : {
+      "SETTINGS": "Settings",
+      "PROFILE" : "Profile",
+      "MEMBERS" : "Team members",
+      "ROLES" : "Roles",
+      "RECRUITING" : "Recruiting settings",
+      "PASS" : "Your password",
+      "NEW_PASS" : "New password",
+      "CONFIRM_PASS" : "Confirm new password"
+   },
+   "PROFILE" : {
+      "CHANGE_PASS": "Change password"
+   },
+   "ROLES" : {
+      "NEW": "New role",
+      "NAME": "Enter role name",
+      "CREATE": "Create new role"
    }
 }

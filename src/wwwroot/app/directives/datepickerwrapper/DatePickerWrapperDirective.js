@@ -12,6 +12,7 @@ export default class DatePickerWrapperDirective {
       this.scope = {
          datemodel   : '=',
          datemin     : '=',
+         dateset     : '=',
          placeholder : '@'
       };
    }

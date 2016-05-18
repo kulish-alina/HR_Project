@@ -42,7 +42,9 @@ import ContactInfoDirective   from './directives/contacts/ContactInfo';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 
 import uiMask from 'angular-ui-mask';
-import phoneFormatFilter from './filters/PhoneFormatFilter';
+
+import PhoneFormatFilter from './filters/PhoneFormatFilter';
+import ArrayShowFilter   from './filters/ArrayShowFilter';
 
 import StateRunner from './state-runner';
 
@@ -81,7 +83,8 @@ angular
    .directive('contacts',  ContactInfoDirective.createInstance)
    .directive('ngThumb',   CanvasPreviewDirective)
 
-   .filter('tel', phoneFormatFilter)
+   .filter('tel',     PhoneFormatFilter)
+   .filter('arrShow', ArrayShowFilter)
 
    .run(StateRunner)
 

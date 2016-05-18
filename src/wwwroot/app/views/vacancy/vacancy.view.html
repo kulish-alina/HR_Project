@@ -115,7 +115,7 @@
                <div class="grid-block">
                   <div class="medium-6 grid-block">
                      <fieldset>
-                        <input type="file" nv-file-select="" multiple uploader="uploader">
+                        <input id="file-upload" type="file" nv-file-select="" multiple uploader="uploader">
                         <p claas="validation-invalid" ng-show="errorMessageFromFileUploader">{{errorMessageFromFileUploader}}</p>
                         <table class="upload-table" ng-hide="!uploader.queue.length">
                            <thead>

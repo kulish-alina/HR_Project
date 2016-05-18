@@ -10,6 +10,13 @@ import {
 } from 'lodash';
 const VACANCY_URL = 'vacancies/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate'];
+const MAP_LIST_THESAURUS = {
+   'industries' : 'industryId',
+   'levels': 'levelIds',
+   'locations': 'locationIds',
+   'typesOfEmployment': 'typeOfEmployment',
+   'entityStates': 'state'
+};
 let _HttpService;
 let _ThesaurusService;
 let _$q;
@@ -84,6 +91,7 @@ export default class VacancyService {
    }
 
    saveVacancy(entity) {
+      console.log(entity);
       entity = clone(entity);
       each(DATE_TYPE, (type) => {
          entity[type] = utils.formatDateToServer(entity[type]);
@@ -107,14 +115,17 @@ export default class VacancyService {
             entity[mapEntity2[vacancyKey]] = map(entity[vacancyKey], 'id');
             delete entity[vacancyKey];
          });
-
          if (entity.id) {
             const additionalUrl = VACANCY_URL + entity.id;
+            delete entity.createdOn;
+            each(MAP_LIST_THESAURUS, (thesaurusKey, thesaurusName) => {
+               delete entity[thesaurusName];
+            });
             return _HttpService.put(additionalUrl, entity);
          } else {
             return _HttpService.post(VACANCY_URL, entity);
          }
-      }).then(_changeFormateToFrontend).catch(this._onError);
+      }).then((_entity) => this._changeFormateToFrontend(_entity)).catch(this._onError);
    }
 
    deleteVacancy(entity) {
@@ -122,20 +133,13 @@ export default class VacancyService {
          throw new Error('Id should be specified');
       } else {
          const additionalUrl = VACANCY_URL + entity.id;
-         _HttpService.remove(additionalUrl, entity);
+         return _HttpService.remove(additionalUrl, entity);
       }
    }
 
    _convertIdsToEntities(entity) {
       _UserService.getUser(entity.responsibleId).then((user) => entity.responsible = user);
-      let mapListThesauruses = {
-         'industries' : 'industryId',
-         'levels': 'levelIds',
-         'locations': 'locationIds',
-         'typesOfEmployment': 'typeOfEmployment',
-         'entityStates': 'state'
-      };
-      each(mapListThesauruses, (thesaurusKey, thesaurusName) => {
+      each(MAP_LIST_THESAURUS, (thesaurusKey, thesaurusName) => {
          _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, entity[thesaurusKey]).then((promise) => {
             entity[thesaurusName] = promise;
          });
@@ -147,11 +151,13 @@ export default class VacancyService {
    _addCreatedOnDate(dates) {
       return dates.concat([ 'createdOn' ]);
    }
+
+   _changeFormateToFrontend(_entity) {
+      each(DATE_TYPE, (type) => {
+         _entity[type] = utils.formatDateFromServer(_entity[type]);
+      });
+      console.log('this._convertIdsToEntities(_entity)', this._convertIdsToEntities(_entity));
+      return this._convertIdsToEntities(_entity);
+   }
 }
 
-function _changeFormateToFrontend(_entity) {
-   each(DATE_TYPE, (type) => {
-      _entity[type] = utils.formatDateFromServer(_entity[type]);
-   });
-   return _entity;
-}

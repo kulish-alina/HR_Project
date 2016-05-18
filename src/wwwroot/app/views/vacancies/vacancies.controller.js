@@ -6,7 +6,8 @@ export default function VacanciesController(
    VacancyService,
    ThesaurusService,
    $q,
-   UserService
+   UserService,
+   $state
    ) {
    'ngInject';
 
@@ -38,23 +39,21 @@ export default function VacanciesController(
    function getVacancies() {
       VacancyService.getVacancies().then(value => {
          vm.vacancies = value;
-         console.log(vm.vacancies.countOfPages);
       }).catch(_onError);
    }
 
    function getVacancy(vacancyId) {
       VacancyService.getVacancy(vacancyId).then(value => {
          vm.vacancies.push(value);
-         console.log('vm.vacancies', vm.vacancies);
       }).catch(_onError);
    }
 
-   function editVacancy(vacancy) {
-      VacancyService.saveVacancy(vacancy).catch(_onError);
+   function editVacancy(index) {
+      $state.go('vacancy', {_data: vm.vacancies[index]});
    }
 
-   function deleteVacancy(vacancy) {
-      VacancyService.deleteVacancy(vacancy);
+   function deleteVacancy(index) {
+      VacancyService.deleteVacancy(vm.vacancies[index]).then(() => delete vm.vacancies[index]);
    }
 
    function _onError() {

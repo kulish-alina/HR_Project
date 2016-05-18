@@ -55,7 +55,10 @@ export default function _config(
       .state('vacancy', {
          url: '/vacancy',
          template: vacancyTemplate,
-         controller: vacancyController
+         controller: vacancyController,
+         params: {
+            _data: null
+         }
       })
       .state('thesauruses', {
          url: '/thesauruses',

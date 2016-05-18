@@ -5,6 +5,7 @@ const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
 export default function VacancyController(
    $scope,
    $translate,
+   $state,
    VacancyService,
    ValidationService,
    FileUploader,
@@ -18,7 +19,7 @@ export default function VacancyController(
    /* --- api --- */
    vm.cancel = cancel;
    vm.saveVacancy = saveVacancy;
-   vm.vacancy = {};
+   vm.vacancy =  $state.params._data || {} ;
    vm.vacancy.fileIds = [];
    vm.thesaurus = [];
    vm.responsibles = [];
@@ -28,7 +29,13 @@ export default function VacancyController(
    vm.errorMessageFromFileUploader = '';
    /* === impl === */
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
-
+   vm.vacancy.industryId += '';
+   vm.vacancy.languageSkill = $state.params._data ? $state.params._data.languageSkill : {};
+   vm.vacancy.languageSkill.languageId += '';
+   vm.vacancy.languageSkill.languageLevel += '';
+   vm.vacancy.responsibleId += '';
+   vm.vacancy.departmentId += '';
+   vm.vacancy.typesOfEmployment = (vm.vacancy.typesOfEmployment + vm.vacancy.typeOfEmployment).toString();
    UserService.getUsers().then((users) => {
       vm.responsibles = users;
    });

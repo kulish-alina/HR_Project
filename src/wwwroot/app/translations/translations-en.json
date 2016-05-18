@@ -31,7 +31,8 @@
       "OPEN": "Open",
       "PROCESSING": "Processing",
       "CLOSED": "Closed",
-      "CANCELLED": "Canceled"
+      "CANCELLED": "Canceled",
+      "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy"
    },
    "VACANCIES": {
       "VACANCIES": "Vacancies",
@@ -78,7 +79,7 @@
       "PHONE_NUMBERS": "Phone numbers",
       "UPLOAD": "Upload",
       "DATE_OF_BIRTH": "Date of Birth",
-      "FILE_UPLOADER_ERROR_MESSAGE": "The size of file exceeds the allowable size!"
+      "FILE_UPLOADER_ERROR_MESSAGE": "The size of some file exceeds the allowable size!"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

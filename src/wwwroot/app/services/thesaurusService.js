@@ -61,7 +61,6 @@ export default class ThesaurusService {
          return filter(topics, (topic) => {
             if (isArrayIds) {
                return includes(arrIds, topic.id);
-               console.log('includes(arrIds, topic.id);', includes(arrIds, topic.id));
             } else {
                return arrIds === topic.id;
             }

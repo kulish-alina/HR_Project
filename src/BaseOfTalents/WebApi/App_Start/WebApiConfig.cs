@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Routing.Constraints;
 
 namespace WebApi
 {
@@ -18,11 +19,6 @@ namespace WebApi
             config.EnableCors(corsAtts);
             // Web API routes
             config.MapHttpAttributeRoutes();
-
-            config.Routes.MapHttpRoute(
-                name: "SearchApi",
-                routeTemplate: "api/{controller}/{action}"
-            );
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

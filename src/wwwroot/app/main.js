@@ -31,8 +31,8 @@ import ValidationProvider from './services/ValidationProvider';
 
 import CandidateService  from './services/CandidateService';
 import VacancyService    from './services/VacancyService';
+import ThesaurusService  from './services/ThesaurusService';
 import UserService       from './services/UserService';
-import ThesaurusService  from './services/thesaurusService';
 import SettingsService   from './services/SettingsService';
 import RolesService      from './services/RolesService';
 

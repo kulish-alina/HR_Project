@@ -28,7 +28,8 @@
       "INDUSTRIES" : "Отрасли",
       "SKILLS" : "Навыки",
       "TAGS" : "Теги",
-      "STAGES" : "Этапы"
+      "STAGES" : "Этапы",
+      "LEVELS" : "Уровни"
    },
    "VALIDATION" : {
       "required": {

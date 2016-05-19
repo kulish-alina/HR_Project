@@ -14,7 +14,8 @@
     "foundation-apps": ">=1.1.0",
     "foundation-icons": "*",
     "textAngular": "^1.5.0",
-    "foundation-icon-fonts": "*"
+    "foundation-icon-fonts": "*",
+    "angular-srph-age-filter": "^0.0.1"
   },
   "ignore": [
     "**/.*",

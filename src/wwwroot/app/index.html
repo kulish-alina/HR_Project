@@ -49,7 +49,7 @@
              </a>
          </li>
          <li class="disabled">
-             <a ui-sref="#">
+             <a ui-sref="settings">
                 {{::'INDEX.SETTINGS' | translate}}
                 <img class="menu-img" src="/app/images/settings.png">
              </a>
@@ -90,7 +90,7 @@
 
    <!-- Some kind of magic for webpack assets-->
    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
-   <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+   <script src="/{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
    {% } %}
 </body>
 

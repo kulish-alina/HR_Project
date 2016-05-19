@@ -9,7 +9,7 @@ import {
    curry
 } from 'lodash';
 
-import  utils from '../utils.js';
+import utils from '../utils.js';
 
 const curryLength = 3;
 

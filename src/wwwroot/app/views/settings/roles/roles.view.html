@@ -4,7 +4,9 @@
          <div class="medium-2 grid-block">
             <div class="tabs-container">
                <div class="tabs">
-                  <div ng-repeat="(roleName, perms) in roles" class="tab-item" ng-bind="::roleName" ng-click="selectRole(roleName)" ng-class="{'is-active': roleName === currentRoleName}">
+                  <div ng-repeat="(roleName, perms) in roles" class="tab-item" ng-click="selectRole(roleName)" ng-class="{'is-active': roleName === currentRoleName}">
+                     <span ng-bind="::roleName"></span>
+                     <a ng-if ="roleName === currentRoleName" class="roles-close-button" ng-click="removeRole()">×</a>
                   </div>
                   <div class="tab-item" ng-class="{'is-active': roleName === currentRoleName}" ng-bind="::('ROLES.NEW'|translate)" zf-open="newRoleModal">
                   </div>

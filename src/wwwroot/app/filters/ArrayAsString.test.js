@@ -1,4 +1,4 @@
-import ArrayShowFilter from './ArrayAsString';
+import ArrayAsString from './ArrayAsString';
 
 const arr = [{location:'Dniepropetrovsk1', email: 'antonov@mail.be1', login: 'dant1'},
              {location:'Dniepropetrovsk2', email: 'antonov@mail.be2', login: 'dant2'},
@@ -9,7 +9,7 @@ const arr = [{location:'Dniepropetrovsk1', email: 'antonov@mail.be1', login: 'da
 describe('Filter: arrayAsString', function() {
 
    beforeEach(() => {
-      angular.module('test',[]).filter('arrayAsString', ArrayShowFilter);
+      angular.module('test',[]).filter('arrayAsString', ArrayAsString);
       angular.mock.module('test');
    });
 

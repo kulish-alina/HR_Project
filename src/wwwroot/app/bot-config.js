@@ -5,7 +5,7 @@ import candidateTemplate   from './views/candidate/candidate.view.html';
 import vacanciesTemplate   from './views/vacancies/vacancies.view.html';
 import vacancyTemplate     from './views/vacancy/vacancy.view.html';
 import settingsTemplate    from './views/settings/settings.view.html';
-import thesaurusesTemplate from './views/thesauruses/thesauruses.view.html';
+import thesaurusesTemplate from './views/settings/thesauruses/thesauruses.view.html';
 import profileTemplate     from './views/settings/profile/profile.view.html';
 import profileEditTemplate from './views/settings/profile/profileEdit.view.html';
 import membersTemplate     from './views/settings/members/members.view.html';
@@ -18,7 +18,7 @@ import candidateController    from './views/candidate/candidate.controller';
 import vacanciesController    from './views/vacancies/vacancies.controller';
 import vacancyController      from './views/vacancy/vacancy.controller';
 import settingsController     from './views/settings/settings.controller';
-import thesaurusesController  from './views/thesauruses/thesauruses.controller';
+import thesaurusesController  from './views/settings/thesauruses/thesauruses.controller';
 import profileController      from './views/settings/profile/profile.controller';
 import membersController      from './views/settings/members/members.controller';
 import rolesController        from './views/settings/roles/roles.controller';
@@ -69,11 +69,6 @@ export default function _config(
          template: vacancyTemplate,
          controller: vacancyController
       })
-      .state('thesauruses', {
-         url: '/thesauruses',
-         template: thesaurusesTemplate,
-         controller: thesaurusesController
-      })
       .state('settings', {
          url: '/settings',
          template: settingsTemplate,
@@ -112,6 +107,12 @@ export default function _config(
          url: '/recruiting',
          template: recruitingTemplate,
          controller: recruitingController
+      })
+      .state('thesauruses', {
+         url: '/thesauruses',
+         parent: 'settings',
+         template: thesaurusesTemplate,
+         controller: thesaurusesController
       });
 
    $urlRouterProvider.otherwise('home');

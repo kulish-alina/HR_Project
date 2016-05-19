@@ -17,31 +17,38 @@ import 'oi.select/dist/select.min';
 import 'oi.select/dist/select-tpls.min';
 import 'oi.select/dist/select.min.css';
 
+import 'angular-srph-age-filter/angular-age-filter';
+
 import './ta';
 import './main.scss';
 
-import config from './bot-config';
+import config           from './bot-config';
 import configValidation from './config-validation';
 
-import LoggerProvider   from './services/LoggerProvider';
-import HttpProvider     from './services/HttpProvider';
-import ValidationProvider  from './services/ValidationProvider';
+import LoggerProvider     from './services/LoggerProvider';
+import HttpProvider       from './services/HttpProvider';
+import ValidationProvider from './services/ValidationProvider';
 
 import CandidateService  from './services/CandidateService';
 import VacancyService    from './services/VacancyService';
 import ThesaurusService  from './services/ThesaurusService';
-import UserService  from './services/UserService';
+import UserService       from './services/UserService';
+import SettingsService   from './services/SettingsService';
+import RolesService      from './services/RolesService';
 import FileUploaderService  from './services/FileUploaderService';
 
-import ThesaurusDirective   from './directives/thesaurus/thesaurus';
+import ThesaurusDirective     from './directives/thesaurus/thesaurus';
+import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
+import ContactInfoDirective   from './directives/contacts/ContactInfo';
+import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 
 import uiMask from 'angular-ui-mask';
 import phoneFormatFilter from './filters/PhoneFormatFilter';
 
-import DatePickerDirective from './directives/datepickerwrapper/DatePickerWrapperDirective';
-import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
+import StateRunner from './state-runner';
 
 const dependencies = [
+
    router,
    translate,
    uiMask,
@@ -51,7 +58,8 @@ const dependencies = [
    '720kb.datepicker',
    'angularFileUpload',
    'textAngular',
-   'oi.select'
+   'oi.select',
+   'srph.age-filter'
 ];
 
 angular
@@ -61,18 +69,23 @@ angular
    .provider('HttpService',       HttpProvider)
    .provider('ValidationService', ValidationProvider)
 
-   .service('CandidateService',   CandidateService)
-   .service('VacancyService',     VacancyService)
-   .service('ThesaurusService',   ThesaurusService)
-   .service('UserService',        UserService)
+   .service('CandidateService', CandidateService)
+   .service('VacancyService',   VacancyService)
+   .service('SettingsService',  SettingsService)
+   .service('UserService',      UserService)
+   .service('RolesService',     RolesService)
+   .service('ThesaurusService', ThesaurusService)
    .service('FileUploaderService',FileUploaderService)
 
+
    .directive('thesaurus', ThesaurusDirective.createInstance)
+   .directive('date',      DatePickerDirective.createInstance)
+   .directive('contacts',  ContactInfoDirective.createInstance)
+   .directive('ngThumb',   CanvasPreviewDirective)
 
    .filter('tel', phoneFormatFilter)
 
-   .directive('date', DatePickerDirective.createInstance)
-   .directive('ngThumb', CanvasPreviewDirective)
+   .run(StateRunner)
 
    .config(config)
    .config(configValidation);

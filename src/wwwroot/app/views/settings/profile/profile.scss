@@ -1,0 +1,27 @@
+@import '../../../main.scss';
+
+.button change-pass {
+   width: 100%;
+}
+.userProfile {
+   @extend .main-card;
+   min-height: $rem-base*15;
+}
+.user-profile-photo {
+   background-color: #dfdfdf;
+   background-size: 100%;
+   width: 90%;
+   height: 200px;
+   margin-bottom: 16px;
+   padding-bottom: 30%;
+   padding-top: 30%;
+   text-align: center;
+}
+.profile-info i {
+   font-size: 24px;
+}
+
+.profile-contacts {
+   width: 85%;
+   height: 200px;
+}

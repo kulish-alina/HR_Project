@@ -1,4 +1,4 @@
-import ArrayShowFilter from './ArrayShowFilter';
+import ArrayShowFilter from './ArrayAsString';
 
 const arr = [{location:'Dniepropetrovsk1', email: 'antonov@mail.be1', login: 'dant1'},
              {location:'Dniepropetrovsk2', email: 'antonov@mail.be2', login: 'dant2'},

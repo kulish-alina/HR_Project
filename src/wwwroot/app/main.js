@@ -44,7 +44,7 @@ import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 import uiMask from 'angular-ui-mask';
 
 import PhoneFormatFilter from './filters/PhoneFormatFilter';
-import ArrayShowFilter   from './filters/ArrayShowFilter';
+import ArrayAsString   from './filters/ArrayAsString';
 
 import StateRunner from './state-runner';
 
@@ -84,7 +84,7 @@ angular
    .directive('ngThumb',   CanvasPreviewDirective)
 
    .filter('tel',           PhoneFormatFilter)
-   .filter('arrayAsString', ArrayShowFilter)
+   .filter('arrayAsString', ArrayAsString)
 
    .run(StateRunner)
 

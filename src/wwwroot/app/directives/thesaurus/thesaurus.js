@@ -19,7 +19,7 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($scope, ThesaurusService, $translate, FileUploader) {
+function ThesaurusController($scope, ThesaurusService, $translate, FileUploaderService, LoggerService) {
    'ngInject';
 
    const vm = $scope;
@@ -49,9 +49,6 @@ function ThesaurusController($scope, ThesaurusService, $translate, FileUploader)
    (function _init() {
       _initThesaurusStructure();
       _initThesaurusTopics();
-      FileUploader.FileSelect.prototype.isEmptyAfterSelection = () => {
-         return true;
-      };
    }());
 
    function isShowField(field) {
@@ -73,11 +70,12 @@ function ThesaurusController($scope, ThesaurusService, $translate, FileUploader)
    function cancelThesaurusTopicEditing(topic) {
       assign(topic, editTopicClone);
       _deleteClone();
+      vm.uploader.clearQueue();
    }
 
    function addNewTopic(topic) {
       if (isEmpty(vm.uploader.getNotUploadedItems())) {
-         _saveThesaurusTopic(topic).finally(() => vm.newThesaurusTopic = {});
+         _saveThesaurusTopic(topic).finally(clearNewThesaurusTopic);
       } else {
          vm.uploader.uploadAll();
       }
@@ -85,7 +83,7 @@ function ThesaurusController($scope, ThesaurusService, $translate, FileUploader)
 
    function saveEditTopic(topic) {
       if (isEmpty(vm.uploader.getNotUploadedItems())) {
-         _saveThesaurusTopic(topic).then(() => _deleteClone()).catch(() => cancelThesaurusTopicEditing(topic));
+         _saveThesaurusTopic(topic).then(_deleteClone).catch(() => cancelThesaurusTopicEditing(topic));
       } else {
          vm.uploader.uploadAll();
       }
@@ -138,33 +136,38 @@ function ThesaurusController($scope, ThesaurusService, $translate, FileUploader)
       return editTopicClone ? find(vm.topics, {id: editTopicClone.id}) : vm.newThesaurusTopic;
    }
 
+   function clearNewThesaurusTopic() {
+      vm.newThesaurusTopic = {};
+   }
+
    function _createNewUploader() {
-      let newUploader = new FileUploader({
-         url: '.api/files'
-      });
+      let newUploader = FileUploaderService.getFileUploader();
 
       function saveTopic(topic) {
          _saveThesaurusTopic(topic)
-            .then(() => _deleteClone())
+            .then(_deleteClone)
             .catch(() => cancelThesaurusTopicEditing(topic))
-            .finally(() => vm.newThesaurusTopic = {});
+            .finally(clearNewThesaurusTopic);
       }
+
       newUploader.onSuccessItem = (item, response, status, headers) => {
          let editTopic = _getEditTopic();
          let imageFieldName = filter(vm.fields, {type: 'img'});
          editTopic[imageFieldName] = response.filePath;
          saveTopic(editTopic);
-         console.info('onSuccessItem', item, response, status, headers);
+         LoggerService.log('onSuccessItem', item, response, status, headers);
       };
       newUploader.onErrorItem = (fileItem, response, status, headers) => {
          let editTopic = _getEditTopic();
          saveTopic(editTopic);
-         console.info('onErrorItem', fileItem, response, status, headers);
+         vm.uploader.clearQueue();
+         LoggerService.log('onErrorItem', fileItem, response, status, headers);
       };
       return newUploader;
    }
 
    function _onError(message) {
+      LoggerService.error(message);
       vm.message = $translate.instant('ERRORS.someErrorMsg') + message;
    }
 }

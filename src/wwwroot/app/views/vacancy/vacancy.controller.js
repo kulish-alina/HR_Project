@@ -6,7 +6,7 @@ export default function VacancyController(
    $scope,
    VacancyService,
    ValidationService,
-   FileUploader,
+   FileUploaderService,
    ThesaurusService,
    UserService
 ) {
@@ -32,10 +32,7 @@ export default function VacancyController(
    });
 
    function createNewUploader() {
-      let newUploader = new FileUploader({
-         url: './api/files',
-         onCompleteAll: _vs
-      });
+      let newUploader = FileUploaderService.getFileUploader(_vs);
       newUploader.filters.push({
          name: 'sizeFilter',
          fn: function sizeFilter(item) {

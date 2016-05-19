@@ -31,6 +31,7 @@ import CandidateService  from './services/CandidateService';
 import VacancyService    from './services/VacancyService';
 import ThesaurusService  from './services/ThesaurusService';
 import UserService  from './services/UserService';
+import FileUploaderService  from './services/FileUploaderService';
 
 import ThesaurusDirective   from './directives/thesaurus/thesaurus';
 
@@ -64,6 +65,7 @@ angular
    .service('VacancyService',     VacancyService)
    .service('ThesaurusService',   ThesaurusService)
    .service('UserService',        UserService)
+   .service('FileUploaderService',FileUploaderService)
 
    .directive('thesaurus', ThesaurusDirective.createInstance)
 

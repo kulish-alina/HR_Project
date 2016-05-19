@@ -43,6 +43,7 @@ namespace Data.EFData
         public DbSet<Location> Locations { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Stage> Stages { get; set; }
+        public DbSet<SocialNetwork> SocialNetworks { get; set; }
 
 
         public BOTContext() : base()
@@ -57,19 +58,38 @@ namespace Data.EFData
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Configurations.Add(new CandidateConfiguration());
+            modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
+            modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
+
+            modelBuilder.Configurations.Add(new CommentConfiguration());
+            modelBuilder.Configurations.Add(new FileConfiguration());
+            modelBuilder.Configurations.Add(new RoleConfiguration());
+
             modelBuilder.Configurations.Add(new VacancyConfiguration());
             modelBuilder.Configurations.Add(new VacancyStageConfiguration());
             modelBuilder.Configurations.Add(new VacancyStageInfoConfiguration());
-            modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
-            modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
+
             modelBuilder.Configurations.Add(new UserConfiguration());
             modelBuilder.Configurations.Add(new EventConfiguration());
+
             modelBuilder.Configurations.Add(new DepartmentConfiguration());
+            modelBuilder.Configurations.Add(new DepartmentGroupConfiguration());
+            modelBuilder.Configurations.Add(new TagConfiguration());
+            modelBuilder.Configurations.Add(new StageConfiguration());
             modelBuilder.Configurations.Add(new LocationConfiguration());
+            modelBuilder.Configurations.Add(new LanguageSkillConfiguration());
+            modelBuilder.Configurations.Add(new EventTypeConfiguration());
+            modelBuilder.Configurations.Add(new PermissionConfiguration());
+            modelBuilder.Configurations.Add(new SkillConfiguration());
+            modelBuilder.Configurations.Add(new LevelConfiguration());
+            modelBuilder.Configurations.Add(new IndustryConfiguration());
+            modelBuilder.Configurations.Add(new CountryConfiguration());
+            modelBuilder.Configurations.Add(new SocialNetworkConfiguration());
+
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
             modelBuilder.Configurations.Add(new ErrorConfiguration());
-            modelBuilder.Configurations.Add(new LanguageSkillConfiguration());
             modelBuilder.Configurations.Add(new PhotoConfiguration());
+
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 

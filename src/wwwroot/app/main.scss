@@ -41,7 +41,7 @@ body {
 // Styles for main content
 .main-card {
    @include card-container();
-   width: 100%;
+   width: 99%;
    margin: $rem-base*0.5;
    height: auto;
 }
@@ -68,6 +68,22 @@ body {
 .image-container {
    margin-left: -$rem-base*19 !important;
    margin-top: $rem-base*1.875 !important;
+}
+.tabs {
+   @include tabstrip(
+      $orientation: vertical
+   );
+   @include tabstrip-item(
+	$background: $body-background,
+	$background-hover: $body-background,
+	$background-active: $body-background,
+	$color: $tab-title-color,
+	$color-active: $tab-title-color-active,
+	$padding: 0);
+   width: 100%;
+}
+i.profile-icons {
+   width: $rem-base*2;
 }
 .card-section {
    padding-top: 0 !important;

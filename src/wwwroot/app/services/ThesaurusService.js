@@ -10,10 +10,9 @@ import {
    isArray
 } from 'lodash';
 
-import  utils from '../utils.js';
+import utils from '../utils.js';
 
 const curryLength = 3;
-//const activeStateId = 2;
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 

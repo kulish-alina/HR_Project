@@ -57,19 +57,7 @@
    <div class="medium-9 grid-block">
       <div class="main-card">
          <div class="card-divider">
-            <div class="grid-block">
-               <div class="medium-4 grid-block">
-                  Vacancies
-               </div>
-               <div class="medium-4 grid-block">
-                  <label for="search" class="label-pagination">Items per page:</label>
-                  <input type="number" min="10" max="100" step="10" class="items-per-page" ng-model="pageSize">
-               </div>
-               <div class="medium-4 grid-block">
-                  <label for="search" class="label-pagination">Filter:</label>
-                  <input ng-model="q" id="search" class="filter-items" placeholder="Filter text">
-               </div>
-            </div>
+           Vacancies
          </div>
          <div class="card-section">
             <table>
@@ -95,12 +83,12 @@
                      <td>{{vacancy.responsible.lastName}}</td>
                      <td>{{vacancy.createdOn}}</td>
                      <td>
-                        <a ng-click="editVacancy($index)"><i class="foundicon-edit general-icon"></i></a>
-                        <a zf-open="dialogModal"><i class="foundicon-trash general-icon"></i></a>
-                        <div zf-modal="" id="dialogModal" overlay="false" overlay-close="false" class="tiny dialog">
-                           <p>{{::'VACANCY.VACANCY_REMOVE_MESSAGE' | translate}}: {{vacancy.title}}?</p>
+                        <a ng-click="editVacancy(vacancy)"><i class="foundicon-edit general-icon"></i></a>
+                        <a ng-click="beforeOpenModal(vacancy.id)" zf-open="dialogModal"><i class="foundicon-trash general-icon"></i></a>
+                        <div zf-modal="" id="dialogModal" overlay="false" overlay-close="false" class="modal-dialog">
+                           <p>{{::'VACANCY.VACANCY_REMOVE_MESSAGE' | translate}}: <span>{{(vacancies | filter:{id: selectedVacancyId})[0].title}}</span>?</p>
                            <a zf-close="" class="button">Cancel</a>
-                           <a ng-click="deleteVacancy($index)" zf-close="" class="button">Yes</a>
+                           <a ng-click="deleteVacancy()" zf-close="" class="button">Yes</a>
                         </div>
                      </td>
                   </tr>

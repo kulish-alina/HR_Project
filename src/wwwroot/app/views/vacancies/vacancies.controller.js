@@ -1,5 +1,9 @@
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations',
     'typesOfEmployment'];
+import {
+   remove,
+   find
+} from 'lodash';
 
 export default function VacanciesController(
    $scope,
@@ -20,6 +24,7 @@ export default function VacanciesController(
    vm.thesaurus = [];
    vm.responsibles = [];
    vm.searchVacancies = searchVacancies;
+   vm.beforeOpenModal = beforeOpenModal;
    vm.vacancy = {};
    vm.currentPage = 1;
    vm.pageSize = 10;
@@ -48,12 +53,21 @@ export default function VacanciesController(
       }).catch(_onError);
    }
 
-   function editVacancy(index) {
-      $state.go('vacancy', {_data: vm.vacancies[index]});
+   function editVacancy(vacancy) {
+      $state.go('vacancy', {_data: vacancy});
    }
 
-   function deleteVacancy(index) {
-      VacancyService.deleteVacancy(vm.vacancies[index]).then(() => delete vm.vacancies[index]);
+   function beforeOpenModal(vacancyId) {
+      console.log(vacancyId);
+      vm.selectedVacancyId = vacancyId;
+   }
+
+   function deleteVacancy() {
+      let vacancyForRemove = find(vm.vacancies, {id: vm.selectedVacancyId});
+      VacancyService.deleteVacancy(vacancyForRemove)
+         .then(() => remove(vm.vacancies, (vacancy) => {
+            return vacancy.id === vm.selectedVacancyId;
+         }));
    }
 
    function _onError() {

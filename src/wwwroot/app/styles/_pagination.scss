@@ -24,13 +24,6 @@ ul.pagination li a:hover {
    color: $primary-color;
    box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
 }
-.items-per-page {
-   margin-bottom: 0 !important;
-   margin-right: $rem-base !important;
-}
 .filter-items {
    float: right;
-}
-.label-pagination {
-   padding-right: $rem-base/2;
 }

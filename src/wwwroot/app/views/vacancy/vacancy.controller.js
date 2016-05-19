@@ -29,16 +29,17 @@ export default function VacancyController(
    vm.errorMessageFromFileUploader = '';
    /* === impl === */
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
-   vm.vacancy.industryId += '';
-   vm.vacancy.languageSkill = $state.params._data ? $state.params._data.languageSkill : {};
-   vm.vacancy.languageSkill.languageId += '';
-   vm.vacancy.languageSkill.languageLevel += '';
-   vm.vacancy.responsibleId += '';
-   vm.vacancy.departmentId += '';
-   vm.vacancy.typesOfEmployment = (vm.vacancy.typesOfEmployment + vm.vacancy.typeOfEmployment).toString();
+
    UserService.getUsers().then((users) => {
       vm.responsibles = users;
    });
+
+//   function convertVacancy () {
+//      if ($state.params._data !== undefined) {
+//         VacancyService.convertIdsToString(vm.vacancy);
+//      }
+//   }
+//   convertVacancy ();
 
    function createNewUploader() {
       let newUploader = new FileUploader({

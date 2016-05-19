@@ -6,7 +6,8 @@ import {
    map,
    mapValues,
    concat,
-   clone
+   clone,
+   isObject
 } from 'lodash';
 const VACANCY_URL = 'vacancies/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate'];
@@ -44,12 +45,12 @@ export default class VacancyService {
          }
       });
       return _HttpService.post(additionalUrl, entity).then((vacancies) => {
-         return each(vacancies, (vacancy) => {
+         return _$q.all(map(vacancies, (vacancy) => {
             each(dateFields, (type) => {
                vacancy[type] = utils.formatDateFromServer(vacancy[type]);
             });
-            return this._convertIdsToEntities(vacancy);
-         });
+            return this._convertIdsToEntities(vacancy).then(() => vacancy);
+         }));
       });
    }
 
@@ -91,7 +92,6 @@ export default class VacancyService {
    }
 
    saveVacancy(entity) {
-      console.log(entity);
       entity = clone(entity);
       each(DATE_TYPE, (type) => {
          entity[type] = utils.formatDateToServer(entity[type]);
@@ -118,6 +118,7 @@ export default class VacancyService {
          if (entity.id) {
             const additionalUrl = VACANCY_URL + entity.id;
             delete entity.createdOn;
+            delete entity.responsible;
             each(MAP_LIST_THESAURUS, (thesaurusKey, thesaurusName) => {
                delete entity[thesaurusName];
             });
@@ -125,7 +126,9 @@ export default class VacancyService {
          } else {
             return _HttpService.post(VACANCY_URL, entity);
          }
-      }).then((_entity) => this._changeFormateToFrontend(_entity)).catch(this._onError);
+      }).then((_entity) => {
+         return this._changeDatesFormateToFrontend(_entity);
+      }).then((_entity) => this.convertIdsToString(_entity)).catch(this._onError);
    }
 
    deleteVacancy(entity) {
@@ -138,26 +141,39 @@ export default class VacancyService {
    }
 
    _convertIdsToEntities(entity) {
-      _UserService.getUser(entity.responsibleId).then((user) => entity.responsible = user);
-      each(MAP_LIST_THESAURUS, (thesaurusKey, thesaurusName) => {
-         _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, entity[thesaurusKey]).then((promise) => {
+      let promises = map(MAP_LIST_THESAURUS, (thesaurusKey, thesaurusName) => {
+         return _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, entity[thesaurusKey]).then((promise) => {
             entity[thesaurusName] = promise;
          });
-      }
-      );
-      return entity;
+      });
+      promises.push(_UserService.getUser(entity.responsibleId).then((user) => entity.responsible = user));
+      return _$q.all(promises);
    }
 
    _addCreatedOnDate(dates) {
       return dates.concat([ 'createdOn' ]);
    }
 
-   _changeFormateToFrontend(_entity) {
+   _changeDatesFormateToFrontend(_entity) {
       each(DATE_TYPE, (type) => {
          _entity[type] = utils.formatDateFromServer(_entity[type]);
       });
-      console.log('this._convertIdsToEntities(_entity)', this._convertIdsToEntities(_entity));
       return this._convertIdsToEntities(_entity);
    }
-}
 
+   convertIdsToString(_entity) {
+      let listProperties = ['industryId', 'responsibleId', 'departmentId',
+                            'typeOfEmployment', 'state', 'languageSkill', 'requiredSkillIds'];
+      let listOfDeepProperties = ['languageId', 'languageLevel'];
+      each(listProperties, (entityProperty) => {
+         if (isObject(_entity[entityProperty])) {
+            each(listOfDeepProperties, property => {
+               _entity[entityProperty][property] += '';
+            });
+         } else {
+            _entity[entityProperty] += '';
+         }
+      });
+      return _entity;
+   }
+}

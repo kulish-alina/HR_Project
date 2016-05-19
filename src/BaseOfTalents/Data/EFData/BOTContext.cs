@@ -43,6 +43,7 @@ namespace Data.EFData
         public DbSet<Location> Locations { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Stage> Stages { get; set; }
+        public DbSet<SocialNetwork> SocialNetworks { get; set; }
 
 
         public BOTContext() : base()

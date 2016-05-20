@@ -69,6 +69,9 @@ namespace Data.Migrations
             context.Vacancies.AddRange(DummyData.Vacancies);
             context.SaveChanges();
 
+            context.CandidateSources.AddRange(DummyData.CandidateSources);
+            context.SaveChanges();
+
             context.Candidates.AddRange(DummyData.Candidates);
             context.SaveChanges();
 

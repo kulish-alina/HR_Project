@@ -56,7 +56,8 @@ namespace WebApi.Controllers
                             _repoFactory.GetDataRepository<Skill>(request),
                             _repoFactory.GetDataRepository<Tag>(request),
                             _repoFactory.GetDataRepository<LanguageSkill>(request),
-                            _repoFactory.GetDataRepository<VacancyStageInfo>(request));
+                            _repoFactory.GetDataRepository<VacancyStageInfo>(request),
+                            _repoFactory.GetDataRepository<File>(request));
                         _vacancyRepo.Add(_vacancy);
                         _vacancyRepo.Commit();
                         return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);
@@ -100,7 +101,8 @@ namespace WebApi.Controllers
                             _repoFactory.GetDataRepository<Skill>(request),
                             _repoFactory.GetDataRepository<Tag>(request),
                             _repoFactory.GetDataRepository<LanguageSkill>(request),
-                            _repoFactory.GetDataRepository<VacancyStageInfo>(request));
+                            _repoFactory.GetDataRepository<VacancyStageInfo>(request),
+                            _repoFactory.GetDataRepository<File>(request));
                         _vacancyRepository.Update(_vacancy);
                         _vacancyRepository.Commit();
                         return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);

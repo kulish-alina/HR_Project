@@ -20,8 +20,9 @@ export default function ProfileController (
    vm.form   = {};
    vm.user   = {};
    vm.uploader = {};
-   vm.addNewPhone       = _addNewPhone;
-   vm.cantAddNewPhone   = cantAddNewPhone;
+   vm.addNewPhone        = _addNewPhone;
+   vm.cantAddNewPhone    = _cantAddNewPhone;
+   vm.updatePhoneNumbers = _updatePhoneNumbers;
 
    /*---impl---*/
    function _init() {
@@ -68,17 +69,29 @@ export default function ProfileController (
    }
 
    function _initCurrentUser() {
-      return UserService.getCurrentUser().then((val) => {
-         vm.user = val;
-      });
+      return UserService.getCurrentUser()
+         .then((val) => {
+            vm.user = val;
+         })
+         .then(() => {
+            vm.user.phoneNumbers = vm.user.phoneNumbers || [ '' ];
+         });
    }
 
    function _addNewPhone() {
       vm.user.phoneNumbers.push('');
    }
 
-   function cantAddNewPhone() {
+   function _cantAddNewPhone() {
       return some(vm.user.phoneNumbers, (v) => v === '');
+   }
+
+   function _updatePhoneNumbers(number, index) {
+      if (number && !some(vm.user.phoneNumbers, (v) => v === number)) {
+         vm.user.phoneNumbers[index] = number;
+      } else {
+         vm.user.phoneNumbers.splice(index, 1);
+      }
    }
 }
 

@@ -152,8 +152,8 @@ function ThesaurusController($scope, ThesaurusService, $translate, FileUploaderS
 
       newUploader.onSuccessItem = (item, response, status, headers) => {
          let editTopic = _getEditTopic();
-         let imageFieldName = filter(vm.fields, {type: 'img'});
-         editTopic[imageFieldName] = response.filePath;
+         let imageField = find(vm.fields, {type: 'img'});
+         editTopic[imageField.name] = `${response.filePath}`;
          saveTopic(editTopic);
          LoggerService.log('onSuccessItem', item, response, status, headers);
       };

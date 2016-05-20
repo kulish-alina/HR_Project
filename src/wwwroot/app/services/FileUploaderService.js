@@ -15,7 +15,7 @@ export default class FileUploaderService {
          url: `${context.serverUrl}files`,
          onCompleteAll: onCompleteAllCallBack
       }) : new _FileUploader({
-         url: `${context.serverUrl}/files`
+         url: `${context.serverUrl}files`
       });
       newUploader.filters.push({
          name: 'sizeFilter',

@@ -126,5 +126,5 @@ export default function _config(
    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|skype|tel):/);
 
    LoggerServiceProvider.changeLogLevel(context.logLevel);
-   HttpServiceProvider.changeApiUrl(context.serverUrl);
+   HttpServiceProvider.changeApiUrl(context.serverUrl + context.apiSuffix);
 }

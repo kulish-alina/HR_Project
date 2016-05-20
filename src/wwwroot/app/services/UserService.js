@@ -1,5 +1,12 @@
+import {
+   find,
+   filter
+} from 'lodash';
+
 const USER_URL = 'users/';
 let _HttpService, _$q;
+let cache = [];
+let currentUser = {};
 
 export default class UserService {
    constructor(HttpService, $q) {
@@ -9,26 +16,38 @@ export default class UserService {
    }
 
    getCurrentUser() {
-      return _$q.when({
-         lastName    : 'Antonov',
-         firstName   : 'Dmitriy',
-         middleName  : 'Valentinovich',
-         isMale      : 'true',
-         birthDate   : '07.06.1989',
-         location    : 'Dnniepropetrovsk',
-         email       : 'antonov@mail.be',
-         skype       : 'antonov_skype',
-         login       : 'dant',
-         role        : 'Manager',
-         phoneNumber : '380680686868'
-      });
+      return _$q.when(currentUser);
    }
 
-   saveUser(entty) {
-      _$q.when(console.log('user saved', entty));
+   setCurrentUser(user) {
+      currentUser = user;
    }
 
-   getUsers() {
-      return _HttpService.get(USER_URL);
+   getUserById(id) {
+      let userFromCache = find(cache, {id});
+      if (userFromCache) {
+         return _$q.when(userFromCache);
+      } else {
+         return _HttpService.get(`${USER_URL}/${id}`).then(pushUserToCache);
+      }
    }
+
+   saveUser(entity) {
+      if (entity.id) {
+         return _HttpService.put(`${USER_URL}/${entity}`);
+      } else {
+         return _HttpService.post(USER_URL, entity).then(pushUserToCache);
+      }
+   }
+
+   getUsers(predicate) {
+      return _HttpService.get(USER_URL)
+         .then(users =>  cache = users)
+         .then(() => filter(cache, predicate));
+   }
+}
+
+function pushUserToCache(user) {
+   cache.push(user);
+   return user;
 }

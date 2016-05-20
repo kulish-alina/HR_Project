@@ -28,6 +28,9 @@
 .second-button-bar :hover {
    box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
 }
+.secondary-menu-button {
+   width: $rem-base*5;
+}
 .secondary-menu {
    display: flex;
    align-items: center;

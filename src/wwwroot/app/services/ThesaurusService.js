@@ -9,10 +9,9 @@ import {
    curry
 } from 'lodash';
 
-import  utils from '../utils.js';
+import utils from '../utils.js';
 
 const curryLength = 3;
-const activeStateId = 2;
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
@@ -37,7 +36,7 @@ export default class ThesaurusService {
          let mapThesaurusPromises = utils.array2map(thesaurusesToLoad, name => _HttpService.get(name));
          return _$q.all(mapThesaurusPromises).then(thesauruses => {
             forEach(thesauruses, (thesaurus, name) => {
-               cache[name] = filter(thesaurus, {state : activeStateId});
+               cache[name] = thesaurus;
                _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
             });
             return cache[thesaurusName];

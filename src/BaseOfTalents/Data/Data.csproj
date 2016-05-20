@@ -87,6 +87,7 @@
     <Compile Include="EFData\Extentions\CandidateSourceExtensions.cs" />
     <Compile Include="EFData\Extentions\DateTimeExtensions.cs" />
     <Compile Include="EFData\Extentions\LanguageSkillExtensions.cs" />
+    <Compile Include="EFData\Extentions\PagingExtention.cs" />
     <Compile Include="EFData\Extentions\PhoneNumberExtension.cs" />
     <Compile Include="EFData\Extentions\PhotoExtensions.cs" />
     <Compile Include="EFData\Extentions\RequestMessageExtensions.cs" />
@@ -145,6 +146,7 @@
       <DependentUpon>201605171325227_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\DummyData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

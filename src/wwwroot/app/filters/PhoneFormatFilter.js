@@ -42,7 +42,7 @@ export default function () {
             break;
 
          case asNumberLength: // +CCCPP####### -> CCC (PP) ###-##-##
-            country = value.slice(asCountryBlockStartIndex, asCountryBlockEndIndex);
+            country = `+${value.slice(asCountryBlockStartIndex, asCountryBlockEndIndex)}`;
             city = value.slice(asCityBlockStartIndex, asCityBlockEndIndex);
             number = value.slice(asCityBlockEndIndex);
             break;
@@ -51,10 +51,11 @@ export default function () {
             return tel;
       }
 
-      number = `${number.slice(numberFirstBlockStartIndex, numberFirstBlockEndIndex)}
-               -${number.slice(numberSecondBlockStartIndex, numberSecondBlockEndIndex)}
-               -${number.slice(numberSecondBlockEndIndex)}`;
+      number = `${
+      number.slice(numberFirstBlockStartIndex, numberFirstBlockEndIndex)}-${
+      number.slice(numberSecondBlockStartIndex, numberSecondBlockEndIndex)}-${
+      number.slice(numberSecondBlockEndIndex)}`;
 
-      return `${country} (${city}) ${number}`;
+      return `${country}(${city}) ${number}`;
    };
 }

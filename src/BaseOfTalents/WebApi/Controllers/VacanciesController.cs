@@ -6,6 +6,7 @@ using Domain.Entities.Enum.Setup;
 using Domain.Entities.Setup;
 using Domain.Repositories;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -114,9 +115,19 @@ namespace WebApi.Controllers
         {
             var _vacancyRepository = _repoFactory.GetDataRepository<Vacancy>(request);
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return CreateResponse(request, () =>
             {
                 var vacanciesQuery = _vacancyRepository.GetAll();
+                if (searchParams.PageSize == 0)
+                {
+                    searchParams.PageSize = 20;
+                }
+                var skipped = searchParams.PageSize * (searchParams.CurrentPage - 1);
 
                 if (searchParams.IndustryId.HasValue)
                 {
@@ -150,6 +161,8 @@ namespace WebApi.Controllers
                 }
 
                 var entities = vacanciesQuery
+                                        .AsNoTracking()
+                                        .Paging(skipped,searchParams.PageSize)
                                        .ToList()
                                        .Select(x => DTOService.ToDTO<Vacancy, VacancyDTO>(x));
                 return Json(entities, BOT_SERIALIZER_SETTINGS);

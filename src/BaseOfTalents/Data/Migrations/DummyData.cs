@@ -310,6 +310,7 @@ namespace Data.Migrations
                         Title = professons.GetRandom(),
                         TypeOfEmployment = TypeOfEmployment.FullTime,
                         EndDate = DateTime.Now.AddDays(rnd.Next(30)),
+                        State = EntityState.Open
                     }
                     );
             }
@@ -367,7 +368,7 @@ namespace Data.Migrations
         private static string GetRandomString(int count)
         {
             var random = new Random();
-            var chars = "abcdefghijklmnopqrstuvwxyz";
+            var chars = "abcdefghijklmnopqrstuvwxyz ";
             var stringChars = new char[count];
             for (int i = 0; i < stringChars.Length; i++)
             {

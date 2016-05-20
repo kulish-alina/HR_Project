@@ -20,12 +20,12 @@ namespace Domain.Entities
             Comments = new List<Comment>();
             Sources = new List<CandidateSource>();
         }
+
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public bool IsMale { get; set; }
         public DateTime BirthDate { get; set; }
-
         public string Email { get; set; }
         public string Skype { get; set; }
         public string PositionDesired { get; set; }

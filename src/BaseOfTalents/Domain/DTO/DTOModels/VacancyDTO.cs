@@ -12,6 +12,14 @@ namespace Domain.DTO.DTOModels
 {
     public class VacancyDTO : BaseEntityDTO
     {
+        public VacancyDTO()
+        {
+            LevelIds = new List<int>();
+            LocationIds = new List<int>();
+            RequiredSkillIds = new List<int>();
+            TagIds = new List<int>();
+            CandidatesProgress = new List<VacancyStageInfoDTO>();
+        }
         public string Title { get; set; }
         public string Description { get; set; }
         public int SalaryMin { get; set; }
@@ -25,7 +33,6 @@ namespace Domain.DTO.DTOModels
         public IEnumerable<int> LocationIds { get; set; }
         public IEnumerable<int> RequiredSkillIds { get; set; }
         public IEnumerable<VacancyStageInfoDTO> CandidatesProgress { get; set; }
-        
         public IEnumerable<int> TagIds { get; set; }
         
         public int? ParentVacancyId { get; set; }

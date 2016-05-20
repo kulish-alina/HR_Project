@@ -1,5 +1,6 @@
 ﻿using Domain.DTO.DTOModels;
 using Domain.Entities;
+using Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,31 +11,77 @@ namespace Data.EFData.Extentions
 {
     public static class UserExtensions
     {
-        public static void Update(this User domain, UserDTO dto)
+        public static void Update(this User destination, UserDTO source, IRepository<Photo> photoRepository, IRepository<PhoneNumber> phoneNumberRepository)
         {
-            domain.FirstName = dto.FirstName;
-            domain.MiddleName = dto.MiddleName;
-            domain.LastName = dto.LastName;
-            domain.isMale = dto.isMale;
-            domain.BirthDate = dto.BirthDate;
-            domain.Email = dto.Email;
-            domain.Skype = dto.Skype;
-            domain.Login = dto.Login;
-            domain.Password = dto.Password;
-            domain.RoleId = dto.RoleId;
-            domain.Photo = new Photo {
-                Id = dto.Photo.Id,
-                Description = dto.Photo.Description,
-                ImagePath = dto.Photo.ImagePath,
-                State = dto.Photo.State
-            };
-            domain.LocationId = dto.LocationId;
-            domain.PhoneNumbers = dto.PhoneNumbers.Select(x => new PhoneNumber()
+            destination.FirstName = source.FirstName;
+            destination.MiddleName = source.MiddleName;
+            destination.LastName = source.LastName;
+            destination.isMale = source.isMale;
+            destination.BirthDate = source.BirthDate;
+            destination.Email = source.Email;
+            destination.Skype = source.Skype;
+            destination.Login = source.Login;
+            destination.Password = source.Password;
+            destination.RoleId = source.RoleId;
+            destination.LocationId = source.LocationId;
+
+            PerformPhotoSaving(destination, source, photoRepository);
+            PerformPhoneNumbersSaving(destination, source, phoneNumberRepository);
+        }
+
+        private static void PerformPhoneNumbersSaving(User destination, UserDTO source, IRepository<PhoneNumber> phoneNumberRepository)
+        {
+            RefreshExistingPhoneNumbers(destination, source, phoneNumberRepository);
+            CreateNewPhoneNumbers(destination, source);
+        }
+        private static void CreateNewPhoneNumbers(User destination, UserDTO source)
+        {
+            source.PhoneNumbers.Where(x => x.IsNew()).ToList().ForEach(newPhoneNumber =>
             {
-                Id = x.Id,
-                Number = x.Number,
-                State = x.State
-            }).ToList();
+                var toDomain = new PhoneNumber();
+                toDomain.Update(newPhoneNumber);
+                destination.PhoneNumbers.Add(toDomain);
+            });
+        }
+        private static void RefreshExistingPhoneNumbers(User destination, UserDTO source, IRepository<PhoneNumber> phoneNumberRepository)
+        {
+            source.PhoneNumbers.Where(x => !x.IsNew()).ToList().ForEach(updatedPhoneNumber =>
+            {
+                var domainPhoneNumber = destination.PhoneNumbers.FirstOrDefault(x => x.Id == updatedPhoneNumber.Id);
+                if (domainPhoneNumber == null)
+                {
+                    throw new ArgumentNullException("Request contains unknown entity");
+                }
+                if (updatedPhoneNumber.ShouldBeRemoved())
+                {
+                    phoneNumberRepository.Remove(updatedPhoneNumber.Id);
+                }
+                else
+                {
+                    domainPhoneNumber.Update(updatedPhoneNumber);
+                }
+            });
+        }
+
+        private static void PerformPhotoSaving(User destination, UserDTO source, IRepository<Photo> photoRepository)
+        {
+            if (source.Photo != null)
+            {
+                if (source.Photo.IsNew())
+                {
+                    var photoBd = photoRepository.Get(source.Photo.Id);
+                    photoBd.Update(source.Photo);
+                    destination.Photo = photoBd;
+                }
+                else if (source.Photo.ShouldBeRemoved())
+                {
+                    photoRepository.Remove(destination.Photo.Id);
+                }
+                else
+                {
+                    destination.Photo.Update(source.Photo);
+                }
+            }
         }
     }
 }

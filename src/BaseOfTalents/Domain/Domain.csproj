@@ -50,7 +50,6 @@
     <Compile Include="DTO\DTOModels\CandidateSocialDTO.cs" />
     <Compile Include="DTO\DTOModels\CandidateSourceDTO.cs" />
     <Compile Include="DTO\DTOModels\CommentDTO.cs" />
-    <Compile Include="DTO\DTOModels\Error.cs" />
     <Compile Include="DTO\DTOModels\EventDTO.cs" />
     <Compile Include="DTO\DTOModels\FileDTO.cs" />
     <Compile Include="DTO\DTOModels\LanguageSkillDTO.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="DTO\DTOModels\SetupDTO\TagDTO.cs" />
     <Compile Include="DTO\DTOModels\UserDTO.cs" />
     <Compile Include="DTO\DTOModels\VacancyDTO.cs" />
+    <Compile Include="DTO\DTOModels\VacancySearchParameters.cs" />
     <Compile Include="DTO\DTOModels\VacancyStageDTO.cs" />
     <Compile Include="DTO\DTOModels\VacancyStageInfoDTO.cs" />
     <Compile Include="Entities\BaseEntity.cs" />

@@ -65,6 +65,9 @@ namespace WebApi
                 x.CreateMap<Tag, TagDTO>();
                 x.CreateMap<TagDTO, Tag>();
 
+                x.CreateMap<File, FileDTO>();
+                x.CreateMap<FileDTO, File>();
+
                 x.CreateMap<CandidateSource, CandidateSourceDTO>();
                 x.CreateMap<CandidateSourceDTO, CandidateSource>();
 

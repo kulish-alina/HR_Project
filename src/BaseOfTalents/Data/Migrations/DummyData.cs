@@ -80,50 +80,50 @@ namespace Data.Migrations
 
         public static readonly List<Department> Departments = new List<Department>()
             {
-                  new Department { Title = "Contract Programming",  DepartmentGroup = DepartmentGroups[0]},
-                  new Department { Title = "Sites Design",          DepartmentGroup = DepartmentGroups[0]},
-                  new Department { Title = "Web apps",              DepartmentGroup = DepartmentGroups[0]},
-                  new Department { Title = "Accounting",            DepartmentGroup = DepartmentGroups[1]},
-                  new Department { Title = "Administration",        DepartmentGroup = DepartmentGroups[1]},
-                  new Department { Title = "Executives",            DepartmentGroup = DepartmentGroups[1]},
-                  new Department { Title = "DevWorkshop",           DepartmentGroup = DepartmentGroups[1]},
-                  new Department { Title = "HR",                    DepartmentGroup = DepartmentGroups[1]},
-                  new Department { Title = "Managers",              DepartmentGroup = DepartmentGroups[1]},
-                  new Department { Title = "Managers",              DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "QA",                    DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "UPM",                   DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "EPE",                   DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Soft Web",              DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "AR",                    DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Bank/Donor",            DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "iTMS",                  DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Genetics 1",            DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Genetics 2",            DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Genetics 3",            DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Genetics 5",            DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Genetics Analysts",     DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Genetics Autotesting",  DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "HLA",                   DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Portal",                DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Regr.Testing",          DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Total QC",              DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "CM",                    DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "DBA",                   DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "MIS Tech Support",      DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "SA",                    DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "SE",                    DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Architects",            DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "BI",                    DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "CSF",                   DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Interfaces",            DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Lab 5.0",               DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "LabMic",                DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Mic 5.0",               DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "RNV",                   DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Reports",               DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Genetics Support",      DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Support",               DepartmentGroup = DepartmentGroups[2]},
-                  new Department { Title = "Update",                DepartmentGroup = DepartmentGroups[2]},
+                  new Department { Title = "Contract Programming",  DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Sites Design",          DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Web apps",              DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Accounting",            DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Administration",        DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Executives",            DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "DevWorkshop",           DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "HR",                    DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Managers",              DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Managers",              DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "QA",                    DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "UPM",                   DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "EPE",                   DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Soft Web",              DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "AR",                    DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Bank/Donor",            DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "iTMS",                  DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Genetics 1",            DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Genetics 2",            DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Genetics 3",            DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Genetics 5",            DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Genetics Analysts",     DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Genetics Autotesting",  DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "HLA",                   DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Portal",                DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Regr.Testing",          DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Total QC",              DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "CM",                    DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "DBA",                   DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "MIS Tech Support",      DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "SA",                    DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "SE",                    DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Architects",            DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "BI",                    DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "CSF",                   DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Interfaces",            DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Lab 5.0",               DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "LabMic",                DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Mic 5.0",               DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "RNV",                   DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Reports",               DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Genetics Support",      DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Support",               DepartmentGroup = DepartmentGroups.GetRandom()},
+                  new Department { Title = "Update",                DepartmentGroup = DepartmentGroups.GetRandom()},
             };
 
         public static readonly List<Language> Languages = new List<Language>()
@@ -240,7 +240,7 @@ namespace Data.Migrations
         private static List<User> GetUsers(int count)
         {
             var users = new List<User>();
-
+            Random rnd = new Random();
             for (int i = 0; i < count; i++)
             {
                 users.Add(
@@ -289,6 +289,7 @@ namespace Data.Migrations
         public static List<Vacancy> Vacancies;
         private static List<Vacancy> GetVacancies(int count)
         {
+            Random rnd = new Random();
             List<Vacancy> vacancies = new List<Vacancy>();
             for (int i = 0; i < count; i++)
             {
@@ -302,7 +303,7 @@ namespace Data.Migrations
                         LanguageSkill = LanguageSkills.GetRandom(),
                         Levels = Levels.Take(rnd.Next(Levels.Count)).ToList(),
                         Locations = Locations.Take(rnd.Next(Levels.Count)).ToList(),
-                        RequiredSkills = Skills.Take(rnd.Next(Skills.Count)).ToList(),
+                        RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), rnd.Next(5)).Distinct().ToList(),
                         Responsible = Users.GetRandom(),
                         SalaryMax = rnd.Next(1000, 2000),
                         SalaryMin = rnd.Next(0, 1000),
@@ -310,16 +311,27 @@ namespace Data.Migrations
                         Title = professons.GetRandom(),
                         TypeOfEmployment = TypeOfEmployment.FullTime,
                         EndDate = DateTime.Now.AddDays(rnd.Next(30)),
+                        Tags = Enumerable.Repeat(Tags.GetRandom(), rnd.Next(5)).Distinct().ToList(),
+                        
+                        State = EntityState.Open
                     }
                     );
             }
             return vacancies;
         }
 
+        public static readonly List<CandidateSource> CandidateSources = new List<CandidateSource>
+        {
+            new CandidateSource() { Source = Source.WorkUa, Path = "Path Work" },
+            new CandidateSource() { Source = Source.Djinni, Path = "Path Jinn" },
+            new CandidateSource() { Source = Source.RabotaUa, Path = "Path Rabota" }
+        };
+
         public static readonly List<Candidate> Candidates;
         private static List<Candidate> GetCandidates(int count)
         {
             var candidates = new List<Candidate>();
+            Random rnd = new Random();
 
             for (int i = 0; i < count; i++)
             {
@@ -335,19 +347,19 @@ namespace Data.Migrations
                     Email = string.Format("{0}@{1}.me", GetRandomString(5), GetRandomString(6)),
                     Files = new List<File>() { },
                     IsMale = true,
-                    LanguageSkills = new List<LanguageSkill>() { LanguageSkills.GetRandom() },
+                    LanguageSkills = Enumerable.Repeat(LanguageSkills.GetRandom(), rnd.Next(5)).Distinct().ToList(),
                     LastName = lastNames.GetRandom(),
                     MiddleName = names.GetRandom(),
-                    PhoneNumbers = new List<PhoneNumber>() { },
+                    PhoneNumbers = Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, rnd.Next(5)).Distinct().ToList(),
                     Photo = new Photo() { Description = GetRandomString(25), ImagePath = GetRandomNumbers(25) },
                     PositionDesired = professons.GetRandom(),
                     Practice = GetRandomString(20),
                     RelocationAgreement = true,
                     SalaryDesired = rnd.Next(300, 3000),
-                    Skills = new List<Skill>() { Skills.GetRandom() },
-                    Skype = "skyper133",
+                    Skills = Enumerable.Repeat(Skills.GetRandom(), rnd.Next(5)).Distinct().ToList(),
+                    Skype = "skyper."+GetRandomNumbers(4),
                     //SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() {SocialNetwork = Socials.GetRandom(), Path = GetRandomString(15) } },
-                    Sources = new List<CandidateSource>() { new CandidateSource() { Source = Source.WorkUa, Path = "Path" } },
+                    Sources = Enumerable.Repeat(CandidateSources.GetRandom(), rnd.Next(5)).Distinct().ToList(),
                     StartExperience = DateTime.Now.AddYears(-rnd.Next(10)),
                     Tags = new List<Tag>(),
                     TypeOfEmployment = TypeOfEmployment.FullTime,
@@ -358,16 +370,17 @@ namespace Data.Migrations
             return candidates;
         }
 
-        static Random rnd = new Random();
+        
         public static T GetRandom<T>(this List<T> list)
         {
-            return list[rnd.Next(list.Count - 1)];
+            Random rnd = new Random();
+            return list[rnd.Next(list.Count)];
         }
 
         private static string GetRandomString(int count)
         {
             var random = new Random();
-            var chars = "abcdefghijklmnopqrstuvwxyz";
+            var chars = "abcdefghijklmnopqrstuvwxyz ";
             var stringChars = new char[count];
             for (int i = 0; i < stringChars.Length; i++)
             {

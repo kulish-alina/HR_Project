@@ -13,6 +13,8 @@ namespace Domain.DTO.DTOModels
         {
             LevelIds = new List<int>();
             LocationIds = new List<int>();
+            CurrentPage = 1;
+            PageSize = 20;
         }
         public int? UserId { get; set; }
         public int? IndustryId { get; set; }
@@ -23,5 +25,8 @@ namespace Domain.DTO.DTOModels
 
         public IEnumerable<int> LevelIds { get; set; }
         public IEnumerable<int> LocationIds { get; set; }
+
+        public int CurrentPage { get; set; }
+        public int PageSize { get; set; }
     }
 }

@@ -18,7 +18,8 @@ namespace Data.Migrations
 
         protected override void Seed(Data.EFData.BOTContext context)
         {
-
+            context.Tags.AddRange(DummyData.Tags);
+            context.SaveChanges();
 
             context.Skills.AddRange(DummyData.Skills);
             context.SaveChanges();
@@ -29,59 +30,40 @@ namespace Data.Migrations
             context.Tags.AddRange(DummyData.Tags);
             context.SaveChanges();
 
-
             context.Industries.AddRange(DummyData.Industries);
             context.SaveChanges();
-
 
             context.Levels.AddRange(DummyData.Levels);
             context.SaveChanges();
 
-
             context.DepartmentGroups.AddRange(DummyData.DepartmentGroups);
             context.SaveChanges();
-
  
             context.Departments.AddRange(DummyData.Departments);
             context.SaveChanges();
 
-
-
             context.Languages.AddRange(DummyData.Languages);
             context.SaveChanges();
 
-
+            context.LanguageSkills.AddRange(DummyData.LanguageSkills);
+            context.SaveChanges();
 
             context.Countries.AddRange(DummyData.Countries);
             context.SaveChanges();
 
-
-
             context.Locations.AddRange(DummyData.Locations);
             context.SaveChanges();
-
-
 
             context.Stages.AddRange(DummyData.Stages);
             context.SaveChanges();
 
- 
-
             context.Permissions.AddRange(DummyData.Permissions);
             context.SaveChanges();
-
 
             context.Roles.AddRange(DummyData.Roles);
             context.SaveChanges();
 
             context.Users.AddRange(DummyData.Users);
-            context.SaveChanges();
-
-            Tag tag = new Tag()
-            {
-                Title = "tag"
-            };
-            context.Tags.Add(tag);
             context.SaveChanges();
 
             context.Vacancies.AddRange(DummyData.Vacancies);

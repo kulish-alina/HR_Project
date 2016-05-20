@@ -50,10 +50,10 @@ import ArrayAsString   from './filters/ArrayAsString';
 import StateRunner from './state-runner';
 
 const dependencies = [
-
    router,
    translate,
    uiMask,
+   pagination,
    'foundation',
    'validation',
    'validation.rule',
@@ -61,7 +61,6 @@ const dependencies = [
    'angularFileUpload',
    'textAngular',
    'oi.select',
-   pagination
    'srph.age-filter'
 ];
 

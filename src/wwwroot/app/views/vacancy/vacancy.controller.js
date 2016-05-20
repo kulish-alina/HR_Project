@@ -24,26 +24,17 @@ export default function VacancyController(
    vm.thesaurus = [];
    vm.responsibles = [];
    vm.uploader = createNewUploader();
-   vm.vacancy.requiredSkills = [];
-   vm.vacancy.tags = [];
+   vm.vacancy.requiredSkills = vm.vacancy.requiredSkills || [];
+   vm.vacancy.tags = vm.vacancy.tags || [];
    vm.errorMessageFromFileUploader = '';
    /* === impl === */
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
-   UserService.getUsers().then((users) => {
-      vm.responsibles = users;
-   });
-
-//   function convertVacancy () {
-//      if ($state.params._data !== undefined) {
-//         VacancyService.convertIdsToString(vm.vacancy);
-//      }
-//   }
-//   convertVacancy ();
+   UserService.getUsers().then(users => vm.responsibles = users);
 
    function createNewUploader() {
       let newUploader = new FileUploader({
-         url: './api/files',
+         url: 'http://localhost:53031//api/files',
          onCompleteAll: _vs
       });
       newUploader.filters.push({
@@ -81,7 +72,7 @@ export default function VacancyController(
    }
 
    function _vs() {
-      VacancyService.saveVacancy(vm.vacancy).then(vacancy => {
+      VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
       });
    }

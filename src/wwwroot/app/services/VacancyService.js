@@ -1,23 +1,32 @@
 import utils  from '../utils.js';
 import {
+   assign,
+   isNumber,
+//   isArray,
    filter,
    remove,
    each,
    map,
-   mapValues,
-   concat,
-   clone,
-   isObject
+   union,
+   cloneDeep,
+   first,
+   reduce
 } from 'lodash';
 const VACANCY_URL = 'vacancies/';
-const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate'];
-const MAP_LIST_THESAURUS = {
-   'industries' : 'industryId',
-   'levels': 'levelIds',
-   'locations': 'locationIds',
-   'typesOfEmployment': 'typeOfEmployment',
-   'entityStates': 'state'
-};
+const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate', 'createdOn'];
+
+const THESAURUS = [
+   new ThesaurusHelper('tags',   'tagIds',            'tags'),
+   new ThesaurusHelper('skills', 'requiredSkillIds',  'requiredSkills'),
+
+   new ThesaurusHelper('industries',   'industryId',  'industries'),
+   new ThesaurusHelper('levels',       'levelIds',    'levels'),
+   new ThesaurusHelper('locations',    'locationIds', 'locations'),
+   new ThesaurusHelper('departments',  'departmentId', 'departments'),
+   new ThesaurusHelper('entityStates', 'state',       'entityStates'),
+   new ThesaurusHelper('typesOfEmployment', 'typeOfEmployment', 'typesOfEmployment')
+];
+
 let _HttpService;
 let _ThesaurusService;
 let _$q;
@@ -34,146 +43,130 @@ export default class VacancyService {
       _UserService = UserService;
    }
 
-   searchVacancies(entity) {
-      const dateFields = this._addCreatedOnDate(DATE_TYPE);
+   search(condition) {
+      _LoggerService.debug('search vacancies', condition);
       const searchUrl = 'search';
       const additionalUrl = VACANCY_URL + searchUrl;
-      entity = clone(entity);
-      each(entity, (property, key) => {
-         if (property === undefined) {
-            delete entity[key];
-         }
-      });
-      return _HttpService.post(additionalUrl, entity).then((vacancies) => {
-         return _$q.all(map(vacancies, (vacancy) => {
-            each(dateFields, (type) => {
-               vacancy[type] = utils.formatDateFromServer(vacancy[type]);
-            });
-            return this._convertIdsToEntities(vacancy).then(() => vacancy);
-         }));
+      return _HttpService.post(additionalUrl, condition).then(entities => {
+         return _$q.all(map(entities, this.convertFromServerFormat));
       });
    }
 
-   getVacancies() {
-      const dateFields = this._addCreatedOnDate(DATE_TYPE);
-      return _HttpService.get(VACANCY_URL).then((vacancies) => {
-         let allVacancies = vacancies.queryResult;
-         allVacancies.countOfPages = vacancies.totalPages;
-         return each(allVacancies, (vacancy) => {
-            each(dateFields, (type) => {
-               vacancy[type] = utils.formatDateFromServer(vacancy[type]);
-            });
-            return this._convertIdsToEntities(vacancy);
-         });
-      });
+   convertFromServerFormat(vacancy) {
+      vacancy = _convertFromServerDates(vacancy);
+      vacancy.responsibleId = toString(vacancy.responsibleId);
+      return _$q.all([_fillThesauruses(vacancy), _fillUser(vacancy)]).then(first);
    }
 
-   getVacancy(vacancyId) {
-      const additionalUrl = VACANCY_URL + vacancyId;
-      const dateFields = this._addCreatedOnDate(DATE_TYPE);
-      return _HttpService.get(additionalUrl).then((vacancy) => {
-         each(dateFields, (type) => {
-            vacancy[type] = utils.formatDateFromServer(vacancy[type]);
-         });
-         return vacancy = this._convertIdsToEntities(vacancy);
-      });
-   }
-
-   _saveNewTopicsToThesaurus(data) {
-      let promises = mapValues(data, (list, thesaurusName) => {
-         return _ThesaurusService.saveThesaurusTopics(thesaurusName, list);
-      });
-      return _$q.all(promises);
-   }
-
-   _onError(err) {
-      _LoggerService.error(err);
-      return _$q.reject(err);
-   }
-
-   saveVacancy(entity) {
-      entity = clone(entity);
-      each(DATE_TYPE, (type) => {
-         entity[type] = utils.formatDateToServer(entity[type]);
-      });
-      let mapEntity = {
-         'skills' : 'requiredSkills',
-         'tags': 'tags'
-      };
-      let mapEntity2 = {
-         requiredSkills: 'requiredSkillIds',
-         tags: 'tagIds'
-      };
-
-      let data = mapValues(mapEntity, (vacancyKey) => {
-         return filter(entity[vacancyKey], {id: undefined});
-      });
-      return this._saveNewTopicsToThesaurus(data).then((promises) => {
-         each(mapEntity, (vacancyKey, thesaurusName) => {
-            remove(entity[vacancyKey], {id: undefined});
-            entity[vacancyKey] = concat(entity[vacancyKey], promises[thesaurusName]);
-            entity[mapEntity2[vacancyKey]] = map(entity[vacancyKey], 'id');
-            delete entity[vacancyKey];
-         });
-         if (entity.id) {
-            const additionalUrl = VACANCY_URL + entity.id;
-            delete entity.createdOn;
-            delete entity.responsible;
-            each(MAP_LIST_THESAURUS, (thesaurusKey, thesaurusName) => {
-               delete entity[thesaurusName];
-            });
-            return _HttpService.put(additionalUrl, entity);
-         } else {
-            return _HttpService.post(VACANCY_URL, entity);
-         }
-      }).then((_entity) => {
-         return this._changeDatesFormateToFrontend(_entity);
-      }).then((_entity) => this.convertIdsToString(_entity)).catch(this._onError);
-   }
-
-   deleteVacancy(entity) {
-      if (entity.id === undefined) {
-         throw new Error('Id should be specified');
+   remove(vacancy) {
+      if (vacancy.id) {
+         const additionalUrl = VACANCY_URL + vacancy.id;
+         return _HttpService.remove(additionalUrl, vacancy);
       } else {
-         const additionalUrl = VACANCY_URL + entity.id;
-         return _HttpService.remove(additionalUrl, entity);
+         _LoggerService.debug('Can\'t remove new vacancy', vacancy);
+         return _$q.when(true);
       }
    }
 
-   _convertIdsToEntities(entity) {
-      let promises = map(MAP_LIST_THESAURUS, (thesaurusKey, thesaurusName) => {
-         return _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, entity[thesaurusKey]).then((promise) => {
-            entity[thesaurusName] = promise;
+   save(vacancy) {
+      vacancy = cloneDeep(vacancy);
+
+      return _saveNewTopics(vacancy).then((storedTopics) => {
+         each(storedTopics, (list, fieldName) => {
+            vacancy[fieldName] = union(vacancy[fieldName] || [], list);
          });
-      });
-      promises.push(_UserService.getUser(entity.responsibleId).then((user) => entity.responsible = user));
-      return _$q.all(promises);
-   }
+         vacancy = _convertThesaurusToIds(vacancy);
+         vacancy = _convertToServerDates(vacancy);
 
-   _addCreatedOnDate(dates) {
-      return dates.concat([ 'createdOn' ]);
-   }
+         delete vacancy.createdOn;
+         delete vacancy.responsible;
+         vacancy.languageSkill = vacancy.languageSkill || {};
+         vacancy.languageSkill.languageLevel = parseInt(vacancy.languageSkill.languageLevel);
+         vacancy.languageSkill.languageId = parseInt(vacancy.languageSkill.languageId);
+         vacancy.responsibleId = parseInt(vacancy.responsibleId);
 
-   _changeDatesFormateToFrontend(_entity) {
-      each(DATE_TYPE, (type) => {
-         _entity[type] = utils.formatDateFromServer(_entity[type]);
-      });
-      return this._convertIdsToEntities(_entity);
-   }
-
-   convertIdsToString(_entity) {
-      let listProperties = ['industryId', 'responsibleId', 'departmentId',
-                            'typeOfEmployment', 'state', 'languageSkill', 'requiredSkillIds'];
-      let listOfDeepProperties = ['languageId', 'languageLevel'];
-      each(listProperties, (entityProperty) => {
-         if (isObject(_entity[entityProperty])) {
-            each(listOfDeepProperties, property => {
-               _entity[entityProperty][property] += '';
-            });
+         if (vacancy.id) {
+            const additionalUrl = VACANCY_URL + vacancy.id;
+            return _HttpService.put(additionalUrl, vacancy);
          } else {
-            _entity[entityProperty] += '';
+            return _HttpService.post(VACANCY_URL, vacancy);
          }
-      });
-      return _entity;
+      }).then(this.convertFromServerFormat);
    }
+}
+
+function _convertFromServerDates(vacancy) {
+   each(DATE_TYPE, (type) => {
+      vacancy[type] = utils.formatDateFromServer(vacancy[type]);
+   });
+   return vacancy;
+}
+
+function _convertToServerDates(vacancy) {
+   each(DATE_TYPE, (type) => {
+      if (vacancy[type]) {
+         vacancy[type] = utils.formatDateToServer(vacancy[type]);
+      };
+   });
+   return vacancy;
+}
+
+function _fillUser(vacancy) {
+   return _UserService.getUser(vacancy.responsibleId).then((user) => vacancy.responsible = user);
+}
+
+function _fillThesauruses(vacancy) {
+   let promises = reduce(THESAURUS, (memo, {thesaurusName, serverField, clientField}) => {
+      memo[clientField] = _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, vacancy[serverField]);
+      vacancy[serverField] = _convertIdsToString(vacancy[serverField]);
+      return memo;
+   }, {});
+
+   vacancy.languageSkill = vacancy.languageSkill || {};
+   vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
+   vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
+
+   return _$q.all(promises).then(data => assign(vacancy, data));
+}
+
+function _convertIdsToString(data) {
+   if (isNumber(data)) {
+      return toString(data);
+   }
+   return data;
+}
+
+function toString(data) {
+   return `${data}`;
+}
+
+function _convertThesaurusToIds(vacancy) {
+   each(THESAURUS, ({serverField, clientField}) => {
+      debugger;
+      vacancy[serverField] = map(vacancy[clientField], 'id');
+      delete vacancy[clientField];
+   });
+
+   return vacancy;
+}
+
+function _saveNewTopics(vacancy) {
+   let promises = reduce(THESAURUS, (memo, helper) => {
+      let list = filter(vacancy[helper.clientField], {id: undefined});
+
+      if (list.length) {
+         remove(vacancy[helper.clientField], {id: undefined});
+         memo[helper.clientField] = _ThesaurusService.saveThesaurusTopics(helper.thesaurusName, list);
+      }
+
+      return memo;
+   }, {});
+
+   return _$q.all(promises);
+}
+
+function ThesaurusHelper(thesaurusName, serverField, clientField) {
+   this.thesaurusName   = thesaurusName;
+   this.serverField     = serverField;
+   this.clientField     = clientField;
 }

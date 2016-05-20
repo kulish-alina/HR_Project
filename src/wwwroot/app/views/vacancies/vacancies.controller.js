@@ -36,7 +36,7 @@ export default function VacanciesController(
    });
 
    function searchVacancies() {
-      VacancyService.searchVacancies(vm.vacancy).then(value => {
+      VacancyService.search(vm.vacancy).then(value => {
          vm.vacancies = value;
       }).catch(_onError);
    }
@@ -64,7 +64,7 @@ export default function VacanciesController(
 
    function deleteVacancy() {
       let vacancyForRemove = find(vm.vacancies, {id: vm.selectedVacancyId});
-      VacancyService.deleteVacancy(vacancyForRemove)
+      VacancyService.remove(vacancyForRemove)
          .then(() => remove(vm.vacancies, (vacancy) => {
             return vacancy.id === vm.selectedVacancyId;
          }));

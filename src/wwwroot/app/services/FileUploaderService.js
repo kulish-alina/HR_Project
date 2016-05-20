@@ -1,4 +1,4 @@
-const MAX_SIZE_OF_FILE = 5120;
+const MAX_SIZE_OF_FILE = 51200;
 
 let _FileUploader;
 
@@ -11,9 +11,11 @@ export default class FileUploaderService {
    }
 
    getFileUploader(onCompleteAllCallBack) {
-      let newUploader = new _FileUploader({
-         url: `${context.url}/files`,
+      let newUploader = onCompleteAllCallBack  ? new _FileUploader({
+         url: `${context.serverUrl}files`,
          onCompleteAll: onCompleteAllCallBack
+      }) : new _FileUploader({
+         url: `${context.serverUrl}/files`
       });
       newUploader.filters.push({
          name: 'sizeFilter',

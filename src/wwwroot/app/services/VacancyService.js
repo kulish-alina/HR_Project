@@ -2,7 +2,6 @@ import utils  from '../utils.js';
 import {
    assign,
    isNumber,
-//   isArray,
    filter,
    remove,
    each,
@@ -16,8 +15,8 @@ const VACANCY_URL = 'vacancies/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate', 'createdOn'];
 
 const THESAURUS = [
-   new ThesaurusHelper('tags',   'tagIds',            'tags'),
-   new ThesaurusHelper('skills', 'requiredSkillIds',  'requiredSkills'),
+   new ThesaurusHelper('tags',   'tagIds',            'tags',           true),
+   new ThesaurusHelper('skills', 'requiredSkillIds',  'requiredSkills', true),
 
    new ThesaurusHelper('industries',   'industryId',  'industries'),
    new ThesaurusHelper('levels',       'levelIds',    'levels'),
@@ -53,6 +52,7 @@ export default class VacancyService {
    }
 
    convertFromServerFormat(vacancy) {
+      console.log('vacancy', vacancy);
       vacancy = _convertFromServerDates(vacancy);
       vacancy.responsibleId = toString(vacancy.responsibleId);
       return _$q.all([_fillThesauruses(vacancy), _fillUser(vacancy)]).then(first);
@@ -141,12 +141,12 @@ function toString(data) {
 }
 
 function _convertThesaurusToIds(vacancy) {
-   each(THESAURUS, ({serverField, clientField}) => {
-      debugger;
-      vacancy[serverField] = map(vacancy[clientField], 'id');
+   each(THESAURUS, ({serverField, clientField, needConvertForServer}) => {
+      if (needConvertForServer) {
+         vacancy[serverField] = map(vacancy[clientField], 'id');
+      }
       delete vacancy[clientField];
    });
-
    return vacancy;
 }
 
@@ -165,8 +165,9 @@ function _saveNewTopics(vacancy) {
    return _$q.all(promises);
 }
 
-function ThesaurusHelper(thesaurusName, serverField, clientField) {
+function ThesaurusHelper(thesaurusName, serverField, clientField, needConvertForServer) {
    this.thesaurusName   = thesaurusName;
    this.serverField     = serverField;
    this.clientField     = clientField;
+   this.needConvertForServer = needConvertForServer;
 }

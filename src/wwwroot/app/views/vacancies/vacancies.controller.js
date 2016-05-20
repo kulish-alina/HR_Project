@@ -37,7 +37,8 @@ export default function VacanciesController(
 
    function searchVacancies() {
       VacancyService.search(vm.vacancy).then(value => {
-         vm.vacancies = value;
+         console.log(value.vacancies);
+         vm.vacancies = value.vacancies;
       }).catch(_onError);
    }
 

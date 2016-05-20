@@ -20,7 +20,7 @@ export default function VacancyController(
    vm.cancel = cancel;
    vm.saveVacancy = saveVacancy;
    vm.vacancy =  $state.params._data || {} ;
-   vm.vacancy.fileIds = [];
+   vm.vacancy.files = [];
    vm.thesaurus = [];
    vm.responsibles = [];
    vm.uploader = createNewUploader();
@@ -46,7 +46,7 @@ export default function VacancyController(
          }
       });
       newUploader.onSuccessItem = function onSuccessUpload(item) {
-         vm.vacancy.fileIds.push(item.id);
+         vm.vacancy.files.push(item._xhr.response);
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
          vm.errorMessageFromFileUploader = $translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE');

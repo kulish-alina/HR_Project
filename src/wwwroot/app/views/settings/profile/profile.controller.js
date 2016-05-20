@@ -1,5 +1,9 @@
 import './profile.scss';
 
+import {
+   some
+} from 'lodash';
+
 export default function ProfileController (
    $q,
    $scope,
@@ -16,6 +20,8 @@ export default function ProfileController (
    vm.form   = {};
    vm.user   = {};
    vm.uploader = {};
+   vm.addNewPhone       = _addNewPhone;
+   vm.cantAddNewPhone   = cantAddNewPhone;
 
    /*---impl---*/
    function _init() {
@@ -65,6 +71,14 @@ export default function ProfileController (
       return UserService.getCurrentUser().then((val) => {
          vm.user = val;
       });
+   }
+
+   function _addNewPhone() {
+      vm.user.phoneNumbers.push('');
+   }
+
+   function cantAddNewPhone() {
+      return some(vm.user.phoneNumbers, (v) => v === '');
    }
 }
 

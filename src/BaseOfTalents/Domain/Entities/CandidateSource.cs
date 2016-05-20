@@ -8,5 +8,6 @@ namespace Domain.Entities
         public Source Source { get; set; }
         public string Path { get; set; }
 
+        public virtual Candidate Candidate { get; set; }
     }
 }

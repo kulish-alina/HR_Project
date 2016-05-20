@@ -9,6 +9,10 @@ namespace Domain.DTO.DTOModels
 {
     public class UserDTO : BaseEntityDTO
     {
+        public UserDTO()
+        {
+            PhoneNumbers = new List<PhoneNumberDTO>();
+        }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

@@ -10,5 +10,12 @@ namespace Domain.Entities.Setup
     {
         public string Title { get; set; }
         public string ImagePath { get; set; }
+
+        public virtual ICollection<CandidateSocial> CandidateSocials { get; set; }
+
+        public SocialNetwork()
+        {
+            CandidateSocials = new List<CandidateSocial>();
+        }
     }
 }

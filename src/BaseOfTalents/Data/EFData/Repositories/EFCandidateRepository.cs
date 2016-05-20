@@ -14,7 +14,7 @@ namespace Data.EFData.Repositories
 {
     public class EFCandidateRepository : EFBaseEntityRepository<Candidate>, ICandidateRepository
     {
-        public EFCandidateRepository(IDbFactory dbFactory) : base(dbFactory)
+        public EFCandidateRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

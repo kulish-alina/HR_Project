@@ -1,52 +1,46 @@
-﻿using Domain.Entities;
+﻿using Data.EFData.Extentions;
+using Data.Infrastructure;
+using Domain.DTO.DTOModels;
+using Domain.Entities;
+using Domain.Entities.Enum.Setup;
+using Domain.Entities.Setup;
 using Domain.Repositories;
+using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using WebApi.DTO.DTOService;
-using System;
-using AutoMapper.QueryableExtensions;
-using AutoMapper;
-using System.Collections.Generic;
-using Domain.DTO.DTOModels;
-using Data.EFData.Extentions;
-using Data.Infrastructure;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Domain.Entities.Setup;
-using Domain.Entities.Enum.Setup;
 
 namespace WebApi.Controllers
 {
     public class CandidatesController : BoTController<Candidate, CandidateDTO>
     {
-        public CandidatesController(IDataRepositoryFactory repoFatory, IUnitOfWork unitOfWork, IErrorRepository errorRepo)
-            : base(repoFatory, unitOfWork, errorRepo)
+        public CandidatesController(IDataRepositoryFactory repoFactory, IErrorRepository errorRepo)
+            : base(repoFactory, errorRepo)
         {
-
         }
 
         public CandidatesController()
         {
-
         }
 
-        public override IHttpActionResult All(HttpRequestMessage request)
+        [HttpGet]
+        [Route("api/Candidates/")]
+        public IHttpActionResult All(HttpRequestMessage request, int? pageNumber = 1)
         {
-            return this.All(request);
+            return this.PagedEntities(request, pageNumber);
         }
 
         [HttpGet]
         // GET: api/Entities/
-        [Route("api/{controller}{pageNumber:int}")]
-        private IHttpActionResult All(HttpRequestMessage request, int? pageNumber = 1)
+        [Route("api/Candidates{pageNumber:int}")]
+        public IHttpActionResult PagedEntities(HttpRequestMessage request, int? pageNumber = 1)
         {
             var _currentRepo = _repoFactory.GetDataRepository<Candidate>(request);
             return CreateResponse(request, () =>
             {
-                var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id);
+                var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id).ToList();
                 if (pageNumber.HasValue)
                 {
                     var totalCount = _currentRepo.GetAll().Count();
@@ -91,11 +85,19 @@ namespace WebApi.Controllers
                     else
                     {
                         Candidate _candidate = new Candidate();
-                        _candidate.Update(candidate, _repoFactory.GetDataRepository<Skill>(request), _repoFactory.GetDataRepository<Tag>(request));
+                        _candidate.Update(candidate,
+                            _repoFactory.GetDataRepository<Skill>(request),
+                            _repoFactory.GetDataRepository<Tag>(request),
+                            _repoFactory.GetDataRepository<CandidateSocial>(request),
+                            _repoFactory.GetDataRepository<LanguageSkill>(request),
+                            _repoFactory.GetDataRepository<CandidateSource>(request),
+                            _repoFactory.GetDataRepository<VacancyStageInfo>(request),
+                            _repoFactory.GetDataRepository<PhoneNumber>(request),
+                            _repoFactory.GetDataRepository<Photo>(request),
+                            _repoFactory.GetDataRepository<Vacancy>(request));
                         _candidateRepo.Add(_candidate);
-                        _unitOfWork.Commit();
+                        _candidateRepo.Commit();
                         return Json(DTOService.ToDTO<Candidate, CandidateDTO>(_candidate), BOT_SERIALIZER_SETTINGS);
-
                     }
                 }
             });
@@ -125,14 +127,22 @@ namespace WebApi.Controllers
                     else
                     {
                         Candidate _candidate = _candidateRepo.Get(id);
-                        _candidate.Update(changedEntity, _repoFactory.GetDataRepository<Skill>(request), _repoFactory.GetDataRepository<Tag>(request));
+                        _candidate.Update(changedEntity,
+                            _repoFactory.GetDataRepository<Skill>(request),
+                            _repoFactory.GetDataRepository<Tag>(request),
+                            _repoFactory.GetDataRepository<CandidateSocial>(request),
+                            _repoFactory.GetDataRepository<LanguageSkill>(request),
+                            _repoFactory.GetDataRepository<CandidateSource>(request),
+                            _repoFactory.GetDataRepository<VacancyStageInfo>(request),
+                            _repoFactory.GetDataRepository<PhoneNumber>(request),
+                            _repoFactory.GetDataRepository<Photo>(request),
+                            _repoFactory.GetDataRepository<Vacancy>(request));
                         _candidateRepo.Update(_candidate);
-                        _unitOfWork.Commit();
-                        return Json(_candidate, BOT_SERIALIZER_SETTINGS);
+                        _candidateRepo.Commit();
+                        return Json(DTOService.ToDTO<Candidate, CandidateDTO>(_candidate), BOT_SERIALIZER_SETTINGS);
                     }
                 }
             });
         }
     }
 }
-

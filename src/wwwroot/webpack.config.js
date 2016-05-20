@@ -24,7 +24,7 @@ function _load() {
    } else if (target === 'production') {
       return merge.smart(wbpk.global(),
          wbpk.output(path, paths.appPath, paths.buildPath, pkg),
-         wbpk.production(webpack));
+         wbpk.production(webpack, paths.appPath, paths.buildPath));
    }
    // default state - development (with devserver configs)
    return merge.smart(wbpk.global(),

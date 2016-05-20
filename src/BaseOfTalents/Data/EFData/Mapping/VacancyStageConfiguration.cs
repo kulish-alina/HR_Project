@@ -13,7 +13,6 @@ namespace Data.EFData.Mapping
         {
             Property(vs => vs.Order).IsRequired();
             Property(vs => vs.IsCommentRequired).IsRequired();
-            HasRequired(vs => vs.Vacacny).WithMany().HasForeignKey(vs=>vs.VacancyId);
             HasRequired(vs => vs.Stage).WithMany().HasForeignKey(vs => vs.StageId);
 
         }

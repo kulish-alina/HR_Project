@@ -27,8 +27,8 @@ namespace Domain.DTO.DTOModels
         public int SalaryMax { get; set; }
         public TypeOfEmployment TypeOfEmployment { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public DateTime DeadlineDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public DateTime? DeadlineDate { get; set; }
 
         public IEnumerable<int> LevelIds { get; set; }
         public IEnumerable<int> LocationIds { get; set; }

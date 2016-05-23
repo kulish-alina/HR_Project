@@ -13,7 +13,7 @@ namespace Data.EFData.Mapping
         {
             HasMany(v => v.CandidatesProgress);
             HasMany(v => v.Files);
-           
+
             HasOptional(v => v.ParentVacancy).WithMany().HasForeignKey(x=>x.ParentVacancyId);
             HasOptional(v => v.Industry).WithMany().HasForeignKey(x=>x.IndustryId);
 

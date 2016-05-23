@@ -5,7 +5,7 @@ export default class ContactInfoDirective {
       this.restrict = 'E';
       this.template = template;
       this.scope = {
-         phone  : '=',
+         phones : '=',
          email  : '=',
          skype  : '=',
          social : '='

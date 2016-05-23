@@ -20,24 +20,25 @@ namespace Data.EFData.Extentions
             IRepository<Skill> skillRepository,
             IRepository<Tag> tagRepository,
             IRepository<LanguageSkill> languageSkillRepository,
-            IRepository<VacancyStageInfo> vacancyStageInfoRepository)
+            IRepository<VacancyStageInfo> vacancyStageInfoRepository,
+            IRepository<File> fileRepository)
         {
-            destination.Id = source.Id;
-            destination.State = source.State;
+            destination.Id                  = source.Id;
+            destination.State               = source.State;
 
-            destination.Title = source.Title;
-            destination.Description = source.Title;
-            destination.SalaryMin = source.SalaryMin;
-            destination.SalaryMax = source.SalaryMax;
-            destination.TypeOfEmployment = source.TypeOfEmployment;
-            destination.StartDate = source.StartDate;
-            destination.EndDate = source.EndDate;
-            destination.DeadlineDate = source.DeadlineDate;
+            destination.Title               = source.Title;
+            destination.Description         = source.Title;
+            destination.SalaryMin           = source.SalaryMin;
+            destination.SalaryMax           = source.SalaryMax;
+            destination.TypeOfEmployment    = source.TypeOfEmployment;
+            destination.StartDate           = source.StartDate;
+            destination.EndDate             = source.EndDate;
+            destination.DeadlineDate        = source.DeadlineDate;
 
-            destination.ParentVacancyId = source.ParentVacancyId;
-            destination.IndustryId = source.IndustryId;
-            destination.DepartmentId = source.DepartmentId;
-            destination.ResponsibleId = source.ResponsibleId;
+            destination.ParentVacancyId     = source.ParentVacancyId;
+            destination.IndustryId          = source.IndustryId;
+            destination.DepartmentId        = source.DepartmentId;
+            destination.ResponsibleId       = source.ResponsibleId;
 
             PerformLevelsSaving(destination, source, levelRepository);
             PerformLocationsSaving(destination, source, locationRepository);
@@ -45,6 +46,32 @@ namespace Data.EFData.Extentions
             PerformSkillsSaving(destination, source, skillRepository);
             PerformLanguageSkillsSaving(destination, source, languageSkillRepository);
             PerformVacanciesProgressSaving(destination, source, vacancyStageInfoRepository);
+            PerformFilesSaving(destination, source, fileRepository);
+        }
+
+        private static void PerformFilesSaving(Vacancy destination, VacancyDTO source, IRepository<File> fileRepository)
+        {
+            source.Files.ToList().ForEach(file =>
+            {
+                var fileInVacancy   = destination   .Files.FirstOrDefault(x => x.Id == file.Id);
+                var dbFile          = fileRepository.Get(file.Id);
+                if (dbFile == null)
+                {
+                    throw new Exception("Unknown file");
+                }
+                if (file.ShouldBeRemoved())
+                {
+                    fileRepository.Remove(file.Id);
+                }
+                else
+                {
+                    dbFile.Update(file);
+                    if (fileInVacancy == null)
+                    {
+                        destination.Files.Add(dbFile);
+                    }
+                }
+            });
         }
 
         private static void PerformVacanciesProgressSaving(Vacancy destination, VacancyDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository)
@@ -130,15 +157,11 @@ namespace Data.EFData.Extentions
 
         private static void PerformLanguageSkillsSaving(Vacancy destination, VacancyDTO source, IRepository<LanguageSkill> languageSkillRepository)
         {
-            var updatedLanguageSkill = source.LanguageSkill;
+            var updatedLanguageSkill = source.LanguageSkill ?? new LanguageSkillDTO();
             LanguageSkill domainLanguageSkill = destination.LanguageSkill;
             if (destination.LanguageSkill == null)
             {
                 domainLanguageSkill = destination.LanguageSkill = new LanguageSkill();
-            }
-            if (updatedLanguageSkill == null)
-            {
-                throw new ArgumentNullException("Request contains unknown entity");
             }
             if (updatedLanguageSkill.ShouldBeRemoved())
             {

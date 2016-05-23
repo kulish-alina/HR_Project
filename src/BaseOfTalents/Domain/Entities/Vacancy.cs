@@ -18,14 +18,15 @@ namespace Domain.Entities
             Comments = new List<Comment>();
             Tags = new List<Tag>();
         }
+
         public string Title { get; set; }
         public string Description { get; set; }
         public int SalaryMin { get; set; }
         public int SalaryMax { get; set; }
         public TypeOfEmployment TypeOfEmployment { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public DateTime DeadlineDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public DateTime? DeadlineDate { get; set; }
 
         public virtual ICollection<Level> Levels { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
@@ -40,7 +41,6 @@ namespace Domain.Entities
 
         public int? IndustryId { get; set; }
         public virtual Industry Industry { get; set; }
-
 
         public int DepartmentId { get; set; }
         public virtual Department Department { get; set; }

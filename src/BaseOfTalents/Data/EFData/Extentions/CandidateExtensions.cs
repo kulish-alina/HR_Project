@@ -22,26 +22,27 @@ namespace Data.EFData.Extentions
             IRepository<VacancyStageInfo> vacancyStageInfoRepository,
             IRepository<PhoneNumber> phoneNumberRepository,
             IRepository<Photo> photoRepository, 
-            IRepository<Vacancy> vacancyRepository)
+            IRepository<Vacancy> vacancyRepository,
+            IRepository<File> fileRepository)
         {
-            destination.State = source.State;
-            destination.FirstName = source.FirstName;
-            destination.MiddleName = source.MiddleName;
-            destination.LastName = source.LastName;
-            destination.IsMale = source.IsMale;
-            destination.BirthDate = source.BirthDate;
-            destination.Email = source.Email;
-            destination.Skype = source.Skype;
-            destination.PositionDesired = source.PositionDesired;
-            destination.SalaryDesired = source.SalaryDesired;
-            destination.TypeOfEmployment = source.TypeOfEmployment;
-            destination.StartExperience = source.StartExperience;
-            destination.Practice = source.Practice;
-            destination.Description = source.Description;
-            destination.LocationId = source.LocationId;
+            destination.State               = source.State;
+            destination.FirstName           = source.FirstName;
+            destination.MiddleName          = source.MiddleName;
+            destination.LastName            = source.LastName;
+            destination.IsMale              = source.IsMale;
+            destination.BirthDate           = source.BirthDate;
+            destination.Email               = source.Email;
+            destination.Skype               = source.Skype;
+            destination.PositionDesired     = source.PositionDesired;
+            destination.SalaryDesired       = source.SalaryDesired;
+            destination.TypeOfEmployment    = source.TypeOfEmployment;
+            destination.StartExperience     = source.StartExperience;
+            destination.Practice            = source.Practice;
+            destination.Description         = source.Description;
+            destination.LocationId          = source.LocationId;
             destination.RelocationAgreement = source.RelocationAgreement;
-            destination.Education = source.Education;
-            destination.IndustryId = source.IndustryId;
+            destination.Education           = source.Education;
+            destination.IndustryId          = source.IndustryId;
 
             PerformSocialSaving(destination, source, candidateSocialRepository);
             PerformLanguageSkillsSaving(destination, source, languageSkillRepository);
@@ -51,6 +52,32 @@ namespace Data.EFData.Extentions
             PerformPhoneNumbersSaving(destination, source, phoneNumberRepository);
             PerformSkillsSaving(destination, source, skillRepository);
             PerformPhotoSaving(destination, source, photoRepository);
+            PerformFilesSaving(destination, source, fileRepository);
+        }
+
+        private static void PerformFilesSaving(Candidate destination, CandidateDTO source, IRepository<File> fileRepository)
+        {
+            source.Files.ToList().ForEach(file =>
+            {
+                var fileInVacancy = destination.Files.FirstOrDefault(x => x.Id == file.Id);
+                var dbFile = fileRepository.Get(file.Id);
+                if (dbFile == null)
+                {
+                    throw new Exception("Unknown file");
+                }
+                if (file.ShouldBeRemoved())
+                {
+                    fileRepository.Remove(file.Id);
+                }
+                else
+                {
+                    dbFile.Update(file);
+                    if (fileInVacancy == null)
+                    {
+                        destination.Files.Add(dbFile);
+                    }
+                }
+            });
         }
 
         private static void PerformPhotoSaving(Candidate destination, CandidateDTO source, IRepository<Photo> photoRepository)

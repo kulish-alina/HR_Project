@@ -1,9 +1,4 @@
-﻿using Data.EFData.Mapping;
-using Data.Migrations;
-using Domain.Entities;
-using Domain.Entities.Enum.Setup;
-using Domain.Entities.Setup;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -12,6 +7,10 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
 using System.Linq;
+using Data.EFData.Mapping;
+using Domain.Entities;
+using Domain.Entities.Enum.Setup;
+using Domain.Entities.Setup;
 
 namespace Data.EFData
 {
@@ -44,6 +43,7 @@ namespace Data.EFData
         public DbSet<Country> Countries { get; set; }
         public DbSet<Stage> Stages { get; set; }
         public DbSet<SocialNetwork> SocialNetworks { get; set; }
+        public DbSet<EventType> EventTypes { get; set; }
 
 
         public BOTContext() : base()
@@ -110,7 +110,7 @@ namespace Data.EFData
             {
                 var entityBase = entry.Entity as BaseEntity;
 
-               if(entry.State == EntityState.Added)
+                if (entry.State == EntityState.Added)
                 {
                     entityBase.CreatedOn = DateTime.Now;
                 }

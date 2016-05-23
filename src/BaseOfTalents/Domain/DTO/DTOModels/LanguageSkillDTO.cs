@@ -7,7 +7,5 @@ namespace Domain.DTO.DTOModels
     {
         public int LanguageId { get; set; }
         public LanguageLevel LanguageLevel { get; set; }
-
-        
     }
 }

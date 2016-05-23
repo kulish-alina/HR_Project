@@ -63,8 +63,7 @@ export default function VacancyController(
    function removeFile(file) {
       let currentFileId = JSON.parse(file._xhr.response).id;
       let removedFile = find(vm.vacancy.files, {id: currentFileId});
-      console.log('removedFile', removedFile);
-      removedFile.state = 1; // eslint-disable-line no-magic-numbers
+      removedFile.state = 1;
       remove(vm.vacancy.files, {id: currentFileId});
       vm.vacancy.files.push(removedFile);
       file.remove();

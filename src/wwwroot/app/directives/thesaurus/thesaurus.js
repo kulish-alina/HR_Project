@@ -138,7 +138,7 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate, Fil
 
    function clearNewThesaurusTopic() {
       vm.newThesaurusTopic = {};
-      let fileInput = $element[0].querySelector('newTopicUploader');
+      let fileInput = $element[0].querySelector('.new-topic-uploader');
       if (fileInput) {
          vm.uploader.clearQueue();
          fileInput.value = null;

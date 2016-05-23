@@ -51,7 +51,7 @@
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
                  ng-change="change(newThesaurusTopic, field)"></select>
           <input type="file" nv-file-select="" uploader="uploader" 
-                 ng-show="field.type==='img'" class="newTopicUploader, thesaurus-file-uploader">
+                 ng-if="field.type==='img'" class="new-topic-uploader thesaurus-file-uploader">
       </div>
       <div class="action-column" class="add">
          <a class="button button-with-input" ng-click="addNewTopic(newThesaurusTopic)" 

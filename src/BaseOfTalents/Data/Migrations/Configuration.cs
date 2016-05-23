@@ -1,13 +1,6 @@
 namespace Data.Migrations
 {
-    using Domain.Entities;
-    using Domain.Entities.Enum;
-    using Domain.Entities.Enum.Setup;
-    using Domain.Entities.Setup;
-    using System;
-    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Data.EFData.BOTContext>
     {
@@ -16,12 +9,15 @@ namespace Data.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Data.EFData.BOTContext context)
+        protected override void Seed(EFData.BOTContext context)
         {
             context.Tags.AddRange(DummyData.Tags);
             context.SaveChanges();
 
             context.Skills.AddRange(DummyData.Skills);
+            context.SaveChanges();
+
+            context.EventTypes.AddRange(DummyData.Events);
             context.SaveChanges();
 
             context.SocialNetworks.AddRange(DummyData.Socials);
@@ -38,7 +34,7 @@ namespace Data.Migrations
 
             context.DepartmentGroups.AddRange(DummyData.DepartmentGroups);
             context.SaveChanges();
- 
+
             context.Departments.AddRange(DummyData.Departments);
             context.SaveChanges();
 

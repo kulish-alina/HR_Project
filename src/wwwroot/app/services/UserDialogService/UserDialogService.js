@@ -1,4 +1,5 @@
 import _confirm from './confirm.view.html';
+
 let _$q, _ModalFactory, _FoundationApi;
 
 export default class UserDialogService {

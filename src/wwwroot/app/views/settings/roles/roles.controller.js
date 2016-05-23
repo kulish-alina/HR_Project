@@ -100,12 +100,9 @@ export default function RolesController(
    }
 
    function _removeRole(roleName) {
-      console.log('before', vm.roles);
-      console.log('promise', UserDialogService.confirm('do you want remove that?'));
       UserDialogService.confirm('do you want remove that?').then(() => {
          delete vm.roles[roleName];
-         vm.currentRoleName = vm.roles;
-         console.log('after', vm.roles);
+         vm.selectRole(Object.keys(vm.roles)[0]);
       });
    }
 

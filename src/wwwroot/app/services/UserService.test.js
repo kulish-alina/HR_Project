@@ -2,7 +2,7 @@
 
 import UserService from './UserService';
 
-describe('UserService testing', function() {
+describe('UserService testing', () => {
    let service = null;
    let promiseMock = {
       when:    () => promiseMock,
@@ -24,68 +24,67 @@ describe('UserService testing', function() {
       promiseMock.then.calls.reset();
    }
 
-
-   beforeEach(function() {
+   beforeEach(() => {
       service = new UserService(mockHttp, promiseMock);
       mockHttp.get.calls.reset();
       mockHttp.put.calls.reset();
       mockHttp.post.calls.reset();
-      mockHttp.remove.calls.reset();      
-      spyOn(promiseMock, 'then');
+      mockHttp.remove.calls.reset();
+      spyOn(service, 'getUsers').and.callThrough();
+      spyOn(promiseMock, 'then').and.returnValue(promiseMock);
    });
 
-   it('getCurrentUser not to be undefined or null', function() {
+   it('getCurrentUser not to be undefined or null', () => {
       expect(service.getCurrentUser).not.toBeUndefined();
       expect(service.getCurrentUser).not.toBeNull();
    });
 
-   it('setCurrentUser not to be undefined or null', function() {
+   it('setCurrentUser not to be undefined or null', () => {
       expect(service.setCurrentUser).not.toBeUndefined();
       expect(service.setCurrentUser).not.toBeNull();
    });
 
-   it('getUserById not to be undefined or null', function() {
+   it('getUserById not to be undefined or null', () => {
       expect(service.getUserById).not.toBeUndefined();
       expect(service.getUserById).not.toBeNull();
    });
 
-   it('saveUser not to be undefined or null', function() {
+   it('saveUser not to be undefined or null', () => {
       expect(service.saveUser).not.toBeUndefined();
       expect(service.saveUser).not.toBeNull();
    });
 
-   it('getUsers not to be undefined or null', function() {
+   it('getUsers not to be undefined or null', () => {
       expect(service.getUsers).not.toBeUndefined();
       expect(service.getUsers).not.toBeNull();
    });
 
-   it('getUserById test when not exist to cache', function() {
-      const userId = 1;
-      service.getUserById(userId);
-      expect(mockHttp.get.calls.count()).toEqual(1);
-   });
-
-   it('getUserById test when exist to cache', function() {
+   it('getUserById test when not exist to cache', () => {
       const userId = 1;
       service.getUserById(userId);
       executeThen({id: userId});
-      service.getUserById(userId);
       expect(mockHttp.get.calls.count()).toEqual(1);
    });
 
-   it('saveUser test server query for new user saving', function() {
+   it('getUserById test when exist to cache', () => {
+      const userId = 1;
+      service.getUserById(userId);
+      executeThen({id: userId});
+      expect(mockHttp.get.calls.count()).toEqual(0);
+   });
+
+   it('saveUser test server query for new user saving', () => {
       let user = {};
       service.saveUser(user);
       expect(mockHttp.post).toHaveBeenCalled();
    });
 
-   it('saveUser test server query for user editing', function() {
+   it('saveUser test server query for user editing', () => {
       let user = {
          id: 1
       };
       service.saveUser(user);
       expect(mockHttp.put).toHaveBeenCalled();
    });
-
 
 });

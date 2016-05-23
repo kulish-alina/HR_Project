@@ -1,6 +1,7 @@
 import {
-   find,
-   filter
+   filter,
+   first,
+   isEmpty
 } from 'lodash';
 
 const USER_URL = 'users/';
@@ -24,12 +25,7 @@ export default class UserService {
    }
 
    getUserById(id) {
-      let userFromCache = find(cache, {id});
-      if (userFromCache) {
-         return _$q.when(userFromCache);
-      } else {
-         return _HttpService.get(`${USER_URL}/${id}`).then(pushUserToCache);
-      }
+      return this.getUsers({id}).then(first);
    }
 
    saveUser(entity) {
@@ -41,9 +37,15 @@ export default class UserService {
    }
 
    getUsers(predicate) {
-      return _HttpService.get(USER_URL)
-         .then(users =>  cache = users)
-         .then(() => filter(cache, predicate));
+      if (isEmpty(cache)) {
+         return _HttpService.get(USER_URL)
+         .then(users => {
+            cache = users;
+            filter(cache, predicate);
+         });
+      } else {
+         return _$q.when(filter(cache, predicate));
+      }
    }
 }
 

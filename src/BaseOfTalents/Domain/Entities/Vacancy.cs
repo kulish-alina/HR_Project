@@ -18,6 +18,7 @@ namespace Domain.Entities
             Comments = new List<Comment>();
             Tags = new List<Tag>();
         }
+
         public string Title { get; set; }
         public string Description { get; set; }
         public int SalaryMin { get; set; }
@@ -40,7 +41,6 @@ namespace Domain.Entities
 
         public int? IndustryId { get; set; }
         public virtual Industry Industry { get; set; }
-
 
         public int DepartmentId { get; set; }
         public virtual Department Department { get; set; }

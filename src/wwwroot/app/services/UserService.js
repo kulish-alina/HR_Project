@@ -41,7 +41,7 @@ export default class UserService {
          return _HttpService.get(USER_URL)
          .then(users => {
             cache = users;
-            filter(cache, predicate);
+            return filter(cache, predicate);
          });
       } else {
          return _$q.when(filter(cache, predicate));

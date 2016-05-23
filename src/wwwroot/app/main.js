@@ -35,6 +35,7 @@ import ThesaurusService  from './services/ThesaurusService';
 import UserService       from './services/UserService';
 import SettingsService   from './services/SettingsService';
 import RolesService      from './services/RolesService';
+import UserDialogService from './services/UserDialogService/UserDialogService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -70,12 +71,13 @@ angular
    .provider('HttpService',       HttpProvider)
    .provider('ValidationService', ValidationProvider)
 
-   .service('CandidateService', CandidateService)
-   .service('VacancyService',   VacancyService)
-   .service('SettingsService',  SettingsService)
-   .service('UserService',      UserService)
-   .service('RolesService',     RolesService)
-   .service('ThesaurusService', ThesaurusService)
+   .service('CandidateService',  CandidateService)
+   .service('VacancyService',    VacancyService)
+   .service('SettingsService',   SettingsService)
+   .service('UserService',       UserService)
+   .service('RolesService',      RolesService)
+   .service('ThesaurusService',  ThesaurusService)
+   .service('UserDialogService', UserDialogService)
 
 
    .directive('thesaurus', ThesaurusDirective.createInstance)

@@ -13,6 +13,7 @@ export default function RolesController(
    RolesService,
    SettingsService,
    ValidationService,
+   UserDialogService,
    FoundationApi) {
    'ngInject';
 
@@ -98,8 +99,14 @@ export default function RolesController(
       }
    }
 
-   function _removeRole() {
-      //vm.roles.remove(roleName);
+   function _removeRole(roleName) {
+      console.log('before', vm.roles);
+      console.log('promise', UserDialogService.confirm('do you want remove that?'));
+      UserDialogService.confirm('do you want remove that?').then(() => {
+         delete vm.roles[roleName];
+         vm.currentRoleName = vm.roles;
+         console.log('after', vm.roles);
+      });
    }
 
    function _clearModalModel() {

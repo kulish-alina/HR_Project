@@ -17,8 +17,8 @@ namespace Data.Migrations
 
             Roles = GetRoles(42);
             Users = GetUsers(150);
-            Vacancies = GetVacancies(11080);
-            Candidates = GetCandidates(31337);
+            Vacancies = GetVacancies(2403);
+            Candidates = GetCandidates(1978);
         }
 
         #region randomizer

@@ -46,6 +46,7 @@ import uiMask from 'angular-ui-mask';
 
 import PhoneFormatFilter from './filters/PhoneFormatFilter';
 import ArrayAsString   from './filters/ArrayAsString';
+import botUrl   from './filters/botUrl';
 
 import StateRunner from './state-runner';
 
@@ -87,6 +88,7 @@ angular
 
    .filter('tel',           PhoneFormatFilter)
    .filter('arrayAsString', ArrayAsString)
+   .filter('botUrl', botUrl)
 
    .run(StateRunner)
 

@@ -16,7 +16,7 @@
                  ng-model="topic[field.refObject]"
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
                  ng-change="change(topic, field)" class="edit" validator="required"></select>          
-         <img ng-src="{{topic[field.name]}}" ng-show="field.type==='img'" class="thesaurus-img">
+         <img ng-src="{{topic[field.name] | botUrl}}" ng-show="field.type==='img'" class="thesaurus-img">
          <input type="file" nv-file-select="" uploader="uploader"
                 ng-if="field.type==='img'&&isEditTopic(topic)" class="thesaurus-file-uploader">
       </div>
@@ -51,11 +51,11 @@
                  ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
                  ng-change="change(newThesaurusTopic, field)"></select>
           <input type="file" nv-file-select="" uploader="uploader" 
-                 ng-show="field.type==='img'" class="thesaurus-file-uploader">
+                 ng-show="field.type==='img'" class="newTopicUploader, thesaurus-file-uploader">
       </div>
       <div class="action-column" class="add">
          <a class="button button-with-input" ng-click="addNewTopic(newThesaurusTopic)" 
-            ng-disabled="!isTopicEditAllow(newThesaurusTopic)" ng-bind="'COMMON.ADD' | translate">
+            ng-disabled="!isTopicEditAllow(newThesaurusTopic)" ng-bind="::'COMMON.ADD' | translate">
           </a>
       </div>
       <div class="column"></div>

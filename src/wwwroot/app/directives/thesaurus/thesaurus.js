@@ -19,7 +19,7 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($scope, ThesaurusService, $translate, FileUploaderService, LoggerService) {
+function ThesaurusController($element, $scope, ThesaurusService, $translate, FileUploaderService, LoggerService) {
    'ngInject';
 
    const vm = $scope;
@@ -138,6 +138,11 @@ function ThesaurusController($scope, ThesaurusService, $translate, FileUploaderS
 
    function clearNewThesaurusTopic() {
       vm.newThesaurusTopic = {};
+      let fileInput = $element[0].querySelector('newTopicUploader');
+      if (fileInput) {
+         vm.uploader.clearQueue();
+         fileInput.value = null;
+      }
    }
 
    function _createNewUploader() {

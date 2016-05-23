@@ -1,12 +1,10 @@
-﻿using Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Domain.Entities;
 using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
 using Domain.Entities.Setup;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Migrations
 {
@@ -33,7 +31,7 @@ namespace Data.Migrations
             { // synchronize
                 return rnd.Next(min, max);
             }
-        } 
+        }
         #endregion
 
         public static readonly List<Skill> Skills = new List<Skill>()
@@ -248,6 +246,36 @@ namespace Data.Migrations
             new SocialNetwork { ImagePath = GetRandomNumbers(12), Title="MySpace"}
         };
 
+        public static readonly List<EventType> Events = new List<EventType>()
+        {
+            new EventType()
+            {
+                Title = "HR Interview",
+                ImagePath = GetRandomNumbers(12)
+            },
+            new EventType()
+            {
+                Title = "Tech Interview",
+                ImagePath = GetRandomNumbers(12)
+            },
+            new EventType()
+            {
+                Title = "Final Interview",
+                ImagePath = GetRandomNumbers(12)
+            },
+            new EventType()
+            {
+                Title = "Candidate's Birthday",
+                ImagePath = GetRandomNumbers(12)
+            },
+            new EventType()
+            {
+                Title = "Candidate's First Day",
+                ImagePath = GetRandomNumbers(12)
+            }
+        };
+
+
         public static List<User> Users;
         private static List<User> GetUsers(int count)
         {
@@ -311,18 +339,18 @@ namespace Data.Migrations
                         Description = GetRandomString(250),
                         Industry = Industries.GetRandom(),
                         LanguageSkill = LanguageSkills.GetRandom(),
-                        Levels = Levels.Take(RandomNumber(0,Levels.Count)).ToList(),
-                        Locations = Locations.Take(RandomNumber(0,Levels.Count)).ToList(),
-                        RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0,5)).Distinct().ToList(),
+                        Levels = Levels.Take(RandomNumber(0, Levels.Count)).ToList(),
+                        Locations = Locations.Take(RandomNumber(0, Levels.Count)).ToList(),
+                        RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                         Responsible = Users.GetRandom(),
                         SalaryMax = RandomNumber(1000, 2000),
                         SalaryMin = RandomNumber(0, 1000),
                         StartDate = DateTime.Now.AddDays(RandomNumber(-80, -40)),
                         Title = professons.GetRandom(),
                         TypeOfEmployment = TypeOfEmployment.FullTime,
-                        EndDate = DateTime.Now.AddDays(RandomNumber(0,30)),
-                        Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0,5)).Distinct().ToList(),
-                        
+                        EndDate = DateTime.Now.AddDays(RandomNumber(0, 30)),
+                        Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
+
                         State = EntityState.Open
                     }
                     );
@@ -356,20 +384,20 @@ namespace Data.Migrations
                     Email = string.Format("{0}@{1}.me", GetRandomString(5), GetRandomString(6)),
                     Files = new List<File>() { },
                     IsMale = true,
-                    LanguageSkills = Enumerable.Repeat(LanguageSkills.GetRandom(), RandomNumber(0,5)).Distinct().ToList(),
+                    LanguageSkills = Enumerable.Repeat(LanguageSkills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     LastName = lastNames.GetRandom(),
                     MiddleName = names.GetRandom(),
-                    PhoneNumbers = Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, RandomNumber(0,5)).Distinct().ToList(),
+                    PhoneNumbers = Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, RandomNumber(0, 5)).Distinct().ToList(),
                     Photo = new Photo() { Description = GetRandomString(25), ImagePath = GetRandomNumbers(25) },
                     PositionDesired = professons.GetRandom(),
                     Practice = GetRandomString(20),
                     RelocationAgreement = true,
                     SalaryDesired = RandomNumber(300, 3000),
-                    Skills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0,5)).Distinct().ToList(),
-                    Skype = "skyper."+GetRandomNumbers(4),
+                    Skills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
+                    Skype = "skyper." + GetRandomNumbers(4),
                     //SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() {SocialNetwork = Socials.GetRandom(), Path = GetRandomString(15) } },
-                    Sources = Enumerable.Repeat(CandidateSources.GetRandom(), RandomNumber(0,5)).Distinct().ToList(),
-                    StartExperience = DateTime.Now.AddYears(-RandomNumber(0,10)),
+                    Sources = Enumerable.Repeat(CandidateSources.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
+                    StartExperience = DateTime.Now.AddYears(-RandomNumber(0, 10)),
                     Tags = new List<Tag>(),
                     TypeOfEmployment = TypeOfEmployment.FullTime,
                     VacanciesProgress = new List<VacancyStageInfo>() { }
@@ -378,7 +406,7 @@ namespace Data.Migrations
             }
             return candidates;
         }
-        
+
         public static T GetRandom<T>(this List<T> source)
         {
             return source.PickRandom(1).Single();
@@ -399,7 +427,7 @@ namespace Data.Migrations
             var stringChars = new char[count];
             for (int i = 0; i < stringChars.Length; i++)
             {
-                stringChars[i] = chars[RandomNumber(0,chars.Length)];
+                stringChars[i] = chars[RandomNumber(0, chars.Length)];
             }
             return new String(stringChars);
         }
@@ -409,7 +437,7 @@ namespace Data.Migrations
             var stringChars = new char[count];
             for (int i = 0; i < count; i++)
             {
-                stringChars[i] = nums[RandomNumber(0,nums.Length)];
+                stringChars[i] = nums[RandomNumber(0, nums.Length)];
             }
 
             return new String(stringChars);

@@ -1,6 +1,10 @@
 const MAX_SIZE_OF_FILE = 5120;
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
     'departments', 'tags', 'skills', 'typesOfEmployment', 'languageLevels'];
+import {
+   find,
+   remove
+} from 'lodash';
 
 export default function VacancyController(
    $scope,
@@ -27,6 +31,7 @@ export default function VacancyController(
    vm.uploader = createNewUploader();
    vm.vacancy.requiredSkills = vm.vacancy.requiredSkills || [];
    vm.vacancy.tags = vm.vacancy.tags || [];
+   vm.removeFile = removeFile;
    vm.errorMessageFromFileUploader = '';
    /* === impl === */
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
@@ -47,12 +52,22 @@ export default function VacancyController(
          }
       });
       newUploader.onSuccessItem = function onSuccessUpload(item) {
-         vm.vacancy.files.push(item._xhr.response);
+         let response = JSON.parse(item._xhr.response);
+         vm.vacancy.files.push(response);
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
          vm.errorMessageFromFileUploader = $translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE');
       };
       return newUploader;
+   }
+   function removeFile(file) {
+      let currentFileId = JSON.parse(file._xhr.response).id;
+      let removedFile = find(vm.vacancy.files, {id: currentFileId});
+      console.log('removedFile', removedFile);
+      removedFile.state = 1; // eslint-disable-line no-magic-numbers
+      remove(vm.vacancy.files, {id: currentFileId});
+      vm.vacancy.files.push(removedFile);
+      file.remove();
    }
 
    function cancel() {
@@ -75,6 +90,7 @@ export default function VacancyController(
    function _vs() {
       VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
+         vm.vacancy.files = vacancy.files;
       });
    }
 }

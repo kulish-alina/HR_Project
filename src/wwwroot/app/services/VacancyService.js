@@ -84,7 +84,9 @@ export default class VacancyService {
          delete vacancy.createdOn;
          delete vacancy.responsible;
          vacancy.languageSkill = vacancy.languageSkill || {};
-         if (isEmpty(vacancy.languageSkill)) {
+         if (isEmpty(vacancy.languageSkill) ||
+             vacancy.languageSkill.languageId === '' ||
+             vacancy.languageSkill.languageId === 'undefined') {
             vacancy.languageSkill = null;
          } else {
             vacancy.languageSkill.languageLevel = parseInt(vacancy.languageSkill.languageLevel);

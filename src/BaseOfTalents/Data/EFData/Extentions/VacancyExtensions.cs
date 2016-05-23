@@ -166,6 +166,7 @@ namespace Data.EFData.Extentions
             if(updatedLanguageSkill==null)
             {
                 destination.LanguageSkill = null;
+                return;
             }
             if (updatedLanguageSkill.ShouldBeRemoved())
             {

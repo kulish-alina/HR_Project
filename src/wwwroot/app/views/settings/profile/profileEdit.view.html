@@ -21,14 +21,14 @@
                   </li>
                </ul>
                <input type="text" ng-model="user.location" placeholder="{{::'COMMON.CITY' | translate}}" name="Location" validator="title">
-               <date datemodel="user.birthDate" dateset="user.birthDate" placeholder="{{::'COMMON.BIRTH' | translate}}"></date>
+               <date datemodel="user.birthDate" placeholder="{{::'COMMON.BIRTH' | translate}}"></date>
             </fieldset>
          </div>
          <div class="medium-3 grid-block">
             <fieldset>
                <input type="text" ng-model="user.email" placeholder="{{::'COMMON.EMAIL' | translate}}" name="Email" validator="required, email">
                <input type="text" ng-model="user.skype" placeholder="{{::'COMMON.SKYPE' | translate}}" name="Skype" validator="minlength=6, maxlength=32">
-               <input type="password" ng-model="user.Password" placeholder="{{::'SETTINGS.PASS' | translate}}" name="Password" validator="required, minlength=6, maxlength=50">
+               <input type="password" ng-model="user.password" placeholder="{{::'SETTINGS.PASS' | translate}}" name="Password" validator="required, minlength=6, maxlength=50">
             </fieldset>
          </div>
          <div class="medium-3 grid-block">

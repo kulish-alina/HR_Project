@@ -1,7 +1,7 @@
 import './profile.scss';
 
 import {
-   some
+   includes
 } from 'lodash';
 
 export default function ProfileController (
@@ -72,8 +72,6 @@ export default function ProfileController (
       return UserService.getCurrentUser()
          .then((val) => {
             vm.user = val;
-         })
-         .then(() => {
             vm.user.phoneNumbers = vm.user.phoneNumbers || [ '' ];
          });
    }
@@ -83,11 +81,11 @@ export default function ProfileController (
    }
 
    function _cantAddNewPhone() {
-      return some(vm.user.phoneNumbers, (v) => v === '');
+      return includes(vm.user.phoneNumbers, '');
    }
 
    function _updatePhoneNumbers(number, index) {
-      if (number && !some(vm.user.phoneNumbers, (v) => v === number)) {
+      if (number && !includes(vm.user.phoneNumbers, number)) {
          vm.user.phoneNumbers[index] = number;
       } else {
          vm.user.phoneNumbers.splice(index, 1);

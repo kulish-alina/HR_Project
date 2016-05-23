@@ -17,6 +17,7 @@ namespace Data.Migrations
         {
             //if (System.Diagnostics.Debugger.IsAttached == false)
             //    System.Diagnostics.Debugger.Launch();
+            random = new Random();
 
             Roles = GetRoles(42);
             Users = GetUsers(150);
@@ -240,13 +241,12 @@ namespace Data.Migrations
         private static List<User> GetUsers(int count)
         {
             var users = new List<User>();
-
             for (int i = 0; i < count; i++)
             {
                 users.Add(
                     new User
                     {
-                        BirthDate = DateTime.Now.AddYears(-rnd.Next(20, 40)),
+                        BirthDate = DateTime.Now.AddYears(-random.Next(20, 40)),
                         Email = string.Format("{0}@{1}.ua", GetRandomString(8), GetRandomString(6)),
                         FirstName = names.GetRandom(),
                         isMale = true,
@@ -295,26 +295,36 @@ namespace Data.Migrations
                 vacancies.Add(
                     new Vacancy
                     {
-                        DeadlineDate = DateTime.Now.AddDays(rnd.Next(-40, 40)),
+                        DeadlineDate = DateTime.Now.AddDays(random.Next(-40, 40)),
                         Department = Departments.GetRandom(),
                         Description = GetRandomString(250),
                         Industry = Industries.GetRandom(),
                         LanguageSkill = LanguageSkills.GetRandom(),
-                        Levels = Levels.Take(rnd.Next(Levels.Count)).ToList(),
-                        Locations = Locations.Take(rnd.Next(Levels.Count)).ToList(),
-                        RequiredSkills = Skills.Take(rnd.Next(Skills.Count)).ToList(),
+                        Levels = Levels.Take(random.Next(Levels.Count)).ToList(),
+                        Locations = Locations.Take(random.Next(Levels.Count)).ToList(),
+                        RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), random.Next(5)).Distinct().ToList(),
                         Responsible = Users.GetRandom(),
-                        SalaryMax = rnd.Next(1000, 2000),
-                        SalaryMin = rnd.Next(0, 1000),
-                        StartDate = DateTime.Now.AddDays(rnd.Next(-80, -40)),
+                        SalaryMax = random.Next(1000, 2000),
+                        SalaryMin = random.Next(0, 1000),
+                        StartDate = DateTime.Now.AddDays(random.Next(-80, -40)),
                         Title = professons.GetRandom(),
                         TypeOfEmployment = TypeOfEmployment.FullTime,
-                        EndDate = DateTime.Now.AddDays(rnd.Next(30)),
+                        EndDate = DateTime.Now.AddDays(random.Next(30)),
+                        Tags = Enumerable.Repeat(Tags.GetRandom(), random.Next(5)).Distinct().ToList(),
+                        
+                        State = EntityState.Open
                     }
                     );
             }
             return vacancies;
         }
+
+        public static readonly List<CandidateSource> CandidateSources = new List<CandidateSource>
+        {
+            new CandidateSource() { Source = Source.WorkUa, Path = "Path Work" },
+            new CandidateSource() { Source = Source.Djinni, Path = "Path Jinn" },
+            new CandidateSource() { Source = Source.RabotaUa, Path = "Path Rabota" }
+        };
 
         public static readonly List<Candidate> Candidates;
         private static List<Candidate> GetCandidates(int count)
@@ -325,30 +335,30 @@ namespace Data.Migrations
             {
                 Candidate candidate = new Candidate()
                 {
-                    LocationId = rnd.Next(1, Locations.Count - 1),
-                    BirthDate = DateTime.Now.AddYears(rnd.Next(-40, -20)),
+                    LocationId = random.Next(1, Locations.Count - 1),
+                    BirthDate = DateTime.Now.AddYears(random.Next(-40, -20)),
                     Comments = new List<Comment> { },
                     Education = GetRandomString(15),
                     FirstName = names.GetRandom(),
-                    IndustryId = rnd.Next(1, Industries.Count - 1),
+                    IndustryId = random.Next(1, Industries.Count - 1),
                     Description = professons.GetRandom(),
                     Email = string.Format("{0}@{1}.me", GetRandomString(5), GetRandomString(6)),
                     Files = new List<File>() { },
                     IsMale = true,
-                    LanguageSkills = new List<LanguageSkill>() { LanguageSkills.GetRandom() },
+                    LanguageSkills = Enumerable.Repeat(LanguageSkills.GetRandom(), random.Next(5)).Distinct().ToList(),
                     LastName = lastNames.GetRandom(),
                     MiddleName = names.GetRandom(),
-                    PhoneNumbers = new List<PhoneNumber>() { },
+                    PhoneNumbers = Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, random.Next(5)).Distinct().ToList(),
                     Photo = new Photo() { Description = GetRandomString(25), ImagePath = GetRandomNumbers(25) },
                     PositionDesired = professons.GetRandom(),
                     Practice = GetRandomString(20),
                     RelocationAgreement = true,
-                    SalaryDesired = rnd.Next(300, 3000),
-                    Skills = new List<Skill>() { Skills.GetRandom() },
-                    Skype = "skyper133",
+                    SalaryDesired = random.Next(300, 3000),
+                    Skills = Enumerable.Repeat(Skills.GetRandom(), random.Next(5)).Distinct().ToList(),
+                    Skype = "skyper."+GetRandomNumbers(4),
                     //SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() {SocialNetwork = Socials.GetRandom(), Path = GetRandomString(15) } },
-                    Sources = new List<CandidateSource>() { new CandidateSource() { Source = Source.WorkUa, Path = "Path" } },
-                    StartExperience = DateTime.Now.AddYears(-rnd.Next(10)),
+                    Sources = Enumerable.Repeat(CandidateSources.GetRandom(), random.Next(5)).Distinct().ToList(),
+                    StartExperience = DateTime.Now.AddYears(-random.Next(10)),
                     Tags = new List<Tag>(),
                     TypeOfEmployment = TypeOfEmployment.FullTime,
                     VacanciesProgress = new List<VacancyStageInfo>() { }
@@ -358,16 +368,16 @@ namespace Data.Migrations
             return candidates;
         }
 
-        static Random rnd = new Random();
+        private static readonly Random random;
+        
         public static T GetRandom<T>(this List<T> list)
         {
-            return list[rnd.Next(list.Count - 1)];
+            return list[random.Next(list.Count)];
         }
 
         private static string GetRandomString(int count)
         {
-            var random = new Random();
-            var chars = "abcdefghijklmnopqrstuvwxyz";
+            var chars = "abcdefghijklmnopqrstuvwxyz ";
             var stringChars = new char[count];
             for (int i = 0; i < stringChars.Length; i++)
             {
@@ -377,7 +387,6 @@ namespace Data.Migrations
         }
         private static string GetRandomNumbers(int count)
         {
-            var random = new Random();
             var nums = "1234567890";
             var stringChars = new char[count];
             for (int i = 0; i < stringChars.Length; i++)

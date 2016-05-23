@@ -56,7 +56,8 @@ namespace WebApi.Controllers
                             _repoFactory.GetDataRepository<Skill>(request),
                             _repoFactory.GetDataRepository<Tag>(request),
                             _repoFactory.GetDataRepository<LanguageSkill>(request),
-                            _repoFactory.GetDataRepository<VacancyStageInfo>(request));
+                            _repoFactory.GetDataRepository<VacancyStageInfo>(request),
+                            _repoFactory.GetDataRepository<File>(request));
                         _vacancyRepo.Add(_vacancy);
                         _vacancyRepo.Commit();
                         return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);
@@ -100,7 +101,8 @@ namespace WebApi.Controllers
                             _repoFactory.GetDataRepository<Skill>(request),
                             _repoFactory.GetDataRepository<Tag>(request),
                             _repoFactory.GetDataRepository<LanguageSkill>(request),
-                            _repoFactory.GetDataRepository<VacancyStageInfo>(request));
+                            _repoFactory.GetDataRepository<VacancyStageInfo>(request),
+                            _repoFactory.GetDataRepository<File>(request));
                         _vacancyRepository.Update(_vacancy);
                         _vacancyRepository.Commit();
                         return Json(DTOService.ToDTO<Vacancy, VacancyDTO>(_vacancy), BOT_SERIALIZER_SETTINGS);
@@ -123,11 +125,8 @@ namespace WebApi.Controllers
             return CreateResponse(request, () =>
             {
                 var vacanciesQuery = _vacancyRepository.GetAll();
-                if (searchParams.PageSize == 0)
-                {
-                    searchParams.PageSize = 20;
-                }
-                var skipped = searchParams.PageSize * (searchParams.CurrentPage - 1);
+
+                var skipped = searchParams.Size * (searchParams.Current - 1);
 
                 if (searchParams.IndustryId.HasValue)
                 {
@@ -162,10 +161,10 @@ namespace WebApi.Controllers
 
                 var entities = vacanciesQuery
                                         .AsNoTracking()
-                                        .Paging(skipped,searchParams.PageSize)
+                                        .Paging(skipped,searchParams.Size)
                                        .ToList()
                                        .Select(x => DTOService.ToDTO<Vacancy, VacancyDTO>(x));
-                return Json(entities, BOT_SERIALIZER_SETTINGS);
+                return Json(new { Vacancies = entities, Total = vacanciesQuery.Count(), Current = searchParams.Current }, BOT_SERIALIZER_SETTINGS);
             });
         }
 

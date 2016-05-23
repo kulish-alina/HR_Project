@@ -65,6 +65,9 @@ namespace WebApi
                 x.CreateMap<Tag, TagDTO>();
                 x.CreateMap<TagDTO, Tag>();
 
+                x.CreateMap<File, FileDTO>();
+                x.CreateMap<FileDTO, File>();
+
                 x.CreateMap<CandidateSource, CandidateSourceDTO>();
                 x.CreateMap<CandidateSourceDTO, CandidateSource>();
 
@@ -114,14 +117,16 @@ namespace WebApi
                     .ForMember(dest => dest.SocialNetworks,         opt => opt.MapFrom(src => Mapper.Map<IEnumerable<CandidateSocial>, IEnumerable<CandidateSocialDTO>>(src.SocialNetworks)))
                     .ForMember(dest => dest.LanguageSkills,         opt => opt.MapFrom(src => Mapper.Map<IEnumerable<LanguageSkill>, IEnumerable<LanguageSkillDTO>>(src.LanguageSkills)))
                     .ForMember(dest => dest.TagIds,                 opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Tag>, IEnumerable<int>>(src.Tags)))
-                    .ForMember(dest => dest.SkillIds,               opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.Skills)));
+                    .ForMember(dest => dest.SkillIds,               opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.Skills)))
+                    .ForMember(dest => dest.Files,                  opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
 
                 x.CreateMap<Vacancy, VacancyDTO>()
                     .ForMember(dest => dest.CandidatesProgress,     opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.CandidatesProgress)))
                     .ForMember(dest => dest.LevelIds,               opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Level>, IEnumerable<int>>(src.Levels)))
                     .ForMember(dest => dest.LocationIds,            opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Location>, IEnumerable<int>>(src.Locations)))
                     .ForMember(dest => dest.TagIds,                 opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Tag>, IEnumerable<int>>(src.Tags)))
-                    .ForMember(dest => dest.RequiredSkillIds,       opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.RequiredSkills)));
+                    .ForMember(dest => dest.RequiredSkillIds,       opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.RequiredSkills)))
+                    .ForMember(dest => dest.Files,                  opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
             });
         }
     }

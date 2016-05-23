@@ -21,6 +21,7 @@ namespace Domain.DTO.DTOModels
             CandidatesProgress = new List<VacancyStageInfoDTO>();
             Files = new List<FileDTO>();
         }
+
         public string Title { get; set; }
         public string Description { get; set; }
         public int SalaryMin { get; set; }

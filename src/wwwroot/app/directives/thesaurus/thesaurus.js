@@ -44,6 +44,7 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate, Fil
    vm.removeThesaurusTopic        = deleteThesaurusTopic;
 
 
+
    /* === impl === */
    let editTopicClone = null;
    (function _init() {

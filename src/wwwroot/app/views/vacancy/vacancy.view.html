@@ -40,7 +40,7 @@
                               </select>
                            </div>
                            <div class="medium-6 grid-block">
-                              <select name="LanguageLevel" ng-model="vacancy.languageSkill.languageLevel">
+                              <select ng-disabled="!vacancy.languageSkill.languageId" name="LanguageLevel" ng-model="vacancy.languageSkill.languageLevel">
                                  <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
                                  <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
                               </select>
@@ -66,7 +66,7 @@
                               <input ng-model="vacancy.salaryMin" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="number" min="0" step="50">
                            </div>
                            <div class="medium-6 grid-block">
-                              <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="number" min="0" step="50">
+                              <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="number" min="{{vacancy.salaryMin}}" step="50">
                            </div>
                         </div>
                         <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
@@ -93,7 +93,7 @@
                            <option selected value="7">{{::'VACANCY.CLOSED' | translate}}</option>
                            <option selected value="8">{{::'VACANCY.CANCELLED' | translate}}</option>
                         </select>
-                        <date datemodel="vacancy.startDate" placeholder="{{::'COMMON.START_DATE' | translate}}"></date>
+                        <date datemodel="vacancy.startDate" placeholder="{{::'COMMON.START_DATE' | translate}}" daterequired="true"></date>
                         <date datemodel="vacancy.deadlineDate" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}"></date>
                         <date datemodel="vacancy.endDate" placeholder="{{::'COMMON.END_DATE' | translate}}"></date>
                         <input ng-model="vacancy.deadlineToCalendar" value="true" id="DeadlineToCalendar" type="checkbox">

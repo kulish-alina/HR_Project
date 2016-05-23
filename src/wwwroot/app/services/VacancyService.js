@@ -9,7 +9,8 @@ import {
    union,
    cloneDeep,
    first,
-   reduce
+   reduce,
+   isEmpty
 } from 'lodash';
 const VACANCY_URL = 'vacancies/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate', 'createdOn'];
@@ -83,7 +84,9 @@ export default class VacancyService {
          delete vacancy.createdOn;
          delete vacancy.responsible;
          vacancy.languageSkill = vacancy.languageSkill || {};
-         if (vacancy.languageSkill === undefined) {
+         if (isEmpty(vacancy.languageSkill)) {
+            vacancy.languageSkill = null;
+         } else {
             vacancy.languageSkill.languageLevel = parseInt(vacancy.languageSkill.languageLevel);
             vacancy.languageSkill.languageId = parseInt(vacancy.languageSkill.languageId);
          }

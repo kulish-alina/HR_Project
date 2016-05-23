@@ -3,7 +3,7 @@
 import  vacancyService from './VacancyService';
 
 describe('VacancyService tests for', () => {
-   let service = null;   
+   let service = null;
    let promiseMock = {
       when:    () => promiseMock,
       all:     () => promiseMock,

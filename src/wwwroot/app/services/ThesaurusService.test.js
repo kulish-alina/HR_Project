@@ -2,14 +2,6 @@
 
 import ThesaurusService from './ThesaurusService';
 
-import {
-   forEach,
-   has,
-   not
-} from 'lodash';
-
-import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
-
 describe('ThesaurusService testing: ', function() {
    let service = null;
    let promiseMock = {

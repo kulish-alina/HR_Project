@@ -86,6 +86,7 @@
     <Compile Include="EFData\Extentions\CandidateSocialExtensions.cs" />
     <Compile Include="EFData\Extentions\CandidateSourceExtensions.cs" />
     <Compile Include="EFData\Extentions\DateTimeExtensions.cs" />
+    <Compile Include="EFData\Extentions\FileExtensions.cs" />
     <Compile Include="EFData\Extentions\LanguageSkillExtensions.cs" />
     <Compile Include="EFData\Extentions\PagingExtention.cs" />
     <Compile Include="EFData\Extentions\PhoneNumberExtension.cs" />

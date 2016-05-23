@@ -157,11 +157,16 @@ namespace Data.EFData.Extentions
 
         private static void PerformLanguageSkillsSaving(Vacancy destination, VacancyDTO source, IRepository<LanguageSkill> languageSkillRepository)
         {
-            var updatedLanguageSkill = source.LanguageSkill ?? new LanguageSkillDTO();
+            var updatedLanguageSkill = source.LanguageSkill;
             LanguageSkill domainLanguageSkill = destination.LanguageSkill;
             if (destination.LanguageSkill == null)
             {
                 domainLanguageSkill = destination.LanguageSkill = new LanguageSkill();
+            }
+            if(updatedLanguageSkill==null)
+            {
+                domainLanguageSkill = null;
+                return;
             }
             if (updatedLanguageSkill.ShouldBeRemoved())
             {

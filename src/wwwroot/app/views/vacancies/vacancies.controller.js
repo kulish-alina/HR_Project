@@ -16,18 +16,29 @@ export default function VacanciesController(
    'ngInject';
 
    const vm = $scope;
-   vm.vacancies = [];
-   vm.getVacancies = getVacancies;
    vm.getVacancy = getVacancy;
    vm.deleteVacancy = deleteVacancy;
    vm.editVacancy = editVacancy;
+   vm.cancel = cancel;
    vm.thesaurus = [];
    vm.responsibles = [];
    vm.searchVacancies = searchVacancies;
    vm.beforeOpenModal = beforeOpenModal;
    vm.vacancy = {};
-   vm.currentPage = 1;
-   vm.pageSize = 10;
+   vm.vacancies = [];
+   vm.total = 0;
+   vm.vacancy.current = 1;
+   vm.vacancy.size = 20;
+   vm.pagination = { current: 1 };
+   vm.pageChanged = pageChanged;
+
+   function pageChanged(newPage) {
+      vm.vacancy.current = newPage;
+      VacancyService.search(vm.vacancy).then(response => {
+         vm.total = response.total;
+         vm.vacancies = response.vacancies;
+      }).catch(_onError);
+   };
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
@@ -36,15 +47,9 @@ export default function VacanciesController(
    });
 
    function searchVacancies() {
-      VacancyService.search(vm.vacancy).then(value => {
-         console.log(value.vacancies);
-         vm.vacancies = value.vacancies;
-      }).catch(_onError);
-   }
-
-   function getVacancies() {
-      VacancyService.getVacancies().then(value => {
-         vm.vacancies = value;
+      VacancyService.search(vm.vacancy).then(response => {
+         vm.total = response.total;
+         vm.vacancies = response.vacancies;
       }).catch(_onError);
    }
 
@@ -58,8 +63,11 @@ export default function VacanciesController(
       $state.go('vacancy', {_data: vacancy});
    }
 
+   function cancel() {
+      $state.reload();
+   }
+
    function beforeOpenModal(vacancyId) {
-      console.log(vacancyId);
       vm.selectedVacancyId = vacancyId;
    }
 

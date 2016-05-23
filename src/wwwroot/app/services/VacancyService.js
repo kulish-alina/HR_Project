@@ -46,13 +46,15 @@ export default class VacancyService {
       _LoggerService.debug('search vacancies', condition);
       const searchUrl = 'search';
       const additionalUrl = VACANCY_URL + searchUrl;
-      return _HttpService.post(additionalUrl, condition).then(entities => {
-         return _$q.all(map(entities, this.convertFromServerFormat));
+      return _HttpService.post(additionalUrl, condition).then(response => {
+         return _$q.all(map(response.vacancies, this.convertFromServerFormat)).then((vacancies) => {
+            response.vacancies = vacancies;
+            return response;
+         });
       });
    }
 
    convertFromServerFormat(vacancy) {
-      console.log('vacancy', vacancy);
       vacancy = _convertFromServerDates(vacancy);
       vacancy.responsibleId = toString(vacancy.responsibleId);
       return _$q.all([_fillThesauruses(vacancy), _fillUser(vacancy)]).then(first);
@@ -81,8 +83,10 @@ export default class VacancyService {
          delete vacancy.createdOn;
          delete vacancy.responsible;
          vacancy.languageSkill = vacancy.languageSkill || {};
-         vacancy.languageSkill.languageLevel = parseInt(vacancy.languageSkill.languageLevel);
-         vacancy.languageSkill.languageId = parseInt(vacancy.languageSkill.languageId);
+         if (vacancy.languageSkill === undefined) {
+            vacancy.languageSkill.languageLevel = parseInt(vacancy.languageSkill.languageLevel);
+            vacancy.languageSkill.languageId = parseInt(vacancy.languageSkill.languageId);
+         }
          vacancy.responsibleId = parseInt(vacancy.responsibleId);
 
          if (vacancy.id) {

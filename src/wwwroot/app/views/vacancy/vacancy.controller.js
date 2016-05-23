@@ -6,6 +6,7 @@ export default function VacancyController(
    $scope,
    $translate,
    $state,
+   $element,
    VacancyService,
    ValidationService,
    FileUploader,
@@ -54,9 +55,9 @@ export default function VacancyController(
       return newUploader;
    }
 
-   function cancel(form) {
-      ValidationService.reset(form);
-      vm.vacancy = {};
+   function cancel() {
+      $state.params._data = null;
+      $state.reload();
    }
 
    function saveVacancy(ev, form) {

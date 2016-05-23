@@ -12,7 +12,7 @@
    </div>
    <div class="large-2 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
+         <li><a ng-click="cancel()">{{::'COMMON.CANCEL' | translate}}</a>
          </li>
          <li><a href="#">{{::'COMMON.ADD_AND_BACK' | translate}}</a>
          </li>
@@ -73,7 +73,7 @@
                   </tr>
                </thead>
                <tbody>
-                  <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | filter:q | itemsPerPage: pageSize">
+                  <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | itemsPerPage: vacancy.size" total-items = "total" current-page = "pagination.current">
                      <td>{{$index+1}}</td>
                      <td>{{vacancy.title}}</td>
                      <td>{{vacancy.entityStates[0].title}}</td>
@@ -95,9 +95,9 @@
                </tbody>
             </table>
             <div class="switch-pages">
-               <dir-pagination-controls max-size="5" boundary-links="true" template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html" [auto-hide=""]>
+               <dir-pagination-controls max-size="5" boundary-links="true" template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html" [auto-hide=""] on-page-change="pageChanged(newPageNumber)">
                </dir-pagination-controls>
-               <div data-pagination="" data-num-pages="numPages()" data-current-page="currentPage" data-max-size="maxSize" data-boundary-links="true"></div>
+<!--               <div data-pagination="" data-num-pages="numPages()" data-current-page="currentPage" data-max-size="maxSize" data-boundary-links="true"></div>-->
             </div>
          </div>
       </div>

@@ -157,15 +157,11 @@ namespace Data.EFData.Extentions
 
         private static void PerformLanguageSkillsSaving(Vacancy destination, VacancyDTO source, IRepository<LanguageSkill> languageSkillRepository)
         {
-            var updatedLanguageSkill = source.LanguageSkill;
+            var updatedLanguageSkill = source.LanguageSkill ?? new LanguageSkillDTO();
             LanguageSkill domainLanguageSkill = destination.LanguageSkill;
             if (destination.LanguageSkill == null)
             {
                 domainLanguageSkill = destination.LanguageSkill = new LanguageSkill();
-            }
-            if (updatedLanguageSkill == null)
-            {
-                throw new ArgumentNullException("Request contains unknown entity");
             }
             if (updatedLanguageSkill.ShouldBeRemoved())
             {

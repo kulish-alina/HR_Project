@@ -142,9 +142,9 @@
     <Compile Include="Infrasctucture\IDataRepositoryFactory.cs" />
     <Compile Include="Infrasctucture\IUnitOfWork.cs" />
     <Compile Include="Infrasctucture\UnitOfWork.cs" />
-    <Compile Include="Migrations\201605171325227_init.cs" />
-    <Compile Include="Migrations\201605171325227_init.Designer.cs">
-      <DependentUpon>201605171325227_init.cs</DependentUpon>
+    <Compile Include="Migrations\201605231103418_init.cs" />
+    <Compile Include="Migrations\201605231103418_init.Designer.cs">
+      <DependentUpon>201605231103418_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -161,8 +161,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605171325227_init.resx">
-      <DependentUpon>201605171325227_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605231103418_init.resx">
+      <DependentUpon>201605231103418_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

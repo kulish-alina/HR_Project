@@ -1,29 +1,38 @@
-﻿using Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Domain.Entities;
 using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
 using Domain.Entities.Setup;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Migrations
 {
     public static class DummyData
     {
-
         static DummyData()
         {
             //if (System.Diagnostics.Debugger.IsAttached == false)
             //    System.Diagnostics.Debugger.Launch();
-            random = new Random();
 
             Roles = GetRoles(42);
             Users = GetUsers(150);
-            Vacancies = GetVacancies(1080);
+            Vacancies = GetVacancies(11080);
             Candidates = GetCandidates(31337);
         }
+
+        #region randomizer
+        //Function to get random number
+        private static readonly Random rnd = new Random();
+        private static readonly object syncLock = new object();
+        public static int RandomNumber(int min, int max)
+        {
+            lock (syncLock)
+            { // synchronize
+                return rnd.Next(min, max);
+            }
+        }
+        #endregion
 
         public static readonly List<Skill> Skills = new List<Skill>()
             {
@@ -237,6 +246,36 @@ namespace Data.Migrations
             new SocialNetwork { ImagePath = GetRandomNumbers(12), Title="MySpace"}
         };
 
+        public static readonly List<EventType> Events = new List<EventType>()
+        {
+            new EventType()
+            {
+                Title = "HR Interview",
+                ImagePath = GetRandomNumbers(12)
+            },
+            new EventType()
+            {
+                Title = "Tech Interview",
+                ImagePath = GetRandomNumbers(12)
+            },
+            new EventType()
+            {
+                Title = "Final Interview",
+                ImagePath = GetRandomNumbers(12)
+            },
+            new EventType()
+            {
+                Title = "Candidate's Birthday",
+                ImagePath = GetRandomNumbers(12)
+            },
+            new EventType()
+            {
+                Title = "Candidate's First Day",
+                ImagePath = GetRandomNumbers(12)
+            }
+        };
+
+
         public static List<User> Users;
         private static List<User> GetUsers(int count)
         {
@@ -246,7 +285,7 @@ namespace Data.Migrations
                 users.Add(
                     new User
                     {
-                        BirthDate = DateTime.Now.AddYears(-random.Next(20, 40)),
+                        BirthDate = DateTime.Now.AddYears(-RandomNumber(20, 40)),
                         Email = string.Format("{0}@{1}.ua", GetRandomString(8), GetRandomString(6)),
                         FirstName = names.GetRandom(),
                         isMale = true,
@@ -295,23 +334,23 @@ namespace Data.Migrations
                 vacancies.Add(
                     new Vacancy
                     {
-                        DeadlineDate = DateTime.Now.AddDays(random.Next(-40, 40)),
+                        DeadlineDate = DateTime.Now.AddDays(RandomNumber(-40, 40)),
                         Department = Departments.GetRandom(),
                         Description = GetRandomString(250),
                         Industry = Industries.GetRandom(),
                         LanguageSkill = LanguageSkills.GetRandom(),
-                        Levels = Levels.Take(random.Next(Levels.Count)).ToList(),
-                        Locations = Locations.Take(random.Next(Levels.Count)).ToList(),
-                        RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), random.Next(5)).Distinct().ToList(),
+                        Levels = Levels.Take(RandomNumber(0, Levels.Count)).ToList(),
+                        Locations = Locations.Take(RandomNumber(0, Levels.Count)).ToList(),
+                        RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                         Responsible = Users.GetRandom(),
-                        SalaryMax = random.Next(1000, 2000),
-                        SalaryMin = random.Next(0, 1000),
-                        StartDate = DateTime.Now.AddDays(random.Next(-80, -40)),
+                        SalaryMax = RandomNumber(1000, 2000),
+                        SalaryMin = RandomNumber(0, 1000),
+                        StartDate = DateTime.Now.AddDays(RandomNumber(-80, -40)),
                         Title = professons.GetRandom(),
                         TypeOfEmployment = TypeOfEmployment.FullTime,
-                        EndDate = DateTime.Now.AddDays(random.Next(30)),
-                        Tags = Enumerable.Repeat(Tags.GetRandom(), random.Next(5)).Distinct().ToList(),
-                        
+                        EndDate = DateTime.Now.AddDays(RandomNumber(0, 30)),
+                        Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
+
                         State = EntityState.Open
                     }
                     );
@@ -335,30 +374,30 @@ namespace Data.Migrations
             {
                 Candidate candidate = new Candidate()
                 {
-                    LocationId = random.Next(1, Locations.Count - 1),
-                    BirthDate = DateTime.Now.AddYears(random.Next(-40, -20)),
+                    LocationId = RandomNumber(1, Locations.Count - 1),
+                    BirthDate = DateTime.Now.AddYears(RandomNumber(-40, -20)),
                     Comments = new List<Comment> { },
                     Education = GetRandomString(15),
                     FirstName = names.GetRandom(),
-                    IndustryId = random.Next(1, Industries.Count - 1),
+                    IndustryId = RandomNumber(1, Industries.Count - 1),
                     Description = professons.GetRandom(),
                     Email = string.Format("{0}@{1}.me", GetRandomString(5), GetRandomString(6)),
                     Files = new List<File>() { },
                     IsMale = true,
-                    LanguageSkills = Enumerable.Repeat(LanguageSkills.GetRandom(), random.Next(5)).Distinct().ToList(),
+                    LanguageSkills = Enumerable.Repeat(LanguageSkills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     LastName = lastNames.GetRandom(),
                     MiddleName = names.GetRandom(),
-                    PhoneNumbers = Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, random.Next(5)).Distinct().ToList(),
+                    PhoneNumbers = Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, RandomNumber(0, 5)).Distinct().ToList(),
                     Photo = new Photo() { Description = GetRandomString(25), ImagePath = GetRandomNumbers(25) },
                     PositionDesired = professons.GetRandom(),
                     Practice = GetRandomString(20),
                     RelocationAgreement = true,
-                    SalaryDesired = random.Next(300, 3000),
-                    Skills = Enumerable.Repeat(Skills.GetRandom(), random.Next(5)).Distinct().ToList(),
-                    Skype = "skyper."+GetRandomNumbers(4),
+                    SalaryDesired = RandomNumber(300, 3000),
+                    Skills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
+                    Skype = "skyper." + GetRandomNumbers(4),
                     //SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() {SocialNetwork = Socials.GetRandom(), Path = GetRandomString(15) } },
-                    Sources = Enumerable.Repeat(CandidateSources.GetRandom(), random.Next(5)).Distinct().ToList(),
-                    StartExperience = DateTime.Now.AddYears(-random.Next(10)),
+                    Sources = Enumerable.Repeat(CandidateSources.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
+                    StartExperience = DateTime.Now.AddYears(-RandomNumber(0, 10)),
                     Tags = new List<Tag>(),
                     TypeOfEmployment = TypeOfEmployment.FullTime,
                     VacanciesProgress = new List<VacancyStageInfo>() { }
@@ -368,11 +407,18 @@ namespace Data.Migrations
             return candidates;
         }
 
-        private static readonly Random random;
-        
-        public static T GetRandom<T>(this List<T> list)
+        public static T GetRandom<T>(this List<T> source)
         {
-            return list[random.Next(list.Count)];
+            return source.PickRandom(1).Single();
+        }
+        public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count)
+        {
+            return source.Shuffle().Take(count);
+        }
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+        {
+            return source.OrderBy(x => Guid.NewGuid());
         }
 
         private static string GetRandomString(int count)
@@ -381,7 +427,7 @@ namespace Data.Migrations
             var stringChars = new char[count];
             for (int i = 0; i < stringChars.Length; i++)
             {
-                stringChars[i] = chars[random.Next(chars.Length)];
+                stringChars[i] = chars[RandomNumber(0, chars.Length)];
             }
             return new String(stringChars);
         }
@@ -389,9 +435,9 @@ namespace Data.Migrations
         {
             var nums = "1234567890";
             var stringChars = new char[count];
-            for (int i = 0; i < stringChars.Length; i++)
+            for (int i = 0; i < count; i++)
             {
-                stringChars[i] = nums[random.Next(nums.Length)];
+                stringChars[i] = nums[RandomNumber(0, nums.Length)];
             }
 
             return new String(stringChars);
@@ -413,6 +459,7 @@ namespace Data.Migrations
             "Специалист в области биомедицины", "Научный аналитик", "Стоматолог-гигиенист", "Инженер-программист", "Терапевт",
             "Специалист компьютерных систем", "Журналист", "Лесоруб", "Военнослужащий в нижних воинских званиях", "Шеф-повар",
             "Конферансье (тамада, шоумен и прочие смежные профессии)", "Фоторепортер", "Редактор", "Водитель такси", "Пожарный", "Почтовый курьер" };
+
 
     }
 }

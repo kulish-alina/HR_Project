@@ -150,10 +150,6 @@
     <Compile Include="Infrasctucture\IDataRepositoryFactory.cs" />
     <Compile Include="Infrasctucture\IUnitOfWork.cs" />
     <Compile Include="Infrasctucture\UnitOfWork.cs" />
-    <Compile Include="Migrations\201605231235233_init.cs" />
-    <Compile Include="Migrations\201605231235233_init.Designer.cs">
-      <DependentUpon>201605231235233_init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -167,11 +163,6 @@
       <Project>{c6a50caf-6731-4692-b1db-26dc1b237239}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605231235233_init.resx">
-      <DependentUpon>201605231235233_init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

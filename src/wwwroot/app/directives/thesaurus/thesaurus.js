@@ -145,7 +145,7 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate, Fil
    }
 
    function _createNewUploader() {
-      let newUploader = FileUploaderService.getFileUploader();
+      let newUploader = FileUploaderService.getFileUploader({maxSize: 5120});
 
       function saveTopic(topic) {
          _saveThesaurusTopic(topic)

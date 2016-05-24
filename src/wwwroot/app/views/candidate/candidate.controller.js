@@ -5,7 +5,7 @@ export default function CandidateController(
    $translate,
    CandidateService,
    ValidationService,
-   FileUploader,
+   FileUploaderService,
    ThesaurusService
    ) {
    'ngInject';
@@ -16,9 +16,7 @@ export default function CandidateController(
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
-   vm.uploader = new FileUploader({
-      url: './api/files'
-   });
+   vm.uploader = FileUploaderService.getFileUploader({maxSize: 1024000});
 
    function _onError() {
       vm.errorMessage = $translate.instant('CANDIDATE.ERROR');

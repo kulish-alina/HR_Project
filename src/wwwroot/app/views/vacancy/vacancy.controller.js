@@ -1,4 +1,3 @@
-const MAX_SIZE_OF_FILE = 5120;
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
     'departments', 'tags', 'skills', 'typesOfEmployment', 'languageLevels', 'entityStates'];
 
@@ -32,15 +31,7 @@ export default function VacancyController(
    });
 
    function createNewUploader() {
-      let newUploader = FileUploaderService.getFileUploader(_vs);
-      newUploader.filters.push({
-         name: 'sizeFilter',
-         fn: function sizeFilter(item) {
-            if (item.size <= MAX_SIZE_OF_FILE) {
-               return true;
-            }
-         }
-      });
+      let newUploader = FileUploaderService.getFileUploader({ onCompleteAllCallBack : _vs, maxSize : 2048000 });
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          vm.vacancy.fileIds.push(item.id);
       };

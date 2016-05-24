@@ -1,8 +1,8 @@
-const MAX_SIZE_OF_FILE = 51200;
-
 let _FileUploader;
 
 import context from './../context';
+import { noop } from 'lodash';
+
 const _url = `${context.serverUrl + context.apiSuffix}files`;
 
 export default class FileUploaderService {
@@ -11,17 +11,15 @@ export default class FileUploaderService {
       _FileUploader = FileUploader;
    }
 
-   getFileUploader(onCompleteAllCallBack) {
-      let newUploader = onCompleteAllCallBack  ? new _FileUploader({
+   getFileUploader({ onCompleteAllCallBack = noop, maxSize = 0 }) {
+      let newUploader = new _FileUploader({
          url: _url,
          onCompleteAll: onCompleteAllCallBack
-      }) : new _FileUploader({
-         url: _url
       });
       newUploader.filters.push({
          name: 'sizeFilter',
          fn: function sizeFilter(item) {
-            if (item.size <= MAX_SIZE_OF_FILE) {
+            if (item.size <= maxSize) {
                return true;
             }
          }

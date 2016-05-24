@@ -182,6 +182,37 @@ describe('Validation must', () => {
          expect(res).toBe(true);
       });
    });
+
+   describe('have rule "date". ', () => {
+      let fnc;
+      beforeEach(() => {
+         let args = mock.setExpression.calls.first().args;
+         fnc = first(args).date;
+      });
+   
+      it('', () => {
+         expect(fnc).toBeDefined();
+      });
+
+      it('Return true if value is empty ', () => {
+         let res = fnc('');
+         expect(res).toBe(true);
+      });
+
+      it('Return false if value is invalid date', () => {
+         let res = fnc('13.13.1025');
+         expect(res).toBe(false);
+         fnc('40.12.2015');
+         expect(res).toBe(false);
+      });
+
+      it('Return true if value is valid date, format', () => {
+         let res = fnc('10.10.2012');
+         expect(res).toBe(true);
+         fnc('11.11.2015');
+         expect(res).toBe(true);
+      });
+   });
 });
 
 function _createMock() {

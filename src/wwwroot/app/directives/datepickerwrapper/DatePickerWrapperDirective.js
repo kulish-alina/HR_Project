@@ -4,16 +4,22 @@ import 'angularjs-datepicker/src/css/angular-datepicker.css';
 import template from  './DatePickerTemplate.html';
 import './datepicker.scss';
 
+import {
+   uniqueId
+} from 'lodash';
+
 export default class DatePickerWrapperDirective {
    constructor() {
       this.restrict = 'E';
       this.template = template;
       this.controller = DatePickerController;
       this.scope = {
-         datemodel   : '=',
-         datemin     : '=',
-         dateset     : '=',
-         placeholder : '@'
+         datemodel    : '=',
+         datemin      : '=',
+         dateset      : '=',
+         placeholder  : '@',
+         daterequired : '@',
+         datevalidator: '@'
       };
    }
 
@@ -25,7 +31,12 @@ export default class DatePickerWrapperDirective {
 
 function DatePickerController ($scope) {
    'ngInject';
-   // datepicker settings
-   $scope.dateFormat = 'dd.MM.yyyy';
-   $scope.minLimit = $scope.datemin || '01-01-1901';
+   const vm = $scope;
+
+   /*--- datepicker settings ---*/
+   vm.dateFormat = 'dd.MM.yyyy';
+   vm.minLimit   = vm.datemin || '01-01-1901';
+   vm.required   = vm.daterequired || false;
+   vm.uniqueId   = uniqueId('date');
+   vm.validator  = vm.daterequired === 'true' ? 'required, date' : 'date';
 }

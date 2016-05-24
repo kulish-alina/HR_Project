@@ -84,7 +84,8 @@
       "PHONE_NUMBERS": "Phone numbers",
       "UPLOAD": "Upload",
       "UPLOAD_PHOTO": "Upload photo",
-      "DATE_OF_BIRTH": "Date of Birth"
+      "DATE_OF_BIRTH": "Date of Birth",
+      "CREATE": "Create"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -131,6 +132,10 @@
       "title": {
          "error": "*this should be from 3 to 50 symbols",
          "success": "Correct!"
+      },
+      "date": {
+         "error": "*it is invalid date",
+         "success": "Correct!"
       }
    },
    "ERRORS" : {
@@ -154,7 +159,6 @@
    },
    "ROLES" : {
       "NEW": "New role",
-      "NAME": "Enter role name",
-      "CREATE": "Create new role"
+      "NAME": "Enter role name"
    }
 }

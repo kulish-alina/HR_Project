@@ -25,14 +25,14 @@ function array2map(arr, it) {
 }
 
 function formatDateToServer(entityDate) {
-   if (entityDate !== undefined) {
+   if (entityDate) {
       let partsOfDate = split(entityDate, '.');
       return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]}T00:00:00`; // eslint-disable-line no-magic-numbers
    }
 }
 
 function formatDateFromServer(entityDate) {
-   if (entityDate !== null) {
+   if (entityDate) {
       let trimOfDate = split(entityDate, 'T');
       let partsOfDate = split(trimOfDate[0], '-');
       return `${partsOfDate[2]}.${partsOfDate[1]}.${partsOfDate[0]}`; // eslint-disable-line no-magic-numbers

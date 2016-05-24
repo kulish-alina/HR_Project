@@ -72,11 +72,9 @@ export default function VacanciesController(
    }
 
    function deleteVacancy() {
-      let vacancyForRemove = find(vm.vacancies, {id: vm.selectedVacancyId});
-      VacancyService.remove(vacancyForRemove)
-         .then(() => remove(vm.vacancies, (vacancy) => {
-            return vacancy.id === vm.selectedVacancyId;
-         }));
+      let predicate = {id: vm.selectedVacancyId};
+      let vacancyForRemove = find(vm.vacancies, predicate);
+      VacancyService.remove(vacancyForRemove).then(() => remove(vm.vacancies, predicate));
    }
 
    function _onError() {

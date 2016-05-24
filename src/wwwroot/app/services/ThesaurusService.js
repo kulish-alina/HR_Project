@@ -38,7 +38,6 @@ export default class ThesaurusService {
          return _$q.all(mapThesaurusPromises).then(thesauruses => {
             forEach(thesauruses, (thesaurus, name) => {
                cache[name] = thesaurus;
-//               cache[name] = filter(thesaurus, {state : activeStateId});
                _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
             });
             return cache[thesaurusName];

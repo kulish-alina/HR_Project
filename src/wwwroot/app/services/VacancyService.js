@@ -10,7 +10,7 @@ import {
    cloneDeep,
    first,
    reduce,
-   isEmpty
+   result
 } from 'lodash';
 const VACANCY_URL = 'vacancies/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate', 'createdOn'];
@@ -72,6 +72,7 @@ export default class VacancyService {
    }
 
    save(vacancy) {
+      console.log('vacancy', vacancy);
       vacancy = cloneDeep(vacancy);
 
       return _saveNewTopics(vacancy).then((storedTopics) => {
@@ -84,13 +85,14 @@ export default class VacancyService {
          delete vacancy.createdOn;
          delete vacancy.responsible;
          vacancy.languageSkill = vacancy.languageSkill || {};
-         if (isEmpty(vacancy.languageSkill) ||
-             vacancy.languageSkill.languageId === '' ||
-             vacancy.languageSkill.languageId === 'undefined') {
-            vacancy.languageSkill = null;
-         } else {
+         console.log('result', result(vacancy, 'languageSkill.languageId'));
+         if (result(vacancy, 'languageSkill.languageId')) {
+//            toNumber(result(vacancy, 'languageSkill.languageId')) === 0 ||
+//            isNaN(toNumber(result(vacancy, 'languageSkill.languageId')))
             vacancy.languageSkill.languageLevel = parseInt(vacancy.languageSkill.languageLevel);
             vacancy.languageSkill.languageId = parseInt(vacancy.languageSkill.languageId);
+         } else {
+            vacancy.languageSkill = null;
          }
          vacancy.responsibleId = parseInt(vacancy.responsibleId);
 
@@ -121,7 +123,7 @@ function _convertToServerDates(vacancy) {
 }
 
 function _fillUser(vacancy) {
-   return _UserService.getUser(vacancy.responsibleId).then((user) => vacancy.responsible = user);
+   return _UserService.getUserById(vacancy.responsibleId).then((user) => vacancy.responsible = user);
 }
 
 function _fillThesauruses(vacancy) {
@@ -139,14 +141,11 @@ function _fillThesauruses(vacancy) {
 }
 
 function _convertIdsToString(data) {
-   if (isNumber(data)) {
-      return toString(data);
-   }
-   return data;
+   return isNumber(data) ? toString(data) : data;
 }
 
 function toString(data) {
-   return `${data}`;
+   return data ? `${data}` : null;
 }
 
 function _convertThesaurusToIds(vacancy) {

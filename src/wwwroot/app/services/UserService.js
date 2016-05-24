@@ -1,5 +1,13 @@
+import {
+   filter,
+   first,
+   isEmpty
+} from 'lodash';
+
 const USER_URL = 'users/';
 let _HttpService, _$q;
+let cache = [];
+let currentUser = {};
 
 export default class UserService {
    constructor(HttpService, $q) {
@@ -9,26 +17,39 @@ export default class UserService {
    }
 
    getCurrentUser() {
-      return _$q.when({
-         lastName     : 'Antonov',
-         firstName    : 'Dmitriy',
-         middleName   : 'Valentinovich',
-         isMale       : 'true',
-         birthDate    : '07.06.1989',
-         location     : 'Dnniepropetrovsk',
-         email        : 'antonov@mail.be',
-         skype        : 'antonov_skype',
-         login        : 'dant',
-         role         : 'Manager',
-         phoneNumbers : ['380680686868', '380505055505']
-      });
+      return _$q.when(currentUser);
    }
 
-   saveUser(entty) {
-      return _$q.when(console.log('user saved', entty));
+   setCurrentUser(user) {
+      currentUser = user;
    }
 
-   getUsers() {
-      return _HttpService.get(USER_URL);
+   getUserById(id) {
+      return this.getUsers({id}).then(first);
    }
+
+   saveUser(entity) {
+      if (entity.id) {
+         return _HttpService.put(`${USER_URL}/${entity}`);
+      } else {
+         return _HttpService.post(USER_URL, entity).then(pushUserToCache);
+      }
+   }
+
+   getUsers(predicate) {
+      if (isEmpty(cache)) {
+         return _HttpService.get(USER_URL)
+         .then(users => {
+            cache = users;
+            return filter(cache, predicate);
+         });
+      } else {
+         return _$q.when(filter(cache, predicate));
+      }
+   }
+}
+
+function pushUserToCache(user) {
+   cache.push(user);
+   return user;
 }

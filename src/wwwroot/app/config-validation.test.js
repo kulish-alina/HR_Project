@@ -189,7 +189,7 @@ describe('Validation must', () => {
          let args = mock.setExpression.calls.first().args;
          fnc = first(args).date;
       });
-   
+
       it('', () => {
          expect(fnc).toBeDefined();
       });

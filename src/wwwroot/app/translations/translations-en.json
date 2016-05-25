@@ -89,7 +89,7 @@
       "UPLOAD": "Upload",
       "DATE_OF_BIRTH": "Date of Birth",
       "UPLOAD_PHOTO": "Upload photo",
-      "FILE_UPLOADER_ERROR_MESSAGE": "The size of some file exceeds the allowable size!"
+      "FILE_UPLOADER_ERROR_MESSAGE": "The size of some file exceeds the allowable size!",
       "CREATE": "Create"
    },
    "THESAURUSES" : {

@@ -103,6 +103,7 @@ export default function RolesController(
       UserDialogService.confirm('do you want remove that?').then(() => {
          delete vm.roles[roleName];
          vm.selectRole(Object.keys(vm.roles)[0]);
+         UserDialogService.notification('Deleted!', 'success');
       });
    }
 

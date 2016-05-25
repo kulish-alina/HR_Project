@@ -1,11 +1,12 @@
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
     'departments', 'tags', 'skills'];
 export default function CandidateController(
+   $element,
    $scope,
    $translate,
    CandidateService,
    ValidationService,
-   FileUploader,
+   FileUploaderService,
    ThesaurusService
    ) {
    'ngInject';
@@ -13,12 +14,16 @@ export default function CandidateController(
    const vm = $scope;
    vm.saveCandidate = saveCandidate;
    vm.keys = Object.keys;
+   vm.clearUploaderQueue = clearUploaderQueue;
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
-   vm.uploader = new FileUploader({
-      url: './api/files'
-   });
+   vm.uploader = FileUploaderService.getFileUploader({maxSize: 1024000});
+
+   function clearUploaderQueue() {
+      vm.uploader.clearQueue();
+      $element[0].querySelector('#upload').value = null;
+   }
 
    function _onError() {
       vm.errorMessage = $translate.instant('CANDIDATE.ERROR');

@@ -6,7 +6,8 @@ import utils from './utils';
 
 import {
    partial,
-   isFunction
+   isFunction,
+   isNaN
 } from 'lodash';
 
 const methods = ['minlength', 'maxlength', 'email', 'number', 'url'];
@@ -19,6 +20,7 @@ export default function _configValidation($validationProvider, ValidationService
    const validationExpression = array2map(methods, _it);
 
    validationExpression.title = _titleValidation;
+   validationExpression.date  = _dateValidation;
 
    let lang = context.defaultLang || 'en';
    let msg = {en, ru}[lang];
@@ -47,4 +49,8 @@ function _titleValidation(value) {
    const minTitleLength = 3;
    const maxTitleLength = 50;
    return value ? value.length <= maxTitleLength && value.length >= minTitleLength : true;
+}
+
+function _dateValidation(value) {
+   return value ? !isNaN(Date.parse(utils.formatDateToServer(value))) : true;
 }

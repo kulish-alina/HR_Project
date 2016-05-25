@@ -35,6 +35,7 @@ import ThesaurusService  from './services/ThesaurusService';
 import UserService       from './services/UserService';
 import SettingsService   from './services/SettingsService';
 import RolesService      from './services/RolesService';
+import HttpCacheService      from './services/HttpCacheService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -76,6 +77,7 @@ angular
    .service('UserService',      UserService)
    .service('RolesService',     RolesService)
    .service('ThesaurusService', ThesaurusService)
+   .service('HttpCacheService', HttpCacheService)
 
 
    .directive('thesaurus', ThesaurusDirective.createInstance)

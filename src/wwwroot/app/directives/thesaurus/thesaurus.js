@@ -165,7 +165,7 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate, Fil
          let editTopic = _getEditTopic();
          saveTopic(editTopic);
          vm.uploader.clearQueue();
-         LoggerService.log('onErrorItem', fileItem, response, status, headers);
+         LoggerService.error('onErrorItem', fileItem, response, status, headers);
       };
       return newUploader;
    }

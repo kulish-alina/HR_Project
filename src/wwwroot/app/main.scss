@@ -9,6 +9,8 @@
 @import './styles/text-editor';
 @import './grid.scss';
 @import './styles/multiple-select';
+@import './styles/pagination';
+@import './styles/modal';
 
 body {
    background-color: $light-color;
@@ -44,16 +46,6 @@ body {
    height: auto;
 }
 
-// Styles for switching pages
-.switch-pages {
-   bottom: 0;
-   right: 0;
-   position: absolute;
-   color: $offcanvas-background;
-}
-.pages i {
-   color: $offcanvas-background;
-}
 .grid-block {
    overflow: inherit;
 }
@@ -92,4 +84,10 @@ body {
 }
 i.profile-icons {
    width: $rem-base*2;
+}
+.card-section {
+   padding-top: 0 !important;
+}
+.card-divider {
+   padding-bottom: $rem-base/2;
 }

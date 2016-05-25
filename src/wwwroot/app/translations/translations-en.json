@@ -8,8 +8,7 @@
       "SETTINGS" : "Settings",
       "MY_BOT": "My BOT",
       "SEARCH": "Search",
-      "USER_NAME": "User Name",
-      "THESAURUSES" : "Thesauruses"
+      "USER_NAME": "User Name"
    },
    "CANDIDATE": {
       "ERROR": "Sorry! Some error occurred",
@@ -90,7 +89,7 @@
       "UPLOAD": "Upload",
       "DATE_OF_BIRTH": "Date of Birth",
       "UPLOAD_PHOTO": "Upload photo",
-      "FILE_UPLOADER_ERROR_MESSAGE": "The size of some file exceeds the allowable size!"
+      "FILE_UPLOADER_ERROR_MESSAGE": "The size of some file exceeds the allowable size!",
       "CREATE": "Create"
    },
    "THESAURUSES" : {
@@ -158,7 +157,8 @@
       "RECRUITING" : "Recruiting settings",
       "PASS" : "Your password",
       "NEW_PASS" : "New password",
-      "CONFIRM_PASS" : "Confirm new password"
+      "CONFIRM_PASS" : "Confirm new password",
+      "THESAURUSES" : "Thesauruses"
    },
    "PROFILE" : {
       "CHANGE_PASS": "Change password"

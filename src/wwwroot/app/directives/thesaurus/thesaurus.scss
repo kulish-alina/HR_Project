@@ -1,8 +1,15 @@
 @import '/../../main.scss';
 
+input.edit[type="text"] {
+   margin: 0px;
+}
+
 input.edit[type="text"]:disabled {
    background-color: inherit;
    border: none;
+}
+
+select.edit {
    margin: 0px;
 }
 
@@ -10,7 +17,6 @@ select.edit:disabled {
    background-color: inherit;
    border: none;
    background-image: none;
-   margin: 0px;
 }
 
 div.thesaurus-row {

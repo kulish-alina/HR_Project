@@ -36,6 +36,7 @@ import ThesaurusService  from './services/ThesaurusService';
 import UserService       from './services/UserService';
 import SettingsService   from './services/SettingsService';
 import RolesService      from './services/RolesService';
+import FileUploaderService  from './services/FileUploaderService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -46,6 +47,7 @@ import uiMask from 'angular-ui-mask';
 
 import PhoneFormatFilter from './filters/PhoneFormatFilter';
 import ArrayAsString   from './filters/ArrayAsString';
+import botUrl   from './filters/botUrl';
 
 import StateRunner from './state-runner';
 
@@ -77,6 +79,7 @@ angular
    .service('UserService',      UserService)
    .service('RolesService',     RolesService)
    .service('ThesaurusService', ThesaurusService)
+   .service('FileUploaderService',FileUploaderService)
 
 
    .directive('thesaurus', ThesaurusDirective.createInstance)
@@ -86,6 +89,7 @@ angular
 
    .filter('tel',           PhoneFormatFilter)
    .filter('arrayAsString', ArrayAsString)
+   .filter('botUrl', botUrl)
 
    .run(StateRunner)
 

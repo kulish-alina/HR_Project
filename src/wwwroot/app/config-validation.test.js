@@ -169,16 +169,16 @@ describe('Validation must', () => {
       it('Return false if value length more then 50 ', () => {
          let res = fnc('aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeffffffffff');
          expect(res).toBe(false);
-         fnc('aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffff');
+         res = fnc('aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffff');
          expect(res).toBe(false);
       });
 
       it('Return true if value length more then 2 and less then 50 ', () => {
          let res = fnc('aaaaaaaaaabbbbbbbbbbccccccccccddddddddddffffffffff');
          expect(res).toBe(true);
-         fnc('abc');
+         res = fnc('abc');
          expect(res).toBe(true);
-         fnc('abcdefg');
+         res = fnc('abcdefg');
          expect(res).toBe(true);
       });
    });
@@ -202,14 +202,14 @@ describe('Validation must', () => {
       it('Return false if value is invalid date', () => {
          let res = fnc('13.13.1025');
          expect(res).toBe(false);
-         fnc('40.12.2015');
+         res = fnc('40.12.2015');
          expect(res).toBe(false);
       });
 
       it('Return true if value is valid date, format', () => {
          let res = fnc('10.10.2012');
          expect(res).toBe(true);
-         fnc('11.11.2015');
+         res = fnc('11.11.2015');
          expect(res).toBe(true);
       });
    });

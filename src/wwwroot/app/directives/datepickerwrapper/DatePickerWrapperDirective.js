@@ -36,7 +36,6 @@ function DatePickerController ($scope) {
    /*--- datepicker settings ---*/
    vm.dateFormat = 'dd.MM.yyyy';
    vm.minLimit   = vm.datemin || '01-01-1901';
-   vm.required   = vm.daterequired || false;
    vm.uniqueId   = uniqueId('date');
    vm.validator  = vm.daterequired === 'true' ? 'required, date' : 'date';
 }

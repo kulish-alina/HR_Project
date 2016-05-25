@@ -8,8 +8,7 @@
       "SETTINGS" : "Settings",
       "MY_BOT": "My BOT",
       "SEARCH": "Search",
-      "USER_NAME": "User Name",
-      "THESAURUSES" : "Thesauruses"
+      "USER_NAME": "User Name"
    },
    "CANDIDATE": {
       "ERROR": "Sorry! Some error occurred",
@@ -158,7 +157,8 @@
       "RECRUITING" : "Recruiting settings",
       "PASS" : "Your password",
       "NEW_PASS" : "New password",
-      "CONFIRM_PASS" : "Confirm new password"
+      "CONFIRM_PASS" : "Confirm new password",
+      "THESAURUSES" : "Thesauruses"
    },
    "PROFILE" : {
       "CHANGE_PASS": "Change password"

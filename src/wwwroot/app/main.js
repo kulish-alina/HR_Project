@@ -30,13 +30,14 @@ import LoggerProvider     from './services/LoggerProvider';
 import HttpProvider       from './services/HttpProvider';
 import ValidationProvider from './services/ValidationProvider';
 
-import CandidateService  from './services/CandidateService';
-import VacancyService    from './services/VacancyService';
-import ThesaurusService  from './services/ThesaurusService';
-import UserService       from './services/UserService';
-import SettingsService   from './services/SettingsService';
-import RolesService      from './services/RolesService';
-import UserDialogService from './services/UserDialogService/UserDialogService';
+import CandidateService    from './services/CandidateService';
+import VacancyService      from './services/VacancyService';
+import ThesaurusService    from './services/ThesaurusService';
+import UserService         from './services/UserService';
+import SettingsService     from './services/SettingsService';
+import RolesService        from './services/RolesService';
+import FileUploaderService from './services/FileUploaderService';
+import UserDialogService   from './services/UserDialogService/UserDialogService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -47,6 +48,7 @@ import uiMask from 'angular-ui-mask';
 
 import PhoneFormatFilter from './filters/PhoneFormatFilter';
 import ArrayAsString   from './filters/ArrayAsString';
+import botUrl   from './filters/botUrl';
 
 import StateRunner from './state-runner';
 
@@ -72,13 +74,14 @@ angular
    .provider('HttpService',       HttpProvider)
    .provider('ValidationService', ValidationProvider)
 
-   .service('CandidateService',  CandidateService)
-   .service('VacancyService',    VacancyService)
-   .service('SettingsService',   SettingsService)
-   .service('UserService',       UserService)
-   .service('RolesService',      RolesService)
-   .service('ThesaurusService',  ThesaurusService)
-   .service('UserDialogService', UserDialogService)
+   .service('CandidateService',    CandidateService)
+   .service('VacancyService',      VacancyService)
+   .service('SettingsService',     SettingsService)
+   .service('UserService',         UserService)
+   .service('RolesService',        RolesService)
+   .service('ThesaurusService',    ThesaurusService)
+   .service('FileUploaderService', FileUploaderService)
+   .service('UserDialogService',   UserDialogService)
 
 
    .directive('thesaurus', ThesaurusDirective.createInstance)
@@ -88,6 +91,7 @@ angular
 
    .filter('tel',           PhoneFormatFilter)
    .filter('arrayAsString', ArrayAsString)
+   .filter('botUrl', botUrl)
 
    .run(StateRunner)
 

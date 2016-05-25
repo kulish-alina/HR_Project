@@ -1,5 +1,5 @@
 <div>
 <p>{{question}}</p>
-<a class="alert button" ng-click="ok()">Yeah</a>
-<a class="secondary button" ng-click="cancell()">Nah</a>
+<a class="button" ng-click="ok()" ng-bind="('COMMON.OK'|translate)"></a>
+<a class="button" ng-click="cancel()" ng-bind="('COMMON.CANCEL'|translate)"></a>
 </div>

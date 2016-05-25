@@ -43,6 +43,7 @@
       "ADD_VACANCY" : "Add Vacancy",
       "ADD_EVENT" : "Add Event",
       "CANCEL": "Cancel",
+      "OK": "Ok",
       "SUBMIT": "Submit",
       "ADD_AND_BACK": "Add and back",
       "ADD": "Add",
@@ -166,5 +167,11 @@
    "ROLES" : {
       "NEW": "New role",
       "NAME": "Enter role name"
+   },
+   "DIALOG_SERVICE" : {
+      "ERROR": "Error!",
+      "SUCCESS": "Success!",
+      "WARN": "Warning!",
+      "NOTIF": "Notification!"
    }
 }

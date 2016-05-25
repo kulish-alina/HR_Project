@@ -1,15 +1,16 @@
 import _confirm from './confirm.view.html';
 
-let _$q, _ModalFactory, _NotificationFactory, _FoundationApi;
+let _$q, _ModalFactory, _NotificationFactory, _FoundationApi, _$translate;
 
 export default class UserDialogService {
 
-   constructor($q, ModalFactory, NotificationFactory, FoundationApi) {
+   constructor($q, $translate, ModalFactory, NotificationFactory, FoundationApi) {
       'ngInject';
       _$q                  = $q;
       _ModalFactory        = ModalFactory;
       _NotificationFactory = NotificationFactory;
       _FoundationApi       = FoundationApi;
+      _$translate          = $translate;
    }
 
    confirm(question) {
@@ -22,7 +23,7 @@ export default class UserDialogService {
                deferred.resolve();
                _FoundationApi.closeActiveElements();
             },
-            cancell : () => {
+            cancel : () => {
                deferred.reject();
                _FoundationApi.closeActiveElements();
             }
@@ -40,23 +41,23 @@ export default class UserDialogService {
 
       const configs = {
          notification: {
-            title: 'Notification!',
+            title: _$translate.instant('DIALOG_SERVICE.NOTIF'),
             content: message,
             color: 'info'
          },
          success: {
-            title: 'Success!',
+            title: _$translate.instant('DIALOG_SERVICE.SUCCESS'),
             content: message,
             color: 'success',
             autoclose: '3000'
          },
          error: {
-            title: 'Error!',
+            title: _$translate.instant('DIALOG_SERVICE.ERROR'),
             content: message,
             color: 'alert'
          },
          warning: {
-            title: 'Warning!',
+            title: _$translate.instant('DIALOG_SERVICE.WARN'),
             content: message,
             color: 'warning',
             autoclose: '5000'

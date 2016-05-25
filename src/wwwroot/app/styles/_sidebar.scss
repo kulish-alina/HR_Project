@@ -1,7 +1,8 @@
 // Styles for sidebar
 .sidebar {
    @include card-container();
-   max-height: $rem-base*46.88;
+   height: auto;
+   max-height: $rem-base*44.5;
    width: 100%;
    margin: $rem-base*0.5;
 }
@@ -33,6 +34,9 @@
 }
 .events i:hover {
    color: $primary-color;
+}
+.vacancies {
+   height: $rem-base*31.25;
 }
 .vacancies select {
    border: 0;

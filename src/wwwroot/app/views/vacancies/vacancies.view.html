@@ -64,10 +64,10 @@
                <thead>
                   <tr>
                      <th>№</th>
-                     <th>Title</th>
+                     <th>{{::'COMMON.TITLE' | translate}}</th>
                      <th>Status</th>
                      <th class="col4">Location</th>
-                     <th>Responsible</th>
+                     <th>{{::'COMMON.RESPONSIBLE' | translate}}</th>
                      <th>Added</th>
                      <th></th>
                   </tr>
@@ -97,7 +97,6 @@
             <div class="switch-pages">
                <dir-pagination-controls max-size="5" boundary-links="true" template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html" [auto-hide=""] on-page-change="pageChanged(newPageNumber)">
                </dir-pagination-controls>
-<!--               <div data-pagination="" data-num-pages="numPages()" data-current-page="currentPage" data-max-size="maxSize" data-boundary-links="true"></div>-->
             </div>
          </div>
       </div>

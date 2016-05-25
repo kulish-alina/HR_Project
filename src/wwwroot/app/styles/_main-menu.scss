@@ -1,5 +1,7 @@
 // Styles for main menu
 .main-menu {
+   min-height: $rem-base*3.125;
+   max-height: $rem-base*3.125;
    background-color: $menubar-background;
    padding-left: $global-padding/2;
    padding-right: $global-padding/2;

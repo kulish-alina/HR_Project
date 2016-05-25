@@ -1,6 +1,8 @@
 // Styles for secondary menu
 .secondary-menu {
    background-color: $secondary-color;
+   min-height: $rem-base*3.125;
+   max-height: $rem-base*3.125;
 }
 .second-button-bar {
    @include menu-bar-layout(

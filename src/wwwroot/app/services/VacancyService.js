@@ -49,6 +49,10 @@ export default class VacancyService {
       const additionalUrl = VACANCY_URL + searchUrl;
       return _HttpService.post(additionalUrl, condition).then(response => {
          return _$q.all(map(response.vacancies, this.convertFromServerFormat)).then((vacancies) => {
+//            map(response.vacancies, vacancy => {
+//               vacancy.responsibleId = parseInt(vacancy.responsibleId);
+//               vacancy.responsible = _fillUser(vacancy);
+//            });
             response.vacancies = vacancies;
             return response;
          });
@@ -57,8 +61,9 @@ export default class VacancyService {
 
    convertFromServerFormat(vacancy) {
       vacancy = _convertFromServerDates(vacancy);
+      let userPromise = _fillUser(vacancy);
       vacancy.responsibleId = toString(vacancy.responsibleId);
-      return _$q.all([_fillThesauruses(vacancy), _fillUser(vacancy)]).then(first);
+      return _$q.all([_fillThesauruses(vacancy), userPromise]).then(first);
    }
 
    remove(vacancy) {
@@ -72,7 +77,6 @@ export default class VacancyService {
    }
 
    save(vacancy) {
-      console.log('vacancy', vacancy);
       vacancy = cloneDeep(vacancy);
 
       return _saveNewTopics(vacancy).then((storedTopics) => {
@@ -81,7 +85,6 @@ export default class VacancyService {
          });
          vacancy = _convertThesaurusToIds(vacancy);
          vacancy = _convertToServerDates(vacancy);
-
          delete vacancy.createdOn;
          delete vacancy.responsible;
          vacancy.languageSkill = vacancy.languageSkill || {};

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="bot">
 
 <head>
    <meta charset="UTF-8">
@@ -8,7 +8,7 @@
    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
 </head>
 
-<body>
+<body zf-close-all>
    <style>
       body {
          opacity: 0;
@@ -17,7 +17,6 @@
 
    <zf-offcanvas id="menu" position="left">
       <ul class="menu-bar side-menu">
-         <li class="close"><a zf-close="" class="close-button">×</a></li>
          <li>
             <a ui-sref="home">
                {{::'INDEX.HOME' | translate}}
@@ -37,57 +36,57 @@
             </a>
          </li>
          <li class="disabled">
-             <a ui-sref="#">
+            <a ui-sref="#">
                {{::'INDEX.REPORTS' | translate}}
                <img class="menu-img" src="/app/images/reports.png">
              </a>
          </li>
          <li class="disabled">
-             <a ui-sref="#">
+            <a ui-sref="#">
                 {{::'INDEX.CALENDAR' | translate}}
                 <img class="menu-img" src="/app/images/calendar.png">
              </a>
          </li>
          <li class="disabled">
-             <a ui-sref="settings">
+            <a ui-sref="settings">
                 {{::'INDEX.SETTINGS' | translate}}
                 <img class="menu-img" src="/app/images/settings.png">
              </a>
          </li>
-<!--         <li><a ui-sref="thesauruses" ng-bind="'INDEX.THESAURUSES' | translate"></a>
+         <!--         <li><a ui-sref="thesauruses" ng-bind="'INDEX.THESAURUSES' | translate"></a>
          </li>-->
       </ul>
    </zf-offcanvas>
-   <div class="grid-block main-menu">
-      <div class="large-2 grid-content">
-         <a zf-open="menu"><img src="/app/images/menu.png"></a>
-         <a ui-sref="home">
-            <img class="menu-img" src="/app/images/bot-home.png">
-            {{::'INDEX.MY_BOT' | translate}}
-         </a>
+   <div class="vertical grid-frame">
+      <div class=" main-menu">
+         <div class="large-2 grid-content">
+            <a zf-hard-toggle="menu" ng-click="pr($event)"><img src="/app/images/menu.png"></a>
+            <a ui-sref="home">
+               <img class="menu-img" src="/app/images/bot-home.png"> {{::'INDEX.MY_BOT' | translate}}
+            </a>
+         </div>
+         <div class="large-3 grid-block">
+            <input class="search" type="search">
+            <a href="#" class="button">{{::'INDEX.SEARCH' | translate}}</a>
+         </div>
+         <div class="large-5 grid-content">
+            <ul class="menu-bar icon-left main-button-bar">
+               <li><a ui-sref="candidate"><i class="foundicon-plus general-icon"></i>{{::'COMMON.ADD_CANDIDATE' | translate}}</a>
+               </li>
+               <li><a ui-sref="vacancy"><i class="foundicon-plus general-icon"></i>{{::'COMMON.ADD_VACANCY' | translate}}</a>
+               </li>
+            </ul>
+         </div>
+         <div class="large-2 grid-block align-right">
+            <a href="#">
+               <i class="foundicon-torso social-icon"></i>
+               <a href="#">{{::'INDEX.USER_NAME' | translate}}</a>
+            </a>
+         </div>
       </div>
-      <div class="large-3 grid-block">
-         <input class="search" type="search">
-         <a href="#" class="button">{{::'INDEX.SEARCH' | translate}}</a>
-      </div>
-      <div class="large-5 grid-content">
-         <ul class="menu-bar icon-left main-button-bar">
-            <li><a ui-sref="candidate"><i class="foundicon-plus general-icon"></i>{{::'COMMON.ADD_CANDIDATE' | translate}}</a>
-            </li>
-            <li><a ui-sref="vacancy"><i class="foundicon-plus general-icon"></i>{{::'COMMON.ADD_VACANCY' | translate}}</a>
-            </li>
-         </ul>
-      </div>
-      <div class="large-2 grid-block align-right">
-         <a href="#">
-            <i class="foundicon-torso social-icon"></i>
-            <a href="#">{{::'INDEX.USER_NAME' | translate}}</a>
-         </a>
+      <div ui-view class="vertical grid-block">
       </div>
    </div>
-   <div ui-view class="vertical grid-block">
-   </div>
-
    <!-- Some kind of magic for webpack assets-->
    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
    <script src="/{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>

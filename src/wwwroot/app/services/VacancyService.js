@@ -85,10 +85,7 @@ export default class VacancyService {
          delete vacancy.createdOn;
          delete vacancy.responsible;
          vacancy.languageSkill = vacancy.languageSkill || {};
-         console.log('result', result(vacancy, 'languageSkill.languageId'));
          if (result(vacancy, 'languageSkill.languageId')) {
-//            toNumber(result(vacancy, 'languageSkill.languageId')) === 0 ||
-//            isNaN(toNumber(result(vacancy, 'languageSkill.languageId')))
             vacancy.languageSkill.languageLevel = parseInt(vacancy.languageSkill.languageLevel);
             vacancy.languageSkill.languageId = parseInt(vacancy.languageSkill.languageId);
          } else {

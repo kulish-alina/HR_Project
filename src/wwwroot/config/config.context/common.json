@@ -1,3 +1,4 @@
 {
-   "defaultLang": "en"
+   "defaultLang": "en",
+   "apiSuffix" : "api/"
 }

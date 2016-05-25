@@ -163,9 +163,10 @@ namespace Data.EFData.Extentions
             {
                 domainLanguageSkill = destination.LanguageSkill = new LanguageSkill();
             }
-            if (updatedLanguageSkill == null)
+            if(updatedLanguageSkill==null)
             {
-                throw new ArgumentNullException("Request contains unknown entity");
+                destination.LanguageSkill = null;
+                return;
             }
             if (updatedLanguageSkill.ShouldBeRemoved())
             {

@@ -283,10 +283,10 @@ namespace Data.Migrations
                         Description = c.String(),
                         SalaryMin = c.Int(nullable: false),
                         SalaryMax = c.Int(nullable: false),
-                        TypeOfEmployment = c.Int(nullable: false),
+                        TypeOfEmployment = c.Int(),
                         StartDate = c.DateTime(nullable: false),
-                        EndDate = c.DateTime(nullable: false),
-                        DeadlineDate = c.DateTime(nullable: false),
+                        EndDate = c.DateTime(),
+                        DeadlineDate = c.DateTime(),
                         ParentVacancyId = c.Int(),
                         IndustryId = c.Int(),
                         DepartmentId = c.Int(nullable: false),
@@ -440,6 +440,20 @@ namespace Data.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.EventType",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false),
+                        ImagePath = c.String(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Event",
                 c => new
                     {
@@ -464,20 +478,6 @@ namespace Data.Migrations
                 .Index(t => t.ResponsibleId)
                 .Index(t => t.Candidate_Id)
                 .Index(t => t.Vacancy_Id);
-            
-            CreateTable(
-                "dbo.EventType",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        ImagePath = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Error",
@@ -770,8 +770,8 @@ namespace Data.Migrations
             DropTable("dbo.CandidateLanguageSkill");
             DropTable("dbo.CandidateComment");
             DropTable("dbo.Error");
-            DropTable("dbo.EventType");
             DropTable("dbo.Event");
+            DropTable("dbo.EventType");
             DropTable("dbo.Stage");
             DropTable("dbo.VacancyStage");
             DropTable("dbo.Permission");

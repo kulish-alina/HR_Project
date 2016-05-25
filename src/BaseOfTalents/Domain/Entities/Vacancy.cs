@@ -23,7 +23,7 @@ namespace Domain.Entities
         public string Description { get; set; }
         public int SalaryMin { get; set; }
         public int SalaryMax { get; set; }
-        public TypeOfEmployment TypeOfEmployment { get; set; }
+        public TypeOfEmployment? TypeOfEmployment { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? DeadlineDate { get; set; }

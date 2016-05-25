@@ -1,9 +1,16 @@
 const MAX_SIZE_OF_FILE = 5120;
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
-    'departments', 'tags', 'skills', 'typesOfEmployment', 'languageLevels', 'entityStates'];
+    'departments', 'tags', 'skills', 'typesOfEmployment', 'languageLevels'];
+import {
+   find,
+   remove
+} from 'lodash';
 
 export default function VacancyController(
    $scope,
+   $translate,
+   $state,
+   $element,
    VacancyService,
    ValidationService,
    FileUploader,
@@ -17,23 +24,23 @@ export default function VacancyController(
    /* --- api --- */
    vm.cancel = cancel;
    vm.saveVacancy = saveVacancy;
-   vm.vacancy = {};
-   vm.vacancy.fileIds = [];
+   vm.vacancy =  $state.params._data || {} ;
+   vm.vacancy.files = [];
    vm.thesaurus = [];
    vm.responsibles = [];
    vm.uploader = createNewUploader();
-   vm.vacancy.requiredSkills = [];
-   vm.vacancy.tags = [];
+   vm.vacancy.requiredSkills = vm.vacancy.requiredSkills || [];
+   vm.vacancy.tags = vm.vacancy.tags || [];
+   vm.removeFile = removeFile;
+   vm.errorMessageFromFileUploader = '';
    /* === impl === */
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
-   UserService.getUsers().then((users) => {
-      vm.responsibles = users;
-   });
+   UserService.getUsers().then(users => vm.responsibles = users);
 
    function createNewUploader() {
       let newUploader = new FileUploader({
-         url: './api/files',
+         url: 'http://localhost:53031//api/files',
          onCompleteAll: _vs
       });
       newUploader.filters.push({
@@ -45,14 +52,26 @@ export default function VacancyController(
          }
       });
       newUploader.onSuccessItem = function onSuccessUpload(item) {
-         vm.vacancy.fileIds.push(item.id);
+         let response = JSON.parse(item._xhr.response);
+         vm.vacancy.files.push(response);
+      };
+      newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
+         vm.errorMessageFromFileUploader = $translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE');
       };
       return newUploader;
    }
+   function removeFile(file) {
+      let currentFileId = JSON.parse(file._xhr.response).id;
+      let removedFile = find(vm.vacancy.files, {id: currentFileId});
+      removedFile.state = 1;
+      remove(vm.vacancy.files, {id: currentFileId});
+      vm.vacancy.files.push(removedFile);
+      file.remove();
+   }
 
-   function cancel(form) {
-      ValidationService.reset(form);
-      vm.vacancy = {};
+   function cancel() {
+      $state.params._data = null;
+      $state.reload();
    }
 
    function saveVacancy(ev, form) {
@@ -68,8 +87,9 @@ export default function VacancyController(
    }
 
    function _vs() {
-      VacancyService.saveVacancy(vm.vacancy).then(vacancy => {
+      VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
+         vm.vacancy.files = vacancy.files;
       });
    }
 }

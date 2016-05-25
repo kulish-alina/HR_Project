@@ -1,3 +1,4 @@
-   <datepicker date-format="{{::dateFormat}}"  date-set="{{::dateset}}" date-min-limit="{{::minLimit}}" date-typer="true">
-     <input type="text" ng-model="datemodel" placeholder="{{::placeholder}}" class="datepicker-input" model-view-value ="true" ui-mask ="99.99.9999" ui-mask-placeholder ui-mask-placeholder-char="_">
-   </datepicker>
+<datepicker date-format="{{::dateFormat}}" date-set="{{::dateset}}" date-min-limit="{{::minLimit}}" date-typer="true">
+   <input type="text" ng-model="datemodel" placeholder="{{::placeholder}}" class="datepicker-input" model-view-value="true" ui-mask="99.99.9999" ui-mask-placeholder ui-mask-placeholder-char="_" validator="{{validator}}" message-id="{{::uniqueId}}" name={{::uniqueId}} valid-method="watch">
+   <span id="{{::uniqueId}}"></span>
+</datepicker>

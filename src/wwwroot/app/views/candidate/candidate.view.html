@@ -94,7 +94,7 @@
                         <div class="uploader-photo" zf-modal="" id="basicModal">
                            <div class="grid-block">
                               <div class="medium-8 grid-block">
-                                 <input class="upload-input" type="file" nv-file-select="" uploader="uploader">
+                                 <input id="upload" class="upload-input" type="file" nv-file-select="" uploader="uploader">
                                  <div class="grid-block image-container">
                                     <div class="medium-4 grid-block">
                                        <div class="" ng-repeat="item in uploader.queue">
@@ -102,7 +102,7 @@
                                        </div>
                                     </div>
                                     <div class="medium-8 grid-block">
-                                       <a ng-hide="!uploader.queue.length" class="remove-item" ng-click="uploader.clearQueue()"><i class="foundicon-remove general-icon"></i></a>
+                                       <a ng-hide="!uploader.queue.length" class="remove-item" ng-click="clearUploaderQueue()"><i class="foundicon-remove general-icon"></i></a>
                                     </div>
                                  </div>
                               </div>

@@ -17,7 +17,7 @@ export default class HttpCacheService {
       }
    }
 
-   clearCache() {
+   clearCache(_url) {
 
    }
 }

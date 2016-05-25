@@ -1,6 +1,7 @@
 import template from './thesaurus.directive.html';
 import { has, clone, assign, forEach, filter, isEmpty, find } from 'lodash';
 import './thesaurus.scss';
+const MAX_ICON_FILE_SIZE = 5120;
 
 export default class ThesaurusDirective {
    constructor() {
@@ -145,7 +146,7 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate, Fil
    }
 
    function _createNewUploader() {
-      let newUploader = FileUploaderService.getFileUploader({maxSize: 5120});
+      let newUploader = FileUploaderService.getFileUploader({maxSize: MAX_ICON_FILE_SIZE});
 
       function saveTopic(topic) {
          _saveThesaurusTopic(topic)

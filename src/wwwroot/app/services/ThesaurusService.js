@@ -6,7 +6,8 @@ import {
    map,
    forEach,
    includes,
-   curry
+   curry,
+   isArray
 } from 'lodash';
 
 import utils from '../utils.js';
@@ -50,6 +51,19 @@ export default class ThesaurusService {
       } else {
          return this.getThesaurusTopics(thesaurusName).then(() => find(cache[thesaurusName], {id}));
       }
+   }
+
+   getThesaurusTopicsByIds(thesaurusName, arrIds) {
+      let isArrayIds = isArray(arrIds);
+      return this.getThesaurusTopics(thesaurusName).then((topics) => {
+         return filter(topics, (topic) => {
+            if (isArrayIds) {
+               return includes(arrIds, topic.id);
+            } else {
+               return arrIds === topic.id;
+            }
+         });
+      });
    }
 
    getThesaurusTopicsGroup(thesaurusNames) {

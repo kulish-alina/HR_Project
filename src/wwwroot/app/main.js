@@ -6,6 +6,7 @@ import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
 import 'angular-file-upload/dist/angular-file-upload';
+import pagination from 'angular-utils-pagination';
 
 import 'foundation-apps/dist/js/foundation-apps';
 import 'foundation-apps/dist/js/foundation-apps-templates';
@@ -51,10 +52,10 @@ import botUrl   from './filters/botUrl';
 import StateRunner from './state-runner';
 
 const dependencies = [
-
    router,
    translate,
    uiMask,
+   pagination,
    'foundation',
    'validation',
    'validation.rule',

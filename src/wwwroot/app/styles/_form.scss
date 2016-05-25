@@ -1,6 +1,6 @@
 // Styles for forms
 form {
-   width: 98%;
+   width: 100%;
 }
 fieldset {
    width: 100%;
@@ -40,6 +40,7 @@ form p {
    color: $alert-color;
    margin: 0;
    font-size: $rem-base*0.8;
+   font-family: $body-font-family;
 }
 form .ng-invalid {
    margin-bottom: $rem-base*0.2;

@@ -1,23 +1,54 @@
-import { has } from 'lodash';
+import { has, cond, constant, invokeMap, curry } from 'lodash';
 
-let _HttpService;
-const cache = {};
+const httpRequests   = {};
+const cache          = {};
+const curryHasLength    = 2;
+
+let _HttpService, _$q;
+let _curryHas = curry(has, curryHasLength);
+
+let getFromCache = cond([
+   [_curryHas(cache),         getCachePromise],
+   [_curryHas(httpRequests),  addToHttpRequestDeferreds],
+   [constant(true),           addHttpRequest]
+]);
 
 export default class HttpCacheService {
-   consructor(HttpService) {
+   constructor(HttpService, $q) {
       'ngInject';
       _HttpService = HttpService;
+      _$q = $q;
    }
 
-   get(_url) {
-      if (has(cache, _url)) {
-         return cache[_url].httpRequest;
-      } else {
-         cache[_url].httpRequest = _HttpService.get(_url).then(entities => cache[_url].data = entities);
-      }
+   get(url) {
+      return getFromCache(url);
    }
 
-   clearCache(_url) {
-
+   clearCache(url) {
+      delete cache[url];
    }
+}
+
+function addToHttpRequestDeferreds(url) {
+   let requestDeferred = _$q.defer();
+   httpRequests[url].deferreds.push(requestDeferred);
+   return requestDeferred.promise;
+}
+
+function addHttpRequest(url) {
+   httpRequests[url] = {
+      deferreds : [],
+      request : _HttpService.get(url)
+         .then(entities => {
+            cache[url] = entities;
+            invokeMap(httpRequests[url].deferreds, 'resolve', entities);
+         })
+         .catch(error => invokeMap(httpRequests[url].deferreds, 'reject', error))
+         .finally(() => delete httpRequests[url])
+   };
+   return addToHttpRequestDeferreds(url);
+}
+
+function getCachePromise(url) {
+   return  _$q.when(cache[url]);
 }

@@ -77,11 +77,12 @@ export default function RolesController(
       });
    }
    function _selectRole(roleName) {
+      console.log(vm.permissions);
       vm.currentRoleName = roleName;
       vm.currentRole = reduce(flatten(values(vm.permissions)), (memo, perm) => {
-         memo[perm.name] = {};
-         memo[perm.name].flag = _getFlag(roleName, perm.id);
-         memo[perm.name].id = perm.id;
+         memo[perm.id] = {};
+         memo[perm.id].flag = _getFlag(roleName, perm.id);
+         memo[perm.id].id = perm.id;
          return memo;
       }, {});
    };

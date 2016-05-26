@@ -17,9 +17,10 @@
                            <a zf-close="" class="roles-close-button" ng-click="clearModalModel()">×</a>
                         </div>
                         <div class="role-body grid-block">
-                           <div class="medium-10 grid-block">
+                           <div class="medium-10 grid-block role-input">
                               <input type="text" ng-model="newRole.title" placeholder="{{::'ROLES.NAME' | translate}}" name="roleName" validator="required, title">
                            </div>
+
                            <div>
                               <a class="upload-button" ng-bind="::('COMMON.CREATE' | translate)" ng-click="createNewRole(roleForm)"></a>
                            </div>
@@ -34,8 +35,8 @@
                <li ng-repeat="(groupName, permissions) in permissions">
                   <h5 ng-bind="::groupName"></h5>
                   <div ng-repeat="permission in permissions">
-                     <input type="checkbox" ng-model="currentRole[permission.name].flag" id="{{permission.id}}">
-                     <label ng-bind="::permission.name" for="{{permission.id}}"></label>
+                     <input type="checkbox" ng-model="currentRole[permission.id].flag" id="{{permission.id}}">
+                     <label ng-bind="::permission.description" for="{{permission.id}}"></label>
                   </div>
                </li>
             </ul>

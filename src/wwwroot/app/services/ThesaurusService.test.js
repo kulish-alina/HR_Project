@@ -12,17 +12,18 @@ describe('ThesaurusService testing: ', () => {
       reject:  () => promiseMock
    };
    let mockHttp = {
-      get: jasmine.createSpy().and.returnValue(promiseMock),
-      post: jasmine.createSpy().and.returnValue(promiseMock),
-      put: jasmine.createSpy().and.returnValue(promiseMock),
-      remove: jasmine.createSpy().and.returnValue(promiseMock)
+      get      : jasmine.createSpy().and.returnValue(promiseMock),
+      post     : jasmine.createSpy().and.returnValue(promiseMock),
+      put      : jasmine.createSpy().and.returnValue(promiseMock),
+      remove   : jasmine.createSpy().and.returnValue(promiseMock)
    };
    let mockTranslate = {
-      instant: jasmine.createSpy()
+      instant  : jasmine.createSpy()
    };
 
    let mockHttpCache = {
-      get: jasmine.createSpy()
+      get         : jasmine.createSpy(),
+      clearCache  : jasmine.createSpy()
    };
 
    beforeEach(() => {

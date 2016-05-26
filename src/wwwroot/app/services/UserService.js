@@ -32,7 +32,7 @@ export default class UserService {
          return _HttpService.put(`${USER_URL}/${entity}`);
       } else {
          return _HttpService.post(USER_URL, entity).then(user => {
-            UserService.clearCache(USER_URL);
+            _HttpCacheService.clearCache(USER_URL);
             return user;
          });
       }

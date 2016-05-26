@@ -11,6 +11,7 @@
 @import './styles/multiple-select';
 @import './styles/pagination';
 @import './styles/modal';
+@import './styles/range-slider';
 
 body {
    background-color: $light-color;
@@ -19,6 +20,9 @@ body {
    &.ng-scope {
        opacity: 1;
    }
+}
+.app-content {
+   height: auto;
 }
 
 // Styles for icons

@@ -47,7 +47,7 @@
                 <img class="menu-img" src="/app/images/calendar.png">
              </a>
          </li>
-         <li class="disabled">
+         <li>
             <a ui-sref="settings">
                 {{::'INDEX.SETTINGS' | translate}}
                 <img class="menu-img" src="/app/images/settings.png">
@@ -57,7 +57,7 @@
          </li>-->
       </ul>
    </zf-offcanvas>
-   <div class="vertical grid-frame">
+   <div class="vertical grid-frame app-content">
       <div class=" main-menu">
          <div class="large-2 grid-content">
             <a zf-hard-toggle="menu" ng-click="pr($event)"><img src="/app/images/menu.png"></a>
@@ -78,9 +78,9 @@
             </ul>
          </div>
          <div class="large-2 grid-block align-right">
-            <a href="#">
+            <a ui-sref="profile">
                <i class="foundicon-torso social-icon"></i>
-               <a href="#">{{::'INDEX.USER_NAME' | translate}}</a>
+               <span>{{::'INDEX.USER_NAME' | translate}}</span>
             </a>
          </div>
       </div>

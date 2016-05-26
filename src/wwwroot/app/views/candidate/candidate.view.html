@@ -26,21 +26,20 @@
                <div class="grid-block">
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <input type="text" ng-model="candidate.FirstName" placeholder="First Name" name="firstName" validator="required, maxlength=50">
-                        <input type="text" ng-model="candidate.MiddleName" placeholder="Middle Name" name="middleName" validator="required, maxlength=50">
-                        <input type="text" ng-model="candidate.LastName" placeholder="Last Name" name="lastName" validator="required, maxlength=50">
+                        <input type="text" ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" name="firstName" validator="required, maxlength=50">
+                        <input type="text" ng-model="candidate.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName" validator="required, maxlength=50">
+                        <input type="text" ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" name="lastName" validator="required, maxlength=50">
+                        <date datemodel="candidate.birthDate" placeholder="{{::'COMMON.DATE_OF_BIRTH' | translate}}"></date>
                         <ul class="some-change">
                            <li>
                               <input name="isMale" value="true" id="male" checked="" type="radio">
-                              <label for="male">Male</label>
+                              <label for="male">{{::'COMMON.MALE' | translate}}</label>
                            </li>
                            <li>
                               <input name="isMale" value="false" id="female" type="radio">
-                              <label for="female">Female</label>
+                              <label for="female">{{::'COMMON.FEMALE' | translate}}</label>
                            </li>
                         </ul>
-                        <date datemodel="candidate.birthDate" placeholder="{{::'COMMON.DATE_OF_BIRTH' | translate}}"></date>
-                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.LocationIds" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
                               <select name="Language" ng-model="vacancy.LanguageSkill.LanguageId">
@@ -55,6 +54,8 @@
                               </select>
                            </div>
                         </div>
+                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.LocationIds" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
@@ -76,14 +77,14 @@
                         <label>Experience</label>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <input placeholder="Years" type="number" min="0" step="1">
+                              <input placeholder="{{::'COMMON.YEARS' | translate}}" type="number" min="0" step="1">
                            </div>
                            <div class="medium-6 grid-block">
-                              <input placeholder="Months" type="number" min="0" step="1">
+                              <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="number" min="0" step="1">
                            </div>
                         </div>
                         <input id="checkbox3" type="checkbox">
-                        <label for="checkbox3">Ready to relocate</label>
+                        <label for="checkbox3">{{::'CANDIDATE.READY_TO_RELOCATE' | translate}}</label>
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">

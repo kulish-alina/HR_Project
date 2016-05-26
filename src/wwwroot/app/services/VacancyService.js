@@ -49,10 +49,6 @@ export default class VacancyService {
       const additionalUrl = VACANCY_URL + searchUrl;
       return _HttpService.post(additionalUrl, condition).then(response => {
          return _$q.all(map(response.vacancies, this.convertFromServerFormat)).then((vacancies) => {
-//            map(response.vacancies, vacancy => {
-//               vacancy.responsibleId = parseInt(vacancy.responsibleId);
-//               vacancy.responsible = _fillUser(vacancy);
-//            });
             response.vacancies = vacancies;
             return response;
          });

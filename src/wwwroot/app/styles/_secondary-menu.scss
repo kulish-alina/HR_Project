@@ -7,9 +7,8 @@
 .second-button-bar {
    @include menu-bar-layout(
      $orientation: horizontal,
-     $stretch: false
-   );
-   
+     $stretch: false);
+      
    @include menu-bar-style(
       $background:  $body-background,
       $background-hover: $body-background,

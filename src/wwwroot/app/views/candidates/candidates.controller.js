@@ -1,5 +1,7 @@
-import utils from '../../utils';
-export default function CandidatesController($scope, CandidateService, ThesaurusService, $q) {
+const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
+    'departments', 'typesOfEmployment', 'tags', 'skills', 'stages'];
+
+export default function CandidatesController($scope, CandidateService, ThesaurusService) {
    'ngInject';
    const vm = $scope;
    vm.candidates = [];
@@ -7,12 +9,17 @@ export default function CandidatesController($scope, CandidateService, Thesaurus
    vm.deleteCandidate = deleteCandidate;
    vm.editCandidate = editCandidate;
    vm.getCandidates = getCandidates;
+   vm.thesaurus = [];
+   vm.slider = {
+      min: 21,
+      max: 45,
+      options: {
+         floor: 15,
+         ceil: 65
+      }
+   };
 
-   let listOfThesaurus = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
-    'departments', 'typesOfEmployment', 'statuses', 'tags', 'skills'];
-
-   let map = utils.array2map(listOfThesaurus, ThesaurusService.getThesaurusTopics);
-   $q.all(map).then((data) => vm.thesaurus = data);
+   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
    function getCandidates() {
       CandidateService.getCandidates()

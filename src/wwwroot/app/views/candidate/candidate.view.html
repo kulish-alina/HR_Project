@@ -69,7 +69,18 @@
                            <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
                         </select>
                         <input type="text" ng-model="candidate.PositionDesired" placeholder="{{::'CANDIDATE.DESIRED_POSITION' | translate}}">
-                        <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
+                        <div class="grid-block">
+                           <div class="medium-6 grid-block">
+                              <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
+                           </div>
+                           <div class="medium-6 grid-block">
+                              <select name="Сurrency" ng-model="candidate.currency">
+                                 <option value="">UAN</option>
+                                 <option value="">EUR</option>
+                                 <option value="">USD</option>
+                              </select>
+                           </div>
+                        </div>
                         <select name="Type of Employment" ng-model="vacancy.TypeOfEmployment">
                            <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
                            <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>

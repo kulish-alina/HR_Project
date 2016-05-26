@@ -1,5 +1,5 @@
-const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
-    'departments', 'tags', 'skills'];
+const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
+    'departments', 'typesOfEmployment', 'tags', 'skills', 'stages'];
 export default function CandidateController(
    $element,
    $scope,

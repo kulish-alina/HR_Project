@@ -1,12 +1,7 @@
 ﻿using AutoMapper;
-using Domain.DTO.DTOModels;
 using Domain.Entities;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace WebApi.DTO.DTOService
+namespace Service.Services
 {
     public static class DTOService
     {

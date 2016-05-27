@@ -8,6 +8,8 @@ using System.Data.Entity;
 using System.Reflection;
 using System.Web.Http;
 using Domain.Entities;
+using Service.Services;
+using Domain.DTO.DTOModels;
 
 namespace WebApi
 {
@@ -32,8 +34,8 @@ namespace WebApi
                 .InstancePerRequest();
 
             builder.RegisterType<BOTContext>()
-            .As<DbContext>()
-           .InstancePerRequest();
+                .As<DbContext>()
+                .InstancePerRequest();
 
             builder.RegisterType<EFCandidateRepository>()
                 .As<IRepository<Candidate>>()
@@ -48,12 +50,24 @@ namespace WebApi
                 .InstancePerRequest();
 
             builder.RegisterType<UnitOfWork>()
-            .As<IUnitOfWork>()
-            .InstancePerRequest();
+                .As<IUnitOfWork>()
+                .InstancePerRequest();
 
-            builder.RegisterType<DataRepositoryFactory>()
-            .As<IDataRepositoryFactory>()
-            .InstancePerRequest();
+            builder.RegisterType<VacancyService>()
+                .As<IControllerService<Vacancy, VacancyDTO>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<CandidateService>()
+                .As<IControllerService<Candidate, CandidateDTO>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<UserService>()
+                .As<IControllerService<User, UserDTO>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<FileService>()
+               .As<FileService>()
+               .InstancePerRequest();
 
             builder.RegisterGeneric(typeof(EFBaseEntityRepository<>))
             .As(typeof(IRepository<>))

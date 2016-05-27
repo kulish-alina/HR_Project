@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.EFData.Extentions
+namespace Service.Extentions
 {
-    public static class CandidateSourceExtensions
+    public static class CandidateSocialExtensions
     {
-        public static void Update(this CandidateSource domain, CandidateSourceDTO dto)
+        public static void Update(this CandidateSocial domain, CandidateSocialDTO dto)
         {
             domain.Path = dto.Path;
-            domain.Source = dto.Source;
+            domain.SocialNetworkId = dto.SocialNetworkId;
             domain.State = dto.State;
         }
     }

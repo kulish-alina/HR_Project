@@ -172,6 +172,7 @@
       "ERROR": "Error!",
       "SUCCESS": "Success!",
       "WARN": "Warning!",
-      "NOTIF": "Notification!"
+      "NOTIF": "Notification!",
+      "CONFIRM": "Confirm please!"
    }
 }

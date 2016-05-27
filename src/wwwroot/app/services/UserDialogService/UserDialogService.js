@@ -1,36 +1,35 @@
-import _confirm from './confirm.view.html';
+import _dialog from './dialog.view.html';
+import './dialog.scss';
 
-let _$q, _ModalFactory, _NotificationFactory, _FoundationApi, _$translate;
+import {
+   assign,
+   invoke
+} from 'lodash';
+
+let _$q, _ModalFactory, _NotificationFactory, _$translate;
 
 export default class UserDialogService {
 
-   constructor($q, $translate, ModalFactory, NotificationFactory, FoundationApi) {
+   constructor($q, $translate, ModalFactory, NotificationFactory) {
       'ngInject';
       _$q                  = $q;
       _ModalFactory        = ModalFactory;
       _NotificationFactory = NotificationFactory;
-      _FoundationApi       = FoundationApi;
       _$translate          = $translate;
    }
 
    confirm(question) {
       let deferred = _$q.defer();
-      let config = {
-         template: _confirm,
-         contentScope: {
-            question,
-            ok      : () => {
-               deferred.resolve();
-               _FoundationApi.closeActiveElements();
-            },
-            cancel : () => {
-               deferred.reject();
-               _FoundationApi.closeActiveElements();
-            }
-         }
+
+      let contentScope = {
+         ok     : deferred.resolve,
+         cancel : deferred.reject
       };
-      let modal = new _ModalFactory(config);
-      modal.activate();
+
+      let buttons = [{ name: _$translate.instant('COMMON.OK'),     func: 'ok' },
+                     { name: _$translate.instant('COMMON.CANCEL'), func: 'cancel'}];
+
+      this.dialog(_$translate.instant('DIALOG_SERVICE.CONFIRM'), question, buttons, contentScope);
       return deferred.promise;
    }
 
@@ -64,5 +63,21 @@ export default class UserDialogService {
          }
       };
       notify.addNotification(configs[type] || configs.notification);
+   }
+
+   dialog(header, content, buttons, scope) {
+   /* header  - text for header into modal window;
+      content - html which will be shown into modal;
+      buttons - array of objects with properties:
+               "name" for buttons text which will be shown,
+               "func" for functions name frome attachment scope.
+      scope   - an object with variables and functions for content and buttons. */
+      let contentScope = assign(scope, {header, content, invoke, buttons});
+      let config = {
+         template: _dialog,
+         contentScope
+      };
+      let modal = new _ModalFactory(config);
+      modal.activate();
    }
 }

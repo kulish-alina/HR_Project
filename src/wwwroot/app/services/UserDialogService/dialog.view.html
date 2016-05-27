@@ -9,7 +9,7 @@
    <a class     = "button"
       ng-repeat = "button in buttons" 
       ng-bind   = "button.name"
-      ng-click  = "invoke(this, button.func)"
+      ng-click  = "button.func()"
       zf-close  = ""
       ></a>
 </div>

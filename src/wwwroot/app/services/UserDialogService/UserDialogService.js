@@ -2,8 +2,7 @@ import _dialog from './dialog.view.html';
 import './dialog.scss';
 
 import {
-   assign,
-   invoke
+   assign
 } from 'lodash';
 
 let _$q, _ModalFactory, _NotificationFactory, _$translate;
@@ -21,15 +20,10 @@ export default class UserDialogService {
    confirm(question) {
       let deferred = _$q.defer();
 
-      let contentScope = {
-         ok     : deferred.resolve,
-         cancel : deferred.reject
-      };
+      let buttons = [{ name: _$translate.instant('COMMON.OK'),     func: deferred.resolve },
+                     { name: _$translate.instant('COMMON.CANCEL'), func: deferred.reject  }];
 
-      let buttons = [{ name: _$translate.instant('COMMON.OK'),     func: 'ok' },
-                     { name: _$translate.instant('COMMON.CANCEL'), func: 'cancel'}];
-
-      this.dialog(_$translate.instant('DIALOG_SERVICE.CONFIRM'), question, buttons, contentScope);
+      this.dialog(_$translate.instant('DIALOG_SERVICE.CONFIRM'), question, buttons);
       return deferred.promise;
    }
 
@@ -70,9 +64,9 @@ export default class UserDialogService {
       content - html which will be shown into modal;
       buttons - array of objects with properties:
                "name" for buttons text which will be shown,
-               "func" for functions name frome attachment scope.
-      scope   - an object with variables and functions for content and buttons. */
-      let contentScope = assign(scope, {header, content, invoke, buttons});
+               "func" for functions which will be fired after click.
+      scope   - an object with variables for content. */
+      let contentScope = assign(scope, {header, content, buttons});
       let config = {
          template: _dialog,
          contentScope

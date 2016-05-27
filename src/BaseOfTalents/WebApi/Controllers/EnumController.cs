@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Service.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,13 @@ namespace WebApi.Controllers
 {
     public abstract class EnumController<TEnum> : ApiController
     {
+        IEnumService<TEnum> EnumService { get; set; }
+
+        public EnumController(IEnumService<TEnum> service)
+        {
+            EnumService = service;
+        }
+
         protected static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
@@ -18,29 +26,17 @@ namespace WebApi.Controllers
 
         [HttpGet]
         // GET: api/Entities/
-        public virtual IHttpActionResult All(HttpRequestMessage request)
+        public virtual IHttpActionResult All()
         {
-            List<TEnum> enums = new List<TEnum>();
-            foreach (var item in Enum.GetValues(typeof(TEnum)))
-            {
-                enums.Add((TEnum)item);
-            }
-            var objectedEnums = enums.Select(x => new { id = x, title = Enum.GetName(typeof(TEnum), x) });
-
-            return Json(objectedEnums, BOT_SERIALIZER_SETTINGS);
+            var enums = EnumService.GetAll();
+            return Json(enums, BOT_SERIALIZER_SETTINGS);
         }
 
         [HttpGet]
         // GET: api/Entities/
-        public virtual IHttpActionResult Get(HttpRequestMessage request, int id)
+        public virtual IHttpActionResult Get(int id)
         {
-            List<TEnum> enums = new List<TEnum>();
-            foreach (var item in Enum.GetValues(typeof(TEnum)))
-            {
-                enums.Add((TEnum)item);
-            }
-            var objectedEnums = enums.Select(x => new { id = x, title = Enum.GetName(typeof(TEnum), x) });
-            var foundedEnum = objectedEnums.FirstOrDefault(y => Convert.ToInt32(y.id) == id);
+            var foundedEnum = EnumService.Get(id);
             if (foundedEnum == null)
             {
                 return BadRequest();

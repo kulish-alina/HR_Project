@@ -1,86 +1,55 @@
-﻿using Data.EFData.Extentions;
-using Data.Infrastructure;
+﻿using Service.Services;
 using Domain.DTO.DTOModels;
 using Domain.Entities;
-using Domain.Repositories;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Web.Http;
-using WebApi.DTO.DTOService;
 
 namespace WebApi.Controllers
 {
     public class UsersController : BoTController<User, UserDTO>
     {
-        public UsersController(IDataRepositoryFactory repoFatory, IErrorRepository errorRepo)
-            : base(repoFatory, errorRepo)
+        public UsersController(IControllerService<User, UserDTO> service)
+            : base(service)
         {
         }
 
-        public override IHttpActionResult Add(HttpRequestMessage request, [FromBody]UserDTO user)
+        public override IHttpActionResult Add([FromBody]UserDTO user)
         {
-            var _userRepo = _repoFactory.GetDataRepository<User>(request);
-            return CreateResponse(request, () =>
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
+                StringBuilder errorString = new StringBuilder();
+                foreach (var error in ModelState.Keys.SelectMany(k => ModelState[k].Errors))
                 {
-                    StringBuilder errorString = new StringBuilder();
-                    foreach (var error in ModelState.Keys.SelectMany(k => ModelState[k].Errors))
-                    {
-                        errorString.Append(error.ErrorMessage + '\n');
-                    }
-                    return BadRequest(errorString.ToString());
+                    errorString.Append(error.ErrorMessage + '\n');
                 }
-                else
-                {
-                    if (user.Id != 0)
-                    {
-                        return BadRequest();
-                    }
-                    else
-                    {
-                        User _user = new User();
-                        _user.Update(user, _repoFactory.GetDataRepository<Photo>(request), _repoFactory.GetDataRepository<PhoneNumber>(request));
-                        _userRepo.Add(_user);
-                        _userRepo.Commit();
-                        return Json(DTOService.ToDTO<User, UserDTO>(_user), BOT_SERIALIZER_SETTINGS);
-                    }
-                }
-            });
+                return BadRequest(errorString.ToString());
+            }
+            if (user.Id != 0)
+            {
+                return BadRequest();
+            }
+            var addedUser = entityService.Add(user);
+            return Json(addedUser, BOT_SERIALIZER_SETTINGS);
         }
 
-        public override IHttpActionResult Put(HttpRequestMessage request, int id, [FromBody] UserDTO changedUser)
+        public override IHttpActionResult Put(int id, [FromBody] UserDTO changedUser)
         {
-            var _userRepo = _repoFactory.GetDataRepository<User>(request);
-
-            return CreateResponse(request, () =>
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
+                StringBuilder errorString = new StringBuilder();
+                foreach (var error in ModelState.Keys.SelectMany(k => ModelState[k].Errors))
                 {
-                    StringBuilder errorString = new StringBuilder();
-                    foreach (var error in ModelState.Keys.SelectMany(k => ModelState[k].Errors))
-                    {
-                        errorString.Append(error.ErrorMessage + '\n');
-                    }
-                    return BadRequest(errorString.ToString());
+                    errorString.Append(error.ErrorMessage + '\n');
                 }
-                else
-                {
-                    if (changedUser.Id != id)
-                    {
-                        return BadRequest();
-                    }
-                    else
-                    {
-                        User _user = _userRepo.Get(id);
-                        _user.Update(changedUser, _repoFactory.GetDataRepository<Photo>(request), _repoFactory.GetDataRepository<PhoneNumber>(request));
-                        _userRepo.Update(_user);
-                        _userRepo.Commit();
-                        return Json(DTOService.ToDTO<User, UserDTO>(_user), BOT_SERIALIZER_SETTINGS);
-                    }
-                }
-            });
+                return BadRequest(errorString.ToString());
+            }
+            if (changedUser.Id != id)
+            {
+                return BadRequest();
+            }
+            var updatedUser = entityService.Put(changedUser);
+            return Json(updatedUser, BOT_SERIALIZER_SETTINGS);
         }
     }
 }

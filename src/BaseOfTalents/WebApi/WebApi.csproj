@@ -160,7 +160,6 @@
     <Compile Include="Controllers\TypesOfEmploymentController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VacanciesController.cs" />
-    <Compile Include="DTOService\DTOService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -189,6 +188,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{c6a50caf-6731-4692-b1db-26dc1b237239}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{7f71eb61-6314-44d9-9ef6-6c90aa7dc566}</Project>
+      <Name>Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

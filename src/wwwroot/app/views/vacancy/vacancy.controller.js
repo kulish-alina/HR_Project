@@ -1,4 +1,3 @@
-const MAX_SIZE_OF_FILE = 5120;
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
     'departments', 'tags', 'skills', 'typesOfEmployment', 'languageLevels'];
 import {
@@ -13,7 +12,7 @@ export default function VacancyController(
    $element,
    VacancyService,
    ValidationService,
-   FileUploader,
+   FileUploaderService,
    ThesaurusService,
    UserService
 ) {
@@ -39,18 +38,7 @@ export default function VacancyController(
    UserService.getUsers().then(users => vm.responsibles = users);
 
    function createNewUploader() {
-      let newUploader = new FileUploader({
-         url: 'http://localhost:53031//api/files',
-         onCompleteAll: _vs
-      });
-      newUploader.filters.push({
-         name: 'sizeFilter',
-         fn: function sizeFilter(item) {
-            if (item.size <= MAX_SIZE_OF_FILE) {
-               return true;
-            }
-         }
-      });
+      let newUploader = FileUploaderService.getFileUploader({ onCompleteAllCallBack : _vs, maxSize : 2048000 });
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          let response = JSON.parse(item._xhr.response);
          vm.vacancy.files.push(response);

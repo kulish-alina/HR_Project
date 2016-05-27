@@ -1,4 +1,5 @@
 ﻿using Data.Infrastructure;
+using Service.Services;
 using Domain.DTO.DTOModels;
 using Domain.Entities.Setup;
 using Domain.Repositories;
@@ -7,12 +8,8 @@ namespace WebApi.Controllers
 {
     public class PermissionsController : BoTController<Permission, PermissionDTO>
     {
-        public PermissionsController(IDataRepositoryFactory repoFatory, IErrorRepository errorRepo)
-            : base(repoFatory, errorRepo)
-        {
-        }
-
-        public PermissionsController()
+        public PermissionsController(IControllerService<Permission, PermissionDTO> service)
+            : base(service)
         {
         }
     }

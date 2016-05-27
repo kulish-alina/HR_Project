@@ -28,7 +28,7 @@ export default class ThesaurusService {
 
    getThesaurusTopics(thesaurusName) {
       let thesaurusesToLoad = _getLoadedThesaurusesList(thesaurusName);
-      let mapThesaurusPromises = utils.array2map(thesaurusesToLoad, name => _HttpCacheService.get(name));
+      let mapThesaurusPromises = utils.array2map(thesaurusesToLoad, _HttpCacheService.get);
       return _$q.all(mapThesaurusPromises).then(thesauruses => {
          forEach(thesauruses, (thesaurus, name) => {
             _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);

@@ -44,6 +44,8 @@ describe('HttpCacheService testing', () => {
       mockHttp.put.calls.reset();
       mockHttp.post.calls.reset();
       mockHttp.remove.calls.reset();
+      promiseMock.then.calls.reset();
+      promiseMock.finally.calls.reset();
       spyOn(promiseMock, 'then').and.returnValue(promiseMock);
       spyOn(promiseMock, 'defer').and.returnValue({ promise: promiseMock });
       spyOn(promiseMock, 'finally').and.returnValue(promiseMock);

@@ -36,7 +36,8 @@ import ThesaurusService  from './services/ThesaurusService';
 import UserService       from './services/UserService';
 import SettingsService   from './services/SettingsService';
 import RolesService      from './services/RolesService';
-import FileUploaderService  from './services/FileUploaderService';
+import FileUploaderService    from './services/FileUploaderService';
+import HttpCacheService       from './services/HttpCacheService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -45,9 +46,9 @@ import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 
 import uiMask from 'angular-ui-mask';
 
-import PhoneFormatFilter from './filters/PhoneFormatFilter';
-import ArrayAsString   from './filters/ArrayAsString';
-import botUrl   from './filters/botUrl';
+import PhoneFormatFilter   from './filters/PhoneFormatFilter';
+import ArrayAsString       from './filters/ArrayAsString';
+import botUrl              from './filters/botUrl';
 
 import StateRunner from './state-runner';
 
@@ -80,6 +81,7 @@ angular
    .service('RolesService',     RolesService)
    .service('ThesaurusService', ThesaurusService)
    .service('FileUploaderService',FileUploaderService)
+   .service('HttpCacheService', HttpCacheService)
 
 
    .directive('thesaurus', ThesaurusDirective.createInstance)

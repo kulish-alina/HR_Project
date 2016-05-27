@@ -190,6 +190,7 @@
       "SUCCESS": "Success!",
       "WARN": "Warning!",
       "NOTIF": "Notification!",
-      "CONFIRM": "Confirm please!"
+      "CONFIRM": "Confirm please!",
+      "SUCCESSFUL_SAVING": "Vacancy was successfully saved!"
    }
 }

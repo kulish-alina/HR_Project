@@ -1,7 +1,7 @@
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
     'departments', 'typesOfEmployment', 'tags', 'skills', 'stages'];
 
-export default function CandidatesController($scope, CandidateService, ThesaurusService) {
+export default function CandidatesController($scope, CandidateService, ThesaurusService, UserDialogService) {
    'ngInject';
    const vm = $scope;
    vm.candidates = [];
@@ -42,6 +42,6 @@ export default function CandidatesController($scope, CandidateService, Thesaurus
    }
 
    function _onError() {
-      vm.errorMessage = 'Sorry! Some error occurred';
+      UserDialogService.notification('Some error was occurred!', 'error');
    }
 }

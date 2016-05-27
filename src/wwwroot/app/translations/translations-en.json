@@ -8,26 +8,43 @@
       "SETTINGS" : "Settings",
       "MY_BOT": "My BOT",
       "SEARCH": "Search",
-      "USER_NAME": "User Name",
-      "THESAURUSES" : "Thesauruses"
+      "USER_NAME": "User Name"
    },
    "CANDIDATE": {
       "ERROR": "Sorry! Some error occurred",
       "NEW_CANDIDATE": "New candidate",
       "DESIRED_SALARY": "Desired salary",
-      "DESIRED_POSITION": "Desired position"
+      "DESIRED_POSITION": "Desired position",
+      "STAGE": "Stage",
+      "SOURCE": "Source",
+      "POSITION": "Position",
+      "FULL_NAME": "Full name",
+      "READY_TO_RELOCATE": "Ready to relocate"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
       "BASE_OF_CANDIDATES": "Base of candidates",
-      "SEARCH_CANDIDATES": "Search Candidates"
+      "SEARCH_CANDIDATES": "Search candidates",
+      "ALL": "All",
+      "VK": "Vk",
+      "RABOTA": "Rabota",
+      "BOT": "BOT",
+      "DJINNI": "Djinni",
+      "LINKEDIN": "LinkedIn",
+      "WORK": "Work",
+      "HR": "Hh"
    },
    "HOME": {
       "HOME": "Home"
    },
    "VACANCY": {
       "NEW_VACANCY": "New vacancy",
-      "START_DATE": "Start Date"
+      "START_DATE": "Start Date",
+      "OPEN": "Open",
+      "PROCESSING": "Processing",
+      "CLOSED": "Closed",
+      "CANCELLED": "Canceled",
+      "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy"
    },
    "VACANCIES": {
       "VACANCIES": "Vacancies",
@@ -39,6 +56,7 @@
       "ADD_VACANCY" : "Add Vacancy",
       "ADD_EVENT" : "Add Event",
       "CANCEL": "Cancel",
+      "OK": "Ok",
       "SUBMIT": "Submit",
       "ADD_AND_BACK": "Add and back",
       "ADD": "Add",
@@ -66,6 +84,7 @@
       "DEPARTMENT": "Department",
       "SALARY_MIN": "Salary min",
       "SALARY_MAX": "Salary max",
+      "SALARY": "Salary",
       "TYPE_OF_EMPLOYMENT": "Type of Employment",
       "MASTER_VACANCY": "Master vacancy",
       "COUNT": "Count",
@@ -83,8 +102,13 @@
       "TAGS": "Tags",
       "PHONE_NUMBERS": "Phone numbers",
       "UPLOAD": "Upload",
+      "DATE_OF_BIRTH": "Date of Birth",
       "UPLOAD_PHOTO": "Upload photo",
-      "DATE_OF_BIRTH": "Date of Birth"
+      "FILE_UPLOADER_ERROR_MESSAGE": "The size of some file exceeds the allowable size!",
+      "CREATE": "Create",
+      "ADDED": "Added",
+      "YEARS": "Years",
+      "MONTHS": "Months"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -131,6 +155,10 @@
       "title": {
          "error": "*this should be from 3 to 50 symbols",
          "success": "Correct!"
+      },
+      "date": {
+         "error": "*it is invalid date",
+         "success": "Correct!"
       }
    },
    "ERRORS" : {
@@ -147,14 +175,23 @@
       "RECRUITING" : "Recruiting settings",
       "PASS" : "Your password",
       "NEW_PASS" : "New password",
-      "CONFIRM_PASS" : "Confirm new password"
+      "CONFIRM_PASS" : "Confirm new password",
+      "THESAURUSES" : "Thesauruses"
    },
    "PROFILE" : {
       "CHANGE_PASS": "Change password"
    },
    "ROLES" : {
       "NEW": "New role",
-      "NAME": "Enter role name",
-      "CREATE": "Create new role"
+      "NAME": "Enter role name"
+   },
+   "DIALOG_SERVICE" : {
+      "ERROR": "Error!",
+      "SUCCESS": "Success!",
+      "WARN": "Warning!",
+      "NOTIF": "Notification!",
+      "CONFIRM": "Confirm please!",
+      "SUCCESSFUL_SAVING": "Vacancy was successfully saved!",
+      "ERROR_SAVING": "Some error has occurred while saving vacancy!"
    }
 }

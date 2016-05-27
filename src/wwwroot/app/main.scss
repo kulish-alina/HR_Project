@@ -9,14 +9,19 @@
 @import './styles/text-editor';
 @import './grid.scss';
 @import './styles/multiple-select';
+@import './styles/pagination';
+@import './styles/modal';
+@import './styles/range-slider';
 
 body {
    background-color: $light-color;
-   min-width: $rem-base*75;
-
+   min-width: $rem-base*58.75;
    &.ng-scope {
        opacity: 1;
    }
+}
+.app-content {
+   height: auto;
 }
 
 // Styles for icons
@@ -42,18 +47,12 @@ body {
    width: 99%;
    margin: $rem-base*0.5;
    height: auto;
+   min-width: $rem-base*38;
+   @include breakpoint(medium down) { 
+      width: 98%;
+   }
 }
 
-// Styles for switching pages
-.switch-pages {
-   bottom: 0;
-   right: 0;
-   position: absolute;
-   color: $offcanvas-background;
-}
-.pages i {
-   color: $offcanvas-background;
-}
 .grid-block {
    overflow: inherit;
 }
@@ -92,4 +91,10 @@ body {
 }
 i.profile-icons {
    width: $rem-base*2;
+}
+.card-section {
+   padding-top: 0 !important;
+}
+.card-divider {
+   padding-bottom: $rem-base/2;
 }

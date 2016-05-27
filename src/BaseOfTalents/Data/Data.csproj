@@ -91,21 +91,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EFData\BOTContext.cs" />
-    <Compile Include="EFData\Extentions\CandidateSocialExtensions.cs" />
-    <Compile Include="EFData\Extentions\CandidateSourceExtensions.cs" />
-    <Compile Include="EFData\Extentions\DateTimeExtensions.cs" />
-    <Compile Include="EFData\Extentions\FileExtensions.cs" />
-    <Compile Include="EFData\Extentions\LanguageSkillExtensions.cs" />
-    <Compile Include="EFData\Extentions\PagingExtention.cs" />
-    <Compile Include="EFData\Extentions\PhoneNumberExtension.cs" />
-    <Compile Include="EFData\Extentions\PhotoExtensions.cs" />
-    <Compile Include="EFData\Extentions\RequestMessageExtensions.cs" />
-    <Compile Include="EFData\Extentions\UserExtensions.cs" />
-    <Compile Include="EFData\Extentions\VacancyExtensions.cs" />
-    <Compile Include="EFData\Extentions\VacancyStageInfoExtensions.cs" />
     <Compile Include="EFData\Mapping\ErrorConfiguration.cs" />
     <Compile Include="EFData\Repositories\EFErrorRepository.cs" />
-    <Compile Include="EFData\Extentions\CandidateExtensions.cs" />
     <Compile Include="EFData\Mapping\BaseEntityConfiguration.cs" />
     <Compile Include="EFData\Mapping\CandidateConfiguration.cs" />
     <Compile Include="EFData\Mapping\CandidateSocialConfiguration.cs" />
@@ -145,14 +132,12 @@
     <Compile Include="EFData\Repositories\EFTagRepository.cs" />
     <Compile Include="EFData\Repositories\EFVacancyRepository.cs" />
     <Compile Include="EFData\Repositories\EFVacancyStageInfoRepository.cs" />
-    <Compile Include="Infrasctucture\DataRepositoryFactory.cs" />
     <Compile Include="Infrasctucture\Disposable.cs" />
-    <Compile Include="Infrasctucture\IDataRepositoryFactory.cs" />
     <Compile Include="Infrasctucture\IUnitOfWork.cs" />
     <Compile Include="Infrasctucture\UnitOfWork.cs" />
-    <Compile Include="Migrations\201605231235233_init.cs" />
-    <Compile Include="Migrations\201605231235233_init.Designer.cs">
-      <DependentUpon>201605231235233_init.cs</DependentUpon>
+    <Compile Include="Migrations\201605241258451_init.cs" />
+    <Compile Include="Migrations\201605241258451_init.Designer.cs">
+      <DependentUpon>201605241258451_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -169,8 +154,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605231235233_init.resx">
-      <DependentUpon>201605231235233_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605241258451_init.resx">
+      <DependentUpon>201605241258451_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

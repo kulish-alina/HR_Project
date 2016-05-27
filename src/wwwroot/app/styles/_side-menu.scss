@@ -1,4 +1,7 @@
-// Styles for side menu
+ //Styles for side menu
+.off-canvas.left {
+   height: 110%;
+}
 .side-menu {
    @include menu-bar-style(
       $background: $offcanvas-background,

@@ -1,6 +1,6 @@
 // Styles for forms
 form {
-   width: 98%;
+   width: 100%;
 }
 fieldset {
    width: 100%;
@@ -10,6 +10,12 @@ textarea {
    resize: vertical;
    height: $rem-base*2.4;
    min-height: $rem-base*2.4;
+   @include breakpoint(medium only) { 
+      font-size: $rem-base*0.8125;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base*0.8125;
+   }
 }
 .main-card textarea {
    height: $rem-base*5; 
@@ -40,6 +46,7 @@ form p {
    color: $alert-color;
    margin: 0;
    font-size: $rem-base*0.8;
+   font-family: $body-font-family;
 }
 form .ng-invalid {
    margin-bottom: $rem-base*0.2;
@@ -57,18 +64,41 @@ form .ng-invalid {
    background-color: $gray;
    background-size: 100%;
    width: 100%;
-   height: 200px;
+   height: $rem-base*12.5;
    margin-bottom: $rem-base;
    padding-bottom: 30%;
    padding-top: 30%;
    text-align: center;
 }
 .modal {
-   height: 120px;
+   height: $rem-base*7.5;
 }
 .upload-title {
    font-size: $rem-base*2;
    color: lighten($dark-color, 7);
+   @include breakpoint(medium only) {
+     font-size: $rem-base;
+   }
+   @include breakpoint(small only) {
+     font-size: $rem-base;
+   }
+}
+input {
+   @include breakpoint(medium only) { 
+      font-size: $rem-base*0.8125 !important;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base*0.8125 !important;
+   }
+}
+
+select {
+   @include breakpoint(medium only) { 
+      font-size: $rem-base*0.8125;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base*0.8125;
+   }
 }
 option {
    height: inherit;
@@ -81,4 +111,8 @@ select :nth-child(n+2) {
 } 
 select[multiple] {
    height: auto;
+}
+.source-col {
+   padding-left: 0;
+   padding-right: 0;
 }

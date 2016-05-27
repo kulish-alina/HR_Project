@@ -1,34 +1,80 @@
-import utils from '../../utils';
-export default function VacanciesController($scope, VacancyService, ThesaurusService, $q) {
+const LIST_OF_THESAURUS = ['industries', 'levels', 'locations',
+    'typesOfEmployment'];
+import {
+   remove,
+   find
+} from 'lodash';
+
+export default function VacanciesController(
+   $scope,
+   VacancyService,
+   ThesaurusService,
+   $q,
+   UserService,
+   $state
+   ) {
    'ngInject';
 
    const vm = $scope;
-   vm.vacancies = [];
-   vm.getVacancies = getVacancies;
    vm.getVacancy = getVacancy;
    vm.deleteVacancy = deleteVacancy;
    vm.editVacancy = editVacancy;
+   vm.cancel = cancel;
+   vm.thesaurus = [];
+   vm.responsibles = [];
+   vm.searchVacancies = searchVacancies;
+   vm.beforeOpenModal = beforeOpenModal;
+   vm.vacancy = {};
+   vm.vacancies = [];
+   vm.total = 0;
+   vm.vacancy.current = 1;
+   vm.vacancy.size = 20;
+   vm.pagination = { current: 1 };
+   vm.pageChanged = pageChanged;
 
-   let listOfThesaurus = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
-    'departments', 'typesOfEmployment', 'statuses', 'tags', 'skills'];
+   function pageChanged(newPage) {
+      vm.vacancy.current = newPage;
+      VacancyService.search(vm.vacancy).then(response => {
+         vm.total = response.total;
+         vm.vacancies = response.vacancies;
+      }).catch(_onError);
+   };
 
-   let map = utils.array2map(listOfThesaurus, ThesaurusService.getThesaurusTopics);
-   $q.all(map).then((data) => vm.thesaurus = data);
+   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
-   function getVacancies() {
-      VacancyService.getVacancies().then(value => vm.vacancies = value).catch(_onError);
+   UserService.getUsers().then((users) => {
+      vm.responsibles = users;
+   });
+
+   function searchVacancies() {
+      VacancyService.search(vm.vacancy).then(response => {
+         vm.total = response.total;
+         vm.vacancies = response.vacancies;
+      }).catch(_onError);
    }
 
    function getVacancy(vacancyId) {
-      VacancyService.getVacancy(vacancyId).then(value => vm.vacancies = [ value ]).catch(_onError);
+      VacancyService.getVacancy(vacancyId).then(value => {
+         vm.vacancies.push(value);
+      }).catch(_onError);
    }
 
    function editVacancy(vacancy) {
-      VacancyService.saveVacancy(vacancy).catch(_onError);
+      $state.go('vacancy', {_data: vacancy});
    }
 
-   function deleteVacancy(vacancy) {
-      VacancyService.deleteVacancy(vacancy);
+   function cancel() {
+      $state.reload();
+   }
+
+   function beforeOpenModal(vacancyId) {
+      vm.selectedVacancyId = vacancyId;
+   }
+
+   function deleteVacancy() {
+      let predicate = {id: vm.selectedVacancyId};
+      let vacancyForRemove = find(vm.vacancies, predicate);
+      VacancyService.remove(vacancyForRemove).then(() => remove(vm.vacancies, predicate));
    }
 
    function _onError() {

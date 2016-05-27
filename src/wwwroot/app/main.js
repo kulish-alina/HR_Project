@@ -6,6 +6,7 @@ import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
 import 'angular-file-upload/dist/angular-file-upload';
+import pagination from 'angular-utils-pagination';
 
 import 'foundation-apps/dist/js/foundation-apps';
 import 'foundation-apps/dist/js/foundation-apps-templates';
@@ -16,6 +17,8 @@ import 'foundation-icon-fonts/foundation-icons.css';
 import 'oi.select/dist/select.min';
 import 'oi.select/dist/select-tpls.min';
 import 'oi.select/dist/select.min.css';
+import 'angularjs-slider/dist/rzslider.min';
+import 'angularjs-slider/dist/rzslider.min.css';
 
 import 'angular-srph-age-filter/angular-age-filter';
 
@@ -29,12 +32,15 @@ import LoggerProvider     from './services/LoggerProvider';
 import HttpProvider       from './services/HttpProvider';
 import ValidationProvider from './services/ValidationProvider';
 
-import CandidateService  from './services/CandidateService';
-import VacancyService    from './services/VacancyService';
-import ThesaurusService  from './services/ThesaurusService';
-import UserService       from './services/UserService';
-import SettingsService   from './services/SettingsService';
-import RolesService      from './services/RolesService';
+import CandidateService    from './services/CandidateService';
+import VacancyService      from './services/VacancyService';
+import ThesaurusService    from './services/ThesaurusService';
+import UserService         from './services/UserService';
+import SettingsService     from './services/SettingsService';
+import RolesService        from './services/RolesService';
+import FileUploaderService from './services/FileUploaderService';
+import HttpCacheService    from './services/HttpCacheService';
+import UserDialogService   from './services/UserDialogService/UserDialogService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -43,16 +49,18 @@ import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 
 import uiMask from 'angular-ui-mask';
 
-import PhoneFormatFilter from './filters/PhoneFormatFilter';
-import ArrayAsString   from './filters/ArrayAsString';
+import PhoneFormatFilter   from './filters/PhoneFormatFilter';
+import ArrayAsString       from './filters/ArrayAsString';
+import botUrl              from './filters/botUrl';
 
 import StateRunner from './state-runner';
 
 const dependencies = [
-
    router,
    translate,
    uiMask,
+   pagination,
+   'rzModule',
    'foundation',
    'validation',
    'validation.rule',
@@ -70,12 +78,15 @@ angular
    .provider('HttpService',       HttpProvider)
    .provider('ValidationService', ValidationProvider)
 
-   .service('CandidateService', CandidateService)
-   .service('VacancyService',   VacancyService)
-   .service('SettingsService',  SettingsService)
-   .service('UserService',      UserService)
-   .service('RolesService',     RolesService)
-   .service('ThesaurusService', ThesaurusService)
+   .service('CandidateService',    CandidateService)
+   .service('VacancyService',      VacancyService)
+   .service('SettingsService',     SettingsService)
+   .service('UserService',         UserService)
+   .service('RolesService',        RolesService)
+   .service('ThesaurusService',    ThesaurusService)
+   .service('FileUploaderService', FileUploaderService)
+   .service('HttpCacheService',    HttpCacheService)
+   .service('UserDialogService',   UserDialogService)
 
 
    .directive('thesaurus', ThesaurusDirective.createInstance)
@@ -85,6 +96,7 @@ angular
 
    .filter('tel',           PhoneFormatFilter)
    .filter('arrayAsString', ArrayAsString)
+   .filter('botUrl', botUrl)
 
    .run(StateRunner)
 

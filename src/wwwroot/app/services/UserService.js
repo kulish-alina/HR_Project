@@ -1,34 +1,45 @@
+import {
+   filter,
+   first
+} from 'lodash';
+
 const USER_URL = 'users/';
-let _HttpService, _$q;
+let _HttpService, _$q, _HttpCacheService;
+let currentUser = {};
 
 export default class UserService {
-   constructor(HttpService, $q) {
+   constructor(HttpService, $q, HttpCacheService) {
       'ngInject';
       _HttpService = HttpService;
       _$q = $q;
+      _HttpCacheService = HttpCacheService;
    }
 
    getCurrentUser() {
-      return _$q.when({
-         lastName     : 'Antonov',
-         firstName    : 'Dmitriy',
-         middleName   : 'Valentinovich',
-         isMale       : 'true',
-         birthDate    : '07.06.1989',
-         location     : 'Dnniepropetrovsk',
-         email        : 'antonov@mail.be',
-         skype        : 'antonov_skype',
-         login        : 'dant',
-         role         : 'Manager',
-         phoneNumbers : ['380680686868', '380505055505']
-      });
+      return _$q.when(currentUser);
    }
 
-   saveUser(entty) {
-      return _$q.when(console.log('user saved', entty));
+   setCurrentUser(user) {
+      currentUser = user;
    }
 
-   getUsers() {
-      return _HttpService.get(USER_URL);
+   getUserById(id) {
+      return this.getUsers({id}).then(first);
+   }
+
+   saveUser(entity) {
+      if (entity.id) {
+         return _HttpService.put(`${USER_URL}/${entity}`);
+      } else {
+         return _HttpService.post(USER_URL, entity).then(user => {
+            _HttpCacheService.clearCache(USER_URL);
+            return user;
+         });
+      }
+   }
+
+   getUsers(predicate) {
+      return _HttpCacheService.get(USER_URL)
+         .then(users => filter(users, predicate));
    }
 }

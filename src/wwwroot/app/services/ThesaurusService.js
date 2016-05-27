@@ -1,13 +1,13 @@
 import {
-   has,
-   find,
-   remove,
    filter,
    map,
    forEach,
    includes,
-   curry
+   curry,
+   isArray
 } from 'lodash';
+
+import { find } from 'lodash/fp';
 
 import utils from '../utils.js';
 
@@ -15,41 +15,44 @@ const curryLength = 3;
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
-let _HttpService, _$q, _$translate;
+let _HttpService, _$q, _$translate, _HttpCacheService;
 let _curryAction = curry(_actionOfAdditionFieldsForTopic, curryLength);
 
-const cache = {};
-
 export default class ThesaurusService {
-   constructor(HttpService, $q, $translate) {
+   constructor(HttpService, $q, $translate, HttpCacheService) {
       'ngInject';
       _HttpService = HttpService;
       _$q = $q;
       _$translate = $translate;
+      _HttpCacheService = HttpCacheService;
    }
 
    getThesaurusTopics(thesaurusName) {
-      if (has(cache, thesaurusName)) {
-         return _$q.when(cache[thesaurusName]);
-      } else {
-         let thesaurusesToLoad = _getLoadedThesaurusesList(thesaurusName);
-         let mapThesaurusPromises = utils.array2map(thesaurusesToLoad, name => _HttpService.get(name));
-         return _$q.all(mapThesaurusPromises).then(thesauruses => {
-            forEach(thesauruses, (thesaurus, name) => {
-               cache[name] = thesaurus;
-               _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
-            });
-            return cache[thesaurusName];
+      let thesaurusesToLoad = _getLoadedThesaurusesList(thesaurusName);
+      let mapThesaurusPromises = utils.array2map(thesaurusesToLoad, _HttpCacheService.get);
+      return _$q.all(mapThesaurusPromises).then(thesauruses => {
+         forEach(thesauruses, (thesaurus, name) => {
+            _actionOfAdditionFieldsForTopics(thesaurus, name, _addRefTextFieldFunction);
          });
-      }
+         return thesauruses[thesaurusName];
+      });
    }
 
    getThesaurusTopic(thesaurusName, id) {
-      if (has(cache, thesaurusName)) {
-         return _$q.when(find(cache[thesaurusName], {id}));
-      } else {
-         return this.getThesaurusTopics(thesaurusName).then(() => find(cache[thesaurusName], {id}));
-      }
+      return this.getThesaurusTopics(thesaurusName).then(find({id}));
+   }
+
+   getThesaurusTopicsByIds(thesaurusName, arrIds) {
+      let isArrayIds = isArray(arrIds);
+      return this.getThesaurusTopics(thesaurusName).then((topics) => {
+         return filter(topics, (topic) => {
+            if (isArrayIds) {
+               return includes(arrIds, topic.id);
+            } else {
+               return arrIds === topic.id;
+            }
+         });
+      });
    }
 
    getThesaurusTopicsGroup(thesaurusNames) {
@@ -69,7 +72,7 @@ export default class ThesaurusService {
          } else {
             promise = _HttpService.post(`${thesaurusName}/`, entity);
             promise = promise.then(_entity => {
-               cache[thesaurusName].push(_entity);
+               _HttpCacheService.clearCache(thesaurusName);
                return _entity;
             });
          }
@@ -92,7 +95,7 @@ export default class ThesaurusService {
       if (includes(this.getThesaurusNames(), thesaurusName)) {
          let additionalUrl = `${thesaurusName}/${entity.id}`;
          _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
-         return _HttpService.remove(additionalUrl, entity).then(() => remove(cache[thesaurusName], entity));
+         return _HttpService.remove(additionalUrl, entity).then(() => _HttpCacheService.clearCache(thesaurusName));
       } else {
          return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
       }
@@ -123,7 +126,7 @@ function _getLoadedThesaurusesList(mainThesaurusName) {
 }
 
 function _addRefTextFieldFunction(field, topic) {
-   let referencedTopic = find(cache[field.refTo], {id: topic[field.name]});
+   let referencedTopic = find(_HttpCacheService.get(field.refTo), {id: topic[field.name]});
    if (referencedTopic) {
       topic[field.refObject] = referencedTopic;
    }

@@ -1,5 +1,4 @@
 import {
-   find,
    filter,
    map,
    forEach,
@@ -7,6 +6,8 @@ import {
    curry,
    isArray
 } from 'lodash';
+
+import { find } from 'lodash/fp';
 
 import utils from '../utils.js';
 
@@ -38,7 +39,7 @@ export default class ThesaurusService {
    }
 
    getThesaurusTopic(thesaurusName, id) {
-      return this.getThesaurusTopics(thesaurusName).then((topics) => find(topics, {id}));
+      return this.getThesaurusTopics(thesaurusName).then(find({id}));
    }
 
    getThesaurusTopicsByIds(thesaurusName, arrIds) {

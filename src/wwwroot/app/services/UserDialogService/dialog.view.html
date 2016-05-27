@@ -1,11 +1,11 @@
 <div id="dialog">
-<div>
-   <h3 ng-bind="header"></h3>
-   <a zf-close="" class="close-button">×</a>
-</div>
-<div>
-   {{content}}
-</div>
+   <div>
+      <h3 ng-bind="header"></h3>
+      <a zf-close="" class="close-button">×</a>
+   </div>
+   <div>
+      {{content}}
+   </div>
    <a class     = "button"
       ng-repeat = "button in buttons" 
       ng-bind   = "button.name"

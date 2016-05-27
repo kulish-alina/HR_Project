@@ -2,6 +2,12 @@ table {
    margin: $rem-base*0.3125;
    padding: $rem-base*0.3125;
    width: 100%;
+   @include breakpoint(medium only) { 
+      font-size: $rem-base*0.8125;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base*0.8125;
+   }
 }
 th {
    font-weight: normal;
@@ -27,8 +33,14 @@ tr:nth-child(2n) {
    width: 100%;
 }
 .col4 {
-   min-width: 100px;
+   min-width: $rem-base*6.25;
 }
 td p {
    margin-bottom: 0;
+   @include breakpoint(medium only) { 
+      font-size: $rem-base*0.8125;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base*0.8125;
+   }
 }

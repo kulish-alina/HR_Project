@@ -11,7 +11,7 @@ import profileEditTemplate from './views/settings/profile/profileEdit.view.html'
 import membersTemplate     from './views/settings/members/members.view.html';
 import rolesTemplate       from './views/settings/roles/roles.view.html';
 
-
+import homeController         from './views/home/home.controller';
 import candidatesController   from './views/candidates/candidates.controller';
 import candidateController    from './views/candidate/candidate.controller';
 import vacanciesController    from './views/vacancies/vacancies.controller';
@@ -45,7 +45,8 @@ export default function _config(
    $stateProvider
       .state('home', {
          url: '/home',
-         template: homeTemplate
+         template: homeTemplate,
+         controller: homeController
       })
       .state('candidates', {
          url: '/candidates',

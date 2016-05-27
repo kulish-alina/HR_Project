@@ -57,8 +57,9 @@ export default class VacancyService {
 
    convertFromServerFormat(vacancy) {
       vacancy = _convertFromServerDates(vacancy);
+      let userPromise = _fillUser(vacancy);
       vacancy.responsibleId = toString(vacancy.responsibleId);
-      return _$q.all([_fillThesauruses(vacancy), _fillUser(vacancy)]).then(first);
+      return _$q.all([_fillThesauruses(vacancy), userPromise]).then(first);
    }
 
    remove(vacancy) {
@@ -72,7 +73,6 @@ export default class VacancyService {
    }
 
    save(vacancy) {
-      console.log('vacancy', vacancy);
       vacancy = cloneDeep(vacancy);
 
       return _saveNewTopics(vacancy).then((storedTopics) => {
@@ -81,7 +81,6 @@ export default class VacancyService {
          });
          vacancy = _convertThesaurusToIds(vacancy);
          vacancy = _convertToServerDates(vacancy);
-
          delete vacancy.createdOn;
          delete vacancy.responsible;
          vacancy.languageSkill = vacancy.languageSkill || {};

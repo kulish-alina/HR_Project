@@ -1,5 +1,5 @@
-const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
-    'departments', 'tags', 'skills'];
+const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
+    'departments', 'typesOfEmployment', 'tags', 'skills', 'stages'];
 export default function CandidateController(
    $element,
    $scope,
@@ -7,7 +7,8 @@ export default function CandidateController(
    CandidateService,
    ValidationService,
    FileUploaderService,
-   ThesaurusService
+   ThesaurusService,
+   UserDialogService
    ) {
    'ngInject';
 
@@ -26,7 +27,7 @@ export default function CandidateController(
    }
 
    function _onError() {
-      vm.errorMessage = $translate.instant('CANDIDATE.ERROR');
+      UserDialogService.notification('Some error was occurred!', 'error');
    }
 
    function saveCandidate(form) {

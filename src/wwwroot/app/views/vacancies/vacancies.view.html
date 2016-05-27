@@ -1,7 +1,3 @@
-<!--<div ng-show="errorMessage">{{errorMessage}}</div>
-<button ng-click="getVacancy(vacancyId)">GET VACANCY</button>
-<input type="text" ng-model="vacancyId" placeholder="Id">
--->
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
       <div class="grid-content">
@@ -64,11 +60,11 @@
                <thead>
                   <tr>
                      <th>№</th>
-                     <th>Title</th>
-                     <th>Status</th>
-                     <th class="col4">Location</th>
-                     <th>Responsible</th>
-                     <th>Added</th>
+                     <th>{{::'COMMON.TITLE' | translate}}</th>
+                     <th>{{::'COMMON.STATUS' | translate}}</th>
+                     <th class="col4">{{::'COMMON.LOCATION' | translate}}</th>
+                     <th>{{::'COMMON.RESPONSIBLE' | translate}}</th>
+                     <th>{{::'COMMON.ADDED' | translate}}</th>
                      <th></th>
                   </tr>
                </thead>
@@ -97,7 +93,6 @@
             <div class="switch-pages">
                <dir-pagination-controls max-size="5" boundary-links="true" template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html" [auto-hide=""] on-page-change="pageChanged(newPageNumber)">
                </dir-pagination-controls>
-<!--               <div data-pagination="" data-num-pages="numPages()" data-current-page="currentPage" data-max-size="maxSize" data-boundary-links="true"></div>-->
             </div>
          </div>
       </div>

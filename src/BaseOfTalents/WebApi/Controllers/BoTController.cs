@@ -1,4 +1,5 @@
 ﻿using Data.Infrastructure;
+using Service.Services;
 using Domain.DTO.DTOModels;
 using Domain.Entities;
 using Domain.Repositories;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebApi.DTO.DTOService;
 
 namespace WebApi.Controllers
 {
@@ -17,10 +17,7 @@ namespace WebApi.Controllers
         where DomainEntity : BaseEntity, new()
         where ViewModel : BaseEntityDTO, new()
     {
-        protected IDataRepositoryFactory _repoFactory;
-        protected IErrorRepository _errorRepository;
-
-        protected static int ENTITIES_PER_PAGE = 30;
+        protected IControllerService<DomainEntity, ViewModel> entityService;
 
         protected static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
@@ -28,10 +25,9 @@ namespace WebApi.Controllers
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 
-        public BoTController(IDataRepositoryFactory repoFatory, IErrorRepository errorRepo)
+        public BoTController(IControllerService<DomainEntity, ViewModel> service)
         {
-            _repoFactory = repoFatory;
-            _errorRepository = errorRepo;
+            entityService = service;
         }
 
         public BoTController()
@@ -39,109 +35,70 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        // GET: api/Entities/
-        [Route("api/{controller}")]
-        public virtual IHttpActionResult All(HttpRequestMessage request)
+        public virtual IHttpActionResult Get()
         {
-            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
-            return CreateResponse(request, () =>
-            {
-                var entitiesQuery = _currentRepo.GetAll().OrderBy(x => x.Id);
-
-                var entities = entitiesQuery
-                                    .ToList()
-                                    .Select(x => DTOService.ToDTO<DomainEntity, ViewModel>(x));
-                return Json(entities, BOT_SERIALIZER_SETTINGS);
-            });
+            var foundedEntities = entityService.GetAll();
+            return Json(foundedEntities, BOT_SERIALIZER_SETTINGS);
         }
 
         [HttpGet]
-        public virtual IHttpActionResult Get(HttpRequestMessage request, int id)
+        public virtual IHttpActionResult Get(int id)
         {
-            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
-            return CreateResponse(request, () =>
+            var foundedEntity = entityService.GetById(id);
+            if (foundedEntity != null)
             {
-                var foundedEntity = _currentRepo.Get(id);
-                if (foundedEntity != null)
-                {
-                    var foundedEntityDto = DTOService.ToDTO<DomainEntity, ViewModel>(foundedEntity);
-                    return Json(foundedEntityDto, BOT_SERIALIZER_SETTINGS);
-                }
-                return NotFound();
-            });
+                return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
+            }
+            return NotFound();
         }
 
         [HttpDelete]
-        public virtual IHttpActionResult Remove(HttpRequestMessage request, int id)
+        public virtual IHttpActionResult Remove(int id)
         {
-            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
-            return CreateResponse(request, () =>
+            try 
             {
-                var entityToRemove = _currentRepo.Get(id);
-                if (entityToRemove != null)
-                {
-                    _currentRepo.Remove(entityToRemove);
-                    _currentRepo.Commit();
-                    return Ok();
-                }
+                entityService.Remove(id);
+                return Ok();
+            }
+            catch(MissingMemberException)
+            {
                 return StatusCode(HttpStatusCode.NoContent);
-            });
+            }
         }
 
         [HttpPost]
-        public virtual IHttpActionResult Add(HttpRequestMessage request, [FromBody]ViewModel entity)
+        public virtual IHttpActionResult Add([FromBody]ViewModel entity)
         {
-            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
-            return CreateResponse(request, () =>
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
+                var errorList = ModelState.Keys.SelectMany(k => ModelState[k].Errors).Select(x => x.ErrorMessage);
+                return Json(new
                 {
-                    var errorList = ModelState.Keys.SelectMany(k => ModelState[k].Errors).Select(x => x.ErrorMessage);
-
-                    return Json(new
-                    {
-                        summary = "Bad request",
-                        errorList = errorList
-                    });
-                }
-                else
-                {
-                    var newEntity = DTOService.ToEntity<ViewModel, DomainEntity>(entity);
-                    _currentRepo.Add(newEntity);
-                    _currentRepo.Commit();
-                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(newEntity), BOT_SERIALIZER_SETTINGS);
-                }
-            });
+                    summary = "Bad request",
+                    errorList = errorList
+                });
+            }
+            var newEntity = entityService.Add(entity);
+            return Json((newEntity), BOT_SERIALIZER_SETTINGS);
         }
 
         [HttpPut]
-        public virtual IHttpActionResult Put(HttpRequestMessage request, int id, [FromBody]ViewModel changedEntity)
+        public virtual IHttpActionResult Put(int id, [FromBody]ViewModel changedEntity)
         {
-            var _currentRepo = _repoFactory.GetDataRepository<DomainEntity>(request);
-
-            return CreateResponse(request, () =>
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
+                var errorList = ModelState.Keys.SelectMany(k => ModelState[k].Errors).Select(x => x.ErrorMessage);
+                return Json(new
                 {
-                    var errorList = ModelState.Keys.SelectMany(k => ModelState[k].Errors).Select(x => x.ErrorMessage);
-
-                    return Json(new
-                    {
-                        summary = "Bad request",
-                        errorList = errorList
-                    });
-                }
-                else
-                {
-                    var changedDomainEntity = DTOService.ToEntity<ViewModel, DomainEntity>(changedEntity);
-                    _currentRepo.Update(changedDomainEntity);
-                    _currentRepo.Commit();
-                    return Json(DTOService.ToDTO<DomainEntity, ViewModel>(changedDomainEntity), BOT_SERIALIZER_SETTINGS);
-                }
-            });
+                    summary = "Bad request",
+                    errorList = errorList
+                });
+            }
+            var domainChangedEntity = entityService.Put(changedEntity);
+            return Json(domainChangedEntity, BOT_SERIALIZER_SETTINGS);
         }
 
-        protected IHttpActionResult CreateResponse(HttpRequestMessage request, Func<IHttpActionResult> function)
+        /*protected IHttpActionResult CreateResponse(HttpRequestMessage request, Func<IHttpActionResult> function)
         {
             IHttpActionResult response = null;
             response = function.Invoke();
@@ -161,6 +118,6 @@ namespace WebApi.Controllers
                 _errorRepository.Commit();
             }
             catch { }
-        }
+        }*/
     }
 }

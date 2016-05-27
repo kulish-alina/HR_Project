@@ -15,8 +15,7 @@
 
 body {
    background-color: $light-color;
-//   min-width: $rem-base*75;
-
+   min-width: $rem-base*58.75;
    &.ng-scope {
        opacity: 1;
    }
@@ -48,6 +47,10 @@ body {
    width: 99%;
    margin: $rem-base*0.5;
    height: auto;
+   min-width: $rem-base*38;
+   @include breakpoint(medium down) { 
+      width: 98%;
+   }
 }
 
 .grid-block {

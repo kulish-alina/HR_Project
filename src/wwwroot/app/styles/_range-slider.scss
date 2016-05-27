@@ -3,7 +3,7 @@ rzslider {
    margin-bottom: 0;
 }
 rzslider .rz-pointer {
-   top: -7px;
+   top: -$rem-base*0.4375;
    width: $rem-base;
    height: $rem-base;
    border-radius: 0;
@@ -13,7 +13,7 @@ rzslider .rz-pointer::after {
    content: none;
 }
 .rzslider .rz-bar-wrapper {
-   margin-top: -20px;
+   margin-top: -$rem-base*1.25;
 }
 rzslider .rz-bubble {
    font-size: $rem-base*0.9;

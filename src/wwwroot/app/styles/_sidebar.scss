@@ -1,6 +1,10 @@
 // Styles for sidebar
 .sidebar {
    @include card-container();
+//   @include breakpoint(large) {
+//      display: none;
+//   }
+   min-width: 300px;
    height: auto;
    max-height: $rem-base*45;
    width: 100%;

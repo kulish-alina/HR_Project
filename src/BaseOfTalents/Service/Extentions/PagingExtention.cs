@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 
-namespace Data.EFData.Extentions
+namespace Service.Extentions
 {
     public static class PagingExtention
     {

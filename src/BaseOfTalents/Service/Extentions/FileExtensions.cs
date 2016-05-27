@@ -6,15 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.EFData.Extentions
-{
-    public static class PhotoExtensions
+namespace Service.Extentions
+{ 
+    public static class FileExtensions
     {
-        public static void Update(this Photo destination, PhotoDTO source)
+        public static void Update(this File destination, FileDTO source)
         {
             destination.Description = source.Description;
-            destination.ImagePath = source.ImagePath;
-            destination.State = source.State;
         }
     }
 }

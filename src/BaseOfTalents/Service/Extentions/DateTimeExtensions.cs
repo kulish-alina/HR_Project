@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.EFData.Extentions
-{
+namespace Service.Extentions
+{ 
     public static class DateTimeExtensions
     {
         public static int GetIso8601WeekOfYear(this DateTime time)

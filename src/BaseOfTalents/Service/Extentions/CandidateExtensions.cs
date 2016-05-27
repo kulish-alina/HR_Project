@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.EFData.Extentions
+namespace Service.Extentions
 {
     public static class CandidateExtensions
     {

@@ -157,8 +157,7 @@
       "RECRUITING" : "Recruiting settings",
       "PASS" : "Your password",
       "NEW_PASS" : "New password",
-      "CONFIRM_PASS" : "Confirm new password",
-      "THESAURUSES" : "Thesauruses"
+      "CONFIRM_PASS" : "Confirm new password"
    },
    "PROFILE" : {
       "CHANGE_PASS": "Change password"

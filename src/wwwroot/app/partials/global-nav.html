@@ -1,0 +1,26 @@
+<div class="grid-block main-menu">
+   <div class="large-2 grid-content">
+      <a zf-open="menu"><img src="/app/images/menu.png"></a>
+      <a ui-sref="home">
+         <img class="menu-img" src="/app/images/bot-home.png"> {{::'INDEX.MY_BOT' | translate}}
+      </a>
+   </div>
+   <div class="large-3 grid-block">
+      <input class="search" type="search">
+      <a href="#" class="button">{{::'INDEX.SEARCH' | translate}}</a>
+   </div>
+   <div class="large-5 grid-content">
+      <ul class="menu-bar icon-left main-button-bar">
+         <li><a ui-sref="candidate"><i class="foundicon-plus general-icon"></i>{{::'COMMON.ADD_CANDIDATE' | translate}}</a>
+         </li>
+         <li><a ui-sref="vacancy"><i class="foundicon-plus general-icon"></i>{{::'COMMON.ADD_VACANCY' | translate}}</a>
+         </li>
+      </ul>
+   </div>
+   <div class="large-2 grid-block align-right">
+      <a href="#">
+         <i class="foundicon-torso social-icon"></i>
+         <a href="#">{{::'INDEX.USER_NAME' | translate}}</a>
+      </a>
+   </div>
+</div>

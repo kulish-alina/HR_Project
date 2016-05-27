@@ -14,7 +14,8 @@ export default function VacancyController(
    ValidationService,
    FileUploaderService,
    ThesaurusService,
-   UserService
+   UserService,
+   UserDialogService
 ) {
    'ngInject';
 
@@ -78,6 +79,9 @@ export default function VacancyController(
       VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
          vm.vacancy.files = vacancy.files;
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
+      }).catch(() => {
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
       });
    }
 }

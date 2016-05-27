@@ -1,9 +1,3 @@
-<div ng-show="errorMessage">{{errorMessage}}</div>
-<!-- <div class="grid-block">
-    <button ng-click="getCandidates()">GET CANDIDATES</button>
-    <button ng-click="getCandidate(candidateId)">GET CANDIDATE</button>
-    <input type="text" ng-model="candidateId" placeholder="Id">
-</div>-->
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
       <div class="grid-content">
@@ -29,37 +23,37 @@
          </div>
          <div class="card-section">
             <div class="grid-block checkbox-block">
-               <div class="large-6 grid-content">
-                  <input id="checkbox1" type="checkbox">
-                  <label for="checkbox1">All</label>
+               <div class="large-6 grid-content source-col">
+                  <input id="all" type="checkbox">
+                  <label for="all">{{::'CANDIDATES.ALL' | translate}}</label>
                   <br/>
-                  <input id="checkbox2" type="checkbox">
-                  <label for="checkbox2">Vk</label>
+                  <input id="vk" type="checkbox">
+                  <label for="vk">{{::'CANDIDATES.VK' | translate}}</label>
                   <br/>
-                  <input id="checkbox3" type="checkbox">
-                  <label for="checkbox3">Rabota</label>
+                  <input id="rabota" type="checkbox">
+                  <label for="rabota">{{::'CANDIDATES.RABOTA' | translate}}</label>
                   <br/>
-                  <input id="checkbox4" type="checkbox">
-                  <label for="checkbox4">Djinni</label>
+                  <input id="djinni" type="checkbox">
+                  <label for="djinni">{{::'CANDIDATES.DJINNI' | translate}}</label>
                </div>
-               <div class="large-6 grid-content">
-                  <input id="checkbox5" type="checkbox">
-                  <label for="checkbox5">BOT</label>
+               <div class="large-6 grid-content source-col">
+                  <input id="bot" type="checkbox">
+                  <label for="bot">{{::'CANDIDATES.BOT' | translate}}</label>
                   <br/>
-                  <input id="checkbox6" type="checkbox">
-                  <label for="checkbox6">LinledIn</label>
+                  <input id="linledIn" type="checkbox">
+                  <label for="linledIn">{{::'CANDIDATES.LINKEDIN' | translate}}</label>
                   <br/>
-                  <input id="checkbox7" type="checkbox">
-                  <label for="checkbox7">Work</label>
+                  <input id="work" type="checkbox">
+                  <label for="work">{{::'CANDIDATES.WORK' | translate}}</label>
                   <br/>
-                  <input id="checkbox8" type="checkbox">
-                  <label for="checkbox8">Hh</label>
+                  <input id="hr" type="checkbox">
+                  <label for="hr">{{::'CANDIDATES.HR' | translate}}</label>
                </div>
             </div>
             <input placeholder="Technology or position" type="text">
             <input placeholder="Full name" type="text">
-            <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="vacancy.LocationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
-            <select name="Industry" ng-model="vacancy.IndustryId">
+            <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+            <select name="Industry" ng-model="vacancy.industryId">
                <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
                <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
             </select>
@@ -75,19 +69,29 @@
             </ul>
             <div class="range-slider">
                <label>Candidate's age:</label>
-               <output name="amount" id="age" for="rangeInput">15</output>
-               <input type="range" id="rangeInput" name="rangeInput" min="15" max="65" value="15" oninput="age.value=rangeInput.value">
+               <rzslider rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
             </div>
             <label>Experience</label>
             <div class="grid-block">
                <div class="medium-6 grid-block">
-                  <input placeholder="Years" type="text">
+                  <input placeholder="Years" type="number" min="0" step="1">
                </div>
                <div class="medium-6 grid-block">
-                  <input placeholder="Months" type="text">
+                  <input placeholder="Months" type="number" min="0" step="1">
                </div>
             </div>
-            <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
+            <div class="grid-block">
+               <div class="medium-6 grid-block">
+                  <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
+               </div>
+               <div class="medium-6 grid-block">
+                  <select name="Сurrency" ng-model="candidate.currency">
+                     <option value="">UAN</option>
+                     <option value="">EUR</option>
+                     <option value="">USD</option>
+                  </select>
+               </div>
+            </div>
             <div class="grid-block">
                <div class="medium-6 grid-block">
                   <select name="Language" ng-model="vacancy.LanguageSkill.LanguageId">
@@ -119,13 +123,14 @@
                         <input id="checkbox9" type="checkbox">
                      </th>
                      <th>№</th>
-                     <th>Full name</th>
-                     <th>Industru</th>
-                     <th>Source</th>
-                     <th>Position</th>
-                     <th>Salary</th>
-                     <th>Stage</th>
-                     <th>Added</th>
+                     <th>{{::'CANDIDATE.FULL_NAME' | translate}}</th>
+                     <th>{{::'COMMON.INDUSTRY' | translate}}</th>
+                     <th>{{::'CANDIDATE.SOURCE' | translate}}</th>
+                     <th>{{::'CANDIDATE.POSITION' | translate}}</th>
+                     <th>{{::'COMMON.SALARY' | translate}}</th>
+                     <th>{{::'CANDIDATE.STAGE' | translate}}</th>
+                     <th>{{::'COMMON.ADDED' | translate}}</th>
+                     <th></th>
                   </tr>
                </thead>
                <tbody>
@@ -142,7 +147,7 @@
                      <td>{{candidate.VacanciesProgress[0].StageInfos[0].Stage.Title}}</td>
                      <td>{{candidate.EditTime}}</td>
                      <td>
-                        <a ng-click="deleteCandidate(candidate)"><i class="foundicon-tools general-icon"></i>
+                        <a ng-click="deleteCandidate(candidate)"><i class="foundicon-trash general-icon"></i>
                         </a>
                         <a ng-click="editCandidate(candidate)"><i class="foundicon-edit general-icon"></i>
                         </a>
@@ -150,19 +155,10 @@
                   </tr>
                </tbody>
             </table>
-         </div>
-         <div class="card-section switch-pages">
-            <ul class="menu-bar second-button-bar">
-               <li><a href="#"><i class="foundicon-left-arrow general-icon"></i></a>
-               </li>
-               <li><a href="#">1</a></li>
-               <li><a href="#">2</a></li>
-               <li><a href="#">3</a></li>
-               <li><a href="#">4</a></li>
-               <li><a href="#">5</a></li>
-               <li><a href="#"><i class="foundicon-right-arrow general-icon"></i></a>
-               </li>
-            </ul>
+            <div class="switch-pages">
+               <dir-pagination-controls max-size="5" boundary-links="true" template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
+               </dir-pagination-controls>
+            </div>
          </div>
       </div>
    </div>

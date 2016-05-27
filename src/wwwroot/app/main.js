@@ -17,6 +17,8 @@ import 'foundation-icon-fonts/foundation-icons.css';
 import 'oi.select/dist/select.min';
 import 'oi.select/dist/select-tpls.min';
 import 'oi.select/dist/select.min.css';
+import 'angularjs-slider/dist/rzslider.min';
+import 'angularjs-slider/dist/rzslider.min.css';
 
 import 'angular-srph-age-filter/angular-age-filter';
 
@@ -58,6 +60,7 @@ const dependencies = [
    translate,
    uiMask,
    pagination,
+   'rzModule',
    'foundation',
    'validation',
    'validation.rule',

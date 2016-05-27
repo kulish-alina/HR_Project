@@ -1,9 +1,14 @@
 // Styles for sidebar
 .sidebar {
    @include card-container();
-   max-height: $rem-base*46.88;
+   height: 100%;
+   min-width:  $rem-base*14.06;
+   max-height: $rem-base*45;
    width: 100%;
    margin: $rem-base*0.5;
+}
+.vertical-sidebar {
+   display: block;
 }
 .sidebar-content {
    @include card-section(
@@ -19,6 +24,12 @@
 }
 .comments i {
    font-size: $rem-base;
+   @include breakpoint(medium only) { 
+      font-size: $rem-base;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base;
+   }
    color: $gray-dark;
 }
 .comments i:hover {
@@ -30,9 +41,18 @@
 .events i {
    font-size: $rem-base*2;
    color: $gray-dark;
+   @include breakpoint(medium only) { 
+      font-size: $rem-base;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base;
+   }
 }
 .events i:hover {
    color: $primary-color;
+}
+.vacancies {
+   height: $rem-base*31.25;
 }
 .vacancies select {
    border: 0;

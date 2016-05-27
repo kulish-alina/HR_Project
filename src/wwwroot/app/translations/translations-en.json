@@ -191,6 +191,7 @@
       "WARN": "Warning!",
       "NOTIF": "Notification!",
       "CONFIRM": "Confirm please!",
-      "SUCCESSFUL_SAVING": "Vacancy was successfully saved!"
+      "SUCCESSFUL_SAVING": "Vacancy was successfully saved!",
+      "ERROR_SAVING": "Some error has occurred while saving vacancy!"
    }
 }

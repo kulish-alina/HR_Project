@@ -21,8 +21,7 @@
       </div>
       <div class="action-column">
          <a href='#' class="button button-with-input" ng-if="!isEditTopic(topic)" 
-            ng-click="editThesaurusTopic(topic)" 
-            ng-class="isTopicEditAllow(topic) ? '' : 'disabled'"
+            ng-click="editThesaurusTopic(topic)" ng-class="isTopicEditAllow(topic) ? '' : 'disabled'"
             ng-bind="'COMMON.EDIT' | translate">
           </a>
          <a href='#' class="button button-with-input" ng-if="isEditTopic(topic)" 
@@ -56,7 +55,7 @@
       </div>
       <div class="action-column" class="add">
          <a class="button button-with-input" ng-click="addNewTopic(newThesaurusTopic)" 
-            ng-disabled="!isTopicEditAllow(newThesaurusTopic)" ng-bind="::'COMMON.ADD' | translate">
+            ng-class="isTopicEditAllow(topic) ? '' : 'disabled'" ng-bind="::'COMMON.ADD' | translate">
           </a>
       </div>
       <div class="column"></div>

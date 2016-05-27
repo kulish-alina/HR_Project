@@ -80,6 +80,8 @@ export default function VacancyController(
          vm.vacancy = vacancy;
          vm.vacancy.files = vacancy.files;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
+      }).catch(() => {
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
       });
    }
 }

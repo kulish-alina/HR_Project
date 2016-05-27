@@ -2,10 +2,9 @@ import { has, cond, constant, invokeMap, curry } from 'lodash';
 
 const httpRequests   = {};
 const cache          = {};
-const curryHasLength    = 2;
 
 let _HttpService, _$q;
-let _curryHas = curry(has, curryHasLength);
+let _curryHas = curry(has, 2);
 
 let getFromCache = cond([
    [_curryHas(cache),         getCachePromise],

@@ -1,0 +1,24 @@
+rzslider {
+   margin-top: $rem-base*1.5;
+   margin-bottom: 0;
+}
+rzslider .rz-pointer {
+   top: -$rem-base*0.4375;
+   width: $rem-base;
+   height: $rem-base;
+   border-radius: 0;
+   background-color: $primary-color;
+}
+rzslider .rz-pointer::after {
+   content: none;
+}
+.rzslider .rz-bar-wrapper {
+   margin-top: -$rem-base*1.25;
+}
+rzslider .rz-bubble {
+   font-size: $rem-base*0.9;
+   color: $body-font-color;
+}
+rzslider .rz-bar.rz-selection {
+   background-color: $secondary-color;
+}

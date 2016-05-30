@@ -20,7 +20,8 @@ export default class ThesaurusDirective {
    }
 }
 
-function ThesaurusController($element, $scope, ThesaurusService, $translate, FileUploaderService, LoggerService) {
+function ThesaurusController($element, $scope, ThesaurusService, $translate,
+      FileUploaderService, LoggerService, UserDialogService) {
    'ngInject';
 
    const vm = $scope;
@@ -31,7 +32,6 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate, Fil
    vm.filterdFields     = {};
    vm.newTresaurusTopic = {};
    vm.fields            = [];
-   vm.thesaurusNameLabel          = '';
    vm.additionThesaurusesStore    = {};
 
    vm.isEditTopic       = isEditTopic;
@@ -95,7 +95,6 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate, Fil
 
    function _initThesaurusStructure() {
       let structure = ThesaurusService.getThesaurusStructure(vm.name);
-      vm.thesaurusNameLabel = $translate.instant(structure.thesaurusName);
       vm.fields = filter(structure.fields, isShowField);
       forEach(vm.fields, _fillAdditionThesauruses);
    }
@@ -168,6 +167,10 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate, Fil
          vm.uploader.clearQueue();
          LoggerService.error('onErrorItem', fileItem, response, status, headers);
       };
+      newUploader.onWhenAddingFileFailed = () => {
+         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
+      };
+
       return newUploader;
    }
 

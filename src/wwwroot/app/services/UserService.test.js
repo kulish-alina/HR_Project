@@ -12,10 +12,15 @@ describe('UserService testing', () => {
       reject:  () => promiseMock
    };
    let mockHttp = {
-      get: jasmine.createSpy().and.returnValue(promiseMock),
-      post: jasmine.createSpy().and.returnValue(promiseMock),
-      put: jasmine.createSpy().and.returnValue(promiseMock),
-      remove: jasmine.createSpy().and.returnValue(promiseMock)
+      get      : jasmine.createSpy().and.returnValue(promiseMock),
+      post     : jasmine.createSpy().and.returnValue(promiseMock),
+      put      : jasmine.createSpy().and.returnValue(promiseMock),
+      remove   : jasmine.createSpy().and.returnValue(promiseMock)
+   };
+
+   let mockHttpCache = {
+      get         : jasmine.createSpy(),
+      clearCache  : jasmine.createSpy()
    };
 
    function executeThen(dataObject) {
@@ -25,7 +30,7 @@ describe('UserService testing', () => {
    }
 
    beforeEach(() => {
-      service = new UserService(mockHttp, promiseMock);
+      service = new UserService(mockHttp, promiseMock, mockHttpCache);
       mockHttp.get.calls.reset();
       mockHttp.put.calls.reset();
       mockHttp.post.calls.reset();
@@ -59,24 +64,12 @@ describe('UserService testing', () => {
       expect(service.getUsers).not.toBeNull();
    });
 
-   it('getUserById test when not exist to cache', () => {
-      const userId = 1;
-      service.getUserById(userId);
-      executeThen({id: userId});
-      expect(mockHttp.get.calls.count()).toEqual(1);
-   });
-
-   it('getUserById test when exist to cache', () => {
-      const userId = 1;
-      service.getUserById(userId);
-      executeThen({id: userId});
-      expect(mockHttp.get.calls.count()).toEqual(0);
-   });
-
    it('saveUser test server query for new user saving', () => {
       let user = {};
       service.saveUser(user);
+      executeThen();
       expect(mockHttp.post).toHaveBeenCalled();
+      expect(mockHttpCache.clearCache.calls.count()).toEqual(1);
    });
 
    it('saveUser test server query for user editing', () => {

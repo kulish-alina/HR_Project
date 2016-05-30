@@ -6,7 +6,7 @@
                <div class="tabs">
                   <div ng-repeat="(roleName, perms) in roles" class="tab-item" ng-click="selectRole(roleName)" ng-class="{'is-active': roleName === currentRoleName}">
                      <span ng-bind="::roleName"></span>
-                     <a ng-if="roleName === currentRoleName" class="roles-close-button" ng-click="removeRole()">×</a>
+                     <a ng-if="roleName === currentRoleName" class="roles-close-button" ng-click="removeRole(roleName)">×</a>
                   </div>
                   <div class="tab-item" ng-class="{'is-active': roleName === currentRoleName}" ng-bind="::('ROLES.NEW'|translate)" zf-open="newRoleModal">
                   </div>

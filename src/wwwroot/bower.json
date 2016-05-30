@@ -11,7 +11,7 @@
     "es6"
   ],
   "dependencies": {
-    "foundation-apps": ">=1.1.0",
+    "foundation-apps": ">=1.2",
     "foundation-icons": "*",
     "textAngular": "^1.5.0",
     "foundation-icon-fonts": "*",

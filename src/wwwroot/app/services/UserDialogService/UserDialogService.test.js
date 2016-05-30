@@ -107,7 +107,7 @@ describe('UserDialogService testing: ', () => {
    it('tracks that the addNotification was called with expected arguments when call error', () => {
       service.notification('text', 'error');
       expect(notificationSpy).toHaveBeenCalledWith({
-         title: mockTranslate.instant('DIALOG_SERVICE.SUCCESS'),
+         title: mockTranslate.instant('DIALOG_SERVICE.ERROR'),
          content: 'text',
          color: 'alert'
       });
@@ -116,7 +116,7 @@ describe('UserDialogService testing: ', () => {
    it('tracks that the addNotification was called with expected arguments when call warning', () => {
       service.notification('text', 'warning');
       expect(notificationSpy).toHaveBeenCalledWith({
-         title: mockTranslate.instant('DIALOG_SERVICE.SUCCESS'),
+         title: mockTranslate.instant('DIALOG_SERVICE.WARN'),
          content: 'text',
          color: 'warning',
          autoclose: '5000'

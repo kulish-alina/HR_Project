@@ -19,7 +19,7 @@ namespace WebApi.Controllers
 
         public FilesController(FileService service)
         {
-
+            this.fileService = service;
         }
 
         [HttpPost]

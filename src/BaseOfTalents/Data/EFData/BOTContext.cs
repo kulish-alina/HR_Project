@@ -11,6 +11,7 @@ using Data.EFData.Mapping;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using Domain.Entities.Setup;
+using Data.Migrations;
 
 namespace Data.EFData
 {
@@ -48,8 +49,8 @@ namespace Data.EFData
 
         public BOTContext() : base()
         {
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

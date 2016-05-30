@@ -10,7 +10,6 @@ import profileTemplate     from './views/settings/profile/profile.view.html';
 import profileEditTemplate from './views/settings/profile/profileEdit.view.html';
 import membersTemplate     from './views/settings/members/members.view.html';
 import rolesTemplate       from './views/settings/roles/roles.view.html';
-import recruitingTemplate  from './views/settings/recruiting/recruiting.view.html';
 
 import homeController         from './views/home/home.controller';
 import candidatesController   from './views/candidates/candidates.controller';
@@ -22,7 +21,6 @@ import thesaurusesController  from './views/settings/thesauruses/thesauruses.con
 import profileController      from './views/settings/profile/profile.controller';
 import membersController      from './views/settings/members/members.controller';
 import rolesController        from './views/settings/roles/roles.controller';
-import recruitingController   from './views/settings/recruiting/recruiting.controller';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -106,14 +104,8 @@ export default function _config(
          controller: rolesController,
          data: {asEdit: true}
       })
-      .state('recruiting', {
-         parent: 'settings',
-         url: '/recruiting',
-         template: recruitingTemplate,
-         controller: recruitingController
-      })
       .state('thesauruses', {
-         url: '/thesauruses',
+         url: '/recruiting',
          parent: 'settings',
          template: thesaurusesTemplate,
          controller: thesaurusesController

@@ -126,10 +126,13 @@ function _getLoadedThesaurusesList(mainThesaurusName) {
 }
 
 function _addRefTextFieldFunction(field, topic) {
-   let referencedTopic = find(_HttpCacheService.get(field.refTo), {id: topic[field.name]});
-   if (referencedTopic) {
-      topic[field.refObject] = referencedTopic;
-   }
+   _HttpCacheService.get(field.refTo)
+      .then(find({id: topic[field.name]}))
+      .then(referencedTopic => {
+         if (referencedTopic) {
+            topic[field.refObject] = referencedTopic;
+         }
+      });
 }
 
 function _deleteRefTextFieldFunction(field, topic) {

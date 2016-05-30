@@ -93,6 +93,15 @@ const THESAURUS_STRUCTURES = {
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
+   },
+   'eventtypes' : {
+      thesaurusName : 'THESAURUSES.EVENT_TYPES',
+      fields : [
+         {name : 'id',        label : 'id',        type : ''},
+         {name : 'title',     label : 'name',      type : 'text',    validator : 'required, maxlength=50, minlength=3'},
+         {name : 'imagePath', label : 'image',     type : 'img' },
+         {name : 'state',     label : 'state',     type : ''}
+      ]
    }
 };
 

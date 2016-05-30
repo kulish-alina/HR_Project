@@ -1,18 +1,21 @@
-@import 'settings';
-@import 'foundation';
-@import './styles/table';
-@import './styles/form';
-@import './styles/main-menu';
-@import './styles/secondary-menu';
-@import './styles/side-menu';
-@import './styles/sidebar';
-@import './styles/text-editor';
-@import './grid.scss';
-@import './styles/multiple-select';
-@import './styles/pagination';
-@import './styles/modal';
-@import './styles/range-slider';
+@import './import-once';
 
+@import './settings';
+@import 'foundation';
+@import '/styles/table';
+@import '/styles/form';
+@import '/styles/main-menu';
+@import '/styles/secondary-menu';
+@import '/styles/side-menu';
+@import '/styles/sidebar';
+@import '/styles/text-editor';
+@import '/grid.scss';
+@import '/styles/multiple-select';
+@import '/styles/pagination';
+@import '/styles/modal';
+@import '/styles/range-slider';
+
+@include exports('main') {
 body {
    background-color: $light-color;
    min-width: $rem-base*58.75;
@@ -97,4 +100,18 @@ i.profile-icons {
 }
 .card-divider {
    padding-bottom: $rem-base/2;
+}
+.vacancy-profile i {
+   padding-right: $rem-base/2;
+   font-size: $rem-base*2;
+   color: $primary-color;
+}
+.property-title {
+   font-weight: 600; 
+}
+.vacancy-description {
+   text-align: left;
+   padding-top: $rem-base/2;
+}
+
 }

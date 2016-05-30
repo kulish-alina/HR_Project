@@ -132,7 +132,6 @@ function _fillThesauruses(vacancy) {
    vacancy.languageSkill = vacancy.languageSkill || {};
    vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
    vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
-
    return _$q.all(promises).then(data => assign(vacancy, data));
 }
 

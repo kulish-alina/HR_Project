@@ -1,0 +1,242 @@
+<div class="secondary-menu grid-block">
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5>{{::'VACANCY_PROFILE.VACANCY_PROFILE' | translate}}</h5>
+      </div>
+   </div>
+   <div class="large-7 grid-block">
+   </div>
+   <div class="large-3 grid-block align-right">
+      <ul class="menu-bar second-button-bar">
+         <li><a ng-click="cancel()">{{::'COMMON.CANCEL' | translate}}</a>
+         </li>
+         <li><a ng-click="saveVacancy($event, Vacancy)">{{::'COMMON.SUBMIT' | translate}}</a>
+         </li>
+      </ul>
+   </div>
+</div>
+<div class="grid-block">
+   <div class="vertical medium-9 grid-block">
+      <div class="main-card vacancy-profile">
+         <div class="card-divider">
+            <h4>{{vacancy.title}}</h4>
+         </div>
+         <div class="card-section">
+            <div class="grid-block">
+               <div class="vertical small-4 grid-block">
+                  <div>
+                     <i class="fi-graph-bar"></i><span class="property-title">Level:</span>
+                     <span>{{vacancy.levels | arrayAsString: 'title'}}</span>
+                  </div>
+                  <div>
+                     <i class="fi-dollar-bill"></i>
+                     <span class="property-title">Salary:</span>
+                     <span>from: {{vacancy.salaryMin}} to: {{vacancy.salaryMax}}</span>
+                  </div>
+                  <div>
+                     <i class="fi-torsos-all"></i><span class="property-title">Department:</span>
+                     <span>{{vacancy.departments | arrayAsString: 'title'}}</span>
+                  </div>
+               </div>
+               <div class="vertical small-4 grid-block">
+                  <div>
+                     <i class="fi-results-demographics"></i><span class="property-title">Industry:</span>
+                     <span>{{vacancy.industries | arrayAsString: 'title'}}</span>
+                  </div>
+                  <div>
+                     <i class="fi-marker"></i>
+                     <span class="property-title">Location:</span>
+                     <span>{{vacancy.locations | arrayAsString: 'title'}}</span>
+                  </div>
+                  <div>
+                     <i class="fi-clock"></i><span class="property-title">Type of employment:</span>
+                     <span>{{vacancy.typesOfEmployment | arrayAsString: 'title'}}</span>
+                  </div>
+               </div>
+               <div class="vertical small-4 grid-block">
+                  <div>
+                     <i class="fi-flag"></i><span class="property-title">Language:</span>
+                     <span ng-repeat="department in vacancy.departments">{{department.title}}</span>
+                  </div>
+                  <div>
+                     <i class="fi-star"></i><span class="property-title">Language level:</span>
+                     <span ng-repeat="department in vacancy.departments">{{department.title}}</span>
+                  </div>
+               </div>
+            </div>
+            <hr>
+            <div class="vertical grid-block">
+               <div class="property-title">Description:</div>
+               <p class="vacancy-description">{{vacancy.description}}</p>
+            </div>
+         </div>
+      </div>
+      <div class="main-card vacancy-profile">
+         <div class="card-divider">
+            {{::'CANDIDATES.CANDIDATES' | translate}}
+         </div>
+         <div class="card-section">
+            <div class="grid-block">
+               <div class="small-3 grid-block">
+                  <table>
+                     <tbody>
+                        <tr ng-repeat="stage in thesaurus.stages">
+                        {{stage.title}}
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <div class="small-9 grid-block">
+
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="medium-3 grid-block vertical-sidebar">
+      <div class="vertical medium-horizontal grid-block">
+         <div class="sidebar">
+            <div class="card-divider">
+               {{::'VACANCY_PROFILE.INFORMATION' | translate}}
+            </div>
+            <div class="sidebar-content">
+
+            </div>
+         </div>
+         <div class="sidebar">
+            <div class="card-divider">
+               {{::'CANDIDATES.CANDIDATES' | translate}}
+            </div>
+            <div class="sidebar-content">
+               <ul class="some-change">
+                  <li>
+                     <input name="newCandidate" id="newCandidate" checked="" type="radio" ui-sref="candidate">
+                     <label for="newCandidate">New</label>
+                  </li>
+                  <li>
+                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ui-sref="candidates">
+                     <label for="candidateFromBOT">From BOT</label>
+                  </li>
+               </ul>
+               <section class="block-list">
+                  <ul class="candidates">
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-5 grid-block">
+                              <a href="#">Antonov Anton</a>
+                           </div>
+                           <div class="medium-7 grid-block">
+                              <select name="Candidate stage" id="">
+                                 <option value="">Pool</option>
+                                 <option value="">Selected</option>
+                                 <option value="">HR Interview</option>
+                                 <option value="">Test Task</option>
+                                 <option value="">Tech Interview</option>
+                                 <option value="">Additional Interview</option>
+                                 <option value="">Final Interview</option>
+                                 <option value="">Job Offer Issued</option>
+                                 <option value="">Job Offer Accepted</option>
+                                 <option value="">Hired</option>
+                                 <option value="">Rejected by company</option>
+                                 <option value="">Rejected by candidate</option>
+                              </select>
+                           </div>
+                        </div>
+                     </li>
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-5 grid-block">
+                              <a href="#">Petrova Margarita</a>
+                           </div>
+                           <div class="medium-7 grid-block">
+                              <select name="Candidate stage" id="">
+                                 <option value="">Pool</option>
+                                 <option value="">Selected</option>
+                                 <option value="">HR Interview</option>
+                                 <option value="">Test Task</option>
+                                 <option value="">Tech Interview</option>
+                                 <option value="">Additional Interview</option>
+                                 <option value="">Final Interview</option>
+                                 <option value="">Job Offer Issued</option>
+                                 <option value="">Job Offer Accepted</option>
+                                 <option value="">Hired</option>
+                                 <option value="">Rejected by company</option>
+                                 <option value="">Rejected by candidate</option>
+                              </select>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </section>
+            </div>
+         </div>
+         <div class="sidebar">
+            <div class="card-divider">
+               {{::'COMMON.COMMENTS' | translate}}
+            </div>
+            <div class="sidebar-content">
+               <div class="grid-block">
+                  <div class="medium-9 grid-block">
+                     <textarea placeholder="Comment"></textarea>
+                  </div>
+                  <div class="medium-3 grid-block">
+                     <a class="button button-with-input" href="#">{{::'COMMON.SAVE' | translate}}</a>
+                  </div>
+               </div>
+               <section class="block-list">
+                  <ul class="comments">
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-10 grid-block">
+                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
+                           </div>
+                        </div>
+                     </li>
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-10 grid-block">
+                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
+                           </div>
+                        </div>
+                     </li>
+                     <li>
+                        <div class="grid-block">
+                           <div class="medium-10 grid-block">
+                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
+                           </div>
+                           <div class="medium-1 grid-block">
+                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </section>
+            </div>
+         </div>
+         <div class="sidebar">
+            <div class="card-divider">
+               {{::'VACANCY_PROFILE.FILES' | translate}}
+            </div>
+            <div class="sidebar-content">
+
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

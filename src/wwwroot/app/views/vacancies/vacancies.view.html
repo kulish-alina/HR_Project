@@ -71,7 +71,7 @@
                <tbody>
                   <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | itemsPerPage: vacancy.size" total-items = "total" current-page = "pagination.current">
                      <td>{{$index+1}}</td>
-                     <td>{{vacancy.title}}</td>
+                     <td><a ng-click="viewVacancy(vacancy)">{{vacancy.title}}</a></td>
                      <td>{{vacancy.entityStates[0].title}}</td>
                      <td class="col4">
                         <p ng-repeat="location in vacancy.locations">{{::location.title}}</p>

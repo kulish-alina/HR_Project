@@ -3,6 +3,7 @@ const LIST_OF_THESAURUS = ['industries', 'levels', 'locations',
 
 export default function VacanciesController(
    $scope,
+   $state,
    VacancyService,
    ThesaurusService,
    UserService
@@ -14,6 +15,7 @@ export default function VacanciesController(
    vm.responsibles = [];
    vm.vacancy = {};
    vm.vacancies = [];
+   vm.viewVacancy = viewVacancy;
    vm.total = 0;
    vm.vacancy.current = 1;
    vm.vacancy.size = 15;
@@ -37,6 +39,10 @@ export default function VacanciesController(
       vm.total = response.total;
       vm.vacancies = response.vacancies;
    }).catch(_onError);
+
+   function viewVacancy(vacancy) {
+      $state.go('vacancyProfile', {_data: vacancy});
+   }
 
    function _onError() {
       vm.errorMessage = 'Sorry! Some error occurred';

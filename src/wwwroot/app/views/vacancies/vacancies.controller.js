@@ -19,6 +19,7 @@ export default function VacanciesController(
    vm.getVacancy = getVacancy;
    vm.deleteVacancy = deleteVacancy;
    vm.editVacancy = editVacancy;
+   vm.viewVacancy = viewVacancy;
    vm.cancel = cancel;
    vm.thesaurus = [];
    vm.responsibles = [];
@@ -61,6 +62,10 @@ export default function VacanciesController(
 
    function editVacancy(vacancy) {
       $state.go('vacancy', {_data: vacancy});
+   }
+
+   function viewVacancy(vacancy) {
+      $state.go('vacancyProfile', {_data: vacancy});
    }
 
    function cancel() {

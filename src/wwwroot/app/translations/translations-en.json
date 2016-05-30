@@ -51,6 +51,11 @@
       "BASE_OF_VACANCIES": "Base of vacancies",
       "SEARCH_VACANCIES": "Search vacancies"
    },
+   "VACANCY_PROFILE": {
+      "VACANCY_PROFILE": "Vacancy profile",
+      "INFORMATION": "Information",
+      "FILES": "Files"
+   },
    "COMMON": {
       "ADD_CANDIDATE" : "Add Candidate",
       "ADD_VACANCY" : "Add Vacancy",

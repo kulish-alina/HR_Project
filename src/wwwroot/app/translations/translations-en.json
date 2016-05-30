@@ -121,7 +121,8 @@
       "SKILLS" : "Skills",
       "TAGS" : "Tags",
       "STAGES" : "Stages",
-      "LEVELS" : "Levels"
+      "LEVELS" : "Levels",
+      "THESAURUSES.EVENT_TYPES" : "Event types"
    },
    "VALIDATION": {
       "required": {

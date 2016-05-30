@@ -121,7 +121,8 @@
       "SKILLS" : "Skills",
       "TAGS" : "Tags",
       "STAGES" : "Stages",
-      "LEVELS" : "Levels"
+      "LEVELS" : "Levels",
+      "THESAURUSES.EVENT_TYPES" : "Event types"
    },
    "VALIDATION": {
       "required": {
@@ -175,8 +176,7 @@
       "RECRUITING" : "Recruiting settings",
       "PASS" : "Your password",
       "NEW_PASS" : "New password",
-      "CONFIRM_PASS" : "Confirm new password",
-      "THESAURUSES" : "Thesauruses"
+      "CONFIRM_PASS" : "Confirm new password"
    },
    "PROFILE" : {
       "CHANGE_PASS": "Change password"

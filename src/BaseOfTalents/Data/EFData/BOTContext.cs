@@ -11,6 +11,7 @@ using Data.EFData.Mapping;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using Domain.Entities.Setup;
+using Data.Migrations;
 
 namespace Data.EFData
 {

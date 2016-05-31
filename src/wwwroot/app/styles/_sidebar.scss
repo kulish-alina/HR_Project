@@ -54,19 +54,41 @@
 .vacancies {
    height: $rem-base*31.25;
 }
-.vacancies select {
-   border: 0;
-   background-color: $body-background;
-   font-size: $rem-base*0.7;
-}
 .candidates {
    font-size: $rem-base*0.8;
 }
-.candidates select {
-   border: 0;
-   background-color: $body-background;
+.sidebar-content ul {
+   padding-top: 0;
+   padding-left: $global-padding;
+   padding-right: $global-padding;
+   padding-bottom: $global-padding;
+}
+.sidebar-col {
+   padding-top: $rem-base/2;
+}
+.sidebar-row {
+   height: $rem-base*2.5;
    font-size: $rem-base*0.8;
 }
-.sidebar-content ul {
-   padding: $global-padding;
+.sidebar-row input, .sidebar-row select, .sidebar-row textarea {
+   font-size: $rem-base*0.8;
+   height: $rem-base*1.8;
+   padding-top: 0;
+   padding-bottom: 0;
+}
+.sidebar .file-upload {
+   padding-left: 0;
+   padding-right: 0;
+   padding-top: 0;
+}
+.file-upload input {
+   font-size: $rem-base*0.8;
+}
+.file-upload i {
+   font-size: $rem-base*0.8;
+}
+.file-upload table {
+   font-size: $rem-base*0.8;
+   margin-left: 0;
+   margin-right: 0;
 }

@@ -85,6 +85,8 @@ export default class VacancyService {
          delete vacancy.responsible;
          vacancy.languageSkill = vacancy.languageSkill || {};
          if (result(vacancy, 'languageSkill.languageId')) {
+            delete vacancy.languageSkill.language;
+            delete vacancy.languageSkill.languageLevelObj;
             vacancy.languageSkill.languageLevel = parseInt(vacancy.languageSkill.languageLevel);
             vacancy.languageSkill.languageId = parseInt(vacancy.languageSkill.languageId);
          } else {
@@ -130,8 +132,13 @@ function _fillThesauruses(vacancy) {
    }, {});
 
    vacancy.languageSkill = vacancy.languageSkill || {};
+   _ThesaurusService.getThesaurusTopic('languageLevels', vacancy.languageSkill.languageLevel)
+      .then((topic) => vacancy.languageSkill.languageLevelObj = topic);
    vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
+   _ThesaurusService.getThesaurusTopic('languages', vacancy.languageSkill.languageId)
+      .then((topic) => vacancy.languageSkill.language = topic);
    vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
+
    return _$q.all(promises).then(data => assign(vacancy, data));
 }
 

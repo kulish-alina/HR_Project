@@ -8,9 +8,9 @@
    </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a ng-click="cancel()">{{::'COMMON.CANCEL' | translate}}</a>
+         <li><a ng-click="edit()">{{::'COMMON.EDIT' | translate}}</a>
          </li>
-         <li><a ng-click="saveVacancy($event, Vacancy)">{{::'COMMON.SUBMIT' | translate}}</a>
+         <li ng-if="isChanged"><a ng-click="saveVacancy($event, Vacancy)">{{::'COMMON.SUBMIT' | translate}}</a>
          </li>
       </ul>
    </div>
@@ -56,11 +56,11 @@
                <div class="vertical small-4 grid-block">
                   <div>
                      <i class="fi-flag"></i><span class="property-title">Language:</span>
-                     <span ng-repeat="department in vacancy.departments">{{department.title}}</span>
+                     <span>{{vacancy.languageSkill.language.title}}</span>
                   </div>
                   <div>
                      <i class="fi-star"></i><span class="property-title">Language level:</span>
-                     <span ng-repeat="department in vacancy.departments">{{department.title}}</span>
+                     <span>{{vacancy.languageSkill.languageLevelObj.title}}</span>
                   </div>
                </div>
             </div>
@@ -78,19 +78,127 @@
          <div class="card-section">
             <div class="grid-block">
                <div class="small-3 grid-block">
+                  <div class="tab-container">
+                     <div class="tab">
+                        <div ng-repeat="stage in thesaurus.stages" ng-click="selectStage(stage.title)" class="tab-item" ng-class="{'is-active': stage.title === currentStage}">
+                           <span>{{stage.title}}</span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="small-9 grid-block">
                   <table>
+                     <thead>
+                        <tr>
+                           <th>№</th>
+                           <th>{{::'CANDIDATE.CANDIDATE' | translate}}</th>
+                           <th>{{::'COMMON.DATE' | translate}}</th>
+                           <th>{{::'COMMON.STAGE' | translate}}</th>
+                           <th>{{::'COMMON.COMMENTS' | translate}}</th>
+                        </tr>
+                     </thead>
                      <tbody>
-                        <tr ng-repeat="stage in thesaurus.stages">
-                        {{stage.title}}
+                        <tr>
+                           <td>1</td>
+                           <td>Koroleva Viktoriya</td>
+                           <td>25.05.16</td>
+                           <td>
+                              <select name="Candidate stage" id="">
+                                 <option value="">Pool</option>
+                                 <option value="">Selected</option>
+                                 <option value="">HR Interview</option>
+                                 <option value="">Test Task</option>
+                                 <option value="">Tech Interview</option>
+                                 <option value="">Additional Interview</option>
+                                 <option value="">Final Interview</option>
+                                 <option value="">Job Offer Issued</option>
+                                 <option value="">Job Offer Accepted</option>
+                                 <option value="">Hired</option>
+                                 <option value="">Rejected by company</option>
+                                 <option value="">Rejected by candidate</option>
+                              </select>
+                           </td>
+                           <td>Some comment</td>
+                        </tr>
+                        <tr>
+                           <td>2</td>
+                           <td>Koroleva Viktoriya</td>
+                           <td>25.05.16</td>
+                           <td>
+                              <select name="Candidate stage" id="">
+                                 <option value="">Pool</option>
+                                 <option value="">Selected</option>
+                                 <option value="">HR Interview</option>
+                                 <option value="">Test Task</option>
+                                 <option value="">Tech Interview</option>
+                                 <option value="">Additional Interview</option>
+                                 <option value="">Final Interview</option>
+                                 <option value="">Job Offer Issued</option>
+                                 <option value="">Job Offer Accepted</option>
+                                 <option value="">Hired</option>
+                                 <option value="">Rejected by company</option>
+                                 <option value="">Rejected by candidate</option>
+                              </select>
+                           </td>
+                           <td>Some comment</td>
+                        </tr>
+                        <tr>
+                           <td>3</td>
+                           <td>Koroleva Viktoriya</td>
+                           <td>25.05.16</td>
+                           <td>
+                              <select name="Candidate stage" id="">
+                                 <option value="">Pool</option>
+                                 <option value="">Selected</option>
+                                 <option value="">HR Interview</option>
+                                 <option value="">Test Task</option>
+                                 <option value="">Tech Interview</option>
+                                 <option value="">Additional Interview</option>
+                                 <option value="">Final Interview</option>
+                                 <option value="">Job Offer Issued</option>
+                                 <option value="">Job Offer Accepted</option>
+                                 <option value="">Hired</option>
+                                 <option value="">Rejected by company</option>
+                                 <option value="">Rejected by candidate</option>
+                              </select>
+                           </td>
+                           <td>Some comment</td>
+                        </tr>
+                        <tr>
+                           <td>4</td>
+                           <td>Koroleva Viktoriya</td>
+                           <td>25.05.16</td>
+                           <td>
+                              <select name="Candidate stage" id="">
+                                 <option value="">Pool</option>
+                                 <option value="">Selected</option>
+                                 <option value="">HR Interview</option>
+                                 <option value="">Test Task</option>
+                                 <option value="">Tech Interview</option>
+                                 <option value="">Additional Interview</option>
+                                 <option value="">Final Interview</option>
+                                 <option value="">Job Offer Issued</option>
+                                 <option value="">Job Offer Accepted</option>
+                                 <option value="">Hired</option>
+                                 <option value="">Rejected by company</option>
+                                 <option value="">Rejected by candidate</option>
+                              </select>
+                           </td>
+                           <td>Some comment</td>
                         </tr>
                      </tbody>
                   </table>
-               </div>
-               <div class="small-9 grid-block">
 
                </div>
-
             </div>
+         </div>
+      </div>
+      <div class="main-card vacancy-profile">
+         <div class="card-divider">
+            {{::'COMMON.HISTORY' | translate}}
+         </div>
+         <div class="card-section">
+
          </div>
       </div>
    </div>
@@ -101,6 +209,40 @@
                {{::'VACANCY_PROFILE.INFORMATION' | translate}}
             </div>
             <div class="sidebar-content">
+               <div class="grid-block sidebar-row">
+                  <div class="medium-5 grid-block sidebar-col">
+                     {{::'COMMON.RESPONSIBLE' | translate}}:
+                  </div>
+                  <div class="medium-7 grid-block">
+                     <select ng-change="changed()" ng-model="vacancy.responsibleId">
+                        <option ng-repeat="responsible in responsibles" value="{{responsible.id}}">{{::responsible.lastName}}</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="grid-block sidebar-row">
+                  <div class="medium-5 grid-block sidebar-col">
+                     {{::'COMMON.START_DATE' | translate}}:
+                  </div>
+                  <div class="medium-7 grid-block">
+                     <date datemodel="vacancy.startDate" daterequired="true"></date>
+                  </div>
+               </div>
+               <div class="grid-block sidebar-row">
+                  <div class="medium-5 grid-block sidebar-col">
+                     {{::'COMMON.DEADLINE_DATE' | translate}}:
+                  </div>
+                  <div class="medium-7 grid-block">
+                     <date datemodel="vacancy.deadlineDate"></date>
+                  </div>
+               </div>
+               <div class="grid-block sidebar-row">
+                  <div class="medium-5 grid-block sidebar-col">
+                     {{::'COMMON.END_DATE' | translate}}:
+                  </div>
+                  <div class="medium-7 grid-block">
+                     <date datemodel="vacancy.endDate"></date>
+                  </div>
+               </div>
 
             </div>
          </div>
@@ -122,9 +264,9 @@
                <section class="block-list">
                   <ul class="candidates">
                      <li>
-                        <div class="grid-block">
-                           <div class="medium-5 grid-block">
-                              <a href="#">Antonov Anton</a>
+                        <div class="grid-block sidebar-row">
+                           <div class="medium-5 grid-block ">
+                              <a class="sidebar-col" href="#">Antonov Anton</a>
                            </div>
                            <div class="medium-7 grid-block">
                               <select name="Candidate stage" id="">
@@ -145,9 +287,9 @@
                         </div>
                      </li>
                      <li>
-                        <div class="grid-block">
+                        <div class="grid-block sidebar-row">
                            <div class="medium-5 grid-block">
-                              <a href="#">Petrova Margarita</a>
+                              <a class="sidebar-col" href="#">Petrova Margarita</a>
                            </div>
                            <div class="medium-7 grid-block">
                               <select name="Candidate stage" id="">
@@ -178,7 +320,7 @@
             <div class="sidebar-content">
                <div class="grid-block">
                   <div class="medium-9 grid-block">
-                     <textarea placeholder="Comment"></textarea>
+                     <textarea></textarea>
                   </div>
                   <div class="medium-3 grid-block">
                      <a class="button button-with-input" href="#">{{::'COMMON.SAVE' | translate}}</a>
@@ -234,7 +376,28 @@
                {{::'VACANCY_PROFILE.FILES' | translate}}
             </div>
             <div class="sidebar-content">
-
+               <fieldset class="file-upload">
+                  <input id="file-upload" type="file" nv-file-select="" multiple uploader="uploader">
+                  <p claas="validation-invalid" ng-show="errorMessageFromFileUploader">{{errorMessageFromFileUploader}}</p>
+                  <table class="upload-table" ng-hide="!uploader.queue.length">
+                     <thead>
+                        <tr>
+                           <th>№</th>
+                           <th>{{::'COMMON.NAME' | translate}}</th>
+                           <th>{{::'COMMON.SIZE' | translate}}</th>
+                           <th></th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr ng-repeat="item in uploader.queue">
+                           <td>{{$index+1}}</td>
+                           <td ng-bind="item.file.name"></td>
+                           <td ng-bind="item.file.size"></td>
+                           <td><a class="remove-item" ng-click="removeFile(item)"><i class="foundicon-remove general-icon"></i></a></td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </fieldset>
             </div>
          </div>
       </div>

@@ -11,6 +11,7 @@
       "USER_NAME": "User Name"
    },
    "CANDIDATE": {
+      "CANDIDATE": "Candidate",
       "ERROR": "Sorry! Some error occurred",
       "NEW_CANDIDATE": "New candidate",
       "DESIRED_SALARY": "Desired salary",
@@ -113,7 +114,10 @@
       "CREATE": "Create",
       "ADDED": "Added",
       "YEARS": "Years",
-      "MONTHS": "Months"
+      "MONTHS": "Months",
+      "HISTORY": "History",
+      "DATE": "Date",
+      "STAGE" : "Stage"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

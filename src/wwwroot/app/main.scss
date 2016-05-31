@@ -106,6 +106,17 @@ i.profile-icons {
    font-size: $rem-base*2;
    color: $primary-color;
 }
+.vacancy-profile .tab-container {
+   width: 100%;
+}
+.vacancy-profile .tab-item {
+   height: auto;
+   padding-top: $rem-base/2;
+   padding-bottom: $rem-base/2;
+}
+.vacancy-profile table {
+   margin-top: 0;
+}
 .property-title {
    font-weight: 600; 
 }

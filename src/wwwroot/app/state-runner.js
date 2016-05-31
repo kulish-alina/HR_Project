@@ -1,4 +1,5 @@
 export default function StateRunner($rootScope, $state, $stateParams) {
+   'ngInject';
    $rootScope.$state = $state;
    $rootScope.$stateParams = $stateParams;
 

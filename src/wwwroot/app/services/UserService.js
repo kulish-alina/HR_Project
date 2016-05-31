@@ -1,7 +1,6 @@
-import {
-   filter,
-   first
-} from 'lodash';
+import { first } from 'lodash';
+
+import { filter } from 'lodash/fp';
 
 const USER_URL = 'users/';
 let _HttpService, _$q, _HttpCacheService;
@@ -39,7 +38,6 @@ export default class UserService {
    }
 
    getUsers(predicate) {
-      return _HttpCacheService.get(USER_URL)
-         .then(users => filter(users, predicate));
+      return _HttpCacheService.get(USER_URL).then(filter(predicate));
    }
 }

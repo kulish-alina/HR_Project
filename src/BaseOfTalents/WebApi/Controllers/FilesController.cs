@@ -51,10 +51,10 @@ namespace WebApi.Controllers
                 var result = await Request.Content.ReadAsMultipartAsync(uploadProvider);
                 var originalFileName = GetDeserializedFileName(result.FileData.First());
 
-                var file = new Domain.Entities.File { Description = originalFileName, FilePath = paths.Item2+@"/"+ result.FileData.First().LocalFileName };
+                var file = new Domain.Entities.File { Description = originalFileName, FilePath = paths.Item2 + result.FileData.First().LocalFileName.Replace(paths.Item1,"") };
 
                 var fileResult = fileService.Add(file);
-
+                fileResult.FileSize = new FileInfo(result.FileData.First().LocalFileName).Length;
 
                 return Json(fileResult, BOT_SERIALIZER_SETTINGS);
             }
@@ -82,8 +82,8 @@ namespace WebApi.Controllers
             var week = DateTime.Now.GetIso8601WeekOfYear();
 
             return new Tuple<string, string>(
-                string.Format(@"{0}\{1}\{2}", HttpContext.Current.Server.MapPath(root),year,week),
-                string.Format(@"{0}/{1}/{2}", root, year, week)
+                string.Format(@"{0}\{1}\{2}\", HttpContext.Current.Server.MapPath(root),year,week),
+                string.Format(@"{0}/{1}/{2}/", root, year, week)
                 );
         }
 

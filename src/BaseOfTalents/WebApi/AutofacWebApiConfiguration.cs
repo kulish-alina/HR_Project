@@ -64,7 +64,7 @@ namespace WebApi
             builder.RegisterType<CandidateService>()
                 .As<IControllerService<Candidate, CandidateDTO>>()
                 .InstancePerRequest();
-		
+
             builder.RegisterType<UserService>()
                 .As<IControllerService<User, UserDTO>>()
                 .InstancePerRequest();

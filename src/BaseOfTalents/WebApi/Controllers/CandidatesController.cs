@@ -22,7 +22,6 @@ namespace WebApi.Controllers
 
         [HttpGet]
         public override IHttpActionResult Get()
-        public override IHttpActionResult Get()
         {
             return BadRequest("Get all is prohibited for vacancies. Use /search instead");
         }

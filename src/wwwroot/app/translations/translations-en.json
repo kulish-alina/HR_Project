@@ -118,7 +118,9 @@
       "HISTORY": "History",
       "DATE": "Date",
       "STAGE" : "Stage",
-      "CLEAR" : "Clear"
+      "CLEAR" : "Clear",
+      "ADDED_FILES" : "Added files",
+      "FILES_TO_UPLOAD" : "Files to upload"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

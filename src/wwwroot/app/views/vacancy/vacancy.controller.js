@@ -25,7 +25,7 @@ export default function VacancyController(
    vm.clear = clear;
    vm.saveVacancy = saveVacancy;
    vm.vacancy =  $state.params._data || {} ;
-   vm.vacancy.files = [];
+   vm.vacancy.files = $state.params._data ? $state.params._data.files : [];
    vm.thesaurus = [];
    vm.responsibles = [];
    vm.uploader = createNewUploader();
@@ -33,6 +33,7 @@ export default function VacancyController(
    vm.vacancy.tags = vm.vacancy.tags || [];
    vm.removeFile = removeFile;
    vm.errorMessageFromFileUploader = '';
+   vm.isFilesUploaded = false;
    /* === impl === */
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
@@ -43,6 +44,7 @@ export default function VacancyController(
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          let response = JSON.parse(item._xhr.response);
          vm.vacancy.files.push(response);
+         vm.isFilesUploaded = true;
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
          vm.errorMessageFromFileUploader = $translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE');
@@ -50,12 +52,11 @@ export default function VacancyController(
       return newUploader;
    }
    function removeFile(file) {
-      let currentFileId = JSON.parse(file._xhr.response).id;
+      let currentFileId = file.id;
       let removedFile = find(vm.vacancy.files, {id: currentFileId});
       removedFile.state = 1;
       remove(vm.vacancy.files, {id: currentFileId});
       vm.vacancy.files.push(removedFile);
-      file.remove();
    }
 
    function clear() {

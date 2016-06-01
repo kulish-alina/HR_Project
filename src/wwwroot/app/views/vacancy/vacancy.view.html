@@ -117,7 +117,27 @@
                      <fieldset>
                         <input id="file-upload" type="file" nv-file-select="" multiple uploader="uploader">
                         <p claas="validation-invalid" ng-show="errorMessageFromFileUploader">{{errorMessageFromFileUploader}}</p>
-                        <table class="upload-table" ng-hide="!uploader.queue.length">
+                        <table class="upload-table" ng-hide="!vacancy.files.length">
+                           <caption>{{::'COMMON.ADDED_FILES' | translate}}:</caption>
+                           <thead>
+                              <tr>
+                                 <th>№</th>
+                                 <th>{{::'COMMON.NAME' | translate}}</th>
+                                 <th>{{::'COMMON.SIZE' | translate}}</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="item in vacancy.files">
+                                 <td>{{$index+1}}</td>
+                                 <td><a href="{{item.filePath | botUrl}}">{{item.description}}</a></td>
+                                 <td>{{item.fileSize}}</td>
+                                 <td><a class="remove-item" ng-click="removeFile(item)"><i class="foundicon-remove general-icon"></i></a></td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <table class="upload-table" ng-hide="!uploader.queue.length || isFilesUploaded">
+                           <caption>{{::'COMMON.FILES_TO_UPLOAD' | translate}}:</caption>
                            <thead>
                               <tr>
                                  <th>№</th>
@@ -131,7 +151,7 @@
                                  <td>{{$index+1}}</td>
                                  <td ng-bind="item.file.name"></td>
                                  <td ng-bind="item.file.size"></td>
-                                 <td><a class="remove-item" ng-click="removeFile(item)"><i class="foundicon-remove general-icon"></i></a></td>
+                                 <td><a class="remove-item" ng-click="item.remove()"><i class="foundicon-remove general-icon"></i></a></td>
                               </tr>
                            </tbody>
                         </table>

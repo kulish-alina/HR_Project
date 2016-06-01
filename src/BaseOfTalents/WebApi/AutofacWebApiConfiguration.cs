@@ -10,6 +10,10 @@ using System.Web.Http;
 using Domain.Entities;
 using Service.Services;
 using Domain.DTO.DTOModels;
+using Domain.Entities.Enum;		
+using Domain.Entities.Enum.Setup;		
+using Domain.DTO.DTOModels.SetupDTO;		
+using Domain.Entities.Setup;
 
 namespace WebApi
 {

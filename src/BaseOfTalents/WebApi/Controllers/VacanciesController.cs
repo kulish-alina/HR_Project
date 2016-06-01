@@ -77,7 +77,6 @@ namespace WebApi.Controllers
         [HttpGet]
         // GET: api/Entities/
         public override IHttpActionResult Get()
-        public override IHttpActionResult Get()
         {
             return BadRequest("Get all is prohibited for vacancies. Use /search instead");
         }

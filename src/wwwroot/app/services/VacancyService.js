@@ -1,6 +1,5 @@
 import utils  from '../utils.js';
 import {
-   assign,
    isNumber,
    filter,
    remove,
@@ -12,6 +11,9 @@ import {
    reduce,
    result
 } from 'lodash';
+
+import { assign } from 'lodash/fp';
+
 const VACANCY_URL = 'vacancies/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate', 'createdOn'];
 
@@ -133,7 +135,7 @@ function _fillThesauruses(vacancy) {
    vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
    vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
 
-   return _$q.all(promises).then(data => assign(vacancy, data));
+   return _$q.all(promises).then(assign(vacancy));
 }
 
 function _convertIdsToString(data) {

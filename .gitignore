@@ -245,3 +245,4 @@ _Pvt_Extensions
 
 src/wwwroot/db/db.json
 Upload/
+src/BaseOfTalents/WebApi/Uploads/

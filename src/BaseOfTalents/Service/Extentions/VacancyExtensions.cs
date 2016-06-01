@@ -27,7 +27,7 @@ namespace Service.Extentions
             destination.State               = source.State;
 
             destination.Title               = source.Title;
-            destination.Description         = source.Title;
+            destination.Description         = source.Description;
             destination.SalaryMin           = source.SalaryMin;
             destination.SalaryMax           = source.SalaryMax;
             destination.TypeOfEmployment    = source.TypeOfEmployment;

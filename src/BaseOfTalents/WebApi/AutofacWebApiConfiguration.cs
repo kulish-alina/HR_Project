@@ -70,8 +70,8 @@ namespace WebApi
                 .InstancePerRequest();
 		
             builder.RegisterType<AccessRightService>()		
-                 .As<IEnumService<AccessRights>>()		
-                 .InstancePerRequest();		
+                .As<IEnumService<AccessRights>>()		
+                .InstancePerRequest();		
 		
             builder.RegisterType<CommentTypeService>()		
                  .As<IEnumService<CommentType>>()		
@@ -151,7 +151,7 @@ namespace WebApi
 
 
             builder.RegisterType<FileService>()
-               .As<FileService>()
+		.As<FileService>()
                .InstancePerRequest();
 
             builder.RegisterGeneric(typeof(EFBaseEntityRepository<>))

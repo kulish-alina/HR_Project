@@ -16,7 +16,6 @@ namespace WebApi.Controllers
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-
         public FilesController(FileService service)
         {
             this.fileService = service;

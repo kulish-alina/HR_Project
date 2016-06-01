@@ -22,7 +22,7 @@ export default function VacancyController(
    const vm = $scope;
 
    /* --- api --- */
-   vm.cancel = cancel;
+   vm.clear = clear;
    vm.saveVacancy = saveVacancy;
    vm.vacancy =  $state.params._data || {} ;
    vm.vacancy.files = [];
@@ -58,7 +58,7 @@ export default function VacancyController(
       file.remove();
    }
 
-   function cancel() {
+   function clear() {
       $state.params._data = null;
       $state.reload();
    }

@@ -37,9 +37,7 @@ export default function VacancyProfileController(
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => {
       vm.thesaurus = data;
-      console.log('vm.thesaurus1', vm.thesaurus);
    });
-   console.log('vm.thesaurus2', vm.thesaurus);
 
    function createNewUploader() {
       let newUploader = FileUploaderService.getFileUploader({ onCompleteAllCallBack : saveChanges, maxSize : 2048000 });
@@ -49,6 +47,9 @@ export default function VacancyProfileController(
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
          vm.errorMessageFromFileUploader = $translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE');
+      };
+      newUploader.onAfterAddingAll = function onAfterAddingAl() {
+         vm.isChanged = true;
       };
       return newUploader;
    }
@@ -90,8 +91,4 @@ export default function VacancyProfileController(
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
       });
    }
-
-//   function _onError() {
-//      vm.errorMessage = 'Sorry! Some error occurred';
-//   }
 }

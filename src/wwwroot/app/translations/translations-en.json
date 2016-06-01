@@ -117,7 +117,8 @@
       "MONTHS": "Months",
       "HISTORY": "History",
       "DATE": "Date",
-      "STAGE" : "Stage"
+      "STAGE" : "Stage",
+      "CLEAR" : "Clear"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -201,6 +202,7 @@
       "NOTIF": "Notification!",
       "CONFIRM": "Confirm please!",
       "SUCCESSFUL_SAVING": "Vacancy was successfully saved!",
-      "ERROR_SAVING": "Some error has occurred while saving vacancy!"
+      "ERROR_SAVING": "Some error has occurred while saving vacancy!",
+      "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!"
    }
 }

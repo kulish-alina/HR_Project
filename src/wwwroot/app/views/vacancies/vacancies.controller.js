@@ -7,11 +7,13 @@ import {
 
 export default function VacanciesController(
    $scope,
+   $state,
+   $q,
+   $translate,
    VacancyService,
    ThesaurusService,
-   $q,
    UserService,
-   $state
+   UserDialogService
    ) {
    'ngInject';
 
@@ -24,7 +26,6 @@ export default function VacanciesController(
    vm.thesaurus = [];
    vm.responsibles = [];
    vm.searchVacancies = searchVacancies;
-   vm.beforeOpenModal = beforeOpenModal;
    vm.vacancy = {};
    vm.vacancies = [];
    vm.total = 0;
@@ -72,14 +73,15 @@ export default function VacanciesController(
       $state.reload();
    }
 
-   function beforeOpenModal(vacancyId) {
-      vm.selectedVacancyId = vacancyId;
-   }
-
-   function deleteVacancy() {
-      let predicate = {id: vm.selectedVacancyId};
-      let vacancyForRemove = find(vm.vacancies, predicate);
-      VacancyService.remove(vacancyForRemove).then(() => remove(vm.vacancies, predicate));
+   function deleteVacancy(vacancyId) {
+      UserDialogService.confirm($translate.instant('VACANCY.VACANCY_REMOVE_MESSAGE')).then(() => {
+         let predicate = {id: vacancyId};
+         let vacancyForRemove = find(vm.vacancies, predicate);
+         VacancyService.remove(vacancyForRemove).then(() => {
+            remove(vm.vacancies, predicate);
+            UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING'), 'success');
+         });
+      });
    }
 
    function _onError() {

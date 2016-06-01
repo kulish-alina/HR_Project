@@ -60,16 +60,15 @@ namespace WebApi
             builder.RegisterType<VacancyService>()
                 .As<IControllerService<Vacancy, VacancyDTO>>()
                 .InstancePerRequest();
-
+	
             builder.RegisterType<CandidateService>()
                 .As<IControllerService<Candidate, CandidateDTO>>()
                 .InstancePerRequest();
-
+		
             builder.RegisterType<UserService>()
                 .As<IControllerService<User, UserDTO>>()
                 .InstancePerRequest();
-                
-            		  
+		
             builder.RegisterType<AccessRightService>()		
                  .As<IEnumService<AccessRights>>()		
                  .InstancePerRequest();		

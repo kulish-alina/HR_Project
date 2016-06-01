@@ -60,7 +60,7 @@ namespace WebApi
             builder.RegisterType<VacancyService>()
                 .As<IControllerService<Vacancy, VacancyDTO>>()
                 .InstancePerRequest();
-	
+
             builder.RegisterType<CandidateService>()
                 .As<IControllerService<Candidate, CandidateDTO>>()
                 .InstancePerRequest();

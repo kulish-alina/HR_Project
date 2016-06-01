@@ -1,24 +1,32 @@
 import './roles.scss';
+import addRoleDialog from './addRoleDialog.view.html';
 import {
    reduce,
    forEach,
    values,
-   flatten
+   flatten,
+   keys,
+   first,
+   omit,
+   flow
 } from 'lodash';
 
 export default function RolesController(
    $scope,
    $element,
    $state,
+   $filter,
+   $translate,
+   $rootScope,
    RolesService,
    SettingsService,
-   ValidationService,
    UserDialogService,
-   FoundationApi) {
+   UserService) {
    'ngInject';
 
    /*---api---*/
-   let vm = $scope;
+   let vm          = $scope;
+
    vm.roles           = {};
    vm.permissions     = {};
    vm.currentRole     = {};
@@ -28,9 +36,8 @@ export default function RolesController(
    vm.setFlag         = _setFlag;
    vm.setAll          = _setAll;
    vm.selectRole      = _selectRole;
-   vm.createNewRole   = _createNewRole;
    vm.removeRole      = _removeRole;
-
+   vm.showAddDialog   = _showAddDialog;
    vm.clearModalModel = _clearModalModel;
 
    /*---impl---*/
@@ -49,16 +56,13 @@ export default function RolesController(
    }
 
    function _onSubmit() {
-      vm.roles[vm.currentRoleName] = 0;
+      vm.roles[vm.currentRoleName].permissions = 0;
       forEach(vm.currentRole, (value) => {
          if (value.flag) {
             _setFlag(vm.currentRoleName, value.id);
          }
       });
-      let role = {};
-      role.title = vm.currentRoleName;
-      role.value = vm.roles[vm.currentRoleName];
-      return RolesService.saveRole(role);
+      return RolesService.saveRole(vm.roles[vm.currentRoleName]);
    }
 
    function _onCancel() {
@@ -68,17 +72,16 @@ export default function RolesController(
    function _initRoles() {
       RolesService.getRoles().then((value) => {
          vm.roles = value;
+         _selectFirstRole();
       });
    }
 
    function _initPermissions() {
       RolesService.getPermissions().then((value) => {
          vm.permissions = value;
-         vm.selectRole(Object.keys(vm.roles)[0]);
       });
    }
    function _selectRole(roleName) {
-      console.log(vm.permissions);
       vm.currentRoleName = roleName;
       vm.currentRole = reduce(flatten(values(vm.permissions)), (memo, perm) => {
          memo[perm.id] = {};
@@ -88,24 +91,52 @@ export default function RolesController(
       }, {});
    };
 
-   function _createNewRole(form) {
-      if (ValidationService.validate(form)) {
-         vm.roles[vm.newRole.title] = vm.roles[vm.newRole.title] || 0;
-         FoundationApi.closeActiveElements('newRoleModal');
-         _selectRole(vm.newRole.title);
-         vm.newRole.value = 0;
-         RolesService.saveRole(vm.newRole).then(() => {
-            _clearModalModel();
-         });
-      }
+   function _createNewRole() {
+      vm.newRole.permissions = 0;
+      RolesService.saveRole(vm.newRole).then(() => {
+         vm.roles[vm.newRole.title] = vm.newRole;
+         _clearModalModel();
+         UserDialogService.notification(
+            $translate.instant('ROLES.REMOVED', {title: vm.newRole.title}), 'success');
+      });
+   }
+
+   function _showAddDialog() {
+      console.log('rscope', $rootScope);
+      let buttons = [ {
+         name:         $translate.instant('COMMON.CREATE'),
+         func:         _createNewRole,
+         needValidate: true
+      } ];
+      let scope = {
+         newRole: vm.newRole
+      };
+      UserDialogService.dialog(
+         $translate.instant('ROLES.NEW'),
+         addRoleDialog,
+         buttons,
+         scope);
    }
 
    function _removeRole(roleName) {
-      UserDialogService.confirm('do you want remove that?').then(() => {
-         delete vm.roles[roleName];
-         vm.selectRole(Object.keys(vm.roles)[0]);
-         UserDialogService.notification('Deleted!', 'success');
+      UserService.getUsers((user) => {
+         return user.roleId === vm.roles[roleName].id;
+      }).then((val) => {
+         let usersInRole = $filter('arrayAsString')(val, 'login', '; ');
+         UserDialogService.confirm(
+            $translate.instant('ROLES.CONFIRM', {title: roleName, usersInRole})).then(() => {
+               RolesService.removeRole(vm.roles[roleName]).then(() => {
+                  vm.roles = omit(vm.roles, roleName);
+                  _selectFirstRole();
+                  UserDialogService.notification($translate.instant('ROLES.REMOVED'), 'success');
+               });
+            });
       });
+   }
+
+   function _selectFirstRole() {
+      let _fnc = flow(keys, first, _selectRole);
+      _fnc(vm.roles);
    }
 
    function _clearModalModel() {

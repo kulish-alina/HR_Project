@@ -1,6 +1,6 @@
 <div class="main-card">
    <div class="card-section">
-      <div class="grid-block">
+      <div class="grid-block" ng-show="currentRoleName">
          <div class="medium-2 grid-block">
             <div class="tabs-container">
                <div class="tabs">
@@ -8,25 +8,8 @@
                      <span ng-bind="::roleName"></span>
                      <a ng-if="roleName === currentRoleName" class="roles-close-button" ng-click="removeRole(roleName)">×</a>
                   </div>
-                  <div class="tab-item" ng-class="{'is-active': roleName === currentRoleName}" ng-bind="::('ROLES.NEW'|translate)" zf-open="newRoleModal">
-                  </div>
-                  <div zf-modal="" id="newRoleModal">
-                     <form name="roleForm">
-                        <div class="role-header">
-                           <div ng-bind="::('ROLES.NEW'|translate)"></div>
-                           <a zf-close="" class="roles-close-button" ng-click="clearModalModel()">×</a>
-                        </div>
-                        <div class="role-body grid-block">
-                           <div class="medium-10 grid-block role-input">
-                              <input type="text" ng-model="newRole.title" placeholder="{{::'ROLES.NAME' | translate}}" name="roleName" validator="required, title">
-                           </div>
-
-                           <div>
-                              <a class="upload-button" ng-bind="::('COMMON.CREATE' | translate)" ng-click="createNewRole(roleForm)"></a>
-                           </div>
-                        </div>
-                     </form>
-                  </div>
+                  <div class="tab-item" ng-class="{'is-active': roleName === currentRoleName}" ng-bind="::('ROLES.NEW'|translate)" ng-click="showAddDialog()">
+                  </div>   
                </div>
             </div>
          </div>

@@ -77,13 +77,14 @@ namespace WebApi.Controllers
 
         private Tuple<string,string> GetUploadPath()
         {
-            var root = @"~/Uploads";
+            var root = @"~/";
+            var upload = @"Uploads";
             var year = DateTime.Now.Year;
             var week = DateTime.Now.GetIso8601WeekOfYear();
 
             return new Tuple<string, string>(
-                string.Format(@"{0}\{1}\{2}\", HttpContext.Current.Server.MapPath(root),year,week),
-                string.Format(@"{0}/{1}/{2}/", root, year, week)
+                string.Format(@"{0}\{1}\{2}\", HttpContext.Current.Server.MapPath(root + upload),year,week),
+                string.Format(@"{0}/{1}/{2}/", upload, year, week)
                 );
         }
 

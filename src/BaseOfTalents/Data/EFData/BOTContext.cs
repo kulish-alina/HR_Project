@@ -50,6 +50,7 @@ namespace Data.EFData
         public BOTContext() : base()
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

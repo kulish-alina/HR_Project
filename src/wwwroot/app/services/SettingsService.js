@@ -14,6 +14,7 @@ let _$q;
 export default class SettingsService {
 
    constructor($q) {
+      'njInject';
       _$q = $q;
    }
    addOnSubmitListener(listener) {

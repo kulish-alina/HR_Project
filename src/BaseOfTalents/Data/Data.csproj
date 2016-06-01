@@ -135,9 +135,9 @@
     <Compile Include="Infrasctucture\Disposable.cs" />
     <Compile Include="Infrasctucture\IUnitOfWork.cs" />
     <Compile Include="Infrasctucture\UnitOfWork.cs" />
-    <Compile Include="Migrations\201605241258451_init.cs" />
-    <Compile Include="Migrations\201605241258451_init.Designer.cs">
-      <DependentUpon>201605241258451_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606011310558_Init.cs" />
+    <Compile Include="Migrations\201606011310558_Init.Designer.cs">
+      <DependentUpon>201606011310558_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -154,8 +154,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605241258451_init.resx">
-      <DependentUpon>201605241258451_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606011310558_Init.resx">
+      <DependentUpon>201606011310558_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

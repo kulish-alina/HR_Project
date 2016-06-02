@@ -23,8 +23,8 @@ export default class UserDialogService {
    confirm(question) {
       let deferred = _$q.defer();
 
-      let buttons = [{ name: _$translate.instant('COMMON.OK'),     func: deferred.resolve },
-                     { name: _$translate.instant('COMMON.CANCEL'), func: deferred.reject  }];
+      let buttons = [{ name: _$translate.instant('COMMON.CANCEL'), func: deferred.reject  },
+                     { name: _$translate.instant('COMMON.OK'),     func: deferred.resolve }];
 
       this.dialog(_$translate.instant('DIALOG_SERVICE.CONFIRM'), question, buttons);
       return deferred.promise;

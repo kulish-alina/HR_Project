@@ -1,5 +1,41 @@
-@import 'settings';
-@import 'foundation';
+@import './common';
+
+$include-css: (
+  global       : true,
+  accordion    : true,
+  action-sheet : true,
+  block-list   : true,
+  button       : true,
+  button-group : true,
+  card         : true,
+  coloring     : true,
+  extras       : true,
+  forms        : true,
+  grid         : true,
+  iconic       : true,
+  label        : true,
+  badge        : true,
+  list         : true,
+  menu-bar     : true,
+  modal        : true,
+  motion       : true,
+  notification : true,
+  off-canvas   : true,
+  panel        : true,
+  popup        : true,
+  switch       : true,
+  tabs         : true,
+  title-bar    : true,
+  typography   : true,
+  utilities    : true
+);
+
+@import "./foundation";
+
+// Libraries (let's make Normalize an external dependency eventually)
+@import
+  "./bower_components/foundation-apps/scss/vendor/normalize";
+
 @import './styles/table';
 @import './styles/form';
 @import './styles/main-menu';
@@ -48,7 +84,7 @@ body {
    margin: $rem-base*0.5;
    height: auto;
    min-width: $rem-base*38;
-   @include breakpoint(medium down) { 
+   @include breakpoint(medium down) {
       width: 98%;
    }
 }

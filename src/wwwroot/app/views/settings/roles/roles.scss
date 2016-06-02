@@ -1,4 +1,4 @@
-@import "../../../main.scss";
+@import "../../../common.scss";
 .tabs {
    @include tabstrip(
       $orientation: vertical
@@ -44,7 +44,7 @@ ul.roles-tab {
 ul.roles-tab li {
    display: inline-block;
    list-style: none;
-   text-align: left; 
+   text-align: left;
    vertical-align: text-top;
    padding: 10px;
    width: 32.8%;

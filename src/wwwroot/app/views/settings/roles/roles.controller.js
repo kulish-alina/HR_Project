@@ -107,6 +107,7 @@ export default function RolesController(
          func:         _createNewRole,
          needValidate: true
       } ];
+      vm.newRole = {title: ''};
       let scope = {
          newRole: vm.newRole
       };

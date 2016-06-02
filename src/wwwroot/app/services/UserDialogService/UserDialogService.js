@@ -68,7 +68,7 @@ export default class UserDialogService {
       buttons - array of objects with properties:
                "name" for buttons text which will be shown,
                "func" for functions which will be fired after click,
-               "needValidate for flag which will be true if ned to call validation
+               "needValidate for flag which will be true if need to call validation
       scope   - an object with variables for content. */
       let wrappedButtons = forEach(buttons, (value) => {
          value.func = _closeElementWrapp(value.func);
@@ -87,7 +87,6 @@ export default class UserDialogService {
       };
       let modal = new _ModalFactory(config);
       modal.activate();
-      console.log(modal);
    }
 }
 

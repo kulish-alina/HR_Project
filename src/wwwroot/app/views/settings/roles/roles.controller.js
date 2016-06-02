@@ -17,7 +17,6 @@ export default function RolesController(
    $state,
    $filter,
    $translate,
-   $rootScope,
    RolesService,
    SettingsService,
    UserDialogService,
@@ -25,7 +24,7 @@ export default function RolesController(
    'ngInject';
 
    /*---api---*/
-   let vm          = $scope;
+   let vm = $scope;
 
    vm.roles           = {};
    vm.permissions     = {};
@@ -102,7 +101,6 @@ export default function RolesController(
    }
 
    function _showAddDialog() {
-      console.log('rscope', $rootScope);
       let buttons = [ {
          name:         $translate.instant('COMMON.CREATE'),
          func:         _createNewRole,

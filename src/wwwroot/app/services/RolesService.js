@@ -52,7 +52,7 @@ export default class RoleService {
          _HttpCacheService.clearCache(ROLES_URL);
       } else {
          _LoggerService.debug('Can\'t remove role', role);
-         return _$q.when(true);
+         return _$q.reject();
       }
    }
 }

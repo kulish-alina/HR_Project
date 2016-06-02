@@ -61,6 +61,7 @@ export default function RolesController(
             _setFlag(vm.currentRoleName, value.id);
          }
       });
+      console.log('current role', vm.roles[vm.currentRoleName]);
       return RolesService.saveRole(vm.roles[vm.currentRoleName]);
    }
 
@@ -142,13 +143,14 @@ export default function RolesController(
    }
 
    function _getFlag(roleName, bitNumber) {
-      let value = 1 << bitNumber;                    // eslint-disable-line no-bitwise
-      return (vm.roles[roleName] & value) === value; // eslint-disable-line no-bitwise
+      let value = 1 << bitNumber;                               // eslint-disable-line no-bitwise
+      return (vm.roles[roleName].permissions & value) === value; // eslint-disable-line no-bitwise
    }
 
    function _setFlag(roleName, bitNumber) {
-      let value = 1 << bitNumber;                      // eslint-disable-line no-bitwise
-      vm.roles[roleName] = vm.roles[roleName] | value; // eslint-disable-line no-bitwise
+      let value = 1 << bitNumber;                // eslint-disable-line no-bitwise
+      vm.roles[roleName].permissions =
+         vm.roles[roleName].permissions | value; // eslint-disable-line no-bitwise
    }
 
    function _setAll(value) {

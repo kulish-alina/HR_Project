@@ -7,9 +7,11 @@
       <div>
          <!-- content will be here -->
       </div>
-      <a class="button"
-      ng-repeat="button in buttons"
-      ng-bind="button.name"
-      ng-click="button.func(dialogForm)"></a>
+      <div class="dialog-button-group">
+         <a class="button"
+            ng-repeat="button in buttons"
+            ng-bind="button.name"
+            ng-click="button.func(dialogForm)"></a>
+      </div>
    </div>
 </form>

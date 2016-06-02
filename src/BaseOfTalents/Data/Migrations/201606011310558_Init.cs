@@ -3,7 +3,7 @@ namespace Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class Init : DbMigration
     {
         public override void Up()
         {
@@ -63,6 +63,7 @@ namespace Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         FilePath = c.String(nullable: false),
                         Description = c.String(),
+                        Size = c.Long(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),

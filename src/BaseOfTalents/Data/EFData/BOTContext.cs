@@ -50,7 +50,7 @@ namespace Data.EFData
         public BOTContext() : base()
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -142,7 +142,7 @@ namespace Data.EFData
 
             string deletequery =
                 string.Format(
-                    "UPDATE {0} SET IsDeleted = 1 WHERE {1} = @id",
+                    "UPDATE {0} SET IsDeleted = 1, State = 1 WHERE {1} = @id",
                         tableName, primaryKeyName);
 
             Database.ExecuteSqlCommand(

@@ -8,18 +8,22 @@ export default function CandidateController(
    ValidationService,
    FileUploaderService,
    ThesaurusService,
-   UserDialogService
+   UserDialogService,
+   LoggerService
    ) {
    'ngInject';
 
-   const vm = $scope;
-   vm.saveCandidate = saveCandidate;
-   vm.keys = Object.keys;
-   vm.clearUploaderQueue = clearUploaderQueue;
+   const vm          = $scope;
+   vm.keys           = Object.keys;
+   vm.candidate      = {};
 
-   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
+   vm.saveCandidate        = saveCandidate;
+   vm.clearUploaderQueue   = clearUploaderQueue;
 
-   vm.uploader = FileUploaderService.getFileUploader({maxSize: 1024000});
+   (function _init() {
+      _initThesauruses();
+      _createUploader();
+   }());
 
    function clearUploaderQueue() {
       vm.uploader.clearQueue();
@@ -28,6 +32,23 @@ export default function CandidateController(
 
    function _onError() {
       UserDialogService.notification('Some error was occurred!', 'error');
+   }
+
+   function _initThesauruses() {
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
+   }
+
+   function _createUploader() {
+      vm.uploader = FileUploaderService.getFileUploader({maxSize: 1024000});
+      vm.uploader.onSuccessItem = (item, response, status, headers) => {
+         LoggerService.log('onSuccessItem', item, response, status, headers);
+      };
+      vm.uploader.onErrorItem = (fileItem, response, status, headers) => {
+         LoggerService.error('onErrorItem', fileItem, response, status, headers);
+      };
+      vm.uploader.onWhenAddingFileFailed = () => {
+         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
+      };
    }
 
    function saveCandidate(form) {

@@ -45,6 +45,13 @@ export default class VacancyService {
       _UserService = UserService;
    }
 
+   getVacancy(id) {
+      let additionalUrl = VACANCY_URL + id;
+      return _HttpService.get(additionalUrl).then((vacancy) => {
+         return _$q.when(this.convertFromServerFormat(vacancy));
+      });
+   }
+
    search(condition) {
       _LoggerService.debug('search vacancies', condition);
       const searchUrl = 'search';

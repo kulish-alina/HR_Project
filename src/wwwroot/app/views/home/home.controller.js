@@ -41,7 +41,7 @@ export default function VacanciesController(
    }).catch(_onError);
 
    function viewVacancy(vacancy) {
-      $state.go('vacancyProfile', {_data: vacancy});
+      $state.go('vacancyProfile', {_data: vacancy, vacancyId: vacancy.id});
    }
 
    function _onError() {

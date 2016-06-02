@@ -1,7 +1,6 @@
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages',
     'departments', 'tags', 'skills', 'typesOfEmployment', 'languageLevels'];
 import {
-   find,
    remove
 } from 'lodash';
 
@@ -9,13 +8,13 @@ export default function VacancyController(
    $scope,
    $translate,
    $state,
-   $element,
    VacancyService,
    ValidationService,
    FileUploaderService,
    ThesaurusService,
    UserService,
-   UserDialogService
+   UserDialogService,
+   HttpService
 ) {
    'ngInject';
 
@@ -24,7 +23,7 @@ export default function VacancyController(
    /* --- api --- */
    vm.clear = clear;
    vm.saveVacancy = saveVacancy;
-   vm.vacancy =  $state.params._data || {} ;
+   vm.vacancy =  {} ;
    vm.vacancy.files = $state.params._data ? $state.params._data.files : [];
    vm.thesaurus = [];
    vm.responsibles = [];
@@ -35,6 +34,21 @@ export default function VacancyController(
    vm.errorMessageFromFileUploader = '';
    vm.isFilesUploaded = false;
    /* === impl === */
+
+   function _initCurrentVacancy() {
+      if ($state.params._data) {
+         vm.vacancy = $state.params._data;
+      } else if ($state.params.vacancyId) {
+         VacancyService.getVacancy($state.params.vacancyId).then((vacancy) => {
+            vm.vacancy = vacancy;
+         });
+      } else {
+         vm.vacancy = {};
+      }
+   }
+
+   _initCurrentVacancy();
+
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
    UserService.getUsers().then(users => vm.responsibles = users);
@@ -52,16 +66,15 @@ export default function VacancyController(
       return newUploader;
    }
    function removeFile(file) {
-      let currentFileId = file.id;
-      let removedFile = find(vm.vacancy.files, {id: currentFileId});
-      removedFile.state = 1;
-      remove(vm.vacancy.files, {id: currentFileId});
-      vm.vacancy.files.push(removedFile);
+      let url = `files/${file.id}`;
+      HttpService.remove(url, file).then(() => {
+         remove(vm.vacancy.files, {id: file.id});
+         vm.isChanged = true;
+      });
    }
 
    function clear() {
-      $state.params._data = null;
-      $state.reload();
+      $state.go('vacancy', {_data: null, vacancyId: null});
    }
 
    function saveVacancy(ev, form) {

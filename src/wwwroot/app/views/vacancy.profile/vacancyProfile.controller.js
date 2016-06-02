@@ -21,7 +21,7 @@ export default function VacancyProfileController(
    vm.thesaurus = [];
    vm.responsibles = [];
    vm.edit = edit;
-   vm.vacancy =  $state.params._data || {} ;
+   vm.vacancy =  {};
    vm.vacancy.files = $state.params._data ? $state.params._data.files : [];
    vm.uploader = createNewUploader();
    vm.removeFile = removeFile;
@@ -32,10 +32,20 @@ export default function VacancyProfileController(
    vm.currentStage = '';
    vm.isFilesUploaded = false;
 
+   function _initCurrentVacancy() {
+      if ($state.params._data) {
+         vm.vacancy = $state.params._data;
+      } else {
+         VacancyService.getVacancy($state.params.vacancyId).then((vacancy) => {
+            vm.vacancy = vacancy;
+         });
+      }
+   }
+   _initCurrentVacancy();
+
    UserService.getUsers().then((users) => {
       vm.responsibles = users;
    });
-   console.log('vacancy in view', vm.vacancy);
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
@@ -44,7 +54,6 @@ export default function VacancyProfileController(
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          let response = JSON.parse(item._xhr.response);
          vm.vacancy.files.push(response);
-         $element[0].querySelector('.file-upload').value = null;
          vm.isFilesUploaded = true;
          vm.isChanged = false;
       };
@@ -56,6 +65,7 @@ export default function VacancyProfileController(
       };
       return newUploader;
    }
+
    function removeFile(file) {
       let url = `files/${file.id}`;
       HttpService.remove(url, file).then(() => {
@@ -65,7 +75,7 @@ export default function VacancyProfileController(
    }
 
    function edit() {
-      $state.go('vacancy', {_data: vm.vacancy});
+      $state.go('vacancy', {_data: vm.vacancy, vacancyId: vm.vacancy.id});
    }
 
    function saveChanges() {

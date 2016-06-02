@@ -62,11 +62,11 @@ export default function VacanciesController(
    }
 
    function editVacancy(vacancy) {
-      $state.go('vacancy', {_data: vacancy});
+      $state.go('vacancy', {_data: vacancy, vacancyId: vacancy.id});
    }
 
    function viewVacancy(vacancy) {
-      $state.go('vacancyProfile', {_data: vacancy});
+      $state.go('vacancyProfile', {_data: vacancy, vacancyId: vacancy.id});
    }
 
    function cancel() {

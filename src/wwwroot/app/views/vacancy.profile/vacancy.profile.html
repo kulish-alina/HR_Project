@@ -377,8 +377,7 @@
             </div>
             <div class="sidebar-content">
                <fieldset class="file-upload">
-                  <input class="file-upload" type="file" nv-file-select="" multiple uploader="uploader">
-                  <p claas="validation-invalid" ng-show="errorMessageFromFileUploader">{{errorMessageFromFileUploader}}</p>
+                     <input type="file" nv-file-select="" multiple uploader="uploader">
                   <table class="upload-table" ng-hide="!vacancy.files.length">
                      <caption>{{::'COMMON.ADDED_FILES' | translate}}:</caption>
                      <thead>

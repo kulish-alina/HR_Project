@@ -10,7 +10,6 @@ import profileTemplate          from './views/settings/profile/profile.view.html
 import profileEditTemplate      from './views/settings/profile/profileEdit.view.html';
 import membersTemplate          from './views/settings/members/members.view.html';
 import rolesTemplate            from './views/settings/roles/roles.view.html';
-//import recruitingTemplate       from './views/settings/recruiting/recruiting.view.html';
 import vacancyProfileTemplate   from './views/vacancy.profile/vacancy.profile.html';
 
 import homeController           from './views/home/home.controller';
@@ -23,7 +22,6 @@ import thesaurusesController    from './views/settings/thesauruses/thesauruses.c
 import profileController        from './views/settings/profile/profile.controller';
 import membersController        from './views/settings/members/members.controller';
 import rolesController          from './views/settings/roles/roles.controller';
-//import recruitingController     from './views/settings/recruiting/recruiting.controller';
 import vacancyProfileController from './views/vacancy.profile/vacancyProfile.controller';
 
 import translationsEn from './translations/translations-en.json';
@@ -41,7 +39,6 @@ export default function _config(
    HttpServiceProvider
 ) {
    'ngInject';
-
    $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
@@ -50,7 +47,10 @@ export default function _config(
       .state('home', {
          url: '/home',
          template: homeTemplate,
-         controller: homeController
+         controller: homeController,
+         params: {
+            _data: null
+         }
       })
       .state('candidates', {
          url: '/candidates',
@@ -63,11 +63,12 @@ export default function _config(
          controller: vacanciesController
       })
       .state('vacancyProfile', {
-         url: '/vacancyProfile',
+         url: '/vacancyProfile/:vacancyId',
          template: vacancyProfileTemplate,
          controller: vacancyProfileController,
          params: {
-            _data: null
+            _data: null,
+            vacancyId: null
          }
       })
       .state('candidate', {
@@ -76,11 +77,12 @@ export default function _config(
          controller: candidateController
       })
       .state('vacancy', {
-         url: '/vacancy',
+         url: '/vacancy/:vacancyId',
          template: vacancyTemplate,
          controller: vacancyController,
          params: {
-            _data: null
+            _data: null,
+            vacancyId: null
          }
       })
       .state('settings', {

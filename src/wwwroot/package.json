@@ -15,7 +15,6 @@
   "author": "isd",
   "license": "ISC",
   "devDependencies": {
-    "angular-file-upload": "^2.3.1",
     "angular-mocks": "^1.5.3",
     "babel": "^6.5.2",
     "babel-core": "^6.7.2",

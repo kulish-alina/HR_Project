@@ -31,12 +31,12 @@ namespace WebApi.Controllers
 
 
         [HttpDelete]
-        [Route("api/files")]
+        [Route("api/files/{id}")]
         public IHttpActionResult Remove(int id)
         {
             if (fileService.Remove(id))
             {
-                return Ok;
+                return Json(new { Id = id }, BOT_SERIALIZER_SETTINGS);
             }
             else
             {

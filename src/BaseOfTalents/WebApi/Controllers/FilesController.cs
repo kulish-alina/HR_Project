@@ -29,6 +29,21 @@ namespace WebApi.Controllers
             this.fileService = service;
         }
 
+
+        [HttpDelete]
+        [Route("api/files/{id}")]
+        public IHttpActionResult Remove(int id)
+        {
+            if (fileService.Remove(id))
+            {
+                return Json(new { Id = id }, BOT_SERIALIZER_SETTINGS);
+            }
+            else
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound); 
+            }
+        }
+
         [HttpPost]
         [Route("api/files")]
         public async Task<IHttpActionResult> Upload()
@@ -51,17 +66,21 @@ namespace WebApi.Controllers
                 var result = await Request.Content.ReadAsMultipartAsync(uploadProvider);
                 var originalFileName = GetDeserializedFileName(result.FileData.First());
 
-                var file = new Domain.Entities.File { Description = originalFileName, FilePath = paths.Item2 + result.FileData.First().LocalFileName.Replace(paths.Item1,"") };
+                var file = new Domain.Entities.File
+                {
+                    Description = originalFileName,
+                    FilePath = paths.Item2 + result.FileData.First().LocalFileName.Replace(paths.Item1, ""),
+                    Size = new FileInfo(result.FileData.First().LocalFileName).Length
+                };
 
                 var fileResult = fileService.Add(file);
-                fileResult.FileSize = new FileInfo(result.FileData.First().LocalFileName).Length;
 
                 return Json(fileResult, BOT_SERIALIZER_SETTINGS);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
 
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                throw new ApplicationException(e.Message);
             }
         }
 
@@ -75,7 +94,7 @@ namespace WebApi.Controllers
             return fileData.Headers.ContentDisposition.FileName;
         }
 
-        private Tuple<string,string> GetUploadPath()
+        private Tuple<string, string> GetUploadPath()
         {
             var root = @"~/";
             var upload = @"Uploads";
@@ -83,7 +102,7 @@ namespace WebApi.Controllers
             var week = DateTime.Now.GetIso8601WeekOfYear();
 
             return new Tuple<string, string>(
-                string.Format(@"{0}\{1}\{2}\", HttpContext.Current.Server.MapPath(root + upload),year,week),
+                string.Format(@"{0}\{1}\{2}\", HttpContext.Current.Server.MapPath(root + upload), year, week),
                 string.Format(@"{0}/{1}/{2}/", upload, year, week)
                 );
         }

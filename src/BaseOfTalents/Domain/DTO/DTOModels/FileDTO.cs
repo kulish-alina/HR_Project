@@ -4,6 +4,6 @@ namespace Domain.DTO.DTOModels
     {
         public string FilePath { get; set; }
         public string Description { get; set; }
-        public long FileSize { get; set; }
+        public long Size { get; set; }
     }
 }

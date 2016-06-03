@@ -1,11 +1,9 @@
 const LIST_OF_THESAURUS = ['stages', 'industries'];
 import {
-   remove
+   remove,
+   set,
+   each
 } from 'lodash';
-
-import {
-   set
-} from 'lodash/fp';
 
 export default function VacancyProfileController(
    $scope,
@@ -14,10 +12,10 @@ export default function VacancyProfileController(
    $element,
    ThesaurusService,
    UserService,
-   FileUploaderService,
    VacancyService,
    UserDialogService,
-   HttpService
+   FileService,
+   LoggerService
    ) {
    'ngInject';
 
@@ -26,7 +24,8 @@ export default function VacancyProfileController(
    vm.responsibles = [];
    vm.edit         = edit;
    vm.uploader     = createNewUploader();
-   vm.removeFile   = removeFile;
+   vm.addFilesForRemove = addFilesForRemove;
+   vm.queueFilesForRemove = [];
    vm.saveChanges  = saveChanges;
    vm.changed      = changed;
    vm.isChanged    = false;
@@ -42,17 +41,17 @@ export default function VacancyProfileController(
       if ($state.params._data) {
          vm.vacancy = $state.params._data;
       } else {
-         VacancyService.getVacancy($state.params.vacancyId).then(set(vm, 'vacancy'));
+         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => set(vm, 'vacancy', vacancy));
       }
    }
    _initCurrentVacancy();
 
-   UserService.getUsers().then(set(vm, 'responsibles'));
+   UserService.getUsers().then(users => set(vm, 'responsibles', users));
 
-   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(set(vm, 'thesaurus'));
+   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
 
    function createNewUploader() {
-      let newUploader = FileUploaderService.getFileUploader({ onCompleteAllCallBack : saveChanges, maxSize : 2048000 });
+      let newUploader = FileService.getFileUploader({ onCompleteAllCallBack : saveChanges, maxSize : 2048000 });
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          let response = JSON.parse(item._xhr.response);
          vm.vacancy.files.push(response);
@@ -63,18 +62,16 @@ export default function VacancyProfileController(
          vm.errorMessageFromFileUploader = $translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE');
       };
       newUploader.onAfterAddingAll = function onAfterAddingAl() {
+         vm.isFilesUploaded = false;
          vm.isChanged = true;
       };
       return newUploader;
    }
 
-   function removeFile(file) {
-      // TODO create FileServices
-      let url = `files/${file.id}`;
-      HttpService.remove(url, file).then(() => {
-         remove(vm.vacancy.files, {id: file.id});
-         vm.isChanged = true;
-      });
+   function addFilesForRemove(file) {
+      vm.queueFilesForRemove.push(file);
+      remove(vm.vacancy.files, {id: file.id});
+      vm.isChanged = true;
    }
 
    function edit() {
@@ -84,6 +81,10 @@ export default function VacancyProfileController(
    function saveChanges() {
       if (vm.uploader.getNotUploadedItems().length) {
          vm.uploader.uploadAll();
+      } else if (vm.queueFilesForRemove) {
+         each(vm.queueFilesForRemove, (file) => _removeFile(file));
+         vm.queueFilesForRemove = [];
+         _vs();
       } else {
          _vs();
       }
@@ -97,15 +98,19 @@ export default function VacancyProfileController(
       vm.currentStage = stageName;
    }
 
+   function _removeFile(file) {
+      FileService.remove(file);
+   }
+
    function _vs() {
       VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
-         // why ?
-         vm.vacancy.files = vacancy.files;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
          vm.isChanged = false;
-      }).catch(() => {
+         vm.uploader.clearQueue();
+      }).catch((error) => {
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
+         LoggerService.error(error);
       });
    }
 }

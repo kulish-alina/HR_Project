@@ -215,7 +215,7 @@
       </div>
    </div>
    <div class="medium-3 grid-block vertical-sidebar">
-      <div class="vertical medium-horizontal grid-block">
+      <div class="vertical medium-horizontal grid-block vacancy-view">
          <div class="sidebar">
             <div class="card-divider">
                {{::'VACANCY_PROFILE.INFORMATION' | translate}}
@@ -235,7 +235,7 @@
                   <div class="medium-5 grid-block sidebar-col">
                      {{::'COMMON.START_DATE' | translate}}:
                   </div>
-                  <div class="medium-7 grid-block">
+                  <div class="medium-7 grid-block ">
                      <date datemodel="vacancy.startDate" daterequired="true"></date>
                   </div>
                </div>
@@ -243,7 +243,7 @@
                   <div class="medium-5 grid-block sidebar-col">
                      {{::'COMMON.DEADLINE_DATE' | translate}}:
                   </div>
-                  <div class="medium-7 grid-block">
+                  <div class="medium-7 grid-block ">
                      <date datemodel="vacancy.deadlineDate"></date>
                   </div>
                </div>
@@ -405,11 +405,11 @@
                            <td>{{$index+1}}</td>
                            <td><a href="{{item.filePath | botUrl}}">{{item.description}}</a></td>
                            <td>{{item.fileSize}}</td>
-                           <td><a class="remove-item" ng-click="removeFile(item)"><i class="foundicon-remove general-icon"></i></a></td>
+                           <td><a class="remove-item" ng-click="addFilesForRemove(item)"><i class="foundicon-remove general-icon"></i></a></td>
                         </tr>
                      </tbody>
                   </table>
-                  <table class="upload-table" ng-hide="!uploader.queue.length || isFilesUploaded">
+                  <table class="upload-table" ng-hide="isFilesUploaded">
                      <caption>{{::'COMMON.FILES_TO_UPLOAD' | translate}}:</caption>
                      <thead>
                         <tr>

@@ -8,6 +8,7 @@
    font-family: $body-font-family !important;
 }
 ._720kb-datepicker-calendar{
+   position: absolute !important;
    border-radius: 0 !important;
    font-family: $body-font-family !important;
    margin-top: -$rem-base*1.10 !important;
@@ -22,4 +23,7 @@
 }
 ._720kb-datepicker-calendar-body{
    font-family: $body-font-family !important;
+}
+._720kb-datepicker-open {
+   right: 0 !important;
 }

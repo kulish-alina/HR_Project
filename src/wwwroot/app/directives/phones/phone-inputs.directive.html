@@ -1,0 +1,6 @@
+<div ng-repeat="phone in phones">
+   <input type="text" ng-model="phone" ng-model-options="{ updateOn: 'blur' }" placeholder="{{::'COMMON.PHONE' | translate}}" ui-mask="+9?9?9(99)999-99-99" ui-mask-placeholder ui-mask-placeholder-char="_" onfocus="this.value = this.value || 380" ng-change="updatePhoneNumbers(phone, $index)">
+</div>
+<div class="add-phone-number">
+   <a ng-hide="cantAddNewPhone()" ng-click="addNewPhone()"><i class="fi-plus"></i></a>
+</div>

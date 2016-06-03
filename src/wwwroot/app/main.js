@@ -45,6 +45,7 @@ import UserDialogService   from './services/UserDialogService/UserDialogService'
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
 import ContactInfoDirective   from './directives/contacts/ContactInfo';
+import PhoneInputsDirective   from './directives/phones/PhoneInputs';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 
 import uiMask from 'angular-ui-mask';
@@ -92,6 +93,7 @@ angular
    .directive('thesaurus', ThesaurusDirective.createInstance)
    .directive('date',      DatePickerDirective.createInstance)
    .directive('contacts',  ContactInfoDirective.createInstance)
+   .directive('phones',    PhoneInputsDirective.createInstance)
    .directive('ngThumb',   CanvasPreviewDirective)
 
    .filter('tel',           PhoneFormatFilter)

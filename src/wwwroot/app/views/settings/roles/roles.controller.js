@@ -133,7 +133,6 @@ export default function RolesController(
    }
 
    function _selectFirstRole() {
-      debugger;
       let _fnc = flow(keys, first, _selectRole);
       _fnc(vm.roles);
    }

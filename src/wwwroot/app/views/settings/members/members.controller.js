@@ -27,7 +27,6 @@ export default function MembersController($scope, $element, SettingsService, Use
    function _initUsers() {
       UserService.getUsers().then((result) => {
          vm.users = result;
-         console.log(vm.users);
       });
    }
 }

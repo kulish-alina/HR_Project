@@ -1,21 +1,53 @@
-@import './import-once';
+@import './common';
 
-@import './settings';
-@import 'foundation';
-@import '/styles/table';
-@import '/styles/form';
-@import '/styles/main-menu';
-@import '/styles/secondary-menu';
-@import '/styles/side-menu';
-@import '/styles/sidebar';
-@import '/styles/text-editor';
-@import '/grid.scss';
-@import '/styles/multiple-select';
-@import '/styles/pagination';
-@import '/styles/modal';
-@import '/styles/range-slider';
+$include-css: (
+  global       : true,
+  accordion    : true,
+  action-sheet : true,
+  block-list   : true,
+  button       : true,
+  button-group : true,
+  card         : true,
+  coloring     : true,
+  extras       : true,
+  forms        : true,
+  grid         : true,
+  iconic       : true,
+  label        : true,
+  badge        : true,
+  list         : true,
+  menu-bar     : true,
+  modal        : true,
+  motion       : true,
+  notification : true,
+  off-canvas   : true,
+  panel        : true,
+  popup        : true,
+  switch       : true,
+  tabs         : true,
+  title-bar    : true,
+  typography   : true,
+  utilities    : true
+);
 
-@include exports('main') {
+@import "./foundation";
+
+// Libraries (let's make Normalize an external dependency eventually)
+@import
+  "./bower_components/foundation-apps/scss/vendor/normalize";
+
+@import './styles/table';
+@import './styles/form';
+@import './styles/main-menu';
+@import './styles/secondary-menu';
+@import './styles/side-menu';
+@import './styles/sidebar';
+@import './styles/text-editor';
+@import './grid.scss';
+@import './styles/multiple-select';
+@import './styles/pagination';
+@import './styles/modal';
+@import './styles/range-slider';
 body {
    background-color: $light-color;
    min-width: $rem-base*58.75;
@@ -51,7 +83,7 @@ body {
    margin: $rem-base*0.5;
    height: auto;
    min-width: $rem-base*38;
-   @include breakpoint(medium down) { 
+   @include breakpoint(medium down) {
       width: 98%;
    }
 }
@@ -130,6 +162,4 @@ i.profile-icons {
 hr {
    margin-top: $rem-base/2;
    margin-bottom: $rem-base;
-}
-
 }

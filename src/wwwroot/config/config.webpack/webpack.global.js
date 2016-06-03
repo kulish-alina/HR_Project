@@ -27,7 +27,7 @@ module.exports = function _global() {
             },
             {
                test: /\.scss$/,
-               loader: 'style!css!sass?outputStyle=expanded&includePaths[]=./bower_components/foundation-apps/scss/'
+               loader: 'style!css!sass'
             },
             {
                test: /\.json$/,

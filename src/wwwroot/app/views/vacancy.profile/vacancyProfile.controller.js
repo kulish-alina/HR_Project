@@ -3,6 +3,10 @@ import {
    remove
 } from 'lodash';
 
+import {
+   set
+} from 'lodash/fp';
+
 export default function VacancyProfileController(
    $scope,
    $state,
@@ -18,36 +22,34 @@ export default function VacancyProfileController(
    'ngInject';
 
    const vm = $scope;
-   vm.thesaurus = [];
+   vm.thesaurus    = [];
    vm.responsibles = [];
-   vm.edit = edit;
-   vm.vacancy =  {};
-   vm.vacancy.files = $state.params._data ? $state.params._data.files : [];
-   vm.uploader = createNewUploader();
-   vm.removeFile = removeFile;
-   vm.saveChanges = saveChanges;
-   vm.changed = changed;
-   vm.isChanged = false;
-   vm.selectStage = selectStage;
+   vm.edit         = edit;
+   vm.uploader     = createNewUploader();
+   vm.removeFile   = removeFile;
+   vm.saveChanges  = saveChanges;
+   vm.changed      = changed;
+   vm.isChanged    = false;
+   vm.selectStage  = selectStage;
    vm.currentStage = '';
    vm.isFilesUploaded = false;
+
+   vm.vacancy = {
+      files : $state.params._data ? $state.params._data.files : []
+   };
 
    function _initCurrentVacancy() {
       if ($state.params._data) {
          vm.vacancy = $state.params._data;
       } else {
-         VacancyService.getVacancy($state.params.vacancyId).then((vacancy) => {
-            vm.vacancy = vacancy;
-         });
+         VacancyService.getVacancy($state.params.vacancyId).then(set(vm, 'vacancy'));
       }
    }
    _initCurrentVacancy();
 
-   UserService.getUsers().then((users) => {
-      vm.responsibles = users;
-   });
+   UserService.getUsers().then(set(vm, 'responsibles'));
 
-   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
+   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(set(vm, 'thesaurus'));
 
    function createNewUploader() {
       let newUploader = FileUploaderService.getFileUploader({ onCompleteAllCallBack : saveChanges, maxSize : 2048000 });
@@ -67,6 +69,7 @@ export default function VacancyProfileController(
    }
 
    function removeFile(file) {
+      // TODO create FileServices
       let url = `files/${file.id}`;
       HttpService.remove(url, file).then(() => {
          remove(vm.vacancy.files, {id: file.id});
@@ -97,6 +100,7 @@ export default function VacancyProfileController(
    function _vs() {
       VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
+         // why ?
          vm.vacancy.files = vacancy.files;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
          vm.isChanged = false;

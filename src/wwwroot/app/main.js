@@ -5,7 +5,7 @@ import translate  from 'angular-translate';
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
-import 'angular-file-upload/dist/angular-file-upload';
+import 'angular-file-upload/dist/angular-file-upload.min';
 import pagination from 'angular-utils-pagination';
 
 import 'foundation-apps/dist/js/foundation-apps';

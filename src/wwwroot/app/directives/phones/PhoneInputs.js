@@ -41,7 +41,7 @@ function PhoneInputsController($scope) {
       if (number && !includes(vm.phones, number)) {
          vm.phones[index] = number;
       } else {
-         vm.phones(index, 1);
+         vm.phones.splice(index, 1);
       }
    }
 }

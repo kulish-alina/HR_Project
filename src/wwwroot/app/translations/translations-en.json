@@ -120,7 +120,9 @@
       "STAGE" : "Stage",
       "CLEAR" : "Clear",
       "ADDED_FILES" : "Added files",
-      "FILES_TO_UPLOAD" : "Files to upload"
+      "FILES_TO_UPLOAD" : "Files to upload",
+      "SHOW_ALL_ACTIONS" : "Show all actions",
+      "SHOW_COMMENTS_ONLY" : "Show comments only"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

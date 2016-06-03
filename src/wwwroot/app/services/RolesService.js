@@ -2,7 +2,8 @@ const PERMISSIONS_URL = 'permissions/';
 const ROLES_URL       = 'roles/';
 
 import {
-   reduce
+   reduce,
+   keyBy
 } from 'lodash';
 
 let _$q, _HttpService, _HttpCacheService, _LoggerService;
@@ -26,11 +27,10 @@ export default class RoleService {
    }
 
    getRoles () {
-      return _HttpCacheService.get(ROLES_URL).then((rol) => {
-         return reduce(rol, (memo, role) => {
-            memo[role.title] = role;
-            return memo;
-         }, {});
+      return _HttpCacheService.get(ROLES_URL).then((roles) => {
+         return keyBy(roles, (r) => {
+            return r.title;
+         });
       });
    }
 
@@ -48,8 +48,8 @@ export default class RoleService {
    removeRole(role) {
       if (role.id) {
          const additionalUrl = ROLES_URL + role.id;
-         return _HttpService.remove(additionalUrl, role);
          _HttpCacheService.clearCache(ROLES_URL);
+         return _HttpService.remove(additionalUrl, role);
       } else {
          _LoggerService.debug('Can\'t remove role', role);
          return _$q.reject();

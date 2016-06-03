@@ -8,6 +8,7 @@ import {
    keys,
    first,
    omit,
+   set,
    flow
 } from 'lodash';
 
@@ -26,8 +27,8 @@ export default function RolesController(
    /*---api---*/
    let vm = $scope;
 
-   vm.roles           = {};
-   vm.permissions     = {};
+   vm.roles           = null;
+   vm.permissions     = null;
    vm.currentRole     = {};
    vm.newRole         = {title: ''};
    vm.currentRoleName = '';
@@ -70,10 +71,7 @@ export default function RolesController(
    }
 
    function _initRoles() {
-      RolesService.getRoles().then((value) => {
-         vm.roles = value;
-         _selectFirstRole();
-      });
+      RolesService.getRoles().then((val) => set(vm, 'roles', val)).then(_selectFirstRole);
    }
 
    function _initPermissions() {
@@ -135,6 +133,7 @@ export default function RolesController(
    }
 
    function _selectFirstRole() {
+      debugger;
       let _fnc = flow(keys, first, _selectRole);
       _fnc(vm.roles);
    }

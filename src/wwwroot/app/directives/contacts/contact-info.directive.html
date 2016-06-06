@@ -1,6 +1,6 @@
 <div class="contacts-directive">
    <div ng-repeat="phone in phones">
-      <a ng-if="(phone | tel)" href="tel:+{{phone}}"><i class="fi-telephone"></i> {{phone | tel}}</a>
+      <a ng-if="(phone.number | tel)" href="tel:+{{phone.number}}"><i class="fi-telephone"></i> {{phone.number | tel}}</a>
    </div>
    <div ng-if="skype"><a href="skype:{{skype}}?chat"><i class="fi-social-skype"></i>  {{skype}}</a></div>
    <div ng-if="email"><a href="mailto:{{email}}"><i class="fi-mail"></i>  {{email}}</a></div>

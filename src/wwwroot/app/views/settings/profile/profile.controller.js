@@ -65,7 +65,7 @@ export default function ProfileController (
       return UserService.getCurrentUser()
          .then((val) => {
             vm.user = val;
-            vm.user.phoneNumbers = vm.user.phoneNumbers || [ '' ];
+            vm.user.phoneNumbers = vm.user.phoneNumbers || [ {} ];
          });
    }
 }

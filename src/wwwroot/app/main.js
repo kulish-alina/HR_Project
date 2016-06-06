@@ -44,8 +44,8 @@ import UserDialogService   from './services/UserDialogService/UserDialogService'
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
-import ContactInfoDirective   from './directives/contacts/ContactInfo';
-import PhoneInputsDirective   from './directives/phones/PhoneInputs';
+import ContactInfoDirective   from './directives/contacts/contact-info';
+import PhoneInputsDirective   from './directives/phones/phone-inputs';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 
 import uiMask from 'angular-ui-mask';

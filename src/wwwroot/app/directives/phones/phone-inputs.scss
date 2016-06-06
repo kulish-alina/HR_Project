@@ -1,7 +1,8 @@
+@import '../../main.scss';
 .add-phone-icon {
-   padding-right: 20px;
+   padding-right: $rem-base*1.25;
 }
 .add-phone-number {
-   margin-top: -42px;
+   margin-top: -$rem-base*2.625;
    padding-left: 92%;
 }

@@ -1,4 +1,5 @@
-// Styles for main menu
+@import './../../common.scss';
+
 .main-menu {
    min-height: $rem-base*3.125;
    max-height: $rem-base*3.125;
@@ -39,7 +40,7 @@
    margin-bottom: 0 !important;
 }
 
-.menu-for-large-screen {
+.for-large-screen {
    @include breakpoint(medium only) {
      display: none;
    }
@@ -47,7 +48,7 @@
      display: none;
    }
 }
-.menu-for-small-screen {
+.for-small-screen {
    @include breakpoint(large only) {
      display: none;
    }

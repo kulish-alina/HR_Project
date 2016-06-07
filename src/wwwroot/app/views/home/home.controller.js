@@ -24,7 +24,7 @@ export default function VacanciesController(
    vm.viewVacancy     = viewVacancy;
    vm.total           = 0;
    vm.vacancy.current = 1;
-   vm.vacancy.size    = 15;
+   vm.vacancy.size    = 20;
    vm.pagination      = { current: 1 };
    vm.pageChanged     = pageChanged;
 
@@ -42,7 +42,7 @@ export default function VacanciesController(
    VacancyService.search(vm.vacancy).then(response => {
       vm.total = response.total;
       vm.vacancies = response.vacancies;
-   }).catch((error) => _onError(error));
+   }).catch(_onError);
 
    function viewVacancy(vacancy) {
       $state.go('vacancyView', {_data: vacancy, vacancyId: vacancy.id});

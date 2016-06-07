@@ -86,6 +86,7 @@
       "INDUSTRY": "Industry",
       "LEVEL": "Level",
       "LANGUAGE": "Language",
+      "LANGUAGE_LEVEL": "Language level",
       "RESPONSIBLE": "Responsible",
       "DEPARTMENT": "Department",
       "SALARY_MIN": "Salary min",
@@ -122,7 +123,11 @@
       "ADDED_FILES" : "Added files",
       "FILES_TO_UPLOAD" : "Files to upload",
       "SHOW_ALL_ACTIONS" : "Show all actions",
-      "SHOW_COMMENTS_ONLY" : "Show comments only"
+      "SHOW_COMMENTS_ONLY" : "Show comments only",
+      "NEW" : "New",
+      "FROM_BOT" : "From BOT",
+      "FROM" : "from",
+      "TO" : "to"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

@@ -5,7 +5,7 @@ import translate  from 'angular-translate';
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
-import 'angular-file-upload/dist/angular-file-upload';
+import 'angular-file-upload/dist/angular-file-upload.min';
 import pagination from 'angular-utils-pagination';
 
 import 'foundation-apps/dist/js/foundation-apps';
@@ -46,6 +46,7 @@ import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
 import ContactInfoDirective   from './directives/contacts/ContactInfo';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
+import CommentsDirective      from './directives/comments/comments';
 
 import uiMask from 'angular-ui-mask';
 
@@ -93,6 +94,7 @@ angular
    .directive('date',      DatePickerDirective.createInstance)
    .directive('contacts',  ContactInfoDirective.createInstance)
    .directive('ngThumb',   CanvasPreviewDirective)
+   .directive('comments',  CommentsDirective.createInstance)
 
    .filter('tel',           PhoneFormatFilter)
    .filter('arrayAsString', ArrayAsString)

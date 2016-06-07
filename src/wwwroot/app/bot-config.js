@@ -2,7 +2,7 @@ import homeTemplate from './views/home/home.view.html';
 
 import candidatesTemplate       from './views/candidates/candidates.view.html';
 import candidateTemplate        from './views/candidate/candidate.view.html';
-import vacanciesTemplate        from './views/vacancies/vacancies.search.html';
+import vacanciesTemplate        from './views/vacancies/vacancies.list.html';
 import vacancyEditTemplate      from './views/vacancy/vacancy.edit.html';
 import settingsTemplate         from './views/settings/settings.view.html';
 import thesaurusesTemplate      from './views/settings/thesauruses/thesauruses.view.html';
@@ -15,7 +15,7 @@ import vacancyViewTemplate      from './views/vacancy.profile/vacancy.view.html'
 import homeController           from './views/home/home.controller';
 import candidatesController     from './views/candidates/candidates.controller';
 import candidateController      from './views/candidate/candidate.controller';
-import vacanciesController      from './views/vacancies/vacancies.search.controller';
+import vacanciesController      from './views/vacancies/vacancies.list.controller';
 import vacancyEditController    from './views/vacancy/vacancy.edit.controller';
 import settingsController       from './views/settings/settings.controller';
 import thesaurusesController    from './views/settings/thesauruses/thesauruses.controller';
@@ -39,10 +39,7 @@ export default function _config(
    HttpServiceProvider
 ) {
    'ngInject';
-   $locationProvider.html5Mode({
-      enabled: true,
-      requireBase: false
-   });
+
    $stateProvider
       .state('home', {
          url: '/home',
@@ -124,6 +121,11 @@ export default function _config(
          template: thesaurusesTemplate,
          controller: thesaurusesController
       });
+
+   $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+   });
 
    $urlRouterProvider.otherwise('home');
 

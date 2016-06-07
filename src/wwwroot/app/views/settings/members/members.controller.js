@@ -17,11 +17,9 @@ export default function MembersController($scope, $element, SettingsService, Use
    }
 
    function _onSubmit() {
-      console.log('submit');
    }
 
    function _onCancel() {
-      console.log('cancell');
    }
 
    function _initUsers() {

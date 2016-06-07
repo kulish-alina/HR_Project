@@ -9,7 +9,9 @@ import {
    cloneDeep,
    first,
    reduce,
-   result
+   result,
+   set,
+   curry
 } from 'lodash';
 
 import { assign } from 'lodash/fp';
@@ -34,7 +36,7 @@ let _ThesaurusService;
 let _$q;
 let _LoggerService;
 let _UserService;
-
+let curriedSet = curry(set, 3);
 export default class VacancyService {
    constructor(HttpService, ThesaurusService, $q, LoggerService, UserService) {
       'ngInject';
@@ -47,9 +49,9 @@ export default class VacancyService {
 
    getVacancy(id) {
       let additionalUrl = VACANCY_URL + id;
-      return _HttpService.get(additionalUrl).then((vacancy) => {
-         return _$q.when(this.convertFromServerFormat(vacancy));
-      });
+      return _HttpService.get(additionalUrl).then((vacancy) =>
+         this.convertFromServerFormat(vacancy)
+      );
    }
 
    search(condition) {
@@ -142,10 +144,10 @@ function _fillThesauruses(vacancy) {
 
    vacancy.languageSkill = vacancy.languageSkill || {};
    _ThesaurusService.getThesaurusTopic('languageLevels', vacancy.languageSkill.languageLevel)
-      .then((topic) => vacancy.languageSkill.languageLevelObj = topic);
+      .then(curriedSet(vacancy, 'languageSkill.languageLevelObj'));
    vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
    _ThesaurusService.getThesaurusTopic('languages', vacancy.languageSkill.languageId)
-      .then((topic) => vacancy.languageSkill.language = topic);
+      .then(curriedSet(vacancy, 'languageSkill.language'));
    vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
 
    return _$q.all(promises).then(assign(vacancy));

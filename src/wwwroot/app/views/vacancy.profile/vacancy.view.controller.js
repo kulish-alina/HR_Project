@@ -31,7 +31,6 @@ export default function VacancyProfileController(
    vm.isChanged    = false;
    vm.selectStage  = selectStage;
    vm.currentStage = '';
-   vm.isFilesUploaded = false;
 
    vm.vacancy = {
       files : $state.params._data ? $state.params._data.files : []
@@ -55,14 +54,12 @@ export default function VacancyProfileController(
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          let response = JSON.parse(item._xhr.response);
          vm.vacancy.files.push(response);
-         vm.isFilesUploaded = true;
          vm.isChanged = false;
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
-         vm.errorMessageFromFileUploader = $translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE');
+         UserDialogService.configs($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'warning');
       };
       newUploader.onAfterAddingAll = function onAfterAddingAl() {
-         vm.isFilesUploaded = false;
          vm.isChanged = true;
       };
       return newUploader;
@@ -82,7 +79,7 @@ export default function VacancyProfileController(
       if (vm.uploader.getNotUploadedItems().length) {
          vm.uploader.uploadAll();
       } else if (vm.queueFilesForRemove) {
-         each(vm.queueFilesForRemove, (file) => _removeFile(file));
+         each(vm.queueFilesForRemove, (file) => FileService.remove(file));
          vm.queueFilesForRemove = [];
          _vs();
       } else {
@@ -96,10 +93,6 @@ export default function VacancyProfileController(
 
    function selectStage(stageName) {
       vm.currentStage = stageName;
-   }
-
-   function _removeFile(file) {
-      FileService.remove(file);
    }
 
    function _vs() {

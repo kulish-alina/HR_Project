@@ -34,7 +34,6 @@ export default function VacancyController(
    vm.vacancy.tags                 = vm.vacancy.tags || [];
    vm.addFilesForRemove            = addFilesForRemove;
    vm.queueFilesForRemove          = [];
-   vm.errorMessageFromFileUploader = '';
    vm.isFilesUploaded              = false;
    /* === impl === */
 
@@ -62,7 +61,7 @@ export default function VacancyController(
          vm.isFilesUploaded = true;
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
-         vm.errorMessageFromFileUploader = $translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE');
+         UserDialogService.configs($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'warning');
       };
       return newUploader;
    }
@@ -83,7 +82,7 @@ export default function VacancyController(
          if (vm.uploader.getNotUploadedItems().length) {
             vm.uploader.uploadAll();
          } else if (vm.queueFilesForRemove) {
-            each(vm.queueFilesForRemove, (file) => _removeFile(file));
+            each(vm.queueFilesForRemove, (file) => FileService.remove(file));
             vm.queueFilesForRemove = [];
             _vs();
          } else {
@@ -91,10 +90,6 @@ export default function VacancyController(
          }
       }
       return false;
-   }
-
-   function _removeFile(file) {
-      FileService.remove(file);
    }
 
    function _vs() {

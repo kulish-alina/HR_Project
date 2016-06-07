@@ -41,7 +41,7 @@ export default function VacanciesController(
       VacancyService.search(vm.vacancy).then(response => {
          vm.total = response.total;
          vm.vacancies = response.vacancies;
-      }).catch((error) => _onError(error));
+      }).catch(_onError);
    };
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
@@ -52,13 +52,13 @@ export default function VacanciesController(
       VacancyService.search(vm.vacancy).then(response => {
          vm.total = response.total;
          vm.vacancies = response.vacancies;
-      }).catch((error) => _onError(error));
+      }).catch(_onError);
    }
 
    function getVacancy(vacancyId) {
       VacancyService.getVacancy(vacancyId).then(value => {
          vm.vacancies.push(value);
-      }).catch((error) => _onError(error));
+      }).catch(_onError);
    }
 
    function editVacancy(vacancy) {

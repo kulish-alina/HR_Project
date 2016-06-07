@@ -409,7 +409,7 @@
                         </tr>
                      </tbody>
                   </table>
-                  <table class="upload-table" ng-hide="isFilesUploaded">
+                  <table class="upload-table" ng-hide="!uploader.queue">
                      <caption>{{::'COMMON.FILES_TO_UPLOAD' | translate}}:</caption>
                      <thead>
                         <tr>

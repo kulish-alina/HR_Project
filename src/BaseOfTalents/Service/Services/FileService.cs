@@ -29,5 +29,22 @@ namespace Service.Services
             repository.Commit();
             return DTOService.ToDTO<Domain.Entities.File, FileDTO>(file);
         }
+
+        public bool Remove(int id)
+        {
+            bool result;
+            var file = repository.Get(id);
+            if (file != null)
+            {
+                repository.Remove(file);
+                repository.Commit();
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+            return result;
+        }
     }
 }

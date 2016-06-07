@@ -29,6 +29,21 @@ namespace WebApi.Controllers
             this.fileService = service;
         }
 
+
+        [HttpDelete]
+        [Route("api/files/{id}")]
+        public IHttpActionResult Remove(int id)
+        {
+            if (fileService.Remove(id))
+            {
+                return Json(new { Id = id }, BOT_SERIALIZER_SETTINGS);
+            }
+            else
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound); 
+            }
+        }
+
         [HttpPost]
         [Route("api/files")]
         public async Task<IHttpActionResult> Upload()

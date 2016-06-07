@@ -12,6 +12,8 @@
    align-items: center;
 }
 .main-button-bar {
+   @extend %menu-bar;
+   @include menu-bar-icons ();
    @include menu-bar-layout(
       $orientation: horizontal,
       $stretch: false
@@ -54,8 +56,9 @@
    }
 }
 .search-button {
-   padding-top: 4;
-   padding-bottom: 0;
+   @extend %button;
+   padding-top: $rem-base*1.125;
+   padding-bottom: $rem-base;
 }
 .logo {
    @include breakpoint(small only) {

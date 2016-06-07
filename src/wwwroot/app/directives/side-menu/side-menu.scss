@@ -4,6 +4,7 @@
    height: 110%;
 }
 .side-menu {
+   @extend %menu-bar;
    @include menu-bar-style(
       $background: $offcanvas-background,
       $background-hover: inherit,

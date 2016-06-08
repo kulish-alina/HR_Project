@@ -9,7 +9,7 @@
    margin: $rem-base*0.5;
    height: auto;
    min-width: $rem-base*38;
-   @include breakpoint(medium down) { 
+   @include breakpoint(medium down) {
       width: 98%;
    }
    min-height: $rem-base*15;

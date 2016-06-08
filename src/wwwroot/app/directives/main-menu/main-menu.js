@@ -6,6 +6,7 @@ export default class MainMenuDirective {
       this.template = template;
       this.scope = true;
       this.controller = MainMenuController;
+      this.replace = true;
    }
    static createInstance() {
       'ngInject';

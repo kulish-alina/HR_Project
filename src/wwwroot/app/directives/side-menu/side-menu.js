@@ -6,6 +6,7 @@ export default class SideMenuDirective {
       this.template = template;
       this.scope = true;
       this.controller = SideMenuController;
+      this.replace = true;
    }
    static createInstance() {
       'ngInject';

@@ -28,6 +28,11 @@
       $color-hover: $body-background,
       $color-active: $body-background
    );
+   li {
+      a {
+         flex-flow: inherit;
+      }
+   }
    i {
       font-size: $rem-base*0.6;
    }

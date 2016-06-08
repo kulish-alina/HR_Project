@@ -2,8 +2,7 @@ const PERMISSIONS_URL = 'permissions/';
 const ROLES_URL       = 'roles/';
 
 import {
-   reduce,
-   keyBy
+   reduce
 } from 'lodash';
 
 let _$q, _HttpService, _HttpCacheService, _LoggerService;
@@ -27,11 +26,7 @@ export default class RoleService {
    }
 
    getRoles () {
-      return _HttpCacheService.get(ROLES_URL).then((roles) => {
-         return keyBy(roles, (r) => {
-            return r.title;
-         });
-      });
+      return _HttpCacheService.get(ROLES_URL);
    }
 
    saveRole(role) {

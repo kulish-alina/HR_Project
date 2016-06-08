@@ -1,13 +1,27 @@
-export default function MembersController($scope, $element, SettingsService, UserService) {
+import './members.scss';
+import {
+   groupBy,
+   keyBy,
+   set
+} from 'lodash';
+export default function MembersController(
+   $scope,
+   $element,
+   SettingsService,
+   UserService,
+   RolesService) {
    'ngInject';
 
    let vm   = $scope;
-   vm.users = [];
+   vm.users = {};
+   vm.selectGroup = _selectGroup;
+   vm.currentGroup = null;
+
    function _init() {
       SettingsService.addOnSubmitListener(_onSubmit);
       SettingsService.addOnCancelListener(_onCancel);
       $element.on('$destroy', _onDestroy);
-      _initUsers();
+      _initMembers();
    }
    _init();
 
@@ -22,9 +36,12 @@ export default function MembersController($scope, $element, SettingsService, Use
    function _onCancel() {
    }
 
-   function _initUsers() {
-      UserService.getUsers().then((result) => {
-         vm.users = result;
-      });
+   function _initMembers() {
+      UserService.getUsers().then((res) => set(vm, 'users', groupBy(res, 'roleId')));
+      RolesService.getRoles().then((res) => set(vm, 'roles', keyBy(res, 'id')));
+   }
+
+   function _selectGroup(id) {
+      vm.currentGroup = vm.users[id];
    }
 }

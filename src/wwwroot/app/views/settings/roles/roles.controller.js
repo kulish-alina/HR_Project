@@ -9,6 +9,7 @@ import {
    first,
    omit,
    set,
+   keyBy,
    flow
 } from 'lodash';
 
@@ -71,7 +72,9 @@ export default function RolesController(
    }
 
    function _initRoles() {
-      RolesService.getRoles().then((val) => set(vm, 'roles', val)).then(_selectFirstRole);
+      RolesService.getRoles()
+         .then((rol) => set(vm, 'roles', keyBy(rol, 'title')))
+         .then(_selectFirstRole);
    }
 
    function _initPermissions() {

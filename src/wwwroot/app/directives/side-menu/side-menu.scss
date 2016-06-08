@@ -1,0 +1,62 @@
+@import './../../common.scss';
+
+.off-canvas.left {
+   height: 110%;
+}
+.side-menu {
+   @extend %menu-bar;
+   @include menu-bar-style(
+      $background: $offcanvas-background,
+      $background-hover: inherit,
+      $background-active: $menubar-background-active,
+      $color: $gray-dark,
+      $color-hover: $body-background,
+      $color-active: $body-background
+   );
+   @include grid-frame($orientation: vertical);
+   box-shadow: inset 0px 0px 13px 9px transparentize($body-font-color, 0.73);
+
+   li {
+      font-size: $rem-base*0.7;
+      border-bottom: 1px solid $dark-color;
+      border-top: 1px solid lighten($dark-color, 8);
+      border-left: 3px solid transparent;
+      transition: all .2s ease-in-out;
+
+      &:hover {
+         border-left-color: $primary-color;
+
+         &.close, &.disabled {
+            border-left-color: transparent;
+         }
+         img {
+            -webkit-filter: opacity(1);
+         }
+      }
+
+      a {
+         transition: all .2s ease-in-out;
+         width: 100%;
+
+         &.close-button {
+            padding: 0.5em;
+            &:hover {
+               transform: scale(1.5, 1.5);
+            }
+         }
+
+         img {
+            width: $rem-base*1.875;
+            -webkit-filter: opacity(0.75);
+         }
+      }
+
+      &.disabled a, &.disabled a:hover {
+         color: $gray-dark;
+
+         img {
+            -webkit-filter: opacity(0.25);
+         }
+      }
+   }
+}

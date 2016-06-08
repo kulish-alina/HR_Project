@@ -44,3 +44,9 @@ td p {
       font-size: $rem-base*0.8125;
    }
 }
+caption {
+   text-align: left;
+   padding-top: $rem-base/2;
+   padding-bottom: $rem-base/2;
+   font-weight: 600;
+}

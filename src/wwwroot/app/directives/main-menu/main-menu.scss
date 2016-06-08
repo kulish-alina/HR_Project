@@ -13,7 +13,8 @@
 }
 .main-button-bar {
    @extend %menu-bar;
-   @include menu-bar-icons ();
+   @include menu-bar-align($align: center);
+   @include menu-bar-icons ($position: left);
    @include menu-bar-layout(
       $orientation: horizontal,
       $stretch: false
@@ -27,7 +28,11 @@
       $color-hover: $body-background,
       $color-active: $body-background
    );
-   @include menu-bar-align($align: center);
+   li {
+      a {
+         flex-flow: inherit;
+      }
+   }
    i {
       font-size: $rem-base*0.6;
    }
@@ -39,8 +44,11 @@
 .menu-img {
    width: $rem-base*3.125;
 }
-.search {
+.search-input {
    margin-bottom: 0 !important;
+}
+input[type="search"] {
+   height: inherit;
 }
 
 .for-large-screen {
@@ -58,8 +66,11 @@
 }
 .search-button {
    @extend %button;
-   padding-top: $rem-base*1.125;
-   padding-bottom: $rem-base;
+   height: inherit;
+   color: $body-background;
+   background-color: $primary-color;
+   padding-top: $rem-base*0.625;
+   padding-bottom: $rem-base*0.625;
 }
 .logo {
    @include breakpoint(small only) {

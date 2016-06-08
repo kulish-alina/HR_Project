@@ -38,9 +38,9 @@ import ThesaurusService    from './services/ThesaurusService';
 import UserService         from './services/UserService';
 import SettingsService     from './services/SettingsService';
 import RolesService        from './services/RolesService';
-import FileUploaderService from './services/FileUploaderService';
 import HttpCacheService    from './services/HttpCacheService';
 import UserDialogService   from './services/UserDialogService/UserDialogService';
+import FileService         from './services/FileService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -86,9 +86,9 @@ angular
    .service('UserService',         UserService)
    .service('RolesService',        RolesService)
    .service('ThesaurusService',    ThesaurusService)
-   .service('FileUploaderService', FileUploaderService)
    .service('HttpCacheService',    HttpCacheService)
    .service('UserDialogService',   UserDialogService)
+   .service('FileService',         FileService)
 
 
    .directive('thesaurus',      ThesaurusDirective.createInstance)

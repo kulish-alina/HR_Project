@@ -11,6 +11,7 @@
       "USER_NAME": "User Name"
    },
    "CANDIDATE": {
+      "CANDIDATE": "Candidate",
       "ERROR": "Sorry! Some error occurred",
       "NEW_CANDIDATE": "New candidate",
       "DESIRED_SALARY": "Desired salary",
@@ -51,6 +52,11 @@
       "BASE_OF_VACANCIES": "Base of vacancies",
       "SEARCH_VACANCIES": "Search vacancies"
    },
+   "VACANCY_PROFILE": {
+      "VACANCY_PROFILE": "Vacancy profile",
+      "INFORMATION": "Information",
+      "FILES": "Files"
+   },
    "COMMON": {
       "ADD_CANDIDATE" : "Add Candidate",
       "ADD_VACANCY" : "Add Vacancy",
@@ -80,6 +86,7 @@
       "INDUSTRY": "Industry",
       "LEVEL": "Level",
       "LANGUAGE": "Language",
+      "LANGUAGE_LEVEL": "Language level",
       "RESPONSIBLE": "Responsible",
       "DEPARTMENT": "Department",
       "SALARY_MIN": "Salary min",
@@ -108,7 +115,19 @@
       "CREATE": "Create",
       "ADDED": "Added",
       "YEARS": "Years",
-      "MONTHS": "Months"
+      "MONTHS": "Months",
+      "HISTORY": "History",
+      "DATE": "Date",
+      "STAGE" : "Stage",
+      "CLEAR" : "Clear",
+      "ADDED_FILES" : "Added files",
+      "FILES_TO_UPLOAD" : "Files to upload",
+      "SHOW_ALL_ACTIONS" : "Show all actions",
+      "SHOW_COMMENTS_ONLY" : "Show comments only",
+      "NEW" : "New",
+      "FROM_BOT" : "From BOT",
+      "FROM" : "from",
+      "TO" : "to"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -192,6 +211,8 @@
       "NOTIF": "Notification!",
       "CONFIRM": "Confirm please!",
       "SUCCESSFUL_SAVING": "Vacancy was successfully saved!",
-      "ERROR_SAVING": "Some error has occurred while saving vacancy!"
+      "ERROR_SAVING": "Some error has occurred while saving vacancy!",
+      "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
+      "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!"
    }
 }

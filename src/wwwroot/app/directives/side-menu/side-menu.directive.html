@@ -1,34 +1,38 @@
-<zf-offcanvas id="menu" position="left">
-   <ul class="side-menu">
-      <li>
-         <a ui-sref="home" ng-bind="::'INDEX.HOME' | translate">
-            <img class="menu-img" src="/app/images/home.png">
-         </a>
-      </li>
-      <li>
-         <a ui-sref="candidates" ng-bind="::'INDEX.CANDIDATES' | translate">
-            <img class="menu-img" src="/app/images/candidates.png">
-         </a>
-      </li>
-      <li>
-         <a ui-sref="vacancies" ng-bind="::'INDEX.VACANCIES' | translate">
-            <img class="menu-img" src="/app/images/vacancies.png">
-         </a>
-      </li>
-      <li class="disabled">
-         <a ui-sref="#" ng-bind="::'INDEX.REPORTS' | translate">
-            <img class="menu-img" src="/app/images/reports.png">
-         </a>
-      </li>
-      <li class="disabled">
-         <a ui-sref="#" ng-bind="::'INDEX.CALENDAR' | translate">
-            <img class="menu-img" src="/app/images/calendar.png">
-         </a>
-      </li>
-      <li>
-         <a ui-sref="settings" ng-bind="::'INDEX.SETTINGS' | translate">
-            <img class="menu-img" src="/app/images/settings.png">
-         </a>
-      </li>
-   </ul>
-</zf-offcanvas>
+<ul class="side-menu">
+   <li>
+      <a ui-sref="home">
+         <span ng-bind="::'INDEX.HOME' | translate"></span>
+         <img class="menu-img" src="/app/images/home.png">
+      </a>
+   </li>
+   <li>
+      <a ui-sref="candidates">
+         <span ng-bind="::'INDEX.CANDIDATES' | translate"></span>
+         <img class="menu-img" src="/app/images/candidates.png">
+      </a>
+   </li>
+   <li>
+      <a ui-sref="vacancies">
+         <span ng-bind="::'INDEX.VACANCIES' | translate"></span>
+         <img class="menu-img" src="/app/images/vacancies.png">
+      </a>
+   </li>
+   <li class="disabled">
+      <a ui-sref="#">
+         <span ng-bind="::'INDEX.REPORTS' | translate"></span>
+         <img class="menu-img" src="/app/images/reports.png">
+      </a>
+   </li>
+   <li class="disabled">
+      <a ui-sref="#">
+         <span ng-bind="::'INDEX.CALENDAR' | translate"></span>
+         <img class="menu-img" src="/app/images/calendar.png">
+      </a>
+   </li>
+   <li>
+      <a ui-sref="settings">
+         <span ng-bind="::'INDEX.SETTINGS' | translate"></span>
+         <img class="menu-img" src="/app/images/settings.png">
+      </a>
+   </li>
+</ul>

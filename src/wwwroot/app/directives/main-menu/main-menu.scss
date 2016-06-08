@@ -39,8 +39,11 @@
 .menu-img {
    width: $rem-base*3.125;
 }
-.search {
+.search-input {
    margin-bottom: 0 !important;
+}
+input[type="search"] {
+   height: inherit;
 }
 
 .for-large-screen {
@@ -58,10 +61,11 @@
 }
 .search-button {
    @extend %button;
+   height: inherit;
    color: $body-background;
    background-color: $primary-color;
-   padding-top: $rem-base*1.125;
-   padding-bottom: $rem-base;
+   padding-top: $rem-base*0.625;
+   padding-bottom: $rem-base*0.625;
 }
 .logo {
    @include breakpoint(small only) {

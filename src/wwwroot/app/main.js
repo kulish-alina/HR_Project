@@ -5,7 +5,7 @@ import translate  from 'angular-translate';
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
-import 'angular-file-upload/dist/angular-file-upload';
+import 'angular-file-upload/dist/angular-file-upload.min';
 import pagination from 'angular-utils-pagination';
 
 import 'foundation-apps/dist/js/foundation-apps';
@@ -46,6 +46,8 @@ import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
 import ContactInfoDirective   from './directives/contacts/ContactInfo';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
+import MainMenuDirective      from './directives/main-menu/main-menu';
+import SideMenuDirective      from './directives/side-menu/side-menu';
 
 import uiMask from 'angular-ui-mask';
 
@@ -89,14 +91,16 @@ angular
    .service('UserDialogService',   UserDialogService)
 
 
-   .directive('thesaurus', ThesaurusDirective.createInstance)
-   .directive('date',      DatePickerDirective.createInstance)
-   .directive('contacts',  ContactInfoDirective.createInstance)
-   .directive('ngThumb',   CanvasPreviewDirective)
+   .directive('thesaurus',      ThesaurusDirective.createInstance)
+   .directive('date',           DatePickerDirective.createInstance)
+   .directive('contacts',       ContactInfoDirective.createInstance)
+   .directive('ngThumb',        CanvasPreviewDirective)
+   .directive('mainMenu',       MainMenuDirective.createInstance)
+   .directive('sideMenu',       SideMenuDirective.createInstance)
 
-   .filter('tel',           PhoneFormatFilter)
-   .filter('arrayAsString', ArrayAsString)
-   .filter('botUrl', botUrl)
+   .filter('tel',               PhoneFormatFilter)
+   .filter('arrayAsString',     ArrayAsString)
+   .filter('botUrl',            botUrl)
 
    .run(StateRunner)
 

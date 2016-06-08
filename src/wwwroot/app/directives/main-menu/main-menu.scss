@@ -1,4 +1,5 @@
-// Styles for main menu
+@import './../../common.scss';
+
 .main-menu {
    min-height: $rem-base*3.125;
    max-height: $rem-base*3.125;
@@ -11,6 +12,8 @@
    align-items: center;
 }
 .main-button-bar {
+   @extend %menu-bar;
+   @include menu-bar-icons ();
    @include menu-bar-layout(
       $orientation: horizontal,
       $stretch: false
@@ -25,10 +28,11 @@
       $color-active: $body-background
    );
    @include menu-bar-align($align: center);
+   i {
+      font-size: $rem-base*0.6;
+   }
 }
-.main-button-bar i {
-   font-size: $rem-base*0.6;
-}
+
 .main-button-bar :hover {
    box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
 }
@@ -39,7 +43,7 @@
    margin-bottom: 0 !important;
 }
 
-.menu-for-large-screen {
+.for-large-screen {
    @include breakpoint(medium only) {
      display: none;
    }
@@ -47,14 +51,15 @@
      display: none;
    }
 }
-.menu-for-small-screen {
+.for-small-screen {
    @include breakpoint(large only) {
      display: none;
    }
 }
 .search-button {
-   padding-top: 4;
-   padding-bottom: 0;
+   @extend %button;
+   padding-top: $rem-base*1.125;
+   padding-bottom: $rem-base;
 }
 .logo {
    @include breakpoint(small only) {

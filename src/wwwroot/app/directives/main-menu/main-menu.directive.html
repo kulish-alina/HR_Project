@@ -1,0 +1,31 @@
+<div>
+   <div class="main-menu">
+      <div class="large-2 grid-content">
+         <a zf-hard-toggle="menu" ng-click="pr($event)"><img src="/app/images/menu.png"></a>
+         <a ui-sref="home">
+            <img class="menu-img for-large-screen" src="/app/images/bot-home.png" ng-bind="::'INDEX.MY_BOT' | translate">
+         </a>
+      </div>
+      <div class="large-3 grid-block">
+         <input class="search" type="search">
+         <a class="search-button for-large-screen" href="#" class="button" ng-bind="::'INDEX.SEARCH' | translate"></a>
+         <a href="#" class="search-button for-small-screen"><img src="/app/images/search.png"></a>
+      </div>
+      <div class="large-5 grid-content">
+         <ul class="main-button-bar">
+            <li>
+               <a ui-sref="candidate"><img src="/app/images/add-user.png"><span class="for-large-screen" ng-bind="::'COMMON.ADD_CANDIDATE' | translate"></span></a>
+            </li>
+            <li>
+               <a ui-sref="vacancy"><img src="/app/images/add.png"><span class="for-large-screen" ng-bind="::'COMMON.ADD_VACANCY' | translate"></span></a>
+            </li>
+         </ul>
+      </div>
+      <div class="large-2 grid-block align-right">
+         <a ui-sref="profile">
+            <img src="/app/images/profile.png">
+            <span class="for-large-screen" ng-bind="::'INDEX.USER_NAME' | translate"></span>
+         </a>
+      </div>
+   </div>
+</div>

@@ -1,6 +1,13 @@
 // Styles for secondary menu
 .secondary-menu {
-   background-color: $secondary-color;
+   display: flex;
+   align-items: center;
+   padding-left: $global-padding/2;
+   padding-right: $global-padding/2;
+   padding-bottom: 0;
+   padding-top: 0;
+   border: 1px solid $border-color;
+   background-color: $body-background;
    min-height: $rem-base*3.125;
    max-height: $rem-base*3.125;
 }
@@ -22,23 +29,14 @@
       $align: right
    );
    border-right: 1px solid $border-color;
+   li {
+      border-left: 1px solid $border-color;
+   }
 }
-.second-button-bar li {
-   border-left: 1px solid $border-color;
-}
+
 .second-button-bar :hover {
    box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
 }
 .secondary-menu-button {
    width: $rem-base*5;
-}
-.secondary-menu {
-   display: flex;
-   align-items: center;
-   padding-left: $global-padding/2;
-   padding-right: $global-padding/2;
-   padding-bottom: 0;
-   padding-top: 0;
-   border: 1px solid $border-color;
-   background-color: $body-background;
 }

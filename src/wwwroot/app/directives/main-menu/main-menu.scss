@@ -13,7 +13,8 @@
 }
 .main-button-bar {
    @extend %menu-bar;
-   @include menu-bar-icons ();
+   @include menu-bar-align($align: center);
+   @include menu-bar-icons ($position: left);
    @include menu-bar-layout(
       $orientation: horizontal,
       $stretch: false
@@ -27,7 +28,6 @@
       $color-hover: $body-background,
       $color-active: $body-background
    );
-   @include menu-bar-align($align: center);
    i {
       font-size: $rem-base*0.6;
    }
@@ -58,6 +58,8 @@
 }
 .search-button {
    @extend %button;
+   color: $body-background;
+   background-color: $primary-color;
    padding-top: $rem-base*1.125;
    padding-bottom: $rem-base;
 }

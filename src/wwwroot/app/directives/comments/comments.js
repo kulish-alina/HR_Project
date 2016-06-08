@@ -16,6 +16,14 @@ export default class CommentsDirective {
    }
 }
 
-function CommentsController() {
+function CommentsController($scope, $translate) {
+   'ngInject';
+   const vm = $scope;
+   
+   let commentType {
+      note: _$translate.instant('COMMON.NOTES'),
+      comment: _$translate.instant('COMMON.COMMENTS')
+   };
+   
 
 }

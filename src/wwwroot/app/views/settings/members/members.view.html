@@ -2,6 +2,7 @@
    <div class="card-section">
       <div class="grid-block">
          <zf-accordion class="medium-12" auto-open="false">
+            <zf-accordion-item ng-repeat="group in users" title="{{roles[group[0].roleId].title + ':' +group.length}}" ng-click="selectGroup(group[0].roleId)">
                <ul class="members-tab">
                   <li ng-repeat="user in currentGroup">
                      <h5 ng-bind="::user.login"></h5>

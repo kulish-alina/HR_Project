@@ -49,9 +49,7 @@ export default class VacancyService {
 
    getVacancy(id) {
       let additionalUrl = VACANCY_URL + id;
-      return _HttpService.get(additionalUrl).then((vacancy) =>
-         this.convertFromServerFormat(vacancy)
-      );
+      return _HttpService.get(additionalUrl).then(this.convertFromServerFormat);
    }
 
    search(condition) {

@@ -133,32 +133,36 @@ i.profile-icons {
 .card-divider {
    padding-bottom: $rem-base/2;
 }
-.vacancy-profile i {
-   padding-right: $rem-base/2;
-   font-size: $rem-base*2;
-   color: $primary-color;
+.vacancy-profile {
+   i {
+      padding-right: $rem-base/2;
+      font-size: $rem-base*2;
+      color: $primary-color;
+   }
+   .tab-item {
+      height: auto;
+      padding-top: $rem-base/2;
+      padding-bottom: $rem-base/2;
+   }
+   .tab-container {
+      width: 100%;
+   }
+   table {
+      margin-top: 0;
+   }
 }
-.vacancy-profile .tab-container {
-   width: 100%;
-}
-.vacancy-profile .tab-item {
-   height: auto;
-   padding-top: $rem-base/2;
-   padding-bottom: $rem-base/2;
-}
-.vacancy-profile table {
-   margin-top: 0;
-}
+
 .property-title {
    font-weight: 600; 
 }
 .vacancy-description {
    text-align: left;
    padding-top: $rem-base/2;
+   p {
+      margin-bottom: 0;
+   }
 }
-.vacancy-description p {
-   margin-bottom: 0;
-}
+
 hr {
    margin-top: $rem-base/2;
    margin-bottom: $rem-base;

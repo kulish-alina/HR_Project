@@ -18,7 +18,7 @@ export default class CommentsDirective {
    }
 }
 
-function CommentsController($scope, $translate) {
+function CommentsController($scope, $translate, UserService, CommentService) {
 
    const vm            = $scope;
    vm.typeWrap         = _getType();
@@ -29,8 +29,18 @@ function CommentsController($scope, $translate) {
    vm.removeComment    = removeComment;
 
    function addComment() {
-      vm.comments.push(vm.currentComment);
-      vm.currentComment   = {};
+      if (vm.type === 'note') {
+         let currentUser = {};
+         UserService.getUserById(1).then((user) => currentUser = user);
+         vm.currentComment.userId = currentUser.id;
+         CommentService.save(vm.currentComment).then((comment) => {
+            vm.comments.push(comment);
+         });
+         vm.currentComment   = {};
+      } else {
+         vm.comments.push(vm.currentComment);
+         vm.currentComment   = {};
+      }
    }
 
    function removeComment(comment) {

@@ -14,16 +14,16 @@ export default class UserService {
       _HttpCacheService = HttpCacheService;
    }
 
+   getUserById(id) {
+      return this.getUsers({id}).then(first);
+   }
+
    getCurrentUser() {
       return _$q.when(currentUser);
    }
 
    setCurrentUser(user) {
       currentUser = user;
-   }
-
-   getUserById(id) {
-      return this.getUsers({id}).then(first);
    }
 
    saveUser(entity) {

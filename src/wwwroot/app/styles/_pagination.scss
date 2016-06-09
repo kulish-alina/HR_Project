@@ -8,22 +8,23 @@ ul.pagination {
    display: inline-block;
    margin: 0;
    padding: 0;
+   li {
+      display: inline;
+      a {
+         color: $body-font-color;
+         float: left;
+         padding: $rem-base/2 $rem-base;
+         text-decoration: none;
+         border: 1px solid $border-color;
+         transition: background-color .3s;
+     }
+     a:hover {
+        color: $primary-color;
+        box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
+      }
+   }
 }
-ul.pagination li {
-   display: inline;
-}
-ul.pagination li a {
-    color: $body-font-color;
-    float: left;
-    padding: $rem-base/2 $rem-base;
-    text-decoration: none;
-    border: 1px solid $border-color;
-    transition: background-color .3s;
-}
-ul.pagination li a:hover {
-   color: $primary-color;
-   box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
-}
+
 .filter-items {
    float: right;
 }

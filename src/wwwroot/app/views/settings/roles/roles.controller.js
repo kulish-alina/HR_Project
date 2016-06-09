@@ -1,26 +1,35 @@
 import './roles.scss';
+import addRoleDialog from './addRoleDialog.view.html';
 import {
    reduce,
    forEach,
    values,
-   flatten
+   flatten,
+   keys,
+   first,
+   omit,
+   set,
+   keyBy,
+   flow
 } from 'lodash';
 
 export default function RolesController(
    $scope,
    $element,
    $state,
+   $filter,
+   $translate,
    RolesService,
    SettingsService,
-   ValidationService,
    UserDialogService,
-   FoundationApi) {
+   UserService) {
    'ngInject';
 
    /*---api---*/
    let vm = $scope;
-   vm.roles           = {};
-   vm.permissions     = {};
+
+   vm.roles           = null;
+   vm.permissions     = null;
    vm.currentRole     = {};
    vm.newRole         = {title: ''};
    vm.currentRoleName = '';
@@ -28,9 +37,8 @@ export default function RolesController(
    vm.setFlag         = _setFlag;
    vm.setAll          = _setAll;
    vm.selectRole      = _selectRole;
-   vm.createNewRole   = _createNewRole;
    vm.removeRole      = _removeRole;
-
+   vm.showAddDialog   = _showAddDialog;
    vm.clearModalModel = _clearModalModel;
 
    /*---impl---*/
@@ -49,16 +57,14 @@ export default function RolesController(
    }
 
    function _onSubmit() {
-      vm.roles[vm.currentRoleName] = 0;
+      vm.roles[vm.currentRoleName].permissions = 0;
       forEach(vm.currentRole, (value) => {
          if (value.flag) {
             _setFlag(vm.currentRoleName, value.id);
          }
       });
-      let role = {};
-      role.title = vm.currentRoleName;
-      role.value = vm.roles[vm.currentRoleName];
-      return RolesService.saveRole(role);
+      console.log('current role', vm.roles[vm.currentRoleName]);
+      return RolesService.saveRole(vm.roles[vm.currentRoleName]);
    }
 
    function _onCancel() {
@@ -66,45 +72,72 @@ export default function RolesController(
    }
 
    function _initRoles() {
-      RolesService.getRoles().then((value) => {
-         vm.roles = value;
-      });
+      RolesService.getRoles()
+         .then((rol) => set(vm, 'roles', keyBy(rol, 'title')))
+         .then(_selectFirstRole);
    }
 
    function _initPermissions() {
       RolesService.getPermissions().then((value) => {
          vm.permissions = value;
-         vm.selectRole(Object.keys(vm.roles)[0]);
       });
    }
    function _selectRole(roleName) {
       vm.currentRoleName = roleName;
       vm.currentRole = reduce(flatten(values(vm.permissions)), (memo, perm) => {
-         memo[perm.name] = {};
-         memo[perm.name].flag = _getFlag(roleName, perm.id);
-         memo[perm.name].id = perm.id;
+         memo[perm.id] = {};
+         memo[perm.id].flag = _getFlag(roleName, perm.id);
+         memo[perm.id].id = perm.id;
          return memo;
       }, {});
    };
 
-   function _createNewRole(form) {
-      if (ValidationService.validate(form)) {
-         vm.roles[vm.newRole.title] = vm.roles[vm.newRole.title] || 0;
-         FoundationApi.closeActiveElements('newRoleModal');
-         _selectRole(vm.newRole.title);
-         vm.newRole.value = 0;
-         RolesService.saveRole(vm.newRole).then(() => {
-            _clearModalModel();
-         });
-      }
+   function _createNewRole() {
+      vm.newRole.permissions = 0;
+      RolesService.saveRole(vm.newRole).then(() => {
+         vm.roles[vm.newRole.title] = vm.newRole;
+         _clearModalModel();
+         UserDialogService.notification(
+            $translate.instant('ROLES.REMOVED', {title: vm.newRole.title}), 'success');
+      });
+   }
+
+   function _showAddDialog() {
+      let buttons = [ {
+         name:         $translate.instant('COMMON.CREATE'),
+         func:         _createNewRole,
+         needValidate: true
+      } ];
+      vm.newRole = {title: ''};
+      let scope = {
+         newRole: vm.newRole
+      };
+      UserDialogService.dialog(
+         $translate.instant('ROLES.NEW'),
+         addRoleDialog,
+         buttons,
+         scope);
    }
 
    function _removeRole(roleName) {
-      UserDialogService.confirm('do you want remove that?').then(() => {
-         delete vm.roles[roleName];
-         vm.selectRole(Object.keys(vm.roles)[0]);
-         UserDialogService.notification('Deleted!', 'success');
+      UserService.getUsers((user) => {
+         return user.roleId === vm.roles[roleName].id;
+      }).then((val) => {
+         let usersInRole = $filter('arrayAsString')(val, 'login', '; ');
+         UserDialogService.confirm(
+            $translate.instant('ROLES.CONFIRM', {title: roleName, usersInRole})).then(() => {
+               RolesService.removeRole(vm.roles[roleName]).then(() => {
+                  vm.roles = omit(vm.roles, roleName);
+                  _selectFirstRole();
+                  UserDialogService.notification($translate.instant('ROLES.REMOVED'), 'success');
+               });
+            });
       });
+   }
+
+   function _selectFirstRole() {
+      let _fnc = flow(keys, first, _selectRole);
+      _fnc(vm.roles);
    }
 
    function _clearModalModel() {
@@ -112,13 +145,14 @@ export default function RolesController(
    }
 
    function _getFlag(roleName, bitNumber) {
-      let value = 1 << bitNumber;                    // eslint-disable-line no-bitwise
-      return (vm.roles[roleName] & value) === value; // eslint-disable-line no-bitwise
+      let value = 1 << bitNumber;                               // eslint-disable-line no-bitwise
+      return (vm.roles[roleName].permissions & value) === value; // eslint-disable-line no-bitwise
    }
 
    function _setFlag(roleName, bitNumber) {
-      let value = 1 << bitNumber;                      // eslint-disable-line no-bitwise
-      vm.roles[roleName] = vm.roles[roleName] | value; // eslint-disable-line no-bitwise
+      let value = 1 << bitNumber;                // eslint-disable-line no-bitwise
+      vm.roles[roleName].permissions =
+         vm.roles[roleName].permissions | value; // eslint-disable-line no-bitwise
    }
 
    function _setAll(value) {

@@ -1,14 +1,14 @@
 @import './../../common.scss';
 
 .contacts-directive i {
-   font-size: 24px;
+   font-size: $rem-base+1.5;
 }
 .contacts-directive {
-   padding: 10px;
+   padding: $rem-base+0.625;
    width: 100%;
    background-color: aliceblue;
 }
 
 .contacts-socials {
-   margin-top: 10px;
+   margin-top: $rem-base+0.625;
 }

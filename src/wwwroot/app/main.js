@@ -44,7 +44,8 @@ import FileService         from './services/FileService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
-import ContactInfoDirective   from './directives/contacts/ContactInfo';
+import ContactInfoDirective   from './directives/contacts/contact-info';
+import PhoneInputsDirective   from './directives/phones/phone-inputs';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 import CommentsDirective      from './directives/comments/comments';
 import MainMenuDirective      from './directives/main-menu/main-menu';
@@ -95,6 +96,7 @@ angular
    .directive('thesaurus',      ThesaurusDirective.createInstance)
    .directive('date',           DatePickerDirective.createInstance)
    .directive('contacts',       ContactInfoDirective.createInstance)
+   .directive('phones',         PhoneInputsDirective.createInstance)
    .directive('ngThumb',        CanvasPreviewDirective)
    .directive('comments',  CommentsDirective.createInstance)
    .directive('mainMenu',       MainMenuDirective.createInstance)

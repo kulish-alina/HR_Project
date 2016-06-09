@@ -1,15 +1,14 @@
 <div class="main-card">
    <div class="card-section">
       <div class="grid-block">
-         <zf-accordion class="medium-12">
-            <zf-accordion-item title="Input your title here">
-               Content goes here
-            </zf-accordion-item>
-            <zf-accordion-item title="Input your title here">
-               Content goes here
-            </zf-accordion-item>
-            <zf-accordion-item title="Input your title here">
-               Content goes here
+         <zf-accordion class="medium-12" auto-open="false">
+            <zf-accordion-item ng-repeat="group in users" title="{{roles[group[0].roleId].title + ':' +group.length}}" ng-click="selectGroup(group[0].roleId)">
+               <ul class="members-tab">
+                  <li ng-repeat="user in currentGroup">
+                     <h5 ng-bind="::user.login"></h5>
+                     <h6>{{user.firstName + ' '+ user.lastName}}</h6>
+                  </li>
+               </ul>
             </zf-accordion-item>
          </zf-accordion>
       </div>

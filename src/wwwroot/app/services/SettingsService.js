@@ -14,31 +14,31 @@ let _$q;
 export default class SettingsService {
 
    constructor($q) {
-      'njInject';
+      'ngInject';
       _$q = $q;
    }
    addOnSubmitListener(listener) {
-      _addListner(submitListeners, listener);
+      return _addListner(submitListeners, listener);
    }
 
    addOnEditListener(listener) {
-      _addListner(editListeners, listener);
+      return _addListner(editListeners, listener);
    }
 
    addOnCancelListener(listener) {
-      _addListner(cancelListeners, listener);
+      return _addListner(cancelListeners, listener);
    }
 
    removeOnSubmitListener(listener) {
-      _removeListner(submitListeners, listener);
+      return _removeListner(submitListeners, listener);
    }
 
    removeOnEditListener(listener) {
-      _removeListner(editListeners, listener);
+      return _removeListner(editListeners, listener);
    }
 
    removeOnCancelListener(listener) {
-      _removeListner(cancelListeners, listener);
+      return _removeListner(cancelListeners, listener);
    }
 
    onSubmit() {

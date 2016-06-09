@@ -202,7 +202,11 @@
    },
    "ROLES" : {
       "NEW": "New role",
-      "NAME": "Enter role name"
+      "NAME": "Enter role name",
+      "CONFIRM": "Role '{{title}}' contains such users: {{usersInRole}}! Are you sure that you want to delete this role and all contains users?",
+      "SAVED": "Role was successfully saved",
+      "REMOVED": "Role was successfully removed",
+      "CREATED": "Role '{{title}}' was successfully created"
    },
    "DIALOG_SERVICE" : {
       "ERROR": "Error!",

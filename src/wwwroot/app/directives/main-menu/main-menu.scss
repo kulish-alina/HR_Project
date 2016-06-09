@@ -1,4 +1,5 @@
-// Styles for main menu
+@import './../../common.scss';
+
 .main-menu {
    min-height: $rem-base*3.125;
    max-height: $rem-base*3.125;
@@ -11,6 +12,9 @@
    align-items: center;
 }
 .main-button-bar {
+   @extend %menu-bar;
+   @include menu-bar-align($align: center);
+   @include menu-bar-icons ($position: left);
    @include menu-bar-layout(
       $orientation: horizontal,
       $stretch: false
@@ -24,22 +28,30 @@
       $color-hover: $body-background,
       $color-active: $body-background
    );
-   @include menu-bar-align($align: center);
+   li {
+      a {
+         flex-flow: inherit;
+      }
+   }
+   i {
+      font-size: $rem-base*0.6;
+   }
 }
-.main-button-bar i {
-   font-size: $rem-base*0.6;
-}
+
 .main-button-bar :hover {
    box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
 }
 .menu-img {
    width: $rem-base*3.125;
 }
-.search {
+.search-input {
    margin-bottom: 0 !important;
 }
+input[type="search"] {
+   height: inherit;
+}
 
-.menu-for-large-screen {
+.for-large-screen {
    @include breakpoint(medium only) {
      display: none;
    }
@@ -47,14 +59,18 @@
      display: none;
    }
 }
-.menu-for-small-screen {
+.for-small-screen {
    @include breakpoint(large only) {
      display: none;
    }
 }
 .search-button {
-   padding-top: 4;
-   padding-bottom: 0;
+   @extend %button;
+   height: inherit;
+   color: $body-background;
+   background-color: $primary-color;
+   padding-top: $rem-base*0.625;
+   padding-bottom: $rem-base*0.625;
 }
 .logo {
    @include breakpoint(small only) {

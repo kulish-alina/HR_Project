@@ -1,0 +1,12 @@
+@import './settings';
+
+$foundation-version: '1.2.0';
+
+// Helpers
+@import
+  "../bower_components/foundation-apps/scss/helpers/functions",
+  "../bower_components/foundation-apps/scss/helpers/mixins",
+  "../bower_components/foundation-apps/scss/helpers/breakpoints",
+  "../bower_components/foundation-apps/scss/helpers/images";
+
+@import "./foundation";

@@ -1,14 +1,15 @@
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
       <div class="grid-content">
-         <h5>{{::'HOME.HOME' | translate}}</h5>
+         <h5 ng-bind="::'HOME.HOME' | translate"></h5>
       </div>
    </div>
    <div class="large-8 grid-block">
    </div>
    <div class="large-2 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a href="#">{{::'COMMON.ADD_EVENT' | translate}}</a>
+         <li>
+            <a href="#" ng-bind="::'COMMON.ADD_EVENT' | translate"></a>
          </li>
       </ul>
    </div>
@@ -16,36 +17,36 @@
 <div class="grid-block">
    <div class="medium-9 grid-block">
       <div class="main-card">
-         <div class="card-divider">
-            {{::'VACANCIES.BASE_OF_VACANCIES' | translate}}
+         <div class="card-divider" ng-bind="::'VACANCIES.BASE_OF_VACANCIES' | translate">
          </div>
          <div class="card-section">
             <table>
                <thead>
                   <tr>
                      <th>№</th>
-                     <th>{{::'COMMON.TITLE' | translate}}</th>
-                     <th>{{::'COMMON.STATUS' | translate}}</th>
-                     <th class="col4">{{::'COMMON.LOCATION' | translate}}</th>
-                     <th>{{::'COMMON.RESPONSIBLE' | translate}}</th>
-                     <th>{{::'COMMON.ADDED' | translate}}</th>
+                     <th ng-bind="::'COMMON.TITLE' | translate"></th>
+                     <th ng-bind="::'COMMON.STATUS' | translate"></th>
+                     <th class="col4" ng-bind="::'COMMON.LOCATION' | translate"></th>
+                     <th ng-bind="::'COMMON.RESPONSIBLE' | translate"></th>
+                     <th ng-bind="::'COMMON.ADDED' | translate"></th>
                   </tr>
                </thead>
                <tbody>
                   <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | itemsPerPage: vacancy.size" total-items="total" current-page="pagination.current">
                      <td>{{$index+1}}</td>
-                     <td>{{vacancy.title}}</td>
-                     <td>{{vacancy.entityStates[0].title}}</td>
-                     <td class="col4">
-                        <p ng-repeat="location in vacancy.locations">{{::location.title}}</p>
+                     <td>
+                        <a ng-click="viewVacancy(vacancy)" ng-bind="::vacancy.title"></a>
                      </td>
-                     <td>{{vacancy.responsible.lastName}}</td>
-                     <td>{{vacancy.createdOn}}</td>
+                     <td ng-bind="vacancy.entityStates[0].title"></td>
+                     <td ng-bind="vacancy.locations | arrayAsString: 'title'" class="col4">
+                     </td>
+                     <td ng-bind="::vacancy.responsible.lastName"></td>
+                     <td ng-bind="::vacancy.createdOn"></td>
                   </tr>
                </tbody>
             </table>
             <div class="switch-pages">
-               <dir-pagination-controls max-size="5" boundary-links="true" template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
+               <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
                </dir-pagination-controls>
             </div>
          </div>
@@ -55,8 +56,7 @@
       <div class="vertical medium-horizontal grid-block">
          <div class="sidebar">
             <div class="card-divider">
-               <div class="grid-block">
-                 {{::'COMMON.EVENTS' | translate}}
+               <div class="grid-block" ng-bind="::'COMMON.EVENTS' | translate">
                </div>
             </div>
             <div class="sidebar-content">
@@ -97,8 +97,7 @@
             </div>
          </div>
          <div class="sidebar">
-            <div class="card-divider">
-               {{::'COMMON.NOTES' | translate}}
+            <div class="card-divider" ng-bind="::'COMMON.NOTES' | translate">
             </div>
             <div class="sidebar-content">
                <div class="grid-block">
@@ -106,7 +105,7 @@
                      <textarea placeholder="Note"></textarea>
                   </div>
                   <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#">{{::'COMMON.SAVE' | translate}}</a>
+                     <a class="button button-with-input" href="#" ng-bind="::'COMMON.SAVE' | translate"></a>
                   </div>
                </div>
                <section class="block-list">

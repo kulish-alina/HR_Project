@@ -1,3 +1,4 @@
+import { remove } from 'lodash';
 import template from './comments.directive.html';
 import './comments.scss';
 export default class CommentsDirective {
@@ -5,7 +6,8 @@ export default class CommentsDirective {
       this.restrict = 'E';
       this.template = template;
       this.scope = {
-         type : '='
+         type : '@',
+         comments: '=ngModel'
       };
       this.controller = CommentsController;
    }
@@ -17,13 +19,34 @@ export default class CommentsDirective {
 }
 
 function CommentsController($scope, $translate) {
-   'ngInject';
-   const vm = $scope;
-   
-   let commentType {
-      note: _$translate.instant('COMMON.NOTES'),
-      comment: _$translate.instant('COMMON.COMMENTS')
-   };
-   
 
+   const vm            = $scope;
+   vm.typeWrap         = _getType();
+   vm.currentComment   = {};
+   vm.comments         = vm.comments || [];
+   vm.addComment       = addComment;
+   vm.editComment      = editComment;
+   vm.removeComment    = removeComment;
+
+   function addComment() {
+      vm.comments.push(vm.currentComment);
+      vm.currentComment   = {};
+   }
+
+   function removeComment(comment) {
+      remove(vm.comments, comment);
+   }
+
+   function editComment(comment) {
+      vm.currentComment = comment;
+      remove(vm.comments, comment);
+   }
+
+   function _getType() {
+      if (vm.type === 'note') {
+         return $translate.instant('COMMON.NOTES');
+      } else {
+         return $translate.instant('COMMON.COMMENTS');
+      }
+   }
 }

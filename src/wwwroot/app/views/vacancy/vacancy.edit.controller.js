@@ -25,7 +25,8 @@ export default function VacancyController(
    /* --- api --- */
    vm.clear                        = clear;
    vm.saveVacancy                  = saveVacancy;
-   vm.vacancy                      = {} ;
+   vm.vacancy                      = {};
+   vm.vacancy.comments             = [];
    vm.vacancy.files                = $state.params._data ? $state.params._data.files : [];
    vm.thesaurus                    = [];
    vm.responsibles                 = [];

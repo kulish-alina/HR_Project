@@ -1,58 +1,30 @@
-<div class="sidebar">
-   <div class="card-divider">
-      {{::'COMMON.NOTES' | translate}}
-   </div>
-   <div class="sidebar-content">
-      <div class="grid-block">
-         <div class="medium-9 grid-block">
-            <textarea placeholder="Note"></textarea>
-         </div>
-         <div class="medium-3 grid-block">
-            <a class="button button-with-input" href="#">{{::'COMMON.SAVE' | translate}}</a>
-         </div>
+<div class="card-divider" ng-bind="::typeWrap">
+</div>
+<div class="sidebar-content">
+   <div class="grid-block">
+      <div class="medium-9 grid-block">
+         <textarea ng-model="currentComment.message"></textarea>
       </div>
-      <section class="block-list">
-         <ul class="comments">
-            <li>
-               <div class="grid-block">
-                  <div class="medium-10 grid-block">
-                     Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                  </div>
-                  <div class="medium-1 grid-block">
-                     <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                  </div>
-                  <div class="medium-1 grid-block">
-                     <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                  </div>
-               </div>
-            </li>
-            <li>
-               <div class="grid-block">
-                  <div class="medium-10 grid-block">
-                     Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                  </div>
-                  <div class="medium-1 grid-block">
-                     <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                  </div>
-                  <div class="medium-1 grid-block">
-                     <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                  </div>
-               </div>
-            </li>
-            <li>
-               <div class="grid-block">
-                  <div class="medium-10 grid-block">
-                     Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                  </div>
-                  <div class="medium-1 grid-block">
-                     <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                  </div>
-                  <div class="medium-1 grid-block">
-                     <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                  </div>
-               </div>
-            </li>
-         </ul>
-      </section>
+      <div class="medium-3 grid-block">
+         <a class="button button-with-input" ng-click="addComment()">
+            <span ng-bind="::'COMMON.ADD' | translate"></span>
+         </a>
+      </div>
    </div>
+   <section class="block-list">
+      <ul class="comments">
+         <li ng-repeat="comment in comments">
+            <div class="grid-block">
+               <div class="medium-10 grid-block" ng-bind="comment.message">
+               </div>
+               <div class="medium-1 grid-block">
+                  <a ng-click="editComment(comment)"><i class="foundicon-edit general-icon"></i></a>
+               </div>
+               <div class="medium-1 grid-block">
+                  <a ng-click="removeComment(comment)"><i class="foundicon-trash general-icon"></i></a>
+               </div>
+            </div>
+         </li>
+      </ul>
+   </section>
 </div>

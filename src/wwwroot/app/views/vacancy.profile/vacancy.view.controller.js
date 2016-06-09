@@ -19,22 +19,23 @@ export default function VacancyProfileController(
    ) {
    'ngInject';
 
-   const vm = $scope;
-   vm.thesaurus    = [];
-   vm.responsibles = [];
-   vm.edit         = edit;
-   vm.uploader     = createNewUploader();
-   vm.addFilesForRemove = addFilesForRemove;
-   vm.queueFilesForRemove = [];
-   vm.saveChanges  = saveChanges;
-   vm.changed      = changed;
-   vm.isChanged    = false;
-   vm.selectStage  = selectStage;
-   vm.currentStage = '';
+   const vm                = $scope;
+   vm.thesaurus            = [];
+   vm.responsibles         = [];
+   vm.edit                 = edit;
+   vm.uploader             = createNewUploader();
+   vm.addFilesForRemove    = addFilesForRemove;
+   vm.queueFilesForRemove  = [];
+   vm.saveChanges          = saveChanges;
+   vm.changed              = changed;
+   vm.isChanged            = false;
+   vm.selectStage          = selectStage;
+   vm.currentStage         = '';
 
-   vm.vacancy = {
+   vm.vacancy              = {
       files : $state.params._data ? $state.params._data.files : []
    };
+   vm.vacancy.comments     = [];
 
    function _initCurrentVacancy() {
       if ($state.params._data) {

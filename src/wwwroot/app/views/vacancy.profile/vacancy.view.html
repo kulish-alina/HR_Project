@@ -8,9 +8,11 @@
    </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a ng-click="edit()" ng-bind="::'COMMON.EDIT' | translate"></a>
+         <li>
+            <a ng-click="edit()" ng-bind="::'COMMON.EDIT' | translate"></a>
          </li>
-         <li ng-if="isChanged"><a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
+         <li ng-if="isChanged">
+            <a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
          </li>
       </ul>
    </div>
@@ -255,61 +257,7 @@
             </div>
          </div>
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'COMMON.COMMENTS' | translate">
-            </div>
-            <div class="sidebar-content">
-               <div class="grid-block">
-                  <div class="medium-9 grid-block">
-                     <textarea></textarea>
-                  </div>
-                  <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#" ng-bind="::'COMMON.SAVE' | translate"></a>
-                  </div>
-               </div>
-               <section class="block-list">
-                  <ul class="comments">
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-10 grid-block">
-                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-10 grid-block">
-                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-10 grid-block">
-                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-            </div>
+            <comments ng-click="changed()"  ng-model="vacancy.comments" type="comment"></comments>
          </div>
          <div class="sidebar">
             <div class="card-divider" ng-bind="::'VACANCY_PROFILE.FILES' | translate">
@@ -330,7 +278,9 @@
                      <tbody>
                         <tr ng-repeat="item in vacancy.files">
                            <td>{{$index+1}}</td>
-                           <td><a href="{{item.filePath | botUrl}}" ng-bind="item.description"></a></td>
+                           <td>
+                              <a href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
+                           </td>
                            <td ng-bind="item.fileSize"></td>
                            <td><a class="remove-item" ng-click="addFilesForRemove(item)"><i class="foundicon-remove general-icon"></i></a></td>
                         </tr>

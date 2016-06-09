@@ -53,6 +53,7 @@ form .ng-invalid {
    box-shadow: inset 0px 0px 3px 0px transparentize($alert-color, 0.3);
 }
 .button-with-input {
+   @extend %button;
    height: $rem-base*2.4;
    width: 100%;
 }

@@ -582,6 +582,19 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.Tag_Id);
             
             CreateTable(
+                "dbo.ParentVacancyChildVacancy",
+                c => new
+                    {
+                        ParentVacancy_Id = c.Int(nullable: false),
+                        ChildVacancy_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.ParentVacancy_Id, t.ChildVacancy_Id })
+                .ForeignKey("dbo.Vacancy", t => t.ParentVacancy_Id)
+                .ForeignKey("dbo.Vacancy", t => t.ChildVacancy_Id)
+                .Index(t => t.ParentVacancy_Id)
+                .Index(t => t.ChildVacancy_Id);
+            
+            CreateTable(
                 "dbo.VacancyComment",
                 c => new
                     {
@@ -707,6 +720,8 @@ namespace BaseOfTalents.DAL.Migrations
             DropForeignKey("dbo.Department", "DepartmentGroupId", "dbo.DepartmentGroup");
             DropForeignKey("dbo.VacancyComment", "Comment_Id", "dbo.Comment");
             DropForeignKey("dbo.VacancyComment", "Vacancy_Id", "dbo.Vacancy");
+            DropForeignKey("dbo.ParentVacancyChildVacancy", "ChildVacancy_Id", "dbo.Vacancy");
+            DropForeignKey("dbo.ParentVacancyChildVacancy", "ParentVacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyStageInfo", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyStageInfo", "Comment_Id", "dbo.Comment");
             DropForeignKey("dbo.CandidateTag", "Tag_Id", "dbo.Tag");
@@ -745,6 +760,8 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.VacancyLevel", new[] { "Vacancy_Id" });
             DropIndex("dbo.VacancyComment", new[] { "Comment_Id" });
             DropIndex("dbo.VacancyComment", new[] { "Vacancy_Id" });
+            DropIndex("dbo.ParentVacancyChildVacancy", new[] { "ChildVacancy_Id" });
+            DropIndex("dbo.ParentVacancyChildVacancy", new[] { "ParentVacancy_Id" });
             DropIndex("dbo.CandidateTag", new[] { "Tag_Id" });
             DropIndex("dbo.CandidateTag", new[] { "Candidate_Id" });
             DropIndex("dbo.CandidateSkill", new[] { "Skill_Id" });
@@ -793,6 +810,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropTable("dbo.VacancyLocation");
             DropTable("dbo.VacancyLevel");
             DropTable("dbo.VacancyComment");
+            DropTable("dbo.ParentVacancyChildVacancy");
             DropTable("dbo.CandidateTag");
             DropTable("dbo.CandidateSkill");
             DropTable("dbo.CandidatePhoneNumber");

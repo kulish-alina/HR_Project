@@ -84,8 +84,8 @@ namespace BaseOfTalents.WebUI.Controllers
 
         // PUT api/<controller>/5
         [HttpPut]
-        [Route("")]
-        public IHttpActionResult Put([FromBody]VacancyDTO vacancy)
+        [Route("{id}")]
+        public IHttpActionResult Put(int id, [FromBody]VacancyDTO vacancy)
         {
             if (!ModelState.IsValid)
             {

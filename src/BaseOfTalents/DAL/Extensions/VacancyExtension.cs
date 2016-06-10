@@ -9,6 +9,37 @@ namespace DAL.Extensions
 {
     public static class VacancyExtension
     {
+        public static Vacancy Clone(this Vacancy source)
+        {
+            Vacancy clone = new Vacancy();
+            clone.Id = source.Id;
+            clone.State = source.State;
+
+            clone.Title = source.Title;
+            clone.Description = source.Description;
+            clone.SalaryMin = source.SalaryMin;
+            clone.SalaryMax = source.SalaryMax;
+            clone.TypeOfEmployment = source.TypeOfEmployment;
+            clone.StartDate = source.StartDate;
+            clone.EndDate = source.EndDate;
+            clone.DeadlineDate = source.DeadlineDate;
+
+            clone.ParentVacancyId = source.ParentVacancyId;
+            clone.IndustryId = source.IndustryId;
+            clone.DepartmentId = source.DepartmentId;
+            clone.ResponsibleId = source.ResponsibleId;
+            clone.Levels = source.Levels;
+            clone.Locations = source.Locations;
+            clone.Tags = source.Tags;
+            clone.RequiredSkills = source.RequiredSkills;
+            clone.LanguageSkill = source.LanguageSkill;
+            clone.CandidatesProgress = source.CandidatesProgress;
+            clone.Files = source.Files;
+            clone.Comments = source.Comments;
+
+            return clone;
+        }
+
         public static void Update(this Vacancy destination, VacancyDTO source, IUnitOfWork uow)
         {
             destination.Id = source.Id;

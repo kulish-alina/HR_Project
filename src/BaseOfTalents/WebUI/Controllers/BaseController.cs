@@ -73,8 +73,8 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        [Route("")]
-        public virtual IHttpActionResult Put([FromBody]ViewModel changedEntity)
+        [Route("{id}")]
+        public virtual IHttpActionResult Put(int id, [FromBody]ViewModel changedEntity)
         {
             if (!ModelState.IsValid)
             {

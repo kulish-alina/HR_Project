@@ -16,6 +16,7 @@ namespace BaseOfTalents.Domain.Entities
             Files = new List<File>();
             Comments = new List<Comment>();
             Tags = new List<Tag>();
+            ChildVacancies = new List<Vacancy>();
         }
 
         public string Title { get; set; }
@@ -34,6 +35,7 @@ namespace BaseOfTalents.Domain.Entities
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Vacancy> ChildVacancies { get; set; }
 
         public int? ParentVacancyId { get; set; }
         public virtual Vacancy ParentVacancy { get; set; }

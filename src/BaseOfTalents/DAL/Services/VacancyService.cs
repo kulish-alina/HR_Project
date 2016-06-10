@@ -77,6 +77,7 @@ namespace DAL.Services
         {
             var vacancyToUpdate = uow.VacancyRepo.GetByID(vacancy.Id);
             vacancyToUpdate.Update(vacancy, uow);
+            CreateChildVacanciesIfNeeded(vacancyToUpdate, vacancy);
             uow.VacancyRepo.Update(vacancyToUpdate);
             uow.Commit();
             return DTOService.ToDTO<Vacancy, VacancyDTO>(vacancyToUpdate);
@@ -86,6 +87,7 @@ namespace DAL.Services
         {
             var vacancyToAdd = new Vacancy();
             vacancyToAdd.Update(vacancy, uow);
+            CreateChildVacanciesIfNeeded(vacancyToAdd, vacancy);
             uow.VacancyRepo.Insert(vacancyToAdd);
             uow.Commit();
             return DTOService.ToDTO<Vacancy, VacancyDTO>(vacancyToAdd);
@@ -107,5 +109,19 @@ namespace DAL.Services
             return deleteResult;
         }
 
+        private void CreateChildVacanciesIfNeeded(Vacancy domain, VacancyDTO dto)
+        {
+            List<Vacancy> childVacancies = new List<Vacancy>();
+            if (dto.ChildVacanciesNumber.HasValue)
+            {
+                dto.ChildVacanciesNumber.Value.Times(() =>
+                {
+                    Vacancy childVacancy = domain.Clone();
+                    childVacancy.ParentVacancy = domain;
+                    childVacancies.Add(childVacancy);
+                });
+                childVacancies.ForEach(x => domain.ChildVacancies.Add(x));
+            }
+        }
     }
 }

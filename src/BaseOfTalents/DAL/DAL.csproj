@@ -95,6 +95,7 @@
     <Compile Include="Extensions\CandidateSourceExtensions.cs" />
     <Compile Include="Extensions\CommentExtension.cs" />
     <Compile Include="Extensions\FileExtension.cs" />
+    <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\IPagedList.cs" />
     <Compile Include="Extensions\LanguageSkillExtension.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
@@ -162,9 +163,9 @@
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201606091347009_init.cs" />
-    <Compile Include="Migrations\201606091347009_init.Designer.cs">
-      <DependentUpon>201606091347009_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606101040387_init.cs" />
+    <Compile Include="Migrations\201606101040387_init.Designer.cs">
+      <DependentUpon>201606101040387_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -238,8 +239,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606091347009_init.resx">
-      <DependentUpon>201606091347009_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606101040387_init.resx">
+      <DependentUpon>201606101040387_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

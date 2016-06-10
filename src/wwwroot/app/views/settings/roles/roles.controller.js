@@ -1,5 +1,5 @@
 import './roles.scss';
-import addRoleDialog from './addRoleDialog.view.html';
+import addRoleDialog from './add-role-dialog.view.html';
 import {
    reduce,
    forEach,

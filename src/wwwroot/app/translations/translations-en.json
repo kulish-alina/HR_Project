@@ -218,5 +218,11 @@
       "ERROR_SAVING": "Some error has occurred while saving vacancy!",
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
       "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!"
+   },
+
+   "MEMBERS" : {
+      "INVITE" : "Invite a new member",
+      "INVITE_MEMBER" : "Invite member in '{{roleTitle}}'!",
+      "LOGIN" : "Login"
    }
 }

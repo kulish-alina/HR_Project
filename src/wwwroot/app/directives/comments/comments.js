@@ -30,9 +30,9 @@ function CommentsController($scope, $translate, UserService, CommentService) {
 
    function addComment() {
       if (vm.type === 'note') {
-         let currentUser = {};
-         UserService.getUserById(1).then((user) => currentUser = user);
-         vm.currentComment.userId = currentUser.id;
+         UserService.getUserById(10).then((user) => {
+            vm.currentComment.userId = user.id;
+         });
          CommentService.save(vm.currentComment).then((comment) => {
             vm.comments.push(comment);
          });

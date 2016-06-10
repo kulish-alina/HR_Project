@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Entities.Setup
+﻿namespace BaseOfTalents.Domain.Entities.Enum.Setup
 {
-    public class Skill: BaseEntity
+    public class Skill : BaseEntity
     {
         public string Title { get; set; }
     }

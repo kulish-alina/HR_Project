@@ -15,7 +15,7 @@ using DAL.Services;
 
 namespace BaseOfTalents.WebUI.Controllers
 {
-    [RoutePrefix("api/user")]
+    [RoutePrefix("api/file")]
     public class FileController : ApiController
     {
         FileService fileService;
@@ -37,7 +37,7 @@ namespace BaseOfTalents.WebUI.Controllers
         }
 
         [HttpDelete]
-        [Route("api/files/{id}")]
+        [Route("api/file/{id}")]
         public IHttpActionResult Remove(int id)
         {
             if (fileService.Delete(id))
@@ -51,7 +51,7 @@ namespace BaseOfTalents.WebUI.Controllers
         }
 
         [HttpPost]
-        [Route("api/files")]
+        [Route("api/file")]
         public async Task<IHttpActionResult> Upload()
         {
             try

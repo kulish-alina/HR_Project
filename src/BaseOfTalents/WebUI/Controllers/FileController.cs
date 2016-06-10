@@ -37,7 +37,7 @@ namespace BaseOfTalents.WebUI.Controllers
         }
 
         [HttpDelete]
-        [Route("api/file/{id}")]
+        [Route("{id}")]
         public IHttpActionResult Remove(int id)
         {
             if (fileService.Delete(id))
@@ -51,7 +51,7 @@ namespace BaseOfTalents.WebUI.Controllers
         }
 
         [HttpPost]
-        [Route("api/file")]
+        [Route("")]
         public async Task<IHttpActionResult> Upload()
         {
             try

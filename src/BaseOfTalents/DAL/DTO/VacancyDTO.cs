@@ -15,6 +15,7 @@ namespace Domain.DTO.DTOModels
             TagIds = new List<int>();
             CandidatesProgress = new List<VacancyStageInfoDTO>();
             Files = new List<FileDTO>();
+            ChildVacanciesIds = new List<int>();
         }
 
         [Required]
@@ -36,8 +37,10 @@ namespace Domain.DTO.DTOModels
         public IEnumerable<int> TagIds { get; set; }
         public IEnumerable<FileDTO> Files { get; set; }
         public IEnumerable<CommentDTO> Comments { get; set; }
+        public IEnumerable<int> ChildVacanciesIds { get; set; }
 
         public int? ParentVacancyId { get; set; }
+        public int? ChildVacanciesNumber { get; set; }
 
         public int? IndustryId { get; set; }
 

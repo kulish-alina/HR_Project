@@ -13,7 +13,7 @@ namespace BaseOfTalents.DAL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201606091347009_init"; }
+            get { return "201606101040387_init"; }
         }
         
         string IMigrationMetadata.Source

@@ -19,7 +19,7 @@ namespace WebApi
 
                 x.CreateMap<Comment, CommentDTO>();
                 x.CreateMap<CommentDTO, Comment>();
-                
+
                 x.CreateMap<Photo, PhotoDTO>();
                 x.CreateMap<PhotoDTO, Photo>();
 
@@ -77,26 +77,29 @@ namespace WebApi
                 x.CreateMap<VacancyStageInfo, VacancyStageInfoDTO>();
                 x.CreateMap<VacancyStageInfoDTO, VacancyStageInfo>();
 
+                x.CreateMap<Vacancy, int>()
+                     .ConstructUsing(source => (source.SourceValue as Vacancy).Id);
+
                 x.CreateMap<Skill, int>()
-                     .ConstructUsing(   source => (source.SourceValue as Skill).Id);
+                     .ConstructUsing(source => (source.SourceValue as Skill).Id);
 
                 x.CreateMap<Permission, int>()
-                    .ConstructUsing(        source => (source.SourceValue as Permission).Id);
+                    .ConstructUsing(source => (source.SourceValue as Permission).Id);
 
                 x.CreateMap<Role, int>()
-                        .ConstructUsing( source => (source.SourceValue as Role).Id);
+                        .ConstructUsing(source => (source.SourceValue as Role).Id);
 
                 x.CreateMap<Tag, int>()
-                     .ConstructUsing(   source => (source.SourceValue as Tag).Id);
+                     .ConstructUsing(source => (source.SourceValue as Tag).Id);
 
                 x.CreateMap<Level, int>()
-                     .ConstructUsing(   source => (source.SourceValue as Level).Id);
+                     .ConstructUsing(source => (source.SourceValue as Level).Id);
 
                 x.CreateMap<Department, int>()
-                    .ConstructUsing(    source => (source.SourceValue as Department).Id);
+                    .ConstructUsing(source => (source.SourceValue as Department).Id);
 
                 x.CreateMap<Location, int>()
-                    .ConstructUsing(    source => (source.SourceValue as Location).Id);
+                    .ConstructUsing(source => (source.SourceValue as Location).Id);
 
                 x.CreateMap<Role, RoleDTO>()
                         .ForMember(dest => dest.PermissionIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Permission>, IEnumerable<int>>(src.Permissions)));
@@ -109,22 +112,23 @@ namespace WebApi
                    .ForMember(dest => dest.PhoneNumbers, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<PhoneNumberDTO>>(src.PhoneNumbers)));
 
                 x.CreateMap<Candidate, CandidateDTO>()
-                    .ForMember(dest => dest.VacanciesProgress,      opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.VacanciesProgress)))
-                    .ForMember(dest => dest.SocialNetworks,         opt => opt.MapFrom(src => Mapper.Map<IEnumerable<CandidateSocial>, IEnumerable<CandidateSocialDTO>>(src.SocialNetworks)))
-                    .ForMember(dest => dest.LanguageSkills,         opt => opt.MapFrom(src => Mapper.Map<IEnumerable<LanguageSkill>, IEnumerable<LanguageSkillDTO>>(src.LanguageSkills)))
-                    .ForMember(dest => dest.TagIds,                 opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Tag>, IEnumerable<int>>(src.Tags)))
-                    .ForMember(dest => dest.SkillIds,               opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.Skills)))
-                    .ForMember(dest => dest.Comments,               opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(src.Comments)))
-                    .ForMember(dest => dest.Files,                  opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
+                    .ForMember(dest => dest.VacanciesProgress, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.VacanciesProgress)))
+                    .ForMember(dest => dest.SocialNetworks, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<CandidateSocial>, IEnumerable<CandidateSocialDTO>>(src.SocialNetworks)))
+                    .ForMember(dest => dest.LanguageSkills, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<LanguageSkill>, IEnumerable<LanguageSkillDTO>>(src.LanguageSkills)))
+                    .ForMember(dest => dest.TagIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Tag>, IEnumerable<int>>(src.Tags)))
+                    .ForMember(dest => dest.SkillIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.Skills)))
+                    .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(src.Comments)))
+                    .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
 
                 x.CreateMap<Vacancy, VacancyDTO>()
-                    .ForMember(dest => dest.CandidatesProgress,     opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.CandidatesProgress)))
-                    .ForMember(dest => dest.Comments,               opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(src.Comments)))
-                    .ForMember(dest => dest.LevelIds,               opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Level>, IEnumerable<int>>(src.Levels)))
-                    .ForMember(dest => dest.LocationIds,            opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Location>, IEnumerable<int>>(src.Locations)))
-                    .ForMember(dest => dest.TagIds,                 opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Tag>, IEnumerable<int>>(src.Tags)))
-                    .ForMember(dest => dest.RequiredSkillIds,       opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.RequiredSkills)))
-                    .ForMember(dest => dest.Files,                  opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
+                    .ForMember(dest => dest.CandidatesProgress, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.CandidatesProgress)))
+                    .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(src.Comments)))
+                    .ForMember(dest => dest.LevelIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Level>, IEnumerable<int>>(src.Levels)))
+                    .ForMember(dest => dest.LocationIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Location>, IEnumerable<int>>(src.Locations)))
+                    .ForMember(dest => dest.TagIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Tag>, IEnumerable<int>>(src.Tags)))
+                    .ForMember(dest => dest.RequiredSkillIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.RequiredSkills)))
+                    .ForMember(dest => dest.ChildVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ChildVacancies)))
+                    .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
 
                 x.CreateMap<VacancyDTO, VacancySearchModel>()
                    .ForMember(dest => dest.State, opt => opt.MapFrom(src => (int)src.State));

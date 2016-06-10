@@ -18,7 +18,9 @@ namespace Domain.DTO.DTOModels
             LanguageSkills = new List<LanguageSkillDTO>();
             VacanciesProgress = new List<VacancyStageInfoDTO>();
             Sources = new List<CandidateSourceDTO>();
+            Events = new List<EventDTO>();
         }
+
         public string FirstName                                     { get; set; }
         public string MiddleName                                    { get; set; }
         public string LastName                                      { get; set; }
@@ -51,6 +53,6 @@ namespace Domain.DTO.DTOModels
         public IEnumerable<CandidateSourceDTO> Sources              { get; set; }
         public IEnumerable<FileDTO> Files                           { get; set; }
         public IEnumerable<CommentDTO> Comments                     { get; set; }
-
+        public IEnumerable<EventDTO> Events                         { get; set; }
     }
 }

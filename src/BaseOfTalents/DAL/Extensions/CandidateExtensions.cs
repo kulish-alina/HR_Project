@@ -42,6 +42,7 @@ namespace DAL.Extensions
             PerformPhotoSaving(destination, source, uow.PhotoRepo);
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
+            PerformEventsSaving(destination, source, uow.EventRepo);
         }
 
         private static void PerformFilesSaving(Candidate destination, CandidateDTO source, IRepository<File> fileRepository)
@@ -315,6 +316,40 @@ namespace DAL.Extensions
                 else
                 {
                     domainComment.Update(updatedComment);
+                }
+            });
+        }
+
+        private static void PerformEventsSaving(Candidate destination, CandidateDTO source, IRepository<Event> eventRepository)
+        {
+            RefreshExistingEvent(destination, source, eventRepository);
+            CreateNewEvents(destination, source);
+        }
+        private static void CreateNewEvents(Candidate destination, CandidateDTO source)
+        {
+            source.Events.Where(x => x.IsNew()).ToList().ForEach(newEvent =>
+            {
+                var toDomain = new Event();
+                toDomain.Update(newEvent);
+                destination.Events.Add(toDomain);
+            });
+        }
+        private static void RefreshExistingEvent(Candidate destination, CandidateDTO source, IRepository<Event> eventRepository)
+        {
+            source.Events.Where(x => !x.IsNew()).ToList().ForEach(updatedEvent =>
+            {
+                var domainEvent = destination.Events.FirstOrDefault(x => x.Id == updatedEvent.Id);
+                if (domainEvent == null)
+                {
+                    throw new ArgumentNullException("You trying to update event which is actually doesn't exists in database");
+                }
+                if (updatedEvent.ShouldBeRemoved())
+                {
+                    eventRepository.Delete(updatedEvent.Id);
+                }
+                else
+                {
+                    domainEvent.Update(updatedEvent);
                 }
             });
         }

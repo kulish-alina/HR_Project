@@ -1,17 +1,19 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.DTO.DTOModels
 {
     public class EventDTO: BaseEntityDTO
     {
+        [Required]
         public DateTime EventDate { get; set; }
+        [Required]
         public string Description { get; set; }
-
-        public int EventTypeId { get; set; }
-
-        public VacancyDTO Vacancy { get; set; }
-        public CandidateDTO Candidate { get; set; }
-
+        [Required]
         public int ResponsibleId { get; set; }
+
+        public int? EventTypeId { get; set; }
+        public int? VacancyId { get; set; }
+        public int? CandidateId { get; set; }
     }
 }

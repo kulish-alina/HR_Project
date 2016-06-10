@@ -8,12 +8,11 @@ namespace BaseOfTalents.DAL.Mapping
         {
             Property(e => e.EventDate).IsRequired();
             Property(e => e.Description).IsRequired();
-
-            HasOptional(e => e.Vacancy).WithMany();
-            HasOptional(e => e.Candidate).WithMany();
-
-            HasRequired(e => e.EventType).WithMany().HasForeignKey(e => e.EventTypeId);
             HasRequired(e => e.Responsible).WithMany().HasForeignKey(e => e.ResponsibleId);
+
+            HasOptional(e => e.Vacancy).WithMany().HasForeignKey(x => x.VacancyId);
+            HasOptional(e => e.Candidate).WithMany().HasForeignKey(x => x.CandidateId);
+            HasOptional(e => e.EventType).WithMany().HasForeignKey(e => e.EventTypeId);
         }
     }
 }

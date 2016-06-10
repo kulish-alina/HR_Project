@@ -42,7 +42,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'title',                 label : 'name',                  type : 'text',
           validator : 'required, maxlength=50, minlength=3'},
          {name : 'departmentGroupId',     label : 'department group',      type : 'select',
-          refTo : 'departmentgroups',     labelRefFieldName : 'title',     refObject : 'departmentGroupObject'},
+          refTo : 'departmentgroup',     labelRefFieldName : 'title',     refObject : 'departmentGroupObject'},
          {name : 'state',                 label : 'state',                 type : ''}
       ]
    },

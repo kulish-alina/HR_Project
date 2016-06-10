@@ -6,7 +6,7 @@ export default function CandidateController(
    $translate,
    CandidateService,
    ValidationService,
-   FileUploaderService,
+   FileService,
    ThesaurusService,
    UserDialogService,
    LoggerService
@@ -43,7 +43,7 @@ export default function CandidateController(
    }
 
    function _createUploader() {
-      vm.uploader = FileUploaderService.getFileUploader({maxSize: 1024000});
+      vm.uploader = FileService.getFileUploader({maxSize: 1024000});
       vm.uploader.onSuccessItem = (item, response, status, headers) => {
          LoggerService.log('onSuccessItem', item, response, status, headers);
       };

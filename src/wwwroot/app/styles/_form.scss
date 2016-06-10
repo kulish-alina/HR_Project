@@ -59,8 +59,8 @@ form .ng-invalid {
 
 //Styles for candidate/user
 .profile-photo {
-   //background-image: url(/images/upload-photo.png);
-   //background-repeat: no-repeat;
+//   background-image: url(/images/upload-photo.png);
+//   background-repeat: no-repeat;
    background-color: $gray;
    background-size: 100%;
    width: 100%;
@@ -99,6 +99,7 @@ select {
    @include breakpoint(small only) { 
       font-size: $rem-base*0.8125;
    }
+   margin-bottom: $rem-base;
 }
 option {
    height: inherit;

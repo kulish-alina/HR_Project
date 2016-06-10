@@ -1,4 +1,4 @@
-@import "../../../main.scss";
+@import "../../../common.scss";
 .tabs {
    @include tabstrip(
       $orientation: vertical
@@ -44,13 +44,13 @@ ul.roles-tab {
 ul.roles-tab li {
    display: inline-block;
    list-style: none;
-   text-align: left; 
+   text-align: left;
    vertical-align: text-top;
-   padding: 10px;
+   padding: 0.6rem;
    width: 32.8%;
    border: 1px solid $border-color;
-   height: 200px;
-   margin-left: 5px;
+   height: 13rem;
+   margin-left: 0.3rem;
 }
 .roles-close-button {
    position: absolute;
@@ -62,8 +62,4 @@ ul.roles-tab li {
 }
 .role-header {
    padding-bottom: 0.5rem;
-}
-
-.role-body {
-   width: 102%;
 }

@@ -181,33 +181,33 @@ namespace Data.Migrations
 
         public static readonly List<Permission> Permissions = new List<Permission>()
             {
-                new Permission { AccessRights=AccessRights.AddCandidate,                        Description = "Right to create a candidate",                                Group = "Candidates" },
-                new Permission { AccessRights=AccessRights.AddCandidateToVacancy,               Description = "Right to attach exsisting candidate to a vacancy",           Group = "Vacancies" },
-                new Permission { AccessRights=AccessRights.AddEvent,                            Description = "Right to create an event",                                   Group = "Calendar" },
-                new Permission { AccessRights=AccessRights.AddRole,                             Description = "Right to create a role",                                     Group = "Roles" },
-                new Permission { AccessRights=AccessRights.AddVacancy,                          Description = "Right to create a vacancy",                                  Group = "Vacancies" },
-                new Permission { AccessRights=AccessRights.EditCandidate,                       Description = "Right to edit a candidate",                                  Group = "Candidates" },
-                new Permission { AccessRights=AccessRights.EditEvent,                           Description = "Right to edit an event",                                     Group = "Calendar" },
-                new Permission { AccessRights=AccessRights.EditRole,                            Description = "Right to edit a role",                                       Group = "Roles" },
-                new Permission { AccessRights=AccessRights.EditUserProfile,                     Description = "Right to edit user profile",                                 Group = "Users" },
-                new Permission { AccessRights=AccessRights.EditVacancy,                         Description = "Right to edit a vacancy",                                    Group = "Vacancies" },
-                new Permission { AccessRights=AccessRights.GenerateReports,                     Description = "Right to generate reports",                                  Group = "Reports" },
-                new Permission { AccessRights=AccessRights.InviteNewMember,                     Description = "Right to invite a new member to program",                    Group = "Users" },
-                new Permission { AccessRights=AccessRights.RemoveCandidate,                     Description = "Right to remove candidate",                                  Group = "Candidates" },
-                new Permission { AccessRights=AccessRights.RemoveCandidateFromVacancy,          Description = "Right to remove candidate from a vacancy",                   Group = "Vacancies" },
-                new Permission { AccessRights=AccessRights.RemoveEvent,                         Description = "Right to remove event",                                      Group = "Calendar" },
-                new Permission { AccessRights=AccessRights.RemoveRole,                          Description = "Right to remove role",                                       Group = "Roles" },
-                new Permission { AccessRights=AccessRights.RemoveUserProfile,                   Description = "Right to remove user profile",                               Group = "Users" },
-                new Permission { AccessRights=AccessRights.RemoveVacancy,                       Description = "Right to remove vacancy",                                    Group = "Vacancies" },
-                new Permission { AccessRights=AccessRights.SearchCandidatesInExternalSource,    Description = "Right to search candidates on another work-searching sites", Group = "Candidates" },
-                new Permission { AccessRights=AccessRights.SearchCandidatesInInternalSource,    Description = "Right to search candidates inside the base",                 Group = "Candidates" },
-                new Permission { AccessRights=AccessRights.SystemSetup,                         Description = "Right to provide system setup",                              Group = "System" },
-                new Permission { AccessRights=AccessRights.ViewCalendar,                        Description = "Right to view a calendar",                                   Group = "Calendar" },
-                new Permission { AccessRights=AccessRights.ViewListOfCandidates,                Description = "Right to view list of candidates",                           Group = "Candidates" },
-                new Permission { AccessRights=AccessRights.ViewListOfVacancies,                 Description = "Right to view list of vacancies",                            Group = "Vacancies" },
-                new Permission { AccessRights=AccessRights.ViewRoles,                           Description = "Right to view roles",                                        Group = "Roles" },
-                new Permission { AccessRights=AccessRights.ViewUserProfile,                     Description = "Right to view user profile",                                 Group = "Users" },
-                new Permission { AccessRights=AccessRights.ViewUsers,                           Description = "Right to view users",                                        Group = "Users" }
+                new Permission { AccessRights=AccessRights.AddCandidate,                        Description = "Create a candidate",                        Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.AddCandidateToVacancy,               Description = "Attach exsisting candidate to a vacancy",   Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.AddEvent,                            Description = "Create an event",                           Group = "Calendar" },
+                new Permission { AccessRights=AccessRights.AddRole,                             Description = "Create a role",                             Group = "Roles" },
+                new Permission { AccessRights=AccessRights.AddVacancy,                          Description = "Create a vacancy",                          Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.EditCandidate,                       Description = "Edit a candidate",                          Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.EditEvent,                           Description = "Edit an event",                             Group = "Calendar" },
+                new Permission { AccessRights=AccessRights.EditRole,                            Description = "Edit a role",                               Group = "Roles" },
+                new Permission { AccessRights=AccessRights.EditUserProfile,                     Description = "Edit user profile",                         Group = "Users" },
+                new Permission { AccessRights=AccessRights.EditVacancy,                         Description = "Edit a vacancy",                            Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.GenerateReports,                     Description = "Generate reports",                          Group = "Reports" },
+                new Permission { AccessRights=AccessRights.InviteNewMember,                     Description = "Invite a new member to program",            Group = "Users" },
+                new Permission { AccessRights=AccessRights.RemoveCandidate,                     Description = "Remove candidate",                          Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.RemoveCandidateFromVacancy,          Description = "Remove candidate from a vacancy",           Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.RemoveEvent,                         Description = "Remove event",                              Group = "Calendar" },
+                new Permission { AccessRights=AccessRights.RemoveRole,                          Description = "Remove role",                               Group = "Roles" },
+                new Permission { AccessRights=AccessRights.RemoveUserProfile,                   Description = "Remove user profile",                       Group = "Users" },
+                new Permission { AccessRights=AccessRights.RemoveVacancy,                       Description = "Remove vacancy",                            Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.SearchCandidatesInExternalSource,    Description = "Search candidates on another sources",      Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.SearchCandidatesInInternalSource,    Description = "Search candidates inside the base",         Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.SystemSetup,                         Description = "Provide system setup",                      Group = "System" },
+                new Permission { AccessRights=AccessRights.ViewCalendar,                        Description = "View a calendar",                           Group = "Calendar" },
+                new Permission { AccessRights=AccessRights.ViewListOfCandidates,                Description = "View list of candidates",                   Group = "Candidates" },
+                new Permission { AccessRights=AccessRights.ViewListOfVacancies,                 Description = "View list of vacancies",                    Group = "Vacancies" },
+                new Permission { AccessRights=AccessRights.ViewRoles,                           Description = "View roles",                                Group = "Roles" },
+                new Permission { AccessRights=AccessRights.ViewUserProfile,                     Description = "View user profile",                         Group = "Users" },
+                new Permission { AccessRights=AccessRights.ViewUsers,                           Description = "View users",                                Group = "Users" }
             };
 
         public static readonly List<Stage> Stages = new List<Stage>()
@@ -336,7 +336,7 @@ namespace Data.Migrations
                     {
                         DeadlineDate = DateTime.Now.AddDays(RandomNumber(-40, 40)),
                         Department = Departments.GetRandom(),
-                        Description = GetRandomString(250),
+                        Description = LoremIpsum(5, 40, 1, 5, 1),
                         Industry = Industries.GetRandom(),
                         LanguageSkill = LanguageSkills.GetRandom(),
                         Levels = Levels.Take(RandomNumber(0, Levels.Count)).ToList(),
@@ -350,7 +350,7 @@ namespace Data.Migrations
                         TypeOfEmployment = TypeOfEmployment.FullTime,
                         EndDate = DateTime.Now.AddDays(RandomNumber(0, 30)),
                         Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
-
+                        Comments = Enumerable.Repeat(new Comment {Message = LoremIpsum(3,15,1,2,1) } , RandomNumber(0, 5)).Distinct().ToList(),
                         State = EntityState.Open
                     }
                     );
@@ -376,7 +376,7 @@ namespace Data.Migrations
                 {
                     LocationId = RandomNumber(1, Locations.Count - 1),
                     BirthDate = DateTime.Now.AddYears(RandomNumber(-40, -20)),
-                    Comments = new List<Comment> { },
+                    Comments = Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1) }, RandomNumber(0, 5)).Distinct().ToList(),
                     Education = GetRandomString(15),
                     FirstName = names.GetRandom(),
                     IndustryId = RandomNumber(1, Industries.Count - 1),
@@ -460,6 +460,35 @@ namespace Data.Migrations
             "Специалист компьютерных систем", "Журналист", "Лесоруб", "Военнослужащий в нижних воинских званиях", "Шеф-повар",
             "Конферансье (тамада)", "Фоторепортер", "Редактор", "Водитель такси", "Пожарный", "Почтовый курьер" };
 
+        static string LoremIpsum(int minWords, int maxWords,
+    int minSentences, int maxSentences,
+    int numParagraphs)
+        {
 
+            var words = new[]{"lorem", "ipsum", "dolor", "sit", "amet", "consectetuer",
+        "adipiscing", "elit", "sed", "diam", "nonummy", "nibh", "euismod",
+        "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat"};
+
+            int numSentences = RandomNumber(0,maxSentences - minSentences)
+                + minSentences + 1;
+            int numWords = RandomNumber(0,maxWords - minWords) + minWords + 1;
+
+            System.Text.StringBuilder result = new System.Text.StringBuilder();
+
+            for (int p = 0; p < numParagraphs; p++)
+            {
+                for (int s = 0; s < numSentences; s++)
+                {
+                    for (int w = 0; w < numWords; w++)
+                    {
+                        if (w > 0) { result.Append(" "); }
+                        result.Append(words[RandomNumber(0,words.Length)]);
+                    }
+                    result.Append(". ");
+                }
+            }
+
+            return result.ToString();
+        }
     }
 }

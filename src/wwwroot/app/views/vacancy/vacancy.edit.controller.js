@@ -27,7 +27,7 @@ export default function VacancyController(
    vm.clear                        = clear;
    vm.saveVacancy                  = saveVacancy;
    vm.vacancy                      = {};
-   vm.vacancy.comments             = [];
+   vm.vacancy.comments             = $state.params._data ? $state.params._data.comments : [];
    vm.vacancy.files                = $state.params._data ? $state.params._data.files : [];
    vm.thesaurus                    = [];
    vm.responsibles                 = [];
@@ -37,7 +37,7 @@ export default function VacancyController(
    vm.addFilesForRemove            = addFilesForRemove;
    vm.queueFilesForRemove          = [];
    vm.isFilesUploaded              = false;
-   vm.saveComment                  = saveComment;
+   vm.saveComment                  = _saveComment;
    /* === impl === */
 
    function _initCurrentVacancy() {
@@ -55,13 +55,6 @@ export default function VacancyController(
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
 
    UserService.getUsers().then(users => set(vm, 'responsibles', users));
-
-   function saveComment(comment) {
-      console.log(comment);
-      console.log(vm.vacancy.comments);
-      console.log(vm.vacancy);
-      $q.when(vm.vacancy.comments.push(comment));
-   }
 
    function createNewUploader() {
       let newUploader = FileService.getFileUploader({ onCompleteAllCallBack : _vs, maxSize : 2048000 });
@@ -100,6 +93,12 @@ export default function VacancyController(
          }
       }
       return false;
+   }
+
+   function _saveComment(comment) {
+      console.log(vm.vacancy);
+      console.log(vm.vacancy.comments);
+      return $q.when(vm.vacancy.comments.push(comment));
    }
 
    function _vs() {

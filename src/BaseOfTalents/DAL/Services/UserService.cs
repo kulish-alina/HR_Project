@@ -3,12 +3,14 @@ using System;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.DAL.Infrastructure;
 using DAL.Extensions;
+using System.Linq;
 
 namespace DAL.Services
 {
     public class UserService
     {
         IUnitOfWork uow;
+
         public UserService(IUnitOfWork uow)
         {
             this.uow = uow;
@@ -22,8 +24,8 @@ namespace DAL.Services
 
         public object Get(object searchParameters)
         {
-            throw new NotImplementedException();
-            //return base.Get(searchParameters);
+            var users = uow.UserRepo.Get();
+            return users.Select(x => DTOService.ToDTO<User, UserDTO>(x));
         }
 
         public UserDTO Add(UserDTO userToAdd)

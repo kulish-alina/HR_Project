@@ -33,27 +33,14 @@ namespace BaseOfTalents.WebUI.Controllers
         [Route("search")]
         public IHttpActionResult Get([FromBody]string paramss)
         {
-            /*if (ModelState.IsValid)
-            {
-                var tupleResult = service.Get(
-                    vacancyParams.UserId,
-                    vacancyParams.IndustryId,
-                    vacancyParams.Title,
-                    vacancyParams.VacancyState,
-                    vacancyParams.TypeOfEmployment,
-                    vacancyParams.LevelIds,
-                    vacancyParams.LocationIds,
-                    vacancyParams.Current,
-                    vacancyParams.Size
-                    );
+            return Json(service.Get(new object()), BOT_SERIALIZER_SETTINGS);
+        }
 
-                var vacanciesViewModel = tupleResult.Item1;
-                var total = tupleResult.Item2;
-
-                var ret = new { Vacancies = vacanciesViewModel, Current = vacancyParams.Current, Size = vacancyParams.Size, Total = total };
-                return Json(ret, BOT_SERIALIZER_SETTINGS);
-            }*/
-            return BadRequest("Not implemented");
+        [HttpGet]
+        [Route("")]
+        public IHttpActionResult Get()
+        {
+            return this.Get("");
         }
 
         // GET api/<controller>/5

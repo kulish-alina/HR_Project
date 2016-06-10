@@ -42,13 +42,13 @@
                         </ul>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <select name="Language" ng-model="candidate.LanguageSkill.LanguageId">
+                              <select name="Language" >
                                  <option selected value="">{{::'COMMON.LANGUAGE' | translate}}</option>
                                  <option ng-repeat="language in thesaurus.languages" value="{{language.id}}">{{::language.title}}</option>
                               </select>
                            </div>
                            <div class="medium-6 grid-block">
-                              <select name="LanguageLevel" ng-model="candidate.LanguageSkill.LanguageLevel">
+                              <select name="LanguageLevel" >
                                  <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
                                  <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
                               </select>
@@ -60,15 +60,15 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <select name="Industry" ng-model="candidate.IndustryId">
+                        <select name="Industry" ng-model="candidate.industryId">
                            <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
                            <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
                         </select>
-                        <select name="LanguageLevel" ng-model="candidate.LanguageSkill.LanguageLevel">
+                        <select name="LanguageLevel">
                            <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
                            <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
                         </select>
-                        <input type="text" ng-model="candidate.PositionDesired" placeholder="{{::'CANDIDATE.DESIRED_POSITION' | translate}}">
+                        <input type="text" ng-model="candidate.positionDesired" placeholder="{{::'CANDIDATE.DESIRED_POSITION' | translate}}">
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
                               <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
@@ -81,17 +81,19 @@
                               </select>
                            </div>
                         </div>
-                        <select name="Type of Employment" ng-model="candidate.TypeOfEmployment">
+                        <select name="Type of Employment" ng-model="candidate.typeOfEmployment">
                            <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
                            <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
                         </select>
                         <label>Experience</label>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <input placeholder="{{::'COMMON.YEARS' | translate}}" type="number" min="0" step="1">
+                              <input placeholder="{{::'COMMON.YEARS' | translate}}" type="number" min="0" step="1"
+                              ng-model='candidate.experienceYears'>
                            </div>
                            <div class="medium-6 grid-block">
-                              <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="number" min="0" step="1">
+                              <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="number" min="0" step="1"
+                              ng-model='candidate.experienceMonthes'>
                            </div>
                         </div>
                         <input id="checkbox3" type="checkbox">
@@ -155,10 +157,13 @@
                <fieldset>
                   <div class="grid-block">
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="skill.id as skill.title for skill in thesaurus.skills" ng-model="candidate.skillIds" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: null, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" ng-model="candidate.skills" 
+                        oi-options="skill.title for skill in thesaurus.skills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" 
+                        oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="tag.id as tag.title for tag in thesaurus.tags" ng-model="candidate.tagIds" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: null, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tags" ng-model="candidate.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" 
+                         oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                   </div>
                   <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.Description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>

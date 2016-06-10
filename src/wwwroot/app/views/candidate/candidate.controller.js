@@ -15,7 +15,12 @@ export default function CandidateController(
 
    const vm          = $scope;
    vm.keys           = Object.keys;
-   vm.candidate      = {};
+   vm.candidate      = vm.candidate || {};
+   vm.thesaurus      = {};
+
+   vm.candidate.skills     = vm.candidate.skills || [];
+   vm.candidate.tags       = vm.candidate.tags || [];
+   vm.candidate.files      = vm.candidate.files || [];
 
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
@@ -29,7 +34,6 @@ export default function CandidateController(
       vm.uploader.clearQueue();
       $element[0].querySelector('#upload').value = null;
    }
-
    function _onError() {
       UserDialogService.notification('Some error was occurred!', 'error');
    }
@@ -53,6 +57,7 @@ export default function CandidateController(
 
    function saveCandidate(form) {
       if (ValidationService.validate(form)) {
+         console.log(vm.candidate);
          CandidateService.saveCandidate(vm.candidate).catch(_onError);
       }
    }

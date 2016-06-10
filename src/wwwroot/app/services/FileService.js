@@ -1,11 +1,11 @@
-const FILES_URL = 'files/';
+const FILES_URL = 'file/';
 let _HttpService;
 let _FileUploader;
 
 import context from './../context';
 import { noop } from 'lodash';
 
-const _url = `${context.serverUrl + context.apiSuffix}files`;
+const _url = `${context.serverUrl + context.apiSuffix}file`;
 
 export default class FileService {
    constructor(HttpService, FileUploader) {

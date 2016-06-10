@@ -1,4 +1,4 @@
-const LIST_OF_THESAURUS = ['stages', 'industries'];
+const LIST_OF_THESAURUS = ['stage', 'industry'];
 import {
    remove,
    set,

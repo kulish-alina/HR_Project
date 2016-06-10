@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Entities.Enum
+namespace BaseOfTalents.Domain.Entities.Enum
 {
     public enum LanguageLevel
     {
-        Beginner = 1,
+        Undefiend = 1,
+        Beginner,
         PreIntermediate,
         Intermediate,
         UpperIntermediate,

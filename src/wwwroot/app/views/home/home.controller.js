@@ -1,5 +1,5 @@
-const LIST_OF_THESAURUS = ['industries', 'levels', 'locations',
-    'typesOfEmployment'];
+const LIST_OF_THESAURUS = ['industry', 'level', 'location',
+    'typeOfEmployment'];
 import {
    set
 } from 'lodash';

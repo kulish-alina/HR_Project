@@ -95,10 +95,7 @@
     <Compile Include="Extensions\CandidateSourceExtensions.cs" />
     <Compile Include="Extensions\CommentExtension.cs" />
     <Compile Include="Extensions\FileExtension.cs" />
-    <Compile Include="Extensions\IPagedList.cs" />
     <Compile Include="Extensions\LanguageSkillExtension.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Extensions\PagedList.cs" />
     <Compile Include="Extensions\PhoneNumberExtension.cs" />
     <Compile Include="Extensions\PhotoExtensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />

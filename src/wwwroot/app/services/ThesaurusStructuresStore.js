@@ -1,5 +1,5 @@
 const THESAURUS_STRUCTURES = {
-   'countries' :  {
+   'country' :  {
       thesaurusName : 'THESAURUSES.COUNTRIES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
@@ -7,7 +7,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'socialnetworks' : {
+   'socialnetwork' : {
       thesaurusName : 'THESAURUSES.SOCIALS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
@@ -16,7 +16,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'languages' : {
+   'language' : {
       thesaurusName : 'THESAURUSES.LANGUAGES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
@@ -24,18 +24,18 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'locations' : {
+   'location' : {
       thesaurusName : 'THESAURUSES.LOCATIONS',
       fields : [
          {name : 'id',              label : 'id',                    type : ''},
          {name : 'title',           label : 'name',                  type : 'text',
           validator : 'required, maxlength=50, minlength=3'},
          {name : 'countryId',         label : 'country',               type : 'select',
-          refTo : 'countries',      labelRefFieldName : 'title',     refObject : 'countryObject'},
+          refTo : 'country',      labelRefFieldName : 'title',     refObject : 'countryObject'},
          {name : 'state',           label : 'state',                 type : ''}
       ]
    },
-   'departments' : {
+   'department' : {
       thesaurusName : 'THESAURUSES.DEPARTMENTS',
       fields : [
          {name : 'id',                    label : 'id',                    type : ''},
@@ -46,7 +46,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',                 label : 'state',                 type : ''}
       ]
    },
-   'departmentgroups' : {
+   'departmentgroup' : {
       thesaurusName : 'THESAURUSES.DEPARTMENT_GROUPS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
@@ -54,7 +54,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'industries' : {
+   'industry' : {
       thesaurusName : 'THESAURUSES.INDUSTRIES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
@@ -62,7 +62,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'skills' : {
+   'skill' : {
       thesaurusName : 'THESAURUSES.SKILLS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
@@ -70,7 +70,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'tags' : {
+   'tag' : {
       thesaurusName : 'THESAURUSES.TAGS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
@@ -78,7 +78,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'stages' : {
+   'stage' : {
       thesaurusName : 'THESAURUSES.STAGES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
@@ -86,7 +86,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'levels' : {
+   'level' : {
       thesaurusName : 'THESAURUSES.LEVELS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
@@ -94,7 +94,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'eventtypes' : {
+   'eventtype' : {
       thesaurusName : 'THESAURUSES.EVENT_TYPES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},

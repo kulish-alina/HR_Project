@@ -1,14 +1,9 @@
-using Domain.DTO.DTOModels.SetupDTO;
-using Domain.Entities.Setup;
+using BaseOfTalents.Domain.Entities.Enum.Setup;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace BaseOfTalents.Domain.Entities
 {
-    public class Event: BaseEntity
+    public class Event : BaseEntity
     {
         public DateTime EventDate { get; set; }
         public string Description { get; set; }
@@ -21,6 +16,5 @@ namespace Domain.Entities
 
         public int ResponsibleId { get; set; }
         public virtual User Responsible { get; set; }
-
     }
 }

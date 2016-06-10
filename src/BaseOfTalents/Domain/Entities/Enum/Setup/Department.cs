@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Entities.Setup
+namespace BaseOfTalents.Domain.Entities.Enum.Setup
 {
     public class Department : BaseEntity
     {
@@ -14,4 +8,3 @@ namespace Domain.Entities.Setup
         public DepartmentGroup DepartmentGroup { get; set; }
     }
 }
-

@@ -1,11 +1,8 @@
-﻿using Domain.Entities.Setup;
+﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace BaseOfTalents.Domain.Entities
 {
     public class User : BaseEntity
     {
@@ -13,6 +10,7 @@ namespace Domain.Entities
         {
             PhoneNumbers = new List<PhoneNumber>();
         }
+
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

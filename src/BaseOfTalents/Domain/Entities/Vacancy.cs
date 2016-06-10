@@ -1,12 +1,11 @@
-using Domain.Entities.Enum;
-using Domain.Entities.Enum.Setup;
-using Domain.Entities.Setup;
+using BaseOfTalents.Domain.Entities.Enum;
+using BaseOfTalents.Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 
-namespace Domain.Entities
+namespace BaseOfTalents.Domain.Entities
 {
-    public class Vacancy : BaseEntity 
+    public class Vacancy : BaseEntity
     {
         public Vacancy()
         {

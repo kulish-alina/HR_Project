@@ -1,7 +1,4 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-
-namespace Domain.Entities
+namespace BaseOfTalents.Domain.Entities
 {
     public class File : BaseEntity
     {

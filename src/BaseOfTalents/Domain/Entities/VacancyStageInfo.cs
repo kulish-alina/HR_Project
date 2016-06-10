@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Domain.Entities
+﻿namespace BaseOfTalents.Domain.Entities
 {
     public class VacancyStageInfo : BaseEntity
     {

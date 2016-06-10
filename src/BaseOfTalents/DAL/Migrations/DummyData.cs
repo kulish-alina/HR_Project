@@ -640,6 +640,7 @@ namespace BaseOfTalents.DAL.Migrations
                     }
                     );
             }
+            return vacancies;
         }
 
         private static List<Candidate> GetCandidates(int count)

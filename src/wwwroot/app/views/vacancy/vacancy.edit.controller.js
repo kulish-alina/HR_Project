@@ -10,6 +10,7 @@ export default function VacancyController(
    $scope,
    $translate,
    $state,
+   $q,
    VacancyService,
    ValidationService,
    ThesaurusService,
@@ -36,6 +37,7 @@ export default function VacancyController(
    vm.addFilesForRemove            = addFilesForRemove;
    vm.queueFilesForRemove          = [];
    vm.isFilesUploaded              = false;
+   vm.saveComment                  = saveComment;
    /* === impl === */
 
    function _initCurrentVacancy() {
@@ -53,6 +55,13 @@ export default function VacancyController(
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
 
    UserService.getUsers().then(users => set(vm, 'responsibles', users));
+
+   function saveComment(comment) {
+      console.log(comment);
+      console.log(vm.vacancy.comments);
+      console.log(vm.vacancy);
+      $q.when(vm.vacancy.comments.push(comment));
+   }
 
    function createNewUploader() {
       let newUploader = FileService.getFileUploader({ onCompleteAllCallBack : _vs, maxSize : 2048000 });

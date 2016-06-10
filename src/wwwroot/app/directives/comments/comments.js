@@ -7,7 +7,10 @@ export default class CommentsDirective {
       this.template = template;
       this.scope = {
          type : '@',
-         comments: '=ngModel'
+         comments: '=ngModel',
+         save: '=',
+         remove: '=',
+         edit: '='
       };
       this.controller = CommentsController;
    }
@@ -18,7 +21,7 @@ export default class CommentsDirective {
    }
 }
 
-function CommentsController($scope, $translate, UserService, CommentService) {
+function CommentsController($scope, $translate) {
 
    const vm            = $scope;
    vm.typeWrap         = _getType();
@@ -29,18 +32,22 @@ function CommentsController($scope, $translate, UserService, CommentService) {
    vm.removeComment    = removeComment;
 
    function addComment() {
-      if (vm.type === 'note') {
-         UserService.getUserById(10).then((user) => {
-            vm.currentComment.userId = user.id;
-         });
-         CommentService.save(vm.currentComment).then((comment) => {
-            vm.comments.push(comment);
-         });
-         vm.currentComment   = {};
-      } else {
+      vm.save(vm.currentCommnet).then(() => {
          vm.comments.push(vm.currentComment);
          vm.currentComment   = {};
-      }
+      });
+//      if (vm.type === 'note') {
+//         UserService.getUserById(10).then((user) => {
+//            vm.currentComment.userId = user.id;
+//         });
+//         CommentService.save(vm.currentComment).then((comment) => {
+//            vm.comments.push(comment);
+//         });
+//         vm.currentComment   = {};
+//      } else {
+//         vm.comments.push(vm.currentComment);
+//         vm.currentComment   = {};
+//      }
    }
 
    function removeComment(comment) {

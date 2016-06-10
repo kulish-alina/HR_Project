@@ -30,24 +30,24 @@
                         <input name="Title" ng-model="vacancy.title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, minlength=3, maxlength=50">
                         <select name="Industry" ng-model="vacancy.industryId" validator="required">
                            <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
-                           <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}" ng-bind="industry.title"></option>
+                           <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
                         </select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
                               <select name="Language" ng-model="vacancy.languageSkill.languageId">
                                  <option selected value="" ng-bind="::'COMMON.LANGUAGE' | translate"></option>
-                                 <option ng-repeat="language in thesaurus.languages" value="{{language.id}}" ng-bind="language.title"></option>
+                                 <option ng-repeat="language in thesaurus.language" value="{{language.id}}" ng-bind="language.title"></option>
                               </select>
                            </div>
                            <div class="medium-6 grid-block">
                               <select ng-disabled="!vacancy.languageSkill.languageId" name="LanguageLevel" ng-model="vacancy.languageSkill.languageLevel">
                                  <option selected value="" ng-bind="::'COMMON.LEVEL' | translate"></option>
-                                 <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}" ng-bind="languageLevel.title"></option>
+                                 <option ng-repeat="languageLevel in thesaurus.languageLevel" value="{{languageLevel.id}}" ng-bind="languageLevel.title"></option>
                               </select>
                            </div>
                         </div>
-                        <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.levels" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
-                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.location" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
@@ -58,7 +58,7 @@
                         </select>
                         <select name="Department" ng-model="vacancy.departmentId" validator="required">
                            <option selected value="" ng-bind="::'COMMON.DEPARTMENT' | translate"></option>
-                           <option ng-repeat="department in thesaurus.departments" value="{{department.id}}" ng-bind="department.title">
+                           <option ng-repeat="department in thesaurus.department" value="{{department.id}}" ng-bind="department.title">
                            </option>
                         </select>
                         <div class="grid-block">
@@ -71,7 +71,7 @@
                         </div>
                         <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
                            <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
-                           <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
+                           <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
                         </select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
@@ -104,10 +104,10 @@
                <fieldset>
                   <div class="grid-block">
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="skill.title for skill in thesaurus.skills" ng-model="vacancy.requiredSkills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="skill.title for skill in thesaurus.skill" ng-model="vacancy.requiredSkills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tags" ng-model="vacancy.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tag" ng-model="vacancy.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                   </div>
                   <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>

@@ -13,7 +13,7 @@ namespace BaseOfTalents.DAL.Repositories
         internal DbContext context;
         internal DbSet<TEntity> dbSet;
 
-        private Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> defaultOrder = d => d.OrderByDescending(s => s.LastModified);
+        private Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> defaultOrder = d => d.OrderByDescending(s => s.Id);
 
         public BaseRepository(DbContext context)
         {

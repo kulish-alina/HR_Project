@@ -16,19 +16,19 @@ import {
 
 import { assign } from 'lodash/fp';
 
-const VACANCY_URL = 'vacancies/';
+const VACANCY_URL = 'vacancy/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate', 'createdOn'];
 
 const THESAURUS = [
-   new ThesaurusHelper('tags',   'tagIds',            'tags',           true),
-   new ThesaurusHelper('skills', 'requiredSkillIds',  'requiredSkills', true),
+   new ThesaurusHelper('tag',   'tagIds',            'tags',           true),
+   new ThesaurusHelper('skill', 'requiredSkillIds',  'requiredSkills', true),
 
-   new ThesaurusHelper('industries',   'industryId',  'industries'),
-   new ThesaurusHelper('levels',       'levelIds',    'levels'),
-   new ThesaurusHelper('locations',    'locationIds', 'locations'),
-   new ThesaurusHelper('departments',  'departmentId', 'departments'),
-   new ThesaurusHelper('entityStates', 'state',       'entityStates'),
-   new ThesaurusHelper('typesOfEmployment', 'typeOfEmployment', 'typesOfEmployment')
+   new ThesaurusHelper('industry',   'industryId',  'industries'),
+   new ThesaurusHelper('level',       'levelIds',    'levels'),
+   new ThesaurusHelper('location',    'locationIds', 'locations'),
+   new ThesaurusHelper('department',  'departmentId', 'departments'),
+   new ThesaurusHelper('entityState', 'state',       'entityStates'),
+   new ThesaurusHelper('typeOfEmployment', 'typeOfEmployment', 'typesOfEmployment')
 ];
 
 let _HttpService;
@@ -141,10 +141,10 @@ function _fillThesauruses(vacancy) {
    }, {});
 
    vacancy.languageSkill = vacancy.languageSkill || {};
-   _ThesaurusService.getThesaurusTopic('languageLevels', vacancy.languageSkill.languageLevel)
+   _ThesaurusService.getThesaurusTopic('languageLevel', vacancy.languageSkill.languageLevel)
       .then(curriedSet(vacancy, 'languageSkill.languageLevelObj'));
    vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
-   _ThesaurusService.getThesaurusTopic('languages', vacancy.languageSkill.languageId)
+   _ThesaurusService.getThesaurusTopic('language', vacancy.languageSkill.languageId)
       .then(curriedSet(vacancy, 'languageSkill.language'));
    vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
 

@@ -2,7 +2,7 @@ import { first } from 'lodash';
 
 import { filter } from 'lodash/fp';
 
-const USER_URL = 'users/';
+const USER_URL = 'user/';
 let _HttpService, _$q, _HttpCacheService, _LoggerService;
 let currentUser = {};
 

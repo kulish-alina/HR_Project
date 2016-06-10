@@ -16,6 +16,7 @@ namespace Domain.DTO.DTOModels
             CandidatesProgress = new List<VacancyStageInfoDTO>();
             Files = new List<FileDTO>();
             ChildVacanciesIds = new List<int>();
+            Comments = new List<CommentDTO>();
         }
 
         [Required]

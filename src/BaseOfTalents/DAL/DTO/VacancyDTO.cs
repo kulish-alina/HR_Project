@@ -22,7 +22,6 @@ namespace Domain.DTO.DTOModels
         [Required]
         public string Title { get; set; }
 
-        [Required]
         public string Description { get; set; }
         public int SalaryMin { get; set; }
         public int SalaryMax { get; set; }

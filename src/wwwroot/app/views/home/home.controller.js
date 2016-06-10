@@ -23,9 +23,9 @@ export default function VacanciesController(
    vm.vacancies       = [];
    vm.viewVacancy     = viewVacancy;
    vm.total           = 0;
-   vm.vacancy.current = 1;
+   vm.vacancy.current = 0;
    vm.vacancy.size    = 20;
-   vm.pagination      = { current: 1 };
+   vm.pagination      = { current: 0 };
    vm.pageChanged     = pageChanged;
 
    function pageChanged(newPage) {

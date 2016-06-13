@@ -1,82 +1,72 @@
 ﻿using BaseOfTalents.WebUI.Extensions;
 using BaseOfTalents.WebUI.Models;
+using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
 using Domain.DTO.DTOModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Linq;
 using System.Web.Http;
 
 namespace BaseOfTalents.WebUI.Controllers
 {
-    [RoutePrefix("api/event")]
-    public class EventController : ApiController
+    [RoutePrefix("api/note")]
+    public class NoteController : ApiController
     {
-        private EventService service;
+        private NoteService service;
         private static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        public EventController(EventService service)
+        public NoteController(NoteService service)
         {
             this.service = service;
         }
 
-        public EventController()
+        public NoteController()
         {
 
         }
 
         // GET api/<controller>
         [HttpGet]
-        [Route("")]
-        public IHttpActionResult Get()
+        [Route("user/{id}")]
+        public IHttpActionResult GetByUser(int id)
         {
-            return BadRequest("You should specify search parameters");
-        }
-
-        [HttpPost]
-        [Route("search")]
-        public IHttpActionResult Get([FromBody]EventSearchParameteres searchParams)
-        {
-            if (!ModelState.IsValid)
+            var foundedNotes = service.GetByUserId(id);
+            if (foundedNotes != null)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
-            }
-            var foundedEvents = service.Get(searchParams.UserIds, searchParams.Month, searchParams.Year);
-            if (foundedEvents.Any())
-            {
-                return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
+                return Json(foundedNotes, BOT_SERIALIZER_SETTINGS);
             }
             return BadRequest();
         }
 
+
         // POST api/<controller>
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Post([FromBody]EventDTO newEvent)
+        public IHttpActionResult Post([FromBody]NoteDTO noteToAdd)
         {
             if (!ModelState.IsValid)
             {
                 return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
             }
-            var addedEvent = service.Add(newEvent);
-            return Json(addedEvent, BOT_SERIALIZER_SETTINGS);
+            var addedNote = service.Add(noteToAdd);
+            return Json(addedNote, BOT_SERIALIZER_SETTINGS);
         }
 
         // PUT api/<controller>/5
         [HttpPut]
         [Route("{id}")]
-        public IHttpActionResult Put(int id, [FromBody]EventDTO changedEvent)
+        public IHttpActionResult Put(int id, [FromBody]NoteDTO changedNote)
         {
             if (!ModelState.IsValid)
             {
                 return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
             }
-            var updatedEvent = service.Update(changedEvent);
-            return Json(updatedEvent, BOT_SERIALIZER_SETTINGS);
+            var updatedNote = service.Update(changedNote);
+            return Json(updatedNote, BOT_SERIALIZER_SETTINGS);
         }
 
         // DELETE api/<controller>/5

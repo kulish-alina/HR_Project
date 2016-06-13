@@ -143,6 +143,10 @@ namespace WebApi
                .As<VacancyService>()
                .InstancePerRequest();
 
+            builder.RegisterType<NoteService>()
+              .As<NoteService>()
+              .InstancePerRequest();
+
             builder.RegisterGeneric(typeof(BaseRepository<>))
             .As(typeof(IRepository<>))
             .InstancePerRequest();

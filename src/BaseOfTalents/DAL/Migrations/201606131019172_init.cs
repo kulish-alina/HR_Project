@@ -503,18 +503,20 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.Candidate_Id);
             
             CreateTable(
-                "dbo.Error",
+                "dbo.Note",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Message = c.String(),
-                        StackTrace = c.String(),
+                        UserId = c.Int(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.User", t => t.UserId)
+                .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.CandidateComment",
@@ -689,6 +691,7 @@ namespace BaseOfTalents.DAL.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.Note", "UserId", "dbo.User");
             DropForeignKey("dbo.VacancyStageInfo", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateTag", "Tag_Id", "dbo.Tag");
             DropForeignKey("dbo.CandidateTag", "Candidate_Id", "dbo.Candidate");
@@ -772,6 +775,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.UserPhoneNumber", new[] { "User_Id" });
             DropIndex("dbo.CandidateComment", new[] { "Comment_Id" });
             DropIndex("dbo.CandidateComment", new[] { "Candidate_Id" });
+            DropIndex("dbo.Note", new[] { "UserId" });
             DropIndex("dbo.CandidateSource", new[] { "Candidate_Id" });
             DropIndex("dbo.CandidateSocial", new[] { "CandidateId" });
             DropIndex("dbo.CandidateSocial", new[] { "SocialNetworkId" });
@@ -816,7 +820,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropTable("dbo.PermissionRole");
             DropTable("dbo.UserPhoneNumber");
             DropTable("dbo.CandidateComment");
-            DropTable("dbo.Error");
+            DropTable("dbo.Note");
             DropTable("dbo.CandidateSource");
             DropTable("dbo.SocialNetwork");
             DropTable("dbo.CandidateSocial");

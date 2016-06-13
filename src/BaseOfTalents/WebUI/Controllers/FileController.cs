@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using WebUI.Extensions;
 using DAL.Services;
+using System.Collections.Generic;
 
 namespace BaseOfTalents.WebUI.Controllers
 {
@@ -34,6 +35,21 @@ namespace BaseOfTalents.WebUI.Controllers
         public FileController()
         {
 
+        }
+
+        [HttpPost]
+        [Route("RemoveGroup")]
+        public IHttpActionResult RemoveGroup([FromBody]List<int> fileIds)
+        {
+            var deletedIds = new List<int>();
+            fileIds.ForEach(fileId =>
+            {
+                if (fileService.Delete(fileId))
+                {
+                    deletedIds.Add(fileId);
+                }
+            });
+            return Json(deletedIds, BOT_SERIALIZER_SETTINGS);
         }
 
         [HttpDelete]

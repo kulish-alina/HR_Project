@@ -1,4 +1,5 @@
 ﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 

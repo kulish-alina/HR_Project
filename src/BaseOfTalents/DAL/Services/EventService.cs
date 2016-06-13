@@ -3,6 +3,9 @@ using BaseOfTalents.Domain.Entities;
 using DAL.Extensions;
 using Domain.DTO.DTOModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace DAL.Services
 {
@@ -29,10 +32,20 @@ namespace DAL.Services
             return DTOService.ToDTO<Event, EventDTO>(newEvent);
         }
 
-        public object Get(object searchParameters)
+        public IEnumerable<EventDTO> Get(IEnumerable<int> userIds, int month, int year)
         {
-            throw new NotImplementedException();
-            //return base.Get(searchParameters);
+            var domainEvents = new List<Event>();
+            userIds.ToList().ForEach(x =>
+            {
+                var filters = new List<Expression<Func<Event, bool>>>();
+                filters.Add(e => e.ResponsibleId == x);
+                filters.Add(e => e.EventDate.Month == month);
+                filters.Add(e => e.EventDate.Year == year);
+                var foundedEvents = uow.EventRepo.Get(filters);
+                domainEvents.AddRange(foundedEvents);
+            });
+            var eventsDto = domainEvents.Select(x => DTOService.ToDTO<Event, EventDTO>(x));
+            return eventsDto;
         }
 
         public EventDTO Update(EventDTO eventToChange)

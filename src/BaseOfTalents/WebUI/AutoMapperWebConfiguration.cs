@@ -5,6 +5,8 @@ using Domain.DTO.DTOModels.SetupDTO;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using BaseOfTalents.WebUI.Models;
+using Domain.Entities;
+using DAL.DTO;
 
 namespace WebApi
 {
@@ -67,6 +69,9 @@ namespace WebApi
 
                 x.CreateMap<File, FileDTO>();
                 x.CreateMap<FileDTO, File>();
+
+                x.CreateMap<Note, NoteDTO>();
+                x.CreateMap<NoteDTO, Note>();
 
                 x.CreateMap<CandidateSource, CandidateSourceDTO>();
                 x.CreateMap<CandidateSourceDTO, CandidateSource>();

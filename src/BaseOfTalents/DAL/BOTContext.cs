@@ -1,6 +1,7 @@
 ﻿using BaseOfTalents.DAL.Mapping;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
+using DAL.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -22,7 +23,6 @@ namespace BaseOfTalents.DAL
         public BOTContext()
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<BOTContext, Configuration>());
         }
 
         public virtual DbSet<Language> Languages { get; set; }
@@ -71,6 +71,7 @@ namespace BaseOfTalents.DAL
 
             modelBuilder.Configurations.Add(new UserConfiguration());
             modelBuilder.Configurations.Add(new EventConfiguration());
+            modelBuilder.Configurations.Add(new NoteConfiguration());
 
             modelBuilder.Configurations.Add(new DepartmentConfiguration());
             modelBuilder.Configurations.Add(new DepartmentGroupConfiguration());
@@ -87,7 +88,6 @@ namespace BaseOfTalents.DAL
             modelBuilder.Configurations.Add(new SocialNetworkConfiguration());
 
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
-            modelBuilder.Configurations.Add(new ErrorConfiguration());
             modelBuilder.Configurations.Add(new PhotoConfiguration());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

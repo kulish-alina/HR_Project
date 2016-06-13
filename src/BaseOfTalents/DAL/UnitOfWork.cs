@@ -3,6 +3,7 @@ using BaseOfTalents.DAL.Repositories;
 using DAL.Infrastructure;
 using DAL.Repositories;
 using System.Data.Entity;
+using System;
 
 namespace BaseOfTalents.DAL
 {
@@ -37,6 +38,7 @@ namespace BaseOfTalents.DAL
         private ICandidateSourceRepository      candidateSourceRepo;
         private ICommentRepository              commentRepo;
         private IEventRepository                eventRepo;
+        private INoteRepository                 noteRepo;
 
         public UnitOfWork(DbContext context)
         {
@@ -396,6 +398,19 @@ namespace BaseOfTalents.DAL
                 }
 
                 return eventRepo;
+            }
+        }
+
+        public INoteRepository NoteRepo
+        {
+            get
+            {
+                if (noteRepo == null)
+                {
+                    noteRepo = new NoteRepository(context);
+                }
+
+                return noteRepo;
             }
         }
 

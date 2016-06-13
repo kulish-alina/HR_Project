@@ -68,6 +68,7 @@
     <Compile Include="DTO\EventDTO.cs" />
     <Compile Include="DTO\FileDTO.cs" />
     <Compile Include="DTO\LanguageSkillDTO.cs" />
+    <Compile Include="DTO\NoteDTO.cs" />
     <Compile Include="DTO\PermissionDTO.cs" />
     <Compile Include="DTO\PhoneNumberDTO.cs" />
     <Compile Include="DTO\PhotoDTO.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Extensions\CandidateSocialExtensions.cs" />
     <Compile Include="Extensions\CandidateSourceExtensions.cs" />
     <Compile Include="Extensions\CommentExtension.cs" />
+    <Compile Include="Extensions\EventExtensions.cs" />
     <Compile Include="Extensions\FileExtension.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\LanguageSkillExtension.cs" />
@@ -109,7 +111,6 @@
     <Compile Include="Infrastructure\ICountryRepository.cs" />
     <Compile Include="Infrastructure\IDepartmentGroupRepository.cs" />
     <Compile Include="Infrastructure\IDepartmentRepository.cs" />
-    <Compile Include="Infrastructure\IErrorRepository.cs" />
     <Compile Include="Infrastructure\IEventRepository.cs" />
     <Compile Include="Infrastructure\IEventTypeRepository.cs" />
     <Compile Include="Infrastructure\IFileRepository.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Infrastructure\ILanguageSkillRepository.cs" />
     <Compile Include="Infrastructure\ILevelRepository.cs" />
     <Compile Include="Infrastructure\ILocationRepository.cs" />
+    <Compile Include="Infrastructure\INoteRepository.cs" />
     <Compile Include="Infrastructure\IPermissionRepository.cs" />
     <Compile Include="Infrastructure\IPhoneNumberRepository.cs" />
     <Compile Include="Infrastructure\IPhotoRepository.cs" />
@@ -140,7 +142,6 @@
     <Compile Include="Mapping\CountryConfiguration.cs" />
     <Compile Include="Mapping\DepartmentConfiguration.cs" />
     <Compile Include="Mapping\DepartmentGroupConfiguration.cs" />
-    <Compile Include="Mapping\ErrorConfiguration.cs" />
     <Compile Include="Mapping\EventConfiguration.cs" />
     <Compile Include="Mapping\EventTypeConfiguration.cs" />
     <Compile Include="Mapping\FileConfiguration.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Mapping\LanguageSkillConfiguration.cs" />
     <Compile Include="Mapping\LevelConfiguration.cs" />
     <Compile Include="Mapping\LocationConfiguration.cs" />
+    <Compile Include="Mapping\NoteConfiguration.cs" />
     <Compile Include="Mapping\PermissionConfiguration.cs" />
     <Compile Include="Mapping\PhoneNumberConfiguration.cs" />
     <Compile Include="Mapping\PhotoConfiguration.cs" />
@@ -160,9 +162,9 @@
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201606101040387_init.cs" />
-    <Compile Include="Migrations\201606101040387_init.Designer.cs">
-      <DependentUpon>201606101040387_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606131019172_init.cs" />
+    <Compile Include="Migrations\201606131019172_init.Designer.cs">
+      <DependentUpon>201606131019172_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -172,14 +174,15 @@
     <Compile Include="Repositories\CandidateSourceRepository.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
     <Compile Include="Repositories\DepartmentGroupRepository.cs" />
+    <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="Repositories\EventTypeRepository.cs" />
     <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Repositories\CandidateRepository.cs" />
     <Compile Include="Repositories\CityRepository.cs" />
     <Compile Include="Repositories\CountryRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
-    <Compile Include="Repositories\ErrorRepository.cs" />
     <Compile Include="Repositories\IndustryRepository.cs" />
+    <Compile Include="Repositories\NoteRepository.cs" />
     <Compile Include="Repositories\PhoneNumberRepository.cs" />
     <Compile Include="Repositories\LanguageRepository.cs" />
     <Compile Include="Repositories\LanguageSkillRepository.cs" />
@@ -206,6 +209,7 @@
     <Compile Include="Services\DepartmentService.cs" />
     <Compile Include="Services\DTOService.cs" />
     <Compile Include="Services\EntityStateService.cs" />
+    <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\EventTypeService.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\IndustryService.cs" />
@@ -213,6 +217,7 @@
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\LevelService.cs" />
     <Compile Include="Services\LocationService.cs" />
+    <Compile Include="Services\NoteService.cs" />
     <Compile Include="Services\PermissionService.cs" />
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\SkillService.cs" />
@@ -236,8 +241,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606101040387_init.resx">
-      <DependentUpon>201606101040387_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606131019172_init.resx">
+      <DependentUpon>201606131019172_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

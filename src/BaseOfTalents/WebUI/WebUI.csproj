@@ -170,6 +170,7 @@
     <Compile Include="Controllers\DepartmentGroupController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EntityStateController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\EventTypeController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\IndustryController.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\LevelController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
@@ -195,8 +197,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CommentModel.cs" />
+    <Compile Include="Models\EventSearchParameteres.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\LanguageSkillModel.cs" />
+    <Compile Include="Models\NoteModel.cs" />
     <Compile Include="Models\VacancyModel.cs" />
     <Compile Include="Models\VacancySearchModel.cs" />
     <Compile Include="Models\VacancySearchParameters.cs" />

@@ -26,6 +26,8 @@ namespace BaseOfTalents.DAL.Mapping
             HasMany(c => c.Files);
             HasMany(c => c.VacanciesProgress).WithRequired(vs => vs.Candidate).HasForeignKey(vs => vs.CandidateId);
 
+            HasMany(x => x.Events).WithOptional(x => x.Candidate).HasForeignKey(x => x.CandidateId);
+
             HasMany(c => c.SocialNetworks).WithRequired().HasForeignKey(x => x.CandidateId);
 
             HasMany(c => c.LanguageSkills).WithMany().Map(x =>

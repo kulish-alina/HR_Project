@@ -5,6 +5,8 @@ using Domain.DTO.DTOModels.SetupDTO;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using BaseOfTalents.WebUI.Models;
+using Domain.Entities;
+using DAL.DTO;
 
 namespace WebApi
 {
@@ -35,6 +37,9 @@ namespace WebApi
                 x.CreateMap<EventType, EventTypeDTO>();
                 x.CreateMap<EventTypeDTO, EventType>();
 
+                x.CreateMap<Event, EventDTO>();
+                x.CreateMap<EventDTO, Event>();
+
                 x.CreateMap<Industry, IndustryDTO>();
                 x.CreateMap<IndustryDTO, Industry>();
 
@@ -64,6 +69,9 @@ namespace WebApi
 
                 x.CreateMap<File, FileDTO>();
                 x.CreateMap<FileDTO, File>();
+
+                x.CreateMap<Note, NoteDTO>();
+                x.CreateMap<NoteDTO, Note>();
 
                 x.CreateMap<CandidateSource, CandidateSourceDTO>();
                 x.CreateMap<CandidateSourceDTO, CandidateSource>();
@@ -118,6 +126,7 @@ namespace WebApi
                     .ForMember(dest => dest.TagIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Tag>, IEnumerable<int>>(src.Tags)))
                     .ForMember(dest => dest.SkillIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.Skills)))
                     .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(src.Comments)))
+                    .ForMember(dest => dest.Events, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Event>, IEnumerable<EventDTO>>(src.Events)))
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
 
                 x.CreateMap<Vacancy, VacancyDTO>()

@@ -97,6 +97,8 @@ namespace WebApi
                 .As<BaseService<Role, RoleDTO>>()
                 .InstancePerRequest();
 
+           
+
             builder.RegisterType<SkillService>()
                 .As<BaseService<Skill, SkillDTO>>()
                 .InstancePerRequest();
@@ -133,9 +135,17 @@ namespace WebApi
                .As<UserService>()
                .InstancePerRequest();
 
+            builder.RegisterType<EventService>()
+              .As<EventService>()
+              .InstancePerRequest();
+
             builder.RegisterType<VacancyService>()
                .As<VacancyService>()
                .InstancePerRequest();
+
+            builder.RegisterType<NoteService>()
+              .As<NoteService>()
+              .InstancePerRequest();
 
             builder.RegisterGeneric(typeof(BaseRepository<>))
             .As(typeof(IRepository<>))

@@ -23,14 +23,15 @@ namespace BaseOfTalents.WebUI.Controllers
         {
             this.service = service;
         }
+
         public EventController()
         {
 
         }
 
         // GET api/<controller>
-        [HttpPost]
-        [Route("search")]
+        [HttpGet]
+        [Route("")]
         public IHttpActionResult Get()
         {
             return BadRequest("You should specify search parameters");

@@ -31,13 +31,13 @@ namespace BaseOfTalents.WebUI.Controllers
 
         // GET api/<controller>
         [HttpGet]
-        [Route("byUser/{id}")]
+        [Route("user/{id}")]
         public IHttpActionResult GetByUser(int id)
         {
-            var foundedEntity = service.GetByUserId(id);
-            if (foundedEntity != null)
+            var foundedNotes = service.GetByUserId(id);
+            if (foundedNotes != null)
             {
-                return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
+                return Json(foundedNotes, BOT_SERIALIZER_SETTINGS);
             }
             return BadRequest();
         }

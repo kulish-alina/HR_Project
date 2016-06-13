@@ -31,7 +31,8 @@ namespace BaseOfTalents.DAL.Infrastructure
         ICandidateSocialRepository CandidateSocialRepo { get; }
         ICandidateSourceRepository CandidateSourceRepo { get; }
         IVacancyStageInfoRepository VacancyStageInfoRepo { get; }
-        
+        IEventRepository EventRepo { get; }
+
 
         void Commit();
     }

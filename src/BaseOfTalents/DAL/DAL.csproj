@@ -94,6 +94,7 @@
     <Compile Include="Extensions\CandidateSocialExtensions.cs" />
     <Compile Include="Extensions\CandidateSourceExtensions.cs" />
     <Compile Include="Extensions\CommentExtension.cs" />
+    <Compile Include="Extensions\EventExtensions.cs" />
     <Compile Include="Extensions\FileExtension.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\LanguageSkillExtension.cs" />
@@ -160,9 +161,9 @@
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201606101040387_init.cs" />
-    <Compile Include="Migrations\201606101040387_init.Designer.cs">
-      <DependentUpon>201606101040387_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606101507051_init.cs" />
+    <Compile Include="Migrations\201606101507051_init.Designer.cs">
+      <DependentUpon>201606101507051_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Repositories\CandidateSourceRepository.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
     <Compile Include="Repositories\DepartmentGroupRepository.cs" />
+    <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="Repositories\EventTypeRepository.cs" />
     <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Repositories\CandidateRepository.cs" />
@@ -206,6 +208,7 @@
     <Compile Include="Services\DepartmentService.cs" />
     <Compile Include="Services\DTOService.cs" />
     <Compile Include="Services\EntityStateService.cs" />
+    <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\EventTypeService.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\IndustryService.cs" />
@@ -236,8 +239,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606101040387_init.resx">
-      <DependentUpon>201606101040387_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606101507051_init.resx">
+      <DependentUpon>201606101507051_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,11 +1,8 @@
 ﻿using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.DAL.Repositories;
-using BaseOfTalents.Domain.Entities;
 using DAL.Infrastructure;
 using DAL.Repositories;
 using System.Data.Entity;
-using System;
-using System.Linq;
 
 namespace BaseOfTalents.DAL
 {
@@ -39,7 +36,7 @@ namespace BaseOfTalents.DAL
         private ICandidateSocialRepository      candidateSocialRepo;
         private ICandidateSourceRepository      candidateSourceRepo;
         private ICommentRepository              commentRepo;
-
+        private IEventRepository                eventRepo;
 
         public UnitOfWork(DbContext context)
         {
@@ -386,6 +383,19 @@ namespace BaseOfTalents.DAL
                 }
 
                 return commentRepo;
+            }
+        }
+
+        public IEventRepository EventRepo
+        {
+            get
+            {
+                if (eventRepo == null)
+                {
+                    eventRepo = new EventRepository(context);
+                }
+
+                return eventRepo;
             }
         }
 

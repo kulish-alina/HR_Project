@@ -62,6 +62,7 @@ namespace BaseOfTalents.Domain.Entities
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public virtual ICollection<Skill> Skills { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
 
         public virtual Photo Photo { get; set; }
     }

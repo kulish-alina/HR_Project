@@ -170,6 +170,7 @@
     <Compile Include="Controllers\DepartmentGroupController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EntityStateController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\EventTypeController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\IndustryController.cs" />

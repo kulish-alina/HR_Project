@@ -98,7 +98,7 @@ export default function RolesController(
          vm.roles[vm.newRole.title] = vm.newRole;
          _clearModalModel();
          UserDialogService.notification(
-            $translate.instant('ROLES.REMOVED', {title: vm.newRole.title}), 'success');
+            $translate.instant('ROLES.CREATED', {title: vm.newRole.title}), 'success');
       });
    }
 
@@ -123,15 +123,21 @@ export default function RolesController(
       UserService.getUsers((user) => {
          return user.roleId === vm.roles[roleName].id;
       }).then((val) => {
-         let usersInRole = $filter('arrayAsString')(val, 'login', '; ');
-         UserDialogService.confirm(
-            $translate.instant('ROLES.CONFIRM', {title: roleName, usersInRole})).then(() => {
-               RolesService.removeRole(vm.roles[roleName]).then(() => {
-                  vm.roles = omit(vm.roles, roleName);
-                  _selectFirstRole();
-                  UserDialogService.notification($translate.instant('ROLES.REMOVED'), 'success');
-               });
+         if (val.length > 0) {
+            let users = $filter('arrayAsString')(val, 'login', '; ');
+            UserDialogService.confirm($translate.instant('ROLES.REDIRECT', {users})).then(() => {
+               $state.go('members');
             });
+         } else {
+            RolesService.removeRole(vm.roles[roleName]).then(() => {
+               UserDialogService.confirm(
+                  $translate.instant('ROLES.CONFIRM', {title: roleName})).then(() => {
+                     vm.roles = omit(vm.roles, roleName);
+                     _selectFirstRole();
+                     UserDialogService.notification($translate.instant('ROLES.REMOVED'), 'success');
+                  });
+            });
+         }
       });
    }
 

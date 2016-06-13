@@ -1,5 +1,5 @@
-const PERMISSIONS_URL = 'permissions/';
-const ROLES_URL       = 'roles/';
+const PERMISSIONS_URL = 'permission/';
+const ROLES_URL       = 'role/';
 
 import {
    reduce

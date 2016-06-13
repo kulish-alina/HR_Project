@@ -203,10 +203,11 @@
    "ROLES" : {
       "NEW": "New role",
       "NAME": "Enter role name",
-      "CONFIRM": "Role '{{title}}' contains such users: {{usersInRole}}! Are you sure that you want to delete this role and all contains users?",
+      "CONFIRM": "Are you sure that you want to delete '{{title}}' role?",
       "SAVED": "Role was successfully saved",
       "REMOVED": "Role was successfully removed",
-      "CREATED": "Role '{{title}}' was successfully created"
+      "CREATED": "Role '{{title}}' was successfully created",
+      "REDIRECT": "This role contains such users: {{users}}. Please replace them into another role or delete before role deleting. Press ok for redirect into members"
    },
    "DIALOG_SERVICE" : {
       "ERROR": "Error!",
@@ -223,6 +224,10 @@
    "MEMBERS" : {
       "INVITE" : "Invite a new member",
       "INVITE_MEMBER" : "Invite member in '{{roleTitle}}'!",
-      "LOGIN" : "Login"
+      "LOGIN" : "Login",
+      "CHANGED": "Role was succesfully changed",
+      "CONFIRM": "Are you sure that you want to delete '{{login}}' user?",
+      "REMOVED": "User was succesfully removed",
+      "INVITE_BUT": "Invite"
    }
 }

@@ -1,5 +1,5 @@
 import './members.scss';
-import inviteDialog from './invite-dialog.view.html';
+import inviteDialogView from './invite-dialog.view.html';
 import {
    groupBy,
    set,
@@ -47,23 +47,23 @@ export default function MembersController(
          remove(vm.users[vm.currentGroupId], user);
          vm.users[user.roleId] = vm.users[user.roleId] || [];
          vm.users[user.roleId].push(user);
-         UserDialogService.notification('Role was succesfully changed', 'success');
+         UserDialogService.notification($translate.instant('MEMBERS.CHANGED'), 'success');
       });
    }
 
    function _showInvite(role) {
       let buttons = [{
-         name:         $translate.instant('COMMON.CREATE'),
+         name:         $translate.instant('COMMON.CANCEL')
+      },{
+         name:         $translate.instant('MEMBERS.INVITE_BUT'),
          func:         _createUser,
          needValidate: true
-      },{
-         name:         $translate.instant('COMMON.CANCELL')
       }];
 
       UserDialogService.dialog($translate.instant('MEMBERS.INVITE_MEMBER', {roleTitle: role.title}),
-                               inviteDialog,
+                               inviteDialogView,
                                buttons,
-                               vm.newUser);
+                               {newUser: vm.newUser});
    }
 
    function _createUser() {
@@ -73,10 +73,10 @@ export default function MembersController(
    }
 
    function _removeUser(user) {
-      UserDialogService.confirm('Are you sure that yoy want to delete this user?').then(() => {
+      UserDialogService.confirm($translate.instant('MEMBERS.CONFIRM', {login: user.login})).then(() => {
          UserService.removeUser(user).then(() => {
             remove(vm.users[vm.currentGroupId], user);
-            UserDialogService.notification('User was succesfully removed', 'success');
+            UserDialogService.notification($translate.instant('MEMBERS.REMOVED'), 'success');
          });
       });
    }

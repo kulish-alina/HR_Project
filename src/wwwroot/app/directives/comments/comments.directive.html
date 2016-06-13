@@ -13,7 +13,7 @@
    </div>
    <section class="block-list">
       <ul class="comments">
-         <li ng-repeat="comment in comments">
+         <li ng-repeat="comment in comments" ng-class="{'is-removed': comment.isForRemoved === true}">
             <div class="grid-block">
                <div class="medium-10 grid-block" ng-bind="comment.message">
                </div>

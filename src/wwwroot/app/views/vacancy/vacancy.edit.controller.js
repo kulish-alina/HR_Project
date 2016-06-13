@@ -3,7 +3,9 @@ const LIST_OF_THESAURUS = ['industry', 'level', 'location', 'language',
 import {
    remove,
    set,
-   each
+   each,
+   find,
+   cloneDeep
 } from 'lodash';
 
 export default function VacancyController(
@@ -38,13 +40,19 @@ export default function VacancyController(
    vm.queueFilesForRemove          = [];
    vm.isFilesUploaded              = false;
    vm.saveComment                  = _saveComment;
+   vm.removeComment                = _removeComment;
+   vm.editComment                  = _editComment;
+   vm.comments                     = cloneDeep(vm.vacancy.comments);
    /* === impl === */
 
    function _initCurrentVacancy() {
       if ($state.params._data) {
          vm.vacancy = $state.params._data;
       } else if ($state.params.vacancyId) {
-         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => set(vm, 'vacancy', vacancy));
+         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
+            set(vm, 'vacancy', vacancy);
+            vm.comments = cloneDeep(vm.vacancy.comments);
+         });
       } else {
          vm.vacancy = {};
       }
@@ -96,16 +104,33 @@ export default function VacancyController(
    }
 
    function _saveComment(comment) {
-      console.log(vm.vacancy);
-      console.log(vm.vacancy.comments);
-      return $q.when(vm.vacancy.comments.push(comment));
+      return $q.when(vm.comments.push(comment));
+   }
+
+   function _removeComment(comment) {
+      let commentForRemove = find(vm.comments, comment);
+      if (comment.id) {
+         commentForRemove.state = 1;
+         remove(vm.comments, comment);
+         return $q.when(vm.comments.push(commentForRemove));
+      } else {
+         return $q.when(remove(vm.comments, comment));
+      }
+   }
+
+   function _editComment(comment) {
+      return $q.when(remove(vm.comments, comment));
    }
 
    function _vs() {
+      let memo = vm.vacancy.comments;
+      vm.vacancy.comments = vm.comments;
       VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
+         vm.comments = cloneDeep(vm.vacancy.comments);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
       }).catch((error) => {
+         vm.vacancy.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
          LoggerService.error(error);
       });

@@ -12,7 +12,8 @@ export default function VacanciesController(
    ThesaurusService,
    UserService,
    LoggerService,
-   UserDialogService
+   UserDialogService,
+   NoteService
    ) {
    'ngInject';
 
@@ -27,6 +28,7 @@ export default function VacanciesController(
    vm.vacancy.size    = 20;
    vm.pagination      = { current: 0 };
    vm.pageChanged     = pageChanged;
+   vm.notes           = [];
 
    function pageChanged(newPage) {
       vm.vacancy.current = newPage;
@@ -38,6 +40,8 @@ export default function VacanciesController(
    UserService.getUsers().then(users => set(vm, 'responsibles', users));
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
+
+   NoteService.getNotesByUser().then((notes) => vm.user.notes = notes);
 
    VacancyService.search(vm.vacancy).then(response => {
       vm.total = response.total;

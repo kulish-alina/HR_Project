@@ -1,6 +1,6 @@
 import validationProvider from './ValidationProvider.js';
 
-describe('VacancyService tests for', () => {
+describe('ValidationService tests for', () => {
 
    let service = null;
 

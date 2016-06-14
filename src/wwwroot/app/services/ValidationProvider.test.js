@@ -1,4 +1,4 @@
-import validationProvider from './ValidationProvider.js'
+import validationProvider from './ValidationProvider.js';
 
 describe('VacancyService tests for', () => {
 
@@ -25,8 +25,8 @@ describe('VacancyService tests for', () => {
       angular.mock.module('test');
       angular.mock.module($provide => {
          $provide.value('$validation', _validationMock);
-         $provide.value('$rootScope', _validationMock);
-         $provide.value('$q', _$qMock)
+         $provide.value('$rootScope', _rootScopeMock);
+         $provide.value('$q', _$qMock);
       });
    });
 

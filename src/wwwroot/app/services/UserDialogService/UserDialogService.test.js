@@ -12,6 +12,14 @@ describe('UserDialogService testing: ', () => {
       instant  : jasmine.createSpy()
    };
 
+   let mockValidationService = {
+      instant : jasmine.createSpy()
+   };
+
+   let mockFoundationApi = {
+      closeActiveElements : jasmine.createSpy()
+   };
+
    let mockModalFactory = {
       activate: jasmine.createSpy()
    };
@@ -22,7 +30,12 @@ describe('UserDialogService testing: ', () => {
    };
 
    beforeEach(() => {
-      service = new UserDialogService($qMock, mockTranslate, mockModalFactory, mockNotificationFactory);
+      service = new UserDialogService($qMock,
+                                      mockTranslate,
+                                      mockValidationService,
+                                      mockFoundationApi,
+                                      mockModalFactory,
+                                      mockNotificationFactory);
    });
 
    it('confirm not to be undefined or null', () => {

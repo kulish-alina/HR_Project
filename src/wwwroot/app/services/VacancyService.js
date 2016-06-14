@@ -9,24 +9,26 @@ import {
    cloneDeep,
    first,
    reduce,
-   result
+   result,
+   set,
+   curry
 } from 'lodash';
 
 import { assign } from 'lodash/fp';
 
-const VACANCY_URL = 'vacancies/';
+const VACANCY_URL = 'vacancy/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate', 'createdOn'];
 
 const THESAURUS = [
-   new ThesaurusHelper('tags',   'tagIds',            'tags',           true),
-   new ThesaurusHelper('skills', 'requiredSkillIds',  'requiredSkills', true),
+   new ThesaurusHelper('tag',   'tagIds',            'tags',           true),
+   new ThesaurusHelper('skill', 'requiredSkillIds',  'requiredSkills', true),
 
-   new ThesaurusHelper('industries',   'industryId',  'industries'),
-   new ThesaurusHelper('levels',       'levelIds',    'levels'),
-   new ThesaurusHelper('locations',    'locationIds', 'locations'),
-   new ThesaurusHelper('departments',  'departmentId', 'departments'),
-   new ThesaurusHelper('entityStates', 'state',       'entityStates'),
-   new ThesaurusHelper('typesOfEmployment', 'typeOfEmployment', 'typesOfEmployment')
+   new ThesaurusHelper('industry',   'industryId',  'industries'),
+   new ThesaurusHelper('level',       'levelIds',    'levels'),
+   new ThesaurusHelper('location',    'locationIds', 'locations'),
+   new ThesaurusHelper('department',  'departmentId', 'departments'),
+   new ThesaurusHelper('entityState', 'state',       'entityStates'),
+   new ThesaurusHelper('typeOfEmployment', 'typeOfEmployment', 'typesOfEmployment')
 ];
 
 let _HttpService;
@@ -34,7 +36,7 @@ let _ThesaurusService;
 let _$q;
 let _LoggerService;
 let _UserService;
-
+let curriedSet = curry(set, 3);
 export default class VacancyService {
    constructor(HttpService, ThesaurusService, $q, LoggerService, UserService) {
       'ngInject';
@@ -43,6 +45,11 @@ export default class VacancyService {
       _$q = $q;
       _LoggerService = LoggerService;
       _UserService = UserService;
+   }
+
+   getVacancy(id) {
+      let additionalUrl = VACANCY_URL + id;
+      return _HttpService.get(additionalUrl).then(this.convertFromServerFormat);
    }
 
    search(condition) {
@@ -87,6 +94,8 @@ export default class VacancyService {
          delete vacancy.responsible;
          vacancy.languageSkill = vacancy.languageSkill || {};
          if (result(vacancy, 'languageSkill.languageId')) {
+            delete vacancy.languageSkill.language;
+            delete vacancy.languageSkill.languageLevelObj;
             vacancy.languageSkill.languageLevel = parseInt(vacancy.languageSkill.languageLevel);
             vacancy.languageSkill.languageId = parseInt(vacancy.languageSkill.languageId);
          } else {
@@ -132,7 +141,11 @@ function _fillThesauruses(vacancy) {
    }, {});
 
    vacancy.languageSkill = vacancy.languageSkill || {};
+   _ThesaurusService.getThesaurusTopic('languageLevel', vacancy.languageSkill.languageLevel)
+      .then(curriedSet(vacancy, 'languageSkill.languageLevelObj'));
    vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
+   _ThesaurusService.getThesaurusTopic('language', vacancy.languageSkill.languageId)
+      .then(curriedSet(vacancy, 'languageSkill.language'));
    vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
 
    return _$q.all(promises).then(assign(vacancy));

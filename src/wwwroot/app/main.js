@@ -5,7 +5,7 @@ import translate  from 'angular-translate';
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
 
-import 'angular-file-upload/dist/angular-file-upload';
+import 'angular-file-upload/dist/angular-file-upload.min';
 import pagination from 'angular-utils-pagination';
 
 import 'foundation-apps/dist/js/foundation-apps';
@@ -38,14 +38,17 @@ import ThesaurusService    from './services/ThesaurusService';
 import UserService         from './services/UserService';
 import SettingsService     from './services/SettingsService';
 import RolesService        from './services/RolesService';
-import FileUploaderService from './services/FileUploaderService';
 import HttpCacheService    from './services/HttpCacheService';
 import UserDialogService   from './services/UserDialogService/UserDialogService';
+import FileService         from './services/FileService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
-import ContactInfoDirective   from './directives/contacts/ContactInfo';
+import ContactInfoDirective   from './directives/contacts/contact-info';
+import PhoneInputsDirective   from './directives/phones/phone-inputs';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
+import MainMenuDirective      from './directives/main-menu/main-menu';
+import SideMenuDirective      from './directives/side-menu/side-menu';
 
 import uiMask from 'angular-ui-mask';
 
@@ -84,19 +87,22 @@ angular
    .service('UserService',         UserService)
    .service('RolesService',        RolesService)
    .service('ThesaurusService',    ThesaurusService)
-   .service('FileUploaderService', FileUploaderService)
    .service('HttpCacheService',    HttpCacheService)
    .service('UserDialogService',   UserDialogService)
+   .service('FileService',         FileService)
 
 
-   .directive('thesaurus', ThesaurusDirective.createInstance)
-   .directive('date',      DatePickerDirective.createInstance)
-   .directive('contacts',  ContactInfoDirective.createInstance)
-   .directive('ngThumb',   CanvasPreviewDirective)
+   .directive('thesaurus',      ThesaurusDirective.createInstance)
+   .directive('date',           DatePickerDirective.createInstance)
+   .directive('contacts',       ContactInfoDirective.createInstance)
+   .directive('phones',         PhoneInputsDirective.createInstance)
+   .directive('ngThumb',        CanvasPreviewDirective)
+   .directive('mainMenu',       MainMenuDirective.createInstance)
+   .directive('sideMenu',       SideMenuDirective.createInstance)
 
-   .filter('tel',           PhoneFormatFilter)
-   .filter('arrayAsString', ArrayAsString)
-   .filter('botUrl', botUrl)
+   .filter('tel',               PhoneFormatFilter)
+   .filter('arrayAsString',     ArrayAsString)
+   .filter('botUrl',            botUrl)
 
    .run(StateRunner)
 

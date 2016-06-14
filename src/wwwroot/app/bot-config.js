@@ -1,26 +1,28 @@
 import homeTemplate from './views/home/home.view.html';
 
-import candidatesTemplate  from './views/candidates/candidates.view.html';
-import candidateTemplate   from './views/candidate/candidate.view.html';
-import vacanciesTemplate   from './views/vacancies/vacancies.view.html';
-import vacancyTemplate     from './views/vacancy/vacancy.view.html';
-import settingsTemplate    from './views/settings/settings.view.html';
-import thesaurusesTemplate from './views/settings/thesauruses/thesauruses.view.html';
-import profileTemplate     from './views/settings/profile/profile.view.html';
-import profileEditTemplate from './views/settings/profile/profileEdit.view.html';
-import membersTemplate     from './views/settings/members/members.view.html';
-import rolesTemplate       from './views/settings/roles/roles.view.html';
+import candidatesTemplate       from './views/candidates/candidates.view.html';
+import candidateTemplate        from './views/candidate/candidate.view.html';
+import vacanciesTemplate        from './views/vacancies/vacancies.list.html';
+import vacancyEditTemplate      from './views/vacancy/vacancy.edit.html';
+import settingsTemplate         from './views/settings/settings.view.html';
+import thesaurusesTemplate      from './views/settings/thesauruses/thesauruses.view.html';
+import profileTemplate          from './views/settings/profile/profile.view.html';
+import profileEditTemplate      from './views/settings/profile/profileEdit.view.html';
+import membersTemplate          from './views/settings/members/members.view.html';
+import rolesTemplate            from './views/settings/roles/roles.view.html';
+import vacancyViewTemplate      from './views/vacancy.profile/vacancy.view.html';
 
-import homeController         from './views/home/home.controller';
-import candidatesController   from './views/candidates/candidates.controller';
-import candidateController    from './views/candidate/candidate.controller';
-import vacanciesController    from './views/vacancies/vacancies.controller';
-import vacancyController      from './views/vacancy/vacancy.controller';
-import settingsController     from './views/settings/settings.controller';
-import thesaurusesController  from './views/settings/thesauruses/thesauruses.controller';
-import profileController      from './views/settings/profile/profile.controller';
-import membersController      from './views/settings/members/members.controller';
-import rolesController        from './views/settings/roles/roles.controller';
+import homeController           from './views/home/home.controller';
+import candidatesController     from './views/candidates/candidates.controller';
+import candidateController      from './views/candidate/candidate.controller';
+import vacanciesController      from './views/vacancies/vacancies.list.controller';
+import vacancyEditController    from './views/vacancy/vacancy.edit.controller';
+import settingsController       from './views/settings/settings.controller';
+import thesaurusesController    from './views/settings/thesauruses/thesauruses.controller';
+import profileController        from './views/settings/profile/profile.controller';
+import membersController        from './views/settings/members/members.controller';
+import rolesController          from './views/settings/roles/roles.controller';
+import vacancyViewController    from './views/vacancy.profile/vacancy.view.controller';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -38,15 +40,14 @@ export default function _config(
 ) {
    'ngInject';
 
-   $locationProvider.html5Mode({
-      enabled: true,
-      requireBase: false
-   });
    $stateProvider
       .state('home', {
          url: '/home',
          template: homeTemplate,
-         controller: homeController
+         controller: homeController,
+         params: {
+            _data: null
+         }
       })
       .state('candidates', {
          url: '/candidates',
@@ -58,17 +59,27 @@ export default function _config(
          template: vacanciesTemplate,
          controller: vacanciesController
       })
+      .state('vacancyView', {
+         url: '/vacancy/:vacancyId',
+         template: vacancyViewTemplate,
+         controller: vacancyViewController,
+         params: {
+            _data: null,
+            vacancyId: null
+         }
+      })
       .state('candidate', {
          url: '/candidate',
          template: candidateTemplate,
          controller: candidateController
       })
-      .state('vacancy', {
-         url: '/vacancy',
-         template: vacancyTemplate,
-         controller: vacancyController,
+      .state('vacancyEdit', {
+         url: '/vacancy/edit/:vacancyId',
+         template: vacancyEditTemplate,
+         controller: vacancyEditController,
          params: {
-            _data: null
+            _data: null,
+            vacancyId: null
          }
       })
       .state('settings', {
@@ -110,6 +121,11 @@ export default function _config(
          template: thesaurusesTemplate,
          controller: thesaurusesController
       });
+
+   $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+   });
 
    $urlRouterProvider.otherwise('home');
 

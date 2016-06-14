@@ -6,7 +6,7 @@ export default function CandidateController(
    $translate,
    CandidateService,
    ValidationService,
-   FileUploaderService,
+   FileService,
    ThesaurusService,
    UserDialogService
    ) {
@@ -19,7 +19,7 @@ export default function CandidateController(
 
    ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
 
-   vm.uploader = FileUploaderService.getFileUploader({maxSize: 1024000});
+   vm.uploader = FileService.getFileUploader({maxSize: 1024000});
 
    function clearUploaderQueue() {
       vm.uploader.clearQueue();

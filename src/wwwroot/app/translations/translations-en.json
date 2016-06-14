@@ -251,5 +251,13 @@
       "CONFIRM": "Are you sure that you want to delete '{{login}}' user?",
       "REMOVED": "User was succesfully removed",
       "INVITE_BUT": "Invite"
+   },
+
+   "LOGIN" : {
+      "MESSAGE" : "Please, provide login information",
+      "OK" : "OK",
+      "CANCEL" : "Cancel",
+      "LOGIN" :"Login",
+      "PASSWORD" : "Password"
    }
 }

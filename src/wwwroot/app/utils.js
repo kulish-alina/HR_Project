@@ -10,10 +10,15 @@ let utils = {
    formatDateToServer,
    formatDateFromServer,
    formatDateTimeFromServer,
-   formatDateTimeToServer
+   formatDateTimeToServer,
+   toBase64
 };
 
 export default utils;
+
+function toBase64(str) {
+   return window.btoa(str);
+}
 
 function getUrlParameters() {
    return window.location.search;

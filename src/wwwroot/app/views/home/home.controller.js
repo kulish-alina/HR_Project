@@ -34,11 +34,11 @@ export default function HomeController(
    vm.vacancy.size            = 30;
    vm.pagination              = { current: 0 };
    vm.pageChanged             = pageChanged;
-   vm.userNotes       = [];
-   vm.notes           = cloneDeep(vm.userNotes);
-   vm.saveNote        = saveNote;
-   vm.removeNote      = removeNote;
-   vm.editNote        = editNote;
+   vm.userNotes               = [];
+   vm.notes                   = cloneDeep(vm.userNotes);
+   vm.saveNote                = saveNote;
+   vm.removeNote              = removeNote;
+   vm.editNote                = editNote;
    vm.upcomingEvents          = [];
    vm.cloneUpcomingEvents     = [];
    vm.eventCondidtion         = {};
@@ -46,6 +46,7 @@ export default function HomeController(
    vm.saveEvent               = saveEvent;
    vm.removeEvent             = removeEvent;
    vm.getEventsForDate        = getEventsForDate;
+   //vm.user                    = null; lint error
 
    function _init() {
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
@@ -58,7 +59,11 @@ export default function HomeController(
          vm.total = response.total;
          vm.vacancies = response.vacancies;
       }).catch(_onError);
-      _getCurrentUser().then(_getUpcomingEvents);
+      _getCurrentUser();
+      _getUpcomingEvents();
+      if (!vm.user) {
+         $state.go('login');
+      }
    };
    _init();
 
@@ -129,7 +134,8 @@ export default function HomeController(
    }
 
    function _getCurrentUser() {
-      return UserService.getCurrentUser().then((user) => vm.eventCondidtion.userIds.push(user.id));
+      vm.user = UserService.getCurrentUser();
+      vm.eventCondidtion.userIds.push(vm.user.id);
    }
 
    function _formingDateConditions() {

@@ -257,7 +257,7 @@
             </div>
          </div>
          <div class="sidebar">
-            <comments ng-click="changed()"  ng-model="vacancy.comments" type="comment"></comments>
+            <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>
          </div>
          <div class="sidebar">
             <div class="card-divider" ng-bind="::'VACANCY_PROFILE.FILES' | translate">

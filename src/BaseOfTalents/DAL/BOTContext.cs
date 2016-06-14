@@ -2,6 +2,7 @@
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using DAL.Mapping;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -50,6 +51,7 @@ namespace BaseOfTalents.DAL
         public virtual DbSet<Stage> Stages { get; set; }
         public virtual DbSet<SocialNetwork> SocialNetworks { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
+        public virtual DbSet<Note> Notes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

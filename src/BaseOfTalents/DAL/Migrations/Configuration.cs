@@ -62,6 +62,9 @@ namespace BaseOfTalents.DAL.Migrations
             context.Users.AddRange(DummyData.Users);
             context.SaveChanges();
 
+            context.Notes.AddRange(DummyData.Notes);
+            context.SaveChanges();
+
             context.Vacancies.AddRange(DummyData.Vacancies);
             context.SaveChanges();
 

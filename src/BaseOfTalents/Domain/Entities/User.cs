@@ -31,5 +31,6 @@ namespace BaseOfTalents.Domain.Entities
         public virtual Location Location { get; set; }
 
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
+        public virtual ICollection<Note> Notes { get; set; }
     }
 }

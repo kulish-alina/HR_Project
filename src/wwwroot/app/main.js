@@ -100,7 +100,7 @@ angular
    .directive('contacts',       ContactInfoDirective.createInstance)
    .directive('phones',         PhoneInputsDirective.createInstance)
    .directive('ngThumb',        CanvasPreviewDirective)
-   .directive('comments',  CommentsDirective.createInstance)
+   .directive('comments',       CommentsDirective.createInstance)
    .directive('mainMenu',       MainMenuDirective.createInstance)
    .directive('sideMenu',       SideMenuDirective.createInstance)
 

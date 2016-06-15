@@ -1,5 +1,6 @@
 using BaseOfTalents.Domain.Entities.Enum;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
+using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 
@@ -21,8 +22,6 @@ namespace BaseOfTalents.Domain.Entities
 
         public string Title { get; set; }
         public string Description { get; set; }
-        public int SalaryMin { get; set; }
-        public int SalaryMax { get; set; }
         public TypeOfEmployment? TypeOfEmployment { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -48,6 +47,11 @@ namespace BaseOfTalents.Domain.Entities
 
         public int ResponsibleId { get; set; }
         public virtual User Responsible { get; set; }
+
+        public int SalaryMin { get; set; }
+        public int SalaryMax { get; set; }
+        public int? CurrencyId { get; set; }
+        public virtual Currency Currency { get; set; }
 
         public virtual LanguageSkill LanguageSkill { get; set; }
     }

@@ -9,35 +9,39 @@ namespace DAL.Extensions
 {
     public static class VacancyExtension
     {
-        public static Vacancy Clone(this Vacancy source)
+        public static void UpdateChildWithParent(this Vacancy childVacancy, Vacancy parentVacancy)
         {
-            Vacancy clone = new Vacancy();
-            clone.Id = source.Id;
-            clone.State = source.State;
-
-            clone.Title = source.Title;
-            clone.Description = source.Description;
-            clone.SalaryMin = source.SalaryMin;
-            clone.SalaryMax = source.SalaryMax;
-            clone.TypeOfEmployment = source.TypeOfEmployment;
-            clone.StartDate = source.StartDate;
-            clone.EndDate = source.EndDate;
-            clone.DeadlineDate = source.DeadlineDate;
-
-            clone.ParentVacancyId = source.ParentVacancyId;
-            clone.IndustryId = source.IndustryId;
-            clone.DepartmentId = source.DepartmentId;
-            clone.ResponsibleId = source.ResponsibleId;
-            clone.Levels = source.Levels;
-            clone.Locations = source.Locations;
-            clone.Tags = source.Tags;
-            clone.RequiredSkills = source.RequiredSkills;
-            clone.LanguageSkill = source.LanguageSkill;
-            clone.CandidatesProgress = source.CandidatesProgress;
-            clone.Files = source.Files;
-            clone.Comments = source.Comments;
-
-            return clone;
+            if(childVacancy.ParentVacancyId!=parentVacancy.Id)
+            {
+                throw new Exception("Child vacancy is not a child of specified parent vacancy");
+            }
+            childVacancy.State = parentVacancy.State;
+            childVacancy.Title = parentVacancy.Title;
+            childVacancy.Description = parentVacancy.Description;
+            childVacancy.SalaryMin = parentVacancy.SalaryMin;
+            childVacancy.SalaryMax = parentVacancy.SalaryMax;
+            childVacancy.CurrencyId = parentVacancy.CurrencyId;
+            childVacancy.TypeOfEmployment = parentVacancy.TypeOfEmployment;
+            childVacancy.StartDate = parentVacancy.StartDate;
+            childVacancy.EndDate = parentVacancy.EndDate;
+            childVacancy.DeadlineDate = parentVacancy.DeadlineDate;
+            childVacancy.IndustryId = parentVacancy.IndustryId;
+            childVacancy.DepartmentId = parentVacancy.DepartmentId;
+            childVacancy.ResponsibleId = parentVacancy.ResponsibleId;
+            childVacancy.Levels = parentVacancy.Levels;
+            childVacancy.Locations = parentVacancy.Locations;
+            childVacancy.Tags = parentVacancy.Tags;
+            childVacancy.RequiredSkills = parentVacancy.RequiredSkills;
+            childVacancy.LanguageSkill = parentVacancy.LanguageSkill;
+            childVacancy.CandidatesProgress = parentVacancy.CandidatesProgress;
+            childVacancy.ParentVacancyId = parentVacancy.Id;
+            childVacancy.CandidatesProgress.ToList().ForEach(x =>
+            {
+                x.Vacancy = childVacancy;
+                x.VacancyId = childVacancy.Id;
+            });
+            childVacancy.Files = parentVacancy.Files;
+            childVacancy.Comments = parentVacancy.Comments;
         }
 
         public static void Update(this Vacancy destination, VacancyDTO source, IUnitOfWork uow)
@@ -58,6 +62,7 @@ namespace DAL.Extensions
             destination.IndustryId = source.IndustryId;
             destination.DepartmentId = source.DepartmentId;
             destination.ResponsibleId = source.ResponsibleId;
+            destination.CurrencyId = source.CurrencyId;
 
             PerformLevelsSaving(destination, source, uow.LevelRepo);
             PerformLocationsSaving(destination, source, uow.LocationRepo);
@@ -67,6 +72,15 @@ namespace DAL.Extensions
             PerformVacanciesProgressSaving(destination, source, uow.VacancyStageRepo);
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
+            PerformChildVacanciesUpdating(destination);
+        }
+
+        private static void PerformChildVacanciesUpdating(Vacancy destination)
+        {
+            destination.ChildVacancies.ToList().ForEach(x =>
+            {
+                x.UpdateChildWithParent(destination);
+            });
         }
 
         private static void PerformFilesSaving(Vacancy destination, VacancyDTO source, IFileRepository fileRepository)

@@ -26,6 +26,7 @@ namespace BaseOfTalents.DAL
         }
 
         public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }

@@ -15,7 +15,7 @@ const CANDIDATE_URL           = 'candidates/';
 const DATE_TYPE_TO_CONVERT    = [ 'birthDate' ];
 
 let _forEach = curryRight(forEach, 2);
-let _addSavedThesaurusesTopicsCurried = curry(_addSavedThesaurusesTopics, 2);
+let _addSavedThesaurusesTopicsCurried = curry(_addSavedThesaurusesTopics, 3);
 
 const THESAURUSES = [
    new ThesaurusHelper('tags',   'tagIds',   'tags',     true),
@@ -47,7 +47,7 @@ export default class CandidateService {
 
    saveCandidate(entity) {
       return _saveNewThesaurusTopics(entity)
-         .then(_convertToServerFormat)
+         .then(() => _convertToServerFormat(entity))
          .then(candidate => {
             if (candidate.id) {
                return _HttpService.put(CANDIDATE_URL + candidate.id, candidate);
@@ -66,10 +66,8 @@ export default class CandidateService {
    }
 }
 
-function _addSavedThesaurusesTopics(candidate, thesaurusesStore) {
-   forEach(thesaurusesStore, (thesaurusName, topics) => {
-      candidate[thesaurusName] = union(candidate[thesaurusName] || [],  topics);
-   });
+function _addSavedThesaurusesTopics(candidate, thesaurusName, topics) {
+   candidate[thesaurusName] = union(candidate[thesaurusName] || [],  topics);
    return candidate;
 }
 
@@ -79,16 +77,19 @@ function _saveNewThesaurusTopics(candidate) {
       let topicsToSave = filter(candidate[helper.clientField], newTopicPattern);
       if (topicsToSave.length) {
          remove(candidate[helper.clientField], newTopicPattern);
-         memo[helper.clientField] = _ThesaurusService.saveThesaurusTopics(helper.thesaurusName, topicsToSave);
+         memo[helper.clientField] = _ThesaurusService.saveThesaurusTopics(helper.thesaurusName, topicsToSave)
+            .then(_addSavedThesaurusesTopicsCurried(candidate, helper.thesaurusName));
       }
       return memo;
    }, {});
-   return _$q.all(promises).then(_addSavedThesaurusesTopicsCurried(candidate));
+   return _$q.all(promises);
 }
 
 function  _convertThesaurusToIds(candidate) {
    forEach(THESAURUSES, helper => {
-      candidate[helper.serverField] = map(candidate[helper.clientField], topic => topic.id);
+      if (helper.needConvertForServer) {
+         candidate[helper.serverField] = map(candidate[helper.clientField], topic => topic.id);
+      }
    });
    return candidate;
 }
@@ -97,6 +98,7 @@ function _convertToClientFormat(candidate) {
    _convertFromServerDates(candidate);
    _addReferencedThesaurusObjects(candidate);
    _setMonthYearExperience(candidate);
+   debugger;
    return candidate;
 }
 
@@ -152,8 +154,9 @@ function _setStartExperience(candidate) {
 
 function _setMonthYearExperience(candidate) {
    let nowDate                    = new Date(now());
-   candidate.experienceYears      = nowDate.getFullYear()   - candidate.startExperience.getFullYear();
-   candidate.experienceMonthes    = nowDate.getMonth()      - candidate.startExperience.getMonth();
+   let startExperienceDate        = new Date(candidate.startExperience);
+   candidate.experienceYears      = nowDate.getFullYear()   - startExperienceDate.getFullYear();
+   candidate.experienceMonthes    = nowDate.getMonth()      - startExperienceDate.getMonth();
 }
 
 function ThesaurusHelper(thesaurusName, serverField, clientField, needConvertForServer) {

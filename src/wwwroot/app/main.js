@@ -99,6 +99,15 @@ angular
    .directive('ngThumb',        CanvasPreviewDirective)
    .directive('mainMenu',       MainMenuDirective.createInstance)
    .directive('sideMenu',       SideMenuDirective.createInstance)
+   .directive('convertToNumber', () => {
+      return {
+         require: 'ngModel',
+         link: (scope, element, attrs, ngModel) => {
+            ngModel.$parsers.push(val => parseInt(val, 10));
+            ngModel.$formatters.push(val => `${val}`);
+         }
+      };
+   })
 
    .filter('tel',               PhoneFormatFilter)
    .filter('arrayAsString',     ArrayAsString)

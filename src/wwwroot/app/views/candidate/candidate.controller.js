@@ -1,5 +1,8 @@
+import { set } from 'lodash';
+
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
     'departments', 'typesOfEmployment', 'tags', 'skills', 'stages'];
+
 export default function CandidateController(
    $element,
    $scope,
@@ -57,8 +60,10 @@ export default function CandidateController(
 
    function saveCandidate(form) {
       if (ValidationService.validate(form)) {
-         console.log(vm.candidate);
-         CandidateService.saveCandidate(vm.candidate).catch(_onError);
+         debugger;
+         CandidateService.saveCandidate(vm.candidate)
+            .then(entity => set(vm, 'candidate', entity))
+            .catch(_onError);
       }
    }
 }

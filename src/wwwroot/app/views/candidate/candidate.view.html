@@ -54,15 +54,17 @@
                               </select>
                            </div>
                         </div>
-                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="candidate.LocationIds" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations track by location.id" ng-model="candidate.locationId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
 
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <select name="Industry" ng-model="candidate.industryId">
-                           <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
-                           <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
+                        <select name="Industry" ng-model="candidate.industryId" 
+                                ng-init="candidate.industryId=''" convert-to-number>
+                           <option ng-selected="true" value="" ng-bind="::('COMMON.INDUSTRY' | translate)"></option>
+                           <option ng-repeat="industry in thesaurus.industries" value='{{industry.id}}' 
+                                   ng-bind="::(industry.title)"></option>
                         </select>
                         <select name="LanguageLevel">
                            <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
@@ -81,9 +83,11 @@
                               </select>
                            </div>
                         </div>
-                        <select name="Type of Employment" ng-model="candidate.typeOfEmployment">
-                           <option selected value="">{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}</option>
-                           <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" value="{{typeOfEmployment.id}}">{{::typeOfEmployment.title}}</option>
+                        <select name="TypeOfEmployment" ng-model="candidate.typeOfEmployment">
+                           <option selected value="" 
+                                   ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate)"></option>
+                           <option ng-repeat="typeOfEmployment in thesaurus.typesOfEmployment" 
+                                   value="{{typeOfEmployment.id}}" ng-bind="::(typeOfEmployment.title)"></option>
                         </select>
                         <label>Experience</label>
                         <div class="grid-block">

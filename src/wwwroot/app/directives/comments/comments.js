@@ -1,6 +1,3 @@
-//import {
-//   remove
-//} from 'lodash';
 import template from './comments.directive.html';
 import './comments.scss';
 export default class CommentsDirective {

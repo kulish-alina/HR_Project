@@ -45,19 +45,19 @@ export default function HomeController(
       }).catch(_onError);
    };
 
-   UserService.getUsers().then(users => set(vm, 'responsibles', users));
-
-   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-
-   NoteService.getNotesByUser().then((notes) => {
-      vm.userNotes = notes;
-      vm.notes  = cloneDeep(vm.userNotes);
-   });
-
-   VacancyService.search(vm.vacancy).then(response => {
-      vm.total = response.total;
-      vm.vacancies = response.vacancies;
-   }).catch(_onError);
+   function _init() {
+      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
+      NoteService.getNotesByUser().then((notes) => {
+         vm.userNotes = notes;
+         vm.notes  = cloneDeep(vm.userNotes);
+      });
+      VacancyService.search(vm.vacancy).then(response => {
+         vm.total = response.total;
+         vm.vacancies = response.vacancies;
+      }).catch(_onError);
+   }
+   _init();
 
    function viewVacancy(vacancy) {
       $state.go('vacancyView', {_data: vacancy, vacancyId: vacancy.id});
@@ -66,19 +66,19 @@ export default function HomeController(
    function saveNote(note) {
       return NoteService.save(note).then((res) => {
          vm.userNotes.push(res);
-         vm.notes.push(res);
+         return vm.notes  = cloneDeep(vm.userNotes);
       });
    }
 
    function removeNote(note) {
-      remove(vm.notes, note);
       return NoteService.remove(note).then(() => {
-         remove(vm.userNotes, note);
+         remove(vm.userNotes, {id: note.id});
+         return vm.notes  = cloneDeep(vm.userNotes);
       });
    }
 
    function editNote(note) {
-      return $q.when(remove(vm.notes, note));
+      return $q.when(remove(vm.userNotes, {id: note.id}));
    }
 
    function _onError(error) {

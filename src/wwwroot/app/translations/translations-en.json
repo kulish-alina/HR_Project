@@ -185,7 +185,8 @@
       "someErrorMsg" : "Sorry! Some error occurred: ",
       "thesaurusErrors" : {
          "incorrectNameMsg" : "Thesaurus name is incorrect."
-      }
+      },
+      "NOTE_REMOVE_ERROR": "Cannot remove new note"
    },
    "SETTINGS" : {
       "SETTINGS": "Settings",

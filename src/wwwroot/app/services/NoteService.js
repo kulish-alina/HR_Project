@@ -1,20 +1,21 @@
 const NOTE_URL = 'note';
-let currentUserId = null;
-let _HttpService, _UserService, _LoggerService, _$q;
+let _HttpService, _UserService, _LoggerService, _$q, _$translate;
 
 export default class NoteService {
-   constructor(HttpService, UserService, LoggerService, $q) {
+   constructor(HttpService, UserService, LoggerService, $q, $translate) {
       'ngInject';
-      _HttpService = HttpService;
-      _UserService = UserService;
+      _HttpService   = HttpService;
+      _UserService   = UserService;
       _LoggerService = LoggerService;
-      _$q = $q;
+      _$q            = $q;
+      _$translate    = $translate;
    }
 
    save(entity) {
       if (entity.id) {
          return _HttpService.put(`${NOTE_URL}/${entity.id}`, entity);
       } else {
+         //TODO: change getUserById() to getCurrentUser()
          return _UserService.getUserById(1).then((user) => {
             entity.userId = user.id;
             return _HttpService.post(NOTE_URL, entity);
@@ -26,17 +27,15 @@ export default class NoteService {
       if (entity.id) {
          return _HttpService.remove(`${NOTE_URL}/${entity.id}`, entity);
       } else {
-         _LoggerService.debug('Can\'t remove new note', entity);
-         return _$q.when(true);
+         _LoggerService.debug(_$translate.instant('ERRORS.NOTE_REMOVE_ERROR'), entity);
+         return _$q.reject();
       }
    }
 
    getNotesByUser() {
+      //TODO: change getUserById() to getCurrentUser()
       return _UserService.getUserById(1).then((user) => {
-         currentUserId = user.id;
-         return _HttpService.get(`${NOTE_URL}/user/${currentUserId}`).then((notes) => {
-            return notes;
-         });
+         return _HttpService.get(`${NOTE_URL}/user/${user.id}`);
       });
    }
 }

@@ -1,3 +1,6 @@
+import {
+   set
+} from 'lodash';
 import template from './events.directive.html';
 import './events.scss';
 export default class EventsDirective {
@@ -5,11 +8,11 @@ export default class EventsDirective {
       this.restrict   = 'E';
       this.template   = template;
       this.scope      = {
-         type    : '@',
-         events  : '=',
-         save    : '=',
-         remove  : '=',
-         edit    : '='
+         type      : '@',
+         events    : '=',
+         save      : '=',
+         remove    : '=',
+         edit      : '='
       };
       this.controller = EventsController;
    }
@@ -20,5 +23,45 @@ export default class EventsDirective {
    }
 }
 
-function EventsController() {
+function EventsController($scope, $translate, VacancyService, CandidateService, UserService,
+                           ThesaurusService, UserDialogService) {
+   const vm              = $scope;
+   vm.vacancies          = [];
+   vm.candidates         = [];
+   vm.responsibles       = [];
+   vm.eventTypes         = [];
+   vm.showAddEventDialog = showAddEventDialog;
+   vm.vacancy            = {};
+   vm.vacancy.current    = 0;
+   vm.vacancy.size       = 20;
+
+   function _init() {
+      console.log(vm);
+      VacancyService.search(vm.vacancy).then(data => set(vm, 'vacancies', data.vacancies));
+      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+      CandidateService.getCandidates().then(candidates => set(vm, 'candidates', candidates));
+      ThesaurusService.getThesaurusTopics('eventtype').then(eventTypes => set(vm, 'eventTypes', eventTypes));
+   }
+
+   _init();
+
+   function showAddEventDialog() {
+      let scope = {
+         type         : 'list-with-input',
+         responsibles : vm.responsibles,
+         eventTypes   : vm.eventTypes,
+         vacancies    : vm.vacancies,
+         candidates   : vm.candidates
+      };
+      let buttons = [
+         {
+            name: $translate.instant('COMMON.CANCEL')
+         },
+         {
+            name: $translate.instant('COMMON.APLY')
+         }
+      ];
+      UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
+   }
+
 }

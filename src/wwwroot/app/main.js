@@ -41,6 +41,7 @@ import RolesService        from './services/RolesService';
 import HttpCacheService    from './services/HttpCacheService';
 import UserDialogService   from './services/UserDialogService/UserDialogService';
 import FileService         from './services/FileService';
+import EventsService       from './services/EventsService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -49,6 +50,7 @@ import PhoneInputsDirective   from './directives/phones/phone-inputs';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
+import EventsDirective         from './directives/events/events';
 
 import uiMask from 'angular-ui-mask';
 
@@ -90,6 +92,7 @@ angular
    .service('HttpCacheService',    HttpCacheService)
    .service('UserDialogService',   UserDialogService)
    .service('FileService',         FileService)
+   .service('EventsService',       EventsService)
 
 
    .directive('thesaurus',      ThesaurusDirective.createInstance)
@@ -99,6 +102,7 @@ angular
    .directive('ngThumb',        CanvasPreviewDirective)
    .directive('mainMenu',       MainMenuDirective.createInstance)
    .directive('sideMenu',       SideMenuDirective.createInstance)
+   .directive('events',         EventsDirective.createInstance)
 
    .filter('tel',               PhoneFormatFilter)
    .filter('arrayAsString',     ArrayAsString)

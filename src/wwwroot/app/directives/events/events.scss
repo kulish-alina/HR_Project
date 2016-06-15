@@ -1,3 +1,10 @@
 .list-only {
    display: none;
 }
+.without-form {
+   flex: 0 0 100%;
+   max-width: 100%;
+}
+.list-with-form {
+   display: none;
+}

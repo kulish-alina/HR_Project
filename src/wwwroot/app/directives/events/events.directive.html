@@ -1,14 +1,42 @@
-<div class="card-divider">
-   <div class="grid-block" ng-bind="::'COMMON.EVENTS' | translate">
-   </div>
+<div class="card-divider" ng-class="{'list-with-form': type === 'list-with-input'}">
+  <div class="grid-block">
+     <div class="small-4 grid-block" ng-bind="::'COMMON.EVENTS' | translate"></div>
+     <div class="small-3 grid-block"></div>
+     <div class="small-5 grid-block align-right">
+         <a ng-click="showAddEventDialog()" class="button" ng-bind="::'COMMON.ADD_EVENT' | translate"></a>
+     </div>
+  </div>
 </div>
 <div class="sidebar-content">
    <div class="grid-block">
-      <div class="small-6 grid-block" ng-class="{'list-only': type === event-list}"></div>
-      <div class="small-6 grid-block">
+      <div class="small-6 grid-block" ng-class="{'list-only': type === 'list-only'}">
+         <form name="Event">
+            <fieldset>
+               <input type="text" ng-model="event.description" placeholder="{{::'COMMON.DESCRIPTION' | translate}}" type="text" validator="required, minlength=3, maxlength=200">
+               <select name="EventType" ng-model="event.eventTypeId">
+                  <option selected value="" ng-bind="::'THESAURUSES.THESAURUSES.EVENT_TYPES' | translate"></option>
+                  <option ng-repeat="eventType in eventTypes" value="{{eventType.id}}" ng-bind="eventType.title"></option>
+               </select>
+               <select name="Candidate" ng-model="event.candidateId">
+                  <option selected value="" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></option>
+                  <option ng-repeat="candidate in candidates" value="{{candidate.id}}" ng-bind="candidate.lastName"></option>
+               </select>
+               <select name="Vacancy" ng-model="event.vacancyId">
+                  <option selected value="" ng-bind="::'VACANCY.VACANCY' | translate"></option>
+                  <option ng-repeat="vacancy in vacancies" value="{{vacancy.id}}" ng-bind="vacancy.title"></option>
+               </select>
+               <select name="Responsible" ng-model="event.responsibleId">
+                  <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
+                  <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
+               </select>
+               <date datemodel="event.date" placeholder="{{::'COMMON.EVENT_DATE' | translate}}"></date>
+            </fieldset>
+         </form>
+      </div>
+      <div class="small-6 grid-block" ng-class="{'without-form': type === 'list-only'}">
          <section class="block-list">
             <ul class="icon-left events">
-               <li>
+               <li ng-repest="event in events">
                   <div class="grid-block">
                      <div class="medium-2 grid-block">
                         <i class="foundicon-people general-icon"></i>
@@ -39,7 +67,7 @@
                   </div>
                </li>
             </ul>
-         </section>
+         </section> 
       </div>
    </div>
 </div>

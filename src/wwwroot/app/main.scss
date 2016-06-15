@@ -91,9 +91,10 @@ body {
 }
 
 .modal {
-   width: $rem-base*31.25 !important;
+   max-width: $rem-base*56.25 !important;
+   width: auto !important;
    height: auto !important;
-   max-height: $rem-base*10 !important;
+   max-height: $rem-base*50 !important;
 }
 .upload-button{
    @include button(

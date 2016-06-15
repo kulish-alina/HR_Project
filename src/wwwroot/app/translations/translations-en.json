@@ -39,6 +39,7 @@
       "HOME": "Home"
    },
    "VACANCY": {
+      "VACANCY": "Vacancy",
       "NEW_VACANCY": "New vacancy",
       "START_DATE": "Start Date",
       "OPEN": "Open",
@@ -99,6 +100,7 @@
       "START_DATE": "Start date",
       "DEADLINE_DATE": "Deadline date",
       "END_DATE": "End date",
+      "EVENT_DATE": "Event date",
       "ADD_DEADLINE_TO_CALENDAR": "Add deadline to calendar",
       "DESCRIPTION": "Description",
       "LOCATION": "Location",
@@ -127,7 +129,8 @@
       "NEW" : "New",
       "FROM_BOT" : "From BOT",
       "FROM" : "from",
-      "TO" : "to"
+      "TO" : "to",
+      "APLY" : "Aply"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

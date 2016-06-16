@@ -1,8 +1,8 @@
-const PERMISSIONS_URL = 'permissions/';
-const ROLES_URL       = 'roles/';
+const PERMISSIONS_URL = 'permission/';
+const ROLES_URL       = 'role/';
 
 import {
-   reduce
+   groupBy
 } from 'lodash';
 
 let _$q, _HttpService, _HttpCacheService, _LoggerService;
@@ -17,11 +17,7 @@ export default class RoleService {
 
    getPermissions() {
       return _HttpCacheService.get(PERMISSIONS_URL).then((perm) => {
-         return reduce(perm, (memo, permis) => {
-            memo[permis.group] = memo[permis.group] || [];
-            memo[permis.group].push(permis);
-            return memo;
-         },{});
+         return groupBy(perm, 'group');
       });
    }
 

@@ -28,7 +28,7 @@ export default class UserService {
 
    saveUser(entity) {
       if (entity.id) {
-         return _HttpService.put(`${USER_URL}/${entity}`);
+         return _HttpService.put(`${USER_URL}/${entity.id}`, entity);
       } else {
          return _HttpService.post(USER_URL, entity).then(user => {
             _HttpCacheService.clearCache(USER_URL);

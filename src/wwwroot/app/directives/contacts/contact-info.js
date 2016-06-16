@@ -5,10 +5,8 @@ export default class ContactInfoDirective {
       this.restrict = 'E';
       this.template = template;
       this.scope = {
-         phones : '=',
-         email  : '=',
-         skype  : '=',
-         social : '='
+         entity: '=',
+         direction: '@'
       };
       this.controller = ContactInfoController;
    }
@@ -19,6 +17,7 @@ export default class ContactInfoDirective {
    }
 }
 
-function ContactInfoController() {
-
+function ContactInfoController($scope) {
+   let vm = $scope;
+   vm.direction = vm.direction || 'ltr';
 }

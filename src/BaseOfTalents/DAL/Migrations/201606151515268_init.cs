@@ -239,8 +239,6 @@ namespace BaseOfTalents.DAL.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         Description = c.String(),
-                        SalaryMin = c.Int(nullable: false),
-                        SalaryMax = c.Int(nullable: false),
                         TypeOfEmployment = c.Int(),
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(),
@@ -249,6 +247,9 @@ namespace BaseOfTalents.DAL.Migrations
                         IndustryId = c.Int(),
                         DepartmentId = c.Int(nullable: false),
                         ResponsibleId = c.Int(nullable: false),
+                        SalaryMin = c.Int(nullable: false),
+                        SalaryMax = c.Int(nullable: false),
+                        CurrencyId = c.Int(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -256,6 +257,7 @@ namespace BaseOfTalents.DAL.Migrations
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Currency", t => t.CurrencyId)
                 .ForeignKey("dbo.Department", t => t.DepartmentId)
                 .ForeignKey("dbo.Industry", t => t.IndustryId)
                 .ForeignKey("dbo.LanguageSkill", t => t.LanguageSkill_Id)
@@ -265,6 +267,7 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.IndustryId)
                 .Index(t => t.DepartmentId)
                 .Index(t => t.ResponsibleId)
+                .Index(t => t.CurrencyId)
                 .Index(t => t.LanguageSkill_Id);
             
             CreateTable(
@@ -728,6 +731,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropForeignKey("dbo.File", "Vacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "DepartmentId", "dbo.Department");
             DropForeignKey("dbo.Department", "DepartmentGroupId", "dbo.DepartmentGroup");
+            DropForeignKey("dbo.Vacancy", "CurrencyId", "dbo.Currency");
             DropForeignKey("dbo.VacancyComment", "Comment_Id", "dbo.Comment");
             DropForeignKey("dbo.VacancyComment", "Vacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.ParentVacancyChildVacancy", "ChildVacancy_Id", "dbo.Vacancy");
@@ -789,6 +793,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.VacancyStageInfo", new[] { "VacancyId" });
             DropIndex("dbo.VacancyStageInfo", new[] { "CandidateId" });
             DropIndex("dbo.Vacancy", new[] { "LanguageSkill_Id" });
+            DropIndex("dbo.Vacancy", new[] { "CurrencyId" });
             DropIndex("dbo.Vacancy", new[] { "ResponsibleId" });
             DropIndex("dbo.Vacancy", new[] { "DepartmentId" });
             DropIndex("dbo.Vacancy", new[] { "IndustryId" });

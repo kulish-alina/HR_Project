@@ -1,7 +1,5 @@
 import {
-   reduce,
-   split
-//   trimEnd
+   reduce
 } from 'lodash';
 
 let utils = {
@@ -26,15 +24,14 @@ function array2map(arr, it) {
 
 function formatDateToServer(entityDate) {
    if (entityDate) {
-      let partsOfDate = split(entityDate, '.');
-      return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]}T00:00:00`; // eslint-disable-line no-magic-numbers
+      let date = new Date(entityDate);
+      return date.toISOString();
    }
 }
 
 function formatDateFromServer(entityDate) {
    if (entityDate) {
-      let trimOfDate = split(entityDate, 'T');
-      let partsOfDate = split(trimOfDate[0], '-');
-      return `${partsOfDate[2]}.${partsOfDate[1]}.${partsOfDate[0]}`; // eslint-disable-line no-magic-numbers
+      let date = new Date(entityDate);
+      return date;
    }
 }

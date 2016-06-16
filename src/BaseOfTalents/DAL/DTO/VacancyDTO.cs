@@ -41,7 +41,8 @@ namespace Domain.DTO.DTOModels
 
         public int SalaryMin { get; set; }
         public int SalaryMax { get; set; }
-        public int CurrencyId { get; set; }
+
+        public int? CurrencyId { get; set; }
 
         public int? IndustryId { get; set; }
 

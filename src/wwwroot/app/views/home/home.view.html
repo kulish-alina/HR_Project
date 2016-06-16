@@ -34,7 +34,7 @@
                      <td ng-bind="vacancy.locations | arrayAsString: 'title'" class="col4">
                      </td>
                      <td ng-bind="::vacancy.responsible.lastName"></td>
-                     <td ng-bind="::vacancy.createdOn"></td>
+                     <td ng-bind="::vacancy.createdOn | date: 'mediumDate'"></td>
                   </tr>
                </tbody>
             </table>

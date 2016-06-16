@@ -1,3 +1,4 @@
+import utils  from '../utils.js';
 const EVENT_URL = 'event';
 let _HttpService, _$q, _LoggerService, _$translate;
 
@@ -10,7 +11,11 @@ export default class EventsService {
       _LoggerService = LoggerService;
    }
 
-   getEvents(condition) {
+   getEventsByCandidate(candidateId) {
+      return _HttpService.get(`${EVENT_URL}/candidate/${candidateId}`);
+   }
+
+   getEventsForPeriod(condition) {
       return _HttpService.post(`${EVENT_URL}/search`, condition);
    }
 
@@ -29,6 +34,10 @@ export default class EventsService {
          _LoggerService.debug(_$translate.instant('ERRORS.EVENT_REMOVE_ERROR'), entity);
          return _$q.reject();
       }
+   }
+
+   _convertFromServerFormat(event) {
+      event.eventDate = utils.formatDateFromServer(event.eventDate);
    }
 
 }

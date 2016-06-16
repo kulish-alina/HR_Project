@@ -11,7 +11,7 @@
    <div class="grid-block">
       <div class="small-6 grid-block" ng-class="{'list-only': type === 'list-only'}">
          <form name="Event">
-            <fieldset>
+            <fieldset class="event-form">
                <input type="text" ng-model="event.description" placeholder="{{::'COMMON.DESCRIPTION' | translate}}" type="text" validator="required, minlength=3, maxlength=200">
                <select name="EventType" ng-model="event.eventTypeId">
                   <option selected value="" ng-bind="::'THESAURUSES.THESAURUSES.EVENT_TYPES' | translate"></option>

@@ -98,7 +98,6 @@ function _convertToClientFormat(candidate) {
    _convertFromServerDates(candidate);
    _addReferencedThesaurusObjects(candidate);
    _setMonthYearExperience(candidate);
-   debugger;
    return candidate;
 }
 

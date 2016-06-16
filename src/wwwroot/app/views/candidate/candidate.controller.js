@@ -1,7 +1,7 @@
 import { set } from 'lodash';
 
 const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
-    'departments', 'typesOfEmployment', 'tags', 'skills', 'stages'];
+    'departments', 'typesOfEmployment', 'tags', 'skills', 'stages', 'currencies'];
 
 export default function CandidateController(
    $element,
@@ -60,7 +60,6 @@ export default function CandidateController(
 
    function saveCandidate(form) {
       if (ValidationService.validate(form)) {
-         debugger;
          CandidateService.saveCandidate(vm.candidate)
             .then(entity => set(vm, 'candidate', entity))
             .catch(_onError);

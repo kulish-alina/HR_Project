@@ -49,6 +49,7 @@ import PhoneInputsDirective   from './directives/phones/phone-inputs';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
+import convertToNumberDirective from './directives/convert-to-number/convert-to-number';
 
 import uiMask from 'angular-ui-mask';
 
@@ -99,15 +100,7 @@ angular
    .directive('ngThumb',        CanvasPreviewDirective)
    .directive('mainMenu',       MainMenuDirective.createInstance)
    .directive('sideMenu',       SideMenuDirective.createInstance)
-   .directive('convertToNumber', () => {
-      return {
-         require: 'ngModel',
-         link: (scope, element, attrs, ngModel) => {
-            ngModel.$parsers.push(val => parseInt(val, 10));
-            ngModel.$formatters.push(val => `${val}`);
-         }
-      };
-   })
+   .directive('convertToNumber',    convertToNumberDirective)
 
    .filter('tel',               PhoneFormatFilter)
    .filter('arrayAsString',     ArrayAsString)

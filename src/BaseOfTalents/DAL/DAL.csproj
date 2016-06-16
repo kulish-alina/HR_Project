@@ -95,6 +95,7 @@
     <Compile Include="Extensions\CandidateSocialExtensions.cs" />
     <Compile Include="Extensions\CandidateSourceExtensions.cs" />
     <Compile Include="Extensions\CommentExtension.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EventExtensions.cs" />
     <Compile Include="Extensions\FileExtension.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />
@@ -162,9 +163,9 @@
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201606151223011_init.cs" />
-    <Compile Include="Migrations\201606151223011_init.Designer.cs">
-      <DependentUpon>201606151223011_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606151515268_init.cs" />
+    <Compile Include="Migrations\201606151515268_init.Designer.cs">
+      <DependentUpon>201606151515268_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -241,8 +242,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606151223011_init.resx">
-      <DependentUpon>201606151223011_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606151515268_init.resx">
+      <DependentUpon>201606151515268_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

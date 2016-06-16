@@ -1,5 +1,5 @@
-const PERMISSIONS_URL = 'permissions/';
-const ROLES_URL       = 'roles/';
+const PERMISSIONS_URL = 'permission/';
+const ROLES_URL       = 'role/';
 
 import {
    reduce
@@ -42,9 +42,8 @@ export default class RoleService {
 
    removeRole(role) {
       if (role.id) {
-         const additionalUrl = ROLES_URL + role.id;
          _HttpCacheService.clearCache(ROLES_URL);
-         return _HttpService.remove(additionalUrl, role);
+         return _HttpService.remove(`${ROLES_URL}/${role.id}`, role);
       } else {
          _LoggerService.debug('Can\'t remove role', role);
          return _$q.reject();

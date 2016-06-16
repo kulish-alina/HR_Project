@@ -41,16 +41,32 @@ namespace BaseOfTalents.WebUI.Controllers
         [Route("search")]
         public IHttpActionResult Get([FromBody]EventSearchParameteres searchParams)
         {
+            if(!searchParams.EndDate.HasValue && searchParams.StartDate.Day!=1)
+            {
+                ModelState.AddModelError("Get month events", "if you want to get all of the events for a month endDate must me NULL, startDate.day must be 1");
+            }
             if (!ModelState.IsValid)
             {
                 return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
             }
-            var foundedEvents = service.Get(searchParams.UserIds, searchParams.Month, searchParams.Year);
+            var foundedEvents = service.Get(searchParams.UserIds, searchParams.StartDate, searchParams.EndDate);
             if (foundedEvents.Any())
             {
                 return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
             }
             return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("candidate/{candidateId:int}")]
+        public IHttpActionResult Get(int candidateid)
+        {
+            var foundedEvents = service.GetByCandidateId(candidateid);
+            if (foundedEvents.Any())
+            {
+                return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
+            }
+            return Ok("No events for specifed candidate: " + candidateid);
         }
 
         // POST api/<controller>

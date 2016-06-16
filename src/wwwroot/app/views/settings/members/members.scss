@@ -15,3 +15,12 @@ ul.members-tab li {
    height: 13rem;
    margin-left: 0.3rem;
 }
+
+.invite-member {
+   position: absolute;
+   top: 1rem;
+   right: 1rem;
+}
+.accordion-item {
+   border-bottom: 1px solid $border-color;
+}

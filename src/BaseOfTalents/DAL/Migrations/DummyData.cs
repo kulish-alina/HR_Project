@@ -355,7 +355,7 @@ namespace BaseOfTalents.DAL.Migrations
             new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "MySpace"}
         };
 
-        public static readonly List<EventType> Events = new List<EventType>
+        public static readonly List<EventType> EventTypes = new List<EventType>
         {
             new EventType
             {
@@ -385,7 +385,7 @@ namespace BaseOfTalents.DAL.Migrations
         };
 
         public static List<User> Users;
-
+        public static List<Event> Events;
         public static List<Role> Roles;
         public static List<Vacancy> Vacancies;
 
@@ -561,6 +561,26 @@ namespace BaseOfTalents.DAL.Migrations
             Users = GetUsers(150);
             Vacancies = GetVacancies(2403);
             Candidates = GetCandidates(1978);
+            Events = GetEvents(100);
+        }
+
+        private static List<Event> GetEvents(int count)
+        {
+            var events = new List<Event>();
+            for (int i = 0; i < count; i++)
+            {
+                events.Add(
+                    new Event
+                    {
+                        Candidate = Candidates.GetRandom(),
+                        Vacancy = Vacancies.GetRandom(),
+                        Description = LoremIpsum(3, 5, 3, 5, 1),
+                        EventTypeId = RandomNumber(1, 5),
+                        EventDate = DateTime.Now.AddDays(RandomNumber(1, 60)),
+                        Responsible = Users.GetRandom(),
+                    });
+            }
+            return events;
         }
 
         private static List<User> GetUsers(int count)
@@ -642,6 +662,7 @@ namespace BaseOfTalents.DAL.Migrations
             }
             return vacancies;
         }
+        
 
         private static List<Candidate> GetCandidates(int count)
         {

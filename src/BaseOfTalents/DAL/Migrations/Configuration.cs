@@ -17,7 +17,7 @@ namespace BaseOfTalents.DAL.Migrations
             context.Skills.AddRange(DummyData.Skills);
             context.SaveChanges();
 
-            context.EventTypes.AddRange(DummyData.Events);
+            context.EventTypes.AddRange(DummyData.EventTypes);
             context.SaveChanges();
 
             context.SocialNetworks.AddRange(DummyData.Socials);
@@ -69,6 +69,9 @@ namespace BaseOfTalents.DAL.Migrations
             context.SaveChanges();
 
             context.Candidates.AddRange(DummyData.Candidates);
+            context.SaveChanges();
+
+            context.Events.AddRange(DummyData.Events);
             context.SaveChanges();
         }
     }

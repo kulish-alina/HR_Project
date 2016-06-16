@@ -1,12 +1,12 @@
-using Domain.Entities.Enum;
+using BaseOfTalents.Domain.Entities.Enum;
+using BaseOfTalents.Domain.Entities.Enum.Setup;
 using Domain.Entities.Enum.Setup;
-using Domain.Entities.Setup;
 using System;
 using System.Collections.Generic;
 
-namespace Domain.Entities
+namespace BaseOfTalents.Domain.Entities
 {
-    public class Vacancy : BaseEntity 
+    public class Vacancy : BaseEntity
     {
         public Vacancy()
         {
@@ -17,12 +17,11 @@ namespace Domain.Entities
             Files = new List<File>();
             Comments = new List<Comment>();
             Tags = new List<Tag>();
+            ChildVacancies = new List<Vacancy>();
         }
 
         public string Title { get; set; }
         public string Description { get; set; }
-        public int SalaryMin { get; set; }
-        public int SalaryMax { get; set; }
         public TypeOfEmployment? TypeOfEmployment { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -35,6 +34,7 @@ namespace Domain.Entities
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Vacancy> ChildVacancies { get; set; }
 
         public int? ParentVacancyId { get; set; }
         public virtual Vacancy ParentVacancy { get; set; }
@@ -47,6 +47,11 @@ namespace Domain.Entities
 
         public int ResponsibleId { get; set; }
         public virtual User Responsible { get; set; }
+
+        public int SalaryMin { get; set; }
+        public int SalaryMax { get; set; }
+        public int? CurrencyId { get; set; }
+        public virtual Currency Currency { get; set; }
 
         public virtual LanguageSkill LanguageSkill { get; set; }
     }

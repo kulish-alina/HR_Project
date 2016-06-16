@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Domain.Entities.Setup
+namespace BaseOfTalents.Domain.Entities.Enum.Setup
 {
     public class Role : BaseEntity
     {
@@ -11,6 +8,7 @@ namespace Domain.Entities.Setup
         {
             Permissions = new List<Permission>();
         }
+
         public string Title { get; set; }
 
         public virtual ICollection<Permission> Permissions { get; set; }

@@ -1,12 +1,12 @@
-using Domain.Entities.Enum;
+using BaseOfTalents.Domain.Entities.Enum;
+using BaseOfTalents.Domain.Entities.Enum.Setup;
 using Domain.Entities.Enum.Setup;
-using Domain.Entities.Setup;
 using System;
 using System.Collections.Generic;
 
-namespace Domain.Entities
+namespace BaseOfTalents.Domain.Entities
 {
-    public class Candidate: BaseEntity
+    public class Candidate : BaseEntity
     {
         public Candidate()
         {
@@ -29,19 +29,28 @@ namespace Domain.Entities
         public string Email { get; set; }
         public string Skype { get; set; }
         public string PositionDesired { get; set; }
-        public int SalaryDesired { get; set; }
         public TypeOfEmployment TypeOfEmployment { get; set; }
         public DateTime StartExperience { get; set; }
         public string Practice { get; set; }
         public string Description { get; set; }
 
+        public int SalaryDesired { get; set; }
+        public int? CurrencyId { get; set; }
+        public virtual Currency Currency { get; set; }
+
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
+
+        public int? LevelId { get; set; }
+        public virtual Level Level { get; set; }
 
         public int? IndustryId { get; set; }
         public virtual Industry Industry { get; set; }
 
         public bool RelocationAgreement { get; set; }
+        public int? RelocationPlaceId { get; set; }
+        public Location RelocationPlace { get; set; }
+
         public string Education { get; set; }
 
         public virtual ICollection<CandidateSocial> SocialNetworks { get; set; }
@@ -53,9 +62,8 @@ namespace Domain.Entities
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public virtual ICollection<Skill> Skills { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
 
         public virtual Photo Photo { get; set; }
-
-
     }
 }

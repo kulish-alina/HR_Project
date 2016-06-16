@@ -95,6 +95,7 @@
     <Compile Include="Extensions\CandidateSocialExtensions.cs" />
     <Compile Include="Extensions\CandidateSourceExtensions.cs" />
     <Compile Include="Extensions\CommentExtension.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EventExtensions.cs" />
     <Compile Include="Extensions\FileExtension.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />

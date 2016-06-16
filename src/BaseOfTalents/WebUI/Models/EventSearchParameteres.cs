@@ -9,10 +9,11 @@ namespace BaseOfTalents.WebUI.Models
     public class EventSearchParameteres
     {
         [Required]
-        public int Year { get; set; }
-        [Required]
-        public int Month { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+
         [Required]
         public IEnumerable<int> UserIds { get; set; }
+
     }
 }

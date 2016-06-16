@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 
 namespace DAL.Services
 {
-    public class EventService
+    public partial class EventService
     {
         IUnitOfWork uow;
         public EventService(IUnitOfWork uow)
@@ -32,18 +32,25 @@ namespace DAL.Services
             return DTOService.ToDTO<Event, EventDTO>(newEvent);
         }
 
-        public IEnumerable<EventDTO> Get(IEnumerable<int> userIds, int month, int year)
+        public IEnumerable<EventDTO> GetByCandidateId(int candidateId)
         {
             var domainEvents = new List<Event>();
-            userIds.ToList().ForEach(x =>
+            var filters = new List<Expression<Func<Event, bool>>>();
+            filters.Add(x => x.CandidateId == candidateId);
+            return uow.EventRepo.Get(filters).Select(x=> DTOService.ToDTO<Event, EventDTO>(x));
+        }
+
+        public IEnumerable<EventDTO> Get(IEnumerable<int> userIds, DateTime startDate, DateTime? endDate)
+        {
+            var domainEvents = new List<Event>();
+            if (IsNeededEventsForAMonth(startDate, endDate))
             {
-                var filters = new List<Expression<Func<Event, bool>>>();
-                filters.Add(e => e.ResponsibleId == x);
-                filters.Add(e => e.EventDate.Month == month);
-                filters.Add(e => e.EventDate.Year == year);
-                var foundedEvents = uow.EventRepo.Get(filters);
-                domainEvents.AddRange(foundedEvents);
-            });
+                domainEvents = EventsForAMonthForAUsers(userIds, startDate);
+            }
+            else
+            {
+                domainEvents = EventsForAUsersForADateBetween(userIds, startDate, endDate);
+            }
             var eventsDto = domainEvents.Select(x => DTOService.ToDTO<Event, EventDTO>(x));
             return eventsDto;
         }
@@ -70,6 +77,48 @@ namespace DAL.Services
                 deleteResult = true;
             }
             return deleteResult;
+        }
+    }
+
+    public partial class EventService
+    {
+        private List<Event> EventsForAUsersForADateBetween(IEnumerable<int> userIds, DateTime startDate, DateTime? endDate)
+        {
+            var foundedEvents = new List<Event>();
+            userIds.ToList().ForEach(x =>
+            {
+                foundedEvents.AddRange(EventsForADateBetween(x, startDate, endDate));
+            });
+            return foundedEvents;
+        }
+        private List<Event> EventsForAMonthForAUsers(IEnumerable<int> userIds, DateTime startDate)
+        {
+            var foundedEvents = new List<Event>();
+            userIds.ToList().ForEach(x =>
+            {
+                foundedEvents.AddRange(EventsForAMonthForAUser(x, startDate));
+            });
+            return foundedEvents;
+        }
+        private IEnumerable<Event> EventsForADateBetween(int userId, DateTime startDate, DateTime? endDate)
+        {
+            var filters = new List<Expression<Func<Event, bool>>>();
+            filters.Add(e => e.ResponsibleId == userId);
+            filters.Add(x => x.EventDate >= startDate && x.EventDate <= endDate.Value);//.IsBetween(startDate, endDate.Value));
+            return uow.EventRepo.Get(filters);
+        }
+        private IEnumerable<Event> EventsForAMonthForAUser(int userId, DateTime startDate)
+        {
+            var filters = new List<Expression<Func<Event, bool>>>();
+            filters.Add(e => e.ResponsibleId == userId);
+            filters.Add(e => e.EventDate.Month == startDate.Month);
+            filters.Add(e => e.EventDate.Year == startDate.Year);
+
+            return uow.EventRepo.Get(filters);
+        }
+        private bool IsNeededEventsForAMonth(DateTime startDate, DateTime? endDate)
+        {
+            return !endDate.HasValue && startDate.Day == 1;
         }
     }
 }

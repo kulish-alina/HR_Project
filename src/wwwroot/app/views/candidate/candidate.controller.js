@@ -1,6 +1,6 @@
 import { set, forEach } from 'lodash';
 
-const LIST_OF_THESAURUS = ['industry', 'level', 'location', 'language', 'languageLevel',
+const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
     'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country'/*, 'currency'*/];
 
 export default function CandidateController(
@@ -74,7 +74,7 @@ export default function CandidateController(
 
    function _initLanguages(thesauruses) {
       forEach(thesauruses.language, language => {
-         vm.languages.push({language, languageLevel : {} });
+         vm.languages.push({language});
          forEach(thesauruses.languageLevel, languageLevel => {
             vm.languages.push({language, languageLevel});
          });
@@ -84,8 +84,9 @@ export default function CandidateController(
 
    function _initLocations(thesauruses) {
       forEach(thesauruses.country, country => {
-         forEach(thesauruses.location, location => {
-            vm.locations.push({country, location});
+         vm.locations.push({country});
+         forEach(thesauruses.city, city => {
+            vm.locations.push({country, city});
          });
       });
       return thesauruses;

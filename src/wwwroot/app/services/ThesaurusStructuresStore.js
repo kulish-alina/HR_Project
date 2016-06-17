@@ -24,7 +24,7 @@ const THESAURUS_STRUCTURES = {
          {name : 'state',     label : 'state',     type : ''}
       ]
    },
-   'location' : {
+   'city' : {
       thesaurusName : 'THESAURUSES.LOCATIONS',
       fields : [
          {name : 'id',              label : 'id',                    type : ''},

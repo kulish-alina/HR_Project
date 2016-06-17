@@ -24,7 +24,7 @@ const THESAURUSES = [
    new ThesaurusHelper('skill', 'skillIds', 'skills',   true),
 
    new ThesaurusHelper('industry',          'industryId',        'industries'),
-   new ThesaurusHelper('location',          'locationId',        'location'),
+   new ThesaurusHelper('city',              'cityId',            'city'),
    new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmploymentObject'),
    new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socialsObjects')
 ];

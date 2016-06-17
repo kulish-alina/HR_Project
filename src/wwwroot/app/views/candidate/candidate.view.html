@@ -44,7 +44,7 @@
                            <oi-select ng-model="candidate.languageSkills"
                               oi-options="language.language.title+' '+language.languageLevel.title group by language.language.title for language in languages" multiple></oi-select>
                         </div>
-                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.location track by location.id" ng-model="candidate.locationId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city track by city.id" ng-model="candidate.cityId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
 
                      </fieldset>
                   </div>
@@ -96,7 +96,7 @@
                         <label for="relocateAgreement" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate"></label>
                         <div class="grid-block" ng-if="candidate.relocateAgreement">
                            <oi-select ng-model="candidate.relocationAgreements"
-                              oi-options="relocation.location.title group by relocation.country.title for relocation in locations" multiple></oi-select>
+                              oi-options="location.city.title group by location.country.title for location in locations" multiple></oi-select>
                         </div>
                      </fieldset>
                   </div>

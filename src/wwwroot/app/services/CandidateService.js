@@ -7,24 +7,26 @@ import {
    remove,
    union,
    curry,
-   curryRight
+   curryRight,
+   set
 } from 'lodash';
 import utils  from '../utils.js';
 
 const CANDIDATE_URL           = 'candidates/';
 const DATE_TYPE_TO_CONVERT    = [ 'birthDate' ];
 
-let _forEach = curryRight(forEach, 2);
+let _forEach   = curryRight(forEach, 2);
+let curriedSet = curry(set, 3);
 let _addSavedThesaurusesTopicsCurried = curry(_addSavedThesaurusesTopics, 3);
 
 const THESAURUSES = [
-   new ThesaurusHelper('tags',   'tagIds',   'tags',     true),
-   new ThesaurusHelper('skills', 'skillIds', 'skills',   true),
+   new ThesaurusHelper('tag',   'tagIds',   'tags',     true),
+   new ThesaurusHelper('skill', 'skillIds', 'skills',   true),
 
-   new ThesaurusHelper('industries',         'industryId',        'industries'),
-   new ThesaurusHelper('locations',          'locationId',        'location'),
-   new ThesaurusHelper('typesOfEmployment',  'typeOfEmployment',  'typeOfEmploymentObject'),
-   new ThesaurusHelper('socialNetworks',     'socialNetworks',    'socialsObjects')
+   new ThesaurusHelper('industry',          'industryId',        'industries'),
+   new ThesaurusHelper('location',          'locationId',        'location'),
+   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmploymentObject'),
+   new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socialsObjects')
 ];
 
 let _HttpService, _ThesaurusService, _$q;
@@ -114,7 +116,8 @@ function _convertToServerFormat(candidate) {
 function _addReferencedThesaurusObjects(candidate) {
    forEach(THESAURUSES, ({thesaurusName, clientField, serverField, needConvertForServer}) => {
       if (needConvertForServer) {
-         candidate[clientField] = _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, candidate[serverField]);
+         _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, candidate[serverField])
+            .then(curriedSet(candidate, clientField));
       }
    });
 }

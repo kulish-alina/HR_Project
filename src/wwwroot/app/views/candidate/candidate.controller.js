@@ -1,7 +1,7 @@
-import { set } from 'lodash';
+import { set, forEach } from 'lodash';
 
-const LIST_OF_THESAURUS = ['industries', 'levels', 'locations', 'languages', 'languageLevels',
-    'departments', 'typesOfEmployment', 'tags', 'skills', 'stages', 'currencies'];
+const LIST_OF_THESAURUS = ['industry', 'level', 'location', 'language', 'languageLevel',
+    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country'/*, 'currency'*/];
 
 export default function CandidateController(
    $element,
@@ -20,10 +20,14 @@ export default function CandidateController(
    vm.keys           = Object.keys;
    vm.candidate      = vm.candidate || {};
    vm.thesaurus      = {};
+   vm.languages      = [];
+   vm.locations      = [];
 
    vm.candidate.skills     = vm.candidate.skills || [];
    vm.candidate.tags       = vm.candidate.tags || [];
    vm.candidate.files      = vm.candidate.files || [];
+   vm.candidate.phoneNumbers   = vm.candidate.phoneNumbers || [ {} ];;
+   vm.candidate.languageSkills = vm.candidate.languageSkills || [];
 
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
@@ -42,7 +46,9 @@ export default function CandidateController(
    }
 
    function _initThesauruses() {
-      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then((data) => vm.thesaurus = data);
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
+         .then(data => vm.thesaurus = data)
+         .then(_initLanguages).then(_initLocations);
    }
 
    function _createUploader() {
@@ -64,5 +70,24 @@ export default function CandidateController(
             .then(entity => set(vm, 'candidate', entity))
             .catch(_onError);
       }
+   }
+
+   function _initLanguages(thesauruses) {
+      forEach(thesauruses.language, language => {
+         vm.languages.push({language, languageLevel : {} });
+         forEach(thesauruses.languageLevel, languageLevel => {
+            vm.languages.push({language, languageLevel});
+         });
+      });
+      return thesauruses;
+   }
+
+   function _initLocations(thesauruses) {
+      forEach(thesauruses.country, country => {
+         forEach(thesauruses.location, location => {
+            vm.locations.push({country, location});
+         });
+      });
+      return thesauruses;
    }
 }

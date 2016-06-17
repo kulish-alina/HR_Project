@@ -26,11 +26,10 @@ namespace BaseOfTalents.DAL.Migrations
                         Description = c.String(),
                         SalaryDesired = c.Int(nullable: false),
                         CurrencyId = c.Int(),
-                        LocationId = c.Int(nullable: false),
+                        RelocationAgreement = c.Boolean(nullable: false),
+                        CityId = c.Int(nullable: false),
                         LevelId = c.Int(),
                         IndustryId = c.Int(),
-                        RelocationAgreement = c.Boolean(nullable: false),
-                        RelocationPlaceId = c.Int(),
                         Education = c.String(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
@@ -39,18 +38,63 @@ namespace BaseOfTalents.DAL.Migrations
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.City", t => t.CityId)
                 .ForeignKey("dbo.Currency", t => t.CurrencyId)
                 .ForeignKey("dbo.Industry", t => t.IndustryId)
                 .ForeignKey("dbo.Level", t => t.LevelId)
-                .ForeignKey("dbo.Location", t => t.LocationId)
                 .ForeignKey("dbo.Photo", t => t.Photo_Id)
-                .ForeignKey("dbo.Location", t => t.RelocationPlaceId)
                 .Index(t => t.CurrencyId)
-                .Index(t => t.LocationId)
+                .Index(t => t.CityId)
                 .Index(t => t.LevelId)
                 .Index(t => t.IndustryId)
-                .Index(t => t.RelocationPlaceId)
                 .Index(t => t.Photo_Id);
+            
+            CreateTable(
+                "dbo.City",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false),
+                        CountryId = c.Int(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Country", t => t.CountryId)
+                .Index(t => t.CountryId);
+            
+            CreateTable(
+                "dbo.Country",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.RelocationPlace",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        CountryId = c.Int(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        Candidate_Id = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Country", t => t.CountryId)
+                .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
+                .Index(t => t.CountryId)
+                .Index(t => t.Candidate_Id);
             
             CreateTable(
                 "dbo.Comment",
@@ -133,7 +177,7 @@ namespace BaseOfTalents.DAL.Migrations
                         Login = c.String(nullable: false),
                         Password = c.String(nullable: false),
                         RoleId = c.Int(nullable: false),
-                        LocationId = c.Int(nullable: false),
+                        CityId = c.Int(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -141,41 +185,12 @@ namespace BaseOfTalents.DAL.Migrations
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Location", t => t.LocationId)
+                .ForeignKey("dbo.City", t => t.CityId)
                 .ForeignKey("dbo.Photo", t => t.Photo_Id)
                 .ForeignKey("dbo.Role", t => t.RoleId)
                 .Index(t => t.RoleId)
-                .Index(t => t.LocationId)
+                .Index(t => t.CityId)
                 .Index(t => t.Photo_Id);
-            
-            CreateTable(
-                "dbo.Location",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        CountryId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Country", t => t.CountryId)
-                .Index(t => t.CountryId);
-            
-            CreateTable(
-                "dbo.Country",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.PhoneNumber",
@@ -239,8 +254,6 @@ namespace BaseOfTalents.DAL.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         Description = c.String(),
-                        SalaryMin = c.Int(nullable: false),
-                        SalaryMax = c.Int(nullable: false),
                         TypeOfEmployment = c.Int(),
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(),
@@ -249,6 +262,9 @@ namespace BaseOfTalents.DAL.Migrations
                         IndustryId = c.Int(),
                         DepartmentId = c.Int(nullable: false),
                         ResponsibleId = c.Int(nullable: false),
+                        SalaryMin = c.Int(nullable: false),
+                        SalaryMax = c.Int(nullable: false),
+                        CurrencyId = c.Int(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -256,6 +272,7 @@ namespace BaseOfTalents.DAL.Migrations
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Currency", t => t.CurrencyId)
                 .ForeignKey("dbo.Department", t => t.DepartmentId)
                 .ForeignKey("dbo.Industry", t => t.IndustryId)
                 .ForeignKey("dbo.LanguageSkill", t => t.LanguageSkill_Id)
@@ -265,6 +282,7 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.IndustryId)
                 .Index(t => t.DepartmentId)
                 .Index(t => t.ResponsibleId)
+                .Index(t => t.CurrencyId)
                 .Index(t => t.LanguageSkill_Id);
             
             CreateTable(
@@ -519,30 +537,43 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.CandidateComment",
+                "dbo.RelocationPlaceCity",
                 c => new
                     {
-                        Candidate_Id = c.Int(nullable: false),
-                        Comment_Id = c.Int(nullable: false),
+                        RelocationPlace_Id = c.Int(nullable: false),
+                        City_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Candidate_Id, t.Comment_Id })
-                .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
-                .ForeignKey("dbo.Comment", t => t.Comment_Id)
-                .Index(t => t.Candidate_Id)
-                .Index(t => t.Comment_Id);
+                .PrimaryKey(t => new { t.RelocationPlace_Id, t.City_Id })
+                .ForeignKey("dbo.RelocationPlace", t => t.RelocationPlace_Id)
+                .ForeignKey("dbo.City", t => t.City_Id)
+                .Index(t => t.RelocationPlace_Id)
+                .Index(t => t.City_Id);
             
             CreateTable(
-                "dbo.UserPhoneNumber",
+                "dbo.CandidateToComment",
                 c => new
                     {
-                        User_Id = c.Int(nullable: false),
-                        PhoneNumber_Id = c.Int(nullable: false),
+                        CandidateId = c.Int(nullable: false),
+                        CommentId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.User_Id, t.PhoneNumber_Id })
-                .ForeignKey("dbo.User", t => t.User_Id)
-                .ForeignKey("dbo.PhoneNumber", t => t.PhoneNumber_Id)
-                .Index(t => t.User_Id)
-                .Index(t => t.PhoneNumber_Id);
+                .PrimaryKey(t => new { t.CandidateId, t.CommentId })
+                .ForeignKey("dbo.Candidate", t => t.CandidateId)
+                .ForeignKey("dbo.Comment", t => t.CommentId)
+                .Index(t => t.CandidateId)
+                .Index(t => t.CommentId);
+            
+            CreateTable(
+                "dbo.UserToPhoneNumber",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false),
+                        PhoneNumberId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.PhoneNumberId })
+                .ForeignKey("dbo.User", t => t.UserId)
+                .ForeignKey("dbo.PhoneNumber", t => t.PhoneNumberId)
+                .Index(t => t.UserId)
+                .Index(t => t.PhoneNumberId);
             
             CreateTable(
                 "dbo.PermissionRole",
@@ -558,134 +589,134 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.Role_Id);
             
             CreateTable(
-                "dbo.ParentVacancyChildVacancy",
+                "dbo.ParentVacancyToChildVacancy",
                 c => new
                     {
-                        ParentVacancy_Id = c.Int(nullable: false),
-                        ChildVacancy_Id = c.Int(nullable: false),
+                        ParentVacancyId = c.Int(nullable: false),
+                        ChildVacancyId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.ParentVacancy_Id, t.ChildVacancy_Id })
-                .ForeignKey("dbo.Vacancy", t => t.ParentVacancy_Id)
-                .ForeignKey("dbo.Vacancy", t => t.ChildVacancy_Id)
-                .Index(t => t.ParentVacancy_Id)
-                .Index(t => t.ChildVacancy_Id);
+                .PrimaryKey(t => new { t.ParentVacancyId, t.ChildVacancyId })
+                .ForeignKey("dbo.Vacancy", t => t.ParentVacancyId)
+                .ForeignKey("dbo.Vacancy", t => t.ChildVacancyId)
+                .Index(t => t.ParentVacancyId)
+                .Index(t => t.ChildVacancyId);
             
             CreateTable(
-                "dbo.VacancyComment",
+                "dbo.VacancyToLocation",
                 c => new
                     {
-                        Vacancy_Id = c.Int(nullable: false),
-                        Comment_Id = c.Int(nullable: false),
+                        VacancyId = c.Int(nullable: false),
+                        LocationId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Vacancy_Id, t.Comment_Id })
-                .ForeignKey("dbo.Vacancy", t => t.Vacancy_Id)
-                .ForeignKey("dbo.Comment", t => t.Comment_Id)
-                .Index(t => t.Vacancy_Id)
-                .Index(t => t.Comment_Id);
+                .PrimaryKey(t => new { t.VacancyId, t.LocationId })
+                .ForeignKey("dbo.Vacancy", t => t.VacancyId)
+                .ForeignKey("dbo.City", t => t.LocationId)
+                .Index(t => t.VacancyId)
+                .Index(t => t.LocationId);
             
             CreateTable(
-                "dbo.VacancyLevel",
+                "dbo.VacancyToComment",
                 c => new
                     {
-                        Vacancy_Id = c.Int(nullable: false),
-                        Level_Id = c.Int(nullable: false),
+                        VacancyId = c.Int(nullable: false),
+                        CommentId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Vacancy_Id, t.Level_Id })
-                .ForeignKey("dbo.Vacancy", t => t.Vacancy_Id)
-                .ForeignKey("dbo.Level", t => t.Level_Id)
-                .Index(t => t.Vacancy_Id)
-                .Index(t => t.Level_Id);
+                .PrimaryKey(t => new { t.VacancyId, t.CommentId })
+                .ForeignKey("dbo.Vacancy", t => t.VacancyId)
+                .ForeignKey("dbo.Comment", t => t.CommentId)
+                .Index(t => t.VacancyId)
+                .Index(t => t.CommentId);
             
             CreateTable(
-                "dbo.VacancyLocation",
+                "dbo.VacancyToLevel",
                 c => new
                     {
-                        Vacancy_Id = c.Int(nullable: false),
-                        Location_Id = c.Int(nullable: false),
+                        VacancyId = c.Int(nullable: false),
+                        LevelId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Vacancy_Id, t.Location_Id })
-                .ForeignKey("dbo.Vacancy", t => t.Vacancy_Id)
-                .ForeignKey("dbo.Location", t => t.Location_Id)
-                .Index(t => t.Vacancy_Id)
-                .Index(t => t.Location_Id);
+                .PrimaryKey(t => new { t.VacancyId, t.LevelId })
+                .ForeignKey("dbo.Vacancy", t => t.VacancyId)
+                .ForeignKey("dbo.Level", t => t.LevelId)
+                .Index(t => t.VacancyId)
+                .Index(t => t.LevelId);
             
             CreateTable(
-                "dbo.VacancySkill",
+                "dbo.VacancyToSkill",
                 c => new
                     {
-                        Vacancy_Id = c.Int(nullable: false),
-                        Skill_Id = c.Int(nullable: false),
+                        VacancyId = c.Int(nullable: false),
+                        SkillId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Vacancy_Id, t.Skill_Id })
-                .ForeignKey("dbo.Vacancy", t => t.Vacancy_Id)
-                .ForeignKey("dbo.Skill", t => t.Skill_Id)
-                .Index(t => t.Vacancy_Id)
-                .Index(t => t.Skill_Id);
+                .PrimaryKey(t => new { t.VacancyId, t.SkillId })
+                .ForeignKey("dbo.Vacancy", t => t.VacancyId)
+                .ForeignKey("dbo.Skill", t => t.SkillId)
+                .Index(t => t.VacancyId)
+                .Index(t => t.SkillId);
             
             CreateTable(
-                "dbo.VacancyTag",
+                "dbo.VacancyToTag",
                 c => new
                     {
-                        Vacancy_Id = c.Int(nullable: false),
-                        Tag_Id = c.Int(nullable: false),
+                        VacancyId = c.Int(nullable: false),
+                        TagId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Vacancy_Id, t.Tag_Id })
-                .ForeignKey("dbo.Vacancy", t => t.Vacancy_Id)
-                .ForeignKey("dbo.Tag", t => t.Tag_Id)
-                .Index(t => t.Vacancy_Id)
-                .Index(t => t.Tag_Id);
+                .PrimaryKey(t => new { t.VacancyId, t.TagId })
+                .ForeignKey("dbo.Vacancy", t => t.VacancyId)
+                .ForeignKey("dbo.Tag", t => t.TagId)
+                .Index(t => t.VacancyId)
+                .Index(t => t.TagId);
             
             CreateTable(
-                "dbo.CandidateLanguageSkill",
+                "dbo.CandidateToLanguageSkill",
                 c => new
                     {
-                        Candidate_Id = c.Int(nullable: false),
-                        LanguageSkill_Id = c.Int(nullable: false),
+                        CandidateId = c.Int(nullable: false),
+                        LanguageSkillId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Candidate_Id, t.LanguageSkill_Id })
-                .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
-                .ForeignKey("dbo.LanguageSkill", t => t.LanguageSkill_Id)
-                .Index(t => t.Candidate_Id)
-                .Index(t => t.LanguageSkill_Id);
+                .PrimaryKey(t => new { t.CandidateId, t.LanguageSkillId })
+                .ForeignKey("dbo.Candidate", t => t.CandidateId)
+                .ForeignKey("dbo.LanguageSkill", t => t.LanguageSkillId)
+                .Index(t => t.CandidateId)
+                .Index(t => t.LanguageSkillId);
             
             CreateTable(
-                "dbo.CandidatePhoneNumber",
+                "dbo.CandidateToPhoneNumber",
                 c => new
                     {
-                        Candidate_Id = c.Int(nullable: false),
-                        PhoneNumber_Id = c.Int(nullable: false),
+                        CandidateId = c.Int(nullable: false),
+                        PhoneNumberId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Candidate_Id, t.PhoneNumber_Id })
-                .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
-                .ForeignKey("dbo.PhoneNumber", t => t.PhoneNumber_Id)
-                .Index(t => t.Candidate_Id)
-                .Index(t => t.PhoneNumber_Id);
+                .PrimaryKey(t => new { t.CandidateId, t.PhoneNumberId })
+                .ForeignKey("dbo.Candidate", t => t.CandidateId)
+                .ForeignKey("dbo.PhoneNumber", t => t.PhoneNumberId)
+                .Index(t => t.CandidateId)
+                .Index(t => t.PhoneNumberId);
             
             CreateTable(
-                "dbo.CandidateSkill",
+                "dbo.CandidateToSkill",
                 c => new
                     {
-                        Candidate_Id = c.Int(nullable: false),
-                        Skill_Id = c.Int(nullable: false),
+                        CandidateId = c.Int(nullable: false),
+                        SkillId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Candidate_Id, t.Skill_Id })
-                .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
-                .ForeignKey("dbo.Skill", t => t.Skill_Id)
-                .Index(t => t.Candidate_Id)
-                .Index(t => t.Skill_Id);
+                .PrimaryKey(t => new { t.CandidateId, t.SkillId })
+                .ForeignKey("dbo.Candidate", t => t.CandidateId)
+                .ForeignKey("dbo.Skill", t => t.SkillId)
+                .Index(t => t.CandidateId)
+                .Index(t => t.SkillId);
             
             CreateTable(
-                "dbo.CandidateTag",
+                "dbo.CandidateToTag",
                 c => new
                     {
-                        Candidate_Id = c.Int(nullable: false),
-                        Tag_Id = c.Int(nullable: false),
+                        CandidateId = c.Int(nullable: false),
+                        TagId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Candidate_Id, t.Tag_Id })
-                .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
-                .ForeignKey("dbo.Tag", t => t.Tag_Id)
-                .Index(t => t.Candidate_Id)
-                .Index(t => t.Tag_Id);
+                .PrimaryKey(t => new { t.CandidateId, t.TagId })
+                .ForeignKey("dbo.Candidate", t => t.CandidateId)
+                .ForeignKey("dbo.Tag", t => t.TagId)
+                .Index(t => t.CandidateId)
+                .Index(t => t.TagId);
             
         }
         
@@ -693,45 +724,45 @@ namespace BaseOfTalents.DAL.Migrations
         {
             DropForeignKey("dbo.Note", "UserId", "dbo.User");
             DropForeignKey("dbo.VacancyStageInfo", "CandidateId", "dbo.Candidate");
-            DropForeignKey("dbo.CandidateTag", "Tag_Id", "dbo.Tag");
-            DropForeignKey("dbo.CandidateTag", "Candidate_Id", "dbo.Candidate");
+            DropForeignKey("dbo.CandidateToTag", "TagId", "dbo.Tag");
+            DropForeignKey("dbo.CandidateToTag", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateSource", "Candidate_Id", "dbo.Candidate");
             DropForeignKey("dbo.CandidateSocial", "SocialNetworkId", "dbo.SocialNetwork");
             DropForeignKey("dbo.CandidateSocial", "CandidateId", "dbo.Candidate");
-            DropForeignKey("dbo.CandidateSkill", "Skill_Id", "dbo.Skill");
-            DropForeignKey("dbo.CandidateSkill", "Candidate_Id", "dbo.Candidate");
-            DropForeignKey("dbo.Candidate", "RelocationPlaceId", "dbo.Location");
+            DropForeignKey("dbo.CandidateToSkill", "SkillId", "dbo.Skill");
+            DropForeignKey("dbo.CandidateToSkill", "CandidateId", "dbo.Candidate");
+            DropForeignKey("dbo.RelocationPlace", "Candidate_Id", "dbo.Candidate");
             DropForeignKey("dbo.Candidate", "Photo_Id", "dbo.Photo");
-            DropForeignKey("dbo.CandidatePhoneNumber", "PhoneNumber_Id", "dbo.PhoneNumber");
-            DropForeignKey("dbo.CandidatePhoneNumber", "Candidate_Id", "dbo.Candidate");
-            DropForeignKey("dbo.Candidate", "LocationId", "dbo.Location");
+            DropForeignKey("dbo.CandidateToPhoneNumber", "PhoneNumberId", "dbo.PhoneNumber");
+            DropForeignKey("dbo.CandidateToPhoneNumber", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Candidate", "LevelId", "dbo.Level");
-            DropForeignKey("dbo.CandidateLanguageSkill", "LanguageSkill_Id", "dbo.LanguageSkill");
-            DropForeignKey("dbo.CandidateLanguageSkill", "Candidate_Id", "dbo.Candidate");
+            DropForeignKey("dbo.CandidateToLanguageSkill", "LanguageSkillId", "dbo.LanguageSkill");
+            DropForeignKey("dbo.CandidateToLanguageSkill", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Candidate", "IndustryId", "dbo.Industry");
             DropForeignKey("dbo.File", "Candidate_Id", "dbo.Candidate");
             DropForeignKey("dbo.Event", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Event", "VacancyId", "dbo.Vacancy");
-            DropForeignKey("dbo.VacancyTag", "Tag_Id", "dbo.Tag");
-            DropForeignKey("dbo.VacancyTag", "Vacancy_Id", "dbo.Vacancy");
+            DropForeignKey("dbo.VacancyToTag", "TagId", "dbo.Tag");
+            DropForeignKey("dbo.VacancyToTag", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "ResponsibleId", "dbo.User");
-            DropForeignKey("dbo.VacancySkill", "Skill_Id", "dbo.Skill");
-            DropForeignKey("dbo.VacancySkill", "Vacancy_Id", "dbo.Vacancy");
+            DropForeignKey("dbo.VacancyToSkill", "SkillId", "dbo.Skill");
+            DropForeignKey("dbo.VacancyToSkill", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "ParentVacancyId", "dbo.Vacancy");
-            DropForeignKey("dbo.VacancyLocation", "Location_Id", "dbo.Location");
-            DropForeignKey("dbo.VacancyLocation", "Vacancy_Id", "dbo.Vacancy");
-            DropForeignKey("dbo.VacancyLevel", "Level_Id", "dbo.Level");
-            DropForeignKey("dbo.VacancyLevel", "Vacancy_Id", "dbo.Vacancy");
+            DropForeignKey("dbo.VacancyToLevel", "LevelId", "dbo.Level");
+            DropForeignKey("dbo.VacancyToLevel", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "LanguageSkill_Id", "dbo.LanguageSkill");
             DropForeignKey("dbo.LanguageSkill", "LanguageId", "dbo.Language");
             DropForeignKey("dbo.Vacancy", "IndustryId", "dbo.Industry");
             DropForeignKey("dbo.File", "Vacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "DepartmentId", "dbo.Department");
             DropForeignKey("dbo.Department", "DepartmentGroupId", "dbo.DepartmentGroup");
-            DropForeignKey("dbo.VacancyComment", "Comment_Id", "dbo.Comment");
-            DropForeignKey("dbo.VacancyComment", "Vacancy_Id", "dbo.Vacancy");
-            DropForeignKey("dbo.ParentVacancyChildVacancy", "ChildVacancy_Id", "dbo.Vacancy");
-            DropForeignKey("dbo.ParentVacancyChildVacancy", "ParentVacancy_Id", "dbo.Vacancy");
+            DropForeignKey("dbo.Vacancy", "CurrencyId", "dbo.Currency");
+            DropForeignKey("dbo.VacancyToComment", "CommentId", "dbo.Comment");
+            DropForeignKey("dbo.VacancyToComment", "VacancyId", "dbo.Vacancy");
+            DropForeignKey("dbo.VacancyToLocation", "LocationId", "dbo.City");
+            DropForeignKey("dbo.VacancyToLocation", "VacancyId", "dbo.Vacancy");
+            DropForeignKey("dbo.ParentVacancyToChildVacancy", "ChildVacancyId", "dbo.Vacancy");
+            DropForeignKey("dbo.ParentVacancyToChildVacancy", "ParentVacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyStageInfo", "VacancyStage_Id", "dbo.VacancyStage");
             DropForeignKey("dbo.VacancyStage", "StageId", "dbo.Stage");
             DropForeignKey("dbo.VacancyStageInfo", "VacancyId", "dbo.Vacancy");
@@ -741,40 +772,46 @@ namespace BaseOfTalents.DAL.Migrations
             DropForeignKey("dbo.PermissionRole", "Role_Id", "dbo.Role");
             DropForeignKey("dbo.PermissionRole", "Permission_Id", "dbo.Permission");
             DropForeignKey("dbo.User", "Photo_Id", "dbo.Photo");
-            DropForeignKey("dbo.UserPhoneNumber", "PhoneNumber_Id", "dbo.PhoneNumber");
-            DropForeignKey("dbo.UserPhoneNumber", "User_Id", "dbo.User");
-            DropForeignKey("dbo.User", "LocationId", "dbo.Location");
-            DropForeignKey("dbo.Location", "CountryId", "dbo.Country");
+            DropForeignKey("dbo.UserToPhoneNumber", "PhoneNumberId", "dbo.PhoneNumber");
+            DropForeignKey("dbo.UserToPhoneNumber", "UserId", "dbo.User");
+            DropForeignKey("dbo.User", "CityId", "dbo.City");
             DropForeignKey("dbo.Event", "EventTypeId", "dbo.EventType");
             DropForeignKey("dbo.Candidate", "CurrencyId", "dbo.Currency");
-            DropForeignKey("dbo.CandidateComment", "Comment_Id", "dbo.Comment");
-            DropForeignKey("dbo.CandidateComment", "Candidate_Id", "dbo.Candidate");
-            DropIndex("dbo.CandidateTag", new[] { "Tag_Id" });
-            DropIndex("dbo.CandidateTag", new[] { "Candidate_Id" });
-            DropIndex("dbo.CandidateSkill", new[] { "Skill_Id" });
-            DropIndex("dbo.CandidateSkill", new[] { "Candidate_Id" });
-            DropIndex("dbo.CandidatePhoneNumber", new[] { "PhoneNumber_Id" });
-            DropIndex("dbo.CandidatePhoneNumber", new[] { "Candidate_Id" });
-            DropIndex("dbo.CandidateLanguageSkill", new[] { "LanguageSkill_Id" });
-            DropIndex("dbo.CandidateLanguageSkill", new[] { "Candidate_Id" });
-            DropIndex("dbo.VacancyTag", new[] { "Tag_Id" });
-            DropIndex("dbo.VacancyTag", new[] { "Vacancy_Id" });
-            DropIndex("dbo.VacancySkill", new[] { "Skill_Id" });
-            DropIndex("dbo.VacancySkill", new[] { "Vacancy_Id" });
-            DropIndex("dbo.VacancyLocation", new[] { "Location_Id" });
-            DropIndex("dbo.VacancyLocation", new[] { "Vacancy_Id" });
-            DropIndex("dbo.VacancyLevel", new[] { "Level_Id" });
-            DropIndex("dbo.VacancyLevel", new[] { "Vacancy_Id" });
-            DropIndex("dbo.VacancyComment", new[] { "Comment_Id" });
-            DropIndex("dbo.VacancyComment", new[] { "Vacancy_Id" });
-            DropIndex("dbo.ParentVacancyChildVacancy", new[] { "ChildVacancy_Id" });
-            DropIndex("dbo.ParentVacancyChildVacancy", new[] { "ParentVacancy_Id" });
+            DropForeignKey("dbo.CandidateToComment", "CommentId", "dbo.Comment");
+            DropForeignKey("dbo.CandidateToComment", "CandidateId", "dbo.Candidate");
+            DropForeignKey("dbo.Candidate", "CityId", "dbo.City");
+            DropForeignKey("dbo.RelocationPlace", "CountryId", "dbo.Country");
+            DropForeignKey("dbo.RelocationPlaceCity", "City_Id", "dbo.City");
+            DropForeignKey("dbo.RelocationPlaceCity", "RelocationPlace_Id", "dbo.RelocationPlace");
+            DropForeignKey("dbo.City", "CountryId", "dbo.Country");
+            DropIndex("dbo.CandidateToTag", new[] { "TagId" });
+            DropIndex("dbo.CandidateToTag", new[] { "CandidateId" });
+            DropIndex("dbo.CandidateToSkill", new[] { "SkillId" });
+            DropIndex("dbo.CandidateToSkill", new[] { "CandidateId" });
+            DropIndex("dbo.CandidateToPhoneNumber", new[] { "PhoneNumberId" });
+            DropIndex("dbo.CandidateToPhoneNumber", new[] { "CandidateId" });
+            DropIndex("dbo.CandidateToLanguageSkill", new[] { "LanguageSkillId" });
+            DropIndex("dbo.CandidateToLanguageSkill", new[] { "CandidateId" });
+            DropIndex("dbo.VacancyToTag", new[] { "TagId" });
+            DropIndex("dbo.VacancyToTag", new[] { "VacancyId" });
+            DropIndex("dbo.VacancyToSkill", new[] { "SkillId" });
+            DropIndex("dbo.VacancyToSkill", new[] { "VacancyId" });
+            DropIndex("dbo.VacancyToLevel", new[] { "LevelId" });
+            DropIndex("dbo.VacancyToLevel", new[] { "VacancyId" });
+            DropIndex("dbo.VacancyToComment", new[] { "CommentId" });
+            DropIndex("dbo.VacancyToComment", new[] { "VacancyId" });
+            DropIndex("dbo.VacancyToLocation", new[] { "LocationId" });
+            DropIndex("dbo.VacancyToLocation", new[] { "VacancyId" });
+            DropIndex("dbo.ParentVacancyToChildVacancy", new[] { "ChildVacancyId" });
+            DropIndex("dbo.ParentVacancyToChildVacancy", new[] { "ParentVacancyId" });
             DropIndex("dbo.PermissionRole", new[] { "Role_Id" });
             DropIndex("dbo.PermissionRole", new[] { "Permission_Id" });
-            DropIndex("dbo.UserPhoneNumber", new[] { "PhoneNumber_Id" });
-            DropIndex("dbo.UserPhoneNumber", new[] { "User_Id" });
-            DropIndex("dbo.CandidateComment", new[] { "Comment_Id" });
-            DropIndex("dbo.CandidateComment", new[] { "Candidate_Id" });
+            DropIndex("dbo.UserToPhoneNumber", new[] { "PhoneNumberId" });
+            DropIndex("dbo.UserToPhoneNumber", new[] { "UserId" });
+            DropIndex("dbo.CandidateToComment", new[] { "CommentId" });
+            DropIndex("dbo.CandidateToComment", new[] { "CandidateId" });
+            DropIndex("dbo.RelocationPlaceCity", new[] { "City_Id" });
+            DropIndex("dbo.RelocationPlaceCity", new[] { "RelocationPlace_Id" });
             DropIndex("dbo.Note", new[] { "UserId" });
             DropIndex("dbo.CandidateSource", new[] { "Candidate_Id" });
             DropIndex("dbo.CandidateSocial", new[] { "CandidateId" });
@@ -789,37 +826,40 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.VacancyStageInfo", new[] { "VacancyId" });
             DropIndex("dbo.VacancyStageInfo", new[] { "CandidateId" });
             DropIndex("dbo.Vacancy", new[] { "LanguageSkill_Id" });
+            DropIndex("dbo.Vacancy", new[] { "CurrencyId" });
             DropIndex("dbo.Vacancy", new[] { "ResponsibleId" });
             DropIndex("dbo.Vacancy", new[] { "DepartmentId" });
             DropIndex("dbo.Vacancy", new[] { "IndustryId" });
             DropIndex("dbo.Vacancy", new[] { "ParentVacancyId" });
-            DropIndex("dbo.Location", new[] { "CountryId" });
             DropIndex("dbo.User", new[] { "Photo_Id" });
-            DropIndex("dbo.User", new[] { "LocationId" });
+            DropIndex("dbo.User", new[] { "CityId" });
             DropIndex("dbo.User", new[] { "RoleId" });
             DropIndex("dbo.Event", new[] { "CandidateId" });
             DropIndex("dbo.Event", new[] { "VacancyId" });
             DropIndex("dbo.Event", new[] { "EventTypeId" });
             DropIndex("dbo.Event", new[] { "ResponsibleId" });
+            DropIndex("dbo.RelocationPlace", new[] { "Candidate_Id" });
+            DropIndex("dbo.RelocationPlace", new[] { "CountryId" });
+            DropIndex("dbo.City", new[] { "CountryId" });
             DropIndex("dbo.Candidate", new[] { "Photo_Id" });
-            DropIndex("dbo.Candidate", new[] { "RelocationPlaceId" });
             DropIndex("dbo.Candidate", new[] { "IndustryId" });
             DropIndex("dbo.Candidate", new[] { "LevelId" });
-            DropIndex("dbo.Candidate", new[] { "LocationId" });
+            DropIndex("dbo.Candidate", new[] { "CityId" });
             DropIndex("dbo.Candidate", new[] { "CurrencyId" });
-            DropTable("dbo.CandidateTag");
-            DropTable("dbo.CandidateSkill");
-            DropTable("dbo.CandidatePhoneNumber");
-            DropTable("dbo.CandidateLanguageSkill");
-            DropTable("dbo.VacancyTag");
-            DropTable("dbo.VacancySkill");
-            DropTable("dbo.VacancyLocation");
-            DropTable("dbo.VacancyLevel");
-            DropTable("dbo.VacancyComment");
-            DropTable("dbo.ParentVacancyChildVacancy");
+            DropTable("dbo.CandidateToTag");
+            DropTable("dbo.CandidateToSkill");
+            DropTable("dbo.CandidateToPhoneNumber");
+            DropTable("dbo.CandidateToLanguageSkill");
+            DropTable("dbo.VacancyToTag");
+            DropTable("dbo.VacancyToSkill");
+            DropTable("dbo.VacancyToLevel");
+            DropTable("dbo.VacancyToComment");
+            DropTable("dbo.VacancyToLocation");
+            DropTable("dbo.ParentVacancyToChildVacancy");
             DropTable("dbo.PermissionRole");
-            DropTable("dbo.UserPhoneNumber");
-            DropTable("dbo.CandidateComment");
+            DropTable("dbo.UserToPhoneNumber");
+            DropTable("dbo.CandidateToComment");
+            DropTable("dbo.RelocationPlaceCity");
             DropTable("dbo.Note");
             DropTable("dbo.CandidateSource");
             DropTable("dbo.SocialNetwork");
@@ -841,13 +881,14 @@ namespace BaseOfTalents.DAL.Migrations
             DropTable("dbo.Role");
             DropTable("dbo.Photo");
             DropTable("dbo.PhoneNumber");
-            DropTable("dbo.Country");
-            DropTable("dbo.Location");
             DropTable("dbo.User");
             DropTable("dbo.EventType");
             DropTable("dbo.Event");
             DropTable("dbo.Currency");
             DropTable("dbo.Comment");
+            DropTable("dbo.RelocationPlace");
+            DropTable("dbo.Country");
+            DropTable("dbo.City");
             DropTable("dbo.Candidate");
         }
     }

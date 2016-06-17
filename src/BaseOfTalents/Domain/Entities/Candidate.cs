@@ -1,5 +1,6 @@
 using BaseOfTalents.Domain.Entities.Enum;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
+using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace BaseOfTalents.Domain.Entities
             VacanciesProgress = new List<VacancyStageInfo>();
             Comments = new List<Comment>();
             Sources = new List<CandidateSource>();
+            RelocationPlaces = new List<RelocationPlace>();
         }
 
         public string FirstName { get; set; }
@@ -38,18 +40,17 @@ namespace BaseOfTalents.Domain.Entities
         public int? CurrencyId { get; set; }
         public virtual Currency Currency { get; set; }
 
-        public int LocationId { get; set; }
-        public virtual Location Location { get; set; }
+        public bool RelocationAgreement { get; set; }
+        public virtual ICollection<RelocationPlace> RelocationPlaces { get; set; }
+
+        public int CityId { get; set; }
+        public virtual City City { get; set; }
 
         public int? LevelId { get; set; }
         public virtual Level Level { get; set; }
 
         public int? IndustryId { get; set; }
         public virtual Industry Industry { get; set; }
-
-        public bool RelocationAgreement { get; set; }
-        public int? RelocationPlaceId { get; set; }
-        public Location RelocationPlace { get; set; }
 
         public string Education { get; set; }
 

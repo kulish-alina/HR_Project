@@ -1,5 +1,6 @@
 using BaseOfTalents.Domain.Entities.Enum;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
+using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 
@@ -10,7 +11,7 @@ namespace BaseOfTalents.Domain.Entities
         public Vacancy()
         {
             Levels = new List<Level>();
-            Locations = new List<Location>();
+            Cities = new List<City>();
             RequiredSkills = new List<Skill>();
             CandidatesProgress = new List<VacancyStageInfo>();
             Files = new List<File>();
@@ -21,15 +22,13 @@ namespace BaseOfTalents.Domain.Entities
 
         public string Title { get; set; }
         public string Description { get; set; }
-        public int SalaryMin { get; set; }
-        public int SalaryMax { get; set; }
         public TypeOfEmployment? TypeOfEmployment { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
 
         public virtual ICollection<Level> Levels { get; set; }
-        public virtual ICollection<Location> Locations { get; set; }
+        public virtual ICollection<City> Cities { get; set; }
         public virtual ICollection<Skill> RequiredSkills { get; set; }
         public virtual ICollection<VacancyStageInfo> CandidatesProgress { get; set; }
         public virtual ICollection<File> Files { get; set; }
@@ -48,6 +47,11 @@ namespace BaseOfTalents.Domain.Entities
 
         public int ResponsibleId { get; set; }
         public virtual User Responsible { get; set; }
+
+        public int SalaryMin { get; set; }
+        public int SalaryMax { get; set; }
+        public int? CurrencyId { get; set; }
+        public virtual Currency Currency { get; set; }
 
         public virtual LanguageSkill LanguageSkill { get; set; }
     }

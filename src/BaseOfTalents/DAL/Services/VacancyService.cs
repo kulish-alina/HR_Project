@@ -63,7 +63,7 @@ namespace DAL.Services
             }
             if (locationIds.Any())
             {
-                filters.Add(x => x.Locations.Any(loc => locationIds.Contains(loc.Id)));
+                filters.Add(x => x.Cities.Any(loc => locationIds.Contains(loc.Id)));
             }
 
             var vacancies = uow.VacancyRepo.Get(filters);
@@ -114,10 +114,11 @@ namespace DAL.Services
             List<Vacancy> childVacancies = new List<Vacancy>();
             if (dto.ChildVacanciesNumber.HasValue)
             {
+                if (dto.HasParent()) throw new Exception("This vacancy has parent vacancy, so you can't create child of it");
                 dto.ChildVacanciesNumber.Value.Times(() =>
                 {
-                    Vacancy childVacancy = domain.Clone();
-                    childVacancy.ParentVacancy = domain;
+                    Vacancy childVacancy = new Vacancy();
+                    childVacancy.UpdateChildWithParent(domain);
                     childVacancies.Add(childVacancy);
                 });
                 childVacancies.ForEach(x => domain.ChildVacancies.Add(x));

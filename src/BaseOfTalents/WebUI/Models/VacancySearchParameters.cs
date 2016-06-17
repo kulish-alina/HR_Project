@@ -10,7 +10,7 @@ namespace BaseOfTalents.WebUI.Models
         public VacancySearchParameters()
         {
             LevelIds = new List<int>();
-            LocationIds = new List<int>();
+            CityIds = new List<int>();
             Current = 0;
             Size = 20;
         }
@@ -23,7 +23,7 @@ namespace BaseOfTalents.WebUI.Models
         public int? TypeOfEmployment { get; set; }
 
         public IEnumerable<int> LevelIds { get; set; }
-        public IEnumerable<int> LocationIds { get; set; }
+        public IEnumerable<int> CityIds { get; set; }
 
         public int Current { get; set; }
         public int Size { get; set; }

@@ -23,7 +23,7 @@ namespace BaseOfTalents.DAL.Repositories
             entityToDelete.Files.ToList().ForEach(f => context.DeleteEntity(f));
             entityToDelete.VacanciesProgress.ToList().ForEach(vsi => context.DeleteEntity(vsi));
             entityToDelete.PhoneNumbers.ToList().ForEach(pn => context.DeleteEntity(pn));
-            entityToDelete.Sources.ToList().ForEach(s => context.DeleteEntity(s);
+            entityToDelete.Sources.ToList().ForEach(s => context.DeleteEntity(s));
             context.DeleteEntity(entityToDelete.Photo);
 
             dbSet.Remove(entityToDelete);

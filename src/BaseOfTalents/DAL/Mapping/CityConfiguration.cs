@@ -2,9 +2,9 @@
 
 namespace BaseOfTalents.DAL.Mapping
 {
-    public class LocationConfiguration : BaseEntityConfiguration<Location>
+    public class CityConfiguration : BaseEntityConfiguration<City>
     {
-        public LocationConfiguration()
+        public CityConfiguration()
         {
             Property(l => l.Title).IsRequired();
             HasRequired(l => l.Country).WithMany().HasForeignKey(l => l.CountryId);

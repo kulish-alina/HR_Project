@@ -167,6 +167,7 @@
     <Compile Include="Controllers\BaseEnumController.cs" />
     <Compile Include="Controllers\CommentTypeController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
+    <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\DepartmentGroupController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EntityStateController.cs" />

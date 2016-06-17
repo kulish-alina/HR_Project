@@ -3,6 +3,7 @@ using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using DAL.Mapping;
 using Domain.Entities;
+using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -27,6 +28,7 @@ namespace BaseOfTalents.DAL
         }
 
         public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<RelocationPlace> RelocationPlace { get; set; }
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }

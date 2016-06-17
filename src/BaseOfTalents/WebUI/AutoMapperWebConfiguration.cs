@@ -7,6 +7,8 @@ using BaseOfTalents.Domain.Entities.Enum.Setup;
 using BaseOfTalents.WebUI.Models;
 using Domain.Entities;
 using DAL.DTO;
+using Domain.Entities.Enum.Setup;
+using DAL.DTO.SetupDTO;
 
 namespace WebApi
 {
@@ -74,6 +76,9 @@ namespace WebApi
                 x.CreateMap<Note, NoteDTO>();
                 x.CreateMap<NoteDTO, Note>();
 
+                x.CreateMap<Currency, CurrencyDTO>();
+                x.CreateMap<CurrencyDTO, Currency>();
+
                 x.CreateMap<CandidateSource, CandidateSourceDTO>();
                 x.CreateMap<CandidateSourceDTO, CandidateSource>();
 
@@ -86,8 +91,11 @@ namespace WebApi
                 x.CreateMap<VacancyStageInfo, VacancyStageInfoDTO>();
                 x.CreateMap<VacancyStageInfoDTO, VacancyStageInfo>();
 
+                x.CreateMap<Currency, int>()
+                     .ConstructUsing(source => (source.SourceValue as Currency).Id);
+
                 x.CreateMap<Vacancy, int>()
-                     .ConstructUsing(source => (source.SourceValue as Vacancy).Id);
+                    .ConstructUsing(source => (source.SourceValue as Vacancy).Id);
 
                 x.CreateMap<Skill, int>()
                      .ConstructUsing(source => (source.SourceValue as Skill).Id);

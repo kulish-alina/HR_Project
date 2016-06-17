@@ -39,6 +39,8 @@ namespace BaseOfTalents.DAL
         private ICommentRepository              commentRepo;
         private IEventRepository                eventRepo;
         private INoteRepository                 noteRepo;
+        private ICurrencyRepository             currencyRepo;
+
 
         public UnitOfWork(DbContext context)
         {
@@ -411,6 +413,19 @@ namespace BaseOfTalents.DAL
                 }
 
                 return noteRepo;
+            }
+        }
+
+        public ICurrencyRepository CurrencyRepo
+        {
+            get
+            {
+                if (currencyRepo == null)
+                {
+                    currencyRepo = new CurrencyRepository(context);
+                }
+
+                return currencyRepo;
             }
         }
 

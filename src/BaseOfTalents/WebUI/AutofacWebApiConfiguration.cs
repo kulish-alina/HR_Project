@@ -14,6 +14,7 @@ using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.DAL;
 using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.DAL.Repositories;
+using DAL.DTO.SetupDTO;
 
 namespace WebApi
 {
@@ -85,6 +86,10 @@ namespace WebApi
                .As<BaseService<Level, LevelDTO>>()
                .InstancePerRequest();
 
+            builder.RegisterType<CurrencyService>()
+               .As<BaseService<Currency, CurrencyDTO>>()
+               .InstancePerRequest();
+
             builder.RegisterType<CityService>()
                .As<BaseService<City, CityDTO>>()
                .InstancePerRequest();
@@ -96,8 +101,6 @@ namespace WebApi
             builder.RegisterType<RoleService>()
                 .As<BaseService<Role, RoleDTO>>()
                 .InstancePerRequest();
-
-           
 
             builder.RegisterType<SkillService>()
                 .As<BaseService<Skill, SkillDTO>>()

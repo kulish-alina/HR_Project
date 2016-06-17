@@ -123,6 +123,7 @@
     <Compile Include="Infrastructure\ILevelRepository.cs" />
     <Compile Include="Infrastructure\ICityRepository.cs" />
     <Compile Include="Infrastructure\INoteRepository.cs" />
+    <Compile Include="Infrastructure\ICurrencyRepository.cs" />
     <Compile Include="Infrastructure\IPermissionRepository.cs" />
     <Compile Include="Infrastructure\IPhoneNumberRepository.cs" />
     <Compile Include="Infrastructure\IPhotoRepository.cs" />
@@ -156,7 +157,7 @@
     <Compile Include="Mapping\PermissionConfiguration.cs" />
     <Compile Include="Mapping\PhoneNumberConfiguration.cs" />
     <Compile Include="Mapping\PhotoConfiguration.cs" />
-    <Compile Include="Mapping\RelocationLocationConfiguration.cs" />
+    <Compile Include="Mapping\RelocationPlaceConfiguration.cs" />
     <Compile Include="Mapping\RoleConfiguration.cs" />
     <Compile Include="Mapping\SkillConfiguration.cs" />
     <Compile Include="Mapping\SocialNetworkConfiguration.cs" />
@@ -166,9 +167,9 @@
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201606170816356_init.cs" />
-    <Compile Include="Migrations\201606170816356_init.Designer.cs">
-      <DependentUpon>201606170816356_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606171045400_init.cs" />
+    <Compile Include="Migrations\201606171045400_init.Designer.cs">
+      <DependentUpon>201606171045400_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Repositories\CandidateSocialRepository.cs" />
     <Compile Include="Repositories\CandidateSourceRepository.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
+    <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\DepartmentGroupRepository.cs" />
     <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="Repositories\EventTypeRepository.cs" />
@@ -208,6 +210,7 @@
     <Compile Include="Services\CandidateService.cs" />
     <Compile Include="Services\CommentTypeService.cs" />
     <Compile Include="Services\CountryService.cs" />
+    <Compile Include="Services\CurrencyService.cs" />
     <Compile Include="Services\DepartmentGroupService.cs" />
     <Compile Include="Services\DepartmentService.cs" />
     <Compile Include="Services\DTOService.cs" />
@@ -244,8 +247,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606170816356_init.resx">
-      <DependentUpon>201606170816356_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606171045400_init.resx">
+      <DependentUpon>201606171045400_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

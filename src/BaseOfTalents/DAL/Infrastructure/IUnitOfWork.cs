@@ -33,6 +33,7 @@ namespace BaseOfTalents.DAL.Infrastructure
         IVacancyStageInfoRepository VacancyStageInfoRepo { get; }
         IEventRepository EventRepo { get; }
         INoteRepository NoteRepo { get; }
+        ICurrencyRepository CurrencyRepo { get; }
 
         void Commit();
     }

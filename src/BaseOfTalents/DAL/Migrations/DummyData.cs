@@ -4,14 +4,22 @@ using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using Domain.Entities;
+using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BaseOfTalents.DAL.Migrations
 {
-    public static class DummyData
+    public static class DummyData 
     {
+        public static readonly List<Currency> Currencies = new List<Currency>
+        {
+            new Currency { Title = "UAH" }, 
+            new Currency { Title = "USD" },
+            new Currency { Title = "EUR" }
+        };
+
         public static readonly List<Skill> Skills = new List<Skill>
         {
             new Skill {Title = "SQL"},

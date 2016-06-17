@@ -3,7 +3,8 @@ import './dialog.scss';
 
 import {
    assign,
-   forEach
+   forEach,
+   isFunction
 } from 'lodash';
 
 let _$q, _ValidationService, _FoundationApi, _ModalFactory, _NotificationFactory, _$translate;
@@ -92,7 +93,9 @@ export default class UserDialogService {
 
 function _closeElementWrapp(func) {
    return () => {
-      func();
+      if (isFunction(func)) {
+         func();
+      }
       _FoundationApi.closeActiveElements();
    };
 }

@@ -29,7 +29,7 @@ namespace DAL.Extensions
             childVacancy.DepartmentId = parentVacancy.DepartmentId;
             childVacancy.ResponsibleId = parentVacancy.ResponsibleId;
             childVacancy.Levels = parentVacancy.Levels;
-            childVacancy.Locations = parentVacancy.Locations;
+            childVacancy.Cities = parentVacancy.Cities;
             childVacancy.Tags = parentVacancy.Tags;
             childVacancy.RequiredSkills = parentVacancy.RequiredSkills;
             childVacancy.LanguageSkill = parentVacancy.LanguageSkill;
@@ -65,7 +65,7 @@ namespace DAL.Extensions
             destination.CurrencyId = source.CurrencyId;
 
             PerformLevelsSaving(destination, source, uow.LevelRepo);
-            PerformLocationsSaving(destination, source, uow.LocationRepo);
+            PerformLocationsSaving(destination, source, uow.CityRepo);
             PerformTagsSaving(destination, source, uow.TagRepo);
             PerformSkillsSaving(destination, source, uow.SkillRepo);
             PerformLanguageSkillsSaving(destination, source, uow.LanguageSkillRepo);
@@ -162,12 +162,12 @@ namespace DAL.Extensions
             });
         }
 
-        private static void PerformLocationsSaving(Vacancy destination, VacancyDTO source, ILocationRepository locationRepository)
+        private static void PerformLocationsSaving(Vacancy destination, VacancyDTO source, ICityRepository locationRepository)
         {
-            destination.Locations.Clear();
-            source.LocationIds.ToList().ForEach(locationId =>
+            destination.Cities.Clear();
+            source.CityIds.ToList().ForEach(locationId =>
             {
-                destination.Locations.Add(locationRepository.GetByID(locationId));
+                destination.Cities.Add(locationRepository.GetByID(locationId));
             });
         }
 

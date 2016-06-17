@@ -9,13 +9,6 @@ namespace BaseOfTalents.DAL.Mapping
             HasMany(v => v.CandidatesProgress);
             HasMany(v => v.Files);
 
-            HasMany(v => v.ChildVacancies).WithMany().Map(x =>
-            {
-                x.MapRightKey("ChildVacancy_Id");
-                x.MapLeftKey("ParentVacancy_Id");
-                x.ToTable("ParentVacancyChildVacancy");
-            });
-
             HasOptional(v => v.ParentVacancy).WithMany(v => v.ChildVacancies).HasForeignKey(v => v.ParentVacancyId);
             HasOptional(v => v.LanguageSkill);
             HasOptional(v => v.ParentVacancy).WithMany().HasForeignKey(x => x.ParentVacancyId);
@@ -25,40 +18,46 @@ namespace BaseOfTalents.DAL.Mapping
             HasRequired(v => v.Responsible).WithMany().HasForeignKey(v => v.ResponsibleId);
 
             HasMany(v => v.CandidatesProgress).WithRequired().HasForeignKey(vsi => vsi.VacancyId);
-
-            HasMany(v => v.Locations).WithMany().Map(x =>
+            HasMany(v => v.ChildVacancies).WithMany().Map(x =>
             {
-                x.MapRightKey("Location_Id");
-                x.MapLeftKey("Vacancy_Id");
-                x.ToTable("VacancyLocation");
+                x.MapRightKey("ChildVacancyId");
+                x.MapLeftKey("ParentVacancyId");
+                x.ToTable("ParentVacancyToChildVacancy");
+            });
+
+            HasMany(v => v.Cities).WithMany().Map(x =>
+            {
+                x.MapRightKey("LocationId");
+                x.MapLeftKey("VacancyId");
+                x.ToTable("VacancyToLocation");
             });
 
             HasMany(v => v.Tags).WithMany().Map(x =>
             {
-                x.MapRightKey("Tag_Id");
-                x.MapLeftKey("Vacancy_Id");
-                x.ToTable("VacancyTag");
+                x.MapRightKey("TagId");
+                x.MapLeftKey("VacancyId");
+                x.ToTable("VacancyToTag");
             });
 
             HasMany(v => v.Levels).WithMany().Map(x =>
             {
-                x.MapRightKey("Level_Id");
-                x.MapLeftKey("Vacancy_Id");
-                x.ToTable("VacancyLevel");
+                x.MapRightKey("LevelId");
+                x.MapLeftKey("VacancyId");
+                x.ToTable("VacancyToLevel");
             });
 
             HasMany(v => v.RequiredSkills).WithMany().Map(x =>
             {
-                x.MapRightKey("Skill_Id");
-                x.MapLeftKey("Vacancy_Id");
-                x.ToTable("VacancySkill");
+                x.MapRightKey("SkillId");
+                x.MapLeftKey("VacancyId");
+                x.ToTable("VacancyToSkill");
             });
 
             HasMany(c => c.Comments).WithMany().Map(x =>
             {
-                x.MapRightKey("Comment_Id");
-                x.MapLeftKey("Vacancy_Id");
-                x.ToTable("VacancyComment");
+                x.MapRightKey("CommentId");
+                x.MapLeftKey("VacancyId");
+                x.ToTable("VacancyToComment");
             });
         }
     }

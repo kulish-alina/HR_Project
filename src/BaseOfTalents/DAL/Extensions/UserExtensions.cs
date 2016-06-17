@@ -20,7 +20,7 @@ namespace DAL.Extensions
             destination.Login = source.Login;
             destination.Password = source.Password;
             destination.RoleId = source.RoleId;
-            destination.LocationId = source.LocationId;
+            destination.CityId = source.LocationId;
 
             PerformPhotoSaving(destination, source, uow.PhotoRepo);
             PerformPhoneNumbersSaving(destination, source, uow.PhoneNumberRepo);

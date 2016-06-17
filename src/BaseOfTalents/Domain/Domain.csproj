@@ -57,7 +57,7 @@
     <Compile Include="Entities\Enum\Setup\Industry.cs" />
     <Compile Include="Entities\Enum\Setup\Language.cs" />
     <Compile Include="Entities\Enum\Setup\Level.cs" />
-    <Compile Include="Entities\Enum\Setup\Location.cs" />
+    <Compile Include="Entities\Enum\Setup\City.cs" />
     <Compile Include="Entities\Enum\Setup\Permission.cs" />
     <Compile Include="Entities\Enum\Setup\Role.cs" />
     <Compile Include="Entities\Enum\Setup\Skill.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Entities\Photo.cs" />
+    <Compile Include="Entities\RelocationLocation.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Vacancy.cs" />
     <Compile Include="Entities\VacancyStage.cs" />

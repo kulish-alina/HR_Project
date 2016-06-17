@@ -11,7 +11,7 @@ namespace BaseOfTalents.Domain.Entities
         public Vacancy()
         {
             Levels = new List<Level>();
-            Locations = new List<Location>();
+            Cities = new List<City>();
             RequiredSkills = new List<Skill>();
             CandidatesProgress = new List<VacancyStageInfo>();
             Files = new List<File>();
@@ -28,7 +28,7 @@ namespace BaseOfTalents.Domain.Entities
         public DateTime? DeadlineDate { get; set; }
 
         public virtual ICollection<Level> Levels { get; set; }
-        public virtual ICollection<Location> Locations { get; set; }
+        public virtual ICollection<City> Cities { get; set; }
         public virtual ICollection<Skill> RequiredSkills { get; set; }
         public virtual ICollection<VacancyStageInfo> CandidatesProgress { get; set; }
         public virtual ICollection<File> Files { get; set; }

@@ -3,7 +3,7 @@
 
 namespace Domain.DTO.DTOModels.SetupDTO
 {
-    public class LocationDTO : BaseEntityDTO
+    public class CityDTO : BaseEntityDTO
     {
         public string Title { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using BaseOfTalents.Domain.Entities.Enum;
+using DAL.DTO;
 using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
 using System;
@@ -19,30 +20,37 @@ namespace Domain.DTO.DTOModels
             VacanciesProgress = new List<VacancyStageInfoDTO>();
             Sources = new List<CandidateSourceDTO>();
             Events = new List<EventDTO>();
+            Files = new List<FileDTO>();
+            Comments = new List<CommentDTO>();
+            RelocationPlaces = new List<RelocationPlaceDTO>();
         }
 
+        [Required]
         public string FirstName                                     { get; set; }
         public string MiddleName                                    { get; set; }
+        [Required]
         public string LastName                                      { get; set; }
         public string Education                                     { get; set; }
-        public bool IsMale                                          { get; set; }
-        public DateTime BirthDate                                   { get; set; }
+        public bool? IsMale                                         { get; set; }
+        public DateTime? BirthDate                                  { get; set; }
         public PhotoDTO Photo                                       { get; set; }
         public string Email                                         { get; set; }
         public string Skype                                         { get; set; }
         public string PositionDesired                               { get; set; }
-        public int SalaryDesired                                    { get; set; }
-        public TypeOfEmployment TypeOfEmployment                    { get; set; }
+        public int? SalaryDesired                                    { get; set; }
+        public TypeOfEmployment? TypeOfEmployment                   { get; set; }
         public string Practice                                      { get; set; }
-        public DateTime StartExperience                             { get; set; }
+        public DateTime? StartExperience                            { get; set; }
         public string Description                                   { get; set; }
-        public bool RelocationAgreement                             { get; set; }
 
-        public int? IndustryId                                      { get; set; }
-        public int? RelocationPlaceId                               { get; set; }
+        public bool? RelocationAgreement                            { get; set; }
+        public IEnumerable<RelocationPlaceDTO> RelocationPlaces     { get; set; }
+
+        [Required]
+        public int IndustryId                                       { get; set; }
         public int? LevelId                                         { get; set; }
-        public int CurrencyId                                       { get; set; }
-        public int LocationId                                       { get; set; }
+        public int? CurrencyId                                      { get; set; }
+        public int? CityId                                          { get; set; }
 
         public IEnumerable<int> SkillIds                            { get; set; }
         public IEnumerable<int> TagIds                              { get; set; }

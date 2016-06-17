@@ -14,6 +14,9 @@ namespace BaseOfTalents.DAL.Migrations
             context.Tags.AddRange(DummyData.Tags);
             context.SaveChanges();
 
+            context.Currencies.AddRange(DummyData.Currencies);
+            context.SaveChanges();
+
             context.Skills.AddRange(DummyData.Skills);
             context.SaveChanges();
 
@@ -47,7 +50,7 @@ namespace BaseOfTalents.DAL.Migrations
             context.Countries.AddRange(DummyData.Countries);
             context.SaveChanges();
 
-            context.Locations.AddRange(DummyData.Locations);
+            context.Cities.AddRange(DummyData.Cities);
             context.SaveChanges();
 
             context.Stages.AddRange(DummyData.Stages);

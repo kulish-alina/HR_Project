@@ -10,7 +10,7 @@ namespace BaseOfTalents.DAL.Infrastructure
         ICandidateRepository CandidateRepo { get; }
         IFileRepository FileRepo { get; }
         ILevelRepository LevelRepo { get; }
-        ILocationRepository LocationRepo { get; }
+        ICityRepository CityRepo { get; }
         ITagRepository TagRepo { get; }
         ISkillRepository SkillRepo { get; }
         ILanguageSkillRepository LanguageSkillRepo { get; }
@@ -33,6 +33,7 @@ namespace BaseOfTalents.DAL.Infrastructure
         IVacancyStageInfoRepository VacancyStageInfoRepo { get; }
         IEventRepository EventRepo { get; }
         INoteRepository NoteRepo { get; }
+        ICurrencyRepository CurrencyRepo { get; }
 
         void Commit();
     }

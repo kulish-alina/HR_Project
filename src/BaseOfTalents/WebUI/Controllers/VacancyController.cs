@@ -42,7 +42,7 @@ namespace BaseOfTalents.WebUI.Controllers
                     vacancyParams.VacancyState,
                     vacancyParams.TypeOfEmployment,
                     vacancyParams.LevelIds,
-                    vacancyParams.LocationIds,
+                    vacancyParams.CityIds,
                     vacancyParams.Current,
                     vacancyParams.Size
                     );

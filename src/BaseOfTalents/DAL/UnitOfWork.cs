@@ -16,7 +16,7 @@ namespace BaseOfTalents.DAL
         private IUserRepository                 userRepo;
         private IVacancyRepository              vacancyRepo;
         private ILevelRepository                levelRepo;
-        private ILocationRepository             locationRepo;
+        private ICityRepository             cityRepo;
         private ITagRepository                  tagRepo;
         private ISkillRepository                skillRepo;
         private ILanguageSkillRepository        languageSkillRepo;
@@ -141,16 +141,16 @@ namespace BaseOfTalents.DAL
             }
         }
 
-        public ILocationRepository LocationRepo
+        public ICityRepository CityRepo
         {
             get
             {
-                if (locationRepo == null)
+                if (cityRepo == null)
                 {
-                    locationRepo = new LocationRepository(context);
+                    cityRepo = new CityRepository(context);
                 }
 
-                return locationRepo;
+                return cityRepo;
             }
         }
 

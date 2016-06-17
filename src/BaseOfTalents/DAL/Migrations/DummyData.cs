@@ -3,6 +3,7 @@
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -137,26 +138,26 @@ namespace BaseOfTalents.DAL.Migrations
             new Country {Title = "Ukraine"}
         };
 
-        public static readonly List<Location> Locations = new List<Location>
+        public static readonly List<City> Cities = new List<City>
         {
-            new Location {Country = Countries[0], Title = "Kiev"},
-            new Location {Country = Countries[0], Title = "Kharkiv"},
-            new Location {Country = Countries[0], Title = "Odessa"},
-            new Location {Country = Countries[0], Title = "Dnipropetrovsk"},
-            new Location {Country = Countries[0], Title = "Zaporizhia"},
-            new Location {Country = Countries[0], Title = "Lviv"},
-            new Location {Country = Countries[0], Title = "Kryvyi Rih"},
-            new Location {Country = Countries[0], Title = "Mykolaiv"},
-            new Location {Country = Countries[0], Title = "Mariupol"},
-            new Location {Country = Countries[0], Title = "Luhansk"},
-            new Location {Country = Countries[0], Title = "Donetsk"},
-            new Location {Country = Countries[0], Title = "Sevastopol"},
-            new Location {Country = Countries[0], Title = "Vinnytsia"},
-            new Location {Country = Countries[0], Title = "Makiivka"},
-            new Location {Country = Countries[0], Title = "Simferopol"},
-            new Location {Country = Countries[0], Title = "Kherson"},
-            new Location {Country = Countries[0], Title = "Poltava"},
-            new Location {Country = Countries[0], Title = "Chernihiv"}
+            new City {Country = Countries[0], Title = "Kiev"},
+            new City {Country = Countries[0], Title = "Kharkiv"},
+            new City {Country = Countries[0], Title = "Odessa"},
+            new City {Country = Countries[0], Title = "Dnipropetrovsk"},
+            new City {Country = Countries[0], Title = "Zaporizhia"},
+            new City {Country = Countries[0], Title = "Lviv"},
+            new City {Country = Countries[0], Title = "Kryvyi Rih"},
+            new City {Country = Countries[0], Title = "Mykolaiv"},
+            new City {Country = Countries[0], Title = "Mariupol"},
+            new City {Country = Countries[0], Title = "Luhansk"},
+            new City {Country = Countries[0], Title = "Donetsk"},
+            new City {Country = Countries[0], Title = "Sevastopol"},
+            new City {Country = Countries[0], Title = "Vinnytsia"},
+            new City {Country = Countries[0], Title = "Makiivka"},
+            new City {Country = Countries[0], Title = "Simferopol"},
+            new City {Country = Countries[0], Title = "Kherson"},
+            new City {Country = Countries[0], Title = "Poltava"},
+            new City {Country = Countries[0], Title = "Chernihiv"}
         };
 
         public static readonly List<Permission> Permissions = new List<Permission>
@@ -596,7 +597,7 @@ namespace BaseOfTalents.DAL.Migrations
                         FirstName = names.GetRandom(),
                         isMale = true,
                         LastName = lastNames.GetRandom(),
-                        Location = Locations.GetRandom(),
+                        City = Cities.GetRandom(),
                         Login = GetRandomString(4),
                         MiddleName = names.GetRandom(),
                         Password = GetRandomString(8),
@@ -645,7 +646,7 @@ namespace BaseOfTalents.DAL.Migrations
                         Industry = Industries.GetRandom(),
                         LanguageSkill = LanguageSkills.GetRandom(),
                         Levels = Levels.Take(RandomNumber(0, Levels.Count)).ToList(),
-                        Locations = Locations.Take(RandomNumber(0, Levels.Count)).ToList(),
+                        Cities = Cities.Take(RandomNumber(0, Levels.Count)).ToList(),
                         RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                         Responsible = Users.GetRandom(),
                         SalaryMax = RandomNumber(1000, 2000),
@@ -672,7 +673,7 @@ namespace BaseOfTalents.DAL.Migrations
             {
                 var candidate = new Candidate
                 {
-                    LocationId = RandomNumber(1, Locations.Count - 1),
+                    CityId = RandomNumber(1, Cities.Count - 1),
                     BirthDate = DateTime.Now.AddYears(RandomNumber(-40, -20)),
                     Comments =
                         Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1) }, RandomNumber(0, 5)).Distinct().ToList(),
@@ -706,6 +707,15 @@ namespace BaseOfTalents.DAL.Migrations
                     Level = Levels.GetRandom(),
                     VacanciesProgress = new List<VacancyStageInfo>()
                 };
+                candidate.RelocationPlaces = 
+                    Enumerable.Repeat(
+                        new RelocationPlace {
+                            Country = Countries.GetRandom(),
+                            Cities = Enumerable.Repeat(Cities.GetRandom(), 
+                            RandomNumber(0,2)).Distinct().ToList() }, 
+                        RandomNumber(1,2))
+                        .Distinct()
+                        .ToList();
                 candidates.Add(candidate);
             }
             return candidates;

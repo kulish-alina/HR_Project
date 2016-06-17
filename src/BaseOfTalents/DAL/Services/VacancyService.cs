@@ -63,7 +63,7 @@ namespace DAL.Services
             }
             if (locationIds.Any())
             {
-                filters.Add(x => x.Locations.Any(loc => locationIds.Contains(loc.Id)));
+                filters.Add(x => x.Cities.Any(loc => locationIds.Contains(loc.Id)));
             }
 
             var vacancies = uow.VacancyRepo.Get(filters);

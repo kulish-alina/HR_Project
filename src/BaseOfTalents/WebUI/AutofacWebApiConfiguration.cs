@@ -85,8 +85,8 @@ namespace WebApi
                .As<BaseService<Level, LevelDTO>>()
                .InstancePerRequest();
 
-            builder.RegisterType<LocationService>()
-               .As<BaseService<Location, LocationDTO>>()
+            builder.RegisterType<CityService>()
+               .As<BaseService<City, CityDTO>>()
                .InstancePerRequest();
 
             builder.RegisterType<PermissionService>()

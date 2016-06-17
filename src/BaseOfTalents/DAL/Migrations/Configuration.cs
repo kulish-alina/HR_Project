@@ -47,7 +47,7 @@ namespace BaseOfTalents.DAL.Migrations
             context.Countries.AddRange(DummyData.Countries);
             context.SaveChanges();
 
-            context.Locations.AddRange(DummyData.Locations);
+            context.Cities.AddRange(DummyData.Cities);
             context.SaveChanges();
 
             context.Stages.AddRange(DummyData.Stages);

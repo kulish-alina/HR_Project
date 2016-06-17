@@ -10,7 +10,7 @@ namespace BaseOfTalents.DAL.Infrastructure
         ICandidateRepository CandidateRepo { get; }
         IFileRepository FileRepo { get; }
         ILevelRepository LevelRepo { get; }
-        ILocationRepository LocationRepo { get; }
+        ICityRepository CityRepo { get; }
         ITagRepository TagRepo { get; }
         ISkillRepository SkillRepo { get; }
         ILanguageSkillRepository LanguageSkillRepo { get; }

@@ -60,6 +60,11 @@ export default function MembersController(
          needValidate: true
       }];
 
+      vm.newUser = {
+         login: '',
+         email: ''
+      };
+
       UserDialogService.dialog($translate.instant('MEMBERS.INVITE_MEMBER', {roleTitle: role.title}),
                                inviteDialogView,
                                buttons,

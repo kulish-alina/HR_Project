@@ -8,11 +8,12 @@ export default class EventsDirective {
       this.restrict   = 'E';
       this.template   = template;
       this.scope      = {
-         type      : '@',
-         events    : '=',
-         save      : '=',
-         remove    : '=',
-         edit      : '='
+         type        : '@',
+         events      : '=',
+         save        : '=',
+         remove      : '=',
+         edit        : '=',
+         evertsByDate: '='
       };
       this.controller = EventsController;
    }
@@ -36,12 +37,12 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
    vm.vacancy.size       = 20;
 
    function _init() {
-      console.log(vm);
       VacancyService.search(vm.vacancy).then(data => set(vm, 'vacancies', data.vacancies));
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       CandidateService.getCandidates().then(candidates => set(vm, 'candidates', candidates));
       ThesaurusService.getThesaurusTopics('eventtype').then(eventTypes => set(vm, 'eventTypes', eventTypes));
    }
+   console.log(vm);
 
    _init();
 
@@ -58,7 +59,9 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
             name: $translate.instant('COMMON.CANCEL')
          },
          {
-            name: $translate.instant('COMMON.APLY')
+            name: $translate.instant('COMMON.APLY'),
+            func: vm.save,
+            needValidate: true
          }
       ];
       UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);

@@ -56,16 +56,12 @@ export default function ProfileController (
    }
 
    function _initCurrentUser() {
-      return UserService.getUsers({id: 1}).then((u) => {
-         UserService.setCurrentUser(u[0]);
-      }).then(() => {
-         UserService.getCurrentUser()
+      UserService.getCurrentUser()
          .then((val) => {
             vm.user = val;
             vm.user.phoneNumbers = vm.user.phoneNumbers || [ {} ];
             vm.user.birthDate = utils.formatDateFromServer(vm.user.birthDate);
          });
-      });
    }
 }
 

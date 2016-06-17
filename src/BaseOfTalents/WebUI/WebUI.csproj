@@ -197,6 +197,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CandidateSearchModel.cs" />
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\EventSearchParameteres.cs" />
     <Compile Include="Models\FileModel.cs" />

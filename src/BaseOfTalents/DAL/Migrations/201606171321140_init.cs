@@ -13,23 +13,23 @@ namespace BaseOfTalents.DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         FirstName = c.String(nullable: false),
-                        MiddleName = c.String(nullable: false),
+                        MiddleName = c.String(),
                         LastName = c.String(nullable: false),
-                        IsMale = c.Boolean(nullable: false),
-                        BirthDate = c.DateTime(nullable: false),
-                        Email = c.String(nullable: false),
+                        IsMale = c.Boolean(),
+                        BirthDate = c.DateTime(),
+                        Email = c.String(),
                         Skype = c.String(),
-                        PositionDesired = c.String(nullable: false),
-                        TypeOfEmployment = c.Int(nullable: false),
-                        StartExperience = c.DateTime(nullable: false),
+                        PositionDesired = c.String(),
+                        TypeOfEmployment = c.Int(),
+                        StartExperience = c.DateTime(),
                         Practice = c.String(),
                         Description = c.String(),
-                        SalaryDesired = c.Int(nullable: false),
+                        SalaryDesired = c.Int(),
                         CurrencyId = c.Int(),
-                        RelocationAgreement = c.Boolean(nullable: false),
-                        CityId = c.Int(nullable: false),
+                        RelocationAgreement = c.Boolean(),
+                        CityId = c.Int(),
                         LevelId = c.Int(),
-                        IndustryId = c.Int(),
+                        IndustryId = c.Int(nullable: false),
                         Education = c.String(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
@@ -252,18 +252,18 @@ namespace BaseOfTalents.DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
+                        Title = c.String(nullable: false),
                         Description = c.String(),
                         TypeOfEmployment = c.Int(),
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(),
                         DeadlineDate = c.DateTime(),
                         ParentVacancyId = c.Int(),
-                        IndustryId = c.Int(),
+                        IndustryId = c.Int(nullable: false),
                         DepartmentId = c.Int(nullable: false),
                         ResponsibleId = c.Int(nullable: false),
-                        SalaryMin = c.Int(nullable: false),
-                        SalaryMax = c.Int(nullable: false),
+                        SalaryMin = c.Int(),
+                        SalaryMax = c.Int(),
                         CurrencyId = c.Int(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
@@ -602,17 +602,17 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.ChildVacancyId);
             
             CreateTable(
-                "dbo.VacancyToLocation",
+                "dbo.VacancyToCity",
                 c => new
                     {
                         VacancyId = c.Int(nullable: false),
-                        LocationId = c.Int(nullable: false),
+                        CityId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.VacancyId, t.LocationId })
+                .PrimaryKey(t => new { t.VacancyId, t.CityId })
                 .ForeignKey("dbo.Vacancy", t => t.VacancyId)
-                .ForeignKey("dbo.City", t => t.LocationId)
+                .ForeignKey("dbo.City", t => t.CityId)
                 .Index(t => t.VacancyId)
-                .Index(t => t.LocationId);
+                .Index(t => t.CityId);
             
             CreateTable(
                 "dbo.VacancyToComment",
@@ -759,8 +759,8 @@ namespace BaseOfTalents.DAL.Migrations
             DropForeignKey("dbo.Vacancy", "CurrencyId", "dbo.Currency");
             DropForeignKey("dbo.VacancyToComment", "CommentId", "dbo.Comment");
             DropForeignKey("dbo.VacancyToComment", "VacancyId", "dbo.Vacancy");
-            DropForeignKey("dbo.VacancyToLocation", "LocationId", "dbo.City");
-            DropForeignKey("dbo.VacancyToLocation", "VacancyId", "dbo.Vacancy");
+            DropForeignKey("dbo.VacancyToCity", "CityId", "dbo.City");
+            DropForeignKey("dbo.VacancyToCity", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.ParentVacancyToChildVacancy", "ChildVacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.ParentVacancyToChildVacancy", "ParentVacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyStageInfo", "VacancyStage_Id", "dbo.VacancyStage");
@@ -800,8 +800,8 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.VacancyToLevel", new[] { "VacancyId" });
             DropIndex("dbo.VacancyToComment", new[] { "CommentId" });
             DropIndex("dbo.VacancyToComment", new[] { "VacancyId" });
-            DropIndex("dbo.VacancyToLocation", new[] { "LocationId" });
-            DropIndex("dbo.VacancyToLocation", new[] { "VacancyId" });
+            DropIndex("dbo.VacancyToCity", new[] { "CityId" });
+            DropIndex("dbo.VacancyToCity", new[] { "VacancyId" });
             DropIndex("dbo.ParentVacancyToChildVacancy", new[] { "ChildVacancyId" });
             DropIndex("dbo.ParentVacancyToChildVacancy", new[] { "ParentVacancyId" });
             DropIndex("dbo.PermissionRole", new[] { "Role_Id" });
@@ -854,7 +854,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropTable("dbo.VacancyToSkill");
             DropTable("dbo.VacancyToLevel");
             DropTable("dbo.VacancyToComment");
-            DropTable("dbo.VacancyToLocation");
+            DropTable("dbo.VacancyToCity");
             DropTable("dbo.ParentVacancyToChildVacancy");
             DropTable("dbo.PermissionRole");
             DropTable("dbo.UserToPhoneNumber");

@@ -4,7 +4,7 @@ using System.Data.Entity;
 
 namespace BaseOfTalents.DAL.Repositories
 {
-    public class CityRepository : BaseRepository<Location>, ILocationRepository
+    public class CityRepository : BaseRepository<City>, ICityRepository
     {
         public CityRepository(DbContext context) : base(context)
         {

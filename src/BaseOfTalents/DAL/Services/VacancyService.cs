@@ -63,11 +63,12 @@ namespace DAL.Services
             }
             if (locationIds.Any())
             {
-                filters.Add(x => x.Locations.Any(loc => locationIds.Contains(loc.Id)));
+                filters.Add(x => x.Cities.Any(loc => locationIds.Contains(loc.Id)));
             }
 
             var vacancies = uow.VacancyRepo.Get(filters);
             var total = vacancies.Count();
+
             return new Tuple<IEnumerable<VacancyDTO>, int>(
                 vacancies.Skip(current * size).Take(size).Select(vacancy => DTOService.ToDTO<Vacancy, VacancyDTO>(vacancy)),
                 total);

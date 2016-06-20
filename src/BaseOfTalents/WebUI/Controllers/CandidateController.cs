@@ -27,32 +27,44 @@ namespace BaseOfTalents.WebUI.Controllers
 
         }
 
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            return this.Get(new CandidateSearchModel());
+        }
+
         // GET api/<controller>
         [HttpPost]
         [Route("search")]
-        public IHttpActionResult Get([FromBody]string paramss)
+        public IHttpActionResult Get([FromBody]CandidateSearchModel searchParameters)
         {
-            /*if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var tupleResult = service.Get(
-                    vacancyParams.UserId,
-                    vacancyParams.IndustryId,
-                    vacancyParams.Title,
-                    vacancyParams.VacancyState,
-                    vacancyParams.TypeOfEmployment,
-                    vacancyParams.LevelIds,
-                    vacancyParams.LocationIds,
-                    vacancyParams.Current,
-                    vacancyParams.Size
+                    searchParameters.FirstName,
+                    searchParameters.LastName,
+                    searchParameters.RelocationAgreement,
+                    searchParameters.IsMale,
+                    searchParameters.MinAge,
+                    searchParameters.MaxAge,
+                    searchParameters.StartExperience,
+                    searchParameters.MinSalary,
+                    searchParameters.MaxSalary,
+                    searchParameters.CurrencyId,
+                    searchParameters.IndustryId,
+                    searchParameters.LanguageSkills,
+                    searchParameters.CitiesIds,
+                    searchParameters.Current,
+                    searchParameters.Size
                     );
 
-                var vacanciesViewModel = tupleResult.Item1;
+                var candidatesQuerryResult = tupleResult.Item1;
                 var total = tupleResult.Item2;
 
-                var ret = new { Vacancies = vacanciesViewModel, Current = vacancyParams.Current, Size = vacancyParams.Size, Total = total };
+                var ret = new { Candidate = candidatesQuerryResult, Current = searchParameters.Current, Size = searchParameters.Size, Total = total };
                 return Json(ret, BOT_SERIALIZER_SETTINGS);
-            }*/
-            return BadRequest("Not implemented");
+            }
+            return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
         }
 
         // GET api/<controller>/5

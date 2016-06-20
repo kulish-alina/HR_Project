@@ -5,6 +5,8 @@ using DAL.Services;
 using Domain.DTO.DTOModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
@@ -49,12 +51,16 @@ namespace BaseOfTalents.WebUI.Controllers
             {
                 return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
             }
-            var foundedEvents = service.Get(searchParams.UserIds, searchParams.StartDate, searchParams.EndDate);
+
+            var clearedStartDate = new DateTime(searchParams.StartDate.Year, searchParams.StartDate.Month, searchParams.StartDate.Day, 1, 1 ,1);
+            var clearedEndDate = searchParams.EndDate.HasValue ? new DateTime(searchParams.EndDate.Value.Year, searchParams.EndDate.Value.Month, searchParams.EndDate.Value.Day, 23, 59, 59) : searchParams.EndDate;
+
+            var foundedEvents = service.Get(searchParams.UserIds, clearedStartDate, clearedEndDate);
             if (foundedEvents.Any())
             {
                 return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
             }
-            return BadRequest();
+            return Ok("No events for specifed parameters");
         }
 
         [HttpGet]

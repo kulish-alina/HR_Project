@@ -7,22 +7,18 @@ namespace BaseOfTalents.DAL.Mapping
         public CandidateConfiguration()
         {
             Property(c => c.FirstName).IsRequired();
-            Property(c => c.MiddleName).IsRequired();
             Property(c => c.LastName).IsRequired();
-            Property(c => c.IsMale).IsRequired();
-            Property(c => c.Email).IsRequired();
+            HasRequired(c => c.Industry).WithMany().HasForeignKey(x => x.IndustryId);
 
             Property(c => c.Skype).IsOptional();
-            Property(c => c.PositionDesired).IsRequired();
-            Property(c => c.IsMale).IsRequired();
+            Property(c => c.PositionDesired).IsOptional();
+            Property(c => c.IsMale).IsOptional();
 
-            HasOptional(c => c.Industry).WithMany().HasForeignKey(x => x.IndustryId);
-
-            HasOptional(c => c.RelocationPlace).WithMany().HasForeignKey(x => x.RelocationPlaceId);
+            HasMany(c => c.RelocationPlaces).WithRequired();
 
             HasOptional(c => c.Currency).WithMany().HasForeignKey(c => c.CurrencyId);
 
-            HasRequired(c => c.Location).WithMany().HasForeignKey(c => c.LocationId);
+            HasOptional(c => c.City).WithMany().HasForeignKey(c => c.CityId);
             HasMany(c => c.Files);
             HasMany(c => c.VacanciesProgress).WithRequired(vs => vs.Candidate).HasForeignKey(vs => vs.CandidateId);
 
@@ -32,38 +28,38 @@ namespace BaseOfTalents.DAL.Mapping
 
             HasMany(c => c.LanguageSkills).WithMany().Map(x =>
             {
-                x.MapRightKey("LanguageSkill_Id");
-                x.MapLeftKey("Candidate_Id");
-                x.ToTable("CandidateLanguageSkill");
+                x.MapRightKey("LanguageSkillId");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("CandidateToLanguageSkill");
             });
 
             HasMany(c => c.Comments).WithMany().Map(x =>
             {
-                x.MapRightKey("Comment_Id");
-                x.MapLeftKey("Candidate_Id");
-                x.ToTable("CandidateComment");
+                x.MapRightKey("CommentId");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("CandidateToComment");
             });
             HasMany(c => c.Sources);
 
             HasMany(v => v.Tags).WithMany().Map(x =>
             {
-                x.MapRightKey("Tag_Id");
-                x.MapLeftKey("Candidate_Id");
-                x.ToTable("CandidateTag");
+                x.MapRightKey("TagId");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("CandidateToTag");
             });
 
             HasMany(c => c.PhoneNumbers).WithMany().Map(x =>
             {
-                x.MapRightKey("PhoneNumber_Id");
-                x.MapLeftKey("Candidate_Id");
-                x.ToTable("CandidatePhoneNumber");
+                x.MapRightKey("PhoneNumberId");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("CandidateToPhoneNumber");
             });
 
             HasMany(v => v.Skills).WithMany().Map(x =>
             {
-                x.MapRightKey("Skill_Id");
-                x.MapLeftKey("Candidate_Id");
-                x.ToTable("CandidateSkill");
+                x.MapRightKey("SkillId");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("CandidateToSkill");
             });
         }
     }

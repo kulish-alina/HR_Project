@@ -72,6 +72,7 @@
     <Compile Include="DTO\PermissionDTO.cs" />
     <Compile Include="DTO\PhoneNumberDTO.cs" />
     <Compile Include="DTO\PhotoDTO.cs" />
+    <Compile Include="DTO\RelocationPlaceDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SetupDTO\CountryDTO.cs" />
     <Compile Include="DTO\SetupDTO\CurrencyDTO.cs" />
@@ -81,7 +82,7 @@
     <Compile Include="DTO\SetupDTO\IndustryDTO.cs" />
     <Compile Include="DTO\SetupDTO\LanguageDTO.cs" />
     <Compile Include="DTO\SetupDTO\LevelDTO.cs" />
-    <Compile Include="DTO\SetupDTO\LocationDTO.cs" />
+    <Compile Include="DTO\SetupDTO\CityDTO.cs" />
     <Compile Include="DTO\SetupDTO\SkillDTO.cs" />
     <Compile Include="DTO\SetupDTO\SocialNetworkDTO.cs" />
     <Compile Include="DTO\SetupDTO\StageDTO.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Extensions\LanguageSkillExtension.cs" />
     <Compile Include="Extensions\PhoneNumberExtension.cs" />
     <Compile Include="Extensions\PhotoExtensions.cs" />
+    <Compile Include="Extensions\RelocationPlaceExstensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Extensions\VacancyExtension.cs" />
     <Compile Include="Extensions\VacancyStageInfoExtension.cs" />
@@ -119,8 +121,9 @@
     <Compile Include="Infrastructure\ILanguageRepository.cs" />
     <Compile Include="Infrastructure\ILanguageSkillRepository.cs" />
     <Compile Include="Infrastructure\ILevelRepository.cs" />
-    <Compile Include="Infrastructure\ILocationRepository.cs" />
+    <Compile Include="Infrastructure\ICityRepository.cs" />
     <Compile Include="Infrastructure\INoteRepository.cs" />
+    <Compile Include="Infrastructure\ICurrencyRepository.cs" />
     <Compile Include="Infrastructure\IPermissionRepository.cs" />
     <Compile Include="Infrastructure\IPhoneNumberRepository.cs" />
     <Compile Include="Infrastructure\IPhotoRepository.cs" />
@@ -149,11 +152,12 @@
     <Compile Include="Mapping\IndustryConfiguration.cs" />
     <Compile Include="Mapping\LanguageSkillConfiguration.cs" />
     <Compile Include="Mapping\LevelConfiguration.cs" />
-    <Compile Include="Mapping\LocationConfiguration.cs" />
+    <Compile Include="Mapping\CityConfiguration.cs" />
     <Compile Include="Mapping\NoteConfiguration.cs" />
     <Compile Include="Mapping\PermissionConfiguration.cs" />
     <Compile Include="Mapping\PhoneNumberConfiguration.cs" />
     <Compile Include="Mapping\PhotoConfiguration.cs" />
+    <Compile Include="Mapping\RelocationPlaceConfiguration.cs" />
     <Compile Include="Mapping\RoleConfiguration.cs" />
     <Compile Include="Mapping\SkillConfiguration.cs" />
     <Compile Include="Mapping\SocialNetworkConfiguration.cs" />
@@ -163,9 +167,9 @@
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201606151515268_init.cs" />
-    <Compile Include="Migrations\201606151515268_init.Designer.cs">
-      <DependentUpon>201606151515268_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606171321140_init.cs" />
+    <Compile Include="Migrations\201606171321140_init.Designer.cs">
+      <DependentUpon>201606171321140_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -174,6 +178,7 @@
     <Compile Include="Repositories\CandidateSocialRepository.cs" />
     <Compile Include="Repositories\CandidateSourceRepository.cs" />
     <Compile Include="Repositories\CommentRepository.cs" />
+    <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\DepartmentGroupRepository.cs" />
     <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="Repositories\EventTypeRepository.cs" />
@@ -188,7 +193,6 @@
     <Compile Include="Repositories\LanguageRepository.cs" />
     <Compile Include="Repositories\LanguageSkillRepository.cs" />
     <Compile Include="Repositories\LevelRepository.cs" />
-    <Compile Include="Repositories\LocationRepository.cs" />
     <Compile Include="Repositories\PermissionRepository.cs" />
     <Compile Include="Repositories\PhotoRepository.cs" />
     <Compile Include="Repositories\RoleRepository.cs" />
@@ -206,6 +210,7 @@
     <Compile Include="Services\CandidateService.cs" />
     <Compile Include="Services\CommentTypeService.cs" />
     <Compile Include="Services\CountryService.cs" />
+    <Compile Include="Services\CurrencyService.cs" />
     <Compile Include="Services\DepartmentGroupService.cs" />
     <Compile Include="Services\DepartmentService.cs" />
     <Compile Include="Services\DTOService.cs" />
@@ -217,7 +222,7 @@
     <Compile Include="Services\LanguageLevelService.cs" />
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\LevelService.cs" />
-    <Compile Include="Services\LocationService.cs" />
+    <Compile Include="Services\CityService.cs" />
     <Compile Include="Services\NoteService.cs" />
     <Compile Include="Services\PermissionService.cs" />
     <Compile Include="Services\RoleService.cs" />
@@ -242,8 +247,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606151515268_init.resx">
-      <DependentUpon>201606151515268_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606171321140_init.resx">
+      <DependentUpon>201606171321140_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

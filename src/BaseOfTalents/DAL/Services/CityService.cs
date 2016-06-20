@@ -4,9 +4,9 @@ using Domain.DTO.DTOModels.SetupDTO;
 
 namespace DAL.Services
 {
-    public class LocationService : BaseService<Location, LocationDTO>
+    public class CityService : BaseService<City, CityDTO>
     {
-        public LocationService(IUnitOfWork uow) : base(uow, uow.LocationRepo)
+        public CityService(IUnitOfWork uow) : base(uow, uow.CityRepo)
         {
 
         }

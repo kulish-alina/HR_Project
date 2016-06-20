@@ -1,7 +1,9 @@
-const LIST_OF_THESAURUS = ['industry', 'level', 'location',
+const LIST_OF_THESAURUS = ['industry', 'level', 'city',
     'typeOfEmployment'];
 import {
-   set
+   set,
+   clone,
+   remove
 } from 'lodash';
 
 export default function VacanciesController(
@@ -17,24 +19,24 @@ export default function VacanciesController(
    ) {
    'ngInject';
 
-   const vm           = $scope;
-   vm.thesaurus       = [];
-   vm.responsibles    = [];
-   vm.vacancy         = {};
-   vm.vacancies       = [];
-   vm.viewVacancy     = viewVacancy;
-   vm.total           = 0;
-   vm.vacancy.current = 0;
-   vm.vacancy.size    = 20;
-   vm.pagination      = { current: 0 };
-   vm.pageChanged     = pageChanged;
-   vm.upcomingEvents  = [];
-   vm.eventCondidtion = {};
+   const vm                   = $scope;
+   vm.thesaurus               = [];
+   vm.responsibles            = [];
+   vm.vacancy                 = {};
+   vm.vacancies               = [];
+   vm.viewVacancy             = viewVacancy;
+   vm.total                   = 0;
+   vm.vacancy.current         = 0;
+   vm.vacancy.size            = 30;
+   vm.pagination              = { current: 0 };
+   vm.pageChanged             = pageChanged;
+   vm.upcomingEvents          = [];
+   vm.cloneUpcomingEvents     = [];
+   vm.eventCondidtion         = {};
    vm.eventCondidtion.userIds = [];
-   vm.saveEvent       = saveEvent;
-   vm.removeEvent     = removeEvent;
-   vm.editEvent       = editEvent;
-   vm.getEventForDate = getEventForDate;
+   vm.saveEvent               = saveEvent;
+   vm.removeEvent             = removeEvent;
+   vm.getEventsForDate        = getEventsForDate;
 
    function _init() {
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
@@ -43,7 +45,7 @@ export default function VacanciesController(
          vm.total = response.total;
          vm.vacancies = response.vacancies;
       }).catch(_onError);
-      getUpcomingEvents();
+      _getCurrentUser().then(() => _getUpcomingEvents());
    }
 
    _init();
@@ -65,29 +67,40 @@ export default function VacanciesController(
       LoggerService.error(error);
    }
 
-   function getUpcomingEvents() {
+   function _getUpcomingEvents() {
       _formingDateConditions();
-      //TODO: change getUserById to getCurrentUser
-      UserService.getUserById(3).then((user) => {
-         vm.eventCondidtion.userIds.push(user.id);
-         EventsService.getEventsForPeriod(vm.eventCondidtion).then(events => set(vm, 'upcomingEvents', events));
+      EventsService.getEventsForPeriod(vm.eventCondidtion).then(events => {
+         set(vm, 'upcomingEvents', events);
+         vm.cloneUpcomingEvents  = clone(vm.upcomingEvents);
       });
    }
 
    function saveEvent(event) {
-      alert(event);
+      EventsService.save(event).then(() => {
+         _getUpcomingEvents();
+         vm.cloneUpcomingEvents  = clone(vm.upcomingEvents);
+      });
    }
 
    function removeEvent(event) {
-      alert(event);
+      EventsService.remove(event).then(() => {
+         remove(vm.upcomingEvents, {id: event.id});
+         vm.cloneUpcomingEvents  = clone(vm.upcomingEvents);
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING_EVENT'), 'success');
+      });
    }
 
-   function editEvent(event) {
-      alert(event);
+   function getEventsForDate(date) {
+      vm.eventCondidtion.startDate = date;
+      vm.eventCondidtion.endDate = vm.eventCondidtion.startDate;
+      EventsService.getEventsForPeriod(vm.eventCondidtion).then(events => {
+         return events;
+      });
    }
 
-   function getEventForDate(event) {
-      alert(event);
+   function _getCurrentUser() {
+      //TODO: change getUserById to getCurrentUser
+      return UserService.getUserById(150).then((user) => vm.eventCondidtion.userIds.push(user.id));
    }
 
    function _formingDateConditions() {

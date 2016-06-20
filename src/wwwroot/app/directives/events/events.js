@@ -12,7 +12,6 @@ export default class EventsDirective {
          events      : '=',
          save        : '=',
          remove      : '=',
-         edit        : '=',
          evertsByDate: '='
       };
       this.controller = EventsController;
@@ -26,15 +25,18 @@ export default class EventsDirective {
 
 function EventsController($scope, $translate, VacancyService, CandidateService, UserService,
                            ThesaurusService, UserDialogService) {
-   const vm              = $scope;
-   vm.vacancies          = [];
-   vm.candidates         = [];
-   vm.responsibles       = [];
-   vm.eventTypes         = [];
-   vm.showAddEventDialog = showAddEventDialog;
-   vm.vacancy            = {};
-   vm.vacancy.current    = 0;
-   vm.vacancy.size       = 20;
+   const vm               = $scope;
+   vm.event               = {};
+   vm.vacancies           = [];
+   vm.candidates          = [];
+   vm.responsibles        = [];
+   vm.eventTypes          = [];
+   vm.saveEvent           = saveEvent;
+   vm.showAddEventDialog  = showAddEventDialog;
+   vm.showEditEventDialog = showEditEventDialog;
+   vm.vacancy             = {};
+   vm.vacancy.current     = 0;
+   vm.vacancy.size        = 20;
 
    function _init() {
       VacancyService.search(vm.vacancy).then(data => set(vm, 'vacancies', data.vacancies));
@@ -46,13 +48,21 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
 
    _init();
 
+   function saveEvent() {
+      vm.save(vm.event);
+   }
+
    function showAddEventDialog() {
+      let defaultDate = new Date();
+      vm.evertsByDate(defaultDate);
       let scope = {
          type         : 'list-with-input',
          responsibles : vm.responsibles,
          eventTypes   : vm.eventTypes,
          vacancies    : vm.vacancies,
-         candidates   : vm.candidates
+         candidates   : vm.candidates,
+         everts       : vm.evertsByDate,
+         event        : vm.event
       };
       let buttons = [
          {
@@ -60,7 +70,29 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
          },
          {
             name: $translate.instant('COMMON.APLY'),
-            func: vm.save,
+            func: vm.saveEvent,
+            needValidate: true
+         }
+      ];
+      UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
+   }
+   function showEditEventDialog(currentEvent) {
+//      vm.event = event;
+      let scope = {
+         type         : 'form-only',
+         responsibles : vm.responsibles,
+         eventTypes   : vm.eventTypes,
+         vacancies    : vm.vacancies,
+         candidates   : vm.candidates,
+         event        : currentEvent
+      };
+      let buttons = [
+         {
+            name: $translate.instant('COMMON.CANCEL')
+         },
+         {
+            name: $translate.instant('COMMON.APLY'),
+            func: vm.saveEvent,
             needValidate: true
          }
       ];

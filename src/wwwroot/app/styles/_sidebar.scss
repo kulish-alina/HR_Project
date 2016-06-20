@@ -56,23 +56,6 @@
    }
 }
 
-.events {
-   font-size: $rem-base*0.8;
-   i {
-      font-size: $rem-base*2;
-      color: $gray-dark;
-      @include breakpoint(medium only) { 
-         font-size: $rem-base;
-      }
-      @include breakpoint(small only) { 
-         font-size: $rem-base;
-      }
-   }
-   i:hover {
-      color: $primary-color;
-   }
-}
-
 .vacancies {
    height: $rem-base*31.25;
 }

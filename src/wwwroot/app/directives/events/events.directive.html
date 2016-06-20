@@ -1,15 +1,15 @@
-<div class="card-divider" ng-class="{'list-with-form': type === 'list-with-input'}">
-  <div class="grid-block">
-     <div class="small-4 grid-block" ng-bind="::'COMMON.EVENTS' | translate"></div>
-     <div class="small-3 grid-block"></div>
-     <div class="small-5 grid-block align-right">
+<div class="card-divider" ng-class="{'list-with-form': type === 'list-with-input', 'form-only': type === 'form-only'}">
+   <div class="grid-block">
+      <div class="small-4 grid-block" ng-bind="::'COMMON.EVENTS' | translate"></div>
+      <div class="small-3 grid-block"></div>
+      <div class="small-5 grid-block align-right">
          <a ng-click="showAddEventDialog()" class="button" ng-bind="::'COMMON.ADD_EVENT' | translate"></a>
-     </div>
-  </div>
+      </div>
+   </div>
 </div>
 <div class="sidebar-content">
    <div class="grid-block">
-      <div class="small-6 grid-block" ng-class="{'list-only': type === 'list-only'}">
+      <div class="small-6 grid-block"  ng-class="{'list-only': type === 'list-only', 'without-list': type === 'form-only'}">
          <form name="Event">
             <fieldset class="event-form">
                <input name="EventDescription" type="text" ng-model="event.description" placeholder="{{::'COMMON.DESCRIPTION' | translate}}" type="text" validator="required, minlength=3, maxlength=200">
@@ -29,25 +29,33 @@
                   <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
                   <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
                </select>
-               <date datemodel="event.date" placeholder="{{::'COMMON.EVENT_DATE' | translate}}"></date>
+               <date datemodel="event.eventDate" placeholder="{{::'COMMON.EVENT_DATE' | translate}}"></date>
             </fieldset>
          </form>
       </div>
-      <div class="small-6 grid-block" ng-class="{'without-form': type === 'list-only'}">
+      <div class="small-6 grid-block" ng-class="{'without-form': type === 'list-only', 'form-only' : type === 'form-only'}">
          <section class="block-list">
             <ul class="icon-left events">
-               <li ng-repeat="event in events">
+               <li ng-repeat="event in events track by $index">
                   <div class="grid-block">
-                     <div class="medium-2 grid-block">
-                        <i class="foundicon-people general-icon"></i>
+                     <div class="medium-1 grid-block">
+                        <img ng-src="{{event.eventType.imagePath | botUrl}}">
                      </div>
-                     <div class="medium-10 grid-block">
-                        <a href="#"><span ng-bind="event.eventDate"></span><span ng-bind="event.description"></span></a>
+                     <div class="medium-9 grid-block event-content">
+                        <span class="event-title" ng-bind="event.eventDate | date: 'mediumDate'"></span><span class="event-title">&nbsp;:&nbsp;</span>
+                        <span class="event-title" ng-bind="event.eventType.title"></span>
+                        <div ng-bind="event.description"></div>
+                     </div>
+                     <div class="medium-1 grid-block">
+                        <a ng-click="showEditEventDialog(event)"><i class="foundicon-edit general-icon"></i></a>
+                     </div>
+                     <div class="medium-1 grid-block">
+                        <a ng-click="remove(event)"><i class="foundicon-trash general-icon"></i></a>
                      </div>
                   </div>
                </li>
             </ul>
-         </section> 
+         </section>
       </div>
    </div>
 </div>

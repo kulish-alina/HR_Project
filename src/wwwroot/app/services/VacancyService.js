@@ -25,7 +25,7 @@ const THESAURUS = [
 
    new ThesaurusHelper('industry',   'industryId',  'industries'),
    new ThesaurusHelper('level',       'levelIds',    'levels'),
-   new ThesaurusHelper('location',    'locationIds', 'locations'),
+   new ThesaurusHelper('city',    'cityIds', 'cities'),
    new ThesaurusHelper('department',  'departmentId', 'departments'),
    new ThesaurusHelper('entityState', 'state',       'entityStates'),
    new ThesaurusHelper('typeOfEmployment', 'typeOfEmployment', 'typesOfEmployment')

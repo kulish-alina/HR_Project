@@ -6,6 +6,7 @@ import {
 
 const EVENT_URL = 'event';
 const EVENT_PROP = ['responsibleId', 'eventTypeId', 'vacancyId', 'candidateId'];
+const EVENT_PROP_FRONT = ['responsible', 'eventType', 'vacancy', 'candidate'];
 let _HttpService, _$q, _LoggerService, _$translate, _ThesaurusService, _VacancyService,
    _CandidateService, _UserService;
 
@@ -28,14 +29,20 @@ export default class EventsService {
    }
 
    getEventsForPeriod(condition) {
-      return _HttpService.post(`${EVENT_URL}/search`, condition).then(this.convertFromServerFormat);
+      return _HttpService.post(`${EVENT_URL}/search`, condition).then((events) => {
+         return each(events, (event) => this._convertFromServerFormat(event));
+      });
    }
 
    save(entity) {
+      this._convertIdsToInt(entity);
+      each(EVENT_PROP_FRONT, (prop) => {
+         delete entity[prop];
+      });
       if (entity.id) {
-         return _HttpService.put(`${EVENT_URL}/${entity.id}`, entity);
+         return _HttpService.put(`${EVENT_URL}/${entity.id}`, entity).then(this._convertIdsToString);
       } else {
-         return _HttpService.post(EVENT_URL, entity);
+         return _HttpService.post(EVENT_URL, entity).then(this._convertIdsToString);
       }
    }
 
@@ -50,25 +57,31 @@ export default class EventsService {
 
    _convertFromServerFormat(event) {
       event.eventDate = utils.formatDateFromServer(event.eventDate);
-      return this._fillEntities(event);
+      this._fillEntities(event);
+      return this._convertIdsToString(event);
    }
 
    _convertIdsToString(event) {
-      each(EVENT_PROP, (prop) => {
-         event[prop] = toString(event[prop]);
+      return each(EVENT_PROP, (prop) => {
+         event[prop] = `${event[prop]}`;
       });
-      return event;
+   }
+
+   _convertIdsToInt(event) {
+      return each(EVENT_PROP, (prop) => {
+         event[prop] = parseInt(event[prop]);
+      });
    }
 
    _fillEntities(event) {
       let userPromise    = _UserService.getUserById(event.responsibleId).then(user =>
                         set(event, 'responsible', user));
-      let vacancyPromise = _VacancyService.getVacancy(event.vacancyId).then(vacancy =>
-                        set(event, 'vacancy', vacancy));
-      let candidatePromise = _CandidateService.getCandidate(event.candidateId).then(candidate =>
-                        set(event, 'candidate', candidate));
-      let thesaurusPromise = _ThesaurusService.getThesaurusTopic('eventtype', event.eventTypeId)
-                        .then(eventType => set(event, 'eventType', eventType));
+      let vacancyPromise = event.vacancyId ? _VacancyService.getVacancy(event.vacancyId).then(vacancy =>
+                        set(event, 'vacancy', vacancy))  : _$q.when(true);
+      let candidatePromise = event.candidateId ? _CandidateService.getCandidate(event.candidateId).then(candidate =>
+                        set(event, 'candidate', candidate)) : _$q.when(true);
+      let thesaurusPromise = event.eventTypeId ? _ThesaurusService.getThesaurusTopic('eventtype', event.eventTypeId)
+                        .then(eventType => set(event, 'eventType', eventType)) : _$q.when(true);
       return _$q.all(userPromise, vacancyPromise, candidatePromise, thesaurusPromise);
    }
 }

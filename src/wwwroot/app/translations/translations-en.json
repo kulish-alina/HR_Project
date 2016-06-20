@@ -221,7 +221,8 @@
       "SUCCESSFUL_SAVING": "Vacancy was successfully saved!",
       "ERROR_SAVING": "Some error has occurred while saving vacancy!",
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
-      "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!"
+      "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
+      "SUCCESSFUL_REMOVING_EVENT": "Event was successfully removed!"
    },
 
    "MEMBERS" : {

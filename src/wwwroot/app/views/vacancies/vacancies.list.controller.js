@@ -1,4 +1,4 @@
-const LIST_OF_THESAURUS = ['industry', 'level', 'location',
+const LIST_OF_THESAURUS = ['industry', 'level', 'city',
     'typeOfEmployment'];
 import {
    remove,

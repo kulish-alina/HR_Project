@@ -1,5 +1,30 @@
+@import "../../common.scss";
+.events {
+   font-size: $rem-base*0.8;
+   i {
+      font-size: $rem-base;
+      color: $gray-dark;
+      @include breakpoint(medium only) { 
+         font-size: $rem-base;
+      }
+      @include breakpoint(small only) { 
+         font-size: $rem-base;
+      }
+   }
+   i:hover {
+      color: $primary-color;
+   }
+}
+
 .list-only {
    display: none;
+}
+.form-only {
+   display: none;
+}
+.without-list {
+   flex: 0 0 100%;
+   max-width: 100%; 
 }
 .without-form {
    flex: 0 0 100%;
@@ -10,4 +35,10 @@
 }
 .event-form {
    padding-top: 0;
+}
+.event-content {
+   flex-wrap: wrap;
+   .event-title {
+      font-weight: 600;
+   }
 }

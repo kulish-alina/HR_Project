@@ -60,7 +60,7 @@ namespace BaseOfTalents.WebUI.Controllers
             {
                 return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
             }
-            return Ok("No events for specifed parameters");
+            return Ok(new List<EventDTO>());
         }
 
         [HttpGet]

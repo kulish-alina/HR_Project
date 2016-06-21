@@ -27,6 +27,11 @@ namespace BaseOfTalents.DAL
             AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
         }
 
+        public BOTContext(string connectionString) : base(connectionString)
+        {
+            AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
+        }
+
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<RelocationPlace> RelocationPlace { get; set; }
@@ -99,6 +104,11 @@ namespace BaseOfTalents.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public bool Delete()
+        {
+            return Database.Delete();
         }
 
         public override int SaveChanges()

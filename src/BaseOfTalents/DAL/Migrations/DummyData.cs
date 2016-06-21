@@ -11,11 +11,11 @@ using System.Linq;
 
 namespace BaseOfTalents.DAL.Migrations
 {
-    public static class DummyData 
+    public static class DummyData
     {
         public static readonly List<Currency> Currencies = new List<Currency>
         {
-            new Currency { Title = "UAH" }, 
+            new Currency { Title = "UAH" },
             new Currency { Title = "USD" },
             new Currency { Title = "EUR" }
         };
@@ -592,6 +592,8 @@ namespace BaseOfTalents.DAL.Migrations
             return events;
         }
 
+
+
         private static List<User> GetUsers(int count)
         {
             var users = new List<User>();
@@ -671,7 +673,7 @@ namespace BaseOfTalents.DAL.Migrations
             }
             return vacancies;
         }
-        
+
 
         private static List<Candidate> GetCandidates(int count)
         {
@@ -715,13 +717,15 @@ namespace BaseOfTalents.DAL.Migrations
                     Level = Levels.GetRandom(),
                     VacanciesProgress = new List<VacancyStageInfo>()
                 };
-                candidate.RelocationPlaces = 
+                candidate.RelocationPlaces =
                     Enumerable.Repeat(
-                        new RelocationPlace {
+                        new RelocationPlace
+                        {
                             Country = Countries.GetRandom(),
-                            Cities = Enumerable.Repeat(Cities.GetRandom(), 
-                            RandomNumber(0,2)).Distinct().ToList() }, 
-                        RandomNumber(1,2))
+                            Cities = Enumerable.Repeat(Cities.GetRandom(),
+                            RandomNumber(0, 2)).Distinct().ToList()
+                        },
+                        RandomNumber(1, 2))
                         .Distinct()
                         .ToList();
                 candidates.Add(candidate);

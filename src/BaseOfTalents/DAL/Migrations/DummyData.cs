@@ -1,13 +1,13 @@
 ﻿
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BaseOfTalents.DAL.Migrations
 {
@@ -172,159 +172,165 @@ namespace BaseOfTalents.DAL.Migrations
         {
             new Permission
             {
-                AccessRights = AccessRights.AddCandidate,
+                AccessRights = AccessRight.AddCandidate,
                 Description = "Right to create a candidate",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.AddCandidateToVacancy,
+                AccessRights = AccessRight.AddCandidateToVacancy,
                 Description = "Right to attach exsisting candidate to a vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.AddEvent,
+                AccessRights = AccessRight.AddEvent,
                 Description = "Right to create an event",
                 Group = "Calendar"
             },
             new Permission
             {
-                AccessRights = AccessRights.AddRole,
+                AccessRights = AccessRight.AddRole,
                 Description = "Right to create a role",
                 Group = "Roles"
             },
             new Permission
             {
-                AccessRights = AccessRights.AddVacancy,
+                AccessRights = AccessRight.AddVacancy,
                 Description = "Right to create a vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.EditCandidate,
+                AccessRights = AccessRight.EditCandidate,
                 Description = "Right to edit a candidate",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.EditEvent,
+                AccessRights = AccessRight.EditEvent,
                 Description = "Right to edit an event",
                 Group = "Calendar"
             },
             new Permission
-            {   AccessRights = AccessRights.EditRole,
+            {   AccessRights = AccessRight.EditRole,
                 Description = "Right to edit a role",
                 Group = "Roles"
             },
             new Permission
             {
-                AccessRights = AccessRights.EditUserProfile,
+                AccessRights = AccessRight.EditUserProfile,
                 Description = "Right to edit user profile",
                 Group = "Users"
             },
             new Permission
             {
-                AccessRights = AccessRights.EditVacancy,
+                AccessRights = AccessRight.EditVacancy,
                 Description = "Right to edit a vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.GenerateReports,
+                AccessRights = AccessRight.GenerateReports,
                 Description = "Right to generate reports",
                 Group = "Reports"
             },
             new Permission
             {
-                AccessRights = AccessRights.InviteNewMember,
+                AccessRights = AccessRight.InviteNewMember,
                 Description = "Right to invite a new member to program",
                 Group = "Users"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveCandidate,
+                AccessRights = AccessRight.RemoveCandidate,
                 Description = "Right to remove candidate",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveCandidateFromVacancy,
+                AccessRights = AccessRight.RemoveCandidateFromVacancy,
                 Description = "Right to remove candidate from a vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveEvent,
+                AccessRights = AccessRight.RemoveEvent,
                 Description = "Right to remove event",
                 Group = "Calendar"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveRole,
+                AccessRights = AccessRight.RemoveRole,
                 Description = "Right to remove role",
                 Group = "Roles"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveUserProfile,
+                AccessRights = AccessRight.RemoveUserProfile,
                 Description = "Right to remove user profile",
                 Group = "Users"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveVacancy,
+                AccessRights = AccessRight.RemoveVacancy,
                 Description = "Right to remove vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.SearchCandidatesInExternalSource,
+                AccessRights = AccessRight.SearchCandidatesInExternalSource,
                 Description = "Right to search candidates on another work-searching sites",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.SearchCandidatesInInternalSource,
+                AccessRights = AccessRight.SearchCandidatesInInternalSource,
                 Description = "Right to search candidates inside the base",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.SystemSetup,
+                AccessRights = AccessRight.SystemSetup,
                 Description = "Right to provide system setup",
                 Group = "System"
             },
             new Permission
             {
-                AccessRights = AccessRights.ViewCalendar,
+                AccessRights = AccessRight.ViewCalendar,
                 Description = "Right to view a calendar",
                 Group = "Calendar"
             },
             new Permission
             {
-                AccessRights = AccessRights.ViewListOfCandidates,
+                AccessRights = AccessRight.ViewListOfCandidates,
                 Description = "Right to view list of candidates",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.ViewListOfVacancies,
+                AccessRights = AccessRight.ViewListOfVacancies,
                 Description = "Right to view list of vacancies",
                 Group = "Vacancies"
             },
-            new Permission {AccessRights = AccessRights.ViewRoles, Description = "Right to view roles", Group = "Roles"},
+            new Permission {AccessRights = AccessRight.ViewRoles, Description = "Right to view roles", Group = "Roles"},
             new Permission
             {
-                AccessRights = AccessRights.ViewUserProfile,
+                AccessRights = AccessRight.ViewUserProfile,
                 Description = "Right to view user profile",
                 Group = "Users"
             },
             new Permission
             {
-                AccessRights = AccessRights.ViewUsers,
+                AccessRights = AccessRight.ViewUsers,
                 Description = "Right to view users",
                 Group = "Users"
+            },
+            new Permission
+            {
+                AccessRights = AccessRight.None,
+                Description = "Right on getting access to nothing",
+                Group = "Empty"
             }
         };
 

@@ -1,6 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
+using BaseOfTalents.WebUI.Globals.Converters;
 using BaseOfTalents.WebUI.Models;
 using DAL.DTO;
 using DAL.DTO.SetupDTO;
@@ -8,7 +10,6 @@ using Domain.DTO.DTOModels;
 using Domain.DTO.DTOModels.SetupDTO;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
-using System.Collections.Generic;
 
 namespace WebApi
 {
@@ -118,7 +119,7 @@ namespace WebApi
                     .ConstructUsing(source => (source.SourceValue as City).Id);
 
                 x.CreateMap<Role, RoleDTO>()
-                        .ForMember(dest => dest.PermissionIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Permission>, IEnumerable<int>>(src.Permissions)));
+                    .ForMember(roleDto => roleDto.Permissions, opt => opt.MapFrom(src => PermissionConverter.Convert(src.Permissions)));
 
                 x.CreateMap<Permission, PermissionDTO>()
                         .ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Role>, IEnumerable<int>>(src.Roles)));

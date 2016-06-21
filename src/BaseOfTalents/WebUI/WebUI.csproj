@@ -192,6 +192,7 @@
     <Compile Include="Controllers\VacancyController.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ModelStateHelper.cs" />
+    <Compile Include="Globals\Converters\PermissionConverter.cs" />
     <Compile Include="Models\CandidateProgressModel.cs" />
     <Compile Include="Extensions\DTOModelConverter.cs" />
     <Compile Include="Global.asax.cs">

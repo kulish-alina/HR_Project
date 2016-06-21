@@ -25,7 +25,7 @@ namespace DAL.Extensions
         private static void PerformCitiesSaving(RelocationPlace destination, RelocationPlaceDTO source, IRepository<City> locationRepo)
         {
             destination.Cities.Clear();
-            destination.Cities = source.LocationIds.Select(x => locationRepo.GetByID(x)).ToList();
+            destination.Cities = source.CityIds.Select(x => locationRepo.GetByID(x)).ToList();
         }
     }
 }

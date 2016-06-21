@@ -149,7 +149,7 @@ namespace WebApi
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
 
                 x.CreateMap<RelocationPlace, RelocationPlaceDTO>()
-                   .ForMember(dest => dest.LocationIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<City>, IEnumerable<int>>(src.Cities)));
+                   .ForMember(dest => dest.CityIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<City>, IEnumerable<int>>(src.Cities)));
 
                 x.CreateMap<VacancyDTO, VacancySearchModel>()
                    .ForMember(dest => dest.State, opt => opt.MapFrom(src => (int)src.State));

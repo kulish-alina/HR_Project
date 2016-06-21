@@ -93,9 +93,7 @@ export default function VacanciesController(
    function getEventsForDate(date) {
       vm.eventCondidtion.startDate = date;
       vm.eventCondidtion.endDate = vm.eventCondidtion.startDate;
-      EventsService.getEventsForPeriod(vm.eventCondidtion).then(events => {
-         return events;
-      });
+      return EventsService.getEventsForPeriod(vm.eventCondidtion);
    }
 
    function _getCurrentUser() {

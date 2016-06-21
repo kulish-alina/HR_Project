@@ -1,0 +1,9 @@
+.input-date {
+   height: $rem-base*2.4 !important;
+   width: 100% !important;
+   margin-bottom: $rem-base !important;
+   font-family: $body-font-family;
+}
+.angularjs-datetime-picker {
+   z-index: 1000;
+}

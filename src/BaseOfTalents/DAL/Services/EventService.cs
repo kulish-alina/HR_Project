@@ -47,13 +47,13 @@ namespace DAL.Services
             var clearedStartDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
             var clearedEndDate = endDate.HasValue ? new DateTime(endDate.Value.Year, endDate.Value.Month, endDate.Value.Day, 23, 59, 59) : endDate;
 
-            if (IsNeededEventsForAMonth(startDate, endDate))
+            if (IsNeededEventsForAMonth(clearedStartDate, clearedEndDate))
             {
-                domainEvents = EventsForAMonthForAUsers(userIds, startDate);
+                domainEvents = EventsForAMonthForAUsers(userIds, clearedStartDate);
             }
             else
             {
-                domainEvents = EventsForAUsersForADateBetween(userIds, startDate, endDate);
+                domainEvents = EventsForAUsersForADateBetween(userIds, clearedStartDate, clearedEndDate);
             }
             var eventsDto = domainEvents.Select(x => DTOService.ToDTO<Event, EventDTO>(x));
             return eventsDto;

@@ -38,7 +38,11 @@
 }
 .event-content {
    flex-wrap: wrap;
+   padding-left: $rem-base/2;
    .event-title {
       font-weight: 600;
    }
+}
+.event-icon {
+   height: $rem-base*2;
 }

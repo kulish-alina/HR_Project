@@ -24,7 +24,7 @@ function array2map(arr, it) {
 
 function formatDateToServer(entityDate) {
    if (entityDate) {
-      let date = new Date(entityDate);;
+      let date = new Date(entityDate);
       return date;
    }
 }

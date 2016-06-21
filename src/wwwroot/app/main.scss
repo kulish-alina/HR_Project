@@ -46,6 +46,7 @@ $include-css: (
 @import './styles/pagination';
 @import './styles/modal';
 @import './styles/range-slider';
+@import './styles/date-picker';
 body {
    background-color: $light-color;
    min-width: $rem-base*58.75;

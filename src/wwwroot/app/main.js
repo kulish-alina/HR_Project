@@ -21,6 +21,8 @@ import 'angularjs-slider/dist/rzslider.min';
 import 'angularjs-slider/dist/rzslider.min.css';
 
 import 'angular-srph-age-filter/angular-age-filter';
+import 'angularjs-datetime-picker/angularjs-datetime-picker.js';
+import 'angularjs-datetime-picker/angularjs-datetime-picker.css';
 
 import './ta';
 import './main.scss';
@@ -50,7 +52,7 @@ import PhoneInputsDirective   from './directives/phones/phone-inputs';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
-import EventsDirective         from './directives/events/events';
+import EventsDirective        from './directives/events/events';
 
 import uiMask from 'angular-ui-mask';
 
@@ -65,6 +67,7 @@ const dependencies = [
    translate,
    uiMask,
    pagination,
+   'angularjs-datetime-picker',
    'rzModule',
    'foundation',
    'validation',

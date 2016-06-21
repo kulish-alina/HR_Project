@@ -8,11 +8,13 @@ import {
    union,
    curry,
    curryRight,
-   set
+   set,
+   find,
+   concat
 } from 'lodash';
 import utils  from '../utils.js';
 
-const CANDIDATE_URL           = 'candidates/';
+const CANDIDATE_URL           = 'candidate/';
 const DATE_TYPE_TO_CONVERT    = [ 'birthDate' ];
 
 let _forEach   = curryRight(forEach, 2);
@@ -54,6 +56,7 @@ export default class CandidateService {
             if (candidate.id) {
                return _HttpService.put(CANDIDATE_URL + candidate.id, candidate);
             } else {
+               console.log(candidate);
                return _HttpService.post(CANDIDATE_URL, candidate);
             }
          })
@@ -100,6 +103,7 @@ function _convertToClientFormat(candidate) {
    _convertFromServerDates(candidate);
    _addReferencedThesaurusObjects(candidate);
    _setMonthYearExperience(candidate);
+   _partitionOfRelocationCities(candidate);
    return candidate;
 }
 
@@ -108,8 +112,33 @@ function _convertToServerFormat(candidate) {
    _convertThesaurusToIds(candidate);
    _deleteReferencedThesaurusObjects(candidate);
    _setStartExperience(candidate);
+   _groupRelocationPlaces(candidate);
    delete candidate.experienceYears;
    delete candidate.experienceMonthes;
+   return candidate;
+}
+
+function _groupRelocationPlaces(candidate) {
+   candidate.relocationPlaces = reduce(candidate.relocationPlaces, (result, place) => {
+      let countryPlace = find(result, _ => _.countryId === place.countryId);
+      if (countryPlace) {
+         countryPlace.cityIds = concat(countryPlace.cityIds, place.cityIds);
+      } else {
+         result.push({
+            countryId: place.countryId,
+            cityIds : concat([], place.cityIds)
+         });
+      }
+      return result;
+   }, []);
+   return candidate;
+}
+
+function _partitionOfRelocationCities(candidate) {
+   let relocationPlaces = [];
+   forEach(candidate.relocationPlaces, place => forEach(place.cityIds, cityId =>
+      relocationPlaces.push({countryId : place.countryId, cityIds : [ cityId ]})));
+   candidate.relocationPlaces = relocationPlaces;
    return candidate;
 }
 
@@ -147,18 +176,22 @@ function _convertToServerDates(candidate) {
 }
 
 function _setStartExperience(candidate) {
-   let nowDate                    = new Date(now());
-   candidate.startExperience      = new Date(
-         nowDate.getFullYear() - candidate.experienceYears,
-         nowDate.getMonth()    - candidate.experienceMonthes
-      );
+   if (candidate.experienceMonthes || candidate.experienceYears) {
+      let nowDate                    = new Date(now());
+      candidate.startExperience      = new Date(
+            nowDate.getFullYear() - candidate.experienceYears,
+            nowDate.getMonth()    - candidate.experienceMonthes
+         );
+   }
 }
 
 function _setMonthYearExperience(candidate) {
-   let nowDate                    = new Date(now());
-   let startExperienceDate        = new Date(candidate.startExperience);
-   candidate.experienceYears      = nowDate.getFullYear()   - startExperienceDate.getFullYear();
-   candidate.experienceMonthes    = nowDate.getMonth()      - startExperienceDate.getMonth();
+   if (candidate.startExperience) {
+      let nowDate                    = new Date(now());
+      let startExperienceDate        = new Date(candidate.startExperience);
+      candidate.experienceYears      = nowDate.getFullYear()   - startExperienceDate.getFullYear();
+      candidate.experienceMonthes    = nowDate.getMonth()      - startExperienceDate.getMonth();
+   }
 }
 
 function ThesaurusHelper(thesaurusName, serverField, clientField, needConvertForServer) {

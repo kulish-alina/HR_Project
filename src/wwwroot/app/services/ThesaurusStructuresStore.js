@@ -102,6 +102,14 @@ const THESAURUS_STRUCTURES = {
          {name : 'imagePath', label : 'image',     type : 'img' },
          {name : 'state',     label : 'state',     type : ''}
       ]
+   },
+   'currency' : {
+      thesaurusName : 'THESAURUSES.CURRENCY',
+      fields : [
+         {name : 'id',        label : 'id',        type : ''},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=3, minlength=3'},
+         {name : 'state',     label : 'state',     type : ''}
+      ]
    }
 };
 

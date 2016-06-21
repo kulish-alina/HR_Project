@@ -1,7 +1,7 @@
-import { set, forEach } from 'lodash';
+import { set, forEach, remove } from 'lodash';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
-    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country'/*, 'currency'*/];
+    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency'];
 
 export default function CandidateController(
    $element,
@@ -34,13 +34,15 @@ export default function CandidateController(
 
    (function _init() {
       _initThesauruses();
-      _createUploader();
+      _createUploaders();
    }());
 
-   function clearUploaderQueue() {
-      vm.uploader.clearQueue();
-      $element[0].querySelector('#upload').value = null;
+   //example of name is '#upload' ;
+   function clearUploaderQueue(uploader, name) {
+      uploader.clearQueue();
+      $element[0].querySelector(name).value = null;
    }
+
    function _onError() {
       UserDialogService.notification('Some error was occurred!', 'error');
    }
@@ -48,24 +50,33 @@ export default function CandidateController(
    function _initThesauruses() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(data => vm.thesaurus = data)
-         .then(_initLanguages).then(_initLocations);
+         .then(_initLanguages)
+         .then(_initLocations);
    }
 
-   function _createUploader() {
-      vm.uploader = FileService.getFileUploader({maxSize: 1024000});
-      vm.uploader.onSuccessItem = (item, response, status, headers) => {
-         LoggerService.log('onSuccessItem', item, response, status, headers);
-      };
-      vm.uploader.onErrorItem = (fileItem, response, status, headers) => {
-         LoggerService.error('onErrorItem', fileItem, response, status, headers);
-      };
-      vm.uploader.onWhenAddingFileFailed = () => {
-         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
-      };
+   function _createUploaders() {
+      vm.filesUploader = FileService.getFileUploader({maxSize: 1024000});
+      vm.imageUploader = FileService.getFileUploader({maxSize: 1024000});
+      forEach([vm.filesUploader, vm.imageUploader], uploader => {
+         uploader.onSuccessItem = (item, response, status, headers) => {
+            LoggerService.log('onSuccessItem', item, response, status, headers);
+         };
+         uploader.onErrorItem = (fileItem, response, status, headers) => {
+            LoggerService.error('onErrorItem', fileItem, response, status, headers);
+         };
+         uploader.onWhenAddingFileFailed = () => {
+            UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
+         };
+      });
+   }
+
+   function _deleteEmptyPhoneNumber() {
+      remove(vm.candidate.phoneNumbers, {});
    }
 
    function saveCandidate(form) {
       if (ValidationService.validate(form)) {
+         _deleteEmptyPhoneNumber();
          CandidateService.saveCandidate(vm.candidate)
             .then(entity => set(vm, 'candidate', entity))
             .catch(_onError);

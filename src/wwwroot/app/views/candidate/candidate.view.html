@@ -42,7 +42,9 @@
                         </ul>
                         <div class="grid-block">
                            <oi-select ng-model="candidate.languageSkills"
-                              oi-options="language.language.title+' '+language.languageLevel.title group by language.language.title for language in languages" multiple></oi-select>
+                              oi-options="{languageId: language.language.id, languageLevel: language.languageLevel.id} as language.language.title+' '+language.languageLevel.title 
+                              group by language.language.title for language in languages" multiple>
+                           </oi-select>
                         </div>
                         <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city track by city.id" ng-model="candidate.cityId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
 
@@ -51,14 +53,14 @@
                   <div class="medium-4 grid-block">
                      <fieldset>
                         <select name="Industry" ng-model="candidate.industryId" validator="required"
-                                ng-init="candidate.industryId=''" convert-to-number>
-                           <option ng-selected="true" value="" ng-bind="::('COMMON.INDUSTRY' | translate)"></option>
+                                ng-init="candidate.industryId=undefined" convert-to-number>
+                           <option ng-selected="true" ng-bind="::('COMMON.INDUSTRY' | translate)"></option>
                            <option ng-repeat="industry in thesaurus.industry" value='{{industry.id}}' 
                                    ng-bind="::(industry.title)"></option>
                         </select>
-                        <select ng-model="candidate.level" ng-init="candidate.levelId=''" convert-to-number 
+                        <select ng-model="candidate.level" ng-init="candidate.levelId=undefined" convert-to-number 
                                 name="Level">
-                           <option ng-selected="true" value="" ng-bind="::'COMMON.LEVEL' | translate"></option>
+                           <option ng-selected="true" ng-bind="::'COMMON.LEVEL' | translate"></option>
                            <option ng-repeat="level in thesaurus.level" 
                                    value="{{level.id}}" ng-bind="::(level.title)"></option>
                         </select>
@@ -68,16 +70,16 @@
                               <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
                            </div>
                            <div class="medium-6 grid-block">
-                              <select name="Сurrency" ng-disabled="!candidate.SalaryDesired"
-                                      ng-model="candidate.currencyId" ng-init="candidate.currencyId=''">
-                                 <option ng-selected="true" value="" ng-bind="Currency"></option>
+                              <select name="Сurrency" ng-disabled="!candidate.SalaryDesired" convert-to-number
+                                      ng-model="candidate.currencyId" ng-init="candidate.currencyId=undefined">
+                                 <option ng-selected="true" ng-bind="Currency"></option>
                                  <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title"></option>
                               </select>
                            </div>
                         </div>
-                        <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment=''"
-                                name="TypeOfEmployment" >
-                           <option ng-selected="true" value="" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate)"></option>
+                        <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment=undefined"
+                                name="TypeOfEmployment" convert-to-number >
+                           <option ng-selected="true" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate)"></option>
                            <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" 
                                    value="{{typeOfEmployment.id}}" ng-bind="::(typeOfEmployment.title)"></option>
                         </select>
@@ -95,8 +97,10 @@
                         <input id="relocateAgreement" type="checkbox" ng-model="candidate.relocateAgreement">
                         <label for="relocateAgreement" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate"></label>
                         <div class="grid-block" ng-if="candidate.relocateAgreement">
-                           <oi-select ng-model="candidate.relocationAgreements"
-                              oi-options="location.city.title group by location.country.title for location in locations" multiple></oi-select>
+                           <oi-select ng-model="candidate.relocationPlaces"
+                              oi-options="{countryId: location.country.id, cityIds: location.city.id} 
+                              as location.city.title || location.country.title 
+                              group by location.country.title for location in locations" multiple></oi-select>
                         </div>
                      </fieldset>
                   </div>
@@ -108,15 +112,15 @@
                         <div class="uploader-photo" zf-modal="" id="basicModal">
                            <div class="grid-block">
                               <div class="medium-8 grid-block">
-                                 <input id="upload" class="upload-input" type="file" nv-file-select="" uploader="uploader">
+                                 <input id="upload" class="upload-input" type="file" nv-file-select="" uploader="imageUploader">
                                  <div class="grid-block image-container">
                                     <div class="medium-4 grid-block">
-                                       <div class="" ng-repeat="item in uploader.queue">
-                                          <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                       <div class="" ng-repeat="item in imageUploader.queue">
+                                          <div ng-show="imageUploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
                                        </div>
                                     </div>
                                     <div class="medium-8 grid-block">
-                                       <a ng-hide="!uploader.queue.length" class="remove-item" ng-click="clearUploaderQueue()"><i class="foundicon-remove general-icon"></i></a>
+                                       <a ng-hide="!imageUploader.queue.length" class="remove-item" ng-click="clearUploaderQueue()"><i class="foundicon-remove general-icon"></i></a>
                                     </div>
                                  </div>
                               </div>
@@ -171,8 +175,8 @@
                <div class="grid-block">
                   <div class="medium-6 grid-block">
                      <fieldset>
-                        <input type="file" nv-file-select multiple="" uploader="uploader">
-                        <table class="upload-table" ng-hide="!uploader.queue.length">
+                        <input type="file" nv-file-select multiple="" uploader="filesUploader">
+                        <table class="upload-table" ng-hide="!filesUploader.queue.length">
                            <thead>
                               <tr>
                                  <th>№</th>
@@ -182,7 +186,7 @@
                               </tr>
                            </thead>
                            <tbody>
-                              <tr ng-repeat="item in uploader.queue">
+                              <tr ng-repeat="item in filesUploader.queue">
                                  <td>{{$index+1}}</td>
                                  <td ng-bind="item.file.name"></td>
                                  <td ng-bind="item.file.size"></td>

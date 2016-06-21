@@ -27,6 +27,12 @@ namespace BaseOfTalents.WebUI.Controllers
 
         }
 
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            return this.Get(new CandidateSearchModel());
+        }
+
         // GET api/<controller>
         [HttpPost]
         [Route("search")]

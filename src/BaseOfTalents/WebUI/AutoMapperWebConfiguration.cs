@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using Domain.DTO.DTOModels;
-using System.Collections.Generic;
-using Domain.DTO.DTOModels.SetupDTO;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using BaseOfTalents.WebUI.Models;
-using Domain.Entities;
 using DAL.DTO;
-using Domain.Entities.Enum.Setup;
 using DAL.DTO.SetupDTO;
+using Domain.DTO.DTOModels;
+using Domain.DTO.DTOModels.SetupDTO;
+using Domain.Entities;
+using Domain.Entities.Enum.Setup;
+using System.Collections.Generic;
 
 namespace WebApi
 {
@@ -23,7 +23,6 @@ namespace WebApi
 
                 x.CreateMap<Comment, CommentDTO>();
                 x.CreateMap<CommentDTO, Comment>();
-
 
                 x.CreateMap<Photo, PhotoDTO>();
                 x.CreateMap<PhotoDTO, Photo>();
@@ -125,7 +124,7 @@ namespace WebApi
                         .ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Role>, IEnumerable<int>>(src.Roles)));
 
                 x.CreateMap<User, UserDTO>()
-                   .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<PhotoDTO>(src.Photo)))
+                   .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<Photo, PhotoDTO>(src.Photo)))
                    .ForMember(dest => dest.PhoneNumbers, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<PhoneNumberDTO>>(src.PhoneNumbers)));
 
                 x.CreateMap<Candidate, CandidateDTO>()
@@ -150,7 +149,7 @@ namespace WebApi
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
 
                 x.CreateMap<RelocationPlace, RelocationPlaceDTO>()
-                   .ForMember(dest => dest.LocationIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<City>, IEnumerable<int>>(src.Cities)));
+                   .ForMember(dest => dest.CityIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<City>, IEnumerable<int>>(src.Cities)));
 
                 x.CreateMap<VacancyDTO, VacancySearchModel>()
                    .ForMember(dest => dest.State, opt => opt.MapFrom(src => (int)src.State));

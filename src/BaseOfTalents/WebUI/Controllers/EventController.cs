@@ -36,14 +36,16 @@ namespace BaseOfTalents.WebUI.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            return BadRequest("You should specify search parameters");
+            ModelState.AddModelError("Search", "Go to /search and specify search parameters");
+            return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+
         }
 
         [HttpPost]
         [Route("search")]
         public IHttpActionResult Get([FromBody]EventSearchParameteres searchParams)
         {
-            if(!searchParams.EndDate.HasValue && searchParams.StartDate.Day!=1)
+            if (!searchParams.EndDate.HasValue && searchParams.StartDate.Day != 1)
             {
                 ModelState.AddModelError("Get month events", "if you want to get all of the events for a month endDate must me NULL, startDate.day must be 1");
             }
@@ -51,28 +53,18 @@ namespace BaseOfTalents.WebUI.Controllers
             {
                 return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
             }
-
-            var clearedStartDate = new DateTime(searchParams.StartDate.Year, searchParams.StartDate.Month, searchParams.StartDate.Day, 1, 1 ,1);
-            var clearedEndDate = searchParams.EndDate.HasValue ? new DateTime(searchParams.EndDate.Value.Year, searchParams.EndDate.Value.Month, searchParams.EndDate.Value.Day, 23, 59, 59) : searchParams.EndDate;
-
-            var foundedEvents = service.Get(searchParams.UserIds, clearedStartDate, clearedEndDate);
-            if (foundedEvents.Any())
-            {
-                return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
-            }
-            return Ok(new List<EventDTO>());
+            
+            var foundedEvents = service.Get(searchParams.UserIds, searchParams.StartDate, searchParams.EndDate);
+            return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
         }
+            return Ok(new List<EventDTO>());
 
         [HttpGet]
         [Route("candidate/{candidateId:int}")]
         public IHttpActionResult Get(int candidateid)
         {
             var foundedEvents = service.GetByCandidateId(candidateid);
-            if (foundedEvents.Any())
-            {
-                return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
-            }
-            return Ok("No events for specifed candidate: " + candidateid);
+            return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
         }
 
         // POST api/<controller>

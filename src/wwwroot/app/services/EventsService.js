@@ -35,10 +35,7 @@ export default class EventsService {
    }
 
    save(entity) {
-      this._convertIdsToInt(entity);
-      each(EVENT_PROP_FRONT, (prop) => {
-         delete entity[prop];
-      });
+      this._convertToServerFormat(entity);
       if (entity.id) {
          return _HttpService.put(`${EVENT_URL}/${entity.id}`, entity).then(this._convertIdsToString);
       } else {
@@ -53,6 +50,14 @@ export default class EventsService {
          _LoggerService.debug(_$translate.instant('ERRORS.EVENT_REMOVE_ERROR'), entity);
          return _$q.reject();
       }
+   }
+
+   _convertToServerFormat(event) {
+      this._convertIdsToInt(event);
+      each(EVENT_PROP_FRONT, (prop) => {
+         delete event[prop];
+      });
+      event.eventDate = utils.formatDateToServer(event.eventDate);
    }
 
    _convertFromServerFormat(event) {

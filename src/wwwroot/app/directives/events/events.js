@@ -76,8 +76,8 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
       ];
       UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
    }
+
    function showEditEventDialog(currentEvent) {
-//      vm.event = event;
       let scope = {
          type         : 'form-only',
          responsibles : vm.responsibles,

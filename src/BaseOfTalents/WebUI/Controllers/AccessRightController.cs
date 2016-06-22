@@ -5,9 +5,9 @@ using System.Web.Http;
 namespace WebApi.Controllers
 {
     [RoutePrefix("api/AccessRight")]
-    public class AccessRightController : BaseEnumController<AccessRights>
+    public class AccessRightController : BaseEnumController<AccessRight>
     {
-        public AccessRightController(BaseEnumService<AccessRights> service) : base(service)
+        public AccessRightController(BaseEnumService<AccessRight> service) : base(service)
         {
 
         }

@@ -43,7 +43,7 @@ namespace WebApi
                 .InstancePerRequest();
 
             builder.RegisterType<AccessRightService>()
-                 .As<BaseEnumService<AccessRights>>()
+                 .As<BaseEnumService<AccessRight>>()
                  .InstancePerRequest();
 
             builder.RegisterType<CommentTypeService>()

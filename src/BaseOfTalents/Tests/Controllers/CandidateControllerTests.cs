@@ -15,7 +15,8 @@ using System.Web.Http.Results;
 
 namespace Tests.Controllers
 {
-    public class CandidateControllerTests : BaseTest
+    [TestFixture(Category = "Candidate updating(adding)")]
+    public partial class CandidateControllerTests : BaseTest
     {
         CandidateController controller;
 
@@ -25,6 +26,9 @@ namespace Tests.Controllers
             System.Diagnostics.Debug.WriteLine("candidates init");
 
             context = GenerateNewContext();
+
+            context.Tags.AddRange(DummyData.Tags);
+            context.SaveChanges();
 
             context.LanguageSkills.AddRange(DummyData.LanguageSkills);
             context.SaveChanges();
@@ -59,28 +63,126 @@ namespace Tests.Controllers
             context = null;
         }
 
-        /*[Test]
-        public void OnUpdatingCandidateControllerShouldAddFiles()
+
+        [Test]
+        public void ShouldAddSources()
         {
             var httpResult = controller.Get(1);
             var response = httpResult as JsonResult<CandidateDTO>;
             var candidate = response.Content;
 
-            var newFile = new FileDTO { FilePath = "server/path", Size = 12345 };
+            var newCandidateSource = new CandidateSourceDTO
+            {
+                Path = "candidate social path",
+                Source = Source.Vkontakte
+            };
 
-            var newFiles = candidate.Files.ToList();
-            newFiles.Add(newFile);
-            candidate.Files = newFiles;
+            var sources = candidate.Sources.ToList();
+            sources.Add(newCandidateSource);
+            candidate.Sources = sources;
 
             var newHttpResult = controller.Put(candidate.Id, candidate);
             var newResponse = newHttpResult as JsonResult<CandidateDTO>;
             var newCandidate = newResponse.Content;
 
-            Assert.IsTrue(newCandidate.Files.Any(x => x.FilePath == "server/path" && x.Size == 12345));
-        }*/
+            Assert.IsTrue(newCandidate.Sources.Any(x => x.Path == "candidate social path" && x.Source == Source.Vkontakte));
+        }
 
         [Test]
-        public void OnUpdatingCandidateControllerShouldAddComments()
+        public void ShouldAddPhoneNumbers()
+        {
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<CandidateDTO>;
+            var candidate = response.Content;
+
+            var newPhoneNumber = new PhoneNumberDTO { Number = "+380930986252" };
+            var phoneNumbers = candidate.PhoneNumbers.ToList();
+            phoneNumbers.Add(newPhoneNumber);
+            candidate.PhoneNumbers = phoneNumbers;
+
+            var newHttpResult = controller.Put(candidate.Id, candidate);
+            var newResponse = newHttpResult as JsonResult<CandidateDTO>;
+            var newCandidate = newResponse.Content;
+
+            Assert.IsTrue(newCandidate.PhoneNumbers.Any(x => x.Number == "+380930986252"));
+        }
+
+        [Test]
+        public void ShouldAddVacancyProgress()
+        {
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<CandidateDTO>;
+            var candidate = response.Content;
+
+            context.Vacancies.Add(DummyData.Vacancies.GetRandom());
+            context.SaveChanges();
+
+            context.Stages.AddRange(DummyData.Stages);
+            context.SaveChanges();
+
+            int vacancyId = context.Vacancies.First().Id;
+
+            var newVacancyProgress = new VacancyStageInfoDTO
+            {
+                CandidateId = 1,
+                VacancyId = vacancyId,
+                VacancyStage = new VacancyStageDTO
+                {
+                    IsCommentRequired = false,
+                    Order = 1,
+                    StageId = 1
+                }
+            };
+
+            var vacanciesProgress = candidate.VacanciesProgress.ToList();
+            vacanciesProgress.Add(newVacancyProgress);
+            candidate.VacanciesProgress = vacanciesProgress;
+
+            var newHttpResult = controller.Put(candidate.Id, candidate);
+            var newResponse = newHttpResult as JsonResult<CandidateDTO>;
+            var newCandidate = newResponse.Content;
+
+            Assert.IsTrue(newCandidate.VacanciesProgress.Any(x => x.VacancyId == vacancyId && x.CandidateId == 1 && x.VacancyStage.StageId == 1 && x.VacancyStage.IsCommentRequired == false));
+        }
+
+        [Test]
+        public void ShouldAddTag()
+        {
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<CandidateDTO>;
+            var candidate = response.Content;
+
+            var newTagId = 1;
+
+            candidate.TagIds = new List<int>() { newTagId };
+
+            var newHttpResult = controller.Put(candidate.Id, candidate);
+            var newResponse = newHttpResult as JsonResult<CandidateDTO>;
+            var newCandidate = newResponse.Content;
+
+            Assert.IsTrue(newCandidate.TagIds.Any(x => x == newTagId));
+        }
+
+        [Test]
+        public void ShouldAddSkills()
+        {
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<CandidateDTO>;
+            var candidate = response.Content;
+
+            var newSkillId = 1;
+
+            candidate.SkillIds = new List<int>() { newSkillId };
+
+            var newHttpResult = controller.Put(candidate.Id, candidate);
+            var newResponse = newHttpResult as JsonResult<CandidateDTO>;
+            var newCandidate = newResponse.Content;
+
+            Assert.IsTrue(newCandidate.SkillIds.Any(x => x == newSkillId));
+        }
+
+        [Test]
+        public void ShouldAddComments()
         {
             var httpResult = controller.Get(1);
             var response = httpResult as JsonResult<CandidateDTO>;
@@ -100,7 +202,7 @@ namespace Tests.Controllers
         }
 
         [Test]
-        public void OnUpdatingCandidateControllerShouldAddEvents()
+        public void ShouldAddEvents()
         {
             var httpResult = controller.Get(1);
             var response = httpResult as JsonResult<CandidateDTO>;

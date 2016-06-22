@@ -17,11 +17,6 @@ namespace Tests.Controllers
     {
         UserController controller;
 
-        public UserControllerTests()
-        {
-            //System.Diagnostics.Debugger.Launch();
-        }
-
         [SetUp]
         public void Init()
         {
@@ -48,7 +43,7 @@ namespace Tests.Controllers
 
         }
 
-        [Test(Description = "UserControllerOnPostShouldPerformNewUserSaving")]
+        [Test]
         public void OnPostControllerShouldAddUser()
         {
             System.Diagnostics.Debug.WriteLine("User adding");

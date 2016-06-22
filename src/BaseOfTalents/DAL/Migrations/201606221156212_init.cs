@@ -407,7 +407,7 @@ namespace BaseOfTalents.DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        LanguageLevel = c.Int(nullable: false),
+                        LanguageLevel = c.Int(),
                         LanguageId = c.Int(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),

@@ -1,20 +1,13 @@
-﻿using NUnit.Framework;
+﻿using BaseOfTalents.DAL;
+using BaseOfTalents.DAL.Infrastructure;
+using BaseOfTalents.Domain.Entities.Enum.Setup;
+using DAL.Services;
+using Domain.DTO.DTOModels.SetupDTO;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using DAL.Services;
-using BaseOfTalents.DAL;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using EntityFramework.MoqHelper;
-using Moq;
-using BaseOfTalents.DAL.Infrastructure;
-using Domain.DTO.DTOModels.SetupDTO;
 using System.Web.Http.Results;
-using Tests;
-using System.IO;
 using WebApi.Controllers;
-using System.Web.Http;
-using BaseOfTalents.WebUI;
-using System;
 
 namespace Tests.Controller
 {
@@ -27,8 +20,12 @@ namespace Tests.Controller
         public void Init()
         {
             System.Diagnostics.Debug.WriteLine("SetUp");
+
+            context = GenerateNewContext();
+
             context.Industries.AddRange(industries);
             context.SaveChanges();
+
             IUnitOfWork uow = new UnitOfWork(context);
             IndustryService service = new IndustryService(uow);
 
@@ -39,6 +36,8 @@ namespace Tests.Controller
         public void TearDown()
         {
             controller = null;
+            context.Database.Delete();
+            context = null;
         }
 
         [Test]
@@ -51,7 +50,6 @@ namespace Tests.Controller
 
             Assert.IsNotNull(response);
             Assert.AreEqual(3, collection.Count());
-
         }
 
         [Test]
@@ -70,7 +68,7 @@ namespace Tests.Controller
 
         }
 
-        List<Industry>  industries = new List<Industry> {
+        List<Industry> industries = new List<Industry> {
                         new Industry {Id = 1, Title = "IT"},
                         new Industry {Id = 2,Title = "Accounting"},
                         new Industry {Id = 3,Title = "Administration"}};

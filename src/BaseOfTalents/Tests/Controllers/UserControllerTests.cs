@@ -26,8 +26,12 @@ namespace Tests.Controllers
         public void Init()
         {
             System.Diagnostics.Debug.WriteLine("User init");
+
+            context = GenerateNewContext();
+
             context.Users.AddRange(users);
             context.SaveChanges();
+
             IUnitOfWork uow = new UnitOfWork(context);
             UserService service = new UserService(uow);
 
@@ -38,8 +42,10 @@ namespace Tests.Controllers
         public void TearDown()
         {
             System.Diagnostics.Debug.WriteLine("User teardown");
-
+            context.Database.Delete();
             controller = null;
+            context = null;
+
         }
 
         [Test(Description = "UserControllerOnPostShouldPerformNewUserSaving")]

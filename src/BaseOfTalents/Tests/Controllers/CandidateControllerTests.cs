@@ -6,10 +6,12 @@ using BaseOfTalents.Domain.Entities.Enum;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using BaseOfTalents.WebUI.Controllers;
 using DAL.Services;
+using Domain.DTO.DTOModels;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http.Results;
 
 namespace Tests.Controllers
 {
@@ -22,17 +24,24 @@ namespace Tests.Controllers
         {
             System.Diagnostics.Debug.WriteLine("candidates init");
 
-            //Debugger.Launch();
+            context = GenerateNewContext();
+
             context.LanguageSkills.AddRange(DummyData.LanguageSkills);
             context.SaveChanges();
 
-            context.Candidates.AddRange(candidates);
+            context.Cities.AddRange(DummyData.Cities);
+            context.SaveChanges();
+
+            context.Industries.AddRange(DummyData.Industries);
             context.SaveChanges();
 
             context.EventTypes.AddRange(DummyData.EventTypes);
             context.SaveChanges();
 
             context.Users.AddRange(DummyData.Users);
+            context.SaveChanges();
+
+            context.Candidates.AddRange(candidates);
             context.SaveChanges();
 
             IUnitOfWork uow = new UnitOfWork(context);
@@ -46,10 +55,52 @@ namespace Tests.Controllers
         {
             System.Diagnostics.Debug.WriteLine("candidates teardown");
             controller = null;
+            context.Database.Delete();
+            context = null;
         }
 
         /*[Test]
-        public void OnUpdatingCandidateControllerShouldUpdateEvents()
+        public void OnUpdatingCandidateControllerShouldAddFiles()
+        {
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<CandidateDTO>;
+            var candidate = response.Content;
+
+            var newFile = new FileDTO { FilePath = "server/path", Size = 12345 };
+
+            var newFiles = candidate.Files.ToList();
+            newFiles.Add(newFile);
+            candidate.Files = newFiles;
+
+            var newHttpResult = controller.Put(candidate.Id, candidate);
+            var newResponse = newHttpResult as JsonResult<CandidateDTO>;
+            var newCandidate = newResponse.Content;
+
+            Assert.IsTrue(newCandidate.Files.Any(x => x.FilePath == "server/path" && x.Size == 12345));
+        }*/
+
+        [Test]
+        public void OnUpdatingCandidateControllerShouldAddComments()
+        {
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<CandidateDTO>;
+            var candidate = response.Content;
+
+            var newComment = new CommentDTO { Message = "Message" };
+
+            var newCommentsList = candidate.Comments.ToList();
+            newCommentsList.Add(newComment);
+            candidate.Comments = newCommentsList;
+
+            var newHttpResult = controller.Put(candidate.Id, candidate);
+            var newResponse = newHttpResult as JsonResult<CandidateDTO>;
+            var newCandidate = newResponse.Content;
+
+            Assert.IsTrue(newCandidate.Comments.Any(x => x.Message == "Message"));
+        }
+
+        [Test]
+        public void OnUpdatingCandidateControllerShouldAddEvents()
         {
             var httpResult = controller.Get(1);
             var response = httpResult as JsonResult<CandidateDTO>;
@@ -67,7 +118,7 @@ namespace Tests.Controllers
             Assert.AreEqual(newCandidate.Events.First().ResponsibleId, respId);
             Assert.AreEqual(newCandidate.Events.First().CandidateId, 1);
             Assert.AreEqual(newCandidate.Events.First().Description, eventDescr);
-        }*/
+        }
 
         List<Candidate> candidates = new List<Candidate>
         {

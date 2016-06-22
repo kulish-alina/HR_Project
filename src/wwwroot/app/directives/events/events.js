@@ -1,6 +1,6 @@
 import {
-   set,
-   clone
+   clone,
+   set
 } from 'lodash';
 import template from './events.directive.html';
 import './events.scss';
@@ -38,6 +38,7 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
    vm.vacancy             = {};
    vm.vacancy.current     = 0;
    vm.vacancy.size        = 20;
+   vm.getEvents           = getEvents;
 
    function _init() {
       VacancyService.search(vm.vacancy).then(data => set(vm, 'vacancies', data.vacancies));
@@ -52,30 +53,38 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
       vm.save(vm.event);
    }
 
+   function getEvents(date) {
+      vm.getEventsByDate(date).then((e) => {
+         set(vm, 'currentEvents', e);
+      });
+   }
+
    function showAddEventDialog() {
       vm.event = {};
-      let defaultDate = new Date();
-      vm.getEventsByDate(defaultDate).then((e) => set(vm, 'currentEvents', e));
-      let scope = {
-         type         : 'list-with-input',
-         responsibles : vm.responsibles,
-         eventTypes   : vm.eventTypes,
-         vacancies    : vm.vacancies,
-         candidates   : vm.candidates,
-         events       : vm.currentEvents,
-         event        : vm.event
-      };
-      let buttons = [
-         {
-            name: $translate.instant('COMMON.CANCEL')
-         },
-         {
-            name: $translate.instant('COMMON.APLY'),
-            func: vm.saveEvent,
-            needValidate: true
-         }
-      ];
-      UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
+      vm.getEventsByDate(new Date()).then((e) => {
+         set(vm, 'currentEvents', e);
+         let scope = {
+            type         : 'list-with-input',
+            responsibles : vm.responsibles,
+            eventTypes   : vm.eventTypes,
+            vacancies    : vm.vacancies,
+            candidates   : vm.candidates,
+            events       : vm.currentEvents,
+            event        : vm.event,
+            getEvents    : vm.getEvents
+         };
+         let buttons = [
+            {
+               name: $translate.instant('COMMON.CANCEL')
+            },
+            {
+               name: $translate.instant('COMMON.APLY'),
+               func: vm.saveEvent,
+               needValidate: true
+            }
+         ];
+         UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
+      });
    }
 
    function showEditEventDialog(currentEvent) {

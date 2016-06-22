@@ -25,13 +25,13 @@ function array2map(arr, it) {
 function formatDateToServer(entityDate) {
    if (entityDate) {
       let date = new Date(entityDate);
-      return date;
+      return new Date(date.valueOf() - date.getTimezoneOffset() * 60000);
    }
 }
 
 function formatDateFromServer(entityDate) {
    if (entityDate) {
       let date = new Date(entityDate);
-      return date;
+      return new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
    }
 }

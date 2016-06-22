@@ -104,6 +104,7 @@
     <Compile Include="Extensions\PhoneNumberExtension.cs" />
     <Compile Include="Extensions\PhotoExtensions.cs" />
     <Compile Include="Extensions\RelocationPlaceExstensions.cs" />
+    <Compile Include="Extensions\RoleExtension.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Extensions\VacancyExtension.cs" />
     <Compile Include="Extensions\VacancyStageInfoExtension.cs" />

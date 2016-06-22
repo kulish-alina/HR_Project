@@ -8,6 +8,7 @@ using Domain.DTO.DTOModels;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http.Results;
 
 namespace Tests.Controllers
@@ -18,7 +19,7 @@ namespace Tests.Controllers
 
         public UserControllerTests()
         {
-            System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
         }
 
         [SetUp]
@@ -79,7 +80,6 @@ namespace Tests.Controllers
         {
             System.Diagnostics.Debug.WriteLine("User returned");
 
-
             var httpresult = controller.Get(1);
             var response = httpresult as JsonResult<UserDTO>;
             var result = response.Content;
@@ -88,6 +88,25 @@ namespace Tests.Controllers
             Assert.AreEqual(result.Id, 1);
         }
 
+
+        [Test]
+        public void OnUpdateControllerShouldUpdateUsersPhoneNumbers()
+        {
+            System.Diagnostics.Debug.WriteLine("User phonenumbers updated");
+
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<UserDTO>;
+            var user = response.Content;
+
+            string newPhoneNumber = "+39091325322";
+            user.PhoneNumbers.First().Number = newPhoneNumber;
+
+            var newHttpResult = controller.Put(user.Id, user);
+            var newResponse = newHttpResult as JsonResult<UserDTO>;
+            var newUser = newResponse.Content;
+
+            Assert.AreEqual(newPhoneNumber, newUser.PhoneNumbers.First().Number);
+        }
 
         [Test]
         public void OnUpdateControllerShouldUpdateUsersPhoto()

@@ -361,7 +361,9 @@ namespace BaseOfTalents.DAL.Migrations
             new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "Facebook"},
             new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "VK"},
             new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "LinkedIn"},
-            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "MySpace"}
+            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "MySpace"},
+            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "Google+"}
+
         };
 
         public static readonly List<EventType> EventTypes = new List<EventType>

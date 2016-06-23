@@ -404,11 +404,21 @@ namespace BaseOfTalents.DAL.Migrations
         public static List<Role> Roles;
         public static List<Vacancy> Vacancies;
 
+        public static readonly List<Source> Sources = new List<Source>
+        {
+            new Source { Title = "LinkedIn" },
+            new Source { Title = "Vkontakte" },
+            new Source { Title = "Djinni" },
+            new Source { Title = "RabotaUa" },
+            new Source { Title = "WorkUa" },
+            new Source { Title = "HeadHunter" },
+        };
+
         public static readonly List<CandidateSource> CandidateSources = new List<CandidateSource>
         {
-            new CandidateSource {Source = Source.WorkUa, Path = "Path Work"},
-            new CandidateSource {Source = Source.Djinni, Path = "Path Jinn"},
-            new CandidateSource {Source = Source.RabotaUa, Path = "Path Rabota"}
+            new CandidateSource {Source = Sources.GetRandom(), Path = "Path to source"},
+            new CandidateSource {Source = Sources.GetRandom(), Path = "Path to source"},
+            new CandidateSource {Source = Sources.GetRandom(), Path = "Path to source"}
         };
 
         public static readonly List<Candidate> Candidates;

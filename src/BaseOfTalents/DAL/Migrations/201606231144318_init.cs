@@ -508,8 +508,8 @@ namespace BaseOfTalents.DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Source = c.Int(nullable: false),
                         Path = c.String(nullable: false),
+                        SourceId = c.Int(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -517,8 +517,23 @@ namespace BaseOfTalents.DAL.Migrations
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Source", t => t.SourceId)
                 .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
+                .Index(t => t.SourceId)
                 .Index(t => t.Candidate_Id);
+            
+            CreateTable(
+                "dbo.Source",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Note",
@@ -727,6 +742,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropForeignKey("dbo.CandidateToTag", "TagId", "dbo.Tag");
             DropForeignKey("dbo.CandidateToTag", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateSource", "Candidate_Id", "dbo.Candidate");
+            DropForeignKey("dbo.CandidateSource", "SourceId", "dbo.Source");
             DropForeignKey("dbo.CandidateSocial", "SocialNetworkId", "dbo.SocialNetwork");
             DropForeignKey("dbo.CandidateSocial", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateToSkill", "SkillId", "dbo.Skill");
@@ -814,6 +830,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.CandidateToComment", new[] { "CandidateId" });
             DropIndex("dbo.Note", new[] { "UserId" });
             DropIndex("dbo.CandidateSource", new[] { "Candidate_Id" });
+            DropIndex("dbo.CandidateSource", new[] { "SourceId" });
             DropIndex("dbo.CandidateSocial", new[] { "CandidateId" });
             DropIndex("dbo.CandidateSocial", new[] { "SocialNetworkId" });
             DropIndex("dbo.LanguageSkill", new[] { "LanguageId" });
@@ -861,6 +878,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropTable("dbo.UserToPhoneNumber");
             DropTable("dbo.CandidateToComment");
             DropTable("dbo.Note");
+            DropTable("dbo.Source");
             DropTable("dbo.CandidateSource");
             DropTable("dbo.SocialNetwork");
             DropTable("dbo.CandidateSocial");

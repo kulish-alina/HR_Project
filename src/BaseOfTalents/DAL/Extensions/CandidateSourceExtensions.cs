@@ -8,7 +8,7 @@ namespace DAL.Extensions
         public static void Update(this CandidateSource domain, CandidateSourceDTO dto)
         {
             domain.Path = dto.Path;
-            domain.Source = dto.Source;
+            domain.SourceId = dto.SourceId;
             domain.State = dto.State;
         }
     }

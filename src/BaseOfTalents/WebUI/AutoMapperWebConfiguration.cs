@@ -67,6 +67,9 @@ namespace WebApi
                 x.CreateMap<Stage, StageDTO>();
                 x.CreateMap<StageDTO, Stage>();
 
+                x.CreateMap<Source, SourceDTO>();
+                x.CreateMap<SourceDTO, Source>();
+
                 x.CreateMap<Tag, TagDTO>();
                 x.CreateMap<TagDTO, Tag>();
 

@@ -744,6 +744,19 @@ namespace BaseOfTalents.DAL.Migrations
             return candidates;
         }
 
+        public static IEnumerable<Note> Notes
+        {
+            get
+            {
+                var notes = new List<Note>();
+                foreach (var user in Users)
+                {
+                    notes.Add(new Note { Message = LoremIpsum(3, 30, 1, 10, 1), User = user });
+                }
+                return notes;
+            }
+        }
+
         public static T GetRandom<T>(this List<T> source)
         {
             return source.PickRandom(1).Single();

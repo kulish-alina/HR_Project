@@ -20,7 +20,8 @@
       "SOURCE": "Source",
       "POSITION": "Position",
       "FULL_NAME": "Full name",
-      "READY_TO_RELOCATE": "Ready to relocate"
+      "READY_TO_RELOCATE": "Ready to relocate",
+      "CANDIDATE_PROFILE": "Candidate profile"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",

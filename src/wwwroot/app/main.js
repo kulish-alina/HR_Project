@@ -42,6 +42,7 @@ import HttpCacheService    from './services/HttpCacheService';
 import UserDialogService   from './services/UserDialogService/UserDialogService';
 import FileService         from './services/FileService';
 import NoteService         from './services/NoteService';
+import LocalStorageService from './services/LocalStorageService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -93,6 +94,7 @@ angular
    .service('UserDialogService',   UserDialogService)
    .service('FileService',         FileService)
    .service('NoteService',         NoteService)
+   .service('LocalStorageService', LocalStorageService)
 
 
    .directive('thesaurus',      ThesaurusDirective.createInstance)

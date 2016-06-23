@@ -15,16 +15,16 @@ export default class UserService {
       _LoggerService    = LoggerService;
    }
 
+   getUserById(id) {
+      return this.getUsers({id}).then(first);
+   }
+
    getCurrentUser() {
       return _$q.when(currentUser);
    }
 
    setCurrentUser(user) {
       currentUser = user;
-   }
-
-   getUserById(id) {
-      return this.getUsers({id}).then(first);
    }
 
    saveUser(entity) {

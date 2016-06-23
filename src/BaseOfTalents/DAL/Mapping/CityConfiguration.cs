@@ -8,6 +8,7 @@ namespace BaseOfTalents.DAL.Mapping
         {
             Property(l => l.Title).IsRequired();
             HasRequired(l => l.Country).WithMany().HasForeignKey(l => l.CountryId);
+            HasMany(x => x.RelocationPlaces).WithOptional().HasForeignKey(x => x.CityId);
         }
     }
 }

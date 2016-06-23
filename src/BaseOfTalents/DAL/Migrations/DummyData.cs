@@ -1,13 +1,11 @@
-﻿
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using BaseOfTalents.Domain.Entities;
+﻿using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BaseOfTalents.DAL.Migrations
 {
@@ -571,9 +569,6 @@ namespace BaseOfTalents.DAL.Migrations
 
         static DummyData()
         {
-            //if (System.Diagnostics.Debugger.IsAttached == false)
-            //    System.Diagnostics.Debugger.Launch();
-
             Roles = GetRoles(42);
             Users = GetUsers(150);
             Vacancies = GetVacancies(2403);
@@ -717,7 +712,6 @@ namespace BaseOfTalents.DAL.Migrations
                     SalaryDesired = RandomNumber(300, 3000),
                     Skills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     Skype = "skyper." + GetRandomNumbers(4),
-                    //SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() {SocialNetwork = Socials.GetRandom(), Path = GetRandomString(15) } },
                     Sources = Enumerable.Repeat(CandidateSources.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     StartExperience = DateTime.Now.AddYears(-RandomNumber(0, 10)),
                     Tags = new List<Tag>(),
@@ -730,8 +724,7 @@ namespace BaseOfTalents.DAL.Migrations
                         new RelocationPlace
                         {
                             Country = Countries.GetRandom(),
-                            Cities = Enumerable.Repeat(Cities.GetRandom(),
-                            RandomNumber(0, 2)).Distinct().ToList()
+                            City = Cities.GetRandom(),
                         },
                         RandomNumber(1, 2))
                         .Distinct()
@@ -739,6 +732,19 @@ namespace BaseOfTalents.DAL.Migrations
                 candidates.Add(candidate);
             }
             return candidates;
+        }
+
+        public static IEnumerable<Note> Notes
+        {
+            get
+            {
+                var notes = new List<Note>();
+                foreach (var user in Users)
+                {
+                    notes.Add(new Note { Message = LoremIpsum(3, 30, 1, 10, 1), User = user });
+                }
+                return notes;
+            }
         }
 
         public static T GetRandom<T>(this List<T> source)

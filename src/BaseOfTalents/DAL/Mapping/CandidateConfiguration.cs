@@ -14,7 +14,12 @@ namespace BaseOfTalents.DAL.Mapping
             Property(c => c.PositionDesired).IsOptional();
             Property(c => c.IsMale).IsOptional();
 
-            HasMany(c => c.RelocationPlaces).WithRequired();
+            HasMany(c => c.RelocationPlaces).WithMany().Map(x =>
+            {
+                x.MapRightKey("RelocationPlaceId");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("CandidateToRelocationPlace");
+            });
 
             HasOptional(c => c.Currency).WithMany().HasForeignKey(c => c.CurrencyId);
 

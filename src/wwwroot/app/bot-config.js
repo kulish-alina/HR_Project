@@ -1,5 +1,4 @@
-import homeTemplate from './views/home/home.view.html';
-
+import homeTemplate             from './views/home/home.view.html';
 import candidatesTemplate       from './views/candidates/candidates.view.html';
 import candidateTemplate        from './views/candidate/candidate.view.html';
 import vacanciesTemplate        from './views/vacancies/vacancies.list.html';

@@ -60,6 +60,7 @@ namespace BaseOfTalents.DAL
         public virtual DbSet<Stage> Stages { get; set; }
         public virtual DbSet<SocialNetwork> SocialNetworks { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
+        public virtual DbSet<Note> Notes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -68,7 +69,6 @@ namespace BaseOfTalents.DAL
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Configurations.Add(new CandidateConfiguration());
-            modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
             modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
             modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
 
@@ -100,6 +100,7 @@ namespace BaseOfTalents.DAL
 
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
             modelBuilder.Configurations.Add(new PhotoConfiguration());
+            modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 

@@ -1,4 +1,4 @@
-const LIST_OF_THESAURUS = ['industry', 'level', 'location',
+const LIST_OF_THESAURUS = ['industry', 'level', 'city',
     'typeOfEmployment'];
 import {
    set,
@@ -71,9 +71,11 @@ export default function HomeController(
    }
 
    function removeNote(note) {
-      return NoteService.remove(note).then(() => {
-         remove(vm.userNotes, {id: note.id});
-         return vm.notes  = cloneDeep(vm.userNotes);
+      UserDialogService.confirm($translate.instant('DIALOG_SERVICE.NOTE_REMOVING_DIALOG')).then(() => {
+         return NoteService.remove(note).then(() => {
+            remove(vm.userNotes, {id: note.id});
+            return vm.notes  = cloneDeep(vm.userNotes);
+         });
       });
    }
 

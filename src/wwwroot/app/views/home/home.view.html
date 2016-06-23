@@ -38,7 +38,7 @@
                         <a ng-click="viewVacancy(vacancy)" ng-bind="::vacancy.title"></a>
                      </td>
                      <td ng-bind="vacancy.entityStates[0].title"></td>
-                     <td ng-bind="vacancy.locations | arrayAsString: 'title'" class="col4">
+                     <td ng-bind="vacancy.cities | arrayAsString: 'title'" class="col4">
                      </td>
                      <td ng-bind="::vacancy.responsible.lastName"></td>
                      <td ng-bind="::vacancy.createdOn"></td>

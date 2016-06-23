@@ -85,6 +85,7 @@
     <Compile Include="DTO\SetupDTO\CityDTO.cs" />
     <Compile Include="DTO\SetupDTO\SkillDTO.cs" />
     <Compile Include="DTO\SetupDTO\SocialNetworkDTO.cs" />
+    <Compile Include="DTO\SetupDTO\SourceDTO.cs" />
     <Compile Include="DTO\SetupDTO\StageDTO.cs" />
     <Compile Include="DTO\SetupDTO\TagDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Extensions\PhoneNumberExtension.cs" />
     <Compile Include="Extensions\PhotoExtensions.cs" />
     <Compile Include="Extensions\RelocationPlaceExstensions.cs" />
+    <Compile Include="Extensions\RoleExtension.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Extensions\VacancyExtension.cs" />
     <Compile Include="Extensions\VacancyStageInfoExtension.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="Infrastructure\IRoleRepository.cs" />
     <Compile Include="Infrastructure\ISkillRepository.cs" />
     <Compile Include="Infrastructure\ISocialNetworkRepository.cs" />
+    <Compile Include="Infrastructure\ISourceRepository.cs" />
     <Compile Include="Infrastructure\IStageRepository.cs" />
     <Compile Include="Infrastructure\ITagRepository.cs" />
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
@@ -161,15 +164,16 @@
     <Compile Include="Mapping\RoleConfiguration.cs" />
     <Compile Include="Mapping\SkillConfiguration.cs" />
     <Compile Include="Mapping\SocialNetworkConfiguration.cs" />
+    <Compile Include="Mapping\SourceConfiguration.cs" />
     <Compile Include="Mapping\StageConfiguration.cs" />
     <Compile Include="Mapping\TagConfiguration.cs" />
     <Compile Include="Mapping\UserConfiguration.cs" />
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201606171321140_init.cs" />
-    <Compile Include="Migrations\201606171321140_init.Designer.cs">
-      <DependentUpon>201606171321140_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606231144318_init.cs" />
+    <Compile Include="Migrations\201606231144318_init.Designer.cs">
+      <DependentUpon>201606231144318_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -198,6 +202,7 @@
     <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\SkillRepository.cs" />
     <Compile Include="Repositories\SocialNetworkRepository.cs" />
+    <Compile Include="Repositories\SourceRepository.cs" />
     <Compile Include="Repositories\StageRepository.cs" />
     <Compile Include="Repositories\TagRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
@@ -228,6 +233,7 @@
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\SkillService.cs" />
     <Compile Include="Services\SocialNetworkService.cs" />
+    <Compile Include="Services\ParsingSourceService.cs" />
     <Compile Include="Services\SourceService.cs" />
     <Compile Include="Services\StageService.cs" />
     <Compile Include="Services\TagService.cs" />
@@ -247,8 +253,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606171321140_init.resx">
-      <DependentUpon>201606171321140_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606231144318_init.resx">
+      <DependentUpon>201606231144318_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

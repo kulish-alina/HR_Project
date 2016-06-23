@@ -8,6 +8,7 @@ using Domain.DTO.DTOModels;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http.Results;
 
 namespace Tests.Controllers
@@ -16,17 +17,16 @@ namespace Tests.Controllers
     {
         UserController controller;
 
-        public UserControllerTests()
-        {
-            System.Diagnostics.Debugger.Launch();
-        }
-
         [SetUp]
         public void Init()
         {
             System.Diagnostics.Debug.WriteLine("User init");
+
+            context = GenerateNewContext();
+
             context.Users.AddRange(users);
             context.SaveChanges();
+
             IUnitOfWork uow = new UnitOfWork(context);
             UserService service = new UserService(uow);
 
@@ -37,11 +37,13 @@ namespace Tests.Controllers
         public void TearDown()
         {
             System.Diagnostics.Debug.WriteLine("User teardown");
-
+            context.Database.Delete();
             controller = null;
+            context = null;
+
         }
 
-        [Test(Description = "UserControllerOnPostShouldPerformNewUserSaving")]
+        [Test]
         public void OnPostControllerShouldAddUser()
         {
             System.Diagnostics.Debug.WriteLine("User adding");
@@ -79,7 +81,6 @@ namespace Tests.Controllers
         {
             System.Diagnostics.Debug.WriteLine("User returned");
 
-
             var httpresult = controller.Get(1);
             var response = httpresult as JsonResult<UserDTO>;
             var result = response.Content;
@@ -88,6 +89,25 @@ namespace Tests.Controllers
             Assert.AreEqual(result.Id, 1);
         }
 
+
+        [Test]
+        public void OnUpdateControllerShouldUpdateUsersPhoneNumbers()
+        {
+            System.Diagnostics.Debug.WriteLine("User phonenumbers updated");
+
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<UserDTO>;
+            var user = response.Content;
+
+            string newPhoneNumber = "+39091325322";
+            user.PhoneNumbers.First().Number = newPhoneNumber;
+
+            var newHttpResult = controller.Put(user.Id, user);
+            var newResponse = newHttpResult as JsonResult<UserDTO>;
+            var newUser = newResponse.Content;
+
+            Assert.AreEqual(newPhoneNumber, newUser.PhoneNumbers.First().Number);
+        }
 
         [Test]
         public void OnUpdateControllerShouldUpdateUsersPhoto()

@@ -6,7 +6,7 @@ namespace BaseOfTalents.DAL.Mapping
     {
         public LanguageSkillConfiguration()
         {
-            Property(ls => ls.LanguageLevel).IsRequired();
+            Property(ls => ls.LanguageLevel).IsOptional();
             HasRequired(ls => ls.Language).WithMany().HasForeignKey(ls => ls.LanguageId);
         }
     }

@@ -12,14 +12,22 @@ namespace Tests
         protected HttpConfiguration httpConf;
         protected BOTContext context;
 
+        protected BOTContext GenerateNewContext()
+        {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var connectionString = @"Data Source=" + path + @"\BoTTestData.sdf;Persist Security Info=False;";
+            return new BOTContext(connectionString);
+        }
+
+        public BaseTest()
+        {
+
+        }
+
         [OneTimeSetUp]
         public void GlobalInit()
         {
             System.Diagnostics.Debug.WriteLine("OneTimeSetUp");
-
-            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string connectionString = @"Data Source=" + path + @"\BoTTestData.sdf;Persist Security Info=False;";
-            context = new BOTContext(connectionString);
             httpConf = new HttpConfiguration();
             WebApiConfig.Register(httpConf);
         }
@@ -28,8 +36,6 @@ namespace Tests
         public void GlobalTearDown()
         {
             System.Diagnostics.Debug.WriteLine("OneTimeTearDown");
-            context.Delete();
         }
-
     }
 }

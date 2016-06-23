@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
+using BaseOfTalents.WebUI.Globals.Converters;
 using BaseOfTalents.WebUI.Models;
 using DAL.DTO;
 using DAL.DTO.SetupDTO;
@@ -66,6 +67,9 @@ namespace WebApi
                 x.CreateMap<Stage, StageDTO>();
                 x.CreateMap<StageDTO, Stage>();
 
+                x.CreateMap<Source, SourceDTO>();
+                x.CreateMap<SourceDTO, Source>();
+
                 x.CreateMap<Tag, TagDTO>();
                 x.CreateMap<TagDTO, Tag>();
 
@@ -118,7 +122,7 @@ namespace WebApi
                     .ConstructUsing(source => (source.SourceValue as City).Id);
 
                 x.CreateMap<Role, RoleDTO>()
-                        .ForMember(dest => dest.PermissionIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Permission>, IEnumerable<int>>(src.Permissions)));
+                    .ForMember(roleDto => roleDto.Permissions, opt => opt.MapFrom(src => PermissionConverter.Convert(src.Permissions)));
 
                 x.CreateMap<Permission, PermissionDTO>()
                         .ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Role>, IEnumerable<int>>(src.Roles)));
@@ -148,8 +152,8 @@ namespace WebApi
                     .ForMember(dest => dest.ChildVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ChildVacancies)))
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
 
-                x.CreateMap<RelocationPlace, RelocationPlaceDTO>()
-                   .ForMember(dest => dest.CityIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<City>, IEnumerable<int>>(src.Cities)));
+                x.CreateMap<RelocationPlace, RelocationPlaceDTO>();
+                x.CreateMap<RelocationPlaceDTO, RelocationPlace>();
 
                 x.CreateMap<VacancyDTO, VacancySearchModel>()
                    .ForMember(dest => dest.State, opt => opt.MapFrom(src => (int)src.State));

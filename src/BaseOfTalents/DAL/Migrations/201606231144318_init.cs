@@ -84,17 +84,17 @@ namespace BaseOfTalents.DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         CountryId = c.Int(nullable: false),
+                        CityId = c.Int(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
-                        Candidate_Id = c.Int(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.City", t => t.CityId)
                 .ForeignKey("dbo.Country", t => t.CountryId)
-                .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
                 .Index(t => t.CountryId)
-                .Index(t => t.Candidate_Id);
+                .Index(t => t.CityId);
             
             CreateTable(
                 "dbo.Comment",
@@ -407,7 +407,7 @@ namespace BaseOfTalents.DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        LanguageLevel = c.Int(nullable: false),
+                        LanguageLevel = c.Int(),
                         LanguageId = c.Int(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
@@ -508,8 +508,8 @@ namespace BaseOfTalents.DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Source = c.Int(nullable: false),
                         Path = c.String(nullable: false),
+                        SourceId = c.Int(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -517,8 +517,23 @@ namespace BaseOfTalents.DAL.Migrations
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Source", t => t.SourceId)
                 .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
+                .Index(t => t.SourceId)
                 .Index(t => t.Candidate_Id);
+            
+            CreateTable(
+                "dbo.Source",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Note",
@@ -535,19 +550,6 @@ namespace BaseOfTalents.DAL.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.User", t => t.UserId)
                 .Index(t => t.UserId);
-            
-            CreateTable(
-                "dbo.RelocationPlaceCity",
-                c => new
-                    {
-                        RelocationPlace_Id = c.Int(nullable: false),
-                        City_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.RelocationPlace_Id, t.City_Id })
-                .ForeignKey("dbo.RelocationPlace", t => t.RelocationPlace_Id)
-                .ForeignKey("dbo.City", t => t.City_Id)
-                .Index(t => t.RelocationPlace_Id)
-                .Index(t => t.City_Id);
             
             CreateTable(
                 "dbo.CandidateToComment",
@@ -693,6 +695,19 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.PhoneNumberId);
             
             CreateTable(
+                "dbo.CandidateToRelocationPlace",
+                c => new
+                    {
+                        CandidateId = c.Int(nullable: false),
+                        RelocationPlaceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.CandidateId, t.RelocationPlaceId })
+                .ForeignKey("dbo.Candidate", t => t.CandidateId)
+                .ForeignKey("dbo.RelocationPlace", t => t.RelocationPlaceId)
+                .Index(t => t.CandidateId)
+                .Index(t => t.RelocationPlaceId);
+            
+            CreateTable(
                 "dbo.CandidateToSkill",
                 c => new
                     {
@@ -727,11 +742,13 @@ namespace BaseOfTalents.DAL.Migrations
             DropForeignKey("dbo.CandidateToTag", "TagId", "dbo.Tag");
             DropForeignKey("dbo.CandidateToTag", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateSource", "Candidate_Id", "dbo.Candidate");
+            DropForeignKey("dbo.CandidateSource", "SourceId", "dbo.Source");
             DropForeignKey("dbo.CandidateSocial", "SocialNetworkId", "dbo.SocialNetwork");
             DropForeignKey("dbo.CandidateSocial", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateToSkill", "SkillId", "dbo.Skill");
             DropForeignKey("dbo.CandidateToSkill", "CandidateId", "dbo.Candidate");
-            DropForeignKey("dbo.RelocationPlace", "Candidate_Id", "dbo.Candidate");
+            DropForeignKey("dbo.CandidateToRelocationPlace", "RelocationPlaceId", "dbo.RelocationPlace");
+            DropForeignKey("dbo.CandidateToRelocationPlace", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Candidate", "Photo_Id", "dbo.Photo");
             DropForeignKey("dbo.CandidateToPhoneNumber", "PhoneNumberId", "dbo.PhoneNumber");
             DropForeignKey("dbo.CandidateToPhoneNumber", "CandidateId", "dbo.Candidate");
@@ -781,13 +798,14 @@ namespace BaseOfTalents.DAL.Migrations
             DropForeignKey("dbo.CandidateToComment", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Candidate", "CityId", "dbo.City");
             DropForeignKey("dbo.RelocationPlace", "CountryId", "dbo.Country");
-            DropForeignKey("dbo.RelocationPlaceCity", "City_Id", "dbo.City");
-            DropForeignKey("dbo.RelocationPlaceCity", "RelocationPlace_Id", "dbo.RelocationPlace");
+            DropForeignKey("dbo.RelocationPlace", "CityId", "dbo.City");
             DropForeignKey("dbo.City", "CountryId", "dbo.Country");
             DropIndex("dbo.CandidateToTag", new[] { "TagId" });
             DropIndex("dbo.CandidateToTag", new[] { "CandidateId" });
             DropIndex("dbo.CandidateToSkill", new[] { "SkillId" });
             DropIndex("dbo.CandidateToSkill", new[] { "CandidateId" });
+            DropIndex("dbo.CandidateToRelocationPlace", new[] { "RelocationPlaceId" });
+            DropIndex("dbo.CandidateToRelocationPlace", new[] { "CandidateId" });
             DropIndex("dbo.CandidateToPhoneNumber", new[] { "PhoneNumberId" });
             DropIndex("dbo.CandidateToPhoneNumber", new[] { "CandidateId" });
             DropIndex("dbo.CandidateToLanguageSkill", new[] { "LanguageSkillId" });
@@ -810,10 +828,9 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.UserToPhoneNumber", new[] { "UserId" });
             DropIndex("dbo.CandidateToComment", new[] { "CommentId" });
             DropIndex("dbo.CandidateToComment", new[] { "CandidateId" });
-            DropIndex("dbo.RelocationPlaceCity", new[] { "City_Id" });
-            DropIndex("dbo.RelocationPlaceCity", new[] { "RelocationPlace_Id" });
             DropIndex("dbo.Note", new[] { "UserId" });
             DropIndex("dbo.CandidateSource", new[] { "Candidate_Id" });
+            DropIndex("dbo.CandidateSource", new[] { "SourceId" });
             DropIndex("dbo.CandidateSocial", new[] { "CandidateId" });
             DropIndex("dbo.CandidateSocial", new[] { "SocialNetworkId" });
             DropIndex("dbo.LanguageSkill", new[] { "LanguageId" });
@@ -838,7 +855,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.Event", new[] { "VacancyId" });
             DropIndex("dbo.Event", new[] { "EventTypeId" });
             DropIndex("dbo.Event", new[] { "ResponsibleId" });
-            DropIndex("dbo.RelocationPlace", new[] { "Candidate_Id" });
+            DropIndex("dbo.RelocationPlace", new[] { "CityId" });
             DropIndex("dbo.RelocationPlace", new[] { "CountryId" });
             DropIndex("dbo.City", new[] { "CountryId" });
             DropIndex("dbo.Candidate", new[] { "Photo_Id" });
@@ -848,6 +865,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.Candidate", new[] { "CurrencyId" });
             DropTable("dbo.CandidateToTag");
             DropTable("dbo.CandidateToSkill");
+            DropTable("dbo.CandidateToRelocationPlace");
             DropTable("dbo.CandidateToPhoneNumber");
             DropTable("dbo.CandidateToLanguageSkill");
             DropTable("dbo.VacancyToTag");
@@ -859,8 +877,8 @@ namespace BaseOfTalents.DAL.Migrations
             DropTable("dbo.PermissionRole");
             DropTable("dbo.UserToPhoneNumber");
             DropTable("dbo.CandidateToComment");
-            DropTable("dbo.RelocationPlaceCity");
             DropTable("dbo.Note");
+            DropTable("dbo.Source");
             DropTable("dbo.CandidateSource");
             DropTable("dbo.SocialNetwork");
             DropTable("dbo.CandidateSocial");

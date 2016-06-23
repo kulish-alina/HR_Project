@@ -45,7 +45,7 @@
       "PROCESSING": "Processing",
       "CLOSED": "Closed",
       "CANCELLED": "Canceled",
-      "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy"
+      "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy?"
    },
    "VACANCIES": {
       "VACANCIES": "Vacancies",
@@ -186,7 +186,8 @@
       "someErrorMsg" : "Sorry! Some error occurred: ",
       "thesaurusErrors" : {
          "incorrectNameMsg" : "Thesaurus name is incorrect."
-      }
+      },
+      "NOTE_REMOVE_ERROR": "Cannot remove new note"
    },
    "SETTINGS" : {
       "SETTINGS": "Settings",
@@ -219,7 +220,9 @@
       "SUCCESSFUL_SAVING": "Vacancy was successfully saved!",
       "ERROR_SAVING": "Some error has occurred while saving vacancy!",
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
-      "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!"
+      "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
+      "SUCCESSFUL_REMOVING_COMMENT": "Comment was successfully removed!",
+      "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?"
    },
 
    "MEMBERS" : {

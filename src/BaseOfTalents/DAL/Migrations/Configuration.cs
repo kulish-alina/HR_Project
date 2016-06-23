@@ -65,7 +65,13 @@ namespace BaseOfTalents.DAL.Migrations
             context.Users.AddRange(DummyData.Users);
             context.SaveChanges();
 
+            context.Notes.AddRange(DummyData.Notes);
+            context.SaveChanges();
+
             context.Vacancies.AddRange(DummyData.Vacancies);
+            context.SaveChanges();
+
+            context.Sources.AddRange(DummyData.Sources);
             context.SaveChanges();
 
             context.CandidateSources.AddRange(DummyData.CandidateSources);
@@ -76,6 +82,7 @@ namespace BaseOfTalents.DAL.Migrations
 
             context.Events.AddRange(DummyData.Events);
             context.SaveChanges();
+
         }
     }
 }

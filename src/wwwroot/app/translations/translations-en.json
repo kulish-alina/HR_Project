@@ -21,7 +21,8 @@
       "POSITION": "Position",
       "FULL_NAME": "Full name",
       "READY_TO_RELOCATE": "Ready to relocate",
-      "CANDIDATE_PROFILE": "Candidate profile"
+      "CANDIDATE_PROFILE": "Candidate profile",
+      "CANDIDATE_RESUME": "Candidate's resume"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
@@ -46,7 +47,8 @@
       "PROCESSING": "Processing",
       "CLOSED": "Closed",
       "CANCELLED": "Canceled",
-      "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy?"
+      "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy?",
+      "VACANCY": "Vacancy"
    },
    "VACANCIES": {
       "VACANCIES": "Vacancies",
@@ -121,6 +123,7 @@
       "DATE": "Date",
       "STAGE" : "Stage",
       "CLEAR" : "Clear",
+      "FILES" : "Files",
       "ADDED_FILES" : "Added files",
       "FILES_TO_UPLOAD" : "Files to upload",
       "SHOW_ALL_ACTIONS" : "Show all actions",
@@ -128,7 +131,8 @@
       "NEW" : "New",
       "FROM_BOT" : "From BOT",
       "FROM" : "from",
-      "TO" : "to"
+      "TO" : "to",
+      "ATTACH" : "Attach"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

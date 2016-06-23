@@ -51,6 +51,7 @@ import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 import CommentsDirective      from './directives/comments/comments';
 import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
+import CandidateInfoDirective from './directives/candidate-info/candidate-info';
 
 import uiMask from 'angular-ui-mask';
 
@@ -103,6 +104,7 @@ angular
    .directive('comments',       CommentsDirective.createInstance)
    .directive('mainMenu',       MainMenuDirective.createInstance)
    .directive('sideMenu',       SideMenuDirective.createInstance)
+   .directive('candidateInfo',  CandidateInfoDirective.createInstance)
 
    .filter('tel',               PhoneFormatFilter)
    .filter('arrayAsString',     ArrayAsString)

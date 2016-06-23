@@ -193,6 +193,25 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.Photo_Id);
             
             CreateTable(
+                "dbo.Note",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Message = c.String(),
+                        UserId = c.Int(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        User_Id = c.Int(),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.User", t => t.UserId)
+                .ForeignKey("dbo.User", t => t.User_Id)
+                .Index(t => t.UserId)
+                .Index(t => t.User_Id);
+            
+            CreateTable(
                 "dbo.PhoneNumber",
                 c => new
                     {
@@ -536,22 +555,6 @@ namespace BaseOfTalents.DAL.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.Note",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Message = c.String(),
-                        UserId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.User", t => t.UserId)
-                .Index(t => t.UserId);
-            
-            CreateTable(
                 "dbo.CandidateToComment",
                 c => new
                     {
@@ -737,7 +740,6 @@ namespace BaseOfTalents.DAL.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Note", "UserId", "dbo.User");
             DropForeignKey("dbo.VacancyStageInfo", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateToTag", "TagId", "dbo.Tag");
             DropForeignKey("dbo.CandidateToTag", "CandidateId", "dbo.Candidate");
@@ -791,6 +793,8 @@ namespace BaseOfTalents.DAL.Migrations
             DropForeignKey("dbo.User", "Photo_Id", "dbo.Photo");
             DropForeignKey("dbo.UserToPhoneNumber", "PhoneNumberId", "dbo.PhoneNumber");
             DropForeignKey("dbo.UserToPhoneNumber", "UserId", "dbo.User");
+            DropForeignKey("dbo.Note", "User_Id", "dbo.User");
+            DropForeignKey("dbo.Note", "UserId", "dbo.User");
             DropForeignKey("dbo.User", "CityId", "dbo.City");
             DropForeignKey("dbo.Event", "EventTypeId", "dbo.EventType");
             DropForeignKey("dbo.Candidate", "CurrencyId", "dbo.Currency");
@@ -828,7 +832,6 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.UserToPhoneNumber", new[] { "UserId" });
             DropIndex("dbo.CandidateToComment", new[] { "CommentId" });
             DropIndex("dbo.CandidateToComment", new[] { "CandidateId" });
-            DropIndex("dbo.Note", new[] { "UserId" });
             DropIndex("dbo.CandidateSource", new[] { "Candidate_Id" });
             DropIndex("dbo.CandidateSource", new[] { "SourceId" });
             DropIndex("dbo.CandidateSocial", new[] { "CandidateId" });
@@ -848,6 +851,8 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.Vacancy", new[] { "DepartmentId" });
             DropIndex("dbo.Vacancy", new[] { "IndustryId" });
             DropIndex("dbo.Vacancy", new[] { "ParentVacancyId" });
+            DropIndex("dbo.Note", new[] { "User_Id" });
+            DropIndex("dbo.Note", new[] { "UserId" });
             DropIndex("dbo.User", new[] { "Photo_Id" });
             DropIndex("dbo.User", new[] { "CityId" });
             DropIndex("dbo.User", new[] { "RoleId" });
@@ -877,7 +882,6 @@ namespace BaseOfTalents.DAL.Migrations
             DropTable("dbo.PermissionRole");
             DropTable("dbo.UserToPhoneNumber");
             DropTable("dbo.CandidateToComment");
-            DropTable("dbo.Note");
             DropTable("dbo.Source");
             DropTable("dbo.CandidateSource");
             DropTable("dbo.SocialNetwork");
@@ -899,6 +903,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropTable("dbo.Role");
             DropTable("dbo.Photo");
             DropTable("dbo.PhoneNumber");
+            DropTable("dbo.Note");
             DropTable("dbo.User");
             DropTable("dbo.EventType");
             DropTable("dbo.Event");

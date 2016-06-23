@@ -1,0 +1,17 @@
+<div class="secondary-menu grid-block">
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5 ng-bind="::'CANDIDATE.CANDIDATE_PROFILE' | translate"></h5>
+      </div>
+   </div>
+   <div class="large-7 grid-block">
+   </div>
+   <div class="large-3 grid-block align-right">
+      <ul class="menu-bar second-button-bar">
+         <li><a ng-click="edit()" ng-bind="::'COMMON.EDIT' | translate"></a>
+         </li>
+         <li ng-if="isChanged"><a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
+         </li>
+      </ul>
+   </div>
+</div>

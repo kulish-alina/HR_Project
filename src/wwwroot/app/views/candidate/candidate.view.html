@@ -41,7 +41,7 @@
                            </li>
                         </ul>
                         <div class="grid-block">
-                           <oi-select ng-model="candidate.languageSkills"
+                           <oi-select ng-model="candidate.convertedLanguageSkills"
                               oi-options="{languageId: language.language.id, languageLevel: language.languageLevel.id} as language.language.title+' '+language.languageLevel.title 
                               group by language.language.title for language in languages" multiple>
                            </oi-select>
@@ -94,11 +94,11 @@
                               ng-model='candidate.experienceMonthes'>
                            </div>
                         </div>
-                        <input id="relocateAgreement" type="checkbox" ng-model="candidate.relocateAgreement">
+                        <input id="relocationAgreement" type="checkbox" ng-model="candidate.relocationAgreement">
                         <label for="relocateAgreement" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate"></label>
-                        <div class="grid-block" ng-if="candidate.relocateAgreement">
-                           <oi-select ng-model="candidate.relocationPlaces"
-                              oi-options="{countryId: location.country.id, cityIds: location.city.id} 
+                        <div class="grid-block" ng-if="candidate.relocationAgreement">
+                           <oi-select ng-model="candidate.convertedRelocationPlaces"
+                              oi-options="{countryId: location.country.id, cityIds: location.city.id}
                               as location.city.title || location.country.title 
                               group by location.country.title for location in locations" multiple></oi-select>
                         </div>
@@ -130,8 +130,8 @@
                            </div>
                         </div>                
                         <phones class="add-phone-number" ng-model="candidate.phoneNumbers"></phones>
-                        <input ng-model="candidate.eMail" name="e-mail" type="text" placeholder="E-mail">
-                        <input type="text" placeholder="Skype">
+                        <input ng-model="candidate.email" name="e-mail" type="text" placeholder="E-mail">
+                        <input type="text" placeholder="Skype" ng-model=candidate.skype>
                         <input type='text' placeholder="Source">
                      </fieldset>
                   </div>
@@ -140,7 +140,7 @@
                <div class="grid-block">
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <input type="url" placeholder="Facebook">
+                        <input type="url" placeholder="Facebook" >
                         <input type="url" placeholder="LinkedIn">
                      </fieldset>
                   </div>

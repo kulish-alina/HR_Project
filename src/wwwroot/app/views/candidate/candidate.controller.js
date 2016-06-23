@@ -1,7 +1,7 @@
 import { set, forEach, remove } from 'lodash';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
-    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency'];
+    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork'];
 
 export default function CandidateController(
    $element,
@@ -97,7 +97,9 @@ export default function CandidateController(
       forEach(thesauruses.country, country => {
          vm.locations.push({country});
          forEach(thesauruses.city, city => {
-            vm.locations.push({country, city});
+            if (city.countryId === country.id) {
+               vm.locations.push({country, city});
+            }
          });
       });
       return thesauruses;

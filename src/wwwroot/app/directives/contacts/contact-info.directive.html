@@ -11,7 +11,7 @@
       <div ng-if="entity.skype" class="skype-div"><a href="skype:{{entity.skype}}?chat"><i class="fi-social-skype"></i>  <span ng-bind="{{entity.skype}}"></span></a></div>
       <div ng-if="entity.email"><a href="mailto:{{entity.email}}"><i class="fi-mail"></i>  <span ng-bind="{{entity.email}}"></span></a></div>
       <div ng-if="entity.socialNetworks" class="contacts-socials">
-         <img ng-repeat="social in entitty.socialNetworks" ng-href="social.path" ng-src="{{social.imagePath}}">
+         <img ng-repeat="social in entitty.socialNetworks" ng-href="social.path" ng-src="{{social.imagePath | botUrl}}">
       </div>
    </div>
 </div>

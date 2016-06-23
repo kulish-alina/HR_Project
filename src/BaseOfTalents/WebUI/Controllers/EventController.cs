@@ -5,6 +5,8 @@ using DAL.Services;
 using Domain.DTO.DTOModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
@@ -34,23 +36,34 @@ namespace BaseOfTalents.WebUI.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            return BadRequest("You should specify search parameters");
+            ModelState.AddModelError("Search", "Go to /search and specify search parameters");
+            return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+
         }
 
         [HttpPost]
         [Route("search")]
         public IHttpActionResult Get([FromBody]EventSearchParameteres searchParams)
         {
+            if (!searchParams.EndDate.HasValue && searchParams.StartDate.Day != 1)
+            {
+                ModelState.AddModelError("Get month events", "if you want to get all of the events for a month endDate must me NULL, startDate.day must be 1");
+            }
             if (!ModelState.IsValid)
             {
                 return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
             }
-            var foundedEvents = service.Get(searchParams.UserIds, searchParams.Month, searchParams.Year);
-            if (foundedEvents.Any())
-            {
-                return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
-            }
-            return BadRequest();
+            
+            var foundedEvents = service.Get(searchParams.UserIds, searchParams.StartDate, searchParams.EndDate);
+            return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
+        }
+
+        [HttpGet]
+        [Route("candidate/{candidateId:int}")]
+        public IHttpActionResult Get(int candidateid)
+        {
+            var foundedEvents = service.GetByCandidateId(candidateid);
+            return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
         }
 
         // POST api/<controller>

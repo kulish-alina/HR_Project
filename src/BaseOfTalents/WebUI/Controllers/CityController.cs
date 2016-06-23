@@ -5,10 +5,10 @@ using System.Web.Http;
 
 namespace WebApi.Controllers
 {
-    [RoutePrefix("api/Location")]
-    public class LocationController : BaseController<Location, LocationDTO>
+    [RoutePrefix("api/city")]
+    public class CityController : BaseController<City, CityDTO>
     {
-        public LocationController(BaseService<Location, LocationDTO> service)
+        public CityController(BaseService<City, CityDTO> service)
             : base(service)
         {
         }

@@ -1,9 +1,8 @@
 ﻿using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
-using DAL.Extensions;
-using DAL.Services;
 using Domain.DTO.DTOModels;
+using Domain.Entities;
 using System;
 using System.Linq;
 
@@ -13,25 +12,26 @@ namespace DAL.Extensions
     {
         public static void Update(this Candidate destination, CandidateDTO source, IUnitOfWork uow)
         {
-            destination.State               = source.State;
-            destination.FirstName           = source.FirstName;
-            destination.MiddleName          = source.MiddleName;
-            destination.LastName            = source.LastName;
-            destination.IsMale              = source.IsMale;
-            destination.BirthDate           = source.BirthDate;
-            destination.Email               = source.Email;
-            destination.Skype               = source.Skype;
-            destination.PositionDesired     = source.PositionDesired;
-            destination.SalaryDesired       = source.SalaryDesired;
-            destination.TypeOfEmployment    = source.TypeOfEmployment;
-            destination.StartExperience     = source.StartExperience;
-            destination.Practice            = source.Practice;
-            destination.Description         = source.Description;
-            destination.LocationId          = source.LocationId;
+            destination.State = source.State;
+            destination.FirstName = source.FirstName;
+            destination.MiddleName = source.MiddleName;
+            destination.LastName = source.LastName;
+            destination.IsMale = source.IsMale;
+            destination.BirthDate = source.BirthDate;
+            destination.Email = source.Email;
+            destination.Skype = source.Skype;
+            destination.PositionDesired = source.PositionDesired;
+            destination.SalaryDesired = source.SalaryDesired;
+            destination.TypeOfEmployment = source.TypeOfEmployment;
+            destination.StartExperience = source.StartExperience;
+            destination.Practice = source.Practice;
+            destination.Description = source.Description;
+            destination.CityId = source.CityId;
             destination.RelocationAgreement = source.RelocationAgreement;
-            destination.Education           = source.Education;
-            destination.IndustryId          = source.IndustryId;
+            destination.Education = source.Education;
+            destination.IndustryId = source.IndustryId;
 
+            PerformRelocationPlacesSaving(destination, source, uow.CityRepo);
             PerformSocialSaving(destination, source, uow.CandidateSocialRepo);
             PerformLanguageSkillsSaving(destination, source, uow.LanguageSkillRepo);
             PerformSourcesSaving(destination, source, uow.CandidateSourceRepo);
@@ -43,6 +43,40 @@ namespace DAL.Extensions
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
             PerformEventsSaving(destination, source, uow.EventRepo);
+        }
+
+        private static void PerformRelocationPlacesSaving(Candidate destination, CandidateDTO source, IRepository<City> locationRepo)
+        {
+            CreateNewRelocationPlaces(destination, source, locationRepo);
+            RefreshExistingRelocationPlaces(destination, source, locationRepo);
+        }
+        private static void CreateNewRelocationPlaces(Candidate destination, CandidateDTO source, IRepository<City> locationRepo)
+        {
+            source.RelocationPlaces.Where(x => x.IsNew()).ToList().ForEach(newRelocationPlace =>
+            {
+                var toDomain = new RelocationPlace();
+                toDomain.Update(newRelocationPlace, locationRepo);
+                destination.RelocationPlaces.Add(toDomain);
+            });
+        }
+        private static void RefreshExistingRelocationPlaces(Candidate destination, CandidateDTO source, IRepository<City> locationRepo)
+        {
+            source.RelocationPlaces.Where(x => !x.IsNew()).ToList().ForEach(updatedRelocationPlace =>
+            {
+                var domainRL = destination.RelocationPlaces.ToList().FirstOrDefault(x => x.Id == updatedRelocationPlace.Id);
+                if (domainRL == null)
+                {
+                    throw new ArgumentNullException("Request contains unknown entity");
+                }
+                if (updatedRelocationPlace.ShouldBeRemoved())
+                {
+                    destination.RelocationPlaces.Remove(domainRL);
+                }
+                else
+                {
+                    domainRL.Update(updatedRelocationPlace, locationRepo);
+                }
+            });
         }
 
         private static void PerformFilesSaving(Candidate destination, CandidateDTO source, IRepository<File> fileRepository)
@@ -150,7 +184,7 @@ namespace DAL.Extensions
         }
         private static void CreateNewVacanciesProgress(Candidate destination, CandidateDTO source)
         {
-            source.VacanciesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo => 
+            source.VacanciesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo =>
             {
                 var toDomain = new VacancyStageInfo();
                 toDomain.Update(newVacancyStageInfo);
@@ -191,7 +225,7 @@ namespace DAL.Extensions
         }
         private static void CreateNewSources(Candidate destination, CandidateDTO source)
         {
-            source.Sources.Where(x => x.IsNew()).ToList().ForEach(newSource=> 
+            source.Sources.Where(x => x.IsNew()).ToList().ForEach(newSource =>
             {
                 var toDomain = new CandidateSource();
                 toDomain.Update(newSource);

@@ -27,8 +27,8 @@ namespace BaseOfTalents.Domain.Entities
 
         public virtual Photo Photo { get; set; }
 
-        public int LocationId { get; set; }
-        public virtual Location Location { get; set; }
+        public int CityId { get; set; }
+        public virtual City City { get; set; }
 
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public virtual ICollection<Note> Notes { get; set; }

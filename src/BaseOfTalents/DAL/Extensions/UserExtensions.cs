@@ -1,5 +1,6 @@
 ﻿using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.Domain.Entities;
+using DAL.Services;
 using Domain.DTO.DTOModels;
 using System;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace DAL.Extensions
             destination.Login = source.Login;
             destination.Password = source.Password;
             destination.RoleId = source.RoleId;
-            destination.LocationId = source.LocationId;
+            destination.CityId = source.CityId;
 
             PerformPhotoSaving(destination, source, uow.PhotoRepo);
             PerformPhoneNumbersSaving(destination, source, uow.PhoneNumberRepo);
@@ -66,9 +67,8 @@ namespace DAL.Extensions
             {
                 if (source.Photo.IsNew())
                 {
-                    var photoBd = photoRepository.GetByID(source.Photo.Id);
-                    photoBd.Update(source.Photo);
-                    destination.Photo = photoBd;
+                    var newPhoto = DTOService.ToEntity<PhotoDTO, Photo>(source.Photo);
+                    destination.Photo = newPhoto;
                 }
                 else if (source.Photo.ShouldBeRemoved())
                 {

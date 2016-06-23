@@ -1,10 +1,7 @@
 ﻿using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace BaseOfTalents.DAL.Repositories
 {
@@ -12,6 +9,32 @@ namespace BaseOfTalents.DAL.Repositories
     {
         public VacancyRepository(DbContext context) : base(context)
         {
+
+        }
+
+        public override void Delete(Vacancy entityToDelete)
+        {
+            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+
+            entityToDelete.Files.ToList().ForEach(f => context.DeleteEntity(f));
+            entityToDelete.Comments.ToList().ForEach(c => context.DeleteEntity(c));
+            entityToDelete.CandidatesProgress.ToList().ForEach(vsi => context.DeleteEntity(vsi));
+            entityToDelete.ChildVacancies.ToList().ForEach(cv => Delete(cv));
+
+            dbSet.Remove(entityToDelete);
+        }
+    }
+
+    public static class RepositoryExtensions
+    {
+        public static void DeleteEntity<TEntity>(this DbContext context, TEntity entity)
+            where TEntity : BaseEntity, new()
+        {
+            context.Set<TEntity>().Attach(entity);
+            context.Set<TEntity>().Remove(entity);
         }
     }
 }

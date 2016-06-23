@@ -3,6 +3,7 @@ using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using DAL.Mapping;
 using Domain.Entities;
+using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -26,7 +27,15 @@ namespace BaseOfTalents.DAL
             AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
         }
 
+        public BOTContext(string connectionString) : base(connectionString)
+        {
+            AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
+        }
+
         public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<RelocationPlace> RelocationPlace { get; set; }
+        public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
@@ -46,12 +55,11 @@ namespace BaseOfTalents.DAL
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<Vacancy> Vacancies { get; set; }
-        public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Stage> Stages { get; set; }
         public virtual DbSet<SocialNetwork> SocialNetworks { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
-        public virtual DbSet<Note> Notes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -60,6 +68,7 @@ namespace BaseOfTalents.DAL
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Configurations.Add(new CandidateConfiguration());
+            modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
             modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
             modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
 
@@ -79,7 +88,7 @@ namespace BaseOfTalents.DAL
             modelBuilder.Configurations.Add(new DepartmentGroupConfiguration());
             modelBuilder.Configurations.Add(new TagConfiguration());
             modelBuilder.Configurations.Add(new StageConfiguration());
-            modelBuilder.Configurations.Add(new LocationConfiguration());
+            modelBuilder.Configurations.Add(new CityConfiguration());
             modelBuilder.Configurations.Add(new LanguageSkillConfiguration());
             modelBuilder.Configurations.Add(new EventTypeConfiguration());
             modelBuilder.Configurations.Add(new PermissionConfiguration());
@@ -95,6 +104,11 @@ namespace BaseOfTalents.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public bool Delete()
+        {
+            return Database.Delete();
         }
 
         public override int SaveChanges()

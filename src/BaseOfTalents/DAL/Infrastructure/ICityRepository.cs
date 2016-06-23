@@ -2,7 +2,7 @@
 
 namespace BaseOfTalents.DAL.Infrastructure
 {
-    public interface ILocationRepository : IRepository<Location>
+    public interface ICityRepository : IRepository<City>
     {
     }
 }

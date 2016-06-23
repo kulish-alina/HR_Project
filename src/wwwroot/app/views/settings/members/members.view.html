@@ -1,16 +1,18 @@
 <div class="main-card">
-   <div class="card-section">
-      <div class="grid-block">
-         <zf-accordion class="medium-12" auto-open="false">
-            <zf-accordion-item ng-repeat="group in users" title="{{roles[group[0].roleId].title + ':' +group.length}}" ng-click="selectGroup(group[0].roleId)">
-               <ul class="members-tab">
-                  <li ng-repeat="user in currentGroup">
-                     <h5 ng-bind="::user.login"></h5>
-                     <h6>{{user.firstName + ' '+ user.lastName}}</h6>
-                  </li>
-               </ul>
-            </zf-accordion-item>
-         </zf-accordion>
-      </div>
+   <div class="grid-block">
+      <zf-accordion class="medium-12" collapsible="true">
+         <zf-accordion-item ng-repeat="role in roles" title="{{role.title + ':' +(users[role.id].length||0)}}" ng-click="selectGroup(role.id)" style="position: relative; ">
+            <a class="invite-member" ng-click="showInvite(role)"><i class="fi-torsos"> {{'MEMBERS.INVITE'|translate}}</i></a>
+            <ul class="members-tab">
+               <li ng-repeat="user in currentGroup">
+                  <h5 ng-bind="::user.login"></h5>
+                  <a class="button" ng-click="removeUser(user)">×</a>
+                  <h6>{{user.firstName + ' '+ user.lastName}}</h6>
+                  <select ng-model="role" ng-options="role.title for role in roles" ng-change="changeRole(user, role)">
+                  </select>
+               </li>
+            </ul>
+         </zf-accordion-item>
+      </zf-accordion>
    </div>
 </div>

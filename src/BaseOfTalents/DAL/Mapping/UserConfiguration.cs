@@ -17,16 +17,16 @@ namespace BaseOfTalents.DAL.Mapping
             Property(u => u.Password).IsRequired();
 
             HasRequired(u => u.Role).WithMany().HasForeignKey(u => u.RoleId);
-            HasRequired(u => u.Location).WithMany().HasForeignKey(u => u.LocationId);
+            HasRequired(u => u.City).WithMany().HasForeignKey(u => u.CityId);
 
             HasMany(u => u.PhoneNumbers).WithMany().Map(x =>
             {
-                x.MapRightKey("PhoneNumber_Id");
-                x.MapLeftKey("User_Id");
-                x.ToTable("UserPhoneNumber");
+                x.MapRightKey("PhoneNumberId");
+                x.MapLeftKey("UserId");
+                x.ToTable("UserToPhoneNumber");
             });
 
-            HasOptional(u => u.Photo).WithOptionalDependent();
+            HasOptional(u => u.Photo);
         }
     }
 }

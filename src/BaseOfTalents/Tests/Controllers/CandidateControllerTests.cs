@@ -27,6 +27,9 @@ namespace Tests.Controllers
 
             context = GenerateNewContext();
 
+            context.Sources.AddRange(DummyData.Sources);
+            context.SaveChanges();
+
             context.Tags.AddRange(DummyData.Tags);
             context.SaveChanges();
 
@@ -70,9 +73,6 @@ namespace Tests.Controllers
             var httpResult = controller.Get(1);
             var response = httpResult as JsonResult<CandidateDTO>;
             var candidate = response.Content;
-
-            context.Sources.AddRange(DummyData.Sources);
-            context.SaveChanges();
 
             int source = context.Sources.First().Id;
 

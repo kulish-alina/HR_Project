@@ -69,7 +69,6 @@ namespace BaseOfTalents.DAL
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Configurations.Add(new CandidateConfiguration());
-            modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
             modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
             modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
 
@@ -101,6 +100,7 @@ namespace BaseOfTalents.DAL
 
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
             modelBuilder.Configurations.Add(new PhotoConfiguration());
+            modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 

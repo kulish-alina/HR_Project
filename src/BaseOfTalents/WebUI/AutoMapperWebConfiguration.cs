@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using BaseOfTalents.WebUI.Globals.Converters;
@@ -10,6 +9,7 @@ using Domain.DTO.DTOModels;
 using Domain.DTO.DTOModels.SetupDTO;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
+using System.Collections.Generic;
 
 namespace WebApi
 {
@@ -149,8 +149,8 @@ namespace WebApi
                     .ForMember(dest => dest.ChildVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ChildVacancies)))
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
 
-                x.CreateMap<RelocationPlace, RelocationPlaceDTO>()
-                   .ForMember(dest => dest.CityIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<City>, IEnumerable<int>>(src.Cities)));
+                x.CreateMap<RelocationPlace, RelocationPlaceDTO>();
+                x.CreateMap<RelocationPlaceDTO, RelocationPlace>();
 
                 x.CreateMap<VacancyDTO, VacancySearchModel>()
                    .ForMember(dest => dest.State, opt => opt.MapFrom(src => (int)src.State));

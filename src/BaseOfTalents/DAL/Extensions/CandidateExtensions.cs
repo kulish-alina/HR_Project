@@ -1,6 +1,8 @@
 ﻿using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
+using DAL.DTO;
+using DAL.Services;
 using Domain.DTO.DTOModels;
 using Domain.Entities;
 using System;
@@ -54,8 +56,7 @@ namespace DAL.Extensions
         {
             source.RelocationPlaces.Where(x => x.IsNew()).ToList().ForEach(newRelocationPlace =>
             {
-                var toDomain = new RelocationPlace();
-                toDomain.Update(newRelocationPlace, locationRepo);
+                var toDomain = DTOService.ToEntity<RelocationPlaceDTO, RelocationPlace>(newRelocationPlace);
                 destination.RelocationPlaces.Add(toDomain);
             });
         }
@@ -74,7 +75,7 @@ namespace DAL.Extensions
                 }
                 else
                 {
-                    domainRL.Update(updatedRelocationPlace, locationRepo);
+                    domainRL.Update(updatedRelocationPlace);
                 }
             });
         }

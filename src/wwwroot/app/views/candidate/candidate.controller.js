@@ -28,6 +28,7 @@ export default function CandidateController(
    vm.candidate.files      = vm.candidate.files || [];
    vm.candidate.phoneNumbers   = vm.candidate.phoneNumbers || [ {} ];;
    vm.candidate.languageSkills = vm.candidate.languageSkills || [];
+   vm.candidate.convertedSocials = vm.candidate.convertedSocials || [];
 
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
@@ -51,7 +52,8 @@ export default function CandidateController(
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(data => vm.thesaurus = data)
          .then(_initLanguages)
-         .then(_initLocations);
+         .then(_initLocations)
+         .then(() => _addEmptySocials());
    }
 
    function _createUploaders() {
@@ -77,9 +79,14 @@ export default function CandidateController(
    function saveCandidate(form) {
       if (ValidationService.validate(form)) {
          _deleteEmptyPhoneNumber();
+         _removeEmptySocials();
          CandidateService.saveCandidate(vm.candidate)
             .then(entity => {
                set(vm, 'candidate', entity);
+               vm.candidate.phoneNumbers = entity.phoneNumbers || [];
+               vm.candidate.phoneNumbers.push({});
+               _addEmptySocials();
+               return entity;
             })
             .catch(_onError);
       }
@@ -105,5 +112,19 @@ export default function CandidateController(
          });
       });
       return thesauruses;
+   }
+
+   function _addEmptySocials() {
+      forEach(vm.thesaurus.socialNetwork, social => {
+         let candidateSocial = find(vm.candidate.socialNetworks,
+            _candidateSocial => _candidateSocial.socialNetworkId === social.id);
+         if (!candidateSocial) {
+            vm.candidate.convertedSocials.push({socialNetwork : social});
+         }
+      });
+   }
+
+   function _removeEmptySocials() {
+      remove(vm.candidate.convertedSocials, social => !social.path);
    }
 }

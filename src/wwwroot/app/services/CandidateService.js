@@ -135,11 +135,14 @@ function _convertSocialToClient(candidate) {
 }
 
 function _convertSocialToBackend(candidate) {
+   console.log(candidate.socialNetworks);
+   console.log(candidate.convertedSocials);
    let changedSocials = unionWith(
-      candidate.socialNetworks,
+      candidate.socialNetworks || [],
       map(candidate.convertedSocials, social => {
          return {
-            socialNetworkId  : social.socialNetwork.id
+            socialNetworkId  : social.socialNetwork.id,
+            path             : social.path
          };
       }),
       isEquelSocials);
@@ -150,7 +153,7 @@ function _convertSocialToBackend(candidate) {
       isEquelSocials);
 
    forEach(deletedSocials, social => social.state = deletedState);
-   candidate.SocialNetworks = changedSocials;
+   candidate.socialNetworks = changedSocials;
    delete candidate.convertedSocials;
    return candidate;
 }
@@ -188,7 +191,7 @@ function isEquelRelocationPlaces(relocationPlace1, relocationPlace2) {
 }
 
 function isEquelSocials(social1, social2) {
-   return social1.socialNetwork.id === social2.socialNetwork.id;
+   return social1.socialNetworkId === social2.socialNetworkId;
 }
 
 function _getLanguageSkillObgect(sourceLanguageSkill) {
@@ -214,7 +217,7 @@ function _getRelocationPlaceObgect(sourceRelocationPlace) {
 }
 
 function _getCandidateSocialObject(socialSource) {
-   let convertedSocial = {};
+   let convertedSocial = {path: socialSource.path};
    _ThesaurusService.getThesaurusTopic('socialNetwork', socialSource.socialNetworkId)
       .then(social => {
          let copySocialSource = {};

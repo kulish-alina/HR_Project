@@ -1,4 +1,4 @@
-const FILES_URL = 'file/';
+const FILE_URL = 'file/';
 let _HttpService;
 let _FileUploader;
 
@@ -31,7 +31,10 @@ export default class FileService {
    }
 
    remove(file) {
-      const additionalUrl = FILES_URL + file.id;
-      return _HttpService.remove(additionalUrl, file);
+      return _HttpService.remove(`${FILE_URL}/${file.id}`, file);
+   }
+
+   removeGroup(fileIds) {
+      return _HttpService.post(`${FILE_URL}/removeGroup`, fileIds);
    }
 }

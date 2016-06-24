@@ -22,7 +22,9 @@
       "FULL_NAME": "Full name",
       "READY_TO_RELOCATE": "Ready to relocate",
       "CANDIDATE_PROFILE": "Candidate profile",
-      "CANDIDATE_RESUME": "Candidate's resume"
+      "CANDIDATE_RESUME": "Candidate's resume",
+      "AGE": "Age",
+      "EXPERIENCE": "Experience"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
@@ -226,7 +228,9 @@
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
       "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
       "SUCCESSFUL_REMOVING_COMMENT": "Comment was successfully removed!",
-      "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?"
+      "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?",
+      "SUCCESSFUL_CANDIDATE_SAVING": "Candidate was successfully saved!",
+      "ERROR_CANDIDATE_SAVING": "Some error has occurred while saving candidate!"
    },
 
    "MEMBERS" : {

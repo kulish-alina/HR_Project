@@ -5,7 +5,7 @@ export default class CandidateInfoDirective {
       this.restrict   = 'E';
       this.template   = template;
       this.scope      = {
-
+         candidate: '='
       };
       this.controller = CandidateInfoController;
    }

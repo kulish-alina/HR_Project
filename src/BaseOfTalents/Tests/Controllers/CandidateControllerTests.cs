@@ -27,6 +27,9 @@ namespace Tests.Controllers
 
             context = GenerateNewContext();
 
+            context.Sources.AddRange(DummyData.Sources);
+            context.SaveChanges();
+
             context.Tags.AddRange(DummyData.Tags);
             context.SaveChanges();
 
@@ -71,10 +74,12 @@ namespace Tests.Controllers
             var response = httpResult as JsonResult<CandidateDTO>;
             var candidate = response.Content;
 
+            int source = context.Sources.First().Id;
+
             var newCandidateSource = new CandidateSourceDTO
             {
                 Path = "candidate social path",
-                Source = Source.Vkontakte
+                SourceId = source
             };
 
             var sources = candidate.Sources.ToList();
@@ -85,7 +90,7 @@ namespace Tests.Controllers
             var newResponse = newHttpResult as JsonResult<CandidateDTO>;
             var newCandidate = newResponse.Content;
 
-            Assert.IsTrue(newCandidate.Sources.Any(x => x.Path == "candidate social path" && x.Source == Source.Vkontakte));
+            Assert.IsTrue(newCandidate.Sources.Any(x => x.Path == "candidate social path" && x.SourceId == source));
         }
 
         [Test]

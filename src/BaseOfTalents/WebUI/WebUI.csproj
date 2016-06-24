@@ -184,6 +184,7 @@
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Controllers\SocialNetworkController.cs" />
+    <Compile Include="Controllers\ParsingSourceController.cs" />
     <Compile Include="Controllers\SourceController.cs" />
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\TagController.cs" />

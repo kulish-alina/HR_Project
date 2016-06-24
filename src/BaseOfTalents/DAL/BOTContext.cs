@@ -32,6 +32,7 @@ namespace BaseOfTalents.DAL
             AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
         }
 
+        public virtual DbSet<Source> Sources { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<RelocationPlace> RelocationPlace { get; set; }
@@ -75,6 +76,7 @@ namespace BaseOfTalents.DAL
             modelBuilder.Configurations.Add(new CommentConfiguration());
             modelBuilder.Configurations.Add(new FileConfiguration());
             modelBuilder.Configurations.Add(new RoleConfiguration());
+            modelBuilder.Configurations.Add(new SourceConfiguration());
 
             modelBuilder.Configurations.Add(new VacancyConfiguration());
             modelBuilder.Configurations.Add(new VacancyStageConfiguration());

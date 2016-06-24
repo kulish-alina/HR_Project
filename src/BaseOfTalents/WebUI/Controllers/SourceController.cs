@@ -1,14 +1,22 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
+﻿using DAL.DTO.SetupDTO;
 using DAL.Services;
+using Domain.Entities.Enum.Setup;
 using System.Web.Http;
+using WebApi.Controllers;
 
-namespace WebApi.Controllers
+namespace BaseOfTalents.WebUI.Controllers
 {
     [RoutePrefix("api/Source")]
-    public class SourceController : BaseEnumController<Source>
+    public class SourceController : BaseController<Source, SourceDTO>
     {
-        public SourceController(BaseEnumService<Source> service) : base(service)
+        public SourceController(SourceService service) : base(service)
         {
+
+        }
+
+        public SourceController()
+        {
+
         }
     }
 }

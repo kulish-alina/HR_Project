@@ -43,6 +43,10 @@ namespace DAL.Services
         public IEnumerable<EventDTO> Get(IEnumerable<int> userIds, DateTime startDate, DateTime? endDate)
         {
             var domainEvents = new List<Event>();
+
+            var clearedStartDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
+            var clearedEndDate = endDate.HasValue ? new DateTime(endDate.Value.Year, endDate.Value.Month, endDate.Value.Day, 23, 59, 59) : endDate;
+
             if (IsNeededEventsForAMonth(startDate, endDate))
             {
                 domainEvents = EventsForAMonthForAUsers(userIds, startDate);
@@ -104,7 +108,8 @@ namespace DAL.Services
         {
             var filters = new List<Expression<Func<Event, bool>>>();
             filters.Add(e => e.ResponsibleId == userId);
-            filters.Add(x => x.EventDate >= startDate && x.EventDate <= endDate.Value);//.IsBetween(startDate, endDate.Value));
+            filters.Add(x => x.EventDate >= startDate && x.EventDate <= endDate.Value);
+
             return uow.EventRepo.Get(filters);
         }
         private IEnumerable<Event> EventsForAMonthForAUser(int userId, DateTime startDate)

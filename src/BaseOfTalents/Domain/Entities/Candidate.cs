@@ -21,35 +21,36 @@ namespace BaseOfTalents.Domain.Entities
             Comments = new List<Comment>();
             Sources = new List<CandidateSource>();
             RelocationPlaces = new List<RelocationPlace>();
+            Events = new List<Event>();
         }
 
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public bool IsMale { get; set; }
-        public DateTime BirthDate { get; set; }
+        public bool? IsMale { get; set; }
+        public DateTime? BirthDate { get; set; }
         public string Email { get; set; }
         public string Skype { get; set; }
         public string PositionDesired { get; set; }
-        public TypeOfEmployment TypeOfEmployment { get; set; }
-        public DateTime StartExperience { get; set; }
+        public TypeOfEmployment? TypeOfEmployment { get; set; }
+        public DateTime? StartExperience { get; set; }
         public string Practice { get; set; }
         public string Description { get; set; }
 
-        public int SalaryDesired { get; set; }
+        public int? SalaryDesired { get; set; }
         public int? CurrencyId { get; set; }
         public virtual Currency Currency { get; set; }
 
-        public bool RelocationAgreement { get; set; }
+        public bool? RelocationAgreement { get; set; }
         public virtual ICollection<RelocationPlace> RelocationPlaces { get; set; }
 
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
         public virtual City City { get; set; }
 
         public int? LevelId { get; set; }
         public virtual Level Level { get; set; }
 
-        public int? IndustryId { get; set; }
+        public int IndustryId { get; set; }
         public virtual Industry Industry { get; set; }
 
         public string Education { get; set; }

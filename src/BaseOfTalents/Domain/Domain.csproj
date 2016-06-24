@@ -62,9 +62,10 @@
     <Compile Include="Entities\Enum\Setup\Role.cs" />
     <Compile Include="Entities\Enum\Setup\Skill.cs" />
     <Compile Include="Entities\Enum\Setup\SocialNetwork.cs" />
+    <Compile Include="Entities\Enum\Setup\Source.cs" />
     <Compile Include="Entities\Enum\Setup\Stage.cs" />
     <Compile Include="Entities\Enum\Setup\Tag.cs" />
-    <Compile Include="Entities\Enum\Source.cs" />
+    <Compile Include="Entities\Enum\ParsingSource.cs" />
     <Compile Include="Entities\Enum\TypeOfEmployment.cs" />
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Entities\File.cs" />

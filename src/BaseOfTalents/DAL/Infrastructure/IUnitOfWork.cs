@@ -1,5 +1,4 @@
-﻿using BaseOfTalents.Domain.Entities;
-using DAL.Infrastructure;
+﻿using DAL.Infrastructure;
 
 namespace BaseOfTalents.DAL.Infrastructure
 {
@@ -34,6 +33,8 @@ namespace BaseOfTalents.DAL.Infrastructure
         IEventRepository EventRepo { get; }
         INoteRepository NoteRepo { get; }
         ICurrencyRepository CurrencyRepo { get; }
+        ISourceRepository SourceRepo { get; }
+
 
         void Commit();
     }

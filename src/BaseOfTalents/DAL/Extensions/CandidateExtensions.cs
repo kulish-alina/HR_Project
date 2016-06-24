@@ -1,7 +1,7 @@
 ﻿using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
-using DAL.Extensions;
+using DAL.DTO;
 using DAL.Services;
 using Domain.DTO.DTOModels;
 using Domain.Entities;
@@ -14,24 +14,24 @@ namespace DAL.Extensions
     {
         public static void Update(this Candidate destination, CandidateDTO source, IUnitOfWork uow)
         {
-            destination.State               = source.State;
-            destination.FirstName           = source.FirstName;
-            destination.MiddleName          = source.MiddleName;
-            destination.LastName            = source.LastName;
-            destination.IsMale              = source.IsMale;
-            destination.BirthDate           = source.BirthDate;
-            destination.Email               = source.Email;
-            destination.Skype               = source.Skype;
-            destination.PositionDesired     = source.PositionDesired;
-            destination.SalaryDesired       = source.SalaryDesired;
-            destination.TypeOfEmployment    = source.TypeOfEmployment;
-            destination.StartExperience     = source.StartExperience;
-            destination.Practice            = source.Practice;
-            destination.Description         = source.Description;
-            destination.CityId          = source.CityId;
+            destination.State = source.State;
+            destination.FirstName = source.FirstName;
+            destination.MiddleName = source.MiddleName;
+            destination.LastName = source.LastName;
+            destination.IsMale = source.IsMale;
+            destination.BirthDate = source.BirthDate;
+            destination.Email = source.Email;
+            destination.Skype = source.Skype;
+            destination.PositionDesired = source.PositionDesired;
+            destination.SalaryDesired = source.SalaryDesired;
+            destination.TypeOfEmployment = source.TypeOfEmployment;
+            destination.StartExperience = source.StartExperience;
+            destination.Practice = source.Practice;
+            destination.Description = source.Description;
+            destination.CityId = source.CityId;
             destination.RelocationAgreement = source.RelocationAgreement;
-            destination.Education           = source.Education;
-            destination.IndustryId          = source.IndustryId;
+            destination.Education = source.Education;
+            destination.IndustryId = source.IndustryId;
 
             PerformRelocationPlacesSaving(destination, source, uow.CityRepo);
             PerformSocialSaving(destination, source, uow.CandidateSocialRepo);
@@ -56,8 +56,7 @@ namespace DAL.Extensions
         {
             source.RelocationPlaces.Where(x => x.IsNew()).ToList().ForEach(newRelocationPlace =>
             {
-                var toDomain = new RelocationPlace();
-                toDomain.Update(newRelocationPlace, locationRepo);
+                var toDomain = DTOService.ToEntity<RelocationPlaceDTO, RelocationPlace>(newRelocationPlace);
                 destination.RelocationPlaces.Add(toDomain);
             });
         }
@@ -76,7 +75,7 @@ namespace DAL.Extensions
                 }
                 else
                 {
-                    domainRL.Update(updatedRelocationPlace, locationRepo);
+                    domainRL.Update(updatedRelocationPlace);
                 }
             });
         }
@@ -186,7 +185,7 @@ namespace DAL.Extensions
         }
         private static void CreateNewVacanciesProgress(Candidate destination, CandidateDTO source)
         {
-            source.VacanciesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo => 
+            source.VacanciesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo =>
             {
                 var toDomain = new VacancyStageInfo();
                 toDomain.Update(newVacancyStageInfo);
@@ -227,7 +226,7 @@ namespace DAL.Extensions
         }
         private static void CreateNewSources(Candidate destination, CandidateDTO source)
         {
-            source.Sources.Where(x => x.IsNew()).ToList().ForEach(newSource=> 
+            source.Sources.Where(x => x.IsNew()).ToList().ForEach(newSource =>
             {
                 var toDomain = new CandidateSource();
                 toDomain.Update(newSource);

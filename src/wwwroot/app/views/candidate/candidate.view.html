@@ -30,7 +30,7 @@
                         <input type="text" ng-model="candidate.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName">
                         <input type="text" ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" name="lastName" validator="required, maxlength=50">
                         <date datemodel="candidate.birthDate" placeholder="{{::'COMMON.DATE_OF_BIRTH' | translate}}"></date>
-                        <ul class="some-change">
+                        <ul class="some-change" ng-model='candidate.isMale'>
                            <li>
                               <input name="isMale" value="true" id="male" type="radio">
                               <label for="male" ng-bind="::'COMMON.MALE' | translate"></label>
@@ -42,7 +42,8 @@
                         </ul>
                         <div class="grid-block">
                            <oi-select ng-model="candidate.convertedLanguageSkills"
-                              oi-options="{languageId: language.language.id, languageLevel: language.languageLevel.id} as language.language.title+' '+language.languageLevel.title 
+                              oi-options="{language: language.language, languageLevel: language.languageLevel}
+                              as language.language.title+' '+language.languageLevel.title 
                               group by language.language.title for language in languages" multiple>
                            </oi-select>
                         </div>
@@ -53,12 +54,12 @@
                   <div class="medium-4 grid-block">
                      <fieldset>
                         <select name="Industry" ng-model="candidate.industryId" validator="required"
-                                ng-init="candidate.industryId=undefined" convert-to-number>
-                           <option ng-selected="true" ng-bind="::('COMMON.INDUSTRY' | translate)"></option>
-                           <option ng-repeat="industry in thesaurus.industry" value='{{industry.id}}' 
+                                ng-init="candidate.industryId=''" convert-to-number>
+                           <option ng-selected="true" value="" ng-bind="::('COMMON.INDUSTRY' | translate)"></option>
+                           <option ng-repeat="industry in thesaurus.industry" value='{{ industry.id }}' 
                                    ng-bind="::(industry.title)"></option>
                         </select>
-                        <select ng-model="candidate.level" ng-init="candidate.levelId=undefined" convert-to-number 
+                        <select ng-model="candidate.levelId" ng-init="candidate.levelId=''" convert-to-number 
                                 name="Level">
                            <option ng-selected="true" ng-bind="::'COMMON.LEVEL' | translate"></option>
                            <option ng-repeat="level in thesaurus.level" 
@@ -71,13 +72,13 @@
                            </div>
                            <div class="medium-6 grid-block">
                               <select name="Сurrency" ng-disabled="!candidate.SalaryDesired" convert-to-number
-                                      ng-model="candidate.currencyId" ng-init="candidate.currencyId=undefined">
+                                      ng-model="candidate.currencyId" ng-init="candidate.currencyId=''">
                                  <option ng-selected="true" ng-bind="Currency"></option>
                                  <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title"></option>
                               </select>
                            </div>
                         </div>
-                        <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment=undefined"
+                        <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment=''"
                                 name="TypeOfEmployment" convert-to-number >
                            <option ng-selected="true" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate)"></option>
                            <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" 
@@ -98,7 +99,7 @@
                         <label for="relocateAgreement" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate"></label>
                         <div class="grid-block" ng-if="candidate.relocationAgreement">
                            <oi-select ng-model="candidate.convertedRelocationPlaces"
-                              oi-options="{countryId: location.country.id, cityIds: location.city.id}
+                              oi-options="{country: location.country, city: location.city}
                               as location.city.title || location.country.title 
                               group by location.country.title for location in locations" multiple></oi-select>
                         </div>
@@ -134,6 +135,12 @@
                         <input type="text" placeholder="Skype" ng-model=candidate.skype>
                         <input type='text' placeholder="Source">
                      </fieldset>
+                  </div>
+               </div>
+               <hr>
+               <div class="grid-block">
+                  <div ng-repeat="social in socials">
+                     <input type="url" placeholder="{{::social.socialNetwork.title}}" ng-model="social.path">
                   </div>
                </div>
                <hr>

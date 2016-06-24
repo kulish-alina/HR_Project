@@ -78,7 +78,9 @@ export default function CandidateController(
       if (ValidationService.validate(form)) {
          _deleteEmptyPhoneNumber();
          CandidateService.saveCandidate(vm.candidate)
-            .then(entity => set(vm, 'candidate', entity))
+            .then(entity => {
+               set(vm, 'candidate', entity);
+            })
             .catch(_onError);
       }
    }

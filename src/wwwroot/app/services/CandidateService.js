@@ -9,10 +9,11 @@ import {
    curry,
    curryRight,
    set,
-   find,
-   concat,
    unionWith,
-   differenceWith
+   differenceWith,
+   isNull,
+   assign,
+   merge
 } from 'lodash';
 import utils  from '../utils.js';
 
@@ -31,6 +32,8 @@ const THESAURUSES = [
    new ThesaurusHelper('industry',          'industryId',        'industry'),
    new ThesaurusHelper('city',              'cityId',            'city'),
    new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmployment'),
+   new ThesaurusHelper('level',             'levelId',           'level'),
+   new ThesaurusHelper('currency',          'currencyId',        'currency'),
    new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials')
 ];
 
@@ -105,8 +108,9 @@ function _convertToClientFormat(candidate) {
    _convertFromServerDates(candidate);
    _addReferencedThesaurusObjects(candidate);
    _setMonthYearExperience(candidate);
-   _partitionOfRelocationCities(candidate);
+   _convertRelocationPlacesToClient(candidate);
    _convertLanguageSkillsToClient(candidate);
+   _convertSocialToClient(candidate);
    return candidate;
 }
 
@@ -115,17 +119,51 @@ function _convertToServerFormat(candidate) {
    _convertThesaurusToIds(candidate);
    _deleteReferencedThesaurusObjects(candidate);
    _setStartExperience(candidate);
-   _groupRelocationPlaces(candidate);
+   _convertRelocationPlacesToBackend(candidate);
    _convertLanguageSkillsToBackend(candidate);
+   _convertSocialToBackend(candidate);
    delete candidate.experienceYears;
    delete candidate.experienceMonthes;
+   return candidate;
+}
+
+function _convertSocialToClient(candidate) {
+   let convertedSocials = [];
+   forEach(candidate.socialNetworks, social => convertedSocials.push(_getCandidateSocialObject(social)));
+   candidate.convertedSocials = convertedSocials;
+   return candidate;
+}
+
+function _convertSocialToBackend(candidate) {
+   let changedSocials = unionWith(
+      candidate.socialNetworks,
+      map(candidate.convertedSocials, social => {
+         return {
+            socialNetworkId  : social.socialNetwork.id
+         };
+      }),
+      isEquelSocials);
+
+   let deletedSocials = differenceWith(
+      changedSocials,
+      candidate.convertedSocials,
+      isEquelSocials);
+
+   forEach(deletedSocials, social => social.state = deletedState);
+   candidate.SocialNetworks = changedSocials;
+   delete candidate.convertedSocials;
    return candidate;
 }
 
 function _convertLanguageSkillsToBackend(candidate) {
    let changedLanguageSkills = unionWith(
       candidate.languageSkills,
-      candidate.convertedLanguageSkills,
+      map(candidate.convertedLanguageSkills, skill => {
+         return {
+            languageId     : skill.language.id,
+            languageLevel  : skill.languageLevel ? skill.languageLevel.id : undefined
+         };
+      }),
       isEquelLanguageSkills);
 
    let deletedLanguageSkills = differenceWith(
@@ -139,45 +177,86 @@ function _convertLanguageSkillsToBackend(candidate) {
    return candidate;
 }
 
-function isEquelLanguageSkills(sourceLanguageSkill, changedLanguageSkill) {
-   return sourceLanguageSkill.languageId === changedLanguageSkill.languageId &&
-      sourceLanguageSkill.languageLevel === changedLanguageSkill.languageLevel;
+function isEquelLanguageSkills(languageSkill1, languageSkill2) {
+   return languageSkill1.languageId === languageSkill2.languageId &&
+      languageSkill1.languageLevel === languageSkill2.languageLevel;
+}
+
+function isEquelRelocationPlaces(relocationPlace1, relocationPlace2) {
+   return relocationPlace1.countryId === relocationPlace2.countryId &&
+      relocationPlace1.cityId === relocationPlace2.cityId;
+}
+
+function isEquelSocials(social1, social2) {
+   return social1.socialNetwork.id === social2.socialNetwork.id;
+}
+
+function _getLanguageSkillObgect(sourceLanguageSkill) {
+   let convertedLanguageSkill = {};
+   _ThesaurusService.getThesaurusTopic('language', sourceLanguageSkill.languageId)
+      .then(curriedSet(convertedLanguageSkill, 'language'));
+   _ThesaurusService.getThesaurusTopic('languageLevel', sourceLanguageSkill.languageLevel)
+      .then(level => {
+         convertedLanguageSkill.languageLevel = isNull(level) ? undefined : level;
+      });
+   return convertedLanguageSkill;
+}
+
+function _getRelocationPlaceObgect(sourceRelocationPlace) {
+   let convertedRelocationPlace = {};
+   _ThesaurusService.getThesaurusTopic('country', sourceRelocationPlace.countryId)
+      .then(curriedSet(convertedRelocationPlace, 'country'));
+   _ThesaurusService.getThesaurusTopic('city', sourceRelocationPlace.cityId)
+      .then(city => {
+         convertedRelocationPlace.city = isNull(city) ? undefined : city;
+      });
+   return convertedRelocationPlace;
+}
+
+function _getCandidateSocialObject(socialSource) {
+   let convertedSocial = {};
+   _ThesaurusService.getThesaurusTopic('socialNetwork', socialSource.socialNetworkId)
+      .then(social => {
+         let copySocialSource = {};
+         assign(copySocialSource, socialSource.socialNetwork);
+         convertedSocial.socialNetwork = merge(copySocialSource, social);
+      });
+   return convertedSocial;
 }
 
 function _convertLanguageSkillsToClient(candidate) {
-   let _languageSkills = map(candidate.languageSkills, languageSkill => {
-      return {
-         languageId     : languageSkill.languageId,
-         languageLevel  : languageSkill.languageLevel
-      };
-   });
+   let _languageSkills = [];
+   forEach(candidate.languageSkills, skill => _languageSkills.push(_getLanguageSkillObgect(skill)));
    candidate.convertedLanguageSkills = _languageSkills;
    return candidate;
 }
 
-function _groupRelocationPlaces(candidate) {
-   let relocationPlaces = reduce(candidate.convertedRelocationPlaces, (result, place) => {
-      let countryPlace = find(result, _ => _.countryId === place.countryId);
-      if (countryPlace) {
-         countryPlace.cityIds = concat(countryPlace.cityIds, place.shortForm.cityIds);
-      } else {
-         let fullPlace        = place.id ? (find(candidate.relocationPlaces, {id: place.id}) || {}) : {};
-         fullPlace.countryId  = place.shortForm.countryId;
-         fullPlace.cityIds    = concat([], place.shortForm.cityIds);
-         result.push(fullPlace);
-      }
-      return result;
-   }, []);
-   candidate.relocationPlaces = relocationPlaces;
+function _convertRelocationPlacesToBackend(candidate) {
+   let changedRelocationPlaces = unionWith(
+      candidate.relocationPlaces,
+      map(candidate.convertedRelocationPlaces, place => {
+         return {
+            countryId   : place.country.id,
+            cityId      : place.city ? place.city.id : undefined
+         };
+      }),
+      isEquelRelocationPlaces);
+
+   let deletedRelocationPlaces = differenceWith(
+      changedRelocationPlaces,
+      candidate.convertedRelocationPlaces,
+      isEquelRelocationPlaces);
+
+   forEach(deletedRelocationPlaces, place => place.state = deletedState);
+   candidate.relocationPlaces = changedRelocationPlaces;
    delete candidate.convertedRelocationPlaces;
    return candidate;
 }
 
-function _partitionOfRelocationCities(candidate) {
-   let _relocationPlaces = [];
-   forEach(candidate.relocationPlaces, place => forEach(place.cityIds, cityId =>
-      _relocationPlaces.push({ countryId : place.countryId, cityIds : cityId })));
-   set(candidate, 'convertedRelocationPlaces', _relocationPlaces);
+function _convertRelocationPlacesToClient(candidate) {
+   let convertedRelocationPlaces = [];
+   forEach(candidate.relocationPlaces, place => convertedRelocationPlaces.push(_getRelocationPlaceObgect(place)));
+   candidate.convertedRelocationPlaces = convertedRelocationPlaces;
    return candidate;
 }
 

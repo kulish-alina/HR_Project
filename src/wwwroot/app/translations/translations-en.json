@@ -20,7 +20,9 @@
       "SOURCE": "Source",
       "POSITION": "Position",
       "FULL_NAME": "Full name",
-      "READY_TO_RELOCATE": "Ready to relocate"
+      "READY_TO_RELOCATE": "Ready to relocate",
+      "CANDIDATE_AGE": "Candidate's age",
+      "EXPERIENCE": "Experience"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
@@ -33,7 +35,8 @@
       "DJINNI": "Djinni",
       "LINKEDIN": "LinkedIn",
       "WORK": "Work",
-      "HR": "Hh"
+      "HR": "Hh",
+      "TECHNOLOGY": "Technology"
    },
    "HOME": {
       "HOME": "Home"
@@ -221,7 +224,10 @@
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
       "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
       "SUCCESSFUL_REMOVING_COMMENT": "Comment was successfully removed!",
-      "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?"
+      "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?",
+      "CANDIDATE_REMOVING_DIALOG": "Do you really want to remove this candidate?",
+      "SUCCESSFUL_REMOVING_CANDIDATE": "Candidate was successfully removed!",
+      "ERROR_CANDIDATES_SEARCH": "Some error has occurred while receiving candidates from database!"
    },
 
    "MEMBERS" : {

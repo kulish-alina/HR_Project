@@ -213,7 +213,7 @@
                      </thead>
                      <tbody>
                         <tr ng-repeat="item in uploader.queue">
-                           <td>{{$index+1}}</td>
+                           <td ng-bind="$index+1"></td>
                            <td ng-bind="item.file.name"></td>
                            <td ng-bind="item.file.size"></td>
                            <td><a class="remove-item" ng-click="item.remove()"><i class="foundicon-remove general-icon"></i></a></td>

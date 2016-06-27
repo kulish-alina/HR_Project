@@ -72,7 +72,7 @@ export default function VacancyProfileController(
          vm.isChanged = false;
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
-         UserDialogService.configs($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'warning');
+         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'warning');
       };
       newUploader.onAfterAddingAll = function onAfterAddingAl() {
          vm.isChanged = true;

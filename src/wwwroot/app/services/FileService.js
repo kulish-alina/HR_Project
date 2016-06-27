@@ -1,4 +1,4 @@
-const FILE_URL = 'file/';
+const FILE_URL = 'file';
 let _HttpService;
 let _FileUploader;
 

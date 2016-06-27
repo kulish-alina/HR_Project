@@ -1,163 +1,166 @@
-<div class="secondary-menu grid-block">
-   <div class="large-2 grid-block">
-      <div class="grid-content">
-         <h5>{{::'CANDIDATES.BASE_OF_CANDIDATES' | translate}}</h5>
-      </div>
-   </div>
-   <div class="large-7 grid-block">
-   </div>
-   <div class="large-3 grid-block align-right">
-      <ul class="menu-bar second-button-bar align-right">
-         <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
-         </li>
-         <li><a href="#">{{::'COMMON.ADD_AND_BACK' | translate}}</a>
-         </li>
-      </ul>
-   </div>
-</div>
-<div class="grid-block">
-   <div class="medium-3 grid-block">
-      <div class="sidebar">
-         <div class="card-divider">
-            {{::'CANDIDATES.SEARCH_CANDIDATES' | translate}}
-         </div>
-         <div class="card-section">
-            <div class="grid-block checkbox-block">
-               <div class="large-6 grid-content source-col">
-                  <input id="all" type="checkbox">
-                  <label for="all">{{::'CANDIDATES.ALL' | translate}}</label>
-                  <br/>
-                  <input id="vk" type="checkbox">
-                  <label for="vk">{{::'CANDIDATES.VK' | translate}}</label>
-                  <br/>
-                  <input id="rabota" type="checkbox">
-                  <label for="rabota">{{::'CANDIDATES.RABOTA' | translate}}</label>
-                  <br/>
-                  <input id="djinni" type="checkbox">
-                  <label for="djinni">{{::'CANDIDATES.DJINNI' | translate}}</label>
-               </div>
-               <div class="large-6 grid-content source-col">
-                  <input id="bot" type="checkbox">
-                  <label for="bot">{{::'CANDIDATES.BOT' | translate}}</label>
-                  <br/>
-                  <input id="linledIn" type="checkbox">
-                  <label for="linledIn">{{::'CANDIDATES.LINKEDIN' | translate}}</label>
-                  <br/>
-                  <input id="work" type="checkbox">
-                  <label for="work">{{::'CANDIDATES.WORK' | translate}}</label>
-                  <br/>
-                  <input id="hr" type="checkbox">
-                  <label for="hr">{{::'CANDIDATES.HR' | translate}}</label>
-               </div>
-            </div>
-            <input placeholder="Technology or position" type="text">
-            <input placeholder="Full name" type="text">
-            <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
-            <select name="Industry" ng-model="vacancy.industryId">
-               <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
-               <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
-            </select>
-            <ul class="some-change">
-               <li>
-                  <input name="isMale" value="true" id="male" checked="" type="radio">
-                  <label for="male">Male</label>
-               </li>
-               <li>
-                  <input name="isMale" value="false" id="female" type="radio">
-                  <label for="female">Female</label>
-               </li>
-            </ul>
-            <div class="range-slider">
-               <label>Candidate's age:</label>
-               <rzslider rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
-            </div>
-            <label>Experience</label>
-            <div class="grid-block">
-               <div class="medium-6 grid-block">
-                  <input placeholder="Years" type="number" min="0" step="1">
-               </div>
-               <div class="medium-6 grid-block">
-                  <input placeholder="Months" type="number" min="0" step="1">
-               </div>
-            </div>
-            <div class="grid-block">
-               <div class="medium-6 grid-block">
-                  <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
-               </div>
-               <div class="medium-6 grid-block">
-                  <select name="Сurrency" ng-model="candidate.currency">
-                     <option value="">UAN</option>
-                     <option value="">EUR</option>
-                     <option value="">USD</option>
-                  </select>
-               </div>
-            </div>
-            <div class="grid-block">
-               <div class="medium-6 grid-block">
-                  <select name="Language" ng-model="vacancy.LanguageSkill.LanguageId">
-                     <option selected value="">{{::'COMMON.LANGUAGE' | translate}}</option>
-                     <option ng-repeat="language in thesaurus.languages" value="{{language.id}}">{{::language.title}}</option>
-                  </select>
-               </div>
-               <div class="medium-6 grid-block">
-                  <select name="LanguageLevel" ng-model="vacancy.LanguageSkill.LanguageLevel">
-                     <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
-                     <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
-                  </select>
-               </div>
-            </div>
-            <a class="expand button" ng-click="getCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
+<div ui-view></div>
+  <div ng-hide="$state.current.data.hide">
+   <div class="secondary-menu grid-block">
+      <div class="large-2 grid-block">
+         <div class="grid-content">
+            <h5>{{::'CANDIDATES.BASE_OF_CANDIDATES' | translate}}</h5>
          </div>
       </div>
+      <div class="large-7 grid-block">
+      </div>
+      <div class="large-3 grid-block align-right">
+         <ul class="menu-bar second-button-bar align-right">
+            <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
+            </li>
+            <li><a href="#">{{::'COMMON.ADD_AND_BACK' | translate}}</a>
+            </li>
+         </ul>
+      </div>
    </div>
-   <div class="medium-9 grid-block">
-      <div class="main-card">
-         <div class="card-divider">
-            Candidates
+   <div class="grid-block">
+      <div class="medium-3 grid-block">
+         <div class="sidebar">
+            <div class="card-divider">
+               {{::'CANDIDATES.SEARCH_CANDIDATES' | translate}}
+            </div>
+            <div class="card-section">
+               <div class="grid-block checkbox-block">
+                  <div class="large-6 grid-content source-col">
+                     <input id="all" type="checkbox">
+                     <label for="all">{{::'CANDIDATES.ALL' | translate}}</label>
+                     <br/>
+                     <input id="vk" type="checkbox">
+                     <label for="vk">{{::'CANDIDATES.VK' | translate}}</label>
+                     <br/>
+                     <input id="rabota" type="checkbox">
+                     <label for="rabota">{{::'CANDIDATES.RABOTA' | translate}}</label>
+                     <br/>
+                     <input id="djinni" type="checkbox">
+                     <label for="djinni">{{::'CANDIDATES.DJINNI' | translate}}</label>
+                  </div>
+                  <div class="large-6 grid-content source-col">
+                     <input id="bot" type="checkbox">
+                     <label for="bot">{{::'CANDIDATES.BOT' | translate}}</label>
+                     <br/>
+                     <input id="linledIn" type="checkbox">
+                     <label for="linledIn">{{::'CANDIDATES.LINKEDIN' | translate}}</label>
+                     <br/>
+                     <input id="work" type="checkbox">
+                     <label for="work">{{::'CANDIDATES.WORK' | translate}}</label>
+                     <br/>
+                     <input id="hr" type="checkbox">
+                     <label for="hr">{{::'CANDIDATES.HR' | translate}}</label>
+                  </div>
+               </div>
+               <input placeholder="Technology or position" type="text">
+               <input placeholder="Full name" type="text">
+               <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.locations" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+               <select name="Industry" ng-model="vacancy.industryId">
+                  <option selected value="">{{::'COMMON.INDUSTRY' | translate}}</option>
+                  <option ng-repeat="industry in thesaurus.industries" value="{{industry.id}}">{{::industry.title}}</option>
+               </select>
+               <ul class="some-change">
+                  <li>
+                     <input name="isMale" value="true" id="male" checked="" type="radio">
+                     <label for="male">Male</label>
+                  </li>
+                  <li>
+                     <input name="isMale" value="false" id="female" type="radio">
+                     <label for="female">Female</label>
+                  </li>
+               </ul>
+               <div class="range-slider">
+                  <label>Candidate's age:</label>
+                  <rzslider rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
+               </div>
+               <label>Experience</label>
+               <div class="grid-block">
+                  <div class="medium-6 grid-block">
+                     <input placeholder="Years" type="number" min="0" step="1">
+                  </div>
+                  <div class="medium-6 grid-block">
+                     <input placeholder="Months" type="number" min="0" step="1">
+                  </div>
+               </div>
+               <div class="grid-block">
+                  <div class="medium-6 grid-block">
+                     <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
+                  </div>
+                  <div class="medium-6 grid-block">
+                     <select name="Сurrency" ng-model="candidate.currency">
+                        <option value="">UAN</option>
+                        <option value="">EUR</option>
+                        <option value="">USD</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="grid-block">
+                  <div class="medium-6 grid-block">
+                     <select name="Language" ng-model="vacancy.LanguageSkill.LanguageId">
+                        <option selected value="">{{::'COMMON.LANGUAGE' | translate}}</option>
+                        <option ng-repeat="language in thesaurus.languages" value="{{language.id}}">{{::language.title}}</option>
+                     </select>
+                  </div>
+                  <div class="medium-6 grid-block">
+                     <select name="LanguageLevel" ng-model="vacancy.LanguageSkill.LanguageLevel">
+                        <option selected value="">{{::'COMMON.LEVEL' | translate}}</option>
+                        <option ng-repeat="languageLevel in thesaurus.languageLevels" value="{{languageLevel.id}}">{{::languageLevel.title}}</option>
+                     </select>
+                  </div>
+               </div>
+               <a class="expand button" ng-click="getCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
+            </div>
          </div>
-         <div class="card-section">
-            <table>
-               <thead>
-                  <tr>
-                     <th>
-                        <input id="checkbox9" type="checkbox">
-                     </th>
-                     <th>№</th>
-                     <th>{{::'CANDIDATE.FULL_NAME' | translate}}</th>
-                     <th>{{::'COMMON.INDUSTRY' | translate}}</th>
-                     <th>{{::'CANDIDATE.SOURCE' | translate}}</th>
-                     <th>{{::'CANDIDATE.POSITION' | translate}}</th>
-                     <th>{{::'COMMON.SALARY' | translate}}</th>
-                     <th>{{::'CANDIDATE.STAGE' | translate}}</th>
-                     <th>{{::'COMMON.ADDED' | translate}}</th>
-                     <th></th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr ng-repeat="candidate in candidates">
-                     <th>
-                        <input id="checkbox9" type="checkbox">
-                     </th>
-                     <td>{{$index+1}}</td>
-                     <td>{{candidate.LastName}} {{candidate.FirstName}}{{candidate.MiddleName}}</td>
-                     <td>{{candidate.Industry}}</td>
-                     <td>{{candidate.Source}}</td>
-                     <td>{{candidate.PositionDesired}}</td>
-                     <td>{{candidate.SalaryDesired}}</td>
-                     <td>{{candidate.VacanciesProgress[0].StageInfos[0].Stage.Title}}</td>
-                     <td>{{candidate.EditTime}}</td>
-                     <td>
-                        <a ng-click="deleteCandidate(candidate)"><i class="foundicon-trash general-icon"></i>
+      </div>
+      <div class="medium-9 grid-block">
+         <div class="main-card">
+            <div class="card-divider">
+               Candidates
+            </div>
+            <div class="card-section">
+               <table>
+                  <thead>
+                     <tr>
+                        <th>
+                           <input id="checkbox9" type="checkbox">
+                        </th>
+                        <th>№</th>
+                        <th>{{::'CANDIDATE.FULL_NAME' | translate}}</th>
+                        <th>{{::'COMMON.INDUSTRY' | translate}}</th>
+                        <th>{{::'CANDIDATE.SOURCE' | translate}}</th>
+                        <th>{{::'CANDIDATE.POSITION' | translate}}</th>
+                        <th>{{::'COMMON.SALARY' | translate}}</th>
+                        <th>{{::'CANDIDATE.STAGE' | translate}}</th>
+                        <th>{{::'COMMON.ADDED' | translate}}</th>
+                        <th></th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr ng-repeat="candidate in candidates">
+                        <th>
+                           <input id="checkbox9" type="checkbox">
+                        </th>
+                        <td>{{$index+1}}</td>
+                        <td>{{candidate.LastName}} {{candidate.FirstName}}{{candidate.MiddleName}}</td>
+                        <td>{{candidate.Industry}}</td>
+                        <td>{{candidate.Source}}</td>
+                        <td>{{candidate.PositionDesired}}</td>
+                        <td>{{candidate.SalaryDesired}}</td>
+                        <td>{{candidate.VacanciesProgress[0].StageInfos[0].Stage.Title}}</td>
+                        <td>{{candidate.EditTime}}</td>
+                        <td>
+                           <a ng-click="deleteCandidate(candidate)"><i class="foundicon-trash general-icon"></i>
                         </a>
-                        <a ng-click="editCandidate(candidate)"><i class="foundicon-edit general-icon"></i>
+                           <a ng-click="editCandidate(candidate)"><i class="foundicon-edit general-icon"></i>
                         </a>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-            <div class="switch-pages">
-               <dir-pagination-controls max-size="5" boundary-links="true" template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
-               </dir-pagination-controls>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <div class="switch-pages">
+                  <dir-pagination-controls max-size="5" boundary-links="true" template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
+                  </dir-pagination-controls>
+               </div>
             </div>
          </div>
       </div>

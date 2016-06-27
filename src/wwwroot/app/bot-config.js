@@ -41,22 +41,33 @@ export default function _config(
 
    $stateProvider
       .state('home', {
-         url: '/home',
+         url: '/bot',
          template: homeTemplate,
          controller: homeController,
          params: {
             _data: null
-         }
+         },
+         data: {hideHome: false}
       })
       .state('candidates', {
          url: '/candidates',
          template: candidatesTemplate,
-         controller: candidatesController
+         controller: candidatesController,
+         data: {
+            hide: false,
+            hideHome: true
+         },
+         parent: 'home'
       })
       .state('vacancies', {
          url: '/vacancies',
          template: vacanciesTemplate,
-         controller: vacanciesController
+         controller: vacanciesController,
+         data: {
+            hide: false,
+            hideHome: true
+         },
+         parent: 'home'
       })
       .state('vacancyView', {
          url: '/vacancy/:vacancyId',
@@ -65,12 +76,16 @@ export default function _config(
          params: {
             _data: null,
             vacancyId: null
-         }
+         },
+         parent: 'vacancies',
+         data: {hide: true}
       })
       .state('candidate', {
          url: '/candidate',
          template: candidateTemplate,
-         controller: candidateController
+         controller: candidateController,
+         parent: 'candidates',
+         data: {hide: true}
       })
       .state('vacancyEdit', {
          url: '/vacancy/edit/:vacancyId',
@@ -79,13 +94,19 @@ export default function _config(
          params: {
             _data: null,
             vacancyId: null
-         }
+         },
+         parent: 'vacancies',
+         data: {hide: true}
       })
       .state('settings', {
          url: '/settings',
          template: settingsTemplate,
          controller: settingsController,
-         data: {asEdit: false}
+         data: {
+            asEdit: false,
+            hideHome: true
+         },
+         parent: 'home'
       })
       .state('profile', {
          url: '/profile',
@@ -126,7 +147,7 @@ export default function _config(
       requireBase: false
    });
 
-   $urlRouterProvider.otherwise('home');
+   $urlRouterProvider.otherwise('bot');
 
    $translateProvider
       .useSanitizeValueStrategy('sanitize')

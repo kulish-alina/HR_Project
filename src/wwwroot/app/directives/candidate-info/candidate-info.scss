@@ -1,0 +1,15 @@
+@import './../../common.scss';
+.candidate-title {
+   padding-bottom: 0;
+}
+.candidate-info {
+   padding-top: 0;
+}
+.tag {
+   padding: $rem-base/4 $rem-base $rem-base/4 0;
+}
+.candidate-contacts {
+   contacts {
+      width: 100%;
+   }
+}

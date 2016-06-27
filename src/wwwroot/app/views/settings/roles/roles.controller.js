@@ -63,7 +63,6 @@ export default function RolesController(
             _setFlag(vm.currentRoleName, value.id);
          }
       });
-      console.log('current role', vm.roles[vm.currentRoleName]);
       return RolesService.saveRole(vm.roles[vm.currentRoleName]);
    }
 

@@ -586,6 +586,7 @@ namespace BaseOfTalents.DAL.Migrations
             Events = GetEvents(100);
         }
 
+
         private static List<Event> GetEvents(int count)
         {
             var events = new List<Event>();
@@ -655,7 +656,7 @@ namespace BaseOfTalents.DAL.Migrations
             return roles;
         }
 
-        private static List<Vacancy> GetVacancies(int count)
+        public static List<Vacancy> GetVacancies(int count)
         {
             var vacancies = new List<Vacancy>();
             for (var i = 0; i < count; i++)

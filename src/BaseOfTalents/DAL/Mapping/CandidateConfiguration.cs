@@ -29,7 +29,7 @@ namespace BaseOfTalents.DAL.Mapping
 
             HasMany(x => x.Events).WithOptional(x => x.Candidate).HasForeignKey(x => x.CandidateId);
 
-            HasMany(c => c.SocialNetworks).WithRequired().HasForeignKey(x => x.CandidateId);
+            HasMany(c => c.SocialNetworks).WithRequired();
 
             HasMany(c => c.LanguageSkills).WithMany().Map(x =>
             {

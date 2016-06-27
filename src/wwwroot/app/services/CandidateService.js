@@ -12,14 +12,14 @@ import {
    unionWith,
    differenceWith,
    isNull,
-   assign,
+   get,
    merge
 } from 'lodash';
-import utils  from '../utils.js';
+import utils  from '../utils';
 
 const CANDIDATE_URL           = 'candidate/';
 const DATE_TYPE_TO_CONVERT    = [ 'birthDate' ];
-const deletedState            = 1;
+const DELETED_STATE           = 1;
 
 let _forEach   = curryRight(forEach, 2);
 let curriedSet = curry(set, 3);
@@ -66,9 +66,7 @@ export default class CandidateService {
             }
          })
          .then(_convertToClientFormat)
-         .catch(() => {
-            _convertToClientFormat(entity);
-         });
+         .catch(() => _convertToClientFormat(entity));
    }
 
    deleteCandidate(entity) {
@@ -98,7 +96,7 @@ function _saveNewThesaurusTopics(candidate) {
 function  _convertThesaurusToIds(candidate) {
    forEach(THESAURUSES, helper => {
       if (helper.needConvertForServer) {
-         candidate[helper.serverField] = map(candidate[helper.clientField], topic => topic.id);
+         candidate[helper.serverField] = map(candidate[helper.clientField], 'id');
       }
    });
    return candidate;
@@ -128,8 +126,7 @@ function _convertToServerFormat(candidate) {
 }
 
 function _convertSocialToClient(candidate) {
-   let convertedSocials = [];
-   forEach(candidate.socialNetworks, social => convertedSocials.push(_getCandidateSocialObject(social)));
+   let convertedSocials = map(candidate.socialNetworks, social => _getCandidateSocialObject(social));
    candidate.convertedSocials = convertedSocials;
    return candidate;
 }
@@ -137,20 +134,15 @@ function _convertSocialToClient(candidate) {
 function _convertSocialToBackend(candidate) {
    let changedSocials = unionWith(
       candidate.socialNetworks || [],
-      map(candidate.convertedSocials, social => {
-         return {
-            socialNetworkId  : social.socialNetwork.id,
-            path             : social.path
-         };
-      }),
-      isEquelSocials);
+      map(candidate.convertedSocials, _convertSocialFieldsToBackend),
+      isEqualSocials);
 
    let deletedSocials = differenceWith(
       changedSocials,
       candidate.convertedSocials,
-      isEquelSocials);
+      isEqualSocials);
 
-   forEach(deletedSocials, social => social.state = deletedState);
+   forEach(deletedSocials, social => social.state = DELETED_STATE);
    candidate.socialNetworks = changedSocials;
    delete candidate.convertedSocials;
    return candidate;
@@ -159,36 +151,31 @@ function _convertSocialToBackend(candidate) {
 function _convertLanguageSkillsToBackend(candidate) {
    let changedLanguageSkills = unionWith(
       candidate.languageSkills,
-      map(candidate.convertedLanguageSkills, skill => {
-         return {
-            languageId     : skill.language.id,
-            languageLevel  : skill.languageLevel ? skill.languageLevel.id : undefined
-         };
-      }),
-      isEquelLanguageSkills);
+      map(candidate.convertedLanguageSkills, _convertLanguageSkillFieldsToBackend),
+      isEqualLanguageSkills);
 
    let deletedLanguageSkills = differenceWith(
       changedLanguageSkills,
       candidate.convertedLanguageSkills,
-      isEquelLanguageSkills);
+      isEqualLanguageSkills);
 
-   forEach(deletedLanguageSkills, skill => skill.state = deletedState);
+   forEach(deletedLanguageSkills, skill => skill.state = DELETED_STATE);
    candidate.languageSkills = changedLanguageSkills;
    delete candidate.convertedLanguageSkills;
    return candidate;
 }
 
-function isEquelLanguageSkills(languageSkill1, languageSkill2) {
+function isEqualLanguageSkills(languageSkill1, languageSkill2) {
    return languageSkill1.languageId === languageSkill2.languageId &&
       languageSkill1.languageLevel === languageSkill2.languageLevel;
 }
 
-function isEquelRelocationPlaces(relocationPlace1, relocationPlace2) {
+function isEqualRelocationPlaces(relocationPlace1, relocationPlace2) {
    return relocationPlace1.countryId === relocationPlace2.countryId &&
       relocationPlace1.cityId === relocationPlace2.cityId;
 }
 
-function isEquelSocials(social1, social2) {
+function isEqualSocials(social1, social2) {
    return social1.socialNetworkId === social2.socialNetworkId;
 }
 
@@ -218,16 +205,14 @@ function _getCandidateSocialObject(socialSource) {
    let convertedSocial = {path: socialSource.path};
    _ThesaurusService.getThesaurusTopic('socialNetwork', socialSource.socialNetworkId)
       .then(social => {
-         let copySocialSource = {};
-         assign(copySocialSource, socialSource.socialNetwork);
-         convertedSocial.socialNetwork = merge(copySocialSource, social);
+         convertedSocial.socialNetwork = merge({}, socialSource.socialNetwork, social);
       });
    return convertedSocial;
 }
 
 function _convertLanguageSkillsToClient(candidate) {
    let _languageSkills = [];
-   forEach(candidate.languageSkills, skill => _languageSkills.push(_getLanguageSkillObgect(skill)));
+   forEach(candidate.languageSkills,_getLanguageSkillObgect);
    candidate.convertedLanguageSkills = _languageSkills;
    return candidate;
 }
@@ -235,20 +220,15 @@ function _convertLanguageSkillsToClient(candidate) {
 function _convertRelocationPlacesToBackend(candidate) {
    let changedRelocationPlaces = unionWith(
       candidate.relocationPlaces,
-      map(candidate.convertedRelocationPlaces, place => {
-         return {
-            countryId   : place.country.id,
-            cityId      : place.city ? place.city.id : undefined
-         };
-      }),
-      isEquelRelocationPlaces);
+      map(candidate.convertedRelocationPlaces, _convertRelocationsFieldsToBackend),
+      isEqualRelocationPlaces);
 
    let deletedRelocationPlaces = differenceWith(
       changedRelocationPlaces,
       candidate.convertedRelocationPlaces,
-      isEquelRelocationPlaces);
+      isEqualRelocationPlaces);
 
-   forEach(deletedRelocationPlaces, place => place.state = deletedState);
+   forEach(deletedRelocationPlaces, place => place.state = DELETED_STATE);
    candidate.relocationPlaces = changedRelocationPlaces;
    delete candidate.convertedRelocationPlaces;
    return candidate;
@@ -256,9 +236,30 @@ function _convertRelocationPlacesToBackend(candidate) {
 
 function _convertRelocationPlacesToClient(candidate) {
    let convertedRelocationPlaces = [];
-   forEach(candidate.relocationPlaces, place => convertedRelocationPlaces.push(_getRelocationPlaceObgect(place)));
+   forEach(candidate.relocationPlaces, _getRelocationPlaceObgect);
    candidate.convertedRelocationPlaces = convertedRelocationPlaces;
    return candidate;
+}
+
+function _convertSocialFieldsToBackend(social) {
+   return {
+      socialNetworkId  : social.socialNetwork.id,
+      path             : social.path
+   };
+}
+
+function _convertLanguageSkillFieldsToBackend(skill) {
+   return {
+      languageId     : skill.language.id,
+      languageLevel  : get(skill, 'languageLevel.id')
+   };
+}
+
+function _convertRelocationsFieldsToBackend(place) {
+   return {
+      countryId   : place.country.id,
+      cityId      : get(place, 'city.id')
+   };
 }
 
 function _addReferencedThesaurusObjects(candidate) {
@@ -298,9 +299,9 @@ function _setStartExperience(candidate) {
    if (candidate.experienceMonthes || candidate.experienceYears) {
       let nowDate                    = new Date(now());
       candidate.startExperience      = new Date(
-            nowDate.getFullYear() - candidate.experienceYears,
-            nowDate.getMonth()    - candidate.experienceMonthes
-         );
+         nowDate.getFullYear() - candidate.experienceYears,
+         nowDate.getMonth()    - candidate.experienceMonthes
+      );
    }
 }
 

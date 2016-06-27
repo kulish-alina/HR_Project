@@ -1,6 +1,6 @@
 ﻿namespace BaseOfTalents.Domain.Entities.Enum
 {
-    public enum Source
+    public enum ParsingSource
     {
         LinkedIn = 1,
         Vkontakte,

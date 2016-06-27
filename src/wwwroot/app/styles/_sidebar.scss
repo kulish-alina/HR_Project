@@ -30,7 +30,7 @@
       $padding: 0 $global-padding
    );
    ul {
-      padding: 0 $global-padding $global-padding;
+      padding: 0 $global-padding 0;
    }
    i {
       font-size: $rem-base*1.5;
@@ -38,17 +38,6 @@
    }
 }
 
-.comments {
-   font-size: $rem-base*0.8;
-   i {
-      font-size: $rem-base;
-      @include breakpoint(medium only) { 
-         font-size: $rem-base;
-      }
-      @include breakpoint(small only) { 
-         font-size: $rem-base;
-      }
-      color: $gray-dark;
    }
    i:hover {
       color: $primary-color;

@@ -44,12 +44,14 @@ import HttpCacheService    from './services/HttpCacheService';
 import UserDialogService   from './services/UserDialogService/UserDialogService';
 import FileService         from './services/FileService';
 import EventsService       from './services/EventsService';
+import NoteService         from './services/NoteService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
 import ContactInfoDirective   from './directives/contacts/contact-info';
 import PhoneInputsDirective   from './directives/phones/phone-inputs';
 import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
+import CommentsDirective      from './directives/comments/comments';
 import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
 import EventsDirective        from './directives/events/events';
@@ -96,6 +98,7 @@ angular
    .service('UserDialogService',   UserDialogService)
    .service('FileService',         FileService)
    .service('EventsService',       EventsService)
+   .service('NoteService',         NoteService)
 
 
    .directive('thesaurus',      ThesaurusDirective.createInstance)
@@ -103,6 +106,7 @@ angular
    .directive('contacts',       ContactInfoDirective.createInstance)
    .directive('phones',         PhoneInputsDirective.createInstance)
    .directive('ngThumb',        CanvasPreviewDirective)
+   .directive('comments',       CommentsDirective.createInstance)
    .directive('mainMenu',       MainMenuDirective.createInstance)
    .directive('sideMenu',       SideMenuDirective.createInstance)
    .directive('events',         EventsDirective.createInstance)

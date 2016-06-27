@@ -1,20 +1,17 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
-using System.Reflection;
-using System.Web.Http;
-using Domain.Entities;
-using Domain.DTO.DTOModels;
-using Domain.Entities.Enum;
-using Domain.Entities.Enum.Setup;
-using Domain.DTO.DTOModels.SetupDTO;
-using DAL.Services;
-using BaseOfTalents.Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.DAL;
 using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.DAL.Repositories;
+using BaseOfTalents.Domain.Entities.Enum;
+using BaseOfTalents.Domain.Entities.Enum.Setup;
 using DAL.DTO.SetupDTO;
+using DAL.Services;
+using Domain.DTO.DTOModels;
+using Domain.DTO.DTOModels.SetupDTO;
+using Domain.Entities.Enum.Setup;
+using System.Reflection;
+using System.Web.Http;
 
 namespace WebApi
 {
@@ -43,7 +40,7 @@ namespace WebApi
                 .InstancePerRequest();
 
             builder.RegisterType<AccessRightService>()
-                 .As<BaseEnumService<AccessRights>>()
+                 .As<BaseEnumService<AccessRight>>()
                  .InstancePerRequest();
 
             builder.RegisterType<CommentTypeService>()
@@ -110,12 +107,16 @@ namespace WebApi
                 .As<BaseService<SocialNetwork, SocialNetworkDTO>>()
                 .InstancePerRequest();
 
-            builder.RegisterType<SourceService>()
-                .As<BaseEnumService<Source>>()
+            builder.RegisterType<ParsingSourceService>()
+                .As<BaseEnumService<ParsingSource>>()
                 .InstancePerRequest();
 
             builder.RegisterType<StageService>()
                 .As<BaseService<Stage, StageDTO>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<SourceService>()
+                .As<SourceService>()
                 .InstancePerRequest();
 
             builder.RegisterType<TagService>()

@@ -6,7 +6,7 @@ namespace BaseOfTalents.DAL.Mapping
     {
         public CandidateSourceConfiguration()
         {
-            Property(sn => sn.Source).IsRequired();
+            HasRequired(x => x.Source).WithMany().HasForeignKey(x => x.SourceId);
             Property(sn => sn.Path).IsRequired();
         }
     }

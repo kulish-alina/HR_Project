@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DAL.Services
 {
-    public class AccessRightService : BaseEnumService<AccessRights>
+    public class AccessRightService : BaseEnumService<AccessRight>
     {
 
     }

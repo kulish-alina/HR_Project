@@ -3,13 +3,16 @@ const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language',
 import {
    remove,
    set,
-   each
+   each,
+   find,
+   cloneDeep
 } from 'lodash';
 
 export default function VacancyController(
    $scope,
    $translate,
    $state,
+   $q,
    VacancyService,
    ValidationService,
    ThesaurusService,
@@ -25,7 +28,8 @@ export default function VacancyController(
    /* --- api --- */
    vm.clear                        = clear;
    vm.saveVacancy                  = saveVacancy;
-   vm.vacancy                      = {} ;
+   vm.vacancy                      = {};
+   vm.vacancy.comments             = $state.params._data ? $state.params._data.comments : [];
    vm.vacancy.files                = $state.params._data ? $state.params._data.files : [];
    vm.thesaurus                    = [];
    vm.responsibles                 = [];
@@ -35,13 +39,20 @@ export default function VacancyController(
    vm.addFilesForRemove            = addFilesForRemove;
    vm.queueFilesForRemove          = [];
    vm.isFilesUploaded              = false;
+   vm.saveComment                  = _saveComment;
+   vm.removeComment                = _removeComment;
+   vm.editComment                  = _editComment;
+   vm.comments                     = cloneDeep(vm.vacancy.comments);
    /* === impl === */
 
    function _initCurrentVacancy() {
       if ($state.params._data) {
          vm.vacancy = $state.params._data;
       } else if ($state.params.vacancyId) {
-         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => set(vm, 'vacancy', vacancy));
+         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
+            set(vm, 'vacancy', vacancy);
+            vm.comments = cloneDeep(vm.vacancy.comments);
+         });
       } else {
          vm.vacancy = {};
       }
@@ -92,11 +103,34 @@ export default function VacancyController(
       return false;
    }
 
+   function _saveComment(comment) {
+      return $q.when(vm.comments.push(comment));
+   }
+
+   function _removeComment(comment) {
+      let commentForRemove = find(vm.comments, comment);
+      if (comment.id) {
+         commentForRemove.state = 1;
+         remove(vm.comments, comment);
+         return $q.when(vm.comments.push(commentForRemove));
+      } else {
+         return $q.when(remove(vm.comments, comment));
+      }
+   }
+
+   function _editComment(comment) {
+      return $q.when(remove(vm.comments, comment));
+   }
+
    function _vs() {
+      let memo = vm.vacancy.comments;
+      vm.vacancy.comments = vm.comments;
       VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
+         vm.comments = cloneDeep(vm.vacancy.comments);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
       }).catch((error) => {
+         vm.vacancy.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
          LoggerService.error(error);
       });

@@ -26,7 +26,7 @@ namespace BaseOfTalents.DAL.Mapping
                 x.ToTable("UserToPhoneNumber");
             });
 
-            HasOptional(u => u.Photo).WithOptionalDependent();
+            HasOptional(u => u.Photo);
         }
     }
 }

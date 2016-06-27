@@ -184,6 +184,7 @@
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Controllers\SocialNetworkController.cs" />
+    <Compile Include="Controllers\ParsingSourceController.cs" />
     <Compile Include="Controllers\SourceController.cs" />
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\TagController.cs" />
@@ -192,11 +193,13 @@
     <Compile Include="Controllers\VacancyController.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ModelStateHelper.cs" />
+    <Compile Include="Globals\Converters\PermissionConverter.cs" />
     <Compile Include="Models\CandidateProgressModel.cs" />
     <Compile Include="Extensions\DTOModelConverter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CandidateSearchModel.cs" />
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\EventSearchParameteres.cs" />
     <Compile Include="Models\FileModel.cs" />

@@ -55,7 +55,7 @@ describe('VacancyService tests for', () => {
       };
 
       service.remove(vacancy);
-      expect(mockHttp.remove).toHaveBeenCalledWith(`vacancies/${vacancy.id}`, vacancy);
+      expect(mockHttp.remove).toHaveBeenCalledWith(`vacancy/${vacancy.id}`, vacancy);
    });
 
    it('remove without id', () => {
@@ -63,6 +63,6 @@ describe('VacancyService tests for', () => {
       };
 
       expect(service.remove).toThrowError(/id/);
-      expect(mockHttp.remove).not.toHaveBeenCalledWith(`vacancies/${vacancy.id}`, vacancy);
+      expect(mockHttp.remove).not.toHaveBeenCalledWith(`vacancy/${vacancy.id}`, vacancy);
    });
 });

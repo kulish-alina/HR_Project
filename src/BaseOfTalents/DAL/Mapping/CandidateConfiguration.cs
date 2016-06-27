@@ -7,22 +7,23 @@ namespace BaseOfTalents.DAL.Mapping
         public CandidateConfiguration()
         {
             Property(c => c.FirstName).IsRequired();
-            Property(c => c.MiddleName).IsRequired();
             Property(c => c.LastName).IsRequired();
-            Property(c => c.IsMale).IsRequired();
-            Property(c => c.Email).IsRequired();
+            HasRequired(c => c.Industry).WithMany().HasForeignKey(x => x.IndustryId);
 
             Property(c => c.Skype).IsOptional();
-            Property(c => c.PositionDesired).IsRequired();
-            Property(c => c.IsMale).IsRequired();
+            Property(c => c.PositionDesired).IsOptional();
+            Property(c => c.IsMale).IsOptional();
 
-            HasOptional(c => c.Industry).WithMany().HasForeignKey(x => x.IndustryId);
-
-            HasMany(c => c.RelocationPlaces).WithRequired();
+            HasMany(c => c.RelocationPlaces).WithMany().Map(x =>
+            {
+                x.MapRightKey("RelocationPlaceId");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("CandidateToRelocationPlace");
+            });
 
             HasOptional(c => c.Currency).WithMany().HasForeignKey(c => c.CurrencyId);
 
-            HasRequired(c => c.City).WithMany().HasForeignKey(c => c.CityId);
+            HasOptional(c => c.City).WithMany().HasForeignKey(c => c.CityId);
             HasMany(c => c.Files);
             HasMany(c => c.VacanciesProgress).WithRequired(vs => vs.Candidate).HasForeignKey(vs => vs.CandidateId);
 

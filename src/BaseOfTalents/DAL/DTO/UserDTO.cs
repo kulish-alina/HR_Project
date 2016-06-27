@@ -1,9 +1,5 @@
-﻿using DAL.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.DTO.DTOModels
 {
@@ -28,7 +24,7 @@ namespace Domain.DTO.DTOModels
 
         public PhotoDTO Photo { get; set; }
 
-        public int LocationId { get; set; }
+        public int CityId { get; set; }
 
         public IEnumerable<PhoneNumberDTO> PhoneNumbers { get; set; }
     }

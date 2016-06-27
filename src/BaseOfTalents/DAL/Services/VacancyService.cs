@@ -68,6 +68,7 @@ namespace DAL.Services
 
             var vacancies = uow.VacancyRepo.Get(filters);
             var total = vacancies.Count();
+
             return new Tuple<IEnumerable<VacancyDTO>, int>(
                 vacancies.Skip(current * size).Take(size).Select(vacancy => DTOService.ToDTO<Vacancy, VacancyDTO>(vacancy)),
                 total);

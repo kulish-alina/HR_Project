@@ -211,8 +211,7 @@ function _getCandidateSocialObject(socialSource) {
 }
 
 function _convertLanguageSkillsToClient(candidate) {
-   let _languageSkills = [];
-   forEach(candidate.languageSkills,_getLanguageSkillObgect);
+   let _languageSkills = map(candidate.languageSkills, _getLanguageSkillObgect);
    candidate.convertedLanguageSkills = _languageSkills;
    return candidate;
 }
@@ -235,8 +234,7 @@ function _convertRelocationPlacesToBackend(candidate) {
 }
 
 function _convertRelocationPlacesToClient(candidate) {
-   let convertedRelocationPlaces = [];
-   forEach(candidate.relocationPlaces, _getRelocationPlaceObgect);
+   let convertedRelocationPlaces = map(candidate.relocationPlaces, _getRelocationPlaceObgect);
    candidate.convertedRelocationPlaces = convertedRelocationPlaces;
    return candidate;
 }

@@ -107,13 +107,15 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <div zf-open="basicModal" class="profile-photo" title="Upload Photo">
-                           <span class="upload-title">Upload Photo</span>
+                        <div zf-open="basicModal" 
+                             ng-class="candidate.photo ? 'profile-photo-container' : 'profile-photo'">
+                           <span zf-open="basicModal" ng-hide="candidate.photo" class="upload-title">Upload Photo</span>
+                           <img zf-open="basicModal" ng-if="candidate.photo" ng-src="{{candidate.photo.filePath | botUrl}}">
                         </div>
                         <div class="uploader-photo" zf-modal="" id="basicModal">
                            <div class="grid-block">
                               <div class="medium-8 grid-block">
-                                 <input id="upload" class="upload-input" type="file" nv-file-select="" uploader="imageUploader">
+                                 <input id="photoUpload" class="upload-input" type="file" nv-file-select="" uploader="imageUploader">
                                  <div class="grid-block image-container">
                                     <div class="medium-4 grid-block">
                                        <div class="" ng-repeat="item in imageUploader.queue">
@@ -121,12 +123,12 @@
                                        </div>
                                     </div>
                                     <div class="medium-8 grid-block">
-                                       <a ng-hide="!imageUploader.queue.length" class="remove-item" ng-click="clearUploaderQueue()"><i class="foundicon-remove general-icon"></i></a>
+                                       <a ng-hide="!imageUploader.queue.length" class="remove-item" ng-click="clearUploaderQueue(imageUploader, '#photoUpload')"><i class="foundicon-remove general-icon"></i></a>
                                     </div>
                                  </div>
                               </div>
                               <div class="medium-4 grid-block">
-                                 <a class="upload-button" href="#">{{::'COMMON.UPLOAD' | translate}}</a>
+                                 <a class="upload-button" href="#" ng-click="imageUploader.uploadAll()">{{::'COMMON.UPLOAD' | translate}}</a>
                               </div>
                            </div>
                         </div>                
@@ -142,28 +144,7 @@
                   <div ng-repeat="social in candidate.convertedSocials">
                      <input type="url" placeholder="{{::social.socialNetwork.title}}" ng-model="social.path">
                   </div>
-               </div>
-               <hr>
-               <div class="grid-block">
-                  <div class="medium-4 grid-block">
-                     <fieldset>
-                        <input type="url" placeholder="Facebook" >
-                        <input type="url" placeholder="LinkedIn">
-                     </fieldset>
-                  </div>
-                  <div class="medium-4 grid-block">
-                     <fieldset>
-                        <input type="url" placeholder="Google+">
-                        <input type="url" placeholder="Vkontakte">
-                     </fieldset>
-
-                  </div>
-                  <div class="medium-4 grid-block">
-                     <fieldset>
-                        <input type="url" placeholder="Home page">
-                     </fieldset>
-                  </div>
-               </div>
+               </div>               
                <hr>
                <fieldset>
                   <div class="grid-block">

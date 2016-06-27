@@ -135,8 +135,6 @@ function _convertSocialToClient(candidate) {
 }
 
 function _convertSocialToBackend(candidate) {
-   console.log(candidate.socialNetworks);
-   console.log(candidate.convertedSocials);
    let changedSocials = unionWith(
       candidate.socialNetworks || [],
       map(candidate.convertedSocials, social => {

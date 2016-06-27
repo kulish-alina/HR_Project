@@ -51,7 +51,7 @@ import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 import CommentsDirective      from './directives/comments/comments';
 import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
-import convertToNumberDirective from './directives/convertToNumber/convert-to-number';
+//import convertToNumberDirective from './directives/convertToNumber/convert-to-number';
 
 import uiMask from 'angular-ui-mask';
 
@@ -104,7 +104,7 @@ angular
    .directive('comments',       CommentsDirective.createInstance)
    .directive('mainMenu',       MainMenuDirective.createInstance)
    .directive('sideMenu',       SideMenuDirective.createInstance)
-   .directive('convertToNumber',    convertToNumberDirective)
+   //.directive('convertToNumber',    convertToNumberDirective)
 
    .filter('tel',               PhoneFormatFilter)
    .filter('arrayAsString',     ArrayAsString)

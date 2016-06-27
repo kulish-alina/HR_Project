@@ -39,6 +39,7 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
    vm.vacancy.current     = 0;
    vm.vacancy.size        = 20;
    vm.getEvents           = getEvents;
+   vm.currentEvents       = [];
 
    function _init() {
       VacancyService.search(vm.vacancy).then(data => set(vm, 'vacancies', data.vacancies));
@@ -55,35 +56,37 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
 
    function getEvents(date) {
       vm.getEventsByDate(date).then((e) => {
-         set(vm, 'currentEvents', e);
+         vm.currentEvents.length = 0;
+         vm.currentEvents.push.apply(vm.currentEvents, e);
       });
    }
 
    function showAddEventDialog() {
       vm.event = {};
-      vm.getEventsByDate(new Date()).then((e) => {
-         set(vm, 'currentEvents', e);
-         let scope = {
-            type         : 'list-with-input',
-            responsibles : vm.responsibles,
-            eventTypes   : vm.eventTypes,
-            vacancies    : vm.vacancies,
-            candidates   : vm.candidates,
-            events       : vm.currentEvents,
-            event        : vm.event,
-            getEvents    : vm.getEvents
-         };
-         let buttons = [
-            {
-               name: $translate.instant('COMMON.CANCEL')
-            },
-            {
-               name: $translate.instant('COMMON.APLY'),
-               func: vm.saveEvent,
-               needValidate: true
-            }
-         ];
-         UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
+      let scope = {
+         type         : 'list-with-input',
+         responsibles : vm.responsibles,
+         eventTypes   : vm.eventTypes,
+         vacancies    : vm.vacancies,
+         candidates   : vm.candidates,
+         events       : vm.currentEvents,
+         event        : vm.event,
+         getEvents    : vm.getEvents
+      };
+      let buttons = [
+         {
+            name: $translate.instant('COMMON.CANCEL')
+         },
+         {
+            name: $translate.instant('COMMON.APLY'),
+            func: vm.saveEvent,
+            needValidate: true
+         }
+      ];
+      UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
+
+      $scope.$watch('event.eventDate', function watch() {
+         getEvents(vm.event.eventDate);
       });
    }
 

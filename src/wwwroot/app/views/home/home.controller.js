@@ -2,6 +2,7 @@ const LIST_OF_THESAURUS = ['industry', 'level', 'city',
     'typeOfEmployment'];
 import {
    set,
+   cloneDeep,
    clone,
    remove
 } from 'lodash';
@@ -16,7 +17,7 @@ export default function HomeController(
    UserService,
    LoggerService,
    UserDialogService,
-   EventsService
+   EventsService,
    NoteService
    ) {
    'ngInject';
@@ -48,16 +49,6 @@ export default function HomeController(
    function _init() {
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-      VacancyService.search(vm.vacancy).then(response => {
-         vm.total = response.total;
-         vm.vacancies = response.vacancies;
-      }).catch(_onError);
-      _getCurrentUser().then(() => _getUpcomingEvents());
-   }
-
-   function _init() {
-      UserService.getUsers().then(users => set(vm, 'responsibles', users));
-      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       NoteService.getNotesByUser().then((notes) => {
          vm.userNotes = notes;
          vm.notes  = cloneDeep(vm.userNotes);
@@ -66,8 +57,17 @@ export default function HomeController(
          vm.total = response.total;
          vm.vacancies = response.vacancies;
       }).catch(_onError);
+      _getCurrentUser().then(() => _getUpcomingEvents());
    };
    _init();
+
+   function pageChanged(newPage) {
+      vm.vacancy.current = newPage;
+      VacancyService.search(vm.vacancy).then(response => {
+         vm.total = response.total;
+         vm.vacancies = response.vacancies;
+      }).catch(_onError);
+   };
 
    function viewVacancy(vacancy) {
       $state.go('vacancyView', {_data: vacancy, vacancyId: vacancy.id});
@@ -129,7 +129,7 @@ export default function HomeController(
 
    function _getCurrentUser() {
       //TODO: change getUserById to getCurrentUser
-      return UserService.getUserById(150).then((user) => vm.eventCondidtion.userIds.push(user.id));
+      return UserService.getUserById(142).then((user) => vm.eventCondidtion.userIds.push(user.id));
    }
 
    function _formingDateConditions() {

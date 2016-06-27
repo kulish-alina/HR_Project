@@ -31,6 +31,8 @@ export default class EventsService {
    }
 
    getEventsForPeriod(condition) {
+      condition.startDate = utils.formatDateToServer(condition.startDate);
+      condition.endDate = utils.formatDateToServer(condition.endDate);
       return _HttpService.post(`${EVENT_URL}/search`, condition).then((events) => {
          return each(events, (event) => this._convertFromServerFormat(event));
       });
@@ -63,7 +65,7 @@ export default class EventsService {
    }
 
    _convertFromServerFormat(event) {
-      event.eventDate = utils.formatDateFromServer(event.eventDate);
+      event.eventDate = utils.formatDateTimeFromServer(event.eventDate);
       this._fillEntities(event);
       return this._convertIdsToString(event);
    }
@@ -91,4 +93,5 @@ export default class EventsService {
                         .then(eventType => set(event, 'eventType', eventType)) : _$q.when(true);
       return _$q.all(userPromise, vacancyPromise, candidatePromise, thesaurusPromise);
    }
+
 }

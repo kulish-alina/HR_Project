@@ -29,8 +29,7 @@
                   <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
                   <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
                </select>
-               <input placeholder="{{::'COMMON.EVENT_DATE' | translate}}" class="input-date" ng-change="getEvents(event.eventDate)" ng-model="event.eventDate" datetime-picker date-format="MMM d, y HH:mm:ss" close-on-select="false" future-only/>
-<!--               <date datemodel="event.eventDate" placeholder="{{::'COMMON.EVENT_DATE' | translate}}"></date>-->
+               <input placeholder="{{::'COMMON.EVENT_DATE' | translate}}" class="input-date" ng-change="getEvents(event.eventDate)" ng-model="event.eventDate" datetime-picker date-format="dd-MM-yyyy HH:mm:ss" close-on-select="false" future-only/>
             </fieldset>
          </form>
       </div>

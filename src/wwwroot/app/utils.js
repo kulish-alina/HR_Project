@@ -1,12 +1,15 @@
 import {
-   reduce
+   reduce,
+   split,
+   isString
 } from 'lodash';
 
 let utils = {
    getUrlParameters,
    array2map,
    formatDateToServer,
-   formatDateFromServer
+   formatDateFromServer,
+   formatDateTimeFromServer
 };
 
 export default utils;
@@ -23,15 +26,33 @@ function array2map(arr, it) {
 }
 
 function formatDateToServer(entityDate) {
-   if (entityDate) {
-      let date = new Date(entityDate);
-      return new Date(date.valueOf() - date.getTimezoneOffset() * 60000);
+   if (isString(entityDate)) {
+      let splitDate = split(entityDate, ' ');
+      let partsOfDate = split(splitDate[0], '-');
+      let partsOfTime = split(splitDate[1], ':');
+      console.log(partsOfDate);
+      let date = new Date(partsOfDate[2], partsOfDate[1], partsOfDate[0], partsOfTime[0],
+                 partsOfTime[1], partsOfTime[2]);
+      console.log(date);
+      return new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
+   } else {
+      return entityDate;
    }
 }
 
 function formatDateFromServer(entityDate) {
    if (entityDate) {
-      let date = new Date(entityDate);
-      return new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
+      let trimOfDate = split(entityDate, 'T');
+      let partsOfDate = split(trimOfDate[0], '-');
+      return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]}`; // eslint-disable-line no-magic-numbers
+   }
+}
+
+function formatDateTimeFromServer(entityDate) {
+   if (entityDate) {
+      let trimOfDate = split(entityDate, 'T');
+      let partsOfDate = split(trimOfDate[0], '-');
+      let partsOfTime = split(trimOfDate[1], ':');
+      return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]} ${partsOfTime[0]}:${partsOfDate[1]}`; // eslint-disable-line max-len
    }
 }

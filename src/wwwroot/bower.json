@@ -15,8 +15,7 @@
     "foundation-icons": "*",
     "textAngular": "^1.5.0",
     "foundation-icon-fonts": "*",
-    "angular-srph-age-filter": "^0.0.1",
-    "angularjs-datetime-picker": "^0.1.20"
+    "angular-srph-age-filter": "^0.0.1"
   },
   "ignore": [
     "**/.*",

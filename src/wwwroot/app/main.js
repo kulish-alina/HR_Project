@@ -21,8 +21,10 @@ import 'angularjs-slider/dist/rzslider.min';
 import 'angularjs-slider/dist/rzslider.min.css';
 
 import 'angular-srph-age-filter/angular-age-filter';
-import 'angularjs-datetime-picker/angularjs-datetime-picker.js';
-import 'angularjs-datetime-picker/angularjs-datetime-picker.css';
+//import 'angularjs-datetime-picker/angularjs-datetime-picker.js';
+//import 'angularjs-datetime-picker/angularjs-datetime-picker.css';
+import './directives/datepickerwrapper/angularjs-datetime-picker.js';
+import './directives/datepickerwrapper/angularjs-datetime-picker.scss';
 
 import './ta';
 import './main.scss';
@@ -69,7 +71,6 @@ const dependencies = [
    translate,
    uiMask,
    pagination,
-   'angularjs-datetime-picker',
    'rzModule',
    'foundation',
    'validation',
@@ -78,7 +79,8 @@ const dependencies = [
    'angularFileUpload',
    'textAngular',
    'oi.select',
-   'srph.age-filter'
+   'srph.age-filter',
+   'angularjs-datetime-picker'
 ];
 
 angular
@@ -87,7 +89,6 @@ angular
    .provider('LoggerService',     LoggerProvider)
    .provider('HttpService',       HttpProvider)
    .provider('ValidationService', ValidationProvider)
-
    .service('CandidateService',    CandidateService)
    .service('VacancyService',      VacancyService)
    .service('SettingsService',     SettingsService)

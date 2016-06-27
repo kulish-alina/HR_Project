@@ -223,7 +223,7 @@
       "ERROR_SAVING": "Some error has occurred while saving vacancy!",
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
       "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
-      "SUCCESSFUL_REMOVING_EVENT": "Event was successfully removed!"
+      "SUCCESSFUL_REMOVING_EVENT": "Event was successfully removed!",
       "SUCCESSFUL_REMOVING_COMMENT": "Comment was successfully removed!",
       "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?"
    },

@@ -18,6 +18,7 @@ export default class ContactInfoDirective {
 }
 
 function ContactInfoController($scope) {
+   'ngInject';
    let vm = $scope;
    vm.direction = vm.direction || 'ltr';
 }

@@ -20,7 +20,11 @@
       "SOURCE": "Source",
       "POSITION": "Position",
       "FULL_NAME": "Full name",
-      "READY_TO_RELOCATE": "Ready to relocate"
+      "READY_TO_RELOCATE": "Ready to relocate",
+      "CANDIDATE_PROFILE": "Candidate profile",
+      "CANDIDATE_RESUME": "Candidate's resume",
+      "AGE": "Age",
+      "EXPERIENCE": "Experience"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
@@ -46,7 +50,8 @@
       "PROCESSING": "Processing",
       "CLOSED": "Closed",
       "CANCELLED": "Canceled",
-      "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy?"
+      "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy?",
+      "VACANCY": "Vacancy"
    },
    "VACANCIES": {
       "VACANCIES": "Vacancies",
@@ -122,6 +127,7 @@
       "DATE": "Date",
       "STAGE" : "Stage",
       "CLEAR" : "Clear",
+      "FILES" : "Files",
       "ADDED_FILES" : "Added files",
       "FILES_TO_UPLOAD" : "Files to upload",
       "SHOW_ALL_ACTIONS" : "Show all actions",
@@ -131,6 +137,7 @@
       "FROM" : "from",
       "TO" : "to",
       "APLY" : "Aply"
+      "ATTACH" : "Attach"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -225,7 +232,9 @@
       "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
       "SUCCESSFUL_REMOVING_EVENT": "Event was successfully removed!",
       "SUCCESSFUL_REMOVING_COMMENT": "Comment was successfully removed!",
-      "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?"
+      "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?",
+      "SUCCESSFUL_CANDIDATE_SAVING": "Candidate was successfully saved!",
+      "ERROR_CANDIDATE_SAVING": "Some error has occurred while saving candidate!"
    },
 
    "MEMBERS" : {

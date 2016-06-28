@@ -80,7 +80,6 @@ export default function CandidateProfileController(
       if (vm.uploader.getNotUploadedItems().length) {
          vm.uploader.uploadAll();
       } else if (vm.queueFileIdsForRemove.length) {
-         console.log('vm.queueFileIdsForRemove', vm.queueFileIdsForRemove);
          FileService.removeGroup(vm.queueFileIdsForRemove).then(() => {
             vm.queueFileIdsForRemove = [];
             _candidateSave();

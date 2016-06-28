@@ -29,12 +29,12 @@ const THESAURUSES = [
    new ThesaurusHelper('tag',   'tagIds',   'tags',     true),
    new ThesaurusHelper('skill', 'skillIds', 'skills',   true),
 
-   new ThesaurusHelper('industry',          'industryId',        'industry'),
-   new ThesaurusHelper('city',              'cityId',            'city'),
-   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmployment'),
-   new ThesaurusHelper('level',             'levelId',           'level'),
-   new ThesaurusHelper('currency',          'currencyId',        'currency'),
-   new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials')
+   new ThesaurusHelper('industry',          'industryId',        'industry',         true),
+   new ThesaurusHelper('city',              'cityId',            'city',             true),
+   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmployment', true),
+   new ThesaurusHelper('level',             'levelId',           'level',            true),
+   new ThesaurusHelper('currency',          'currencyId',        'currency',         true),
+   new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials',          true)
 ];
 
 let _HttpService, _ThesaurusService, _$q;
@@ -271,8 +271,7 @@ function _convertRelocationsFieldsToBackend(place) {
 
 function _addReferencedThesaurusObjects(candidate) {
    forEach(THESAURUSES, ({thesaurusName, clientField, serverField, needConvertForServer}) => {
-      //TODO: resolve problem with convertation ids to objects
-      if (!needConvertForServer) {
+      if (needConvertForServer) {
          _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, candidate[serverField])
             .then(curriedSet(candidate, clientField));
       }

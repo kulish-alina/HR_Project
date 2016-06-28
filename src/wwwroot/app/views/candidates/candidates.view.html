@@ -132,8 +132,8 @@
                      </th>
                      <td>{{$index+1}}</td>
                      <td><a ng-click="viewCandidate(candidate)" ng-bind="::(candidate.lastName+' '+candidate.firstName)"></a></td>
-                     <td ng-bind="::candidate.industry"></td>
-                     <td></td>
+                     <td ng-bind="::candidate.industry | arrayAsString: 'title'"></td>
+                     <td ng-bind="::candidate.sources | arrayAsString: 'title'"></td>
                      <td ng-bind="::candidate.positionDesired"></td>
                      <td ng-bind="::candidate.salaryDesired"></td>
                      <td></td>

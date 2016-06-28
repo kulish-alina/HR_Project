@@ -46,6 +46,13 @@ export default function VacancyProfileController(
    };
    vm.vacancy.comments     = [];
 
+   function _init() {
+      _initCurrentVacancy();
+      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
+   }
+   _init();
+
    function _initCurrentVacancy() {
       if ($state.params._data) {
          vm.vacancy = $state.params._data;
@@ -56,11 +63,6 @@ export default function VacancyProfileController(
          });
       }
    }
-   _initCurrentVacancy();
-
-   UserService.getUsers().then(users => set(vm, 'responsibles', users));
-
-   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
 
    function createNewUploader() {
       let newUploader = FileService.getFileUploader({ onCompleteAllCallBack : saveChanges, maxSize : 2048000 });
@@ -70,7 +72,7 @@ export default function VacancyProfileController(
          vm.isChanged = false;
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
-         UserDialogService.configs($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'warning');
+         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'warning');
       };
       newUploader.onAfterAddingAll = function onAfterAddingAl() {
          vm.isChanged = true;

@@ -136,7 +136,7 @@
       "FROM_BOT" : "From BOT",
       "FROM" : "from",
       "TO" : "to",
-      "APLY" : "Aply"
+      "APLY" : "Aply",
       "ATTACH" : "Attach"
    },
    "THESAURUSES" : {

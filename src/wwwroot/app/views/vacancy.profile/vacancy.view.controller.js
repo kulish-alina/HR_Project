@@ -13,6 +13,7 @@ export default function VacancyProfileController(
    $state,
    $translate,
    $element,
+   $timeout,
    ThesaurusService,
    UserService,
    VacancyService,
@@ -40,11 +41,11 @@ export default function VacancyProfileController(
    vm.removeComment        = _removeComment;
    vm.editComment          = _editComment;
    vm.comments             = cloneDeep(vm.vacancy.comments);
-
    vm.vacancy              = {
       files : $state.params._data ? $state.params._data.files : []
    };
    vm.vacancy.comments     = [];
+   let initializing        = true;
 
    function _initCurrentVacancy() {
       if ($state.params._data) {
@@ -103,6 +104,16 @@ export default function VacancyProfileController(
    function changed() {
       vm.isChanged = true;
    }
+
+   vm.$watchGroup(['vacancy.startDate', 'vacancy.endDate', 'vacancy.deadlineDate'], function watchDates() {
+      if (initializing) {
+         $timeout(function timeout() {
+            initializing = false;
+         });
+      } else {
+         changed();
+      }
+   });
 
    function selectStage(stageName) {
       vm.currentStage = stageName;

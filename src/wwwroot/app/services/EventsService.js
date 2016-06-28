@@ -31,8 +31,8 @@ export default class EventsService {
    }
 
    getEventsForPeriod(condition) {
-      condition.startDate = utils.formatDateToServer(condition.startDate);
-      condition.endDate = utils.formatDateToServer(condition.endDate);
+      condition.startDate = utils.formatDateTimeToServer(condition.startDate);
+      condition.endDate = utils.formatDateTimeToServer(condition.endDate);
       return _HttpService.post(`${EVENT_URL}/search`, condition).then((events) => {
          return each(events, (event) => this._convertFromServerFormat(event));
       });
@@ -61,7 +61,7 @@ export default class EventsService {
       each(EVENT_PROP_FRONT, (prop) => {
          delete event[prop];
       });
-      event.eventDate = utils.formatDateToServer(event.eventDate);
+      event.eventDate = utils.formatDateTimeToServer(event.eventDate);
    }
 
    _convertFromServerFormat(event) {

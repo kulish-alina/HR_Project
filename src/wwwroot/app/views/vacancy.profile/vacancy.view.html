@@ -192,22 +192,21 @@
                   <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.START_DATE' | translate">:
                   </div>
                   <div class="medium-7 grid-block ">
-                     <input placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="MMM d, y" close-on-select="false" date-only/>
-<!--                     <date datemodel="vacancy.startDate" daterequired="true"></date>-->
+                     <input placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                   </div>
                </div>
                <div class="grid-block sidebar-row">
                   <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.DEADLINE_DATE' | translate">:
                   </div>
                   <div class="medium-7 grid-block ">
-                     <date datemodel="vacancy.deadlineDate"></date>
+                     <input placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                   </div>
                </div>
                <div class="grid-block sidebar-row">
                   <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.END_DATE' | translate">:
                   </div>
                   <div class="medium-7 grid-block">
-                     <date datemodel="vacancy.endDate"></date>
+                     <input placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                   </div>
                </div>
 

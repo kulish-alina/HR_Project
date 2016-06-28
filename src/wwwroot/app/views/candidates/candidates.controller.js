@@ -25,11 +25,8 @@ export default function CandidatesController(
    vm.cancel            = cancel;
    vm.thesaurus         = [];
    vm.searchCandidates  = searchCandidates;
-   vm.candidate         = {};
    vm.candidates        = [];
    vm.total             = 0;
-   vm.candidate.current = 0;
-   vm.candidate.size    = 20;
    vm.pagination        = { current: 0 };
    vm.pageChanged       = pageChanged;
    vm.slider = {
@@ -45,7 +42,13 @@ export default function CandidatesController(
       }
    };
 
-   function _init() {
+   function _initData() {
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
+      _initPagination();
+   }
+   _initData();
+
+   function _initPagination() {
       vm.candidate = {};
       vm.candidate.current = 0;
       vm.candidate.size    = 20;
@@ -59,13 +62,12 @@ export default function CandidatesController(
       }).catch(_onError);
    };
 
-   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-
    function searchCandidates() {
       CandidateService.search(vm.candidate).then(response => {
-         console.log(response.total);
          vm.total = response.total;
          vm.candidates = response.candidate;
+         console.log(vm.candidates);
+         _initPagination();
       }).catch(_onError);
    }
 

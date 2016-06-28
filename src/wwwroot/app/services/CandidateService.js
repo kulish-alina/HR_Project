@@ -271,7 +271,8 @@ function _convertRelocationsFieldsToBackend(place) {
 
 function _addReferencedThesaurusObjects(candidate) {
    forEach(THESAURUSES, ({thesaurusName, clientField, serverField, needConvertForServer}) => {
-      if (needConvertForServer) {
+      //TODO: resolve problem with convertation ids to objects
+      if (!needConvertForServer) {
          _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, candidate[serverField])
             .then(curriedSet(candidate, clientField));
       }

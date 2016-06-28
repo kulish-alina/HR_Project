@@ -52,5 +52,5 @@ function _titleValidation(value) {
 }
 
 function _dateValidation(value) {
-   return value ? !isNaN(Date.parse(value)) : true;
+   return value ? !isNaN(Date.parse(utils.formatDateToServer(value)) : true;
 }

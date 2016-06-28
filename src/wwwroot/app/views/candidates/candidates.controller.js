@@ -37,15 +37,25 @@ export default function CandidatesController(
       max: 45,
       options: {
          floor: 15,
-         ceil: 65
+         ceil: 65,
+         onChange() {
+            vm.candidate.minAge  = vm.slider.min;
+            vm.candidate.maxAge  = vm.slider.max;
+         }
       }
    };
+
+   function _init() {
+      vm.candidate = {};
+      vm.candidate.current = 0;
+      vm.candidate.size    = 20;
+   }
 
    function pageChanged(newPage) {
       vm.candidate.current = newPage;
       CandidateService.search(vm.candidate).then(response => {
          vm.total = response.total;
-         vm.candidates = response.candidates;
+         vm.candidates = response.candidate;
       }).catch(_onError);
    };
 
@@ -53,8 +63,9 @@ export default function CandidatesController(
 
    function searchCandidates() {
       CandidateService.search(vm.candidate).then(response => {
+         console.log(response.total);
          vm.total = response.total;
-         vm.candidates = response.candidates;
+         vm.candidates = response.candidate;
       }).catch(_onError);
    }
 
@@ -74,7 +85,7 @@ export default function CandidatesController(
       UserDialogService.confirm($translate.instant('DIALOG_SERVICE.CANDIDATE_REMOVING_DIALOG')).then(() => {
          let predicate = {id: candidateId};
          let candidateForRemove = find(vm.candidates, predicate);
-         CandidateService.remove(candidateForRemove).then(() => {
+         CandidateService.deleteCandidate(candidateForRemove).then(() => {
             remove(vm.candidates, predicate);
             UserDialogService.notification
             ($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING_CANDIDATE'), 'success');

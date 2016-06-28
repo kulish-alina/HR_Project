@@ -70,7 +70,16 @@ export default class CandidateService {
    }
 
    deleteCandidate(entity) {
-      _HttpService.remove(CANDIDATE_URL + entity.id, entity);
+      return _HttpService.remove(CANDIDATE_URL + entity.id, entity);
+   }
+
+   search(condition) {
+      return _HttpService.post(`${CANDIDATE_URL}search`, condition).then(response => {
+         return _$q.all(map(response.candidate, _convertToClientFormat)).then((candidate) => {
+            response.candidate = candidate;
+            return response;
+         });
+      });
    }
 }
 

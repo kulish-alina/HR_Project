@@ -110,6 +110,14 @@ const THESAURUS_STRUCTURES = {
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=3, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
       ]
+   },
+   'source' : {
+      thesaurusName : 'THESAURUSES.SOURCES',
+      fields : [
+         {name : 'id',        label : 'id',        type : ''},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=3, minlength=3'},
+         {name : 'state',     label : 'state',     type : ''}
+      ]
    }
 };
 

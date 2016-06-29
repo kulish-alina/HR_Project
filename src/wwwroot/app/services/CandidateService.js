@@ -29,12 +29,14 @@ const THESAURUSES = [
    new ThesaurusHelper('tag',   'tagIds',   'tags',     true),
    new ThesaurusHelper('skill', 'skillIds', 'skills',   true),
 
-   new ThesaurusHelper('industry',          'industryId',        'industry'),
-   new ThesaurusHelper('city',              'cityId',            'city'),
-   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmployment'),
-   new ThesaurusHelper('level',             'levelId',           'level'),
-   new ThesaurusHelper('currency',          'currencyId',        'currency'),
-   new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials')
+   new ThesaurusHelper('industry',          'industryId',        'industry',           true),
+   new ThesaurusHelper('city',              'cityId',            'city',               true),
+   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmployment',   true),
+   new ThesaurusHelper('level',             'levelId',           'level',              true),
+   new ThesaurusHelper('currency',          'currencyId',        'currency',           true),
+   new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials',            true),
+   new ThesaurusHelper('state',             'stateId',           'state',              true),
+   new ThesaurusHelper('source',            'sourceId',          'source',             true)
 ];
 
 let _HttpService, _ThesaurusService, _$q;

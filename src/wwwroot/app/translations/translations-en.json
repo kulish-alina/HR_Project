@@ -127,7 +127,9 @@
       "NEW" : "New",
       "FROM_BOT" : "From BOT",
       "FROM" : "from",
-      "TO" : "to"
+      "TO" : "to",
+      "CURRENCY" : "Currency",
+      "MAIN_SOURCE" : "Main source"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

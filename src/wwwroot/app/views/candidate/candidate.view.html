@@ -1,16 +1,16 @@
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
       <div class="grid-content">
-         <h5>{{::'COMMON.ADD_CANDIDATE' | translate}}</h5>
+         <h5 ng-bind="::'COMMON.ADD_CANDIDATE' | translate"></h5>
       </div>
    </div>
    <div class="large-7 grid-block">
    </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
+         <li><a href="#"><span ng-bind="::'COMMON.CANCEL' | translate"></span></a>
          </li>
-         <li><a ng-click="saveCandidate(Candidate)">{{::'COMMON.SUBMIT' | translate}}</a>
+         <li><a ng-click="saveCandidate(Candidate)"><span ng-bind="::'COMMON.SUBMIT' | translate"></span></a>
          </li>
       </ul>
    </div>
@@ -18,9 +18,7 @@
 <div class="grid-block">
    <div class="medium-9 grid-block">
       <div class="main-card">
-         <div class="card-divider">
-            {{::'CANDIDATE.NEW_CANDIDATE' | translate}}
-         </div>
+         <div class="card-divider" ng-bind="::'CANDIDATE.NEW_CANDIDATE' | translate"></div>
          <div class="card-section">
             <form name="Candidate">
                <div class="grid-block">
@@ -68,13 +66,13 @@
                         <input type="text" ng-model="candidate.positionDesired" placeholder="{{::'CANDIDATE.DESIRED_POSITION' | translate}}">
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <input ng-model="candidate.SalaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
+                              <input ng-model="candidate.salaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
                            </div>
                            <div class="medium-6 grid-block">
-                              <select name="Сurrency" ng-disabled="!candidate.SalaryDesired" convert-to-number
+                              <select name="Сurrency" ng-disabled="!candidate.salaryDesired" convert-to-number
                                       ng-model="candidate.currencyId" ng-init="candidate.currencyId=''">
-                                 <option ng-selected="true" ng-bind="Currency"></option>
-                                 <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title"></option>
+                                 <option ng-selected="true" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
+                                 <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
                               </select>
                            </div>
                         </div>
@@ -128,23 +126,29 @@
                                  </div>
                               </div>
                               <div class="medium-4 grid-block">
-                                 <a class="upload-button" href="#" ng-click="imageUploader.uploadAll()">{{::'COMMON.UPLOAD' | translate}}</a>
+                                 <a class="upload-button" href="#" ng-click="imageUploader.uploadAll()"><span ng-bind="::'COMMON.UPLOAD' | translate"></span></a>
                               </div>
                            </div>
                         </div>                
                         <phones class="add-phone-number" ng-model="candidate.phoneNumbers"></phones>
                         <input ng-model="candidate.email" name="e-mail" type="text" placeholder="E-mail">
                         <input type="text" placeholder="Skype" ng-model=candidate.skype>
-                        <input type='text' placeholder="Source">
+                        <select name="MainSource">
+                           <option ng-selected="true" ng-bind="::('COMMON.MAIN_SOURCE' | translate)"></option>
+                           <option ng-repeat="source in thesaurus.source" ng-bind="source.title" value="{{source.id}}"></option>
+                        </select>
                      </fieldset>
                   </div>
                </div>
-               <hr>
-               <div class="grid-block">
-                  <div ng-repeat="social in candidate.convertedSocials">
-                     <input type="url" placeholder="{{::social.socialNetwork.title}}" ng-model="social.path">
+               <hr>               
+               <div class="grid-block" ng-repeat="socialRow in socialGroups">
+                  <div class="medium-4 grid-block" ng-repeat="social in socialRow">
+                     <fieldset>
+                        <input class="social-input" type="url" placeholder="{{::social.socialNetwork.title}}" ng-model="social.path">
+                     </fieldset>
                   </div>
-               </div>               
+               </div>
+                           
                <hr>
                <fieldset>
                   <div class="grid-block">
@@ -158,24 +162,45 @@
                          oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                   </div>
-                  <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.Description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
+                  <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="candidate.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
                </fieldset>
                <div class="grid-block">
                   <div class="medium-6 grid-block">
                      <fieldset>
-                        <input type="file" nv-file-select multiple="" uploader="filesUploader">
+                        <input id="filesUploader" type="file" nv-file-select multiple="" uploader="filesUploader">
+                        <table class="upload-table" ng-hide="!candidate.files.length">
+                           <caption ng-bind="::'COMMON.ADDED_FILES' | translate">:</caption>
+                           <thead>
+                              <tr>
+                                 <th>№</th>
+                                 <th ng-bind="::'COMMON.NAME' | translate"></th>
+                                 <th ng-bind="::'COMMON.SIZE' | translate"></th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="item in candidate.files">
+                                 <td ng-bind="::$index+1"></td>
+                                 <td>
+                                    <a href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
+                                 </td>
+                                 <td ng-bind="item.fileSize"></td>
+                                 <td><a class="remove-item" ng-click="addFilesForRemove(item)"><i class="foundicon-remove general-icon"></i></a></td>
+                              </tr>
+                           </tbody>
+                        </table>
                         <table class="upload-table" ng-hide="!filesUploader.queue.length">
                            <thead>
                               <tr>
                                  <th>№</th>
-                                 <th>{{::'COMMON.NAME' | translate}}</th>
-                                 <th>{{::'COMMON.SIZE' | translate}}</th>
+                                 <th ng-bind="::'COMMON.NAME' | translate"></th>
+                                 <th ng-bind="::'COMMON.SIZE' | translate"></th>
                                  <th></th>
                               </tr>
                            </thead>
                            <tbody>
                               <tr ng-repeat="item in filesUploader.queue">
-                                 <td>{{$index+1}}</td>
+                                 <td ng-bind="::$index+1"></td>
                                  <td ng-bind="item.file.name"></td>
                                  <td ng-bind="item.file.size"></td>
                                  <td><a class="remove-item" ng-click="item.remove()"><i class="foundicon-remove general-icon"></i></a></td>
@@ -193,9 +218,7 @@
    <div class="medium-3 grid-block vertical-sidebar">
       <div class="vertical medium-horizontal grid-block">
          <div class="sidebar">
-            <div class="card-divider">
-               {{::'VACANCIES.VACANCIES' | translate}}
-            </div>
+            <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate"></div>
             <div class="sidebar-content">
                <div class="grid-block">
                   <div class="medium-9 grid-block">
@@ -207,7 +230,7 @@
                      </select>
                   </div>
                   <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#">{{::'COMMON.ADD' | translate}}</a>
+                     <a class="button button-with-input" href="#"><span ng-bind="::'COMMON.ADD' | translate"></span></a>
                   </div>
                </div>
                <section class="block-list">
@@ -265,9 +288,9 @@
          <div class="sidebar">
             <div class="card-divider">
                <div class="grid-block">
-                  <div class="medium-9 grid-block">{{::'COMMON.EVENTS' | translate}}</div>
+                  <div class="medium-9 grid-block" ng-bind="::'COMMON.EVENTS' | translate"></div>
                   <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#">{{::'COMMON.ADD' | translate}}</a>
+                     <a class="button button-with-input" href="#"><span ng-bind="::'COMMON.ADD' | translate"></span></a>
                   </div>
                </div>
             </div>
@@ -309,9 +332,7 @@
             </div>
          </div>
          <div class="sidebar">
-            <div class="card-divider">
-               {{::'COMMON.COMMENTS' | translate}}
-            </div>
+            <div class="card-divider" ng-bind="::'COMMON.COMMENTS' | translate"></div>
             <div class="sidebar-content">
                <div class="grid-block">
                   <div class="medium-9 grid-block">

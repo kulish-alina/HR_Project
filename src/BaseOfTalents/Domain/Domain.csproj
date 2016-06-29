@@ -72,7 +72,6 @@
     <Compile Include="Entities\LanguageSkill.cs" />
     <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
-    <Compile Include="Entities\Photo.cs" />
     <Compile Include="Entities\RelocationLocation.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Vacancy.cs" />

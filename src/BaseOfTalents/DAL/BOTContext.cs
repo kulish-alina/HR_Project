@@ -53,7 +53,6 @@ namespace BaseOfTalents.DAL
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
-        public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<Vacancy> Vacancies { get; set; }
         public virtual DbSet<City> Cities { get; set; }
@@ -101,7 +100,6 @@ namespace BaseOfTalents.DAL
             modelBuilder.Configurations.Add(new SocialNetworkConfiguration());
 
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
-            modelBuilder.Configurations.Add(new PhotoConfiguration());
             modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

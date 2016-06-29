@@ -10,7 +10,12 @@ namespace BaseOfTalents.DAL.Mapping
             Property(v => v.StartDate).IsRequired();
 
             HasMany(v => v.CandidatesProgress);
-            HasMany(v => v.Files);
+            HasMany(v => v.Files).WithMany().Map(x =>
+            {
+                x.MapRightKey("FileId");
+                x.MapLeftKey("VacancyId");
+                x.ToTable("FileToVacancy");
+            });
 
             HasOptional(v => v.ParentVacancy).WithMany(v => v.ChildVacancies).HasForeignKey(v => v.ParentVacancyId);
             HasOptional(v => v.LanguageSkill);

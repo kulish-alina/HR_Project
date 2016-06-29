@@ -23,7 +23,7 @@ namespace DAL.Extensions
             destination.RoleId = source.RoleId;
             destination.CityId = source.CityId;
 
-            PerformPhotoSaving(destination, source, uow.PhotoRepo);
+            PerformPhotoSaving(destination, source, uow.FileRepo);
             PerformPhoneNumbersSaving(destination, source, uow.PhoneNumberRepo);
         }
 
@@ -61,18 +61,18 @@ namespace DAL.Extensions
             });
         }
 
-        private static void PerformPhotoSaving(User destination, UserDTO source, IRepository<Photo> photoRepository)
+        private static void PerformPhotoSaving(User destination, UserDTO source, IRepository<File> fileRepository)
         {
             if (source.Photo != null)
             {
                 if (source.Photo.IsNew())
                 {
-                    var newPhoto = DTOService.ToEntity<PhotoDTO, Photo>(source.Photo);
+                    var newPhoto = DTOService.ToEntity<FileDTO, File>(source.Photo);
                     destination.Photo = newPhoto;
                 }
                 else if (source.Photo.ShouldBeRemoved())
                 {
-                    photoRepository.Delete(destination.Photo.Id);
+                    fileRepository.Delete(destination.Photo.Id);
                 }
                 else
                 {

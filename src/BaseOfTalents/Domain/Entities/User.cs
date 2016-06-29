@@ -25,7 +25,7 @@ namespace BaseOfTalents.Domain.Entities
         public int RoleId { get; set; }
         public virtual Role Role { get; set; }
 
-        public virtual Photo Photo { get; set; }
+        public virtual File Photo { get; set; }
 
         public int CityId { get; set; }
         public virtual City City { get; set; }

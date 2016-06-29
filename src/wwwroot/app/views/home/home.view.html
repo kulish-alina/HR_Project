@@ -6,14 +6,7 @@
             <h5 ng-bind="::'HOME.HOME' | translate"></h5>
          </div>
       </div>
-      <div class="large-8 grid-block">
-      </div>
-      <div class="large-2 grid-block align-right">
-         <ul class="menu-bar second-button-bar">
-            <li>
-               <a href="#" ng-bind="::'COMMON.ADD_EVENT' | translate"></a>
-            </li>
-         </ul>
+   <div class="large-10 grid-block">
       </div>
    </div>
    <div class="grid-block">
@@ -43,7 +36,7 @@
                         <td ng-bind="vacancy.cities | arrayAsString: 'title'" class="col4">
                         </td>
                         <td ng-bind="::vacancy.responsible.lastName"></td>
-                        <td ng-bind="::vacancy.createdOn"></td>
+                     <td ng-bind="::vacancy.createdOn | date: 'mediumDate'"></td>
                      </tr>
                   </tbody>
                </table>
@@ -57,46 +50,7 @@
       <div class="medium-3 grid-block vertical-sidebar">
          <div class="vertical medium-horizontal grid-block">
             <div class="sidebar">
-               <div class="card-divider">
-                  <div class="grid-block" ng-bind="::'COMMON.EVENTS' | translate">
-                  </div>
-               </div>
-               <div class="sidebar-content">
-                  <section class="block-list">
-                     <ul class="icon-left events">
-                        <li>
-                           <div class="grid-block">
-                              <div class="medium-2 grid-block">
-                                 <i class="foundicon-people general-icon"></i>
-                              </div>
-                              <div class="medium-10 grid-block">
-                                 <a href="#"><span>15.05.16 at 11.00 HR-Interviev with Antonov Viktor</span></a>
-                              </div>
-                           </div>
-                        </li>
-                        <li>
-                           <div class="grid-block">
-                              <div class="medium-2 grid-block">
-                                 <i class="foundicon-website general-icon"></i>
-                              </div>
-                              <div class="medium-10 grid-block">
-                                 <a href="#"><span>16.05.16 at 14.00 Tech-Interviev with Antonov Viktor</span></a>
-                              </div>
-                           </div>
-                        </li>
-                        <li>
-                           <div class="grid-block">
-                              <div class="medium-2 grid-block">
-                                 <i class="foundicon-phone general-icon"></i>
-                              </div>
-                              <div class="medium-10 grid-block">
-                                 <a href="#"><span>25.05.16 Call to Vasilenko Anna</span></a>
-                              </div>
-                           </div>
-                        </li>
-                     </ul>
-                  </section>
-               </div>
+            <events type="list-only" events="cloneUpcomingEvents" save="saveEvent" remove="removeEvent" get-events-by-date="getEventsForDate"></events>
             </div>
             <div class="sidebar">
                <comments type="note" save="saveNote" remove="removeNote" edit="editNote" comments="notes"></comments>

@@ -3,3 +3,4 @@ node_modules/
 bower_component/
 */ta.js
 config/
+*/**/angularjs-datetime-picker.js

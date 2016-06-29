@@ -84,7 +84,8 @@ export default class UserDialogService {
       });
       let config = {
          template: _dialog.split('<!-- content will be here -->').join(content),
-         contentScope
+         contentScope,
+         overlayClose: 'false'
       };
       let modal = new _ModalFactory(config);
       modal.activate();

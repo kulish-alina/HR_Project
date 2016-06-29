@@ -46,6 +46,7 @@
       "HOME": "Home"
    },
    "VACANCY": {
+      "VACANCY": "Vacancy",
       "NEW_VACANCY": "New vacancy",
       "START_DATE": "Start Date",
       "OPEN": "Open",
@@ -107,6 +108,7 @@
       "START_DATE": "Start date",
       "DEADLINE_DATE": "Deadline date",
       "END_DATE": "End date",
+      "EVENT_DATE": "Event date",
       "ADD_DEADLINE_TO_CALENDAR": "Add deadline to calendar",
       "DESCRIPTION": "Description",
       "LOCATION": "Location",
@@ -137,6 +139,7 @@
       "FROM_BOT" : "From BOT",
       "FROM" : "from",
       "TO" : "to",
+      "APLY" : "Aply",
       "ATTACH" : "Attach"
    },
    "THESAURUSES" : {
@@ -230,6 +233,7 @@
       "ERROR_SAVING": "Some error has occurred while saving vacancy!",
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
       "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
+      "SUCCESSFUL_REMOVING_EVENT": "Event was successfully removed!",
       "SUCCESSFUL_REMOVING_COMMENT": "Comment was successfully removed!",
       "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?",
       "CANDIDATE_REMOVING_DIALOG": "Do you really want to remove this candidate?",

@@ -29,12 +29,12 @@ const THESAURUSES = [
    new ThesaurusHelper('tag',   'tagIds',   'tags',     true),
    new ThesaurusHelper('skill', 'skillIds', 'skills',   true),
 
-   new ThesaurusHelper('industry',          'industryId',        'industry'),
-   new ThesaurusHelper('city',              'cityId',            'city'),
-   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmployment'),
-   new ThesaurusHelper('level',             'levelId',           'level'),
-   new ThesaurusHelper('currency',          'currencyId',        'currency'),
-   new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials')
+   new ThesaurusHelper('industry',          'industryId',        'industry',         true),
+   new ThesaurusHelper('city',              'cityId',            'city',             true),
+   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmployment', true),
+   new ThesaurusHelper('level',             'levelId',           'level',            true),
+   new ThesaurusHelper('currency',          'currencyId',        'currency',         true),
+   new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials',          true)
 ];
 
 let _HttpService, _ThesaurusService, _$q;
@@ -70,7 +70,16 @@ export default class CandidateService {
    }
 
    deleteCandidate(entity) {
-      _HttpService.remove(CANDIDATE_URL + entity.id, entity);
+      return _HttpService.remove(CANDIDATE_URL + entity.id, entity);
+   }
+
+   search(condition) {
+      return _HttpService.post(`${CANDIDATE_URL}search`, condition).then(response => {
+         return _$q.all(map(response.candidate, _convertToClientFormat)).then((candidate) => {
+            response.candidate = candidate;
+            return response;
+         });
+      });
    }
 }
 

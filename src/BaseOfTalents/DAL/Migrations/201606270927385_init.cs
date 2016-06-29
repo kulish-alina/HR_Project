@@ -496,17 +496,17 @@ namespace BaseOfTalents.DAL.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Path = c.String(nullable: false),
                         SocialNetworkId = c.Int(nullable: false),
-                        CandidateId = c.Int(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
+                        Candidate_Id = c.Int(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Candidate", t => t.CandidateId)
                 .ForeignKey("dbo.SocialNetwork", t => t.SocialNetworkId)
+                .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
                 .Index(t => t.SocialNetworkId)
-                .Index(t => t.CandidateId);
+                .Index(t => t.Candidate_Id);
             
             CreateTable(
                 "dbo.SocialNetwork",
@@ -745,8 +745,8 @@ namespace BaseOfTalents.DAL.Migrations
             DropForeignKey("dbo.CandidateToTag", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateSource", "Candidate_Id", "dbo.Candidate");
             DropForeignKey("dbo.CandidateSource", "SourceId", "dbo.Source");
+            DropForeignKey("dbo.CandidateSocial", "Candidate_Id", "dbo.Candidate");
             DropForeignKey("dbo.CandidateSocial", "SocialNetworkId", "dbo.SocialNetwork");
-            DropForeignKey("dbo.CandidateSocial", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateToSkill", "SkillId", "dbo.Skill");
             DropForeignKey("dbo.CandidateToSkill", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.CandidateToRelocationPlace", "RelocationPlaceId", "dbo.RelocationPlace");
@@ -834,7 +834,7 @@ namespace BaseOfTalents.DAL.Migrations
             DropIndex("dbo.CandidateToComment", new[] { "CandidateId" });
             DropIndex("dbo.CandidateSource", new[] { "Candidate_Id" });
             DropIndex("dbo.CandidateSource", new[] { "SourceId" });
-            DropIndex("dbo.CandidateSocial", new[] { "CandidateId" });
+            DropIndex("dbo.CandidateSocial", new[] { "Candidate_Id" });
             DropIndex("dbo.CandidateSocial", new[] { "SocialNetworkId" });
             DropIndex("dbo.LanguageSkill", new[] { "LanguageId" });
             DropIndex("dbo.File", new[] { "Candidate_Id" });

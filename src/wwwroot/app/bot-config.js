@@ -10,18 +10,20 @@ import profileEditTemplate      from './views/settings/profile/profileEdit.view.
 import membersTemplate          from './views/settings/members/members.view.html';
 import rolesTemplate            from './views/settings/roles/roles.view.html';
 import vacancyViewTemplate      from './views/vacancy.profile/vacancy.view.html';
+import candidateProfileTemplate from './views/candidate.profile/candidate.profile.html';
 
-import homeController           from './views/home/home.controller';
-import candidatesController     from './views/candidates/candidates.controller';
-import candidateController      from './views/candidate/candidate.controller';
-import vacanciesController      from './views/vacancies/vacancies.list.controller';
-import vacancyEditController    from './views/vacancy/vacancy.edit.controller';
-import settingsController       from './views/settings/settings.controller';
-import thesaurusesController    from './views/settings/thesauruses/thesauruses.controller';
-import profileController        from './views/settings/profile/profile.controller';
-import membersController        from './views/settings/members/members.controller';
-import rolesController          from './views/settings/roles/roles.controller';
-import vacancyViewController    from './views/vacancy.profile/vacancy.view.controller';
+import homeController             from './views/home/home.controller';
+import candidatesController       from './views/candidates/candidates.controller';
+import candidateController        from './views/candidate/candidate.controller';
+import vacanciesController        from './views/vacancies/vacancies.list.controller';
+import vacancyEditController      from './views/vacancy/vacancy.edit.controller';
+import settingsController         from './views/settings/settings.controller';
+import thesaurusesController      from './views/settings/thesauruses/thesauruses.controller';
+import profileController          from './views/settings/profile/profile.controller';
+import membersController          from './views/settings/members/members.controller';
+import rolesController            from './views/settings/roles/roles.controller';
+import vacancyViewController      from './views/vacancy.profile/vacancy.view.controller';
+import candidateProfileController from './views/candidate.profile/candidate.profile.controller';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -71,6 +73,15 @@ export default function _config(
          url: '/candidate',
          template: candidateTemplate,
          controller: candidateController
+      })
+      .state('candidateProfile', {
+         url: '/candidateProfile/:candidateId',
+         template: candidateProfileTemplate,
+         controller: candidateProfileController,
+         params: {
+            _data: null,
+            candidateId: null
+         }
       })
       .state('vacancyEdit', {
          url: '/vacancy/edit/:vacancyId',

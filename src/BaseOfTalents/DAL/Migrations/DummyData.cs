@@ -347,18 +347,6 @@ namespace BaseOfTalents.DAL.Migrations
             new Stage {Title = "Rejected"}
         };
 
-        public static readonly List<Photo> Photos = new List<Photo>
-        {
-            new Photo {Description = "photo 1", ImagePath = @"~\images\ph11.jpg"},
-            new Photo {Description = "photo 2", ImagePath = @"~\images\ph12.jpg"},
-            new Photo {Description = "photo 3", ImagePath = @"~\images\ph13.jpg"},
-            new Photo {Description = "photo 4", ImagePath = @"~\images\ph14.jpg"},
-            new Photo {Description = "photo 5", ImagePath = @"~\images\ph15.jpg"},
-            new Photo {Description = "photo 6", ImagePath = @"~\images\ph16.jpg"},
-            new Photo {Description = "photo 7", ImagePath = @"~\images\ph17.jpg"},
-            new Photo {Description = "photo 8", ImagePath = @"~\images\ph18.jpg"},
-            new Photo {Description = "photo 9", ImagePath = @"~\images\ph19.jpg"}
-        };
 
         public static readonly List<SocialNetwork> Socials = new List<SocialNetwork>
         {
@@ -586,6 +574,7 @@ namespace BaseOfTalents.DAL.Migrations
             Events = GetEvents(100);
         }
 
+
         private static List<Event> GetEvents(int count)
         {
             var events = new List<Event>();
@@ -625,7 +614,7 @@ namespace BaseOfTalents.DAL.Migrations
                         MiddleName = names.GetRandom(),
                         Password = GetRandomString(8),
                         PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = GetRandomNumbers(7) } },
-                        Photo = Photos.GetRandom(),
+                        //Photo = Files.GetRandom(),
                         Role = Roles.GetRandom(),
                         Skype = GetRandomString(8)
                     }
@@ -655,7 +644,7 @@ namespace BaseOfTalents.DAL.Migrations
             return roles;
         }
 
-        private static List<Vacancy> GetVacancies(int count)
+        public static List<Vacancy> GetVacancies(int count)
         {
             var vacancies = new List<Vacancy>();
             for (var i = 0; i < count; i++)
@@ -715,7 +704,7 @@ namespace BaseOfTalents.DAL.Migrations
                         Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, RandomNumber(0, 5))
                             .Distinct()
                             .ToList(),
-                    Photo = new Photo { Description = GetRandomString(25), ImagePath = GetRandomNumbers(25) },
+                    Photo = new File { Description = GetRandomString(25), FilePath = GetRandomNumbers(25) },
                     PositionDesired = professons.GetRandom(),
                     Practice = GetRandomString(20),
                     RelocationAgreement = true,
@@ -730,15 +719,15 @@ namespace BaseOfTalents.DAL.Migrations
                     VacanciesProgress = new List<VacancyStageInfo>()
                 };
                 candidate.RelocationPlaces =
-                    Enumerable.Repeat(
-                        new RelocationPlace
-                        {
-                            Country = Countries.GetRandom(),
-                            City = Cities.GetRandom(),
-                        },
-                        RandomNumber(1, 2))
-                        .Distinct()
-                        .ToList();
+                            Enumerable.Repeat(
+                                new RelocationPlace
+                                {
+                                    Country = Countries.GetRandom(),
+                                    City = Cities.GetRandom(),
+                                },
+                                RandomNumber(1, 2))
+                                .Distinct()
+                                .ToList();
                 candidates.Add(candidate);
             }
             return candidates;

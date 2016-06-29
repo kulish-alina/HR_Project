@@ -5,6 +5,7 @@ using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using BaseOfTalents.WebUI.Controllers;
+using DAL.DTO;
 using DAL.Services;
 using Domain.DTO.DTOModels;
 using NUnit.Framework;
@@ -15,8 +16,8 @@ using System.Web.Http.Results;
 
 namespace Tests.Controllers
 {
-    [TestFixture(Category = "Candidate updating(adding)")]
-    public partial class CandidateControllerTests : BaseTest
+    [TestFixture(Category = "Candidate adding")]
+    public partial class CandidateAddingTests : BaseTest
     {
         CandidateController controller;
 
@@ -28,26 +29,15 @@ namespace Tests.Controllers
             context = GenerateNewContext();
 
             context.Sources.AddRange(DummyData.Sources);
-            context.SaveChanges();
-
+            context.Countries.AddRange(DummyData.Countries);
+            context.Languages.AddRange(DummyData.Languages);
+            context.SocialNetworks.AddRange(DummyData.Socials);
             context.Tags.AddRange(DummyData.Tags);
-            context.SaveChanges();
-
             context.LanguageSkills.AddRange(DummyData.LanguageSkills);
-            context.SaveChanges();
-
             context.Cities.AddRange(DummyData.Cities);
-            context.SaveChanges();
-
             context.Industries.AddRange(DummyData.Industries);
-            context.SaveChanges();
-
             context.EventTypes.AddRange(DummyData.EventTypes);
-            context.SaveChanges();
-
             context.Users.AddRange(DummyData.Users);
-            context.SaveChanges();
-
             context.Candidates.AddRange(candidates);
             context.SaveChanges();
 
@@ -66,6 +56,86 @@ namespace Tests.Controllers
             context = null;
         }
 
+        [Test]
+        public void ShouldAddRelocationPlaces()
+        {
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<CandidateDTO>;
+            var candidate = response.Content;
+
+            int countryId = context.Countries.First().Id;
+            int cityId = context.Cities.First().Id;
+
+            var newRelocationPlace = new RelocationPlaceDTO
+            {
+                CountryId = countryId,
+                CityId = cityId
+            };
+
+            var places = candidate.RelocationPlaces.ToList();
+            places.Add(newRelocationPlace);
+            candidate.RelocationPlaces = places;
+
+            var newHttpResult = controller.Put(candidate.Id, candidate);
+            var newResponse = newHttpResult as JsonResult<CandidateDTO>;
+            var newCandidate = newResponse.Content;
+
+            Assert.IsTrue(newCandidate.RelocationPlaces.Any(x => x.CityId == cityId && x.CountryId == countryId));
+        }
+
+        [Test]
+        public void ShouldAddCandidateSocials()
+        {
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<CandidateDTO>;
+            var candidate = response.Content;
+
+            int socialId = context.SocialNetworks.First().Id;
+            var path = "TESTPATH";
+
+            var newCandidateSocial = new CandidateSocialDTO
+            {
+                SocialNetworkId = socialId,
+                Path = path
+            };
+
+            var socials = candidate.SocialNetworks.ToList();
+            socials.Add(newCandidateSocial);
+            candidate.SocialNetworks = socials;
+
+            var newHttpResult = controller.Put(candidate.Id, candidate);
+            var newResponse = newHttpResult as JsonResult<CandidateDTO>;
+            var newCandidate = newResponse.Content;
+
+            Assert.IsTrue(newCandidate.SocialNetworks.Any(x => x.SocialNetworkId == socialId && x.Path == path));
+        }
+
+        [Test]
+        public void ShouldAddLanguageSkills()
+        {
+            var httpResult = controller.Get(1);
+            var response = httpResult as JsonResult<CandidateDTO>;
+            var candidate = response.Content;
+
+            int languageId = context.Languages.First().Id;
+            LanguageLevel languageLevel = LanguageLevel.Advanced;
+
+            var newLanguageSkill = new LanguageSkillDTO
+            {
+                LanguageId = languageId,
+                LanguageLevel = languageLevel
+            };
+
+            var languageSkills = candidate.LanguageSkills.ToList();
+            languageSkills.Add(newLanguageSkill);
+            candidate.LanguageSkills = languageSkills;
+
+            var newHttpResult = controller.Put(candidate.Id, candidate);
+            var newResponse = newHttpResult as JsonResult<CandidateDTO>;
+            var newCandidate = newResponse.Content;
+
+            Assert.IsTrue(newCandidate.LanguageSkills.Any(x => x.LanguageId == languageId && x.LanguageLevel == languageLevel));
+        }
 
         [Test]
         public void ShouldAddSources()
@@ -245,7 +315,7 @@ namespace Tests.Controllers
                     LastName = "last name",
                     MiddleName = "middlename",
                     PhoneNumbers = new List<PhoneNumber>(),
-                    Photo = new Photo { Description = "description", ImagePath = "description" },
+                    Photo = new File { Description = "description", FilePath = "description" },
                     PositionDesired = "position",
                     Practice = "practice",
                     RelocationAgreement = false,

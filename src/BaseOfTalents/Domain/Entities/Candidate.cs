@@ -44,6 +44,10 @@ namespace BaseOfTalents.Domain.Entities
         public bool? RelocationAgreement { get; set; }
         public virtual ICollection<RelocationPlace> RelocationPlaces { get; set; }
 
+        public virtual ICollection<CandidateSource> Sources { get; set; }
+        public virtual int? MainSourceId { get; set; }
+        public virtual Source MainSource { get; set; }
+
         public int? CityId { get; set; }
         public virtual City City { get; set; }
 
@@ -60,12 +64,11 @@ namespace BaseOfTalents.Domain.Entities
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<VacancyStageInfo> VacanciesProgress { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<CandidateSource> Sources { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public virtual ICollection<Skill> Skills { get; set; }
         public virtual ICollection<Event> Events { get; set; }
 
-        public virtual Photo Photo { get; set; }
+        public virtual File Photo { get; set; }
     }
 }

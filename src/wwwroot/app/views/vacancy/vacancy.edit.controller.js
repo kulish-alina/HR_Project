@@ -72,7 +72,7 @@ export default function VacancyController(
          vm.isFilesUploaded = true;
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
-         UserDialogService.configs($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'warning');
+         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'warning');
       };
       return newUploader;
    }

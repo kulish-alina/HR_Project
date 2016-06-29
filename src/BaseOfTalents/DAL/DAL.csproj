@@ -71,7 +71,6 @@
     <Compile Include="DTO\NoteDTO.cs" />
     <Compile Include="DTO\PermissionDTO.cs" />
     <Compile Include="DTO\PhoneNumberDTO.cs" />
-    <Compile Include="DTO\PhotoDTO.cs" />
     <Compile Include="DTO\RelocationPlaceDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SetupDTO\CountryDTO.cs" />
@@ -103,7 +102,6 @@
     <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\LanguageSkillExtension.cs" />
     <Compile Include="Extensions\PhoneNumberExtension.cs" />
-    <Compile Include="Extensions\PhotoExtensions.cs" />
     <Compile Include="Extensions\RelocationPlaceExstensions.cs" />
     <Compile Include="Extensions\RoleExtension.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
@@ -128,7 +126,6 @@
     <Compile Include="Infrastructure\ICurrencyRepository.cs" />
     <Compile Include="Infrastructure\IPermissionRepository.cs" />
     <Compile Include="Infrastructure\IPhoneNumberRepository.cs" />
-    <Compile Include="Infrastructure\IPhotoRepository.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
     <Compile Include="Infrastructure\IRoleRepository.cs" />
     <Compile Include="Infrastructure\ISkillRepository.cs" />
@@ -159,7 +156,6 @@
     <Compile Include="Mapping\NoteConfiguration.cs" />
     <Compile Include="Mapping\PermissionConfiguration.cs" />
     <Compile Include="Mapping\PhoneNumberConfiguration.cs" />
-    <Compile Include="Mapping\PhotoConfiguration.cs" />
     <Compile Include="Mapping\RelocationPlaceConfiguration.cs" />
     <Compile Include="Mapping\RoleConfiguration.cs" />
     <Compile Include="Mapping\SkillConfiguration.cs" />
@@ -171,9 +167,9 @@
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201606231352096_init.cs" />
-    <Compile Include="Migrations\201606231352096_init.Designer.cs">
-      <DependentUpon>201606231352096_init.cs</DependentUpon>
+    <Compile Include="Migrations\201606291254204_init.cs" />
+    <Compile Include="Migrations\201606291254204_init.Designer.cs">
+      <DependentUpon>201606291254204_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -198,7 +194,6 @@
     <Compile Include="Repositories\LanguageSkillRepository.cs" />
     <Compile Include="Repositories\LevelRepository.cs" />
     <Compile Include="Repositories\PermissionRepository.cs" />
-    <Compile Include="Repositories\PhotoRepository.cs" />
     <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\SkillRepository.cs" />
     <Compile Include="Repositories\SocialNetworkRepository.cs" />
@@ -253,8 +248,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606231352096_init.resx">
-      <DependentUpon>201606231352096_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606291254204_init.resx">
+      <DependentUpon>201606291254204_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

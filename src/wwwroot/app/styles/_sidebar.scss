@@ -2,7 +2,6 @@
    @include card-container();
    height: 100%;
    min-width:  $rem-base*14.06;
-   max-height: $rem-base*45;
    width: 100%;
    margin: $rem-base*0.5;
    .file-upload {
@@ -35,23 +34,6 @@
    }
    i {
       font-size: $rem-base*1.5;
-      color: $primary-color;
-   }
-}
-
-.events {
-   font-size: $rem-base*0.8;
-   i {
-      font-size: $rem-base*2;
-      color: $gray-dark;
-      @include breakpoint(medium only) { 
-         font-size: $rem-base;
-      }
-      @include breakpoint(small only) { 
-         font-size: $rem-base;
-      }
-   }
-   i:hover {
       color: $primary-color;
    }
 }

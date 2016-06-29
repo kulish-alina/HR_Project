@@ -11,8 +11,8 @@
          <li>
             <a ng-click="edit()" ng-bind="::'COMMON.EDIT' | translate"></a>
          </li>
-         <li ng-if="isChanged">
-            <a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
+         <li ng-if="isChanged()">
+            <a ng-click="saveChanges()"  ng-bind="::'COMMON.SUBMIT' | translate"></a>
          </li>
       </ul>
    </div>
@@ -183,7 +183,7 @@
                   <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.RESPONSIBLE' | translate">:
                   </div>
                   <div class="medium-7 grid-block">
-                     <select ng-change="changed()" ng-model="vacancy.responsibleId">
+                     <select ng-model="vacancy.responsibleId">
                         <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
                      </select>
                   </div>
@@ -192,21 +192,21 @@
                   <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.START_DATE' | translate">:
                   </div>
                   <div class="medium-7 grid-block ">
-                     <date datemodel="vacancy.startDate" daterequired="true"></date>
+                     <input placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                   </div>
                </div>
                <div class="grid-block sidebar-row">
                   <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.DEADLINE_DATE' | translate">:
                   </div>
                   <div class="medium-7 grid-block ">
-                     <date datemodel="vacancy.deadlineDate"></date>
+                     <input placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                   </div>
                </div>
                <div class="grid-block sidebar-row">
                   <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.END_DATE' | translate">:
                   </div>
                   <div class="medium-7 grid-block">
-                     <date datemodel="vacancy.endDate"></date>
+                     <input placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                   </div>
                </div>
 
@@ -235,7 +235,7 @@
                            </div>
                            <div class="medium-7 grid-block">
                               <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stages" value="" ng-bind="stage.title"></option>
+                                 <option ng-repeat="stage in thesaurus.stage" value="" ng-bind="stage.title"></option>
                               </select>
                            </div>
                         </div>

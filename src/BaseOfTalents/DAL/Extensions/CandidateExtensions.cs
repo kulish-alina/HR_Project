@@ -32,6 +32,7 @@ namespace DAL.Extensions
             destination.RelocationAgreement = source.RelocationAgreement;
             destination.Education = source.Education;
             destination.IndustryId = source.IndustryId;
+            destination.MainSourceId = source.MainSourceId;
 
             PerformRelocationPlacesSaving(destination, source, uow.CityRepo);
             PerformSocialSaving(destination, source, uow.CandidateSocialRepo);
@@ -41,7 +42,7 @@ namespace DAL.Extensions
             PerformTagsSaving(destination, source, uow.TagRepo);
             PerformPhoneNumbersSaving(destination, source, uow.PhoneNumberRepo);
             PerformSkillsSaving(destination, source, uow.SkillRepo);
-            PerformPhotoSaving(destination, source, uow.PhotoRepo);
+            PerformPhotoSaving(destination, source, uow.FileRepo);
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
             PerformEventsSaving(destination, source, uow.EventRepo);
@@ -105,19 +106,19 @@ namespace DAL.Extensions
             });
         }
 
-        private static void PerformPhotoSaving(Candidate destination, CandidateDTO source, IRepository<Photo> photoRepository)
+        private static void PerformPhotoSaving(Candidate destination, CandidateDTO source, IRepository<File> fileRepository)
         {
             if (source.Photo != null)
             {
                 if (source.Photo.IsNew())
                 {
-                    var photoBd = photoRepository.GetByID(source.Photo.Id);
+                    var photoBd = fileRepository.GetByID(source.Photo.Id);
                     photoBd.Update(source.Photo);
                     destination.Photo = photoBd;
                 }
                 else if (source.Photo.ShouldBeRemoved())
                 {
-                    photoRepository.Delete(destination.Photo.Id);
+                    fileRepository.Delete(destination.Photo.Id);
                 }
                 else
                 {

@@ -31,7 +31,7 @@ namespace Domain.DTO.DTOModels
         public string Education { get; set; }
         public bool? IsMale { get; set; }
         public DateTime? BirthDate { get; set; }
-        public PhotoDTO Photo { get; set; }
+        public FileDTO Photo { get; set; }
         public string Email { get; set; }
         public string Skype { get; set; }
         public string PositionDesired { get; set; }
@@ -50,13 +50,15 @@ namespace Domain.DTO.DTOModels
         public int? CurrencyId { get; set; }
         public int? CityId { get; set; }
 
+        public IEnumerable<CandidateSourceDTO> Sources { get; set; }
+        public int? MainSourceId { get; set; }
+
         public IEnumerable<int> SkillIds { get; set; }
         public IEnumerable<int> TagIds { get; set; }
         public IEnumerable<PhoneNumberDTO> PhoneNumbers { get; set; }
         public IEnumerable<CandidateSocialDTO> SocialNetworks { get; set; }
         public IEnumerable<LanguageSkillDTO> LanguageSkills { get; set; }
         public IEnumerable<VacancyStageInfoDTO> VacanciesProgress { get; set; }
-        public IEnumerable<CandidateSourceDTO> Sources { get; set; }
         public IEnumerable<FileDTO> Files { get; set; }
         public IEnumerable<CommentDTO> Comments { get; set; }
         public IEnumerable<EventDTO> Events { get; set; }

@@ -38,6 +38,7 @@
                               <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
                            </li>
                         </ul>
+                        <input placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                         <div class="grid-block">
                            <oi-select ng-model="candidate.convertedLanguageSkills"
                               oi-options="{language: language.language, languageLevel: language.languageLevel}
@@ -133,7 +134,8 @@
                         <phones class="add-phone-number" ng-model="candidate.phoneNumbers"></phones>
                         <input ng-model="candidate.email" name="e-mail" type="text" placeholder="E-mail">
                         <input type="text" placeholder="Skype" ng-model=candidate.skype>
-                        <select name="MainSource">
+                        <select name="MainSource" convert-to-number
+                                ng-model="candidate.mainSourceId" ng-init="candidate.mainSourceId=''">
                            <option ng-selected="true" ng-bind="::('COMMON.MAIN_SOURCE' | translate)"></option>
                            <option ng-repeat="source in thesaurus.source" ng-bind="source.title" value="{{source.id}}"></option>
                         </select>
@@ -219,6 +221,8 @@
       <div class="vertical medium-horizontal grid-block">
          <div class="sidebar">
             <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate"></div>
+            Comming soon
+            <!-- 
             <div class="sidebar-content">
                <div class="grid-block">
                   <div class="medium-9 grid-block">
@@ -284,16 +288,21 @@
                   </ul>
                </section>
             </div>
+            -->
          </div>
          <div class="sidebar">
             <div class="card-divider">
                <div class="grid-block">
                   <div class="medium-9 grid-block" ng-bind="::'COMMON.EVENTS' | translate"></div>
+                  <!--
                   <div class="medium-3 grid-block">
                      <a class="button button-with-input" href="#"><span ng-bind="::'COMMON.ADD' | translate"></span></a>
                   </div>
+                  -->
                </div>
             </div>
+            Comming soon
+            <!--
             <div class="sidebar-content">
                <section class="block-list">
                   <ul class="icon-left events">
@@ -330,18 +339,23 @@
                   </ul>
                </section>
             </div>
+            -->
          </div>
          <div class="sidebar">
             <div class="card-divider" ng-bind="::'COMMON.COMMENTS' | translate"></div>
             <div class="sidebar-content">
                <div class="grid-block">
+                  <!--
                   <div class="medium-9 grid-block">
                      <textarea placeholder="Comment"></textarea>
                   </div>
                   <div class="medium-3 grid-block">
                      <a class="button button-with-input" href="#">{{::'COMMON.SAVE' | translate}}</a>
                   </div>
+                  -->
                </div>
+               Cooming soon
+               <!--
                <section class="block-list">
                   <ul class="comments">
                      <li>
@@ -385,6 +399,7 @@
                      </li>
                   </ul>
                </section>
+               -->
             </div>
          </div>
       </div>

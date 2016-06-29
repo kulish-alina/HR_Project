@@ -42,6 +42,7 @@ import HttpCacheService    from './services/HttpCacheService';
 import UserDialogService   from './services/UserDialogService/UserDialogService';
 import FileService         from './services/FileService';
 import NoteService         from './services/NoteService';
+import LocalStorageService from './services/LocalStorageService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import DatePickerDirective    from './directives/datepickerwrapper/DatePickerWrapperDirective';
@@ -51,6 +52,7 @@ import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
 import CommentsDirective      from './directives/comments/comments';
 import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
+import CandidateInfoDirective from './directives/candidate-info/candidate-info';
 
 import uiMask from 'angular-ui-mask';
 
@@ -93,6 +95,7 @@ angular
    .service('UserDialogService',   UserDialogService)
    .service('FileService',         FileService)
    .service('NoteService',         NoteService)
+   .service('LocalStorageService', LocalStorageService)
 
 
    .directive('thesaurus',      ThesaurusDirective.createInstance)
@@ -103,6 +106,7 @@ angular
    .directive('comments',       CommentsDirective.createInstance)
    .directive('mainMenu',       MainMenuDirective.createInstance)
    .directive('sideMenu',       SideMenuDirective.createInstance)
+   .directive('candidateInfo',  CandidateInfoDirective.createInstance)
 
    .filter('tel',               PhoneFormatFilter)
    .filter('arrayAsString',     ArrayAsString)

@@ -13,6 +13,10 @@
 
 .rtl {
    flex-direction: row-reverse;
+   background-color: $gray-light;
+   .member-photo {
+      margin-left: $rem-base/4;
+   }
 }
 
 .ltr {

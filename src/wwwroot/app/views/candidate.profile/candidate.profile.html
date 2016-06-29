@@ -130,46 +130,7 @@
             </div>
          </div>
          <div class="sidebar">
-            <div class="card-divider">
-               <div class="grid-block" ng-bind="::'COMMON.EVENTS' | translate">
-               </div>
-            </div>
-            <div class="sidebar-content">
-               <section class="block-list">
-                  <ul class="icon-left events">
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-2 grid-block">
-                              <i class="foundicon-people general-icon"></i>
-                           </div>
-                           <div class="medium-10 grid-block">
-                              <a href="#"><span>15.05.16 at 11.00 HR-Interviev with Antonov Viktor</span></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-2 grid-block">
-                              <i class="foundicon-website general-icon"></i>
-                           </div>
-                           <div class="medium-10 grid-block">
-                              <a href="#"><span>16.05.16 at 14.00 Tech-Interviev with Antonov Viktor</span></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-2 grid-block">
-                              <i class="foundicon-phone general-icon"></i>
-                           </div>
-                           <div class="medium-10 grid-block">
-                              <a href="#"><span>25.05.16 Call to Vasilenko Anna</span></a>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-            </div>
+            <events candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
          </div>
          <div class="sidebar">
             <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>

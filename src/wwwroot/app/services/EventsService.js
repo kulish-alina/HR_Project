@@ -26,7 +26,7 @@ export default class EventsService {
 
    getEventsByCandidate(candidateId) {
       return _HttpService.get(`${EVENT_URL}/candidate/${candidateId}`).then((events) => {
-         return each(events, this._convertFromServerFormat);
+         return each(events, (event) => this._convertFromServerFormat(event));
       });
    }
 

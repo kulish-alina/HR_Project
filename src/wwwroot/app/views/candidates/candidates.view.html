@@ -8,9 +8,9 @@
    </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar align-right">
-         <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
+         <li><a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
          </li>
-         <li><a href="#">{{::'COMMON.ADD_AND_BACK' | translate}}</a>
+         <li><a href="#" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
          </li>
       </ul>
    </div>
@@ -53,7 +53,7 @@
             <input ng-model="candidate.position" placeholder="{{::'CANDIDATE.POSITION' | translate}}" type="text">
             <input ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" type="text">
             <input ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" type="text">
-            <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+            <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="candidate.citiesIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
             <select name="Industry" ng-model="candidate.industryId">
                <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
                <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="::industry.title"></option>
@@ -112,7 +112,7 @@
                <thead>
                   <tr>
                      <th>
-                        <input id="checkbox9" type="checkbox">
+                        <input id="candidate" type="checkbox">
                      </th>
                      <th>№</th>
                      <th ng-bind="::'CANDIDATE.FULL_NAME' | translate"></th>
@@ -120,7 +120,6 @@
                      <th ng-bind="::'CANDIDATE.SOURCE' | translate"></th>
                      <th ng-bind="::'CANDIDATE.POSITION' | translate"></th>
                      <th ng-bind="::'COMMON.SALARY' | translate"></th>
-                     <th ng-bind="::'CANDIDATE.STAGE' | translate"></th>
                      <th ng-bind="::'COMMON.ADDED' | translate"></th>
                      <th></th>
                   </tr>
@@ -133,10 +132,9 @@
                      <td>{{$index+1}}</td>
                      <td><a ng-click="viewCandidate(candidate)" ng-bind="::(candidate.lastName+' '+candidate.firstName)"></a></td>
                      <td ng-bind="::candidate.industry | arrayAsString: 'title'"></td>
-                     <td ng-bind="::candidate.sources | arrayAsString: 'title'"></td>
+                     <td ng-bind="::candidate.source | arrayAsString: 'title'"></td>
                      <td ng-bind="::candidate.positionDesired"></td>
                      <td ng-bind="::candidate.salaryDesired"></td>
-                     <td></td>
                      <td ng-bind="::candidate.createdOn"></td>
                      <td>
                         <a ng-click="deleteCandidate(candidate.id)"><i class="foundicon-trash general-icon"></i>

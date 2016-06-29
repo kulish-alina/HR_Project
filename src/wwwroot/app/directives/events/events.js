@@ -13,7 +13,8 @@ export default class EventsDirective {
          events         : '=',
          save           : '=',
          remove         : '=',
-         getEventsByDate: '='
+         getEventsByDate: '=',
+         candidateId    : '='
       };
       this.controller = EventsController;
    }
@@ -38,13 +39,16 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
    vm.vacancy             = {};
    vm.vacancy.current     = 0;
    vm.vacancy.size        = 20;
+   vm.candidate           = {};
+   vm.candidate.current   = 0;
+   vm.candidate.size      = 20;
    vm.getEvents           = getEvents;
    vm.currentEvents       = [];
 
    function _init() {
       VacancyService.search(vm.vacancy).then(data => set(vm, 'vacancies', data.vacancies));
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
-      CandidateService.getCandidates().then(candidates => set(vm, 'candidates', candidates));
+      CandidateService.search(vm.candidate).then(data => set(vm, 'candidates', data.candidate));
       ThesaurusService.getThesaurusTopics('eventtype').then(eventTypes => set(vm, 'eventTypes', eventTypes));
    }
 
@@ -63,6 +67,9 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
 
    function showAddEventDialog() {
       vm.event = {};
+      if (vm.candidateId) {
+         vm.event.candidateId = `${vm.candidateId}`;
+      }
       let scope = {
          type         : 'list-with-input',
          responsibles : vm.responsibles,
@@ -87,7 +94,7 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
       let initializing = true;
 
       $scope.$watch('event.eventDate', function watch() {
-         if (initializing) {
+         if (initializing || vm.candidateId) {
             $timeout(function timeout() {
                initializing = false;
             });

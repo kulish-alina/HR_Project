@@ -11,14 +11,14 @@ table {
 }
 th {
    font-weight: normal;
-   padding: $rem-base*0.625;
+   padding: $rem-base*0.625 $rem-base/4;
    text-align: left;
    background: lighten($gray-light, 2);
 }
 td {
    border-top: 1px solid lighten($gray, 5);
-   padding-left: $rem-base*0.625;
-   padding-right: $rem-base*0.625;
+   padding-left: $rem-base/4;
+   padding-right: $rem-base/4;
 }
 tr:nth-child(2n) {
    background: lighten($gray-light, 2);

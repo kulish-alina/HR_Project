@@ -15,7 +15,8 @@ export default function VacanciesController(
    ThesaurusService,
    UserService,
    UserDialogService,
-   LoggerService
+   LoggerService,
+   LocalStorageService
    ) {
    'ngInject';
 
@@ -28,13 +29,14 @@ export default function VacanciesController(
    vm.thesaurus        = [];
    vm.responsibles     = [];
    vm.searchVacancies  = searchVacancies;
-   vm.vacancy          = {};
-   vm.vacancies        = [];
+   vm.vacancy          = LocalStorageService.get('vacancy') || {};
+   vm.vacancies        = LocalStorageService.get('vacancies') || [];
    vm.total            = 0;
    vm.vacancy.current  = 0;
    vm.vacancy.size     = 20;
    vm.pagination       = { current: 0 };
    vm.pageChanged      = pageChanged;
+   vm.setToStorage     = setToStorage;
 
    function pageChanged(newPage) {
       vm.vacancy.current = newPage;
@@ -52,6 +54,7 @@ export default function VacanciesController(
       VacancyService.search(vm.vacancy).then(response => {
          vm.total = response.total;
          vm.vacancies = response.vacancies;
+         LocalStorageService.set('vacancies', vm.vacancies);
       }).catch(_onError);
    }
 
@@ -87,5 +90,9 @@ export default function VacanciesController(
    function _onError(error) {
       UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_VACANCIES_SEARCH'), 'error');
       LoggerService.error(error);
+   }
+
+   function setToStorage() {
+      LocalStorageService.set('vacancy', vm.vacancy);
    }
 }

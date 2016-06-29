@@ -52,6 +52,8 @@ namespace BaseOfTalents.WebUI.Controllers
                     searchParameters.MaxSalary,
                     searchParameters.CurrencyId,
                     searchParameters.IndustryId,
+                    searchParameters.Position,
+                    searchParameters.Technology,
                     searchParameters.LanguageSkills,
                     searchParameters.CitiesIds,
                     searchParameters.Current,

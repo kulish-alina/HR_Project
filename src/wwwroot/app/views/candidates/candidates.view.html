@@ -1,54 +1,56 @@
-<div class="secondary-menu grid-block">
-   <div class="large-2 grid-block">
-      <div class="grid-content">
+<div ui-view></div>
+  <div ng-hide="$state.current.data.hide">
+   <div class="secondary-menu grid-block">
+      <div class="large-2 grid-block">
+         <div class="grid-content">
          <h5 ng-bind="::'CANDIDATES.BASE_OF_CANDIDATES' | translate"></h5>
+         </div>
+      </div>
+      <div class="large-7 grid-block">
+      </div>
+      <div class="large-3 grid-block align-right">
+         <ul class="menu-bar second-button-bar align-right">
+            <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
+            </li>
+            <li><a href="#">{{::'COMMON.ADD_AND_BACK' | translate}}</a>
+            </li>
+         </ul>
       </div>
    </div>
-   <div class="large-7 grid-block">
-   </div>
-   <div class="large-3 grid-block align-right">
-      <ul class="menu-bar second-button-bar align-right">
-         <li><a href="#">{{::'COMMON.CANCEL' | translate}}</a>
-         </li>
-         <li><a href="#">{{::'COMMON.ADD_AND_BACK' | translate}}</a>
-         </li>
-      </ul>
-   </div>
-</div>
-<div class="grid-block">
-   <div class="medium-3 grid-block">
-      <div class="sidebar">
+   <div class="grid-block">
+      <div class="medium-3 grid-block">
+         <div class="sidebar">
          <div class="card-divider" ng-bind="::'CANDIDATES.SEARCH_CANDIDATES' | translate">
-         </div>
-         <div class="card-section">
-            <div class="grid-block checkbox-block">
-               <div class="large-6 grid-content source-col">
-                  <input id="all" type="checkbox">
-                  <label for="all" ng-bind="::'CANDIDATES.ALL' | translate"></label>
-                  <br/>
-                  <input id="vk" type="checkbox">
-                  <label for="vk" ng-bind="::'CANDIDATES.VK' | translate"></label>
-                  <br/>
-                  <input id="rabota" type="checkbox">
-                  <label for="rabota" ng-bind="::'CANDIDATES.RABOTA' | translate"></label>
-                  <br/>
-                  <input id="djinni" type="checkbox">
-                  <label for="djinni" ng-bind="::'CANDIDATES.DJINNI' | translate"></label>
-               </div>
-               <div class="large-6 grid-content source-col">
-                  <input id="bot" type="checkbox">
-                  <label for="bot" ng-bind="::'CANDIDATES.BOT' | translate"></label>
-                  <br/>
-                  <input id="linledIn" type="checkbox">
-                  <label for="linledIn" ng-bind="::'CANDIDATES.LINKEDIN' | translate"></label>
-                  <br/>
-                  <input id="work" type="checkbox">
-                  <label for="work" ng-bind="::'CANDIDATES.WORK' | translate"></label>
-                  <br/>
-                  <input id="hr" type="checkbox">
-                  <label for="hr" ng-bind="::'CANDIDATES.HR' | translate"></label>
-               </div>
             </div>
+            <div class="card-section">
+               <div class="grid-block checkbox-block">
+                  <div class="large-6 grid-content source-col">
+                     <input id="all" type="checkbox">
+                  <label for="all" ng-bind="::'CANDIDATES.ALL' | translate"></label>
+                     <br/>
+                     <input id="vk" type="checkbox">
+                  <label for="vk" ng-bind="::'CANDIDATES.VK' | translate"></label>
+                     <br/>
+                     <input id="rabota" type="checkbox">
+                  <label for="rabota" ng-bind="::'CANDIDATES.RABOTA' | translate"></label>
+                     <br/>
+                     <input id="djinni" type="checkbox">
+                  <label for="djinni" ng-bind="::'CANDIDATES.DJINNI' | translate"></label>
+                  </div>
+                  <div class="large-6 grid-content source-col">
+                     <input id="bot" type="checkbox">
+                  <label for="bot" ng-bind="::'CANDIDATES.BOT' | translate"></label>
+                     <br/>
+                     <input id="linledIn" type="checkbox">
+                  <label for="linledIn" ng-bind="::'CANDIDATES.LINKEDIN' | translate"></label>
+                     <br/>
+                     <input id="work" type="checkbox">
+                  <label for="work" ng-bind="::'CANDIDATES.WORK' | translate"></label>
+                     <br/>
+                     <input id="hr" type="checkbox">
+                  <label for="hr" ng-bind="::'CANDIDATES.HR' | translate"></label>
+                  </div>
+               </div>
             <input ng-model="candidate.technology" placeholder="{{::'CANDIDATES.TECHNOLOGY' | translate}}" type="text">
             <input ng-model="candidate.position" placeholder="{{::'CANDIDATE.POSITION' | translate}}" type="text">
             <input ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" type="text">
@@ -57,34 +59,34 @@
             <select name="Industry" ng-model="candidate.industryId">
                <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
                <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="::industry.title"></option>
-            </select>
-            <ul class="some-change">
-               <li>
+               </select>
+               <ul class="some-change">
+                  <li>
                   <input ng-model="candidate.isMale" name="isMale" value="true" id="male" checked="" type="radio">
                   <label for="male" ng-bind="::'COMMON.MALE' | translate"></label>
-               </li>
-               <li>
+                  </li>
+                  <li>
                   <input ng-model="candidate.isMale" name="isMale" value="false" id="female" type="radio">
                   <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
-               </li>
-            </ul>
-            <div class="range-slider">
+                  </li>
+               </ul>
+               <div class="range-slider">
                <label ng-bind="::'CANDIDATE.CANDIDATE_AGE' | translate"></label>
-               <rzslider rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
-            </div>
+                  <rzslider rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
+               </div>
             <label ng-bind="::'CANDIDATE.EXPERIENCE' | translate"></label>
-            <div class="grid-block">
-               <div class="medium-6 grid-block">
+               <div class="grid-block">
+                  <div class="medium-6 grid-block">
                   <input placeholder="{{::'COMMON.YEARS' | translate}}" ng-model="candidate.experienceYears" type="number" min="0" step="1">
-               </div>
-               <div class="medium-6 grid-block">
+                  </div>
+                  <div class="medium-6 grid-block">
                   <input placeholder="{{::'COMMON.MONTHS' | translate}}" ng-model="candidate.experienceMonths" type="number" min="0" step="1">
+                  </div>
                </div>
-            </div>
-            <div class="grid-block">
+               <div class="grid-block">
                <div class="medium-5 grid-block">
                   <input ng-model="candidate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="number" min="0" step="50">
-               </div>
+                  </div>
                <div class="medium-5 grid-block">
                   <input ng-model="candidate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="number" min="0" step="50">
                </div>
@@ -93,28 +95,28 @@
                      <option value="">&#8372;</option>
                      <option value="">&#8364;</option>
                      <option value="">$</option>
-                  </select>
-               </div>
+                     </select>
+                  </div>
             </div>
             <div class="grid-block">
 <!--TODO: add input for language and languageLevel-->
-            </div>
+               </div>
             <a class="expand button" ng-click="searchCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
+            </div>
          </div>
       </div>
-   </div>
-   <div class="medium-9 grid-block">
-      <div class="main-card">
+      <div class="medium-9 grid-block">
+         <div class="main-card">
          <div ng-bind="::'CANDIDATES.CANDIDATES' | translate" class="card-divider">
-         </div>
-         <div class="card-section">
-            <table>
-               <thead>
-                  <tr>
-                     <th>
-                        <input id="checkbox9" type="checkbox">
-                     </th>
-                     <th>№</th>
+            </div>
+            <div class="card-section">
+               <table>
+                  <thead>
+                     <tr>
+                        <th>
+                           <input id="checkbox9" type="checkbox">
+                        </th>
+                        <th>№</th>
                      <th ng-bind="::'CANDIDATE.FULL_NAME' | translate"></th>
                      <th ng-bind="::'COMMON.INDUSTRY' | translate"></th>
                      <th ng-bind="::'CANDIDATE.SOURCE' | translate"></th>
@@ -122,15 +124,15 @@
                      <th ng-bind="::'COMMON.SALARY' | translate"></th>
                      <th ng-bind="::'CANDIDATE.STAGE' | translate"></th>
                      <th ng-bind="::'COMMON.ADDED' | translate"></th>
-                     <th></th>
-                  </tr>
-               </thead>
-               <tbody>
+                        <th></th>
+                     </tr>
+                  </thead>
+                  <tbody>
                   <tr dir-paginate="candidate in candidates | itemsPerPage: candidate.size" total-items="total" current-page="pagination.current">
-                     <th>
-                        <input id="checkbox9" type="checkbox">
-                     </th>
-                     <td>{{$index+1}}</td>
+                        <th>
+                           <input id="checkbox9" type="checkbox">
+                        </th>
+                        <td>{{$index+1}}</td>
                      <td><a ng-click="viewCandidate(candidate)" ng-bind="::(candidate.lastName+' '+candidate.firstName)"></a></td>
                      <td ng-bind="::candidate.industry | arrayAsString: 'title'"></td>
                      <td ng-bind="::candidate.sources | arrayAsString: 'title'"></td>
@@ -138,18 +140,19 @@
                      <td ng-bind="::candidate.salaryDesired"></td>
                      <td></td>
                      <td ng-bind="::candidate.createdOn"></td>
-                     <td>
+                        <td>
                         <a ng-click="deleteCandidate(candidate.id)"><i class="foundicon-trash general-icon"></i>
                         </a>
-                        <a ng-click="editCandidate(candidate)"><i class="foundicon-edit general-icon"></i>
+                           <a ng-click="editCandidate(candidate)"><i class="foundicon-edit general-icon"></i>
                         </a>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-            <div class="switch-pages">
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <div class="switch-pages">
                <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ]  on-page-change="pageChanged(newPageNumber)">
-               </dir-pagination-controls>
+                  </dir-pagination-controls>
+               </div>
             </div>
          </div>
       </div>

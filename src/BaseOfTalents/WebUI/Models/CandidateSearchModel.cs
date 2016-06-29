@@ -1,9 +1,6 @@
-﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
-using Domain.DTO.DTOModels;
+﻿using Domain.DTO.DTOModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace BaseOfTalents.WebUI.Models
 {
@@ -29,6 +26,8 @@ namespace BaseOfTalents.WebUI.Models
         public int? MaxSalary { get; set; }
         public int? CurrencyId { get; set; }
         public int? IndustryId { get; set; }
+        public string Position { get; set; }
+        public string Technology { get; set; }
 
         public IEnumerable<LanguageSkillDTO> LanguageSkills { get; set; }
         public IEnumerable<int> CitiesIds { get; set; }

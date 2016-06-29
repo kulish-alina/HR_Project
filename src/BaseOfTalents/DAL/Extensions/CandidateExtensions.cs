@@ -85,11 +85,11 @@ namespace DAL.Extensions
         {
             source.Files.ToList().ForEach(file =>
             {
-                var fileInVacancy = destination.Files.FirstOrDefault(x => x.Id == file.Id);
+                var fileInCandidate = destination.Files.FirstOrDefault(x => x.Id == file.Id);
                 var dbFile = fileRepository.GetByID(file.Id);
                 if (dbFile == null)
                 {
-                    throw new Exception("Unknown file");
+                    throw new Exception("Database doesn't contains such entity");
                 }
                 if (file.ShouldBeRemoved())
                 {
@@ -98,7 +98,7 @@ namespace DAL.Extensions
                 else
                 {
                     dbFile.Update(file);
-                    if (fileInVacancy == null)
+                    if (fileInCandidate == null)
                     {
                         destination.Files.Add(dbFile);
                     }
@@ -108,21 +108,22 @@ namespace DAL.Extensions
 
         private static void PerformPhotoSaving(Candidate destination, CandidateDTO source, IRepository<File> fileRepository)
         {
-            if (source.Photo != null)
+            var photoInDTO = source.Photo;
+            if (photoInDTO != null)
             {
-                if (source.Photo.IsNew())
+                var photoInDb = fileRepository.GetByID(source.Photo.Id);
+                if (photoInDb == null)
                 {
-                    var photoBd = fileRepository.GetByID(source.Photo.Id);
-                    photoBd.Update(source.Photo);
-                    destination.Photo = photoBd;
+                    throw new Exception("Database doesn't contains such entity");
                 }
-                else if (source.Photo.ShouldBeRemoved())
+                if (photoInDTO.ShouldBeRemoved())
                 {
-                    fileRepository.Delete(destination.Photo.Id);
+                    fileRepository.Delete(photoInDb.Id);
                 }
                 else
                 {
-                    destination.Photo.Update(source.Photo);
+                    photoInDb.Update(photoInDTO);
+                    destination.Photo = photoInDb;
                 }
             }
         }

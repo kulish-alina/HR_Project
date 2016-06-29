@@ -1,6 +1,5 @@
 ﻿using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.Domain.Entities;
-using DAL.Services;
 using Domain.DTO.DTOModels;
 using System;
 using System.Linq;
@@ -63,20 +62,22 @@ namespace DAL.Extensions
 
         private static void PerformPhotoSaving(User destination, UserDTO source, IRepository<File> fileRepository)
         {
-            if (source.Photo != null)
+            var photoInDTO = source.Photo;
+            if (photoInDTO != null)
             {
-                if (source.Photo.IsNew())
+                var photoInDb = fileRepository.GetByID(source.Photo.Id);
+                if (photoInDb == null)
                 {
-                    var newPhoto = DTOService.ToEntity<FileDTO, File>(source.Photo);
-                    destination.Photo = newPhoto;
+                    throw new Exception("Database doesn't contains such entity");
                 }
-                else if (source.Photo.ShouldBeRemoved())
+                if (photoInDTO.ShouldBeRemoved())
                 {
-                    fileRepository.Delete(destination.Photo.Id);
+                    fileRepository.Delete(photoInDb.Id);
                 }
                 else
                 {
-                    destination.Photo.Update(source.Photo);
+                    photoInDb.Update(photoInDTO);
+                    destination.Photo = photoInDb;
                 }
             }
         }

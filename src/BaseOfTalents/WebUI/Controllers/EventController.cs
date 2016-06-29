@@ -57,6 +57,7 @@ namespace BaseOfTalents.WebUI.Controllers
             var foundedEvents = service.Get(searchParams.UserIds, searchParams.StartDate, searchParams.EndDate);
             return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
         }
+           
 
         [HttpGet]
         [Route("candidate/{candidateId:int}")]

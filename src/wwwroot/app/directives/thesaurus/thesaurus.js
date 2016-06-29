@@ -21,7 +21,7 @@ export default class ThesaurusDirective {
 }
 
 function ThesaurusController($element, $scope, ThesaurusService, $translate,
-      FileUploaderService, LoggerService, UserDialogService) {
+      FileService, LoggerService, UserDialogService) {
    'ngInject';
 
    const vm = $scope;
@@ -145,7 +145,7 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate,
    }
 
    function _createNewUploader() {
-      let newUploader = FileUploaderService.getFileUploader({maxSize: MAX_ICON_FILE_SIZE});
+      let newUploader = FileService.getFileUploader({maxSize: MAX_ICON_FILE_SIZE});
 
       function saveTopic(topic) {
          _saveThesaurusTopic(topic)

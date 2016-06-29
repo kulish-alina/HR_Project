@@ -22,7 +22,8 @@ export default function RolesController(
    RolesService,
    SettingsService,
    UserDialogService,
-   UserService) {
+   UserService,
+   LocalStorageService) {
    'ngInject';
 
    /*---api---*/
@@ -32,7 +33,7 @@ export default function RolesController(
    vm.permissions     = null;
    vm.currentRole     = {};
    vm.newRole         = {title: ''};
-   vm.currentRoleName = '';
+   vm.currentRoleName = LocalStorageService.get('currentRoleName') || '';
    vm.getFlag         = _getFlag;
    vm.setFlag         = _setFlag;
    vm.setAll          = _setAll;
@@ -73,7 +74,7 @@ export default function RolesController(
    function _initRoles() {
       RolesService.getRoles()
          .then((rol) => set(vm, 'roles', keyBy(rol, 'title')))
-         .then(_selectFirstRole);
+         .then(vm.currentRoleName ? vm.selectRole(vm.currentRoleName) : _selectFirstRole);
    }
 
    function _initPermissions() {
@@ -83,6 +84,7 @@ export default function RolesController(
    }
    function _selectRole(roleName) {
       vm.currentRoleName = roleName;
+      LocalStorageService.set('currentRoleName', vm.currentRoleName);
       vm.currentRole = reduce(flatten(values(vm.permissions)), (memo, perm) => {
          memo[perm.id] = {};
          memo[perm.id].flag = _getFlag(roleName, perm.id);

@@ -15,21 +15,22 @@ export default function CandidatesController(
    CandidateService,
    ThesaurusService,
    UserDialogService,
-   LoggerService
+   LoggerService,
+   LocalStorageService
    ) {
    'ngInject';
    const vm             = $scope;
-   vm.candidate         = {};
    vm.deleteCandidate   = deleteCandidate;
    vm.editCandidate     = editCandidate;
    vm.viewCandidate     = viewCandidate;
    vm.cancel            = cancel;
    vm.thesaurus         = [];
    vm.searchCandidates  = searchCandidates;
-   vm.candidates        = [];
+   vm.candidates        = LocalStorageService.get('candidates') || [];
    vm.total             = 0;
    vm.pagination        = { current: 0 };
    vm.pageChanged       = pageChanged;
+   vm.setToStorage      = setToStorage;
    vm.slider = {
       min: 21,
       max: 45,
@@ -50,6 +51,7 @@ export default function CandidatesController(
    _initData();
 
    function _initPagination() {
+      vm.candidate = LocalStorageService.get('candidate') || {};
       vm.candidate.current = 0;
       vm.candidate.size    = 20;
    }
@@ -66,8 +68,8 @@ export default function CandidatesController(
       CandidateService.search(vm.candidate).then(response => {
          vm.total = response.total;
          vm.candidates = response.candidate;
-         console.log(vm.candidates);
          _initPagination();
+         LocalStorageService.set('candidates', vm.candidates);
       }).catch(_onError);
    }
 
@@ -98,5 +100,9 @@ export default function CandidatesController(
    function _onError(error) {
       UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_CANDIDATES_SEARCH'), 'error');
       LoggerService.error(error);
+   }
+
+   function setToStorage() {
+      LocalStorageService.set('candidate', vm.candidate);
    }
 }

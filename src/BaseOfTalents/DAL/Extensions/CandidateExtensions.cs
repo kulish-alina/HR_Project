@@ -32,6 +32,7 @@ namespace DAL.Extensions
             destination.RelocationAgreement = source.RelocationAgreement;
             destination.Education = source.Education;
             destination.IndustryId = source.IndustryId;
+            destination.MainSourceId = source.MainSourceId;
 
             PerformRelocationPlacesSaving(destination, source, uow.CityRepo);
             PerformSocialSaving(destination, source, uow.CandidateSocialRepo);

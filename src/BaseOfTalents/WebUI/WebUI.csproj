@@ -64,6 +64,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Keywielder, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Keywielder.1.1.0\lib\net35\Keywielder.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -151,7 +155,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\" />
-    <Folder Include="Infrastructure\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -162,6 +165,7 @@
     <Compile Include="AutoMapperWebConfiguration.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccessRightController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CandidateController.cs" />
     <Compile Include="Controllers\BaseEnumController.cs" />
@@ -194,6 +198,10 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ModelStateHelper.cs" />
     <Compile Include="Globals\Converters\PermissionConverter.cs" />
+    <Compile Include="Filters\Authentificate.cs" />
+    <Compile Include="Filters\PermissionAuthorization.cs" />
+    <Compile Include="Infrastructure\Auth\IAccountService.cs" />
+    <Compile Include="Infrastructure\Auth\IAuthContainer.cs" />
     <Compile Include="Models\CandidateProgressModel.cs" />
     <Compile Include="Extensions\DTOModelConverter.cs" />
     <Compile Include="Global.asax.cs">
@@ -203,13 +211,20 @@
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\EventSearchParameteres.cs" />
     <Compile Include="Models\FileModel.cs" />
+    <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Models\LanguageSkillModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NoteModel.cs" />
     <Compile Include="Models\VacancyModel.cs" />
     <Compile Include="Models\VacancySearchModel.cs" />
     <Compile Include="Models\VacancySearchParameters.cs" />
     <Compile Include="Models\VacancyStageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Results\AddChallengeOnUnauthorizedResult.cs" />
+    <Compile Include="Results\AuthFailedResult.cs" />
+    <Compile Include="Services\Auth\TokenContainer.cs" />
+    <Compile Include="Services\Auth\TokenProvider.cs" />
+    <Compile Include="Services\Auth\UserAccountService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

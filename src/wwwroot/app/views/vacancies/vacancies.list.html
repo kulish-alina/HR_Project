@@ -8,9 +8,11 @@
    </div>
    <div class="large-2 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
+         <li>
+            <a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
          </li>
-         <li><a href="#" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
+         <li>
+            <a href="#" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
          </li>
       </ul>
    </div>
@@ -28,7 +30,7 @@
                </select>
                <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
                <input ng-model="vacancy.title" placeholder="Position" type="text">
-               <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.location" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+               <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
                <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
                   <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
                   <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
@@ -69,7 +71,9 @@
                <tbody>
                   <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | itemsPerPage: vacancy.size" total-items="total" current-page="pagination.current">
                      <td>{{$index+1}}</td>
-                     <td><a ng-click="viewVacancy(vacancy)" ng-bind="::vacancy.title"></a></td>
+                     <td>
+                        <a ng-click="viewVacancy(vacancy)" ng-bind="::vacancy.title"></a>
+                     </td>
                      <td ng-bind="::vacancy.entityStates[0].title"></td>
                      <td ng-bind="vacancy.cities | arrayAsString: 'title'" class="col4"></td>
                      <td ng-bind="::vacancy.responsible.lastName"></td>

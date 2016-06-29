@@ -79,7 +79,7 @@ export default function CandidateProfileController(
    function saveChanges() {
       if (vm.uploader.getNotUploadedItems().length) {
          vm.uploader.uploadAll();
-      } else if (vm.queueFileIdsForRemove) {
+      } else if (vm.queueFileIdsForRemove.length) {
          FileService.removeGroup(vm.queueFileIdsForRemove).then(() => {
             vm.queueFileIdsForRemove = [];
             _candidateSave();
@@ -92,7 +92,7 @@ export default function CandidateProfileController(
    function _candidateSave() {
       let memo = vm.candidate.comments;
       vm.candidate.comments = vm.comments;
-      CandidateService.save(vm.candidate).then(candidate => {
+      CandidateService.saveCandidate(vm.candidate).then(candidate => {
          vm.candidate = candidate;
          vm.comments = cloneDeep(vm.candidate.comments);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');

@@ -22,25 +22,25 @@
          </div>
          <div class="card-section">
             <form name="searchVacancy">
-               <select name="Industry" ng-model="vacancy.industryId" ng-change="setToStorage()">
+               <select name="Industry" ng-model="vacancy.industryId">
                   <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
                   <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
                </select>
-               <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}" ng-change="setToStorage()"></oi-select>
-               <input ng-model="vacancy.title" placeholder="Position" type="text" ng-change="setToStorage()">
+               <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
+               <input ng-model="vacancy.title" placeholder="Position" type="text">
                <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.location" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}" ng-change="setToStorage()"></oi-select>
-               <select name="Type of Employment" ng-model="vacancy.typeOfEmployment" ng-change="setToStorage()">
+               <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
                   <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
                   <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
                </select>
-               <select name="State" ng-model="vacancy.vacancyState" ng-change="setToStorage()">
+               <select name="State" ng-model="vacancy.vacancyState">
                   <option selected value="" ng-bind="::'COMMON.STATUS' | translate"></option>
                   <option selected value="5" ng-bind="::'VACANCY.OPEN' | translate"></option>
                   <option selected value="6" ng-bind="::'VACANCY.PROCESSING' | translate"></option>
                   <option selected value="7" ng-bind="::'VACANCY.CLOSED' | translate"></option>
                   <option selected value="8" ng-bind="::'VACANCY.CANCELLED' | translate"></option>
                </select>
-               <select ng-model="vacancy.userId" name="Responsible" ng-change="setToStorage()">
+               <select ng-model="vacancy.userId" name="Responsible">
                   <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
                   <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
                </select>

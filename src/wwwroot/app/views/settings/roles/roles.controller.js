@@ -55,6 +55,7 @@ export default function RolesController(
    function _onDestroy() {
       SettingsService.removeOnSubmitListener(_onSubmit);
       SettingsService.removeOnCancelListener(_onCancel);
+      LocalStorageService.set('currentRoleName', vm.currentRoleName);
    }
 
    function _onSubmit() {
@@ -84,7 +85,6 @@ export default function RolesController(
    }
    function _selectRole(roleName) {
       vm.currentRoleName = roleName;
-      LocalStorageService.set('currentRoleName', vm.currentRoleName);
       vm.currentRole = reduce(flatten(values(vm.permissions)), (memo, perm) => {
          memo[perm.id] = {};
          memo[perm.id].flag = _getFlag(roleName, perm.id);

@@ -12,6 +12,7 @@ export default function CandidatesController(
    $state,
    $q,
    $translate,
+   $element,
    CandidateService,
    ThesaurusService,
    UserDialogService,
@@ -30,7 +31,6 @@ export default function CandidatesController(
    vm.total             = 0;
    vm.pagination        = { current: 0 };
    vm.pageChanged       = pageChanged;
-   vm.setToStorage      = setToStorage;
    vm.slider = {
       min: 21,
       max: 45,
@@ -69,7 +69,6 @@ export default function CandidatesController(
          vm.total = response.total;
          vm.candidates = response.candidate;
          _initPagination();
-         LocalStorageService.set('candidates', vm.candidates);
       }).catch(_onError);
    }
 
@@ -102,7 +101,9 @@ export default function CandidatesController(
       LoggerService.error(error);
    }
 
-   function setToStorage() {
+   $element.on('$destroy', _setToStorage);
+   function _setToStorage() {
       LocalStorageService.set('candidate', vm.candidate);
+      LocalStorageService.set('candidates', vm.candidates);
    }
 }

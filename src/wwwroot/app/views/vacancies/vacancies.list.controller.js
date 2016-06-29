@@ -11,6 +11,7 @@ export default function VacanciesController(
    $state,
    $q,
    $translate,
+   $element,
    VacancyService,
    ThesaurusService,
    UserService,
@@ -36,7 +37,6 @@ export default function VacanciesController(
    vm.vacancy.size     = 20;
    vm.pagination       = { current: 0 };
    vm.pageChanged      = pageChanged;
-   vm.setToStorage     = setToStorage;
 
    function pageChanged(newPage) {
       vm.vacancy.current = newPage;
@@ -54,7 +54,6 @@ export default function VacanciesController(
       VacancyService.search(vm.vacancy).then(response => {
          vm.total = response.total;
          vm.vacancies = response.vacancies;
-         LocalStorageService.set('vacancies', vm.vacancies);
       }).catch(_onError);
    }
 
@@ -92,7 +91,9 @@ export default function VacanciesController(
       LoggerService.error(error);
    }
 
-   function setToStorage() {
+   $element.on('$destroy', _setToStorage);
+   function _setToStorage() {
       LocalStorageService.set('vacancy', vm.vacancy);
+      LocalStorageService.set('vacancies', vm.vacancies);
    }
 }

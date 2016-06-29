@@ -24,7 +24,7 @@ export default class EventsDirective {
    }
 }
 
-function EventsController($scope, $translate, VacancyService, CandidateService, UserService,
+function EventsController($scope, $translate, $timeout, VacancyService, CandidateService, UserService,
                            ThesaurusService, UserDialogService) {
    const vm               = $scope;
    vm.event               = {};
@@ -84,9 +84,16 @@ function EventsController($scope, $translate, VacancyService, CandidateService, 
          }
       ];
       UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
+      let initializing = true;
 
       $scope.$watch('event.eventDate', function watch() {
-         getEvents(vm.event.eventDate);
+         if (initializing) {
+            $timeout(function timeout() {
+               initializing = false;
+            });
+         } else {
+            getEvents(vm.event.eventDate);
+         }
       });
    }
 

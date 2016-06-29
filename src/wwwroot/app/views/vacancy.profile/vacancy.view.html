@@ -11,8 +11,8 @@
          <li>
             <a ng-click="edit()" ng-bind="::'COMMON.EDIT' | translate"></a>
          </li>
-         <li ng-if="isChanged">
-            <a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
+         <li ng-if="isChanged()">
+            <a ng-click="saveChanges()"  ng-bind="::'COMMON.SUBMIT' | translate"></a>
          </li>
       </ul>
    </div>
@@ -183,7 +183,7 @@
                   <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.RESPONSIBLE' | translate">:
                   </div>
                   <div class="medium-7 grid-block">
-                     <select ng-change="changed()" ng-model="vacancy.responsibleId">
+                     <select ng-model="vacancy.responsibleId">
                         <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
                      </select>
                   </div>

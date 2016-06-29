@@ -26,7 +26,7 @@ export default class EventsService {
 
    getEventsByCandidate(candidateId) {
       return _HttpService.get(`${EVENT_URL}/candidate/${candidateId}`).then((events) => {
-         return each(events, (event) => this._convertFromServerFormat(event));
+         return each(events, this._convertFromServerFormat);
       });
    }
 
@@ -83,15 +83,22 @@ export default class EventsService {
    }
 
    _fillEntities(event) {
-      let userPromise    = _UserService.getUserById(event.responsibleId).then(user =>
-                        set(event, 'responsible', user));
-      let vacancyPromise = event.vacancyId ? _VacancyService.getVacancy(event.vacancyId).then(vacancy =>
-                        set(event, 'vacancy', vacancy))  : _$q.when(true);
-      let candidatePromise = event.candidateId ? _CandidateService.getCandidate(event.candidateId).then(candidate =>
-                        set(event, 'candidate', candidate)) : _$q.when(true);
-      let thesaurusPromise = event.eventTypeId ? _ThesaurusService.getThesaurusTopic('eventtype', event.eventTypeId)
-                        .then(eventType => set(event, 'eventType', eventType)) : _$q.when(true);
-      return _$q.all(userPromise, vacancyPromise, candidatePromise, thesaurusPromise);
+      let promises = [];
+      promises.push(_UserService.getUserById(event.responsibleId)
+                    .then(user => set(event, 'responsible', user)));
+      if (event.vacancyId) {
+         promises.push(_VacancyService.getVacancy(event.vacancyId)
+                      .then(vacancy => set(event, 'vacancy', vacancy)));
+      }
+      if (event.candidateId) {
+         promises.push(_CandidateService.getCandidate(event.candidateId)
+                       .then(candidate => set(event, 'candidate', candidate)));
+      }
+      if (event.eventTypeId) {
+         promises.push(_ThesaurusService.getThesaurusTopic('eventtype', event.eventTypeId)
+                       .then(eventType => set(event, 'eventType', eventType)));
+      }
+      return _$q.all(promises);
    }
 
 }

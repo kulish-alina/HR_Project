@@ -4,8 +4,18 @@ import {
    set,
    each,
    cloneDeep,
-   find
+   find,
+   pick,
+   some,
+   every
 } from 'lodash';
+
+import {
+   isMatch
+} from 'lodash/fp';
+
+
+const MATCH_FIELDS = ['responsibleId', 'startDate', 'endDate', 'deadlineDate'];
 
 export default function VacancyProfileController(
    $scope,
@@ -24,8 +34,6 @@ export default function VacancyProfileController(
    'ngInject';
 
    const vm                = $scope;
-   vm.vacancy              = {};
-   vm.vacancy.comments     = $state.params._data ? $state.params._data.comments : vm.vacancy.comments;
    vm.thesaurus            = [];
    vm.responsibles         = [];
    vm.edit                 = edit;
@@ -33,19 +41,12 @@ export default function VacancyProfileController(
    vm.addFilesForRemove    = addFilesForRemove;
    vm.queueFilesForRemove  = [];
    vm.saveChanges          = saveChanges;
-   vm.changed              = changed;
-   vm.isChanged            = false;
+   vm.isChanged            = isChanged;
    vm.selectStage          = selectStage;
    vm.currentStage         = '';
    vm.saveComment          = _saveComment;
    vm.removeComment        = _removeComment;
    vm.editComment          = _editComment;
-   vm.comments             = cloneDeep(vm.vacancy.comments);
-   vm.vacancy              = {
-      files : $state.params._data ? $state.params._data.files : []
-   };
-   vm.vacancy.comments     = [];
-   let initializing        = true;
 
    function _init() {
       _initCurrentVacancy();
@@ -57,12 +58,39 @@ export default function VacancyProfileController(
    function _initCurrentVacancy() {
       if ($state.params._data) {
          vm.vacancy = $state.params._data;
+         vm.vacancy.comments = $state.params._data.comments;
+         vm.vacancy.files = $state.params._data.files;
+         vm.clonedVacancy = cloneDeep(vm.vacancy);
+         vm.comments = cloneDeep(vm.vacancy.comments);
       } else {
          VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
             set(vm, 'vacancy', vacancy);
+            vm.clonedVacancy = cloneDeep(vm.vacancy);
             vm.comments = cloneDeep(vm.vacancy.comments);
          });
       }
+   }
+
+   function isChanged() {
+      if (!vm.vacancy) {
+         return false;
+      }
+      let res = false;
+      res = res || vm.uploader.queue.length !== 0;
+      res = res || !isMatch(pick(vm.clonedVacancy, MATCH_FIELDS), vm.vacancy);
+      res = res || !_isEqualComents();
+      return res;
+   }
+
+   function _isEqualComents() {
+      if (vm.comments.length !== vm.vacancy.comments.length || vm.queueFilesForRemove.length) {
+         return false;
+      }
+      let fields = ['createdOn', 'id', 'message', 'state'];
+      return every(vm.comments, (comment) => {
+         comment = pick(comment, fields);
+         return some(vm.vacancy.comments, isMatch(comment));
+      });
    }
 
    function createNewUploader() {
@@ -70,13 +98,11 @@ export default function VacancyProfileController(
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          let response = JSON.parse(item._xhr.response);
          vm.vacancy.files.push(response);
-         vm.isChanged = false;
       };
       newUploader.onWhenAddingFileFailed = function onAddingFileFailed() {
          UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'warning');
       };
       newUploader.onAfterAddingAll = function onAfterAddingAl() {
-         vm.isChanged = true;
       };
       return newUploader;
    }
@@ -84,7 +110,6 @@ export default function VacancyProfileController(
    function addFilesForRemove(file) {
       vm.queueFilesForRemove.push(file);
       remove(vm.vacancy.files, {id: file.id});
-      vm.isChanged = true;
    }
 
    function edit() {
@@ -103,31 +128,15 @@ export default function VacancyProfileController(
       }
    }
 
-   function changed() {
-      vm.isChanged = true;
-   }
-
-   vm.$watchGroup(['vacancy.startDate', 'vacancy.endDate', 'vacancy.deadlineDate'], function watchDates() {
-      if (initializing) {
-         $timeout(function timeout() {
-            initializing = false;
-         });
-      } else {
-         changed();
-      }
-   });
-
    function selectStage(stageName) {
       vm.currentStage = stageName;
    }
 
    function _saveComment(comment) {
-      vm.isChanged = true;
       return $q.when(vm.comments.push(comment));
    }
 
    function _removeComment(comment) {
-      vm.isChanged = true;
       let commentForRemove = find(vm.comments, comment);
       if (comment.id) {
          commentForRemove.state = 1;
@@ -139,7 +148,6 @@ export default function VacancyProfileController(
    }
 
    function _editComment(comment) {
-      vm.isChanged = true;
       return $q.when(remove(vm.comments, comment));
    }
 
@@ -149,9 +157,9 @@ export default function VacancyProfileController(
       VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
          vm.comments = cloneDeep(vm.vacancy.comments);
-         UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
-         vm.isChanged = false;
+         vm.clonedVacancy = cloneDeep(vm.vacancy);
          vm.uploader.clearQueue();
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
       }).catch((error) => {
          vm.vacancy.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');

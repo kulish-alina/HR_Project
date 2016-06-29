@@ -1,5 +1,6 @@
 const LIST_OF_THESAURUS = ['industry', 'level', 'city',
     'typeOfEmployment'];
+const AMOUNT_OF_DAYS = 6;
 import {
    set,
    cloneDeep,
@@ -57,7 +58,7 @@ export default function HomeController(
          vm.total = response.total;
          vm.vacancies = response.vacancies;
       }).catch(_onError);
-      _getCurrentUser().then(() => _getUpcomingEvents());
+      _getCurrentUser().then(_getUpcomingEvents);
    };
    _init();
 
@@ -128,15 +129,13 @@ export default function HomeController(
    }
 
    function _getCurrentUser() {
-      //TODO: change getUserById to getCurrentUser
-      return UserService.getUserById(142).then((user) => vm.eventCondidtion.userIds.push(user.id));
+      return UserService.getCurrentUser().then((user) => vm.eventCondidtion.userIds.push(user.id));
    }
 
    function _formingDateConditions() {
       vm.eventCondidtion.startDate = new Date();
       let featureDate = new Date();
-      featureDate.setDate(
-         vm.eventCondidtion.startDate.getDate() + 6);
+      featureDate.setDate(vm.eventCondidtion.startDate.getDate() + AMOUNT_OF_DAYS);
       vm.eventCondidtion.endDate = featureDate;
    }
 }

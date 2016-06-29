@@ -1,4 +1,4 @@
-<div class="contacts-directive" ng-class="{ltr: direction==='ltr', rtl: direction ==='rtl', ttb: direction==='ttb'}">
+<div class="contacts-directive {{direction}}">
    <div class="medium-6 member-photo">
       <img src="/app/images/upload-photo.png" ng-if="!entity.photo">
       <img ng-src="entity.photo.imagePath" ng-if="entity.photo">

@@ -1,11 +1,14 @@
 
-export default function _authInterceptor($injector/*, $http*/) {
+export default function _authInterceptor($injector, $translate) {
    return {
       request: (config) => {
-         config.headers = config.headers || {};
          let userService = $injector.get('UserService');
+         let loggerService = $injector.get('LoggerService');
+
          let accessToken = userService.getCurrentUser().token;
-         console.log(accessToken);
+         loggerService.debug('Stored access token', accessToken);
+
+         config.headers = config.headers || {};
 
          if (accessToken) {
             config.headers.Authorization = `Token ${accessToken}`;
@@ -16,11 +19,12 @@ export default function _authInterceptor($injector/*, $http*/) {
          if (response.status === 401 ||
             response.status === 403 ||
             response.status === 419) {
-            //ask user to signin (with login form or with a just a modal reminder)
+            // TODO: ask user to signin (with login form or with a just a modal reminder)
             let UserDialogService = $injector.get('UserDialogService');
-            UserDialogService.notification('Error occured, session is outdated', 'error');
-            //return $http(response.config);
-            //Make new the same call to api
+            UserDialogService.notification($translate.instant('LOGIN.SESSION_EXPIRED'), 'error');
+
+            // TODO: Make new the same call to api
+            // example : return $http(response.config);
          }
          return response;
       }

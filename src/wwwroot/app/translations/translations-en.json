@@ -261,6 +261,7 @@
       "OK" : "OK",
       "CANCEL" : "Cancel",
       "LOGIN" :"Login",
-      "PASSWORD" : "Password"
+      "PASSWORD" : "Password",
+      "SESSION_EXPIRED":"Sorry, your session has expired, please login again"
    }
 }

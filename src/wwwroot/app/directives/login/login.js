@@ -30,8 +30,6 @@ function LoginController(
 
    let vm = $scope;
    vm.currentUser = UserService.getCurrentUser();
-
-   //vm.getFullName = () => `${vm.currentUser.firstName} ${vm.currentUser.lastName}`;
    vm.logout = _logout;
    vm.redirect = _redirectToProfile;
 

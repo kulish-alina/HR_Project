@@ -136,7 +136,7 @@
                            <a ng-click="viewCandidate(candidate)" ng-bind="::(candidate.lastName+' '+candidate.firstName)"></a>
                         </td>
                         <td ng-bind="::candidate.industry | arrayAsString: 'title'"></td>
-                        <td ng-bind="::candidate.source | arrayAsString: 'title'"></td>
+                        <td ng-bind="::candidate.mainSource | arrayAsString: 'title'"></td>
                         <td ng-bind="::candidate.positionDesired"></td>
                         <td ng-bind="::candidate.salaryDesired"></td>
                         <td ng-bind="::candidate.createdOn"></td>

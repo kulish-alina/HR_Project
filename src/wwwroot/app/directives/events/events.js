@@ -14,7 +14,8 @@ export default class EventsDirective {
          save           : '=',
          remove         : '=',
          getEventsByDate: '=',
-         candidateId    : '='
+         candidateId    : '=',
+         userId         : '='
       };
       this.controller = EventsController;
    }
@@ -69,6 +70,9 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
       vm.event = {};
       if (vm.candidateId) {
          vm.event.candidateId = `${vm.candidateId}`;
+      }
+      if (vm.userId) {
+         vm.event.userId = `${vm.userId}`;
       }
       let scope = {
          type         : 'list-with-input',

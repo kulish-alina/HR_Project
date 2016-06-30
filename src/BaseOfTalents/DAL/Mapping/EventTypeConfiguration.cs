@@ -6,7 +6,7 @@ namespace BaseOfTalents.DAL.Mapping
     {
         public EventTypeConfiguration()
         {
-            Property(et => et.ImagePath).IsRequired();
+            Property(et => et.ImagePath).IsOptional();
             Property(et => et.Title).IsRequired();
         }
     }

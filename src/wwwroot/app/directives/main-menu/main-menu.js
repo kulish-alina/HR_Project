@@ -15,6 +15,17 @@ export default class MainMenuDirective {
    }
 }
 
-function MainMenuController() {
+function MainMenuController($scope, $state) {
+   let vm = $scope;
 
+   vm.goCandidate = _goCandidate;
+   vm.goVacancy   = _goVacancy;
+
+   function _goCandidate() {
+      $state.go('candidate', {_data: null, candidateId: null});
+   }
+
+   function _goVacancy() {
+      $state.go('vacancyEdit', {_data: null, vacancyId: null});
+   }
 }

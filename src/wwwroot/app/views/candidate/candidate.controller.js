@@ -1,20 +1,23 @@
-import { set, forEach, remove, chunk, isEmpty } from 'lodash';
+import { set, forEach, remove, chunk, isEmpty, cloneDeep, clone } from 'lodash';
 
 import './candidate.edit.scss';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel', 'source',
     'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork'];
 
-export default function CandidateController(
+export default function CandidateController(//eslint-disable-line max-statements
+   $q,
    $element,
    $scope,
+   $state,
    $translate,
    CandidateService,
    ValidationService,
    FileService,
    ThesaurusService,
    UserDialogService,
-   LoggerService
+   LoggerService,
+   EventsService
    ) {
    'ngInject';
 
@@ -24,10 +27,19 @@ export default function CandidateController(
    vm.thesaurus      = {};
    vm.languages      = [];
    vm.locations      = [];
-
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
    vm.addFilesForRemove    = addFilesForRemove;
+   vm.candidate.comments     = $state.params._data ? $state.params._data.comments : vm.candidate.comments;
+   vm.comments               = cloneDeep(vm.candidate.comments);
+   vm.saveComment            = saveComment;
+   vm.removeComment          = removeComment;
+   vm.editComment             = editComment;
+   vm.candidateEvents         = [];
+   vm.cloneCandidateEvents    = [];
+   vm.saveEvent               = saveEvent;
+   vm.removeEvent             = removeEvent;
+   vm.clear                   = clear;
 
    (function _init() {
       _initThesauruses();
@@ -53,12 +65,33 @@ export default function CandidateController(
    }
 
    function _initCandidate() {
-      vm.candidate.skills     = vm.candidate.skills || [];
-      vm.candidate.tags       = vm.candidate.tags || [];
-      vm.candidate.files      = vm.candidate.files || [];
-      vm.candidate.languageSkills = vm.candidate.languageSkills || [];
-      vm.candidate.convertedSocials = vm.candidate.convertedSocials || [];
-      _initPhones();
+      if ($state.params._data) {
+         vm.candidate = $state.params._data;
+         vm.candidate.skills = $state.params._data.skills;
+         vm.candidate.tags = $state.params._data.tags;
+         vm.candidate.files = $state.params._data.files;
+         vm.candidate.languageSkills = $state.params._data.languageSkills;
+         vm.candidate.convertedSocials = $state.params._data.convertedSocials || [];
+         _initPhones();
+      } else if ($state.params.candidateId) {
+         CandidateService.getCandidate($state.params.candidateId).then(candidate => {
+            set(vm, 'candidate', candidate);
+            vm.candidate.skills     = vm.candidate.skills || [];
+            vm.candidate.tags       = vm.candidate.tags || [];
+            vm.candidate.files      = vm.candidate.files || [];
+            vm.candidate.languageSkills = vm.candidate.languageSkills || [];
+            vm.candidate.convertedSocials = vm.candidate.convertedSocials || [];
+            _initPhones();
+         });
+      } else {
+         vm.candidate = {};
+         vm.candidate.skills     = [];
+         vm.candidate.tags       = [];
+         vm.candidate.files      = [];
+         vm.candidate.languageSkills = [];
+         vm.candidate.convertedSocials = [];
+         _initPhones();
+      }
    }
 
    function _initUploaders() {
@@ -130,16 +163,24 @@ export default function CandidateController(
    }
 
    function _saveCandidate() {
+      let memo = vm.candidate.comments;
+      vm.candidate.comments = vm.comments;
       _deleteEmptyPhoneNumber();
       _removeEmptySocials();
       CandidateService.saveCandidate(vm.candidate)
          .then(entity => {
             set(vm, 'candidate', entity);
             _addEmptySocials();
-            _initCandidate();
+            _initPhones();
+            vm.comments = cloneDeep(vm.candidate.comments);
+            UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
             return entity;
          })
-         .catch(_onError);
+         .catch(() => {
+            _onError();
+            vm.candidate.comments = memo;
+            UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_CANDIDATE_SAVING'), 'error');
+         });
    }
 
    function _initLanguages(thesauruses) {
@@ -184,5 +225,52 @@ export default function CandidateController(
    function _initPhones() {
       vm.candidate.phoneNumbers = vm.candidate.phoneNumbers || [];
       vm.candidate.phoneNumbers.push({});
+   }
+
+   function saveComment(comment) {
+      return $q.when(vm.comments.push(comment));
+   }
+
+   function removeComment(comment) {
+      vm.isChanged = true;
+      let commentForRemove = find(vm.comments, comment);
+      if (comment.id) {
+         commentForRemove.state = 1;
+         remove(vm.comments, comment);
+         return $q.when(vm.comments.push(commentForRemove));
+      } else {
+         return $q.when(remove(vm.comments, comment));
+      }
+   }
+
+   function editComment(comment) {
+      vm.isChanged = true;
+      return $q.when(remove(vm.comments, comment));
+   }
+
+   function _getCandidateEvents(candidateId) {
+      EventsService.getEventsByCandidate(candidateId).then(events => {
+         set(vm, 'candidateEvents', events);
+         vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+         console.log('vm.cloneCandidateEvents', vm.cloneCandidateEvents);
+      });
+   }
+   function saveEvent(event) {
+      EventsService.save(event).then(() => {
+         _getCandidateEvents(vm.candidate.id);
+         vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+      });
+   }
+
+   function removeEvent(event) {
+      EventsService.remove(event).then(() => {
+         remove(vm.candidateEvents, {id: event.id});
+         vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING_EVENT'), 'success');
+      });
+   }
+
+   function clear() {
+      $state.go('candidate', {_data: null, candidateId: null});
    }
 }

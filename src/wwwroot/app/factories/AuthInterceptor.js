@@ -2,13 +2,12 @@
 export default function _authInterceptor($injector, $translate) {
    return {
       request: (config) => {
+         config.headers = config.headers || {};
          let userService = $injector.get('UserService');
          let loggerService = $injector.get('LoggerService');
 
          let accessToken = userService.getCurrentUser().token;
-         loggerService.debug('Stored access token', accessToken);
-
-         config.headers = config.headers || {};
+         loggerService.debug('Request auth token', accessToken);
 
          if (accessToken) {
             config.headers.Authorization = `Token ${accessToken}`;

@@ -42,7 +42,7 @@ export default class LoginService {
       return httpService.post(`${url}logout`).then(flag => {
          if (flag) {
             storageService.remove(tokenInfo);
-            userService.setCurrentUser(null);
+            userService.setCurrentUser({});
          }
          return flag;
       });

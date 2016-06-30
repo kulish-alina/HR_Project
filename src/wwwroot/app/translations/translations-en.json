@@ -140,7 +140,9 @@
       "FROM" : "from",
       "TO" : "to",
       "APLY" : "Aply",
-      "ATTACH" : "Attach"
+      "ATTACH" : "Attach",
+      "CURRENCY" : "Currency",
+      "MAIN_SOURCE" : "Main source"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -154,7 +156,8 @@
       "TAGS" : "Tags",
       "STAGES" : "Stages",
       "LEVELS" : "Levels",
-      "THESAURUSES.EVENT_TYPES" : "Event types"
+      "THESAURUSES.EVENT_TYPES" : "Event types",
+      "THESAURUSES.CURRENCY" : "Currency"
    },
    "VALIDATION": {
       "required": {

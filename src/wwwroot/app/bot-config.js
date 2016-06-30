@@ -11,6 +11,8 @@ import membersTemplate          from './views/settings/members/members.view.html
 import rolesTemplate            from './views/settings/roles/roles.view.html';
 import vacancyViewTemplate      from './views/vacancy.profile/vacancy.view.html';
 import candidateProfileTemplate from './views/candidate.profile/candidate.profile.html';
+import loaderTemplate           from './views/loading/loading.view.html';
+import loginTemplate            from './views/login/login.view.html';
 
 import homeController             from './views/home/home.controller';
 import candidatesController       from './views/candidates/candidates.controller';
@@ -24,6 +26,7 @@ import membersController          from './views/settings/members/members.control
 import rolesController            from './views/settings/roles/roles.controller';
 import vacancyViewController      from './views/vacancy.profile/vacancy.view.controller';
 import candidateProfileController from './views/candidate.profile/candidate.profile.controller';
+import loginController            from './views/login/login.controller';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -32,6 +35,7 @@ import context                from './context';
 
 export default function _config(
    $stateProvider,
+   $httpProvider,
    $urlRouterProvider,
    $locationProvider,
    $translateProvider,
@@ -151,6 +155,19 @@ export default function _config(
          parent: 'settings',
          template: thesaurusesTemplate,
          controller: thesaurusesController
+      })
+      .state('login', {
+         url: '/login',
+         //parent: 'home',
+         template: loginTemplate,
+         controller: loginController,
+         data: {hideHome: true}
+      })
+      .state('loading', {
+         url:'/loading',
+         template: loaderTemplate,
+         //parent : 'home',
+         data: {hideHome: true}
       });
 
    $locationProvider.html5Mode({
@@ -167,6 +184,8 @@ export default function _config(
       .preferredLanguage(context.defaultLang);
 
    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|skype|tel):/);
+
+   $httpProvider.interceptors.push('authInterceptor');
 
    LoggerServiceProvider.changeLogLevel(context.logLevel);
    HttpServiceProvider.changeApiUrl(context.serverUrl + context.apiSuffix);

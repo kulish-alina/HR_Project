@@ -14,18 +14,13 @@
          opacity: 0;
       }
    </style>
-   <zf-offcanvas id="menu" position="left">
-      <side-menu></side-menu>
-   </zf-offcanvas>
-   <div class="vertical grid-frame app-content">
-      <main-menu></main-menu>
-      <div ui-view class="vertical grid-block">
-      </div>
+
+   <div ui-view class="vertical grid-block">
    </div>
+
    <!-- Some kind of magic for webpack assets-->
    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
-   <script src="/{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
-   {% } %}
+   <script src="/{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script> {% } %}
 </body>
 
 </html>

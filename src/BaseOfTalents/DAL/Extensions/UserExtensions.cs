@@ -10,6 +10,8 @@ namespace DAL.Extensions
     {
         public static void Update(this User destination, UserDTO source, IUnitOfWork uow)
         {
+            destination.State = source.State;
+
             destination.FirstName = source.FirstName;
             destination.MiddleName = source.MiddleName;
             destination.LastName = source.LastName;

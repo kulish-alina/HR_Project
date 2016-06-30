@@ -33,6 +33,8 @@ namespace DAL.Extensions
             destination.Education = source.Education;
             destination.IndustryId = source.IndustryId;
             destination.MainSourceId = source.MainSourceId;
+            destination.LevelId = source.LevelId;
+            destination.CurrencyId = source.CurrencyId;
 
             PerformRelocationPlacesSaving(destination, source, uow.CityRepo);
             PerformSocialSaving(destination, source, uow.CandidateSocialRepo);

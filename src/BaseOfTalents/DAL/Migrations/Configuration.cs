@@ -1,4 +1,5 @@
 using System.Data.Entity.Migrations;
+using System.Linq;
 
 namespace BaseOfTalents.DAL.Migrations
 {
@@ -81,6 +82,15 @@ namespace BaseOfTalents.DAL.Migrations
             context.SaveChanges();
 
             context.Events.AddRange(DummyData.Events);
+            context.SaveChanges();
+
+            var events = DummyData.Events.Take(10).ToList();
+            
+            foreach (var even in events)
+            {
+                even.Responsible = DummyData.Users[0];
+                context.Events.AddOrUpdate(even);
+            }
             context.SaveChanges();
 
         }

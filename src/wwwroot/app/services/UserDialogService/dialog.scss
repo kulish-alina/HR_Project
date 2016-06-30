@@ -2,7 +2,7 @@
 
 .modal {
    max-width: $rem-base*56.25 !important;
-   width: auto !important;
+   width: auto;
    height: auto !important;
    max-height: $rem-base*50 !important;
    position: relative;

@@ -31,7 +31,7 @@ const THESAURUSES = [
 
    new ThesaurusHelper('industry',          'industryId',        'industry'),
    new ThesaurusHelper('city',              'cityId',            'city'),
-   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmployment'),
+   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmploymentObject'),
    new ThesaurusHelper('level',             'levelId',           'level'),
    new ThesaurusHelper('currency',          'currencyId',        'currency'),
    new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials'),

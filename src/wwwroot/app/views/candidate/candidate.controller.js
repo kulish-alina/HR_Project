@@ -40,8 +40,8 @@ export default function CandidateController(
       $element[0].querySelector(name).value = null;
    }
 
-   function _onError() {
-      UserDialogService.notification('Some error was occurred!', 'error');
+   function _onError(message) {
+      LoggerService.error(message);
    }
 
    function _initThesauruses() {
@@ -112,7 +112,7 @@ export default function CandidateController(
    }
 
    function _deleteEmptyPhoneNumber() {
-      remove(vm.candidate.phoneNumbers, {});
+      remove(vm.candidate.phoneNumbers, {number : ''});
    }
 
    function saveCandidate(form) {
@@ -136,7 +136,7 @@ export default function CandidateController(
          .then(entity => {
             set(vm, 'candidate', entity);
             _addEmptySocials();
-            _initPhones();
+            _initCandidate();
             return entity;
          })
          .catch(_onError);

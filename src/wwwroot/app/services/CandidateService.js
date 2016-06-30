@@ -35,7 +35,7 @@ const THESAURUSES = [
    new ThesaurusHelper('level',             'levelId',           'level'),
    new ThesaurusHelper('currency',          'currencyId',        'currency'),
    new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials'),
-   new ThesaurusHelper('source',            'mainSourceId',      'source')
+   new ThesaurusHelper('source',            'mainSourceId',      'mainSource')
 ];
 
 let _HttpService, _ThesaurusService, _$q;
@@ -166,7 +166,7 @@ function _convertLanguageSkillsToBackend(candidate) {
 
    let deletedLanguageSkills = differenceWith(
       changedLanguageSkills,
-      candidate.convertedLanguageSkills,
+      map(candidate.convertedLanguageSkills, _convertLanguageSkillFieldsToBackend),
       isEqualLanguageSkills);
 
    forEach(deletedLanguageSkills, skill => skill.state = DELETED_STATE);
@@ -234,7 +234,7 @@ function _convertRelocationPlacesToBackend(candidate) {
 
    let deletedRelocationPlaces = differenceWith(
       changedRelocationPlaces,
-      candidate.convertedRelocationPlaces,
+      map(candidate.convertedRelocationPlaces, _convertRelocationsFieldsToBackend),
       isEqualRelocationPlaces);
 
    forEach(deletedRelocationPlaces, place => place.state = DELETED_STATE);
@@ -259,7 +259,7 @@ function _convertSocialFieldsToBackend(social) {
 function _convertLanguageSkillFieldsToBackend(skill) {
    return {
       languageId     : skill.language.id,
-      languageLevel  : get(skill, 'languageLevel.id')
+      languageLevel  : skill.languageLevel ? skill.languageLevel.id : undefined
    };
 }
 

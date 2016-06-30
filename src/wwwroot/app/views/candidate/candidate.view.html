@@ -39,7 +39,7 @@
                            </li>
                         </ul>
                         <input placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                        <div class="grid-block">
+                        <div class="grid-block candidate-oi-select">
                            <oi-select ng-model="candidate.convertedLanguageSkills"
                               oi-options="{language: language.language, languageLevel: language.languageLevel}
                               as language.language.title+' '+language.languageLevel.title 
@@ -60,7 +60,7 @@
                         </select>
                         <select ng-model="candidate.levelId" ng-init="candidate.levelId=''" convert-to-number 
                                 name="Level">
-                           <option ng-selected="true" ng-bind="::'COMMON.LEVEL' | translate"></option>
+                           <option ng-selected="true" value="" ng-bind="::'COMMON.LEVEL' | translate"></option>
                            <option ng-repeat="level in thesaurus.level" 
                                    value="{{level.id}}" ng-bind="::(level.title)"></option>
                         </select>
@@ -79,7 +79,7 @@
                         </div>
                         <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment=''"
                                 name="TypeOfEmployment" convert-to-number >
-                           <option ng-selected="true" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate)"></option>
+                           <option ng-selected="true" value="" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate)"></option>
                            <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" 
                                    value="{{typeOfEmployment.id}}" ng-bind="::(typeOfEmployment.title)"></option>
                         </select>
@@ -109,7 +109,8 @@
                         <div zf-open="basicModal" 
                              ng-class="candidate.photo ? 'profile-photo-container' : 'profile-photo'">
                            <span zf-open="basicModal" ng-hide="candidate.photo" class="upload-title">Upload Photo</span>
-                           <img zf-open="basicModal" ng-if="candidate.photo" ng-src="{{candidate.photo.filePath | botUrl}}">
+                           <img class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" 
+                                ng-src="{{candidate.photo.filePath | botUrl}}">
                         </div>
                         <div class="uploader-photo" zf-modal="" id="basicModal">
                            <div class="grid-block">
@@ -136,7 +137,7 @@
                         <input type="text" placeholder="Skype" ng-model=candidate.skype>
                         <select name="MainSource" convert-to-number
                                 ng-model="candidate.mainSourceId" ng-init="candidate.mainSourceId=''">
-                           <option ng-selected="true" ng-bind="::('COMMON.MAIN_SOURCE' | translate)"></option>
+                           <option ng-selected="true" value="" ng-bind="::('COMMON.MAIN_SOURCE' | translate)"></option>
                            <option ng-repeat="source in thesaurus.source" ng-bind="source.title" value="{{source.id}}"></option>
                         </select>
                      </fieldset>
@@ -154,12 +155,12 @@
                <hr>
                <fieldset>
                   <div class="grid-block">
-                     <div class="medium-6 grid-block">
+                     <div class="medium-6 grid-block technologies-select">
                         <oi-select class="multiple-select" ng-model="candidate.skills" 
                         oi-options="skill.title for skill in thesaurus.skill" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" 
                         oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
-                     <div class="medium-6 grid-block">
+                     <div class="medium-6 grid-block technologies-select">
                         <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tag" ng-model="candidate.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" 
                          oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
@@ -221,7 +222,7 @@
       <div class="vertical medium-horizontal grid-block">
          <div class="sidebar">
             <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate"></div>
-            Comming soon
+            <div class="coming-soon-text">Comming soon</div>
             <!-- 
             <div class="sidebar-content">
                <div class="grid-block">
@@ -301,7 +302,7 @@
                   -->
                </div>
             </div>
-            Comming soon
+            <div class="coming-soon-text">Comming soon</div>
             <!--
             <div class="sidebar-content">
                <section class="block-list">
@@ -354,7 +355,6 @@
                   </div>
                   -->
                </div>
-               Cooming soon
                <!--
                <section class="block-list">
                   <ul class="comments">
@@ -401,6 +401,7 @@
                </section>
                -->
             </div>
+            <div class="coming-soon-text">Comming soon</div>
          </div>
       </div>
    </div>

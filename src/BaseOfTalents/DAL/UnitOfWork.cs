@@ -30,7 +30,6 @@ namespace BaseOfTalents.DAL
         private IRoleRepository roleRepo;
         private ISocialNetworkRepository socialNetworkRepo;
         private IStageRepository stageRepo;
-        private IPhotoRepository photoRepo;
         private IPhoneNumberRepository phoneNumberRepo;
         private IVacancyStageInfoRepository vacancyStageInfoRepo;
         private ICandidateSocialRepository candidateSocialRepo;
@@ -310,19 +309,6 @@ namespace BaseOfTalents.DAL
                 }
 
                 return stageRepo;
-            }
-        }
-
-        public IPhotoRepository PhotoRepo
-        {
-            get
-            {
-                if (photoRepo == null)
-                {
-                    photoRepo = new PhotoRepository(context);
-                }
-
-                return photoRepo;
             }
         }
 

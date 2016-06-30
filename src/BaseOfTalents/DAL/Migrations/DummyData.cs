@@ -347,18 +347,6 @@ namespace BaseOfTalents.DAL.Migrations
             new Stage {Title = "Rejected"}
         };
 
-        public static readonly List<Photo> Photos = new List<Photo>
-        {
-            new Photo {Description = "photo 1", ImagePath = @"~\images\ph11.jpg"},
-            new Photo {Description = "photo 2", ImagePath = @"~\images\ph12.jpg"},
-            new Photo {Description = "photo 3", ImagePath = @"~\images\ph13.jpg"},
-            new Photo {Description = "photo 4", ImagePath = @"~\images\ph14.jpg"},
-            new Photo {Description = "photo 5", ImagePath = @"~\images\ph15.jpg"},
-            new Photo {Description = "photo 6", ImagePath = @"~\images\ph16.jpg"},
-            new Photo {Description = "photo 7", ImagePath = @"~\images\ph17.jpg"},
-            new Photo {Description = "photo 8", ImagePath = @"~\images\ph18.jpg"},
-            new Photo {Description = "photo 9", ImagePath = @"~\images\ph19.jpg"}
-        };
 
         public static readonly List<SocialNetwork> Socials = new List<SocialNetwork>
         {
@@ -611,6 +599,27 @@ namespace BaseOfTalents.DAL.Migrations
         private static List<User> GetUsers(int count)
         {
             var users = new List<User>();
+            //setup admin
+            users.Add(
+                    new User
+                    {
+                        BirthDate = DateTime.Now.AddYears(-RandomNumber(20, 40)),
+                        Email = "admin@hr.local",
+                        FirstName = names.GetRandom(),
+                        isMale = true,
+                        LastName = lastNames.GetRandom(),
+                        City = Cities.GetRandom(),
+                        Login = "admin",
+                        MiddleName = names.GetRandom(),
+                        Password = "admin",
+                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = GetRandomNumbers(7) } },
+                        //Photo = Files.GetRandom(),
+                        Role = Roles[0],
+                        Skype = GetRandomString(8)
+                    }
+                    );
+
+
             for (var i = 0; i < count; i++)
             {
                 users.Add(
@@ -626,7 +635,7 @@ namespace BaseOfTalents.DAL.Migrations
                         MiddleName = names.GetRandom(),
                         Password = GetRandomString(8),
                         PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = GetRandomNumbers(7) } },
-                        Photo = Photos.GetRandom(),
+                        //Photo = Files.GetRandom(),
                         Role = Roles.GetRandom(),
                         Skype = GetRandomString(8)
                     }
@@ -638,6 +647,12 @@ namespace BaseOfTalents.DAL.Migrations
         private static List<Role> GetRoles(int count)
         {
             var roles = new List<Role>();
+            roles.Add(new Role
+            {
+                Title = "Adminstrator",
+                Permissions = Permissions
+            }); 
+
 
             for (var i = 0; i < count; i++)
             {
@@ -716,7 +731,7 @@ namespace BaseOfTalents.DAL.Migrations
                         Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, RandomNumber(0, 5))
                             .Distinct()
                             .ToList(),
-                    Photo = new Photo { Description = GetRandomString(25), ImagePath = GetRandomNumbers(25) },
+                    Photo = new File { Description = GetRandomString(25), FilePath = GetRandomNumbers(25) },
                     PositionDesired = professons.GetRandom(),
                     Practice = GetRandomString(20),
                     RelocationAgreement = true,
@@ -731,15 +746,15 @@ namespace BaseOfTalents.DAL.Migrations
                     VacanciesProgress = new List<VacancyStageInfo>()
                 };
                 candidate.RelocationPlaces =
-                    Enumerable.Repeat(
-                        new RelocationPlace
-                        {
-                            Country = Countries.GetRandom(),
-                            City = Cities.GetRandom(),
-                        },
-                        RandomNumber(1, 2))
-                        .Distinct()
-                        .ToList();
+                            Enumerable.Repeat(
+                                new RelocationPlace
+                                {
+                                    Country = Countries.GetRandom(),
+                                    City = Cities.GetRandom(),
+                                },
+                                RandomNumber(1, 2))
+                                .Distinct()
+                                .ToList();
                 candidates.Add(candidate);
             }
             return candidates;

@@ -1,13 +1,12 @@
 ﻿using BaseOfTalents.DAL.Infrastructure;
 using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.Domain.Entities.Enum;
 using DAL.Extensions;
 using Domain.DTO.DTOModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Data.Entity;
 
 namespace DAL.Services
 {
@@ -44,19 +43,21 @@ namespace DAL.Services
         }
 
         public Tuple<IEnumerable<CandidateDTO>, int> Get(
-            string firstName, 
-            string lastName, 
-            bool? relocationAgreement, 
-            bool? isMale, 
-            int? minAge, 
+            string firstName,
+            string lastName,
+            bool? relocationAgreement,
+            bool? isMale,
+            int? minAge,
             int? maxAge,
-            DateTime? startExperience, 
-            int? minSalary, 
-            int? maxSalary, 
-            int? currencyId, 
-            int? industryId, 
-            IEnumerable<LanguageSkillDTO> languageSkills, 
-            IEnumerable<int> citiesIds, 
+            DateTime? startExperience,
+            int? minSalary,
+            int? maxSalary,
+            int? currencyId,
+            int? industryId,
+            string position,
+            string technology,
+            IEnumerable<LanguageSkillDTO> languageSkills,
+            IEnumerable<int> citiesIds,
             int current, int size)
         {
             var filters = new List<Expression<Func<Candidate, bool>>>();
@@ -79,7 +80,7 @@ namespace DAL.Services
             }
             if (minAge.HasValue)
             {
-                if(maxAge.HasValue)
+                if (maxAge.HasValue)
                 {
                     filters.Add(x => x.BirthDate.Value <= DbFunctions.AddYears(DateTime.Now, -minAge.Value) && x.BirthDate.Value >= DbFunctions.AddYears(DateTime.Now, -maxAge.Value));
                 }
@@ -90,9 +91,9 @@ namespace DAL.Services
             }
             if (minSalary.HasValue)
             {
-                if(maxSalary.HasValue)
+                if (maxSalary.HasValue)
                 {
-                    filters.Add(x => x.SalaryDesired >=minSalary.Value && x.SalaryDesired <= maxSalary.Value);
+                    filters.Add(x => x.SalaryDesired >= minSalary.Value && x.SalaryDesired <= maxSalary.Value);
                 }
             }
             if (currencyId.HasValue)
@@ -103,24 +104,32 @@ namespace DAL.Services
             {
                 filters.Add(x => x.IndustryId == industryId);
             }
+            if (!String.IsNullOrEmpty(position))
+            {
+                filters.Add(cand => cand.PositionDesired.ToLower().StartsWith(position.ToLower()));
+            }
+            if (!String.IsNullOrEmpty(technology))
+            {
+                filters.Add(x => x.Skills.Any(s => s.Title.StartsWith(technology) || x.Tags.Any(t => t.Title.StartsWith(technology))));
+            }
             if (citiesIds.Any())
             {
-                filters.Add(x => citiesIds.Any(y=>y==x.CityId));
+                filters.Add(x => citiesIds.Any(y => y == x.CityId));
             }
             if (languageSkills.Any())
             {
                 foreach (var ls in languageSkills)
                 {
-                    if(ls.LanguageLevel.HasValue)
+                    if (ls.LanguageLevel.HasValue)
                     {
-                        filters.Add(x => x.LanguageSkills.Any(l => l.LanguageId == ls.LanguageId && l.LanguageLevel.Value>=ls.LanguageLevel.Value));
+                        filters.Add(x => x.LanguageSkills.Any(l => l.LanguageId == ls.LanguageId && l.LanguageLevel.Value >= ls.LanguageLevel.Value));
                     }
                     else
                     {
                         filters.Add(x => x.LanguageSkills.Any(l => l.LanguageId == ls.LanguageId));
                     }
                 }
-            } 
+            }
             var candidates = uow.CandidateRepo.Get(filters);
             var total = candidates.Count();
 
@@ -129,7 +138,7 @@ namespace DAL.Services
                 total);
         }
 
-        
+
         public bool Delete(int id)
         {
             bool deleteResult;

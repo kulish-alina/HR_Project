@@ -315,7 +315,7 @@ namespace Tests.Controllers
                     LastName = "last name",
                     MiddleName = "middlename",
                     PhoneNumbers = new List<PhoneNumber>(),
-                    Photo = new Photo { Description = "description", ImagePath = "description" },
+                    Photo = new File { Description = "description", FilePath = "description" },
                     PositionDesired = "position",
                     Practice = "practice",
                     RelocationAgreement = false,

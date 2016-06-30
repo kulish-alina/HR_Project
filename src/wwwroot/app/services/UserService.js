@@ -20,7 +20,7 @@ export default class UserService {
    }
 
    getCurrentUser() {
-      return _$q.when(currentUser);
+      return currentUser;
    }
 
    setCurrentUser(user) {

@@ -44,7 +44,8 @@ import UserDialogService      from './services/UserDialogService/UserDialogServi
 import FileService            from './services/FileService';
 import EventsService          from './services/EventsService';
 import NoteService            from './services/NoteService';
-import LocalStorageService from './services/LocalStorageService';
+import LocalStorageService    from './services/LocalStorageService';
+import LoginService           from './services/LoginService';
 
 import ThesaurusDirective     from './directives/thesaurus/thesaurus';
 import ContactInfoDirective   from './directives/contacts/contact-info';
@@ -55,6 +56,7 @@ import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
 import EventsDirective        from './directives/events/events';
 import CandidateInfoDirective from './directives/candidate-info/candidate-info';
+import LoginDirective         from './directives/login/login';
 
 import uiMask from 'angular-ui-mask';
 
@@ -63,6 +65,9 @@ import ArrayAsString          from './filters/ArrayAsString';
 import botUrl                 from './filters/botUrl';
 
 import StateRunner from './state-runner';
+import AuthRunner from './runner.auth';
+
+import authInterceptor from './factories/AuthInterceptor';
 
 const dependencies = [
    router,
@@ -98,6 +103,7 @@ angular
    .service('EventsService',       EventsService)
    .service('NoteService',         NoteService)
    .service('LocalStorageService', LocalStorageService)
+   .service('LoginService',        LoginService)
 
 
    .directive('thesaurus',        ThesaurusDirective.createInstance)
@@ -109,12 +115,16 @@ angular
    .directive('sideMenu',         SideMenuDirective.createInstance)
    .directive('events',           EventsDirective.createInstance)
    .directive('candidateInfo',    CandidateInfoDirective.createInstance)
+   .directive('login',          LoginDirective.createInstance)
 
    .filter('tel',                 PhoneFormatFilter)
    .filter('arrayAsString',       ArrayAsString)
    .filter('botUrl',              botUrl)
 
+   .factory('authInterceptor', authInterceptor)
+
    .run(StateRunner)
+   .run(AuthRunner)
 
    .config(config)
    .config(configValidation);

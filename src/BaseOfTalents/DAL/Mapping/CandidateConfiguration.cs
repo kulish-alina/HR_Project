@@ -24,7 +24,12 @@ namespace BaseOfTalents.DAL.Mapping
             HasOptional(c => c.Currency).WithMany().HasForeignKey(c => c.CurrencyId);
 
             HasOptional(c => c.City).WithMany().HasForeignKey(c => c.CityId);
-            HasMany(c => c.Files);
+            HasMany(v => v.Files).WithMany().Map(x =>
+            {
+                x.MapRightKey("FileId");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("FileToCandidate");
+            });
             HasMany(c => c.VacanciesProgress).WithRequired(vs => vs.Candidate).HasForeignKey(vs => vs.CandidateId);
 
             HasMany(x => x.Events).WithOptional(x => x.Candidate).HasForeignKey(x => x.CandidateId);
@@ -45,6 +50,7 @@ namespace BaseOfTalents.DAL.Mapping
                 x.ToTable("CandidateToComment");
             });
             HasMany(c => c.Sources);
+            HasOptional(x => x.MainSource).WithMany().HasForeignKey(x => x.MainSourceId);
 
             HasMany(v => v.Tags).WithMany().Map(x =>
             {

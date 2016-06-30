@@ -32,6 +32,7 @@ namespace DAL.Extensions
             destination.RelocationAgreement = source.RelocationAgreement;
             destination.Education = source.Education;
             destination.IndustryId = source.IndustryId;
+            destination.MainSourceId = source.MainSourceId;
 
             PerformRelocationPlacesSaving(destination, source, uow.CityRepo);
             PerformSocialSaving(destination, source, uow.CandidateSocialRepo);
@@ -41,7 +42,7 @@ namespace DAL.Extensions
             PerformTagsSaving(destination, source, uow.TagRepo);
             PerformPhoneNumbersSaving(destination, source, uow.PhoneNumberRepo);
             PerformSkillsSaving(destination, source, uow.SkillRepo);
-            PerformPhotoSaving(destination, source, uow.PhotoRepo);
+            PerformPhotoSaving(destination, source, uow.FileRepo);
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
             PerformEventsSaving(destination, source, uow.EventRepo);
@@ -84,11 +85,11 @@ namespace DAL.Extensions
         {
             source.Files.ToList().ForEach(file =>
             {
-                var fileInVacancy = destination.Files.FirstOrDefault(x => x.Id == file.Id);
+                var fileInCandidate = destination.Files.FirstOrDefault(x => x.Id == file.Id);
                 var dbFile = fileRepository.GetByID(file.Id);
                 if (dbFile == null)
                 {
-                    throw new Exception("Unknown file");
+                    throw new Exception("Database doesn't contains such entity");
                 }
                 if (file.ShouldBeRemoved())
                 {
@@ -97,7 +98,7 @@ namespace DAL.Extensions
                 else
                 {
                     dbFile.Update(file);
-                    if (fileInVacancy == null)
+                    if (fileInCandidate == null)
                     {
                         destination.Files.Add(dbFile);
                     }
@@ -105,23 +106,24 @@ namespace DAL.Extensions
             });
         }
 
-        private static void PerformPhotoSaving(Candidate destination, CandidateDTO source, IRepository<Photo> photoRepository)
+        private static void PerformPhotoSaving(Candidate destination, CandidateDTO source, IRepository<File> fileRepository)
         {
-            if (source.Photo != null)
+            var photoInDTO = source.Photo;
+            if (photoInDTO != null)
             {
-                if (source.Photo.IsNew())
+                var photoInDb = fileRepository.GetByID(source.Photo.Id);
+                if (photoInDb == null)
                 {
-                    var photoBd = photoRepository.GetByID(source.Photo.Id);
-                    photoBd.Update(source.Photo);
-                    destination.Photo = photoBd;
+                    throw new Exception("Database doesn't contains such entity");
                 }
-                else if (source.Photo.ShouldBeRemoved())
+                if (photoInDTO.ShouldBeRemoved())
                 {
-                    photoRepository.Delete(destination.Photo.Id);
+                    fileRepository.Delete(photoInDb.Id);
                 }
                 else
                 {
-                    destination.Photo.Update(source.Photo);
+                    photoInDb.Update(photoInDTO);
+                    destination.Photo = photoInDb;
                 }
             }
         }

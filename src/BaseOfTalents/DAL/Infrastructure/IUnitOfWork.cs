@@ -24,7 +24,6 @@ namespace BaseOfTalents.DAL.Infrastructure
         IRoleRepository RoleRepo { get; }
         ISocialNetworkRepository SocialNetworkRepo { get; }
         IStageRepository StageRepo { get; }
-        IPhotoRepository PhotoRepo { get; }
         IPhoneNumberRepository PhoneNumberRepo { get; }
         ICommentRepository CommentRepo { get; }
         ICandidateSocialRepository CandidateSocialRepo { get; }

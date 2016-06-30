@@ -22,7 +22,7 @@ namespace Domain.DTO.DTOModels
 
         public int RoleId { get; set; }
 
-        public PhotoDTO Photo { get; set; }
+        public FileDTO Photo { get; set; }
 
         public int CityId { get; set; }
 

@@ -1,9 +1,10 @@
-﻿using Domain.DTO.DTOModels;
-using System;
-using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.DAL.Infrastructure;
-using DAL.Extensions;
+﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using BaseOfTalents.DAL.Infrastructure;
+using BaseOfTalents.Domain.Entities;
+using DAL.Extensions;
+using Domain.DTO.DTOModels;
 
 namespace DAL.Services
 {
@@ -54,12 +55,49 @@ namespace DAL.Services
             {
                 deleteResult = false;
             }
-            else {
+            else
+            {
                 uow.UserRepo.Delete(id);
                 uow.Commit();
                 deleteResult = true;
             }
             return deleteResult;
+        }
+        /// <summary>
+        /// Perfoms accessing to user of specified login and password
+        /// </summary>
+        /// <param name="login">Application user login</param>
+        /// <param name="password">User password (hashed)</param>
+        /// <returns>Corresponting user dto object</returns>
+        /// <exception cref="System.Exception">Is thrown, when there is no user with such a login and password</exception>
+        public UserDTO Authentificate(string login, string password)
+        {
+            var user = uow.UserRepo.Get(login, password);
+            if (user == null)
+            {
+                throw new Exception("Wrong login or password");
+                //TODO: Extract message to external source
+                //TODO: new exception type
+            }
+            return DTOService.ToDTO<User, UserDTO>(user);
+        }
+        /// <summary>
+        /// Perfoms accessing to user of specified login and password async
+        /// </summary>
+        /// <param name="login">Application user login</param>
+        /// <param name="password">User password (hashed)</param>
+        /// <returns>Corresponting user dto object</returns>
+        /// <exception cref="System.Exception">Is thrown, when there is no user with such a login and password</exception>
+        public async Task<UserDTO> AuthentificateAsync(string login, string password)
+        {
+            var user = await uow.UserRepo.GetAsync(login, password);
+            if (user == null)
+            {
+                throw new Exception("Wrong login or password");
+                //TODO: Extract message to external source
+                //TODO: new exception type
+            }
+            return DTOService.ToDTO<User, UserDTO>(user);
         }
     }
 }

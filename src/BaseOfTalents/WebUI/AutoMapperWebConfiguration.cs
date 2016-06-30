@@ -25,9 +25,6 @@ namespace WebApi
                 x.CreateMap<Comment, CommentDTO>();
                 x.CreateMap<CommentDTO, Comment>();
 
-                x.CreateMap<Photo, PhotoDTO>();
-                x.CreateMap<PhotoDTO, Photo>();
-
                 x.CreateMap<Country, CountryDTO>();
                 x.CreateMap<CountryDTO, Country>();
 
@@ -128,7 +125,7 @@ namespace WebApi
                         .ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Role>, IEnumerable<int>>(src.Roles)));
 
                 x.CreateMap<User, UserDTO>()
-                   .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<Photo, PhotoDTO>(src.Photo)))
+                   .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<File, FileDTO>(src.Photo)))
                    .ForMember(dest => dest.PhoneNumbers, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<PhoneNumberDTO>>(src.PhoneNumbers)));
 
                 x.CreateMap<Candidate, CandidateDTO>()

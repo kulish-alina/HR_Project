@@ -50,7 +50,7 @@ namespace WebApi.Controllers
                 var result = _userAuthService.Register(user);
                 return Json(result, botSerializationSettings);
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 return Json(new { Error = e.Message }, botSerializationSettings);
             }
@@ -88,7 +88,7 @@ namespace WebApi.Controllers
 
                 return Json(result, botSerializationSettings);
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 return Json(new { Error = e.Message }, botSerializationSettings);
             }

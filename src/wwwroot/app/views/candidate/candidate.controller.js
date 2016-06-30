@@ -112,7 +112,7 @@ export default function CandidateController(
    }
 
    function _deleteEmptyPhoneNumber() {
-      remove(vm.candidate.phoneNumbers, {number : ''});
+      remove(vm.candidate.phoneNumbers, phone => isEmpty(phone.number));
    }
 
    function saveCandidate(form) {

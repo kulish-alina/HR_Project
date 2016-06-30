@@ -38,15 +38,23 @@ namespace WebApi.Controllers
         [Route("register")]
         public IHttpActionResult Register([FromBody] UserDTO user)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                var error = ModelState.Errors();
+                if (!ModelState.IsValid)
+                {
+                    var error = ModelState.Errors();
 
-                return Json(error, botSerializationSettings);
+                    return Json(error, botSerializationSettings);
+                }
+
+                var result = _userAuthService.Register(user);
+                return Json(result, botSerializationSettings);
+            }
+            catch (System.Exception)
+            {
+                return Json(new { Error = e.Message }, botSerializationSettings);
             }
 
-            var result = _userAuthService.Register(user);
-            return Json(result, botSerializationSettings);
         }
 
         /// <summary>
@@ -58,25 +66,33 @@ namespace WebApi.Controllers
         [Route("signin")]
         public async Task<IHttpActionResult> Signin([FromBody]LoginModel model)
         {
-            var login = model.Login;
-            var password = model.Password;
-            var data = await _userAuthService
-                .LogInAsync(login, password);
-
-            var result = new
+            try
             {
-                Token = data.Item2,
-                FirstName = data.Item1.FirstName,
-                MiddleName = data.Item1.MiddleName,
-                LastName = data.Item1.LastName,
-                RoleId = data.Item1.RoleId,
-                Photo = data.Item1.Photo,
-                BirthDate = data.Item1.BirthDate,
-                CreatedOn = data.Item1.CreatedOn,
-                Login = data.Item1.Login
-            };
+                var login = model.Login;
+                var password = model.Password;
+                var data = await _userAuthService
+                    .LogInAsync(login, password);
 
-            return Json(result, botSerializationSettings);
+                var result = new
+                {
+                    Token = data.Item2,
+                    FirstName = data.Item1.FirstName,
+                    MiddleName = data.Item1.MiddleName,
+                    LastName = data.Item1.LastName,
+                    RoleId = data.Item1.RoleId,
+                    Photo = data.Item1.Photo,
+                    BirthDate = data.Item1.BirthDate,
+                    CreatedOn = data.Item1.CreatedOn,
+                    Login = data.Item1.Login
+                };
+
+                return Json(result, botSerializationSettings);
+            }
+            catch (System.Exception)
+            {
+                return Json(new { Error = e.Message }, botSerializationSettings);
+            }
+
         }
 
         /// <summary>
@@ -88,29 +104,49 @@ namespace WebApi.Controllers
         [Route("logout")]
         public IHttpActionResult Logout()
         {
-            bool logedOut = _userAuthService
+            try
+            {
+                bool logedOut = _userAuthService
                 .LogOut(ActionContext.Request.Headers.Authorization.Parameter);
-            return Json(logedOut, botSerializationSettings);
+                return Json(logedOut, botSerializationSettings);
+            }
+            catch (System.Exception e)
+            {
+                return Json(new { Error = e.Message }, botSerializationSettings);
+            }
+
         }
 
+        /// <summary>
+        /// Api for getting corect user with session
+        /// </summary>
+        /// <param name="identity">the parameter for identifiing user</param>
+        /// <returns>Full user info</returns>
         [HttpPost, AllowAnonymous]
         public IHttpActionResult Get([FromBody]IdentityModel identity)
         {
-            var user = _userAuthService.GetUser(identity.Token);
-            var result = new
+            try
             {
-                Token = identity.Token,
-                FirstName = user.FirstName,
-                MiddleName = user.MiddleName,
-                LastName = user.LastName,
-                RoleId = user.RoleId,
-                Photo = user.Photo,
-                BirthDate = user.BirthDate,
-                CreatedOn = user.CreatedOn,
-                Login = user.Login
-            };
+                var user = _userAuthService.GetUser(identity.Token);
+                var result = new
+                {
+                    Token = identity.Token,
+                    FirstName = user.FirstName,
+                    MiddleName = user.MiddleName,
+                    LastName = user.LastName,
+                    RoleId = user.RoleId,
+                    Photo = user.Photo,
+                    BirthDate = user.BirthDate,
+                    CreatedOn = user.CreatedOn,
+                    Login = user.Login
+                };
 
-            return Json(result, botSerializationSettings);
+                return Json(result, botSerializationSettings);
+            }
+            catch (System.Exception e)
+            {
+                return Json(new { Error = e.Message }, botSerializationSettings);
+            }
         }
     }
 }

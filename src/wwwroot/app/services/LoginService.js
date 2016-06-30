@@ -7,7 +7,7 @@ let loggerService;
 
 const tokenInfo = 'access_token';
 
-import utils from '../utils.js';
+import utils from '../utils';
 
 import {
    mapValues

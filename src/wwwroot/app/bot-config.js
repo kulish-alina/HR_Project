@@ -158,7 +158,6 @@ export default function _config(
       })
       .state('login', {
          url: '/login',
-         //parent: 'home',
          template: loginTemplate,
          controller: loginController,
          data: {hideHome: true}
@@ -166,7 +165,6 @@ export default function _config(
       .state('loading', {
          url:'/loading',
          template: loaderTemplate,
-         //parent : 'home',
          data: {hideHome: true}
       });
 

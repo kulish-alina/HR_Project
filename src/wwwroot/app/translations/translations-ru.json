@@ -70,5 +70,12 @@
       "thesaurusErrors" : {
          "incorrectNameMsg" : "Некорректное имя словаря."
       }
+   },
+   "LOGIN" : {
+      "MESSAGE" : "Пожалуйста, заполните поля",
+      "OK" : "Отправить",
+      "CANCEL" : "Отменить",
+      "LOGIN" : "Логин",
+      "PASSWORD" : "Пароль"
    }
 }

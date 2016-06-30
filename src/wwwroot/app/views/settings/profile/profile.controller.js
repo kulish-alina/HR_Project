@@ -46,9 +46,8 @@ export default function ProfileController (
    }
 
    function _onCancel() {
-      _initCurrentUser().then(() => {
-         return $state.go('profile');
-      });
+      _initCurrentUser();
+      return $state.go('profile');
    }
 
    function _onEdit() {
@@ -56,12 +55,10 @@ export default function ProfileController (
    }
 
    function _initCurrentUser() {
-      UserService.getCurrentUser()
-         .then((val) => {
-            vm.user = val;
-            vm.user.phoneNumbers = vm.user.phoneNumbers || [ {} ];
-            vm.user.birthDate = utils.formatDateFromServer(vm.user.birthDate);
-         });
+      let val = UserService.getCurrentUser();
+      vm.user = val;
+      vm.user.phoneNumbers = vm.user.phoneNumbers || [ {} ];
+      vm.user.birthDate = utils.formatDateFromServer(vm.user.birthDate);
    }
 }
 

@@ -599,6 +599,27 @@ namespace BaseOfTalents.DAL.Migrations
         private static List<User> GetUsers(int count)
         {
             var users = new List<User>();
+            //setup admin
+            users.Add(
+                    new User
+                    {
+                        BirthDate = DateTime.Now.AddYears(-RandomNumber(20, 40)),
+                        Email = "admin@hr.local",
+                        FirstName = names.GetRandom(),
+                        isMale = true,
+                        LastName = lastNames.GetRandom(),
+                        City = Cities.GetRandom(),
+                        Login = "admin",
+                        MiddleName = names.GetRandom(),
+                        Password = "admin",
+                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = GetRandomNumbers(7) } },
+                        //Photo = Files.GetRandom(),
+                        Role = Roles[0],
+                        Skype = GetRandomString(8)
+                    }
+                    );
+
+
             for (var i = 0; i < count; i++)
             {
                 users.Add(
@@ -626,6 +647,12 @@ namespace BaseOfTalents.DAL.Migrations
         private static List<Role> GetRoles(int count)
         {
             var roles = new List<Role>();
+            roles.Add(new Role
+            {
+                Title = "Adminstrator",
+                Permissions = Permissions
+            }); 
+
 
             for (var i = 0; i < count; i++)
             {

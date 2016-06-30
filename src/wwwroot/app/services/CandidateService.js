@@ -259,7 +259,7 @@ function _convertSocialFieldsToBackend(social) {
 function _convertLanguageSkillFieldsToBackend(skill) {
    return {
       languageId     : skill.language.id,
-      languageLevel  : skill.languageLevel ? skill.languageLevel.id : undefined
+      languageLevel  : get(skill, 'languageLevel.id')
    };
 }
 

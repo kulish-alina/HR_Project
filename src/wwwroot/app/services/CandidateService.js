@@ -18,7 +18,7 @@ import {
 import utils  from '../utils';
 
 const CANDIDATE_URL           = 'candidate/';
-const DATE_TYPE_TO_CONVERT    = [ 'birthDate' ];
+const DATE_TYPE_TO_CONVERT    = ['birthDate', 'createdOn'];
 const DELETED_STATE           = 1;
 
 let _forEach   = curryRight(forEach, 2);

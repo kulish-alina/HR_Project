@@ -17,7 +17,7 @@
                   <option selected value="" ng-bind="::'THESAURUSES.THESAURUSES.EVENT_TYPES' | translate"></option>
                   <option ng-repeat="eventType in eventTypes" value="{{eventType.id}}" ng-bind="eventType.title"></option>
                </select>
-               <select name="Candidate" ng-model="event.candidateId">
+               <select ng-disabled="event.candidateId" name="Candidate" ng-model="event.candidateId">
                   <option selected value="" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></option>
                   <option ng-repeat="candidate in candidates" value="{{candidate.id}}" ng-bind="candidate.lastName"></option>
                </select>
@@ -25,7 +25,7 @@
                   <option selected value="" ng-bind="::'VACANCY.VACANCY' | translate"></option>
                   <option ng-repeat="vacancy in vacancies" value="{{vacancy.id}}" ng-bind="vacancy.title"></option>
                </select>
-               <select name="Responsible" ng-model="event.responsibleId" validator="required">
+               <select ng-disabled="event.responsibleId" name="Responsible" ng-model="event.responsibleId" validator="required">
                   <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
                   <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
                </select>

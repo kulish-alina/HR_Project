@@ -19,6 +19,7 @@ export default function CandidatesController(
    ) {
    'ngInject';
    const vm             = $scope;
+   vm.candidate         = {};
    vm.deleteCandidate   = deleteCandidate;
    vm.editCandidate     = editCandidate;
    vm.viewCandidate     = viewCandidate;
@@ -49,7 +50,6 @@ export default function CandidatesController(
    _initData();
 
    function _initPagination() {
-      vm.candidate = {};
       vm.candidate.current = 0;
       vm.candidate.size    = 20;
    }
@@ -66,6 +66,7 @@ export default function CandidatesController(
       CandidateService.search(vm.candidate).then(response => {
          vm.total = response.total;
          vm.candidates = response.candidate;
+         console.log(vm.candidates);
          _initPagination();
       }).catch(_onError);
    }

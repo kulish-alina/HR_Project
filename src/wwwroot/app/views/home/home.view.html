@@ -4,8 +4,10 @@
 <div class="vertical grid-frame app-content">
    <main-menu></main-menu>
 </div>
-<div ui-view></div>
-<div ng-hide="$state.current.data.hideHome">
+
+<div ui-view class="grid-frame content-wrapper"></div>
+
+<div ng-hide="$state.current.data.hideHome" class="grid-frame content-wrapper">
    <div class="secondary-menu grid-block">
       <div class="large-2 grid-block">
          <div class="grid-content">

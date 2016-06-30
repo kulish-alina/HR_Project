@@ -7,3 +7,22 @@
 .logout {
       max-height: $rem-base;
 }
+.user-pic {
+   display: block;
+   float: left;
+}
+
+.logout {
+   display: block;
+   float: left;
+   height: $rem-base*4;
+   width: $rem-base*4;
+   padding: $rem-base/2;
+   padding-left: $rem-base*2;
+   box-sizing: border-box;
+   
+   img {
+      width: 2*$rem-base;
+      height: 2*$rem-base;
+   }
+}

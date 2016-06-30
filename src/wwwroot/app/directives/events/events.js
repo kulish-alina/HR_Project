@@ -72,7 +72,7 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
          vm.event.candidateId = `${vm.candidateId}`;
       }
       if (vm.userId) {
-         vm.event.userId = `${vm.userId}`;
+         vm.event.responsibleId = `${vm.userId}`;
       }
       let scope = {
          type         : 'list-with-input',

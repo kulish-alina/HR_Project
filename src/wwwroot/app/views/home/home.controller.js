@@ -8,7 +8,9 @@ import {
    remove
 } from 'lodash';
 
-export default function HomeController(
+import './home.scss';
+
+export default function HomeController( //eslint-disable-line max-statements
    $scope,
    $q,
    $state,
@@ -46,7 +48,7 @@ export default function HomeController(
    vm.saveEvent               = saveEvent;
    vm.removeEvent             = removeEvent;
    vm.getEventsForDate        = getEventsForDate;
-   //vm.user                    = null; lint error
+   vm.user                    = {};
 
    function _init() {
       UserService.getUsers().then(users => set(vm, 'responsibles', users));

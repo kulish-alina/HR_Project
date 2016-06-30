@@ -100,7 +100,9 @@ export default function _config(
          params: {
             _data: null,
             candidateId: null
-         }
+         },
+         parent: 'candidates',
+         data: {hide: true}
       })
       .state('vacancyEdit', {
          url: '/vacancy/edit/:vacancyId',

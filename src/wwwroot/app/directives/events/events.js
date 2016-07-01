@@ -68,7 +68,6 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
 
    function showAddEventDialog() {
       vm.event = {};
-      debugger;
       if (vm.candidateId) {
          vm.event.candidateId = `${vm.candidateId}`;
       }

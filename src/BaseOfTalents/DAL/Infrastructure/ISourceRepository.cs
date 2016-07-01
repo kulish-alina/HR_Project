@@ -1,5 +1,4 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using Domain.Entities.Enum.Setup;
+﻿using Domain.Entities.Enum.Setup;
 
 namespace DAL.Infrastructure
 {

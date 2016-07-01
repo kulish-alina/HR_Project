@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DAL.DTO;
+using System;
 using System.Threading.Tasks;
-using Domain.DTO.DTOModels;
 
 namespace WebUI.Infrastructure.Auth
 {

@@ -1,6 +1,4 @@
-﻿using Domain.DTO.DTOModels;
-
-namespace DAL.DTO.SetupDTO
+﻿namespace DAL.DTO.SetupDTO
 {
     public class CurrencyDTO : BaseEntityDTO
     {

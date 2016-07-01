@@ -1,10 +1,4 @@
-﻿using Domain.DTO.DTOModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Domain.DTO.DTOModels.SetupDTO
+﻿namespace DAL.DTO.SetupDTO
 {
     public class CountryDTO : BaseEntityDTO
     {

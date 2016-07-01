@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
 
-namespace WebApi.Controllers
+namespace WebUI.Controllers
 {
     public abstract class BaseEnumController<TEnum> : ApiController
     {

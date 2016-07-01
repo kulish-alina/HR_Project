@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Entities.Enum;
+using Domain.Entities.Enum.Setup;
+using System.Collections.Generic;
 using System.Linq;
-using BaseOfTalents.Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
 
-namespace BaseOfTalents.WebUI.Globals.Converters
+namespace WebUI.Globals.Converters
 {
     public static class PermissionConverter
     {

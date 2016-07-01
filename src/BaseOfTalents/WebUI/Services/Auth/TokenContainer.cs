@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DAL.DTO;
+using System;
 using System.Collections.Generic;
-using Domain.DTO.DTOModels;
 using WebUI.Infrastructure.Auth;
 
 namespace WebUI.Services

@@ -1,7 +1,7 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
+﻿using Domain.Entities.Enum;
 using System;
 
-namespace BaseOfTalents.Domain.Entities
+namespace Domain.Entities
 {
     public class BaseEntity
     {

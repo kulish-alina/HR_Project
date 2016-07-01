@@ -1,6 +1,4 @@
-﻿using DAL.Infrastructure;
-
-namespace BaseOfTalents.DAL.Infrastructure
+﻿namespace DAL.Infrastructure
 {
     public interface IUnitOfWork
     {

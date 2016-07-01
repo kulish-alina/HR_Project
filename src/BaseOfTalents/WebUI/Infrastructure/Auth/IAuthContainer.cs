@@ -1,5 +1,5 @@
-﻿using System;
-using Domain.DTO.DTOModels;
+﻿using DAL.DTO;
+using System;
 
 namespace WebUI.Infrastructure.Auth
 {

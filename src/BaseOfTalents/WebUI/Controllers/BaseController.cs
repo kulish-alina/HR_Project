@@ -1,12 +1,12 @@
-﻿using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.WebUI.Extensions;
+﻿using DAL.DTO;
 using DAL.Services;
-using Domain.DTO.DTOModels;
+using Domain.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
+using WebUI.Extensions;
 
-namespace WebApi.Controllers
+namespace WebUI.Controllers
 {
     public abstract class BaseController<DomainEntity, ViewModel> : ApiController
         where DomainEntity : BaseEntity, new()

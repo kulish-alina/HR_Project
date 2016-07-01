@@ -1,9 +1,9 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
+﻿using Domain.Entities.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.DTO.DTOModels
+namespace DAL.DTO
 {
     public class VacancyDTO : BaseEntityDTO
     {

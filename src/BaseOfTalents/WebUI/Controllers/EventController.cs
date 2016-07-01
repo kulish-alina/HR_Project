@@ -1,16 +1,13 @@
-﻿using BaseOfTalents.WebUI.Extensions;
-using BaseOfTalents.WebUI.Models;
+﻿using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
-using Domain.DTO.DTOModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
+using WebUI.Extensions;
+using WebUI.Models;
 
-namespace BaseOfTalents.WebUI.Controllers
+namespace WebUI.Controllers
 {
     [RoutePrefix("api/event")]
     public class EventController : ApiController
@@ -53,11 +50,11 @@ namespace BaseOfTalents.WebUI.Controllers
             {
                 return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
             }
-            
+
             var foundedEvents = service.Get(searchParams.UserIds, searchParams.StartDate, searchParams.EndDate);
             return Json(foundedEvents, BOT_SERIALIZER_SETTINGS);
         }
-           
+
 
         [HttpGet]
         [Route("candidate/{candidateId:int}")]

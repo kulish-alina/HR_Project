@@ -1,10 +1,5 @@
-﻿using BaseOfTalents.Domain.Entities;
-using Domain.DTO.DTOModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DAL.DTO;
+using Domain.Entities;
 
 namespace DAL.Extensions
 {

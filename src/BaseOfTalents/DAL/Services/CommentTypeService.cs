@@ -1,7 +1,4 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Entities.Enum;
 
 namespace DAL.Services
 {

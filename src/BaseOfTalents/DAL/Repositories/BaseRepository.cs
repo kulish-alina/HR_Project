@@ -1,12 +1,12 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
+﻿using DAL.Infrastructure;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace BaseOfTalents.DAL.Repositories
+namespace DAL.Repositories
 {
     public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity, new()
     {
@@ -43,7 +43,7 @@ namespace BaseOfTalents.DAL.Repositories
             {
                 query = query.Include(includeProperty);
             }
-            
+
             return orderBy(query).ToList();
         }
 
@@ -83,6 +83,6 @@ namespace BaseOfTalents.DAL.Repositories
             context.Dispose();
         }
 
-        
+
     }
 }

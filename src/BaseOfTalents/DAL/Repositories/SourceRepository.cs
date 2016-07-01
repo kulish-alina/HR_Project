@@ -1,5 +1,4 @@
-﻿using BaseOfTalents.DAL.Repositories;
-using DAL.Infrastructure;
+﻿using DAL.Infrastructure;
 using Domain.Entities.Enum.Setup;
 using System.Data.Entity;
 

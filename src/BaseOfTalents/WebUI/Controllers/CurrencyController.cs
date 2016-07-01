@@ -2,9 +2,8 @@
 using DAL.Services;
 using Domain.Entities.Enum.Setup;
 using System.Web.Http;
-using WebApi.Controllers;
 
-namespace BaseOfTalents.WebUI.Controllers
+namespace WebUI.Controllers
 {
     [RoutePrefix("api/currency")]
     public class CurrencyController : BaseController<Currency, CurrencyDTO>

@@ -1,8 +1,7 @@
-namespace BaseOfTalents.DAL.Migrations
+using System.Data.Entity.Migrations;
+
+namespace DAL.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class init : DbMigration
     {
         public override void Up()
@@ -10,34 +9,34 @@ namespace BaseOfTalents.DAL.Migrations
             CreateTable(
                 "dbo.Candidate",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        FirstName = c.String(nullable: false),
-                        MiddleName = c.String(),
-                        LastName = c.String(nullable: false),
-                        IsMale = c.Boolean(),
-                        BirthDate = c.DateTime(),
-                        Email = c.String(),
-                        Skype = c.String(),
-                        PositionDesired = c.String(),
-                        TypeOfEmployment = c.Int(),
-                        StartExperience = c.DateTime(),
-                        Practice = c.String(),
-                        Description = c.String(),
-                        SalaryDesired = c.Int(),
-                        CurrencyId = c.Int(),
-                        RelocationAgreement = c.Boolean(),
-                        MainSourceId = c.Int(),
-                        CityId = c.Int(),
-                        LevelId = c.Int(),
-                        IndustryId = c.Int(nullable: false),
-                        Education = c.String(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        Photo_Id = c.Int(),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    FirstName = c.String(nullable: false),
+                    MiddleName = c.String(),
+                    LastName = c.String(nullable: false),
+                    IsMale = c.Boolean(),
+                    BirthDate = c.DateTime(),
+                    Email = c.String(),
+                    Skype = c.String(),
+                    PositionDesired = c.String(),
+                    TypeOfEmployment = c.Int(),
+                    StartExperience = c.DateTime(),
+                    Practice = c.String(),
+                    Description = c.String(),
+                    SalaryDesired = c.Int(),
+                    CurrencyId = c.Int(),
+                    RelocationAgreement = c.Boolean(),
+                    MainSourceId = c.Int(),
+                    CityId = c.Int(),
+                    LevelId = c.Int(),
+                    IndustryId = c.Int(nullable: false),
+                    Education = c.String(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    Photo_Id = c.Int(),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.City", t => t.CityId)
                 .ForeignKey("dbo.Currency", t => t.CurrencyId)
@@ -51,96 +50,96 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.LevelId)
                 .Index(t => t.IndustryId)
                 .Index(t => t.Photo_Id);
-            
+
             CreateTable(
                 "dbo.City",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        CountryId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    CountryId = c.Int(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Country", t => t.CountryId)
                 .Index(t => t.CountryId);
-            
+
             CreateTable(
                 "dbo.Country",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.RelocationPlace",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        CountryId = c.Int(nullable: false),
-                        CityId = c.Int(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    CountryId = c.Int(nullable: false),
+                    CityId = c.Int(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.City", t => t.CityId)
                 .ForeignKey("dbo.Country", t => t.CountryId)
                 .Index(t => t.CountryId)
                 .Index(t => t.CityId);
-            
+
             CreateTable(
                 "dbo.Comment",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Message = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Message = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Currency",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Event",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        EventDate = c.DateTime(nullable: false),
-                        Description = c.String(nullable: false),
-                        ResponsibleId = c.Int(nullable: false),
-                        EventTypeId = c.Int(),
-                        VacancyId = c.Int(),
-                        CandidateId = c.Int(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    EventDate = c.DateTime(nullable: false),
+                    Description = c.String(nullable: false),
+                    ResponsibleId = c.Int(nullable: false),
+                    EventTypeId = c.Int(),
+                    VacancyId = c.Int(),
+                    CandidateId = c.Int(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.EventType", t => t.EventTypeId)
                 .ForeignKey("dbo.User", t => t.ResponsibleId)
@@ -150,43 +149,43 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.EventTypeId)
                 .Index(t => t.VacancyId)
                 .Index(t => t.CandidateId);
-            
+
             CreateTable(
                 "dbo.EventType",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        ImagePath = c.String(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    ImagePath = c.String(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.User",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        FirstName = c.String(nullable: false),
-                        MiddleName = c.String(nullable: false),
-                        LastName = c.String(nullable: false),
-                        isMale = c.Boolean(nullable: false),
-                        BirthDate = c.DateTime(),
-                        Email = c.String(nullable: false),
-                        Skype = c.String(),
-                        Login = c.String(nullable: false),
-                        Password = c.String(nullable: false),
-                        RoleId = c.Int(nullable: false),
-                        CityId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        Photo_Id = c.Int(),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    FirstName = c.String(nullable: false),
+                    MiddleName = c.String(nullable: false),
+                    LastName = c.String(nullable: false),
+                    isMale = c.Boolean(nullable: false),
+                    BirthDate = c.DateTime(),
+                    Email = c.String(nullable: false),
+                    Skype = c.String(),
+                    Login = c.String(nullable: false),
+                    Password = c.String(nullable: false),
+                    RoleId = c.Int(nullable: false),
+                    CityId = c.Int(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    Photo_Id = c.Int(),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.City", t => t.CityId)
                 .ForeignKey("dbo.File", t => t.Photo_Id)
@@ -194,106 +193,106 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.RoleId)
                 .Index(t => t.CityId)
                 .Index(t => t.Photo_Id);
-            
+
             CreateTable(
                 "dbo.Note",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Message = c.String(),
-                        UserId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        User_Id = c.Int(),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Message = c.String(),
+                    UserId = c.Int(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    User_Id = c.Int(),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.User", t => t.UserId)
                 .ForeignKey("dbo.User", t => t.User_Id)
                 .Index(t => t.UserId)
                 .Index(t => t.User_Id);
-            
+
             CreateTable(
                 "dbo.PhoneNumber",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Number = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Number = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.File",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        FilePath = c.String(nullable: false),
-                        Description = c.String(),
-                        Size = c.Long(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    FilePath = c.String(nullable: false),
+                    Description = c.String(),
+                    Size = c.Long(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Role",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Permission",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Description = c.String(nullable: false),
-                        AccessRights = c.Int(nullable: false),
-                        Group = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Description = c.String(nullable: false),
+                    AccessRights = c.Int(nullable: false),
+                    Group = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Vacancy",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        Description = c.String(),
-                        TypeOfEmployment = c.Int(),
-                        StartDate = c.DateTime(nullable: false),
-                        EndDate = c.DateTime(),
-                        DeadlineDate = c.DateTime(),
-                        ParentVacancyId = c.Int(),
-                        IndustryId = c.Int(nullable: false),
-                        DepartmentId = c.Int(nullable: false),
-                        ResponsibleId = c.Int(nullable: false),
-                        SalaryMin = c.Int(),
-                        SalaryMax = c.Int(),
-                        CurrencyId = c.Int(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        LanguageSkill_Id = c.Int(),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    Description = c.String(),
+                    TypeOfEmployment = c.Int(),
+                    StartDate = c.DateTime(nullable: false),
+                    EndDate = c.DateTime(),
+                    DeadlineDate = c.DateTime(),
+                    ParentVacancyId = c.Int(),
+                    IndustryId = c.Int(nullable: false),
+                    DepartmentId = c.Int(nullable: false),
+                    ResponsibleId = c.Int(nullable: false),
+                    SalaryMin = c.Int(),
+                    SalaryMax = c.Int(),
+                    CurrencyId = c.Int(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    LanguageSkill_Id = c.Int(),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Currency", t => t.CurrencyId)
                 .ForeignKey("dbo.Department", t => t.DepartmentId)
@@ -307,21 +306,21 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.ResponsibleId)
                 .Index(t => t.CurrencyId)
                 .Index(t => t.LanguageSkill_Id);
-            
+
             CreateTable(
                 "dbo.VacancyStageInfo",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        CandidateId = c.Int(nullable: false),
-                        VacancyId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        Comment_Id = c.Int(),
-                        VacancyStage_Id = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    CandidateId = c.Int(nullable: false),
+                    VacancyId = c.Int(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    Comment_Id = c.Int(),
+                    VacancyStage_Id = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Comment", t => t.Comment_Id)
                 .ForeignKey("dbo.Vacancy", t => t.VacancyId)
@@ -331,422 +330,422 @@ namespace BaseOfTalents.DAL.Migrations
                 .Index(t => t.VacancyId)
                 .Index(t => t.Comment_Id)
                 .Index(t => t.VacancyStage_Id);
-            
+
             CreateTable(
                 "dbo.VacancyStage",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Order = c.Int(nullable: false),
-                        IsCommentRequired = c.Boolean(nullable: false),
-                        StageId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Order = c.Int(nullable: false),
+                    IsCommentRequired = c.Boolean(nullable: false),
+                    StageId = c.Int(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Stage", t => t.StageId)
                 .Index(t => t.StageId);
-            
+
             CreateTable(
                 "dbo.Stage",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Department",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        DepartmentGroupId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    DepartmentGroupId = c.Int(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.DepartmentGroup", t => t.DepartmentGroupId)
                 .Index(t => t.DepartmentGroupId);
-            
+
             CreateTable(
                 "dbo.DepartmentGroup",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Industry",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.LanguageSkill",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        LanguageLevel = c.Int(),
-                        LanguageId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    LanguageLevel = c.Int(),
+                    LanguageId = c.Int(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Language", t => t.LanguageId)
                 .Index(t => t.LanguageId);
-            
+
             CreateTable(
                 "dbo.Language",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Level",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Skill",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Tag",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Source",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.CandidateSocial",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Path = c.String(nullable: false),
-                        SocialNetworkId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        Candidate_Id = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Path = c.String(nullable: false),
+                    SocialNetworkId = c.Int(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    Candidate_Id = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.SocialNetwork", t => t.SocialNetworkId)
                 .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
                 .Index(t => t.SocialNetworkId)
                 .Index(t => t.Candidate_Id);
-            
+
             CreateTable(
                 "dbo.SocialNetwork",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false),
-                        ImagePath = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Title = c.String(nullable: false),
+                    ImagePath = c.String(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.CandidateSource",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Path = c.String(nullable: false),
-                        SourceId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        Candidate_Id = c.Int(),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Path = c.String(nullable: false),
+                    SourceId = c.Int(nullable: false),
+                    LastModified = c.DateTime(),
+                    CreatedOn = c.DateTime(),
+                    State = c.Int(nullable: false),
+                    Candidate_Id = c.Int(),
+                    IsDeleted = c.Boolean(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Source", t => t.SourceId)
                 .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
                 .Index(t => t.SourceId)
                 .Index(t => t.Candidate_Id);
-            
+
             CreateTable(
                 "dbo.CandidateToComment",
                 c => new
-                    {
-                        CandidateId = c.Int(nullable: false),
-                        CommentId = c.Int(nullable: false),
-                    })
+                {
+                    CandidateId = c.Int(nullable: false),
+                    CommentId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.CandidateId, t.CommentId })
                 .ForeignKey("dbo.Candidate", t => t.CandidateId)
                 .ForeignKey("dbo.Comment", t => t.CommentId)
                 .Index(t => t.CandidateId)
                 .Index(t => t.CommentId);
-            
+
             CreateTable(
                 "dbo.UserToPhoneNumber",
                 c => new
-                    {
-                        UserId = c.Int(nullable: false),
-                        PhoneNumberId = c.Int(nullable: false),
-                    })
+                {
+                    UserId = c.Int(nullable: false),
+                    PhoneNumberId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.UserId, t.PhoneNumberId })
                 .ForeignKey("dbo.User", t => t.UserId)
                 .ForeignKey("dbo.PhoneNumber", t => t.PhoneNumberId)
                 .Index(t => t.UserId)
                 .Index(t => t.PhoneNumberId);
-            
+
             CreateTable(
                 "dbo.PermissionRole",
                 c => new
-                    {
-                        Permission_Id = c.Int(nullable: false),
-                        Role_Id = c.Int(nullable: false),
-                    })
+                {
+                    Permission_Id = c.Int(nullable: false),
+                    Role_Id = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.Permission_Id, t.Role_Id })
                 .ForeignKey("dbo.Permission", t => t.Permission_Id)
                 .ForeignKey("dbo.Role", t => t.Role_Id)
                 .Index(t => t.Permission_Id)
                 .Index(t => t.Role_Id);
-            
+
             CreateTable(
                 "dbo.ParentVacancyToChildVacancy",
                 c => new
-                    {
-                        ParentVacancyId = c.Int(nullable: false),
-                        ChildVacancyId = c.Int(nullable: false),
-                    })
+                {
+                    ParentVacancyId = c.Int(nullable: false),
+                    ChildVacancyId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.ParentVacancyId, t.ChildVacancyId })
                 .ForeignKey("dbo.Vacancy", t => t.ParentVacancyId)
                 .ForeignKey("dbo.Vacancy", t => t.ChildVacancyId)
                 .Index(t => t.ParentVacancyId)
                 .Index(t => t.ChildVacancyId);
-            
+
             CreateTable(
                 "dbo.VacancyToCity",
                 c => new
-                    {
-                        VacancyId = c.Int(nullable: false),
-                        CityId = c.Int(nullable: false),
-                    })
+                {
+                    VacancyId = c.Int(nullable: false),
+                    CityId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.VacancyId, t.CityId })
                 .ForeignKey("dbo.Vacancy", t => t.VacancyId)
                 .ForeignKey("dbo.City", t => t.CityId)
                 .Index(t => t.VacancyId)
                 .Index(t => t.CityId);
-            
+
             CreateTable(
                 "dbo.VacancyToComment",
                 c => new
-                    {
-                        VacancyId = c.Int(nullable: false),
-                        CommentId = c.Int(nullable: false),
-                    })
+                {
+                    VacancyId = c.Int(nullable: false),
+                    CommentId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.VacancyId, t.CommentId })
                 .ForeignKey("dbo.Vacancy", t => t.VacancyId)
                 .ForeignKey("dbo.Comment", t => t.CommentId)
                 .Index(t => t.VacancyId)
                 .Index(t => t.CommentId);
-            
+
             CreateTable(
                 "dbo.FileToVacancy",
                 c => new
-                    {
-                        VacancyId = c.Int(nullable: false),
-                        FileId = c.Int(nullable: false),
-                    })
+                {
+                    VacancyId = c.Int(nullable: false),
+                    FileId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.VacancyId, t.FileId })
                 .ForeignKey("dbo.Vacancy", t => t.VacancyId)
                 .ForeignKey("dbo.File", t => t.FileId)
                 .Index(t => t.VacancyId)
                 .Index(t => t.FileId);
-            
+
             CreateTable(
                 "dbo.VacancyToLevel",
                 c => new
-                    {
-                        VacancyId = c.Int(nullable: false),
-                        LevelId = c.Int(nullable: false),
-                    })
+                {
+                    VacancyId = c.Int(nullable: false),
+                    LevelId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.VacancyId, t.LevelId })
                 .ForeignKey("dbo.Vacancy", t => t.VacancyId)
                 .ForeignKey("dbo.Level", t => t.LevelId)
                 .Index(t => t.VacancyId)
                 .Index(t => t.LevelId);
-            
+
             CreateTable(
                 "dbo.VacancyToSkill",
                 c => new
-                    {
-                        VacancyId = c.Int(nullable: false),
-                        SkillId = c.Int(nullable: false),
-                    })
+                {
+                    VacancyId = c.Int(nullable: false),
+                    SkillId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.VacancyId, t.SkillId })
                 .ForeignKey("dbo.Vacancy", t => t.VacancyId)
                 .ForeignKey("dbo.Skill", t => t.SkillId)
                 .Index(t => t.VacancyId)
                 .Index(t => t.SkillId);
-            
+
             CreateTable(
                 "dbo.VacancyToTag",
                 c => new
-                    {
-                        VacancyId = c.Int(nullable: false),
-                        TagId = c.Int(nullable: false),
-                    })
+                {
+                    VacancyId = c.Int(nullable: false),
+                    TagId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.VacancyId, t.TagId })
                 .ForeignKey("dbo.Vacancy", t => t.VacancyId)
                 .ForeignKey("dbo.Tag", t => t.TagId)
                 .Index(t => t.VacancyId)
                 .Index(t => t.TagId);
-            
+
             CreateTable(
                 "dbo.FileToCandidate",
                 c => new
-                    {
-                        CandidateId = c.Int(nullable: false),
-                        FileId = c.Int(nullable: false),
-                    })
+                {
+                    CandidateId = c.Int(nullable: false),
+                    FileId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.CandidateId, t.FileId })
                 .ForeignKey("dbo.Candidate", t => t.CandidateId)
                 .ForeignKey("dbo.File", t => t.FileId)
                 .Index(t => t.CandidateId)
                 .Index(t => t.FileId);
-            
+
             CreateTable(
                 "dbo.CandidateToLanguageSkill",
                 c => new
-                    {
-                        CandidateId = c.Int(nullable: false),
-                        LanguageSkillId = c.Int(nullable: false),
-                    })
+                {
+                    CandidateId = c.Int(nullable: false),
+                    LanguageSkillId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.CandidateId, t.LanguageSkillId })
                 .ForeignKey("dbo.Candidate", t => t.CandidateId)
                 .ForeignKey("dbo.LanguageSkill", t => t.LanguageSkillId)
                 .Index(t => t.CandidateId)
                 .Index(t => t.LanguageSkillId);
-            
+
             CreateTable(
                 "dbo.CandidateToPhoneNumber",
                 c => new
-                    {
-                        CandidateId = c.Int(nullable: false),
-                        PhoneNumberId = c.Int(nullable: false),
-                    })
+                {
+                    CandidateId = c.Int(nullable: false),
+                    PhoneNumberId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.CandidateId, t.PhoneNumberId })
                 .ForeignKey("dbo.Candidate", t => t.CandidateId)
                 .ForeignKey("dbo.PhoneNumber", t => t.PhoneNumberId)
                 .Index(t => t.CandidateId)
                 .Index(t => t.PhoneNumberId);
-            
+
             CreateTable(
                 "dbo.CandidateToRelocationPlace",
                 c => new
-                    {
-                        CandidateId = c.Int(nullable: false),
-                        RelocationPlaceId = c.Int(nullable: false),
-                    })
+                {
+                    CandidateId = c.Int(nullable: false),
+                    RelocationPlaceId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.CandidateId, t.RelocationPlaceId })
                 .ForeignKey("dbo.Candidate", t => t.CandidateId)
                 .ForeignKey("dbo.RelocationPlace", t => t.RelocationPlaceId)
                 .Index(t => t.CandidateId)
                 .Index(t => t.RelocationPlaceId);
-            
+
             CreateTable(
                 "dbo.CandidateToSkill",
                 c => new
-                    {
-                        CandidateId = c.Int(nullable: false),
-                        SkillId = c.Int(nullable: false),
-                    })
+                {
+                    CandidateId = c.Int(nullable: false),
+                    SkillId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.CandidateId, t.SkillId })
                 .ForeignKey("dbo.Candidate", t => t.CandidateId)
                 .ForeignKey("dbo.Skill", t => t.SkillId)
                 .Index(t => t.CandidateId)
                 .Index(t => t.SkillId);
-            
+
             CreateTable(
                 "dbo.CandidateToTag",
                 c => new
-                    {
-                        CandidateId = c.Int(nullable: false),
-                        TagId = c.Int(nullable: false),
-                    })
+                {
+                    CandidateId = c.Int(nullable: false),
+                    TagId = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.CandidateId, t.TagId })
                 .ForeignKey("dbo.Candidate", t => t.CandidateId)
                 .ForeignKey("dbo.Tag", t => t.TagId)
                 .Index(t => t.CandidateId)
                 .Index(t => t.TagId);
-            
+
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.VacancyStageInfo", "CandidateId", "dbo.Candidate");

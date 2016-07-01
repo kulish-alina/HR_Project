@@ -1,9 +1,8 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
-using DAL.Services;
-using Domain.Entities.Enum;
+﻿using DAL.Services;
+using Entities.Enum;
 using System.Web.Http;
 
-namespace WebApi.Controllers
+namespace WebUI.Controllers
 {
     [RoutePrefix("api/CommentType")]
     public class CommentTypeController : BaseEnumController<CommentType>

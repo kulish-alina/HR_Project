@@ -1,7 +1,6 @@
 ﻿using DAL.DTO;
-using Domain.Entities;
 
-namespace BaseOfTalents.WebUI.Models
+namespace WebUI.Models
 {
     public class NoteModel
     {

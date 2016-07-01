@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using DAL.DTO;
 using DAL.Services;
-using Domain.DTO.DTOModels;
+using System;
+using System.Threading.Tasks;
 using WebUI.Filters;
 using WebUI.Infrastructure.Auth;
 

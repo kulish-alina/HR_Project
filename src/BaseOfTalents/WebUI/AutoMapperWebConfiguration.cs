@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
-using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using BaseOfTalents.WebUI.Globals.Converters;
-using BaseOfTalents.WebUI.Models;
 using DAL.DTO;
 using DAL.DTO.SetupDTO;
-using Domain.DTO.DTOModels;
-using Domain.DTO.DTOModels.SetupDTO;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using System.Collections.Generic;
+using WebUI.Globals.Converters;
+using WebUI.Models;
 
 namespace WebApi
 {

@@ -1,4 +1,4 @@
-﻿namespace Domain.DTO.DTOModels
+﻿namespace DAL.DTO
 {
     public class VacancyStageInfoDTO : BaseEntityDTO
     {

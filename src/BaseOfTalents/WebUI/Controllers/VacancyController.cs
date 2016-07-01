@@ -1,14 +1,14 @@
-﻿using System.Web.Http;
-using BaseOfTalents.WebUI.Extensions;
-using BaseOfTalents.WebUI.Models;
+﻿using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
-using Domain.DTO.DTOModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Web.Http;
+using WebUI.Extensions;
 using WebUI.Filters;
+using WebUI.Models;
 
-namespace BaseOfTalents.WebUI.Controllers
+namespace WebUI.Controllers
 {
     [RoutePrefix("api/vacancy")]
     public class VacancyController : ApiController

@@ -1,8 +1,7 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
-using Domain.Entities.Enum;
+﻿using Domain.Entities.Enum;
 using System.Collections.Generic;
 
-namespace Domain.DTO.DTOModels
+namespace DAL.DTO
 {
     public class PermissionDTO : BaseEntityDTO
     {

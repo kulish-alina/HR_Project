@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using Domain.Entities.Enum.Setup;
 
-namespace BaseOfTalents.Domain.Entities
+namespace Domain.Entities
 {
     public class CandidateSocial : BaseEntity
     {
@@ -8,8 +8,5 @@ namespace BaseOfTalents.Domain.Entities
 
         public int SocialNetworkId { get; set; }
         public virtual SocialNetwork SocialNetwork { get; set; }
-
-        //public int CandidateId { get; set; }
-        //public virtual Candidate Candidate { get; set; }
     }
 }

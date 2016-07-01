@@ -1,19 +1,18 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
-using Domain.DTO.DTOModels;
-using System;
+﻿using DAL.DTO;
+using DAL.Infrastructure;
+using Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace DAL.Services
 {
     public abstract class BaseService<DomainEntity, DTO>
-        where DomainEntity : BaseEntity, new ()
-        where DTO : BaseEntityDTO, new ()
+        where DomainEntity : BaseEntity, new()
+        where DTO : BaseEntityDTO, new()
     {
         protected readonly IUnitOfWork uow;
         protected readonly IRepository<DomainEntity> currentRepo;
+        private ICountryRepository countryRepo;
 
         public BaseService(IUnitOfWork uow, IRepository<DomainEntity> currentRepo)
         {

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Http.ModelBinding;
 
-namespace BaseOfTalents.WebUI.Extensions
+namespace WebUI.Extensions
 {
     public static class ModelStateHelper
     {

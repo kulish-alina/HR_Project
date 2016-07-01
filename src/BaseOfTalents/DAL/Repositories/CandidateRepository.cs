@@ -1,9 +1,9 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
+﻿using DAL.Infrastructure;
+using Domain.Entities;
 using System.Data.Entity;
 using System.Linq;
 
-namespace BaseOfTalents.DAL.Repositories
+namespace DAL.Repositories
 {
     public class CandidateRepository : BaseRepository<Candidate>, ICandidateRepository
     {

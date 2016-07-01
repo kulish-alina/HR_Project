@@ -1,10 +1,10 @@
-﻿using System.Data.Entity;
+﻿using DAL.Infrastructure;
+using Domain.Entities;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
 
-namespace BaseOfTalents.DAL.Repositories
+namespace DAL.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {

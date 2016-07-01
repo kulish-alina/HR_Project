@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
-using Domain.DTO.DTOModels;
+﻿using DAL.DTO;
+using DAL.Infrastructure;
+using Domain.Entities;
 using System;
 using System.Linq;
 

@@ -1,4 +1,4 @@
-﻿namespace BaseOfTalents.Domain.Entities.Enum
+﻿namespace Domain.Entities.Enum
 {
     public enum TypeOfEmployment
     {

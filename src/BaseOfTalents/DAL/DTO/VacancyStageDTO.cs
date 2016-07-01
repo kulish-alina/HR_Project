@@ -1,6 +1,4 @@
-﻿using Domain.Entities.Enum;
-using System;
-namespace Domain.DTO.DTOModels
+﻿namespace DAL.DTO
 {
     public class VacancyStageDTO : BaseEntityDTO
     {

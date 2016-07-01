@@ -1,5 +1,4 @@
-﻿using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using Domain.Entities.Enum.Setup;
 
 namespace Domain.Entities
 {

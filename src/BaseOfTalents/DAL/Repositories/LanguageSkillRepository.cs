@@ -1,6 +1,5 @@
-﻿using BaseOfTalents.DAL.Repositories;
-using BaseOfTalents.Domain.Entities;
-using DAL.Infrastructure;
+﻿using DAL.Infrastructure;
+using Domain.Entities;
 using System.Data.Entity;
 
 namespace DAL.Repositories

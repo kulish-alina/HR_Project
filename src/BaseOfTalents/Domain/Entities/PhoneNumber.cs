@@ -1,4 +1,4 @@
-﻿namespace BaseOfTalents.Domain.Entities
+﻿namespace Domain.Entities
 {
     public class PhoneNumber : BaseEntity
     {

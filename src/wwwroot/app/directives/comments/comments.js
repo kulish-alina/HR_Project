@@ -21,7 +21,7 @@ export default class CommentsDirective {
 }
 
 function CommentsController($scope, $translate) {
-
+   'ngInject';
    const vm              = $scope;
    vm.typeWrap           = _getType();
    vm.currentComment     = {};

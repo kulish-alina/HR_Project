@@ -2,7 +2,7 @@ import loginDialog from './login.dialog.html';
 
 
 export default function loginController($state, $translate, UserDialogService, LoginService) {
-
+   'ngInject';
    let credentials = {
    };
    function _showLoginForm() {

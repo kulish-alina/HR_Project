@@ -1,4 +1,5 @@
 export default function authRunner($state, UserService, LocalStorageService, LoginService, LoggerService) {
+   'ngInject';
    $state.go('loading');
    let token = LocalStorageService.get('access_token');
    LoggerService.debug('runner', token);

@@ -8,7 +8,7 @@
    </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a href="#"><span ng-bind="::'COMMON.CANCEL' | translate"></span></a>
+         <li><a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
          </li>
          <li><a ng-click="saveCandidate(Candidate)"><span ng-bind="::'COMMON.SUBMIT' | translate"></span></a>
          </li>
@@ -53,13 +53,12 @@
                   <div class="medium-4 grid-block">
                      <fieldset>
                         <select name="Industry" ng-model="candidate.industryId" validator="required"
-                                ng-init="candidate.industryId=''" convert-to-number>
+                                ng-init="candidate.industryId=candidate.industryId || ''" convert-to-number>
                            <option ng-selected="true" value="" ng-bind="::('COMMON.INDUSTRY' | translate)"></option>
                            <option ng-repeat="industry in thesaurus.industry" value='{{ industry.id }}' 
                                    ng-bind="::(industry.title)"></option>
                         </select>
-                        <select ng-model="candidate.levelId" ng-init="candidate.levelId=''" convert-to-number 
-                                name="Level">
+                        <select ng-model="candidate.levelId" ng-init="candidate.levelId = candidate.levelId || ''" convert-to-number name="Level">
                            <option ng-selected="true" value="" ng-bind="::'COMMON.LEVEL' | translate"></option>
                            <option ng-repeat="level in thesaurus.level" 
                                    value="{{level.id}}" ng-bind="::(level.title)"></option>
@@ -71,14 +70,13 @@
                            </div>
                            <div class="medium-6 grid-block">
                               <select name="Сurrency" ng-disabled="!candidate.salaryDesired" convert-to-number
-                                      ng-model="candidate.currencyId" ng-init="candidate.currencyId=''">
+                                      ng-model="candidate.currencyId" ng-init="candidate.currencyId= candidate.currencyId || ''">
                                  <option ng-selected="true" value="" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
                                  <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
                               </select>
                            </div>
                         </div>
-                        <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment=''"
-                                name="TypeOfEmployment" convert-to-number >
+                        <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment= candidate.typeOfEmployment || ''" name="TypeOfEmployment" convert-to-number >
                            <option ng-selected="true" value="" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate)"></option>
                            <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" 
                                    value="{{typeOfEmployment.id}}" ng-bind="::(typeOfEmployment.title)"></option>
@@ -109,7 +107,7 @@
                         <div zf-open="basicModal" 
                              ng-class="candidate.photo ? 'profile-photo-container' : 'profile-photo'">
                            <span zf-open="basicModal" ng-hide="candidate.photo" class="upload-title">Upload Photo</span>
-                           <img class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" 
+                           <img alt="Candidate photo" class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" 
                                 ng-src="{{candidate.photo.filePath | botUrl}}">
                         </div>
                         <div class="uploader-photo" zf-modal="" id="basicModal">
@@ -292,116 +290,10 @@
             -->
          </div>
          <div class="sidebar">
-            <div class="card-divider">
-               <div class="grid-block">
-                  <div class="medium-9 grid-block" ng-bind="::'COMMON.EVENTS' | translate"></div>
-                  <!--
-                  <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#"><span ng-bind="::'COMMON.ADD' | translate"></span></a>
-                  </div>
-                  -->
-               </div>
-            </div>
-            <div class="coming-soon-text">Coming soon</div>
-            <!--
-            <div class="sidebar-content">
-               <section class="block-list">
-                  <ul class="icon-left events">
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-2 grid-block">
-                              <i class="foundicon-people general-icon"></i>
-                           </div>
-                           <div class="medium-10 grid-block">
-                              <a href="#"><span>15.05.16 at 11.00 HR-Interviev with Antonov Viktor</span></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-2 grid-block">
-                              <i class="foundicon-website general-icon"></i>
-                           </div>
-                           <div class="medium-10 grid-block">
-                              <a href="#"><span>16.05.16 at 14.00 Tech-Interviev with Antonov Viktor</span></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-2 grid-block">
-                              <i class="foundicon-phone general-icon"></i>
-                           </div>
-                           <div class="medium-10 grid-block">
-                              <a href="#"><span>25.05.16 Call to Vasilenko Anna</span></a>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-            </div>
-            -->
+             <events candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
          </div>
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'COMMON.COMMENTS' | translate"></div>
-            <div class="sidebar-content">
-               <div class="grid-block">
-                  <!--
-                  <div class="medium-9 grid-block">
-                     <textarea placeholder="Comment"></textarea>
-                  </div>
-                  <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#">{{::'COMMON.SAVE' | translate}}</a>
-                  </div>
-                  -->
-               </div>
-               <!--
-               <section class="block-list">
-                  <ul class="comments">
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-10 grid-block">
-                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-10 grid-block">
-                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-10 grid-block">
-                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-               -->
-            </div>
-            <div class="coming-soon-text">Coming soon</div>
+            <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>
          </div>
       </div>
    </div>

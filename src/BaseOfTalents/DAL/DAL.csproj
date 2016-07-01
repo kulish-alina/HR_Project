@@ -173,6 +173,7 @@
     <Compile Include="Migrations\201606301005591_init.Designer.cs">
       <DependentUpon>201606301005591_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\BOTContextInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

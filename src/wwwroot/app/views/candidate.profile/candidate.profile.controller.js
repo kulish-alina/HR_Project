@@ -2,7 +2,8 @@ const LIST_OF_THESAURUS = [ 'stage' ];
 import {
    set,
    cloneDeep,
-   remove
+   remove,
+   clone
 } from 'lodash';
 
 export default function CandidateProfileController(
@@ -14,7 +15,8 @@ export default function CandidateProfileController(
    UserDialogService,
    ThesaurusService,
    CandidateService,
-   LoggerService
+   LoggerService,
+   EventsService
    ) {
    'ngInject';
 
@@ -31,7 +33,11 @@ export default function CandidateProfileController(
    vm.comments               = cloneDeep(vm.candidate.comments);
    vm.saveComment            = saveComment;
    vm.removeComment          = removeComment;
-   vm.editComment            = editComment;
+   vm.editComment             = editComment;
+   vm.candidateEvents         = [];
+   vm.cloneCandidateEvents    = [];
+   vm.saveEvent               = saveEvent;
+   vm.removeEvent             = removeEvent;
 
    function _init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
@@ -42,10 +48,12 @@ export default function CandidateProfileController(
    function _initCurrentCandidate() {
       if ($state.params._data) {
          vm.candidate = $state.params._data;
+         _getCandidateEvents(vm.candidate.id);
       } else {
          CandidateService.getCandidate($state.params.candidateId).then(candidate => {
             set(vm, 'candidate', candidate);
             vm.comments = cloneDeep(vm.candidate.comments);
+            _getCandidateEvents(vm.candidate.id);
          });
       }
    }
@@ -125,5 +133,27 @@ export default function CandidateProfileController(
    function editComment(comment) {
       vm.isChanged = true;
       return $q.when(remove(vm.comments, comment));
+   }
+
+   function _getCandidateEvents(candidateId) {
+      EventsService.getEventsByCandidate(candidateId).then(events => {
+         set(vm, 'candidateEvents', events);
+         vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+         console.log('vm.cloneCandidateEvents', vm.cloneCandidateEvents);
+      });
+   }
+   function saveEvent(event) {
+      EventsService.save(event).then(() => {
+         _getCandidateEvents(vm.candidate.id);
+         vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+      });
+   }
+
+   function removeEvent(event) {
+      EventsService.remove(event).then(() => {
+         remove(vm.candidateEvents, {id: event.id});
+         vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING_EVENT'), 'success');
+      });
    }
 }

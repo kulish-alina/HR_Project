@@ -17,8 +17,7 @@ th {
 }
 td {
    border-top: 1px solid lighten($gray, 5);
-   padding-left: $rem-base/4;
-   padding-right: $rem-base/4;
+   padding: $rem-base/2 $rem-base/4;
 }
 tr:nth-child(2n) {
    background: lighten($gray-light, 2);

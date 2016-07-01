@@ -157,7 +157,7 @@ namespace BaseOfTalents.DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
-                        ImagePath = c.String(nullable: false),
+                        ImagePath = c.String(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),

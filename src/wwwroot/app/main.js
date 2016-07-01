@@ -55,6 +55,7 @@ import CommentsDirective      from './directives/comments/comments';
 import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
 import EventsDirective        from './directives/events/events';
+import convertToNumberDirective from './directives/convertToNumber/convert-to-number';
 import CandidateInfoDirective from './directives/candidate-info/candidate-info';
 import LoginDirective         from './directives/login/login';
 
@@ -114,6 +115,7 @@ angular
    .directive('mainMenu',         MainMenuDirective.createInstance)
    .directive('sideMenu',         SideMenuDirective.createInstance)
    .directive('events',           EventsDirective.createInstance)
+   .directive('convertToNumber',  convertToNumberDirective)
    .directive('candidateInfo',    CandidateInfoDirective.createInstance)
    .directive('login',          LoginDirective.createInstance)
 

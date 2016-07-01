@@ -18,7 +18,7 @@ import {
 import utils  from '../utils';
 
 const CANDIDATE_URL           = 'candidate/';
-const DATE_TYPE_TO_CONVERT    = [ 'birthDate' ];
+const DATE_TYPE_TO_CONVERT    = ['birthDate', 'createdOn'];
 const DELETED_STATE           = 1;
 
 let _forEach   = curryRight(forEach, 2);
@@ -29,12 +29,13 @@ const THESAURUSES = [
    new ThesaurusHelper('tag',   'tagIds',   'tags',     true),
    new ThesaurusHelper('skill', 'skillIds', 'skills',   true),
 
-   new ThesaurusHelper('industry',          'industryId',        'industry',         true),
-   new ThesaurusHelper('city',              'cityId',            'city',             true),
-   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmployment', true),
-   new ThesaurusHelper('level',             'levelId',           'level',            true),
-   new ThesaurusHelper('currency',          'currencyId',        'currency',         true),
-   new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials',          true)
+   new ThesaurusHelper('industry',          'industryId',        'industry'),
+   new ThesaurusHelper('city',              'cityId',            'city'),
+   new ThesaurusHelper('typeOfEmployment',  'typeOfEmployment',  'typeOfEmploymentObject'),
+   new ThesaurusHelper('level',             'levelId',           'level'),
+   new ThesaurusHelper('currency',          'currencyId',        'currency'),
+   new ThesaurusHelper('socialNetwork',     'socialNetworks',    'socials'),
+   new ThesaurusHelper('source',            'mainSourceId',      'mainSource')
 ];
 
 let _HttpService, _ThesaurusService, _$q;
@@ -165,7 +166,7 @@ function _convertLanguageSkillsToBackend(candidate) {
 
    let deletedLanguageSkills = differenceWith(
       changedLanguageSkills,
-      candidate.convertedLanguageSkills,
+      map(candidate.convertedLanguageSkills, _convertLanguageSkillFieldsToBackend),
       isEqualLanguageSkills);
 
    forEach(deletedLanguageSkills, skill => skill.state = DELETED_STATE);
@@ -233,7 +234,7 @@ function _convertRelocationPlacesToBackend(candidate) {
 
    let deletedRelocationPlaces = differenceWith(
       changedRelocationPlaces,
-      candidate.convertedRelocationPlaces,
+      map(candidate.convertedRelocationPlaces, _convertRelocationsFieldsToBackend),
       isEqualRelocationPlaces);
 
    forEach(deletedRelocationPlaces, place => place.state = DELETED_STATE);
@@ -270,19 +271,15 @@ function _convertRelocationsFieldsToBackend(place) {
 }
 
 function _addReferencedThesaurusObjects(candidate) {
-   forEach(THESAURUSES, ({thesaurusName, clientField, serverField, needConvertForServer}) => {
-      if (needConvertForServer) {
-         _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, candidate[serverField])
-            .then(curriedSet(candidate, clientField));
-      }
+   forEach(THESAURUSES, ({thesaurusName, clientField, serverField}) => {
+      _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, candidate[serverField])
+         .then(curriedSet(candidate, clientField));
    });
 }
 
 function _deleteReferencedThesaurusObjects(candidate) {
    forEach(THESAURUSES, refThesaurus => {
-      if (refThesaurus.needConvertForServer) {
-         delete candidate[refThesaurus.clientField];
-      }
+      delete candidate[refThesaurus.clientField];
    });
 }
 

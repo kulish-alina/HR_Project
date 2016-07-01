@@ -73,17 +73,26 @@ namespace WebApi.Controllers
                 var data = await _userAuthService
                     .LogInAsync(login, password);
 
+                var user = data.Item1;
+                string token = data.Item2;
+
                 var result = new
                 {
-                    Token = data.Item2,
-                    FirstName = data.Item1.FirstName,
-                    MiddleName = data.Item1.MiddleName,
-                    LastName = data.Item1.LastName,
-                    RoleId = data.Item1.RoleId,
-                    Photo = data.Item1.Photo,
-                    BirthDate = data.Item1.BirthDate,
-                    CreatedOn = data.Item1.CreatedOn,
-                    Login = data.Item1.Login
+                    Token = token,
+                    FirstName = user.FirstName,
+                    MiddleName = user.MiddleName,
+                    LastName = user.LastName,
+                    RoleId = user.RoleId,
+                    Photo = user.Photo,
+                    BirthDate = user.BirthDate,
+                    CreatedOn = user.CreatedOn,
+                    Login = user.Login,
+                    Email = user.Email,
+                    Skype = user.Skype,
+                    PhoneNumbers = user.PhoneNumbers,
+                    IsMale = user.isMale,
+                    CityId = user.CityId,
+                    Id = user.Id
                 };
 
                 return Json(result, botSerializationSettings);
@@ -138,7 +147,13 @@ namespace WebApi.Controllers
                     Photo = user.Photo,
                     BirthDate = user.BirthDate,
                     CreatedOn = user.CreatedOn,
-                    Login = user.Login
+                    Login = user.Login,
+                    Email = user.Email,
+                    Skype = user.Skype,
+                    PhoneNumbers = user.PhoneNumbers,
+                    IsMale = user.isMale,
+                    CityId = user.CityId,
+                    Id = user.Id
                 };
 
                 return Json(result, botSerializationSettings);

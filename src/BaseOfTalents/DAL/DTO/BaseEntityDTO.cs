@@ -1,7 +1,7 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
+﻿using Domain.Entities.Enum;
 using System;
 
-namespace Domain.DTO.DTOModels
+namespace DAL.DTO
 {
     public class BaseEntityDTO
     {

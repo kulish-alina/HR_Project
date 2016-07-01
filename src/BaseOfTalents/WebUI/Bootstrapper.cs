@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using System.Web.Http;
 
-namespace BaseOfTalents.WebUI
+namespace WebUI
 {
     internal static class Bootstrapper
     {
@@ -14,7 +14,6 @@ namespace BaseOfTalents.WebUI
         {
             var configuration = GlobalConfiguration.Configuration;
             var builder = new ContainerBuilder();
-            //builder.ConfigureWebApi(configuration);
         }
     }
 }

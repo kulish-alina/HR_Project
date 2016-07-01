@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domain.DTO.DTOModels
+namespace DAL.DTO
 {
     public class UserDTO : BaseEntityDTO
     {

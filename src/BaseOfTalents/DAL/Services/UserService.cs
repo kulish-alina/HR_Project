@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DAL.DTO;
+using DAL.Extensions;
+using DAL.Infrastructure;
+using Domain.Entities;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
-using DAL.Extensions;
-using Domain.DTO.DTOModels;
 
 namespace DAL.Services
 {

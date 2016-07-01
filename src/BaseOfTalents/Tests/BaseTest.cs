@@ -1,9 +1,9 @@
-﻿using BaseOfTalents.DAL;
-using BaseOfTalents.WebUI;
+﻿using DAL;
 using NUnit.Framework;
 using System.IO;
 using System.Reflection;
 using System.Web.Http;
+using WebUI.App_Start;
 
 namespace Tests
 {

@@ -1,14 +1,9 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
 
 namespace DAL.Infrastructure
 {
     public interface IPhoneNumberRepository : IRepository<PhoneNumber>
     {
+
     }
 }

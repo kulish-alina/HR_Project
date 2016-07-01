@@ -1,4 +1,4 @@
-﻿namespace BaseOfTalents.Domain.Entities.Enum
+﻿namespace Entities.Enum
 {
     public enum CommentType
     {

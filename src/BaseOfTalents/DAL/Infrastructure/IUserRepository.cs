@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using BaseOfTalents.Domain.Entities;
+﻿using Domain.Entities;
+using System.Threading.Tasks;
 
-namespace BaseOfTalents.DAL.Infrastructure
+namespace DAL.Infrastructure
 {
     public interface IUserRepository : IRepository<User>
     {

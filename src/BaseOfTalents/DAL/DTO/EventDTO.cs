@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.DTO.DTOModels
+namespace DAL.DTO
 {
-    public class EventDTO: BaseEntityDTO
+    public class EventDTO : BaseEntityDTO
     {
         [Required]
         public DateTime EventDate { get; set; }

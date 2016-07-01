@@ -1,6 +1,4 @@
-﻿using Domain.DTO.DTOModels;
-
-namespace DAL.DTO
+﻿namespace DAL.DTO
 {
     public class RelocationPlaceDTO : BaseEntityDTO
     {

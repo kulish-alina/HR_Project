@@ -1,4 +1,4 @@
-﻿namespace BaseOfTalents.WebUI.Models
+﻿namespace WebUI.Models
 {
     public class IdentityModel
     {

@@ -1,7 +1,7 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
+﻿using DAL.DTO;
 using DAL.Extensions;
-using Domain.DTO.DTOModels;
+using DAL.Infrastructure;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

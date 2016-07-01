@@ -1,15 +1,14 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using BaseOfTalents.WebUI.Extensions;
-using BaseOfTalents.WebUI.Models;
-using Domain.DTO.DTOModels;
+﻿using DAL.DTO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Threading.Tasks;
+using System.Web.Http;
+using WebUI.Extensions;
 using WebUI.Filters;
 using WebUI.Infrastructure.Auth;
 using WebUI.Models;
 
-namespace WebApi.Controllers
+namespace WebUI.Controllers
 {
     /// <summary>
     /// Controller of user actions, like registration, login/logout

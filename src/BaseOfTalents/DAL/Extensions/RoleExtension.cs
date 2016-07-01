@@ -1,11 +1,11 @@
-﻿using System;
+﻿using DAL.DTO;
+using DAL.Infrastructure;
+using Domain.Entities.Enum;
+using Domain.Entities.Enum.Setup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using Domain.DTO.DTOModels;
 
 namespace DAL.Extensions
 {

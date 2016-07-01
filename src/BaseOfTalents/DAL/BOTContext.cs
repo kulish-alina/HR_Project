@@ -1,7 +1,4 @@
-﻿using BaseOfTalents.DAL.Mapping;
-using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using DAL.Mapping;
+﻿using DAL.Mapping;
 using DAL.Migrations;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
@@ -16,7 +13,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 
-namespace BaseOfTalents.DAL
+namespace DAL
 {
     public class BOTContext : DbContext
     {

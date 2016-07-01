@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace BaseOfTalents.WebUI
+namespace WebUI.App_Start
 {
     public class RouteConfig
     {
@@ -10,7 +10,7 @@ namespace BaseOfTalents.WebUI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            
+
         }
     }
 }

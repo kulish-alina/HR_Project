@@ -1,12 +1,12 @@
-﻿using BaseOfTalents.DAL;
-using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using DAL;
+using DAL.DTO.SetupDTO;
+using DAL.Infrastructure;
 using DAL.Services;
-using Domain.DTO.DTOModels.SetupDTO;
+using Domain.Entities.Enum.Setup;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Web.Http.Results;
-using WebApi.Controllers;
+using WebUI.Controllers;
 
 namespace Tests.Controller
 {

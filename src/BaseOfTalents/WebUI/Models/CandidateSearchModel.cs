@@ -1,8 +1,8 @@
-﻿using Domain.DTO.DTOModels;
+﻿using DAL.DTO;
 using System;
 using System.Collections.Generic;
 
-namespace BaseOfTalents.WebUI.Models
+namespace WebUI.Models
 {
     public class CandidateSearchModel
     {

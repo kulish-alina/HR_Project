@@ -1,20 +1,20 @@
-﻿using System.Net.Http;
-using System.Web.Http;
-using Domain.DTO.DTOModels;
-using System.Web;
+﻿using DAL.DTO;
+using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Threading.Tasks;
-using System.Net;
 using System;
-using System.Net.Http.Headers;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
 using WebUI.Extensions;
-using DAL.Services;
-using System.Collections.Generic;
 
-namespace BaseOfTalents.WebUI.Controllers
+namespace WebUI.Controllers
 {
     [RoutePrefix("api/file")]
     public class FileController : ApiController

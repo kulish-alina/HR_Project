@@ -1,6 +1,7 @@
+using BaseOfTalents.DAL;
 using System.Data.Entity.Migrations;
 
-namespace BaseOfTalents.DAL.Migrations
+namespace DAL.Migrations
 {
     internal sealed class Configuration : DbMigrationsConfiguration<BOTContext>
     {

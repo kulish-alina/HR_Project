@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using Domain.Entities.Enum.Setup;
 
-namespace BaseOfTalents.DAL.Infrastructure
+namespace DAL.Infrastructure
 {
     public interface ICountryRepository : IRepository<Country>
     {

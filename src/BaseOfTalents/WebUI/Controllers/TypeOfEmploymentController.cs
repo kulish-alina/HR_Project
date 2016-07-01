@@ -1,8 +1,8 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
-using DAL.Services;
+﻿using DAL.Services;
+using Domain.Entities.Enum;
 using System.Web.Http;
 
-namespace WebApi.Controllers
+namespace WebUI.Controllers
 {
     [RoutePrefix("api/TypeOfEmployment")]
     public class TypeOfEmploymentController : BaseEnumController<TypeOfEmployment>

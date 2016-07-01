@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using Domain.Entities.Enum.Setup;
 
-namespace BaseOfTalents.DAL.Mapping
+namespace DAL.Mapping
 {
     public class DepartmentConfiguration : BaseEntityConfiguration<Department>
     {

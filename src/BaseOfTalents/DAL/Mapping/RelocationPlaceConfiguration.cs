@@ -1,5 +1,4 @@
-﻿using BaseOfTalents.DAL.Mapping;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace DAL.Mapping
 {

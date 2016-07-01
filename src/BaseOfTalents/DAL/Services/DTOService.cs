@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using BaseOfTalents.Domain.Entities;
-using Domain.DTO.DTOModels;
+using DAL.DTO;
+using Domain.Entities;
 
 namespace DAL.Services
 {

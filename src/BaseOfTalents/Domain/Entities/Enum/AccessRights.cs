@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BaseOfTalents.Domain.Entities.Enum
+namespace Domain.Entities.Enum
 {
     [Flags]
     public enum AccessRight

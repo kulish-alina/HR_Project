@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using BaseOfTalents.DAL;
-using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using DAL;
+using DAL.DTO;
 using DAL.Extensions;
-using Domain.DTO.DTOModels;
+using DAL.Infrastructure;
+using Domain.Entities.Enum;
+using Domain.Entities.Enum.Setup;
 using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Tests.Extensions
 {

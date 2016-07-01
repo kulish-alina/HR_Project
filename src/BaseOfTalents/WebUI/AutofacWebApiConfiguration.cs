@@ -1,22 +1,21 @@
-﻿using System.Reflection;
-using System.Web.Http;
-using Autofac;
+﻿using Autofac;
 using Autofac.Integration.WebApi;
-using BaseOfTalents.DAL;
-using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.DAL.Repositories;
-using BaseOfTalents.Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
+using DAL;
+using DAL.DTO;
 using DAL.DTO.SetupDTO;
+using DAL.Infrastructure;
+using DAL.Repositories;
 using DAL.Services;
-using Domain.DTO.DTOModels;
-using Domain.DTO.DTOModels.SetupDTO;
+using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
+using Entities.Enum;
+using System.Reflection;
+using System.Web.Http;
 using WebUI.Infrastructure.Auth;
 using WebUI.Services;
 using WebUI.Services.Auth;
 
-namespace WebApi
+namespace WebUI
 {
     public class AutofacWebApiConfiguration
     {

@@ -1,6 +1,6 @@
-﻿using Domain.DTO.DTOModels;
-using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.DAL.Infrastructure;
+﻿using DAL.DTO;
+using DAL.Infrastructure;
+using Domain.Entities;
 
 namespace DAL.Services
 {

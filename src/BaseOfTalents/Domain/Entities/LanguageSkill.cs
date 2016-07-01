@@ -1,7 +1,7 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using Domain.Entities.Enum;
+using Domain.Entities.Enum.Setup;
 
-namespace BaseOfTalents.Domain.Entities
+namespace Domain.Entities
 {
     public class LanguageSkill : BaseEntity
     {

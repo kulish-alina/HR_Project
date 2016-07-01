@@ -1,10 +1,8 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.DAL.Repositories;
-using DAL.Infrastructure;
+﻿using DAL.Infrastructure;
 using DAL.Repositories;
 using System.Data.Entity;
 
-namespace BaseOfTalents.DAL
+namespace DAL
 {
     public class UnitOfWork : IUnitOfWork
     {

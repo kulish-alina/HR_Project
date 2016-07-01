@@ -612,7 +612,7 @@ namespace BaseOfTalents.DAL.Migrations
                         Login = "admin",
                         MiddleName = names.GetRandom(),
                         Password = "admin",
-                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = GetRandomNumbers(7) } },
+                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = "380" + GetRandomNumbers(7) } },
                         //Photo = Files.GetRandom(),
                         Role = Roles[0],
                         Skype = GetRandomString(8)
@@ -634,7 +634,7 @@ namespace BaseOfTalents.DAL.Migrations
                         Login = GetRandomString(4),
                         MiddleName = names.GetRandom(),
                         Password = GetRandomString(8),
-                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = GetRandomNumbers(7) } },
+                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = "380" + GetRandomNumbers(7) } },
                         //Photo = Files.GetRandom(),
                         Role = Roles.GetRandom(),
                         Skype = GetRandomString(8)
@@ -651,7 +651,7 @@ namespace BaseOfTalents.DAL.Migrations
             {
                 Title = "Adminstrator",
                 Permissions = Permissions
-            }); 
+            });
 
 
             for (var i = 0; i < count; i++)
@@ -728,7 +728,7 @@ namespace BaseOfTalents.DAL.Migrations
                     LastName = lastNames.GetRandom(),
                     MiddleName = names.GetRandom(),
                     PhoneNumbers =
-                        Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, RandomNumber(0, 5))
+                        Enumerable.Repeat(new PhoneNumber { Number = "380" + GetRandomNumbers(7) }, RandomNumber(0, 5))
                             .Distinct()
                             .ToList(),
                     Photo = new File { Description = GetRandomString(25), FilePath = GetRandomNumbers(25) },

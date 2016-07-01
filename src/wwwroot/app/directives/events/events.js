@@ -28,6 +28,7 @@ export default class EventsDirective {
 
 function EventsController($scope, $translate, $timeout, VacancyService, CandidateService, UserService,
                            ThesaurusService, UserDialogService) {
+   'ngInject';
    const vm               = $scope;
    vm.event               = {};
    vm.vacancies           = [];

@@ -55,6 +55,8 @@ export default function VacancyController(
          });
       } else {
          vm.vacancy = {};
+         vm.vacancy.comments = [];
+         vm.vacancy.files = [];
       }
    }
 

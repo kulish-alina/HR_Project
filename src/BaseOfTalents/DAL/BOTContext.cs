@@ -2,6 +2,7 @@
 using BaseOfTalents.Domain.Entities;
 using BaseOfTalents.Domain.Entities.Enum.Setup;
 using DAL.Mapping;
+using DAL.Migrations;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using System;
@@ -24,11 +25,13 @@ namespace BaseOfTalents.DAL
 
         public BOTContext()
         {
+            Database.SetInitializer(new BOTContextInitializer());
             AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
         }
 
         public BOTContext(string connectionString) : base(connectionString)
         {
+            Database.SetInitializer(new BOTContextInitializer());
             AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
         }
 

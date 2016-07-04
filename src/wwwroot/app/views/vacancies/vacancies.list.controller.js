@@ -46,9 +46,14 @@ export default function VacanciesController(
       }).catch(_onError);
    };
 
-   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-
-   UserService.getUsers().then(users => set(vm, 'responsibles', users));
+   function init() {
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
+         .then(topics => set(vm, 'thesaurus', topics));
+      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+      $element.on('$destroy', _setToStorage);
+      window.onbeforeunload = _setToStorage;
+   }
+   init();
 
    function searchVacancies() {
       VacancyService.search(vm.vacancy).then(response => {
@@ -91,7 +96,6 @@ export default function VacanciesController(
       LoggerService.error(error);
    }
 
-   $element.on('$destroy', _setToStorage);
    function _setToStorage() {
       LocalStorageService.set('vacancy', vm.vacancy);
       LocalStorageService.set('vacancies', vm.vacancies);

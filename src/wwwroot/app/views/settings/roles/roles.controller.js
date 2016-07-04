@@ -47,6 +47,7 @@ export default function RolesController(
       SettingsService.addOnSubmitListener(_onSubmit);
       SettingsService.addOnCancelListener(_onCancel);
       $element.on('$destroy', _onDestroy);
+      window.onbeforeunload = _onDestroy;
       _initRoles();
       _initPermissions();
    }

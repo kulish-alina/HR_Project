@@ -47,6 +47,8 @@ export default function CandidatesController(
    function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       _initPagination();
+      $element.on('$destroy', _setToStorage);
+      window.onbeforeunload = _setToStorage;
    }
    _initData();
 
@@ -101,7 +103,6 @@ export default function CandidatesController(
       LoggerService.error(error);
    }
 
-   $element.on('$destroy', _setToStorage);
    function _setToStorage() {
       LocalStorageService.set('candidate', vm.candidate);
       LocalStorageService.set('candidates', vm.candidates);

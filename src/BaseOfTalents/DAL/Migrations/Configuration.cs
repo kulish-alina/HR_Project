@@ -1,4 +1,3 @@
-using BaseOfTalents.DAL;
 using System.Data.Entity.Migrations;
 
 namespace DAL.Migrations

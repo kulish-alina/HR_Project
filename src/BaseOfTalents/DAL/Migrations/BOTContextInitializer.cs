@@ -1,6 +1,4 @@
-﻿using BaseOfTalents.DAL;
-using BaseOfTalents.DAL.Migrations;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 

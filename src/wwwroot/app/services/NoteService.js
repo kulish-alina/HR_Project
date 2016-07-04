@@ -15,11 +15,9 @@ export default class NoteService {
       if (entity.id) {
          return _HttpService.put(`${NOTE_URL}/${entity.id}`, entity);
       } else {
-         //TODO: change getUserById() to getCurrentUser()
-         return _UserService.getUserById(1).then((user) => {
-            entity.userId = user.id;
-            return _HttpService.post(NOTE_URL, entity);
-         });
+         let currentUser = _UserService.getCurrentUser();
+         entity.userId = currentUser.id;
+         return _HttpService.post(NOTE_URL, entity);
       }
    }
 
@@ -33,9 +31,7 @@ export default class NoteService {
    }
 
    getNotesByUser() {
-      //TODO: change getUserById() to getCurrentUser()
-      return _UserService.getUserById(1).then((user) => {
-         return _HttpService.get(`${NOTE_URL}/user/${user.id}`);
-      });
+      let currentUser = _UserService.getCurrentUser();
+      return _HttpService.get(`${NOTE_URL}/user/${currentUser.id}`);
    }
 }

@@ -139,7 +139,6 @@ export default function CandidateProfileController(
       EventsService.getEventsByCandidate(candidateId).then(events => {
          set(vm, 'candidateEvents', events);
          vm.cloneCandidateEvents  = clone(vm.candidateEvents);
-         console.log('vm.cloneCandidateEvents', vm.cloneCandidateEvents);
       });
    }
    function saveEvent(event) {

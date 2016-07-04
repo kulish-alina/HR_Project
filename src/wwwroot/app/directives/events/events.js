@@ -15,7 +15,8 @@ export default class EventsDirective {
          remove         : '=',
          getEventsByDate: '=',
          candidateId    : '=',
-         userId         : '='
+         userId         : '=',
+         source         : '@'
       };
       this.controller = EventsController;
    }
@@ -53,7 +54,6 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
       CandidateService.search(vm.candidate).then(data => set(vm, 'candidates', data.candidate));
       ThesaurusService.getThesaurusTopics('eventtype').then(eventTypes => set(vm, 'eventTypes', eventTypes));
    }
-
    _init();
 
    function saveEvent() {
@@ -61,19 +61,24 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
    }
 
    function getEvents(date) {
-      vm.getEventsByDate(date).then((e) => {
+      if (date) {
+         vm.getEventsByDate(date).then((e) => {
+            vm.currentEvents.length = 0;
+            vm.currentEvents.push.apply(vm.currentEvents, e);
+         });
+      } else {
          vm.currentEvents.length = 0;
-         vm.currentEvents.push.apply(vm.currentEvents, e);
-      });
+      }
    }
 
    function showAddEventDialog() {
       vm.event = {};
-      if (vm.candidateId) {
-         vm.event.candidateId = `${vm.candidateId}`;
-      }
+      vm.currentEvents.length = 0;
       if (vm.userId) {
          vm.event.responsibleId = `${vm.userId}`;
+      }
+      if (vm.candidateId) {
+         vm.event.candidateId = `${vm.candidateId}`;
       }
       let scope = {
          type         : 'list-with-input',
@@ -96,16 +101,9 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
          }
       ];
       UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
-      let initializing = true;
 
       $scope.$watch('event.eventDate', function watch() {
-         if (initializing || vm.candidateId) {
-            $timeout(function timeout() {
-               initializing = false;
-            });
-         } else {
-            getEvents(vm.event.eventDate);
-         }
+         getEvents(vm.event.eventDate);
       });
    }
 

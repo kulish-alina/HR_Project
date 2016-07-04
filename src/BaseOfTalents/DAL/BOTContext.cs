@@ -28,7 +28,6 @@ namespace DAL
 
         public BOTContext(string connectionString) : base(connectionString)
         {
-            Database.SetInitializer(new BOTContextInitializer());
             AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
         }
 

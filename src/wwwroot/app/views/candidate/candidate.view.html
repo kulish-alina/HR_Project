@@ -30,11 +30,11 @@
                         <date datemodel="candidate.birthDate" placeholder="{{::'COMMON.DATE_OF_BIRTH' | translate}}"></date>
                         <ul class="some-change" ng-model='candidate.isMale'>
                            <li>
-                              <input name="isMale" value="true" id="male" type="radio">
+                              <input ng-model="candidate.isMale" name="isMale" value="true" id="male" type="radio">
                               <label for="male" ng-bind="::'COMMON.MALE' | translate"></label>
                            </li>
                            <li>
-                              <input name="isMale" value="false" id="female" type="radio">
+                              <input ng-model="candidate.isMale" name="isMale" value="false" id="female" type="radio">
                               <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
                            </li>
                         </ul>
@@ -290,7 +290,7 @@
             -->
          </div>
          <div class="sidebar">
-             <events candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
+             <events source="candidate" candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
          </div>
          <div class="sidebar">
             <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>

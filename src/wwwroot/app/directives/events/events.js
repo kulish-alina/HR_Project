@@ -61,7 +61,7 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
    }
 
    function getEvents(date) {
-      if (date) {
+      if (date && vm.source === 'user') {
          vm.getEventsByDate(date).then((e) => {
             vm.currentEvents.length = 0;
             vm.currentEvents.push.apply(vm.currentEvents, e);
@@ -88,7 +88,8 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
          candidates   : vm.candidates,
          events       : vm.currentEvents,
          event        : vm.event,
-         getEvents    : vm.getEvents
+         getEvents    : vm.getEvents,
+         source       : vm.source
       };
       let buttons = [
          {
@@ -109,13 +110,20 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
 
    function showEditEventDialog(currentEvent) {
       vm.event = clone(currentEvent);
+      if (vm.userId) {
+         vm.event.responsibleId = `${vm.userId}`;
+      }
+      if (vm.candidateId) {
+         vm.event.candidateId = `${vm.candidateId}`;
+      }
       let scope = {
          type         : 'form-only',
          responsibles : vm.responsibles,
          eventTypes   : vm.eventTypes,
          vacancies    : vm.vacancies,
          candidates   : vm.candidates,
-         event        : vm.event
+         event        : vm.event,
+         source       : vm.source
       };
       let buttons = [
          {

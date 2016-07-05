@@ -89,7 +89,7 @@ export default function HomeController( //eslint-disable-line max-statements
    }
 
    function removeNote(note) {
-      UserDialogService.confirm($translate.instant('DIALOG_SERVICE.NOTE_REMOVING_DIALOG')).then(() => {
+      return UserDialogService.confirm($translate.instant('DIALOG_SERVICE.NOTE_REMOVING_DIALOG')).then(() => {
          return NoteService.remove(note).then(() => {
             remove(vm.userNotes, {id: note.id});
             return vm.notes  = cloneDeep(vm.userNotes);

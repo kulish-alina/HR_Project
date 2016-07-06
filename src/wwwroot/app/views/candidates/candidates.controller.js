@@ -12,21 +12,23 @@ export default function CandidatesController(
    $state,
    $q,
    $translate,
+   $element,
+   $window,
    CandidateService,
    ThesaurusService,
    UserDialogService,
-   LoggerService
+   LoggerService,
+   LocalStorageService
    ) {
    'ngInject';
    const vm             = $scope;
-   vm.candidate         = {};
    vm.deleteCandidate   = deleteCandidate;
    vm.editCandidate     = editCandidate;
    vm.viewCandidate     = viewCandidate;
    vm.cancel            = cancel;
    vm.thesaurus         = [];
    vm.searchCandidates  = searchCandidates;
-   vm.candidates        = [];
+   vm.candidates        = LocalStorageService.get('candidates') || [];
    vm.total             = 0;
    vm.pagination        = { current: 0 };
    vm.pageChanged       = pageChanged;
@@ -43,13 +45,15 @@ export default function CandidatesController(
       }
    };
 
-   function _initData() {
+   (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       _initPagination();
-   }
-   _initData();
+      $element.on('$destroy', _setToStorage);
+      $window.onbeforeunload = _setToStorage;
+   }());
 
    function _initPagination() {
+      vm.candidate = LocalStorageService.get('candidate') || {};
       vm.candidate.current = 0;
       vm.candidate.size    = 20;
    }
@@ -97,5 +101,10 @@ export default function CandidatesController(
    function _onError(error) {
       UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_CANDIDATES_SEARCH'), 'error');
       LoggerService.error(error);
+   }
+
+   function _setToStorage() {
+      LocalStorageService.set('candidate', vm.candidate);
+      LocalStorageService.set('candidates', vm.candidates);
    }
 }

@@ -11,11 +11,14 @@ export default function VacanciesController(
    $state,
    $q,
    $translate,
+   $element,
+   $window,
    VacancyService,
    ThesaurusService,
    UserService,
    UserDialogService,
-   LoggerService
+   LoggerService,
+   LocalStorageService
    ) {
    'ngInject';
 
@@ -28,8 +31,8 @@ export default function VacanciesController(
    vm.thesaurus        = [];
    vm.responsibles     = [];
    vm.searchVacancies  = searchVacancies;
-   vm.vacancy          = {};
-   vm.vacancies        = [];
+   vm.vacancy          = LocalStorageService.get('vacancy') || {};
+   vm.vacancies        = LocalStorageService.get('vacancies') || [];
    vm.total            = 0;
    vm.vacancy.current  = 0;
    vm.vacancy.size     = 20;
@@ -44,9 +47,13 @@ export default function VacanciesController(
       }).catch(_onError);
    };
 
-   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-
-   UserService.getUsers().then(users => set(vm, 'responsibles', users));
+   (function init() {
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
+         .then(topics => set(vm, 'thesaurus', topics));
+      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+      $element.on('$destroy', _setToStorage);
+      $window.onbeforeunload = _setToStorage;
+   }());
 
    function searchVacancies() {
       VacancyService.search(vm.vacancy).then(response => {
@@ -87,5 +94,10 @@ export default function VacanciesController(
    function _onError(error) {
       UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_VACANCIES_SEARCH'), 'error');
       LoggerService.error(error);
+   }
+
+   function _setToStorage() {
+      LocalStorageService.set('vacancy', vm.vacancy);
+      LocalStorageService.set('vacancies', vm.vacancies);
    }
 }

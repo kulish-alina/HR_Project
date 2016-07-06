@@ -50,6 +50,7 @@ export default function CandidatesController(
       _initPagination();
       $element.on('$destroy', _setToStorage);
       $window.onbeforeunload = _setToStorage;
+   }());
 
    function _initPagination() {
       vm.candidate = LocalStorageService.get('candidate') || {};

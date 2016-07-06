@@ -115,14 +115,17 @@ namespace DAL.Services
             List<Vacancy> childVacancies = new List<Vacancy>();
             if (dto.ChildVacanciesNumber.HasValue)
             {
-                if (dto.HasParent()) throw new Exception("This vacancy has parent vacancy, so you can't create child of it");
-                dto.ChildVacanciesNumber.Value.Times(() =>
+                if (!domain.ChildVacancies.Any())
                 {
-                    Vacancy childVacancy = new Vacancy();
-                    childVacancy.UpdateChildWithParent(domain);
-                    childVacancies.Add(childVacancy);
-                });
-                childVacancies.ForEach(x => domain.ChildVacancies.Add(x));
+                    if (dto.HasParent()) throw new Exception("This vacancy has parent vacancy, so you can't create child of it");
+                    dto.ChildVacanciesNumber.Value.Times(() =>
+                    {
+                        Vacancy childVacancy = new Vacancy();
+                        childVacancy.UpdateChildWithParent(domain);
+                        childVacancies.Add(childVacancy);
+                    });
+                    childVacancies.ForEach(x => domain.ChildVacancies.Add(x));
+                }
             }
         }
     }

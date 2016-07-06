@@ -2,6 +2,9 @@
 
 .profile-photo-container {
    padding: 0px;
+   max-height: $rem-base*9.375;
+   max-width: $rem-base*6.25;
+   margin-bottom: $rem-base;
 }
 
 input.social-input[type="url"] {
@@ -17,7 +20,7 @@ input.social-input[type="url"] {
 }
 
 img.candidate-photo {
-   margin-bottom: $rem-base;
+   margin-bottom: 0;
 }
 
 .coming-soon-text {

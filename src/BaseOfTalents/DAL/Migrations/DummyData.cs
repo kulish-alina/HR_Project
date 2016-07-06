@@ -382,6 +382,11 @@ namespace DAL.Migrations
             {
                 Title = "Candidate's First Day",
                 ImagePath = GetRandomNumbers(12)
+            },
+            new EventType
+            {
+                Title = "Vacancy deadline",
+                ImagePath = GetRandomNumbers(12)
             }
         };
 

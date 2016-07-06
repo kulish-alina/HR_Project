@@ -281,6 +281,7 @@ namespace DAL.Migrations
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(),
                         DeadlineDate = c.DateTime(),
+                        DeadlineToCalendar = c.Boolean(nullable: false),
                         ChildVacanciesNumber = c.Int(),
                         ParentVacancyId = c.Int(),
                         IndustryId = c.Int(nullable: false),

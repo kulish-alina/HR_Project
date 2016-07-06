@@ -1,8 +1,12 @@
 ﻿using DAL.DTO;
+using DAL.Exceptions;
 using DAL.Infrastructure;
 using Domain.Entities;
+using Domain.Entities.Enum.Setup;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DAL.Extensions
 {
@@ -10,7 +14,7 @@ namespace DAL.Extensions
     {
         public static void UpdateChildWithParent(this Vacancy childVacancy, Vacancy parentVacancy)
         {
-            if (childVacancy.Id!=0 && childVacancy.ParentVacancyId != parentVacancy.Id)
+            if (childVacancy.Id != 0 && childVacancy.ParentVacancyId != parentVacancy.Id)
             {
                 throw new Exception("Child vacancy is not a child of specified parent vacancy");
             }
@@ -56,6 +60,8 @@ namespace DAL.Extensions
             destination.StartDate = source.StartDate;
             destination.EndDate = source.EndDate;
             destination.DeadlineDate = source.DeadlineDate;
+            PerformAddingDeadlineToCalendar(destination, source, uow);
+            destination.DeadlineToCalendar = source.DeadlineToCalendar;
 
             destination.ParentVacancyId = source.ParentVacancyId;
             destination.IndustryId = source.IndustryId;
@@ -73,6 +79,47 @@ namespace DAL.Extensions
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
             PerformChildVacanciesUpdating(destination);
+        }
+
+        private static void PerformAddingDeadlineToCalendar(Vacancy destination, VacancyDTO source, IUnitOfWork uow)
+        {
+            if (NeedAddDeadlineEvent(destination, source))
+            {
+                var eventType = uow.EventTypeRepo.Get(new List<Expression<Func<EventType, bool>>> { (x => x.Title.StartsWith("Vacancy deadline")) }).FirstOrDefault();
+                if (!(eventType is EventType))
+                {
+                    throw new EntityNotFoundException("You should scpecify 'Vacancy deadline' event type");
+                }
+                uow.EventRepo.Insert(new Event
+                {
+                    EventDate = source.DeadlineDate.Value,
+                    EventType = eventType,
+                    ResponsibleId = source.ResponsibleId,
+                    Vacancy = destination
+                });
+            }
+            else if (NeedDeleteDeadlineEvent(destination, source))
+            {
+                var deadlineEvent = uow.EventRepo.Get(new List<Expression<Func<Event, bool>>> { x => x.EventType.Title.StartsWith("Vacancy deadline") && x.VacancyId == destination.Id }).FirstOrDefault();
+                if (deadlineEvent is Event)
+                {
+                    uow.EventRepo.Delete(deadlineEvent);
+                }
+                else
+                {
+                    throw new EntityNotFoundException("Can not find event bounded to chosen vacancy");
+                }
+            }
+        }
+
+        private static bool NeedDeleteDeadlineEvent(Vacancy destination, VacancyDTO source)
+        {
+            return destination.DeadlineToCalendar && !source.DeadlineToCalendar;
+        }
+
+        private static bool NeedAddDeadlineEvent(Vacancy destination, VacancyDTO source)
+        {
+            return !destination.DeadlineToCalendar && source.DeadlineToCalendar;
         }
 
         private static void PerformChildVacanciesUpdating(Vacancy destination)

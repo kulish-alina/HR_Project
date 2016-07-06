@@ -25,6 +25,7 @@ namespace Domain.Entities
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
+        public bool DeadlineToCalendar { get; set; }
 
         public virtual ICollection<Level> Levels { get; set; }
         public virtual ICollection<City> Cities { get; set; }

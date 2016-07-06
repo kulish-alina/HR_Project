@@ -55,9 +55,11 @@ import CommentsDirective      from './directives/comments/comments';
 import MainMenuDirective      from './directives/main-menu/main-menu';
 import SideMenuDirective      from './directives/side-menu/side-menu';
 import EventsDirective        from './directives/events/events';
-import convertToNumberDirective from './directives/convertToNumber/convert-to-number';
 import CandidateInfoDirective from './directives/candidate-info/candidate-info';
 import LoginDirective         from './directives/login/login';
+import convertToNumberDirective  from './directives/convertToNumber/convert-to-number';
+import languageSkillsDirective   from './directives/language-skills/language-skills';
+
 
 import uiMask from 'angular-ui-mask';
 
@@ -117,7 +119,8 @@ angular
    .directive('events',           EventsDirective.createInstance)
    .directive('convertToNumber',  convertToNumberDirective)
    .directive('candidateInfo',    CandidateInfoDirective.createInstance)
-   .directive('login',          LoginDirective.createInstance)
+   .directive('login',            LoginDirective.createInstance)
+   .directive('languageSkills',   languageSkillsDirective.createInstance)
 
    .filter('tel',                 PhoneFormatFilter)
    .filter('arrayAsString',       ArrayAsString)

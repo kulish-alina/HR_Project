@@ -12,6 +12,7 @@ export default function VacanciesController(
    $q,
    $translate,
    $element,
+   $window,
    VacancyService,
    ThesaurusService,
    UserService,
@@ -46,14 +47,13 @@ export default function VacanciesController(
       }).catch(_onError);
    };
 
-   function init() {
+   (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       $element.on('$destroy', _setToStorage);
-      window.onbeforeunload = _setToStorage;
-   }
-   init();
+      $window.onbeforeunload = _setToStorage;
+   }());
 
    function searchVacancies() {
       VacancyService.search(vm.vacancy).then(response => {

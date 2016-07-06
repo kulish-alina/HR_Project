@@ -13,6 +13,7 @@ export default function CandidatesController(
    $q,
    $translate,
    $element,
+   $window,
    CandidateService,
    ThesaurusService,
    UserDialogService,
@@ -44,13 +45,11 @@ export default function CandidatesController(
       }
    };
 
-   function _initData() {
+   (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       _initPagination();
       $element.on('$destroy', _setToStorage);
-      window.onbeforeunload = _setToStorage;
-   }
-   _initData();
+      $window.onbeforeunload = _setToStorage;
 
    function _initPagination() {
       vm.candidate = LocalStorageService.get('candidate') || {};

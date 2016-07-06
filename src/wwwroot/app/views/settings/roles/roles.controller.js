@@ -19,11 +19,13 @@ export default function RolesController(
    $state,
    $filter,
    $translate,
+   $window,
    RolesService,
    SettingsService,
    UserDialogService,
    UserService,
-   LocalStorageService) {
+   LocalStorageService
+   ) {
    'ngInject';
 
    /*---api---*/
@@ -43,15 +45,14 @@ export default function RolesController(
    vm.clearModalModel = _clearModalModel;
 
    /*---impl---*/
-   function _init() {
+   (function _init() {
       SettingsService.addOnSubmitListener(_onSubmit);
       SettingsService.addOnCancelListener(_onCancel);
       $element.on('$destroy', _onDestroy);
-      window.onbeforeunload = _onDestroy;
+      $window.onbeforeunload = _onDestroy;
       _initRoles();
       _initPermissions();
-   }
-   _init();
+   }());
 
    function _onDestroy() {
       SettingsService.removeOnSubmitListener(_onSubmit);

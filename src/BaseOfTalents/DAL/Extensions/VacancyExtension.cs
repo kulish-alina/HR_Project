@@ -1,4 +1,5 @@
 ﻿using DAL.DTO;
+using DAL.Exceptions;
 using DAL.Infrastructure;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
@@ -13,7 +14,7 @@ namespace DAL.Extensions
     {
         public static void UpdateChildWithParent(this Vacancy childVacancy, Vacancy parentVacancy)
         {
-            if (childVacancy.Id!=0 && childVacancy.ParentVacancyId != parentVacancy.Id)
+            if (childVacancy.Id != 0 && childVacancy.ParentVacancyId != parentVacancy.Id)
             {
                 throw new Exception("Child vacancy is not a child of specified parent vacancy");
             }
@@ -87,7 +88,7 @@ namespace DAL.Extensions
                 var eventType = uow.EventTypeRepo.Get(new List<Expression<Func<EventType, bool>>> { (x => x.Title.StartsWith("Vacancy deadline")) }).FirstOrDefault();
                 if (!(eventType is EventType))
                 {
-                    throw new Exception("You should scpecify 'Vacancy deadline' event type");
+                    throw new EntityNotFoundException("You should scpecify 'Vacancy deadline' event type");
                 }
                 uow.EventRepo.Insert(new Event
                 {
@@ -106,7 +107,7 @@ namespace DAL.Extensions
                 }
                 else
                 {
-                    throw new Exception("Can not find event bounded to chosen vacancy");
+                    throw new EntityNotFoundException("Can not find event bounded to chosen vacancy");
                 }
             }
         }

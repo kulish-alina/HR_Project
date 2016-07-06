@@ -1,11 +1,4 @@
-﻿using BaseOfTalents.DAL.Mapping;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
 
 namespace DAL.Mapping
 {
@@ -14,7 +7,7 @@ namespace DAL.Mapping
         public RelocationPlaceConfiguration()
         {
             HasRequired(x => x.Country).WithMany().HasForeignKey(x => x.CountryId);
-            HasMany(x => x.Cities).WithMany(x => x.RelocationPlaces);
+            HasOptional(x => x.City).WithMany().HasForeignKey(x => x.CityId);
         }
     }
 }

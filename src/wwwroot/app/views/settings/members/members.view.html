@@ -5,9 +5,8 @@
             <a class="invite-member" ng-click="showInvite(role)"><i class="fi-torsos"> {{'MEMBERS.INVITE'|translate}}</i></a>
             <ul class="members-tab">
                <li ng-repeat="user in currentGroup">
-                  <h5 ng-bind="::user.login"></h5>
-                  <a class="button" ng-click="removeUser(user)">×</a>
-                  <h6>{{user.firstName + ' '+ user.lastName}}</h6>
+                  <a class="close-member-button" ng-click="removeUser(user)">×</a>
+                  <contacts entity="user" direction="ttb"></contacts>
                   <select ng-model="role" ng-options="role.title for role in roles" ng-change="changeRole(user, role)">
                   </select>
                </li>

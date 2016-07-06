@@ -1,9 +1,8 @@
-﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
-using Domain.Entities;
+﻿using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 
-namespace BaseOfTalents.Domain.Entities
+namespace Domain.Entities
 {
     public class User : BaseEntity
     {
@@ -25,11 +24,12 @@ namespace BaseOfTalents.Domain.Entities
         public int RoleId { get; set; }
         public virtual Role Role { get; set; }
 
-        public virtual Photo Photo { get; set; }
+        public virtual File Photo { get; set; }
 
         public int CityId { get; set; }
         public virtual City City { get; set; }
 
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
+        public virtual ICollection<Note> Notes { get; set; }
     }
 }

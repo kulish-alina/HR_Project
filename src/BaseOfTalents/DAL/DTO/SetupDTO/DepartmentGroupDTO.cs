@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Domain.DTO.DTOModels.SetupDTO
+namespace DAL.DTO.SetupDTO
 {
     public class DepartmentGroupDTO : BaseEntityDTO
     {

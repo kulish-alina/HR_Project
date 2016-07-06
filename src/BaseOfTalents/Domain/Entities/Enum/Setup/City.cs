@@ -1,7 +1,6 @@
-﻿using Domain.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace BaseOfTalents.Domain.Entities.Enum.Setup
+namespace Domain.Entities.Enum.Setup
 {
     public class City : BaseEntity
     {

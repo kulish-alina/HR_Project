@@ -1,12 +1,10 @@
-﻿using System;
-using Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum;
+﻿using Domain.Entities.Enum;
 
-namespace Domain.DTO.DTOModels
+namespace DAL.DTO
 {
     public class LanguageSkillDTO : BaseEntityDTO
     {
         public int LanguageId { get; set; }
-        public LanguageLevel LanguageLevel { get; set; }
+        public LanguageLevel? LanguageLevel { get; set; }
     }
 }

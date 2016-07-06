@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace Domain.DTO.DTOModels
+﻿namespace DAL.DTO
 {
     public class RoleDTO : BaseEntityDTO
     {
         public string Title { get; set; }
-        public IEnumerable<int> PermissionIds { get; set; }
+        public int Permissions { get; set; }
     }
 }

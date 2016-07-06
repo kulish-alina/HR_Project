@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using Domain.Entities.Enum.Setup;
 
-namespace BaseOfTalents.DAL.Mapping
+namespace DAL.Mapping
 {
     public class SocialNetworkConfiguration : BaseEntityConfiguration<SocialNetwork>
     {
@@ -8,8 +8,6 @@ namespace BaseOfTalents.DAL.Mapping
         {
             Property(sn => sn.Title).IsRequired();
             Property(sn => sn.ImagePath).IsRequired();
-
-            HasMany(x => x.CandidateSocials).WithRequired(x => x.SocialNetwork).HasForeignKey(x => x.SocialNetworkId);
         }
     }
 }

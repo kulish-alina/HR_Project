@@ -1,45 +1,43 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.DAL.Repositories;
-using DAL.Infrastructure;
+﻿using DAL.Infrastructure;
 using DAL.Repositories;
 using System.Data.Entity;
-using System;
 
-namespace BaseOfTalents.DAL
+namespace DAL
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DbContext context;
 
-        private IFileRepository                 fileRepo;
-        private ICandidateRepository            candidateRepo;
-        private IUserRepository                 userRepo;
-        private IVacancyRepository              vacancyRepo;
-        private ILevelRepository                levelRepo;
-        private ICityRepository             cityRepo;
-        private ITagRepository                  tagRepo;
-        private ISkillRepository                skillRepo;
-        private ILanguageSkillRepository        languageSkillRepo;
-        private ILanguageRepository             languageRepo;
-        private IVacancyStageRepository         vacancyStageRepo;
-        private ICountryRepository              countryRepo;
-        private IDepartmentGroupRepository      departmentGroupRepo;
-        private IDepartmentRepository           departmentRepo;
-        private IEventTypeRepository            eventTypeRepo;
-        private IIndustryRepository             industryRepo;
-        private IPermissionRepository           permissionRepo;
-        private IRoleRepository                 roleRepo;
-        private ISocialNetworkRepository        socialNetworkRepo;
-        private IStageRepository                stageRepo;
-        private IPhotoRepository                photoRepo;
-        private IPhoneNumberRepository          phoneNumberRepo;
-        private IVacancyStageInfoRepository     vacancyStageInfoRepo;
-        private ICandidateSocialRepository      candidateSocialRepo;
-        private ICandidateSourceRepository      candidateSourceRepo;
-        private ICommentRepository              commentRepo;
-        private IEventRepository                eventRepo;
-        private INoteRepository                 noteRepo;
-        private ICurrencyRepository             currencyRepo;
+        private IFileRepository fileRepo;
+        private ICandidateRepository candidateRepo;
+        private IUserRepository userRepo;
+        private IVacancyRepository vacancyRepo;
+        private ILevelRepository levelRepo;
+        private ICityRepository cityRepo;
+        private ITagRepository tagRepo;
+        private ISkillRepository skillRepo;
+        private ILanguageSkillRepository languageSkillRepo;
+        private ILanguageRepository languageRepo;
+        private IVacancyStageRepository vacancyStageRepo;
+        private ICountryRepository countryRepo;
+        private IDepartmentGroupRepository departmentGroupRepo;
+        private IDepartmentRepository departmentRepo;
+        private IEventTypeRepository eventTypeRepo;
+        private IIndustryRepository industryRepo;
+        private IPermissionRepository permissionRepo;
+        private IRoleRepository roleRepo;
+        private ISocialNetworkRepository socialNetworkRepo;
+        private IStageRepository stageRepo;
+        private IPhoneNumberRepository phoneNumberRepo;
+        private IVacancyStageInfoRepository vacancyStageInfoRepo;
+        private ICandidateSocialRepository candidateSocialRepo;
+        private ICandidateSourceRepository candidateSourceRepo;
+        private ICommentRepository commentRepo;
+        private IEventRepository eventRepo;
+        private INoteRepository noteRepo;
+        private ICurrencyRepository currencyRepo;
+        private ISourceRepository sourceRepo;
+
 
 
         public UnitOfWork(DbContext context)
@@ -303,25 +301,12 @@ namespace BaseOfTalents.DAL
         {
             get
             {
-                if (stageRepo== null)
+                if (stageRepo == null)
                 {
                     stageRepo = new StageRepository(context);
                 }
 
                 return stageRepo;
-            }
-        }
-
-        public IPhotoRepository PhotoRepo
-        {
-            get
-            {
-                if (photoRepo == null)
-                {
-                    photoRepo = new PhotoRepository(context);
-                }
-
-                return photoRepo;
             }
         }
 
@@ -426,6 +411,19 @@ namespace BaseOfTalents.DAL
                 }
 
                 return currencyRepo;
+            }
+        }
+
+        public ISourceRepository SourceRepo
+        {
+            get
+            {
+                if (sourceRepo == null)
+                {
+                    sourceRepo = new SourceRepository(context);
+                }
+
+                return sourceRepo;
             }
         }
 

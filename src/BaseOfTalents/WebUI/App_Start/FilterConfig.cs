@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace BaseOfTalents.WebUI
+namespace WebUI.App_Start
 {
     public class FilterConfig
     {

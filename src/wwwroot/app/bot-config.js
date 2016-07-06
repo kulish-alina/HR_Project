@@ -1,5 +1,4 @@
-import homeTemplate from './views/home/home.view.html';
-
+import homeTemplate             from './views/home/home.view.html';
 import candidatesTemplate       from './views/candidates/candidates.view.html';
 import candidateTemplate        from './views/candidate/candidate.view.html';
 import vacanciesTemplate        from './views/vacancies/vacancies.list.html';
@@ -11,18 +10,23 @@ import profileEditTemplate      from './views/settings/profile/profileEdit.view.
 import membersTemplate          from './views/settings/members/members.view.html';
 import rolesTemplate            from './views/settings/roles/roles.view.html';
 import vacancyViewTemplate      from './views/vacancy.profile/vacancy.view.html';
+import candidateProfileTemplate from './views/candidate.profile/candidate.profile.html';
+import loaderTemplate           from './views/loading/loading.view.html';
+import loginTemplate            from './views/login/login.view.html';
 
-import homeController           from './views/home/home.controller';
-import candidatesController     from './views/candidates/candidates.controller';
-import candidateController      from './views/candidate/candidate.controller';
-import vacanciesController      from './views/vacancies/vacancies.list.controller';
-import vacancyEditController    from './views/vacancy/vacancy.edit.controller';
-import settingsController       from './views/settings/settings.controller';
-import thesaurusesController    from './views/settings/thesauruses/thesauruses.controller';
-import profileController        from './views/settings/profile/profile.controller';
-import membersController        from './views/settings/members/members.controller';
-import rolesController          from './views/settings/roles/roles.controller';
-import vacancyViewController    from './views/vacancy.profile/vacancy.view.controller';
+import homeController             from './views/home/home.controller';
+import candidatesController       from './views/candidates/candidates.controller';
+import candidateController        from './views/candidate/candidate.controller';
+import vacanciesController        from './views/vacancies/vacancies.list.controller';
+import vacancyEditController      from './views/vacancy/vacancy.edit.controller';
+import settingsController         from './views/settings/settings.controller';
+import thesaurusesController      from './views/settings/thesauruses/thesauruses.controller';
+import profileController          from './views/settings/profile/profile.controller';
+import membersController          from './views/settings/members/members.controller';
+import rolesController            from './views/settings/roles/roles.controller';
+import vacancyViewController      from './views/vacancy.profile/vacancy.view.controller';
+import candidateProfileController from './views/candidate.profile/candidate.profile.controller';
+import loginController            from './views/login/login.controller';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -31,6 +35,7 @@ import context                from './context';
 
 export default function _config(
    $stateProvider,
+   $httpProvider,
    $urlRouterProvider,
    $locationProvider,
    $translateProvider,
@@ -42,22 +47,33 @@ export default function _config(
 
    $stateProvider
       .state('home', {
-         url: '/home',
+         url: '/bot',
          template: homeTemplate,
          controller: homeController,
          params: {
             _data: null
-         }
+         },
+         data: {hideHome: false}
       })
       .state('candidates', {
          url: '/candidates',
          template: candidatesTemplate,
-         controller: candidatesController
+         controller: candidatesController,
+         data: {
+            hide: false,
+            hideHome: true
+         },
+         parent: 'home'
       })
       .state('vacancies', {
          url: '/vacancies',
          template: vacanciesTemplate,
-         controller: vacanciesController
+         controller: vacanciesController,
+         data: {
+            hide: false,
+            hideHome: true
+         },
+         parent: 'home'
       })
       .state('vacancyView', {
          url: '/vacancy/:vacancyId',
@@ -66,12 +82,27 @@ export default function _config(
          params: {
             _data: null,
             vacancyId: null
-         }
+         },
+         parent: 'vacancies',
+         data: {hide: true}
       })
       .state('candidate', {
          url: '/candidate',
          template: candidateTemplate,
-         controller: candidateController
+         controller: candidateController,
+         parent: 'candidates',
+         data: {hide: true}
+      })
+      .state('candidateProfile', {
+         url: '/candidateProfile/:candidateId',
+         template: candidateProfileTemplate,
+         controller: candidateProfileController,
+         params: {
+            _data: null,
+            candidateId: null
+         },
+         parent: 'candidates',
+         data: {hide: true}
       })
       .state('vacancyEdit', {
          url: '/vacancy/edit/:vacancyId',
@@ -80,13 +111,19 @@ export default function _config(
          params: {
             _data: null,
             vacancyId: null
-         }
+         },
+         parent: 'vacancies',
+         data: {hide: true}
       })
       .state('settings', {
          url: '/settings',
          template: settingsTemplate,
          controller: settingsController,
-         data: {asEdit: false}
+         data: {
+            asEdit: false,
+            hideHome: true
+         },
+         parent: 'home'
       })
       .state('profile', {
          url: '/profile',
@@ -120,6 +157,17 @@ export default function _config(
          parent: 'settings',
          template: thesaurusesTemplate,
          controller: thesaurusesController
+      })
+      .state('login', {
+         url: '/login',
+         template: loginTemplate,
+         controller: loginController,
+         data: {hideHome: true}
+      })
+      .state('loading', {
+         url:'/loading',
+         template: loaderTemplate,
+         data: {hideHome: true}
       });
 
    $locationProvider.html5Mode({
@@ -127,7 +175,7 @@ export default function _config(
       requireBase: false
    });
 
-   $urlRouterProvider.otherwise('home');
+   $urlRouterProvider.otherwise('bot');
 
    $translateProvider
       .useSanitizeValueStrategy('sanitize')
@@ -136,6 +184,8 @@ export default function _config(
       .preferredLanguage(context.defaultLang);
 
    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|skype|tel):/);
+
+   $httpProvider.interceptors.push('authInterceptor');
 
    LoggerServiceProvider.changeLogLevel(context.logLevel);
    HttpServiceProvider.changeApiUrl(context.serverUrl + context.apiSuffix);

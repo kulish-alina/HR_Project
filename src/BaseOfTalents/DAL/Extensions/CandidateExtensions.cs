@@ -1,10 +1,8 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using DAL.Extensions;
+﻿using DAL.DTO;
+using DAL.Infrastructure;
 using DAL.Services;
-using Domain.DTO.DTOModels;
 using Domain.Entities;
+using Domain.Entities.Enum.Setup;
 using System;
 using System.Linq;
 
@@ -14,24 +12,27 @@ namespace DAL.Extensions
     {
         public static void Update(this Candidate destination, CandidateDTO source, IUnitOfWork uow)
         {
-            destination.State               = source.State;
-            destination.FirstName           = source.FirstName;
-            destination.MiddleName          = source.MiddleName;
-            destination.LastName            = source.LastName;
-            destination.IsMale              = source.IsMale;
-            destination.BirthDate           = source.BirthDate;
-            destination.Email               = source.Email;
-            destination.Skype               = source.Skype;
-            destination.PositionDesired     = source.PositionDesired;
-            destination.SalaryDesired       = source.SalaryDesired;
-            destination.TypeOfEmployment    = source.TypeOfEmployment;
-            destination.StartExperience     = source.StartExperience;
-            destination.Practice            = source.Practice;
-            destination.Description         = source.Description;
-            destination.CityId          = source.CityId;
+            destination.State = source.State;
+            destination.FirstName = source.FirstName;
+            destination.MiddleName = source.MiddleName;
+            destination.LastName = source.LastName;
+            destination.IsMale = source.IsMale;
+            destination.BirthDate = source.BirthDate;
+            destination.Email = source.Email;
+            destination.Skype = source.Skype;
+            destination.PositionDesired = source.PositionDesired;
+            destination.SalaryDesired = source.SalaryDesired;
+            destination.TypeOfEmployment = source.TypeOfEmployment;
+            destination.StartExperience = source.StartExperience;
+            destination.Practice = source.Practice;
+            destination.Description = source.Description;
+            destination.CityId = source.CityId;
             destination.RelocationAgreement = source.RelocationAgreement;
-            destination.Education           = source.Education;
-            destination.IndustryId          = source.IndustryId;
+            destination.Education = source.Education;
+            destination.IndustryId = source.IndustryId;
+            destination.MainSourceId = source.MainSourceId;
+            destination.LevelId = source.LevelId;
+            destination.CurrencyId = source.CurrencyId;
 
             PerformRelocationPlacesSaving(destination, source, uow.CityRepo);
             PerformSocialSaving(destination, source, uow.CandidateSocialRepo);
@@ -41,7 +42,7 @@ namespace DAL.Extensions
             PerformTagsSaving(destination, source, uow.TagRepo);
             PerformPhoneNumbersSaving(destination, source, uow.PhoneNumberRepo);
             PerformSkillsSaving(destination, source, uow.SkillRepo);
-            PerformPhotoSaving(destination, source, uow.PhotoRepo);
+            PerformPhotoSaving(destination, source, uow.FileRepo);
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
             PerformEventsSaving(destination, source, uow.EventRepo);
@@ -56,8 +57,7 @@ namespace DAL.Extensions
         {
             source.RelocationPlaces.Where(x => x.IsNew()).ToList().ForEach(newRelocationPlace =>
             {
-                var toDomain = new RelocationPlace();
-                toDomain.Update(newRelocationPlace, locationRepo);
+                var toDomain = DTOService.ToEntity<RelocationPlaceDTO, RelocationPlace>(newRelocationPlace);
                 destination.RelocationPlaces.Add(toDomain);
             });
         }
@@ -76,7 +76,7 @@ namespace DAL.Extensions
                 }
                 else
                 {
-                    domainRL.Update(updatedRelocationPlace, locationRepo);
+                    domainRL.Update(updatedRelocationPlace);
                 }
             });
         }
@@ -85,11 +85,11 @@ namespace DAL.Extensions
         {
             source.Files.ToList().ForEach(file =>
             {
-                var fileInVacancy = destination.Files.FirstOrDefault(x => x.Id == file.Id);
+                var fileInCandidate = destination.Files.FirstOrDefault(x => x.Id == file.Id);
                 var dbFile = fileRepository.GetByID(file.Id);
                 if (dbFile == null)
                 {
-                    throw new Exception("Unknown file");
+                    throw new Exception("Database doesn't contains such entity");
                 }
                 if (file.ShouldBeRemoved())
                 {
@@ -98,7 +98,7 @@ namespace DAL.Extensions
                 else
                 {
                     dbFile.Update(file);
-                    if (fileInVacancy == null)
+                    if (fileInCandidate == null)
                     {
                         destination.Files.Add(dbFile);
                     }
@@ -106,23 +106,24 @@ namespace DAL.Extensions
             });
         }
 
-        private static void PerformPhotoSaving(Candidate destination, CandidateDTO source, IRepository<Photo> photoRepository)
+        private static void PerformPhotoSaving(Candidate destination, CandidateDTO source, IRepository<File> fileRepository)
         {
-            if (source.Photo != null)
+            var photoInDTO = source.Photo;
+            if (photoInDTO != null)
             {
-                if (source.Photo.IsNew())
+                var photoInDb = fileRepository.GetByID(source.Photo.Id);
+                if (photoInDb == null)
                 {
-                    var photoBd = photoRepository.GetByID(source.Photo.Id);
-                    photoBd.Update(source.Photo);
-                    destination.Photo = photoBd;
+                    throw new Exception("Database doesn't contains such entity");
                 }
-                else if (source.Photo.ShouldBeRemoved())
+                if (photoInDTO.ShouldBeRemoved())
                 {
-                    photoRepository.Delete(destination.Photo.Id);
+                    fileRepository.Delete(photoInDb.Id);
                 }
                 else
                 {
-                    destination.Photo.Update(source.Photo);
+                    photoInDb.Update(photoInDTO);
+                    destination.Photo = photoInDb;
                 }
             }
         }
@@ -186,7 +187,7 @@ namespace DAL.Extensions
         }
         private static void CreateNewVacanciesProgress(Candidate destination, CandidateDTO source)
         {
-            source.VacanciesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo => 
+            source.VacanciesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo =>
             {
                 var toDomain = new VacancyStageInfo();
                 toDomain.Update(newVacancyStageInfo);
@@ -227,7 +228,7 @@ namespace DAL.Extensions
         }
         private static void CreateNewSources(Candidate destination, CandidateDTO source)
         {
-            source.Sources.Where(x => x.IsNew()).ToList().ForEach(newSource=> 
+            source.Sources.Where(x => x.IsNew()).ToList().ForEach(newSource =>
             {
                 var toDomain = new CandidateSource();
                 toDomain.Update(newSource);

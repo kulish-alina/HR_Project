@@ -1,7 +1,7 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
+﻿using DAL.DTO;
 using DAL.Extensions;
-using Domain.DTO.DTOModels;
+using DAL.Infrastructure;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 
 namespace DAL.Services
 {
-    public partial class VacancyService 
+    public partial class VacancyService
     {
         IUnitOfWork uow;
         public VacancyService(IUnitOfWork uow)
@@ -30,7 +30,7 @@ namespace DAL.Services
             int? state,
             int? typeOfEmployment,
             IEnumerable<int> levelIds,
-            IEnumerable<int> locationIds, 
+            IEnumerable<int> locationIds,
             int current,
             int size
             )
@@ -68,6 +68,7 @@ namespace DAL.Services
 
             var vacancies = uow.VacancyRepo.Get(filters);
             var total = vacancies.Count();
+
             return new Tuple<IEnumerable<VacancyDTO>, int>(
                 vacancies.Skip(current * size).Take(size).Select(vacancy => DTOService.ToDTO<Vacancy, VacancyDTO>(vacancy)),
                 total);

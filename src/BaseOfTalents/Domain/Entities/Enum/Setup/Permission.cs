@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BaseOfTalents.Domain.Entities.Enum.Setup
+namespace Domain.Entities.Enum.Setup
 {
     public class Permission : BaseEntity
     {
@@ -10,7 +10,7 @@ namespace BaseOfTalents.Domain.Entities.Enum.Setup
         }
 
         public string Description { get; set; }
-        public AccessRights AccessRights { get; set; }
+        public AccessRight AccessRights { get; set; }
         public string Group { get; set; }
 
         public virtual ICollection<Role> Roles { get; set; }

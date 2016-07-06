@@ -1,10 +1,9 @@
-﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using DAL.DTO.SetupDTO;
 using DAL.Services;
-using Domain.DTO.DTOModels;
-using Domain.DTO.DTOModels.SetupDTO;
+using Domain.Entities.Enum.Setup;
 using System.Web.Http;
 
-namespace WebApi.Controllers
+namespace WebUI.Controllers
 {
     [RoutePrefix("api/SocialNetwork")]
     public class SocialNetworkController : BaseController<SocialNetwork, SocialNetworkDTO>

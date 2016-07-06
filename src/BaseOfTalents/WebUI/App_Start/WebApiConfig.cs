@@ -2,7 +2,7 @@
 using System.Web.Http.Cors;
 using WebApi;
 
-namespace BaseOfTalents.WebUI
+namespace WebUI.App_Start
 {
     public static class WebApiConfig
     {

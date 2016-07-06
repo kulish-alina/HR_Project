@@ -47,7 +47,7 @@
                            </div>
                         </div>
                         <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
-                        <oi-select class="multiple-select" oi-options="location.id as location.title for location in thesaurus.location" ng-model="vacancy.locationIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
@@ -93,9 +93,9 @@
                            <option selected value="7" ng-bind="::'VACANCY.CLOSED' | translate"></option>
                            <option selected value="8" ng-bind="::'VACANCY.CANCELLED' | translate"></option>
                         </select>
-                        <date datemodel="vacancy.startDate" placeholder="{{::'COMMON.START_DATE' | translate}}" daterequired="true"></date>
-                        <date datemodel="vacancy.deadlineDate" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}"></date>
-                        <date datemodel="vacancy.endDate" placeholder="{{::'COMMON.END_DATE' | translate}}"></date>
+                        <input placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input  placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                         <input ng-model="vacancy.deadlineToCalendar" value="true" id="DeadlineToCalendar" type="checkbox">
                         <label for="DeadlineToCalendar" ng-bind="::'COMMON.ADD_DEADLINE_TO_CALENDAR' | translate"></label>
                      </fieldset>
@@ -211,62 +211,7 @@
             </div>
          </div>
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'COMMON.COMMENTS' | translate">
-            </div>
-            <div class="sidebar-content">
-               <div class="grid-block">
-                  <div class="medium-9 grid-block">
-                     <textarea placeholder="Comment"></textarea>
-                  </div>
-                  <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#" ng-bind="::'COMMON.SAVE' | translate"></a>
-                  </div>
-               </div>
-               <section class="block-list">
-                  <ul class="comments">
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-10 grid-block">
-                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-10 grid-block">
-                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block">
-                           <div class="medium-10 grid-block">
-                              Lorem ipsum dolor sit amet, ea cum nobis graecis repudiandae. Clita congue putent ius ea, in dicat movet quaestio eos
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-edit general-icon"></i></a>
-                           </div>
-                           <div class="medium-1 grid-block">
-                              <a href="#"><i class="foundicon-trash general-icon"></i></a>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-            </div>
+            <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>
          </div>
       </div>
    </div>
-</div>

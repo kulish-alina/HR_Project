@@ -71,9 +71,9 @@ describe('ThesaurusService testing: ', () => {
    });
 
    it('getThesaurusTopics call test for complex thesaurus', () => {
-      service.getThesaurusTopics('locations');
-      expect(mockHttpCache.get).toHaveBeenCalledWith('locations');
-      expect(mockHttpCache.get).toHaveBeenCalledWith('countries');
+      service.getThesaurusTopics('location');
+      expect(mockHttpCache.get).toHaveBeenCalledWith('location');
+      expect(mockHttpCache.get).toHaveBeenCalledWith('country');
    });
 
 
@@ -81,14 +81,14 @@ describe('ThesaurusService testing: ', () => {
       let country = {
          id: 1
       };
-      service.saveThesaurusTopic('countries', country);
-      expect(mockHttp.put).toHaveBeenCalledWith(`countries/${country.id}`, country);
+      service.saveThesaurusTopic('country', country);
+      expect(mockHttp.put).toHaveBeenCalledWith(`country/${country.id}`, country);
    });
 
    it('saveThesaurusTopic without id call test', () => {
       let country = {};
-      service.saveThesaurusTopic('countries', country);
-      expect(mockHttp.post).toHaveBeenCalledWith('countries/', country);
+      service.saveThesaurusTopic('country', country);
+      expect(mockHttp.post).toHaveBeenCalledWith('country/', country);
    });
 
    it('saveThesaurusTopic test for only thesaurus saving', () => {
@@ -101,8 +101,8 @@ describe('ThesaurusService testing: ', () => {
       let country = {
          id: 1
       };
-      service.deleteThesaurusTopic('countries', country);
-      expect(mockHttp.remove).toHaveBeenCalledWith(`countries/${country.id}`, country);
+      service.deleteThesaurusTopic('country', country);
+      expect(mockHttp.remove).toHaveBeenCalledWith(`country/${country.id}`, country);
    });
 
    it('deleteThesaurusTopic test for only thesaurus deleting', () => {

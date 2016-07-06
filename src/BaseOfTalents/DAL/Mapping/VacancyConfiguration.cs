@@ -1,19 +1,27 @@
-﻿using BaseOfTalents.Domain.Entities;
+﻿using Domain.Entities;
 
-namespace BaseOfTalents.DAL.Mapping
+namespace DAL.Mapping
 {
     public class VacancyConfiguration : BaseEntityConfiguration<Vacancy>
     {
         public VacancyConfiguration()
         {
+            Property(v => v.Title).IsRequired();
+            Property(v => v.StartDate).IsRequired();
+
             HasMany(v => v.CandidatesProgress);
-            HasMany(v => v.Files);
+            HasMany(v => v.Files).WithMany().Map(x =>
+            {
+                x.MapRightKey("FileId");
+                x.MapLeftKey("VacancyId");
+                x.ToTable("FileToVacancy");
+            });
 
             HasOptional(v => v.ParentVacancy).WithMany(v => v.ChildVacancies).HasForeignKey(v => v.ParentVacancyId);
             HasOptional(v => v.LanguageSkill);
             HasOptional(v => v.ParentVacancy).WithMany().HasForeignKey(x => x.ParentVacancyId);
-            HasOptional(v => v.Industry).WithMany().HasForeignKey(x => x.IndustryId);
 
+            HasRequired(v => v.Industry).WithMany().HasForeignKey(x => x.IndustryId);
             HasRequired(v => v.Department).WithMany().HasForeignKey(v => v.DepartmentId);
             HasRequired(v => v.Responsible).WithMany().HasForeignKey(v => v.ResponsibleId);
 
@@ -27,9 +35,9 @@ namespace BaseOfTalents.DAL.Mapping
 
             HasMany(v => v.Cities).WithMany().Map(x =>
             {
-                x.MapRightKey("LocationId");
+                x.MapRightKey("CityId");
                 x.MapLeftKey("VacancyId");
-                x.ToTable("VacancyToLocation");
+                x.ToTable("VacancyToCity");
             });
 
             HasMany(v => v.Tags).WithMany().Map(x =>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BaseOfTalents.WebUI.Models
+namespace WebUI.Models
 {
     public sealed class VacancySearchModel
     {

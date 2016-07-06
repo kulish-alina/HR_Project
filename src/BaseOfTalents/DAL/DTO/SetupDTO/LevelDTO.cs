@@ -1,7 +1,4 @@
-﻿using Domain.DTO.DTOModels;
-
-
-namespace Domain.DTO.DTOModels.SetupDTO
+﻿namespace DAL.DTO.SetupDTO
 {
     public class LevelDTO : BaseEntityDTO
     {

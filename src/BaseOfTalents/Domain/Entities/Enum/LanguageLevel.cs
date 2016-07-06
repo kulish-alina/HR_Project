@@ -1,9 +1,8 @@
-namespace BaseOfTalents.Domain.Entities.Enum
+namespace Domain.Entities.Enum
 {
     public enum LanguageLevel
     {
-        Undefiend = 1,
-        Beginner,
+        Beginner = 1,
         PreIntermediate,
         Intermediate,
         UpperIntermediate,

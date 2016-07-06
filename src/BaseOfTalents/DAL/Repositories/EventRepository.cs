@@ -1,12 +1,6 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.DAL.Repositories;
-using BaseOfTalents.Domain.Entities;
-using System;
-using System.Collections.Generic;
+﻿using DAL.Infrastructure;
+using Domain.Entities;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {

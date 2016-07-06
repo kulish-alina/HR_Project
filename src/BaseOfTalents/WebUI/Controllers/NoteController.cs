@@ -1,14 +1,12 @@
-﻿using BaseOfTalents.WebUI.Extensions;
-using BaseOfTalents.WebUI.Models;
-using DAL.DTO;
+﻿using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
-using Domain.DTO.DTOModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
+using WebUI.Extensions;
 
-namespace BaseOfTalents.WebUI.Controllers
+namespace WebUI.Controllers
 {
     [RoutePrefix("api/note")]
     public class NoteController : ApiController

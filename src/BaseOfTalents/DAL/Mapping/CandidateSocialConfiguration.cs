@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.Domain.Entities;
+﻿using Domain.Entities;
 
-namespace BaseOfTalents.DAL.Mapping
+namespace DAL.Mapping
 {
     public class CandidateSocialConfiguration : BaseEntityConfiguration<CandidateSocial>
     {
@@ -9,7 +9,7 @@ namespace BaseOfTalents.DAL.Mapping
             Property(cs => cs.Path).IsRequired();
 
             HasRequired(cs => cs.SocialNetwork)
-                .WithMany(x => x.CandidateSocials)
+                .WithMany()
                 .HasForeignKey(cs => cs.SocialNetworkId);
         }
     }

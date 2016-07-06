@@ -1,11 +1,8 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
-using Domain.Entities.Enum;
-
-namespace Domain.DTO.DTOModels
+﻿namespace DAL.DTO
 {
     public class CandidateSourceDTO : BaseEntityDTO
     {
-        public Source Source { get; set; }
+        public int SourceId { get; set; }
         public string Path { get; set; }
     }
 }

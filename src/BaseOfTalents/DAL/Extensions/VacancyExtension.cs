@@ -1,7 +1,6 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
+﻿using DAL.DTO;
 using DAL.Infrastructure;
-using Domain.DTO.DTOModels;
+using Domain.Entities;
 using System;
 using System.Linq;
 
@@ -11,7 +10,7 @@ namespace DAL.Extensions
     {
         public static void UpdateChildWithParent(this Vacancy childVacancy, Vacancy parentVacancy)
         {
-            if(childVacancy.ParentVacancyId!=parentVacancy.Id)
+            if (childVacancy.ParentVacancyId != parentVacancy.Id)
             {
                 throw new Exception("Child vacancy is not a child of specified parent vacancy");
             }

@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using Domain.DTO.DTOModels.SetupDTO;
+﻿using DAL.DTO.SetupDTO;
+using DAL.Infrastructure;
+using Domain.Entities.Enum.Setup;
 
 namespace DAL.Services
 {

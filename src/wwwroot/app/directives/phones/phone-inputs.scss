@@ -1,9 +1,14 @@
-@import '../../main.scss';
-.add-phone-icon {
-   padding-right: $rem-base*1.25;
-}
-.add-phone-number {
-   margin-top: -$rem-base*2.625;
-   margin-left: 92%;
-   padding-left: 0px;
+@import '../../common.scss';
+
+phones {
+   display: block;
+   clear: both;
+   width: 100%;
+   position: relative;
+
+   .add-phone-number {
+      position: absolute;
+      right: 0.2em;
+      bottom: 0;
+   }   
 }

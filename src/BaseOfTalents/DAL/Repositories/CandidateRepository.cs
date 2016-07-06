@@ -1,9 +1,9 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
+﻿using DAL.Infrastructure;
+using Domain.Entities;
 using System.Data.Entity;
 using System.Linq;
 
-namespace BaseOfTalents.DAL.Repositories
+namespace DAL.Repositories
 {
     public class CandidateRepository : BaseRepository<Candidate>, ICandidateRepository
     {
@@ -24,8 +24,10 @@ namespace BaseOfTalents.DAL.Repositories
             entityToDelete.VacanciesProgress.ToList().ForEach(vsi => context.DeleteEntity(vsi));
             entityToDelete.PhoneNumbers.ToList().ForEach(pn => context.DeleteEntity(pn));
             entityToDelete.Sources.ToList().ForEach(s => context.DeleteEntity(s));
-            context.DeleteEntity(entityToDelete.Photo);
-
+            if (entityToDelete.Photo != null)
+            {
+                context.DeleteEntity(entityToDelete.Photo);
+            }
             dbSet.Remove(entityToDelete);
         }
     }

@@ -1,10 +1,9 @@
-using BaseOfTalents.Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
+using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 
-namespace BaseOfTalents.Domain.Entities
+namespace Domain.Entities
 {
     public class Vacancy : BaseEntity
     {
@@ -39,7 +38,7 @@ namespace BaseOfTalents.Domain.Entities
         public int? ParentVacancyId { get; set; }
         public virtual Vacancy ParentVacancy { get; set; }
 
-        public int? IndustryId { get; set; }
+        public int IndustryId { get; set; }
         public virtual Industry Industry { get; set; }
 
         public int DepartmentId { get; set; }
@@ -48,8 +47,8 @@ namespace BaseOfTalents.Domain.Entities
         public int ResponsibleId { get; set; }
         public virtual User Responsible { get; set; }
 
-        public int SalaryMin { get; set; }
-        public int SalaryMax { get; set; }
+        public int? SalaryMin { get; set; }
+        public int? SalaryMax { get; set; }
         public int? CurrencyId { get; set; }
         public virtual Currency Currency { get; set; }
 

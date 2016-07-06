@@ -1,9 +1,8 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
+﻿using Domain.Entities.Enum;
 using System;
 using System.Collections.Generic;
-using WebUI.Models;
 
-namespace BaseOfTalents.WebUI.Models
+namespace WebUI.Models
 {
     public class VacancyModel
     {

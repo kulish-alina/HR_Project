@@ -1,21 +1,17 @@
-﻿
-
-using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BaseOfTalents.DAL.Migrations
+namespace DAL.Migrations
 {
-    public static class DummyData 
+    public static class DummyData
     {
         public static readonly List<Currency> Currencies = new List<Currency>
         {
-            new Currency { Title = "UAH" }, 
+            new Currency { Title = "UAH" },
             new Currency { Title = "USD" },
             new Currency { Title = "EUR" }
         };
@@ -172,159 +168,165 @@ namespace BaseOfTalents.DAL.Migrations
         {
             new Permission
             {
-                AccessRights = AccessRights.AddCandidate,
+                AccessRights = AccessRight.AddCandidate,
                 Description = "Right to create a candidate",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.AddCandidateToVacancy,
+                AccessRights = AccessRight.AddCandidateToVacancy,
                 Description = "Right to attach exsisting candidate to a vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.AddEvent,
+                AccessRights = AccessRight.AddEvent,
                 Description = "Right to create an event",
                 Group = "Calendar"
             },
             new Permission
             {
-                AccessRights = AccessRights.AddRole,
+                AccessRights = AccessRight.AddRole,
                 Description = "Right to create a role",
                 Group = "Roles"
             },
             new Permission
             {
-                AccessRights = AccessRights.AddVacancy,
+                AccessRights = AccessRight.AddVacancy,
                 Description = "Right to create a vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.EditCandidate,
+                AccessRights = AccessRight.EditCandidate,
                 Description = "Right to edit a candidate",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.EditEvent,
+                AccessRights = AccessRight.EditEvent,
                 Description = "Right to edit an event",
                 Group = "Calendar"
             },
             new Permission
-            {   AccessRights = AccessRights.EditRole,
+            {   AccessRights = AccessRight.EditRole,
                 Description = "Right to edit a role",
                 Group = "Roles"
             },
             new Permission
             {
-                AccessRights = AccessRights.EditUserProfile,
+                AccessRights = AccessRight.EditUserProfile,
                 Description = "Right to edit user profile",
                 Group = "Users"
             },
             new Permission
             {
-                AccessRights = AccessRights.EditVacancy,
+                AccessRights = AccessRight.EditVacancy,
                 Description = "Right to edit a vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.GenerateReports,
+                AccessRights = AccessRight.GenerateReports,
                 Description = "Right to generate reports",
                 Group = "Reports"
             },
             new Permission
             {
-                AccessRights = AccessRights.InviteNewMember,
+                AccessRights = AccessRight.InviteNewMember,
                 Description = "Right to invite a new member to program",
                 Group = "Users"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveCandidate,
+                AccessRights = AccessRight.RemoveCandidate,
                 Description = "Right to remove candidate",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveCandidateFromVacancy,
+                AccessRights = AccessRight.RemoveCandidateFromVacancy,
                 Description = "Right to remove candidate from a vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveEvent,
+                AccessRights = AccessRight.RemoveEvent,
                 Description = "Right to remove event",
                 Group = "Calendar"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveRole,
+                AccessRights = AccessRight.RemoveRole,
                 Description = "Right to remove role",
                 Group = "Roles"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveUserProfile,
+                AccessRights = AccessRight.RemoveUserProfile,
                 Description = "Right to remove user profile",
                 Group = "Users"
             },
             new Permission
             {
-                AccessRights = AccessRights.RemoveVacancy,
+                AccessRights = AccessRight.RemoveVacancy,
                 Description = "Right to remove vacancy",
                 Group = "Vacancies"
             },
             new Permission
             {
-                AccessRights = AccessRights.SearchCandidatesInExternalSource,
+                AccessRights = AccessRight.SearchCandidatesInExternalSource,
                 Description = "Right to search candidates on another work-searching sites",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.SearchCandidatesInInternalSource,
+                AccessRights = AccessRight.SearchCandidatesInInternalSource,
                 Description = "Right to search candidates inside the base",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.SystemSetup,
+                AccessRights = AccessRight.SystemSetup,
                 Description = "Right to provide system setup",
                 Group = "System"
             },
             new Permission
             {
-                AccessRights = AccessRights.ViewCalendar,
+                AccessRights = AccessRight.ViewCalendar,
                 Description = "Right to view a calendar",
                 Group = "Calendar"
             },
             new Permission
             {
-                AccessRights = AccessRights.ViewListOfCandidates,
+                AccessRights = AccessRight.ViewListOfCandidates,
                 Description = "Right to view list of candidates",
                 Group = "Candidates"
             },
             new Permission
             {
-                AccessRights = AccessRights.ViewListOfVacancies,
+                AccessRights = AccessRight.ViewListOfVacancies,
                 Description = "Right to view list of vacancies",
                 Group = "Vacancies"
             },
-            new Permission {AccessRights = AccessRights.ViewRoles, Description = "Right to view roles", Group = "Roles"},
+            new Permission {AccessRights = AccessRight.ViewRoles, Description = "Right to view roles", Group = "Roles"},
             new Permission
             {
-                AccessRights = AccessRights.ViewUserProfile,
+                AccessRights = AccessRight.ViewUserProfile,
                 Description = "Right to view user profile",
                 Group = "Users"
             },
             new Permission
             {
-                AccessRights = AccessRights.ViewUsers,
+                AccessRights = AccessRight.ViewUsers,
                 Description = "Right to view users",
                 Group = "Users"
+            },
+            new Permission
+            {
+                AccessRights = AccessRight.None,
+                Description = "Right on getting access to nothing",
+                Group = "Empty"
             }
         };
 
@@ -343,25 +345,15 @@ namespace BaseOfTalents.DAL.Migrations
             new Stage {Title = "Rejected"}
         };
 
-        public static readonly List<Photo> Photos = new List<Photo>
-        {
-            new Photo {Description = "photo 1", ImagePath = @"~\images\ph11.jpg"},
-            new Photo {Description = "photo 2", ImagePath = @"~\images\ph12.jpg"},
-            new Photo {Description = "photo 3", ImagePath = @"~\images\ph13.jpg"},
-            new Photo {Description = "photo 4", ImagePath = @"~\images\ph14.jpg"},
-            new Photo {Description = "photo 5", ImagePath = @"~\images\ph15.jpg"},
-            new Photo {Description = "photo 6", ImagePath = @"~\images\ph16.jpg"},
-            new Photo {Description = "photo 7", ImagePath = @"~\images\ph17.jpg"},
-            new Photo {Description = "photo 8", ImagePath = @"~\images\ph18.jpg"},
-            new Photo {Description = "photo 9", ImagePath = @"~\images\ph19.jpg"}
-        };
 
         public static readonly List<SocialNetwork> Socials = new List<SocialNetwork>
         {
             new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "Facebook"},
             new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "VK"},
             new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "LinkedIn"},
-            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "MySpace"}
+            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "MySpace"},
+            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "Google+"}
+
         };
 
         public static readonly List<EventType> EventTypes = new List<EventType>
@@ -398,11 +390,21 @@ namespace BaseOfTalents.DAL.Migrations
         public static List<Role> Roles;
         public static List<Vacancy> Vacancies;
 
+        public static readonly List<Source> Sources = new List<Source>
+        {
+            new Source { Title = "LinkedIn" },
+            new Source { Title = "Vkontakte" },
+            new Source { Title = "Djinni" },
+            new Source { Title = "RabotaUa" },
+            new Source { Title = "WorkUa" },
+            new Source { Title = "HeadHunter" },
+        };
+
         public static readonly List<CandidateSource> CandidateSources = new List<CandidateSource>
         {
-            new CandidateSource {Source = Source.WorkUa, Path = "Path Work"},
-            new CandidateSource {Source = Source.Djinni, Path = "Path Jinn"},
-            new CandidateSource {Source = Source.RabotaUa, Path = "Path Rabota"}
+            new CandidateSource {Source = Sources.GetRandom(), Path = "Path to source"},
+            new CandidateSource {Source = Sources.GetRandom(), Path = "Path to source"},
+            new CandidateSource {Source = Sources.GetRandom(), Path = "Path to source"}
         };
 
         public static readonly List<Candidate> Candidates;
@@ -563,15 +565,13 @@ namespace BaseOfTalents.DAL.Migrations
 
         static DummyData()
         {
-            //if (System.Diagnostics.Debugger.IsAttached == false)
-            //    System.Diagnostics.Debugger.Launch();
-
             Roles = GetRoles(42);
             Users = GetUsers(150);
             Vacancies = GetVacancies(2403);
             Candidates = GetCandidates(1978);
             Events = GetEvents(100);
         }
+
 
         private static List<Event> GetEvents(int count)
         {
@@ -592,9 +592,32 @@ namespace BaseOfTalents.DAL.Migrations
             return events;
         }
 
+
+
         private static List<User> GetUsers(int count)
         {
             var users = new List<User>();
+            //setup admin
+            users.Add(
+                    new User
+                    {
+                        BirthDate = DateTime.Now.AddYears(-RandomNumber(20, 40)),
+                        Email = "admin@hr.local",
+                        FirstName = names.GetRandom(),
+                        isMale = true,
+                        LastName = lastNames.GetRandom(),
+                        City = Cities.GetRandom(),
+                        Login = "admin",
+                        MiddleName = names.GetRandom(),
+                        Password = "admin",
+                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = "380" + GetRandomNumbers(9) } },
+                        //Photo = Files.GetRandom(),
+                        Role = Roles[0],
+                        Skype = GetRandomString(8)
+                    }
+                    );
+
+
             for (var i = 0; i < count; i++)
             {
                 users.Add(
@@ -609,8 +632,8 @@ namespace BaseOfTalents.DAL.Migrations
                         Login = GetRandomString(4),
                         MiddleName = names.GetRandom(),
                         Password = GetRandomString(8),
-                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = GetRandomNumbers(7) } },
-                        Photo = Photos.GetRandom(),
+                        PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = "380" + GetRandomNumbers(9) } },
+                        //Photo = Files.GetRandom(),
                         Role = Roles.GetRandom(),
                         Skype = GetRandomString(8)
                     }
@@ -622,6 +645,12 @@ namespace BaseOfTalents.DAL.Migrations
         private static List<Role> GetRoles(int count)
         {
             var roles = new List<Role>();
+            roles.Add(new Role
+            {
+                Title = "Adminstrator",
+                Permissions = Permissions
+            });
+
 
             for (var i = 0; i < count; i++)
             {
@@ -640,7 +669,7 @@ namespace BaseOfTalents.DAL.Migrations
             return roles;
         }
 
-        private static List<Vacancy> GetVacancies(int count)
+        public static List<Vacancy> GetVacancies(int count)
         {
             var vacancies = new List<Vacancy>();
             for (var i = 0; i < count; i++)
@@ -671,7 +700,7 @@ namespace BaseOfTalents.DAL.Migrations
             }
             return vacancies;
         }
-        
+
 
         private static List<Candidate> GetCandidates(int count)
         {
@@ -697,17 +726,16 @@ namespace BaseOfTalents.DAL.Migrations
                     LastName = lastNames.GetRandom(),
                     MiddleName = names.GetRandom(),
                     PhoneNumbers =
-                        Enumerable.Repeat(new PhoneNumber { Number = GetRandomNumbers(7) }, RandomNumber(0, 5))
+                        Enumerable.Repeat(new PhoneNumber { Number = "380" + GetRandomNumbers(9) }, RandomNumber(0, 5))
                             .Distinct()
                             .ToList(),
-                    Photo = new Photo { Description = GetRandomString(25), ImagePath = GetRandomNumbers(25) },
+                    Photo = new File { Description = GetRandomString(25), FilePath = GetRandomNumbers(25) },
                     PositionDesired = professons.GetRandom(),
                     Practice = GetRandomString(20),
                     RelocationAgreement = true,
                     SalaryDesired = RandomNumber(300, 3000),
                     Skills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     Skype = "skyper." + GetRandomNumbers(4),
-                    //SocialNetworks = new List<CandidateSocial>() { new CandidateSocial() {SocialNetwork = Socials.GetRandom(), Path = GetRandomString(15) } },
                     Sources = Enumerable.Repeat(CandidateSources.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     StartExperience = DateTime.Now.AddYears(-RandomNumber(0, 10)),
                     Tags = new List<Tag>(),
@@ -715,18 +743,32 @@ namespace BaseOfTalents.DAL.Migrations
                     Level = Levels.GetRandom(),
                     VacanciesProgress = new List<VacancyStageInfo>()
                 };
-                candidate.RelocationPlaces = 
-                    Enumerable.Repeat(
-                        new RelocationPlace {
-                            Country = Countries.GetRandom(),
-                            Cities = Enumerable.Repeat(Cities.GetRandom(), 
-                            RandomNumber(0,2)).Distinct().ToList() }, 
-                        RandomNumber(1,2))
-                        .Distinct()
-                        .ToList();
+                candidate.RelocationPlaces =
+                            Enumerable.Repeat(
+                                new RelocationPlace
+                                {
+                                    Country = Countries.GetRandom(),
+                                    City = Cities.GetRandom(),
+                                },
+                                RandomNumber(1, 2))
+                                .Distinct()
+                                .ToList();
                 candidates.Add(candidate);
             }
             return candidates;
+        }
+
+        public static IEnumerable<Note> Notes
+        {
+            get
+            {
+                var notes = new List<Note>();
+                foreach (var user in Users)
+                {
+                    notes.Add(new Note { Message = LoremIpsum(3, 30, 1, 10, 1), User = user });
+                }
+                return notes;
+            }
         }
 
         public static T GetRandom<T>(this List<T> source)

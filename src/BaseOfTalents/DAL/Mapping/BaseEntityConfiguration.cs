@@ -1,7 +1,7 @@
-﻿using BaseOfTalents.Domain.Entities;
+﻿using Domain.Entities;
 using System.Data.Entity.ModelConfiguration;
 
-namespace BaseOfTalents.DAL.Mapping
+namespace DAL.Mapping
 {
     public class BaseEntityConfiguration<T> : EntityTypeConfiguration<T> where T : BaseEntity
     {

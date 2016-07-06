@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.Domain.Entities;
-using Domain.DTO.DTOModels;
+﻿using DAL.DTO;
+using DAL.Infrastructure;
+using Domain.Entities;
 using System;
 using System.Linq;
 
@@ -10,6 +10,8 @@ namespace DAL.Extensions
     {
         public static void Update(this User destination, UserDTO source, IUnitOfWork uow)
         {
+            destination.State = source.State;
+
             destination.FirstName = source.FirstName;
             destination.MiddleName = source.MiddleName;
             destination.LastName = source.LastName;
@@ -20,9 +22,9 @@ namespace DAL.Extensions
             destination.Login = source.Login;
             destination.Password = source.Password;
             destination.RoleId = source.RoleId;
-            destination.CityId = source.LocationId;
+            destination.CityId = source.CityId;
 
-            PerformPhotoSaving(destination, source, uow.PhotoRepo);
+            PerformPhotoSaving(destination, source, uow.FileRepo);
             PerformPhoneNumbersSaving(destination, source, uow.PhoneNumberRepo);
         }
 
@@ -60,23 +62,24 @@ namespace DAL.Extensions
             });
         }
 
-        private static void PerformPhotoSaving(User destination, UserDTO source, IRepository<Photo> photoRepository)
+        private static void PerformPhotoSaving(User destination, UserDTO source, IRepository<File> fileRepository)
         {
-            if (source.Photo != null)
+            var photoInDTO = source.Photo;
+            if (photoInDTO != null)
             {
-                if (source.Photo.IsNew())
+                var photoInDb = fileRepository.GetByID(source.Photo.Id);
+                if (photoInDb == null)
                 {
-                    var photoBd = photoRepository.GetByID(source.Photo.Id);
-                    photoBd.Update(source.Photo);
-                    destination.Photo = photoBd;
+                    throw new Exception("Database doesn't contains such entity");
                 }
-                else if (source.Photo.ShouldBeRemoved())
+                if (photoInDTO.ShouldBeRemoved())
                 {
-                    photoRepository.Delete(destination.Photo.Id);
+                    fileRepository.Delete(photoInDb.Id);
                 }
                 else
                 {
-                    destination.Photo.Update(source.Photo);
+                    photoInDb.Update(photoInDTO);
+                    destination.Photo = photoInDb;
                 }
             }
         }

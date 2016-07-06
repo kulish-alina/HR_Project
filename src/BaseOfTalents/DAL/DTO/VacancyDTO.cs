@@ -1,9 +1,9 @@
-﻿using BaseOfTalents.Domain.Entities.Enum;
+﻿using Domain.Entities.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.DTO.DTOModels
+namespace DAL.DTO
 {
     public class VacancyDTO : BaseEntityDTO
     {
@@ -23,6 +23,7 @@ namespace Domain.DTO.DTOModels
         public string Title { get; set; }
         public string Description { get; set; }
         public TypeOfEmployment? TypeOfEmployment { get; set; }
+        [Required]
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
@@ -39,14 +40,15 @@ namespace Domain.DTO.DTOModels
         public int? ParentVacancyId { get; set; }
         public int? ChildVacanciesNumber { get; set; }
 
-        public int SalaryMin { get; set; }
-        public int SalaryMax { get; set; }
+        public int? SalaryMin { get; set; }
+        public int? SalaryMax { get; set; }
+
         public int? CurrencyId { get; set; }
-
-        public int? IndustryId { get; set; }
-
+        [Required]
+        public int IndustryId { get; set; }
+        [Required]
         public int DepartmentId { get; set; }
-
+        [Required]
         public int ResponsibleId { get; set; }
 
         public LanguageSkillDTO LanguageSkill { get; set; }

@@ -21,6 +21,7 @@ export default class PhoneInputsDirective {
 }
 
 function PhoneInputsController($scope) {
+   'ngInject';
    let vm = $scope;
 
    /*---api---*/

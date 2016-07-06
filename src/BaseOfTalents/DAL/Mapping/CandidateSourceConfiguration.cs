@@ -1,12 +1,12 @@
-﻿using BaseOfTalents.Domain.Entities;
+﻿using Domain.Entities;
 
-namespace BaseOfTalents.DAL.Mapping
+namespace DAL.Mapping
 {
     public class CandidateSourceConfiguration : BaseEntityConfiguration<CandidateSource>
     {
         public CandidateSourceConfiguration()
         {
-            Property(sn => sn.Source).IsRequired();
+            HasRequired(x => x.Source).WithMany().HasForeignKey(x => x.SourceId);
             Property(sn => sn.Path).IsRequired();
         }
     }

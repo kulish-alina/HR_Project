@@ -1,11 +1,7 @@
-﻿using DAL.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.DTO.DTOModels
+namespace DAL.DTO
 {
     public class UserDTO : BaseEntityDTO
     {
@@ -26,9 +22,9 @@ namespace Domain.DTO.DTOModels
 
         public int RoleId { get; set; }
 
-        public PhotoDTO Photo { get; set; }
+        public FileDTO Photo { get; set; }
 
-        public int LocationId { get; set; }
+        public int CityId { get; set; }
 
         public IEnumerable<PhoneNumberDTO> PhoneNumbers { get; set; }
     }

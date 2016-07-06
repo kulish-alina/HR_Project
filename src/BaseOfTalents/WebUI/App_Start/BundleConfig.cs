@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace BaseOfTalents.WebUI
+namespace WebUI.App_Start
 {
     public class BundleConfig
     {

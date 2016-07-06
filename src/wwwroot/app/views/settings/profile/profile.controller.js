@@ -1,4 +1,5 @@
 import './profile.scss';
+import utils from '../../../utils.js';
 
 export default function ProfileController (
    $q,
@@ -7,8 +8,7 @@ export default function ProfileController (
    $state,
    UserService,
    SettingsService,
-   ValidationService,
-   FileUploader) {
+   ValidationService) {
    'ngInject';
 
    /*---api---*/
@@ -24,7 +24,6 @@ export default function ProfileController (
       SettingsService.addOnEditListener(_onEdit);
       $element.on('$destroy', _onDestroy);
       _initCurrentUser();
-      vm.uploader = _createNewUploader();
    }
    _init();
 
@@ -34,17 +33,12 @@ export default function ProfileController (
       SettingsService.removeOnEditListener(_onEdit);
    }
 
-   function _createNewUploader() {
-      let newUploader = new FileUploader({
-         url: './api/files'
-      });
-      return newUploader;
-   }
-
    function _onSubmit() {
       if (ValidationService.validate(vm.form.userEdit)) {
+         vm.user.birthDate = utils.formatDateToServer(vm.user.birthDate);
          return UserService.saveUser(vm.user).then(() => {
             $state.go('profile');
+            vm.user.birthDate = utils.formatDateFromServer(vm.user.birthDate);
          });
       } else {
          return $q.reject();
@@ -52,9 +46,8 @@ export default function ProfileController (
    }
 
    function _onCancel() {
-      _initCurrentUser().then(() => {
-         return $state.go('profile');
-      });
+      _initCurrentUser();
+      return $state.go('profile');
    }
 
    function _onEdit() {
@@ -62,11 +55,10 @@ export default function ProfileController (
    }
 
    function _initCurrentUser() {
-      return UserService.getCurrentUser()
-         .then((val) => {
-            vm.user = val;
-            vm.user.phoneNumbers = vm.user.phoneNumbers || [ {} ];
-         });
+      let val = UserService.getCurrentUser();
+      vm.user = val;
+      vm.user.phoneNumbers = vm.user.phoneNumbers || [ {} ];
+      vm.user.birthDate = utils.formatDateFromServer(vm.user.birthDate);
    }
 }
 

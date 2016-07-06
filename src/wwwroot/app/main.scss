@@ -148,6 +148,26 @@ i.profile-icons {
       margin-top: 0;
    }
 }
+.candidate-profile {
+   i {
+      padding-right: $rem-base/2;
+      font-size: $rem-base*2;
+      color: $primary-color;
+   }
+   .tab-item {
+      height: auto;
+      padding-top: $rem-base/2;
+      padding-bottom: $rem-base/2;
+   }
+   .tab-container {
+      width: 100%;
+   }
+   table {
+      margin-top: 0;
+      width: 99%;
+   }
+}
+
 
 .property-title {
    font-weight: 600; 
@@ -163,4 +183,13 @@ i.profile-icons {
 hr {
    margin-top: $rem-base/2;
    margin-bottom: $rem-base;
+}
+
+.content-wrapper {
+   display: block;
+   height: auto;
+}
+.loading-img {
+   height: 291px;
+   width: 491px;
 }

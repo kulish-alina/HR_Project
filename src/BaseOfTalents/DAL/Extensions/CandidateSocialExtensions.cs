@@ -1,8 +1,8 @@
-﻿using BaseOfTalents.Domain.Entities;
-using Domain.DTO.DTOModels;
+﻿using DAL.DTO;
+using Domain.Entities;
 
 namespace DAL.Extensions
-{ 
+{
     public static class CandidateSocialExtensions
     {
         public static void Update(this CandidateSocial domain, CandidateSocialDTO dto)

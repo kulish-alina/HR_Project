@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.Domain.Entities;
+﻿using Domain.Entities;
 
-namespace BaseOfTalents.DAL.Mapping
+namespace DAL.Mapping
 {
     public class UserConfiguration : BaseEntityConfiguration<User>
     {
@@ -26,7 +26,7 @@ namespace BaseOfTalents.DAL.Mapping
                 x.ToTable("UserToPhoneNumber");
             });
 
-            HasOptional(u => u.Photo).WithOptionalDependent();
+            HasOptional(u => u.Photo);
         }
     }
 }

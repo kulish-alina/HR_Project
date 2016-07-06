@@ -1,7 +1,7 @@
-using BaseOfTalents.Domain.Entities.Enum.Setup;
+using Domain.Entities.Enum.Setup;
 using System;
 
-namespace BaseOfTalents.Domain.Entities
+namespace Domain.Entities
 {
     public class Event : BaseEntity
     {

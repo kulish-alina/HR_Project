@@ -1,22 +1,21 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
-using System.Reflection;
-using System.Web.Http;
-using Domain.Entities;
-using Domain.DTO.DTOModels;
+using DAL;
+using DAL.DTO;
+using DAL.DTO.SetupDTO;
+using DAL.Infrastructure;
+using DAL.Repositories;
+using DAL.Services;
 using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
-using Domain.DTO.DTOModels.SetupDTO;
-using DAL.Services;
-using BaseOfTalents.Domain.Entities.Enum;
-using BaseOfTalents.Domain.Entities.Enum.Setup;
-using BaseOfTalents.Domain.Entities;
-using BaseOfTalents.DAL;
-using BaseOfTalents.DAL.Infrastructure;
-using BaseOfTalents.DAL.Repositories;
-using DAL.DTO.SetupDTO;
+using Entities.Enum;
+using System.Reflection;
+using System.Web.Http;
+using WebUI.Infrastructure.Auth;
+using WebUI.Services;
+using WebUI.Services.Auth;
 
-namespace WebApi
+namespace WebUI
 {
     public class AutofacWebApiConfiguration
     {
@@ -43,28 +42,28 @@ namespace WebApi
                 .InstancePerRequest();
 
             builder.RegisterType<AccessRightService>()
-                 .As<BaseEnumService<AccessRights>>()
-                 .InstancePerRequest();
+                .As<BaseEnumService<AccessRight>>()
+                .InstancePerRequest();
 
             builder.RegisterType<CommentTypeService>()
-                 .As<BaseEnumService<CommentType>>()
-                 .InstancePerRequest();
+                .As<BaseEnumService<CommentType>>()
+                .InstancePerRequest();
 
             builder.RegisterType<CountryService>()
-                 .As<BaseService<Country, CountryDTO>>()
-                 .InstancePerRequest();
+                .As<BaseService<Country, CountryDTO>>()
+                .InstancePerRequest();
 
             builder.RegisterType<DepartmentGroupService>()
-                  .As<BaseService<DepartmentGroup, DepartmentGroupDTO>>()
-                  .InstancePerRequest();
+                .As<BaseService<DepartmentGroup, DepartmentGroupDTO>>()
+                .InstancePerRequest();
 
             builder.RegisterType<DepartmentService>()
-              .As<BaseService<Department, DepartmentDTO>>()
-              .InstancePerRequest();
+                .As<BaseService<Department, DepartmentDTO>>()
+                .InstancePerRequest();
 
             builder.RegisterType<EntityStateService>()
-              .As<BaseEnumService<EntityState>>()
-              .InstancePerRequest();
+                .As<BaseEnumService<EntityState>>()
+                .InstancePerRequest();
 
             builder.RegisterType<EventTypeService>()
                 .As<BaseService<EventType, EventTypeDTO>>()
@@ -75,24 +74,24 @@ namespace WebApi
                 .InstancePerRequest();
 
             builder.RegisterType<LanguageLevelService>()
-              .As<BaseEnumService<LanguageLevel>>()
-              .InstancePerRequest();
+                .As<BaseEnumService<LanguageLevel>>()
+                .InstancePerRequest();
 
             builder.RegisterType<LanguageService>()
-              .As<BaseService<Language, LanguageDTO>>()
-              .InstancePerRequest();
+                .As<BaseService<Language, LanguageDTO>>()
+                .InstancePerRequest();
 
             builder.RegisterType<LevelService>()
-               .As<BaseService<Level, LevelDTO>>()
-               .InstancePerRequest();
+                .As<BaseService<Level, LevelDTO>>()
+                .InstancePerRequest();
 
             builder.RegisterType<CurrencyService>()
-               .As<BaseService<Currency, CurrencyDTO>>()
-               .InstancePerRequest();
+                .As<BaseService<Currency, CurrencyDTO>>()
+                .InstancePerRequest();
 
             builder.RegisterType<CityService>()
-               .As<BaseService<City, CityDTO>>()
-               .InstancePerRequest();
+                .As<BaseService<City, CityDTO>>()
+                .InstancePerRequest();
 
             builder.RegisterType<PermissionService>()
                 .As<BaseService<Permission, PermissionDTO>>()
@@ -110,12 +109,16 @@ namespace WebApi
                 .As<BaseService<SocialNetwork, SocialNetworkDTO>>()
                 .InstancePerRequest();
 
-            builder.RegisterType<SourceService>()
-                .As<BaseEnumService<Source>>()
+            builder.RegisterType<ParsingSourceService>()
+                .As<BaseEnumService<ParsingSource>>()
                 .InstancePerRequest();
 
             builder.RegisterType<StageService>()
                 .As<BaseService<Stage, StageDTO>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<SourceService>()
+                .As<SourceService>()
                 .InstancePerRequest();
 
             builder.RegisterType<TagService>()
@@ -127,32 +130,44 @@ namespace WebApi
                 .InstancePerRequest();
 
             builder.RegisterType<FileService>()
-               .As<FileService>()
-               .InstancePerRequest();
+                .As<FileService>()
+                .InstancePerRequest();
 
             builder.RegisterType<CandidateService>()
-               .As<CandidateService>()
-               .InstancePerRequest();
+                .As<CandidateService>()
+                .InstancePerRequest();
 
             builder.RegisterType<UserService>()
-               .As<UserService>()
-               .InstancePerRequest();
+                .As<UserService>()
+                .InstancePerRequest();
+
+            builder.RegisterType<RoleService>()
+                .As<RoleService>()
+                .InstancePerRequest();
 
             builder.RegisterType<EventService>()
-              .As<EventService>()
-              .InstancePerRequest();
+                .As<EventService>()
+                .InstancePerRequest();
 
             builder.RegisterType<VacancyService>()
-               .As<VacancyService>()
-               .InstancePerRequest();
+                .As<VacancyService>()
+                .InstancePerRequest();
 
             builder.RegisterType<NoteService>()
-              .As<NoteService>()
-              .InstancePerRequest();
+                .As<NoteService>()
+                .InstancePerRequest();
 
             builder.RegisterGeneric(typeof(BaseRepository<>))
-            .As(typeof(IRepository<>))
-            .InstancePerRequest();
+                .As(typeof(IRepository<>))
+                .InstancePerRequest();
+
+            builder.RegisterType<TokenContainer>()
+                .As<IAuthContainer<string>>()
+                .SingleInstance();
+
+            builder.RegisterType<UserAccountService>()
+                .As<IAccountService>()
+                .InstancePerRequest();
 
             Container = builder.Build();
             return Container;

@@ -1,13 +1,14 @@
-﻿using BaseOfTalents.WebUI.Extensions;
-using BaseOfTalents.WebUI.Models;
+﻿using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
-using Domain.DTO.DTOModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
+using WebUI.Extensions;
+using WebUI.Filters;
+using WebUI.Models;
 
-namespace BaseOfTalents.WebUI.Controllers
+namespace WebUI.Controllers
 {
     [RoutePrefix("api/vacancy")]
     public class VacancyController : ApiController
@@ -31,9 +32,10 @@ namespace BaseOfTalents.WebUI.Controllers
         // GET api/<controller>
         [HttpPost]
         [Route("search")]
+        [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.ViewListOfVacancies)]
         public IHttpActionResult Get([FromBody]VacancySearchParameters vacancyParams)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var tupleResult = service.Get(
                     vacancyParams.UserId,
@@ -62,7 +64,7 @@ namespace BaseOfTalents.WebUI.Controllers
         public IHttpActionResult Get(int id)
         {
             var foundedEntity = service.Get(id);
-            if(foundedEntity!=null)
+            if (foundedEntity != null)
             {
                 return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
             }
@@ -72,9 +74,10 @@ namespace BaseOfTalents.WebUI.Controllers
         // POST api/<controller>
         [HttpPost]
         [Route("")]
+        [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.AddVacancy)]
         public IHttpActionResult Post([FromBody]VacancyDTO vacancy)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
             }
@@ -85,6 +88,7 @@ namespace BaseOfTalents.WebUI.Controllers
         // PUT api/<controller>/5
         [HttpPut]
         [Route("{id}")]
+        [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.EditVacancy)]
         public IHttpActionResult Put(int id, [FromBody]VacancyDTO vacancy)
         {
             if (!ModelState.IsValid)
@@ -99,10 +103,11 @@ namespace BaseOfTalents.WebUI.Controllers
         // DELETE api/<controller>/5
         [HttpDelete]
         [Route("{id:int}")]
+        [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.RemoveVacancy)]
         public IHttpActionResult Delete(int id)
         {
             try
-            { 
+            {
                 service.Delete(id);
                 return Ok();
             }

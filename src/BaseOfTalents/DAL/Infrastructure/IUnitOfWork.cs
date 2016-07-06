@@ -1,7 +1,4 @@
-﻿using BaseOfTalents.Domain.Entities;
-using DAL.Infrastructure;
-
-namespace BaseOfTalents.DAL.Infrastructure
+﻿namespace DAL.Infrastructure
 {
     public interface IUnitOfWork
     {
@@ -25,7 +22,6 @@ namespace BaseOfTalents.DAL.Infrastructure
         IRoleRepository RoleRepo { get; }
         ISocialNetworkRepository SocialNetworkRepo { get; }
         IStageRepository StageRepo { get; }
-        IPhotoRepository PhotoRepo { get; }
         IPhoneNumberRepository PhoneNumberRepo { get; }
         ICommentRepository CommentRepo { get; }
         ICandidateSocialRepository CandidateSocialRepo { get; }
@@ -34,6 +30,8 @@ namespace BaseOfTalents.DAL.Infrastructure
         IEventRepository EventRepo { get; }
         INoteRepository NoteRepo { get; }
         ICurrencyRepository CurrencyRepo { get; }
+        ISourceRepository SourceRepo { get; }
+
 
         void Commit();
     }

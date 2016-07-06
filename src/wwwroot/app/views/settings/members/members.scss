@@ -12,7 +12,7 @@ ul.members-tab li {
    padding: 0.6rem;
    width: 19%;
    border: 1px solid $border-color;
-   height: 13rem;
+   height: 15rem;
    margin-left: 0.3rem;
 }
 
@@ -23,4 +23,7 @@ ul.members-tab li {
 }
 .accordion-item {
    border-bottom: 1px solid $border-color;
+}
+.close-member-button {
+   float: right;
 }

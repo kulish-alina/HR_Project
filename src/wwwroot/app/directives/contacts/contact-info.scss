@@ -4,11 +4,42 @@
    font-size: $rem-base+1.5;
 }
 .contacts-directive {
-   padding: $rem-base+0.625;
+   padding: $rem-base*0.625;
    width: 100%;
-   background-color: aliceblue;
+   background-color: #E0F3FF;
+   display: flex;
 }
 
+
+.rtl {
+   flex-direction: row-reverse;
+   background-color: $gray-light;
+   .member-photo {
+      margin-left: $rem-base/4;
+   }
+}
+
+.ltr {
+   flex-direction: row;
+}
+.ttb {
+   flex-direction: column;
+   align-items: center;
+   padding-top: $rem-base/2;
+   padding-bottom: $rem-base/2;
+   h3 {
+      margin-top: $rem-base/2;
+      font-size: $rem-base;
+      font-weight: 600;
+      align-content: center;
+   }
+   .skype-div {
+      display: none;
+   }
+   div {
+      line-height: 1;
+   }
+}
 .contacts-socials {
    margin-top: $rem-base+0.625;
 }

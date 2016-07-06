@@ -1,6 +1,6 @@
-﻿using BaseOfTalents.Domain.Entities.Enum.Setup;
+﻿using Domain.Entities.Enum.Setup;
 
-namespace BaseOfTalents.DAL.Mapping
+namespace DAL.Mapping
 {
     public class CityConfiguration : BaseEntityConfiguration<City>
     {
@@ -8,6 +8,7 @@ namespace BaseOfTalents.DAL.Mapping
         {
             Property(l => l.Title).IsRequired();
             HasRequired(l => l.Country).WithMany().HasForeignKey(l => l.CountryId);
+            HasMany(x => x.RelocationPlaces).WithOptional().HasForeignKey(x => x.CityId);
         }
     }
 }

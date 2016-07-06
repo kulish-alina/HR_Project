@@ -15,23 +15,21 @@
    <div class="large-5 grid-content">
       <ul class="main-button-bar">
          <li>
-            <a ui-sref="candidate">
+            <a ng-click="goCandidate()">
                <img src="/app/images/add-user.png">
                <span class="for-large-screen" ng-bind="::'COMMON.ADD_CANDIDATE' | translate"></span>
             </a>
          </li>
          <li>
-            <a ui-sref="vacancyEdit">
+            <a ng-click="goVacancy()">
                <img src="/app/images/add.png">
                <span class="for-large-screen" ng-bind="::'COMMON.ADD_VACANCY' | translate"></span>
             </a>
          </li>
       </ul>
    </div>
-   <div class="large-2 grid-block align-right">
-      <a ui-sref="profile">
-         <img src="/app/images/profile.png">
-         <span class="for-large-screen" ng-bind="::'INDEX.USER_NAME' | translate"></span>
-      </a>
+
+   <div class="large-2 grid-content align-right">
+      <login></login>
    </div>
 </div>

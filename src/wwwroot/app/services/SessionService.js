@@ -1,6 +1,7 @@
 
 import {
-   includes
+   includes,
+   cloneDeep
 } from 'lodash';
 
 let _$state,
@@ -26,10 +27,10 @@ export default class SessionService {
    }
 
    validateAccess(event, toState) {
-      if (toState.name === _stateToRedirect || includes(accessArray, toState.name)) {
+      if (toState.name === _stateToRedirect.name || includes(accessArray, toState.name)) {
          return;
       }
-      _stateToRedirect = toState.name;
+      _stateToRedirect = cloneDeep(toState);
 
       let token = _storageService.get(tokenInfo);
       event.preventDefault();
@@ -45,7 +46,7 @@ export default class SessionService {
             _userService.setCurrentUser(user);
             _loggerService.log('User Authorized');
 
-            return _$state.go(_stateToRedirect);
+            return _$state.go(_stateToRedirect.name, _stateToRedirect.params);
          } else {
             _storageService.remove(tokenInfo);
             _loggerService.log('Outdated session');

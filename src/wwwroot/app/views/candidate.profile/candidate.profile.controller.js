@@ -3,7 +3,8 @@ import {
    set,
    cloneDeep,
    remove,
-   clone
+   clone,
+   find
 } from 'lodash';
 
 export default function CandidateProfileController(

@@ -183,7 +183,7 @@
                               <tr ng-repeat="item in candidate.files">
                                  <td ng-bind="::$index+1"></td>
                                  <td>
-                                    <a href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
+                                    <a target="_blank" href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
                                  </td>
                                  <td ng-bind="item.fileSize"></td>
                                  <td><a class="remove-item" ng-click="addFilesForRemove(item)"><i class="foundicon-remove general-icon"></i></a></td>

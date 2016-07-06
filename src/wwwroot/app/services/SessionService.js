@@ -10,7 +10,7 @@ let _$state,
    _loginService,
    _loggerService;
 
-let _stateToRedirect;
+let _stateToRedirect = {};
 const tokenInfo = 'access_token';
 
 //this is stub till the #237 (access rights for ui routing) is not finished
@@ -27,7 +27,7 @@ export default class SessionService {
    }
 
    validateAccess(event, toState) {
-      if (toState.name === _stateToRedirect.name || includes(accessArray, toState.name)) {
+      if (_stateToRedirect && (toState.name === _stateToRedirect.name) || includes(accessArray, toState.name)) {
          return;
       }
       _stateToRedirect = cloneDeep(toState);

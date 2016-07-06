@@ -3,7 +3,8 @@ import {
    set,
    cloneDeep,
    remove,
-   clone
+   clone,
+   find
 } from 'lodash';
 
 export default function CandidateProfileController(
@@ -139,7 +140,6 @@ export default function CandidateProfileController(
       EventsService.getEventsByCandidate(candidateId).then(events => {
          set(vm, 'candidateEvents', events);
          vm.cloneCandidateEvents  = clone(vm.candidateEvents);
-         console.log('vm.cloneCandidateEvents', vm.cloneCandidateEvents);
       });
    }
    function saveEvent(event) {

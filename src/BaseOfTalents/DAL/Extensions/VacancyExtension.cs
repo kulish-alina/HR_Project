@@ -13,7 +13,7 @@ namespace DAL.Extensions
     {
         public static void UpdateChildWithParent(this Vacancy childVacancy, Vacancy parentVacancy)
         {
-            if (childVacancy.ParentVacancyId != parentVacancy.Id)
+            if (childVacancy.Id!=0 && childVacancy.ParentVacancyId != parentVacancy.Id)
             {
                 throw new Exception("Child vacancy is not a child of specified parent vacancy");
             }
@@ -67,6 +67,7 @@ namespace DAL.Extensions
             destination.DepartmentId = source.DepartmentId;
             destination.ResponsibleId = source.ResponsibleId;
             destination.CurrencyId = source.CurrencyId;
+            destination.ChildVacanciesNumber = source.ChildVacanciesNumber;
 
             PerformLevelsSaving(destination, source, uow.LevelRepo);
             PerformLocationsSaving(destination, source, uow.CityRepo);

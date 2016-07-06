@@ -96,7 +96,7 @@ function _saveNewThesaurusTopics(candidate) {
       if (topicsToSave.length) {
          remove(candidate[helper.clientField], newTopicPattern);
          memo[helper.clientField] = _ThesaurusService.saveThesaurusTopics(helper.thesaurusName, topicsToSave)
-            .then(_addSavedThesaurusesTopicsCurried(candidate, helper.thesaurusName));
+            .then(_addSavedThesaurusesTopicsCurried(candidate, helper.clientField));
       }
       return memo;
    }, {});
@@ -125,11 +125,11 @@ function _convertToClientFormat(candidate) {
 function _convertToServerFormat(candidate) {
    _convertToServerDates(candidate);
    _convertThesaurusToIds(candidate);
-   _deleteReferencedThesaurusObjects(candidate);
    _setStartExperience(candidate);
    _convertRelocationPlacesToBackend(candidate);
    _convertLanguageSkillsToBackend(candidate);
    _convertSocialToBackend(candidate);
+   _deleteReferencedThesaurusObjects(candidate);
    delete candidate.experienceYears;
    delete candidate.experienceMonthes;
    return candidate;

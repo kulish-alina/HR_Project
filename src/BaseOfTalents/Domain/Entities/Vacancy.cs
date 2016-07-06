@@ -33,6 +33,8 @@ namespace Domain.Entities
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+
+        public int? ChildVacanciesNumber { get; set; }
         public virtual ICollection<Vacancy> ChildVacancies { get; set; }
 
         public int? ParentVacancyId { get; set; }

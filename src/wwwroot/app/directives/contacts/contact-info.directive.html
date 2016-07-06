@@ -1,7 +1,7 @@
 <div class="contacts-directive {{direction}}">
    <div class="medium-4 member-photo">
       <img src="/app/images/upload-photo.png" ng-if="!entity.photo">
-      <img ng-src="{{entity.photo.imagePath | botUrl}}" ng-if="entity.photo">
+      <img ng-src="{{entity.photo.filePath | botUrl}}" ng-if="entity.photo">
    </div>
    <div>
       <h3 ng-if="entity.login" ng-bind="::(entity.firstName+' '+entity.lastName)"></h3>

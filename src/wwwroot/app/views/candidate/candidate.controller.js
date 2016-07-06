@@ -1,4 +1,4 @@
-import { set, forEach, remove, chunk, isEmpty, cloneDeep, clone, curry } from 'lodash';
+import { set, forEach, remove, chunk, isEmpty, cloneDeep, clone, find, curry } from 'lodash';
 
 import './candidate.edit.scss';
 
@@ -249,7 +249,6 @@ export default function CandidateController(//eslint-disable-line max-statements
       EventsService.getEventsByCandidate(candidateId).then(events => {
          set(vm, 'candidateEvents', events);
          vm.cloneCandidateEvents  = clone(vm.candidateEvents);
-         console.log('vm.cloneCandidateEvents', vm.cloneCandidateEvents);
       });
    }
    function saveEvent(event) {

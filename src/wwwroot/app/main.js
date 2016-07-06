@@ -46,6 +46,7 @@ import EventsService             from './services/EventsService';
 import NoteService               from './services/NoteService';
 import LocalStorageService       from './services/LocalStorageService';
 import LoginService              from './services/LoginService';
+import SessionService            from './services/SessionService';
 
 import ThesaurusDirective        from './directives/thesaurus/thesaurus';
 import ContactInfoDirective      from './directives/contacts/contact-info';
@@ -60,17 +61,16 @@ import LoginDirective            from './directives/login/login';
 import convertToNumberDirective  from './directives/convertToNumber/convert-to-number';
 import languageSkillsDirective   from './directives/language-skills/language-skills';
 
+import uiMask                    from 'angular-ui-mask';
 
-import uiMask from 'angular-ui-mask';
+import PhoneFormatFilter         from './filters/PhoneFormatFilter';
+import ArrayAsString             from './filters/ArrayAsString';
+import botUrl                    from './filters/botUrl';
 
-import PhoneFormatFilter      from './filters/PhoneFormatFilter';
-import ArrayAsString          from './filters/ArrayAsString';
-import botUrl                 from './filters/botUrl';
+import StateRunner               from './state-runner';
+import AuthRunner                from './runner.auth';
 
-import StateRunner from './state-runner';
-import AuthRunner from './runner.auth';
-
-import authInterceptor from './factories/AuthInterceptor';
+import authInterceptor           from './interceptors/AuthRequestInterceptor';
 
 const dependencies = [
    router,
@@ -107,6 +107,7 @@ angular
    .service('NoteService',         NoteService)
    .service('LocalStorageService', LocalStorageService)
    .service('LoginService',        LoginService)
+   .service('SessionService',       SessionService)
 
 
    .directive('thesaurus',        ThesaurusDirective.createInstance)

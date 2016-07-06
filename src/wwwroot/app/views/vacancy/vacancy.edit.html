@@ -74,12 +74,12 @@
                            <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
                         </select>
                         <div class="grid-block">
-                           <div class="medium-6 grid-block">
-                              <input id="masterVacancy" type="checkbox" ng-model="vacancy.masterVacancy" value="true">
+                           <div ng-if="vacancy.childVacanciesIds.length" class="medium-6 grid-block">
+                              <input disabled="disabled" id="masterVacancy" type="checkbox"  checked="checked">
                               <label for="masterVacancy" ng-bind="::'COMMON.MASTER_VACANCY' | translate"></label>
                            </div>
                            <div class="medium-6 grid-block">
-                              <input ng-disabled="!vacancy.masterVacancy" ng-model="vacancy.countOfChildrenVacancies" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
+                              <input ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
                            </div>
                         </div>
                      </fieldset>
@@ -130,7 +130,7 @@
                               <tr ng-repeat="item in vacancy.files">
                                  <td>{{$index+1}}</td>
                                  <td>
-                                    <a href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
+                                    <a target="_blank" href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
                                  </td>
                                  <td ng-bind="item.fileSize"></td>
                                  <td><a class="remove-item" ng-click="addFilesForRemove(item)"><i class="foundicon-remove general-icon"></i></a></td>

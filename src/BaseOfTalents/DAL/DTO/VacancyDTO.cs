@@ -27,6 +27,7 @@ namespace DAL.DTO
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
+        public bool AddDeadlineToCalendar { get; set; }
 
         public IEnumerable<int> LevelIds { get; set; }
         public IEnumerable<int> CityIds { get; set; }

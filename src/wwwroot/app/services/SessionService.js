@@ -27,33 +27,42 @@ export default class SessionService {
    }
 
    validateAccess(event, toState) {
-      if (_stateToRedirect && (toState.name === _stateToRedirect.name) || includes(accessArray, toState.name)) {
+      if (_stateToRedirect && (toState.name === _stateToRedirect.name) ||
+         includes(accessArray, toState.name)) {
          return;
       }
-      _stateToRedirect = cloneDeep(toState);
 
-      let token = _storageService.get(tokenInfo);
-      event.preventDefault();
+      if (_userService.getCurrentUser().login) {
+         _loggerService.log('There is a user');
+         return;
+      } else {
+         _loggerService.log('No user!');
+         _stateToRedirect = cloneDeep(toState);
+         event.preventDefault();
+         let authorized = isAuthorized();
 
-      if (!token) {
-         return _$state.go('login');
-      }
+         if (authorized) {
+            let token = getJwt();
+            _loggerService.log(`Authorized with jwt ${token}`);
+            _loginService.getUser(token).then(result => {
+               _loggerService.log('User', result);
+               if (result.login) {
+                  _userService.setCurrentUser(result);
+                  _loggerService.log('User Authorized');
 
-      let user = {};
-      _loginService.getUser(token).then(result => {
-         user = result;
-         if (user.login) {
-            _userService.setCurrentUser(user);
-            _loggerService.log('User Authorized');
+                  return _$state.go(_stateToRedirect.name, _stateToRedirect.params);
+               } else {
+                  _storageService.remove(tokenInfo);
+                  _loggerService.log('Outdated session');
 
-            return _$state.go(_stateToRedirect.name, _stateToRedirect.params);
+                  return _$state.go('login');
+               }
+            });
          } else {
-            _storageService.remove(tokenInfo);
-            _loggerService.log('Outdated session');
-
+            _loggerService.log('Non authorized!!!');
             return _$state.go('login');
          }
-      });
+      }
    }
 
    getStateToRedirect() {
@@ -61,6 +70,13 @@ export default class SessionService {
    }
 }
 
-// function isAuthenticated() {
-//    return _storageService.get(tokenInfo);
-// }
+
+function isAuthorized() {
+   let token = getJwt();
+   _loggerService.log(`JWT! ${token}`);
+   return token !== undefined && token !== null && token !== '';
+}
+
+function getJwt() {
+   return _storageService.get(tokenInfo);
+}

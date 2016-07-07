@@ -28,13 +28,11 @@ export default function CandidatesController(
    vm.cancel            = cancel;
    vm.thesaurus         = [];
    vm.searchCandidates  = searchCandidates;
+   vm.candidate         = {};
    vm.candidate.current = 0;
    vm.candidate.size    = 20;
    vm.candidateTotal    = 0;
    vm.pageChanged       = pageChanged;
-   vm.candidate         = {};
-   vm.candidate.current = 0;
-   vm.candidate.size    = 20;
 
    vm.slider = {
       min: 21,
@@ -52,8 +50,8 @@ export default function CandidatesController(
    (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
-      vm.candidates        = LocalStorageService.get('candidates') || [];
-      vm.candidate         = LocalStorageService.get('candidate') || {};
+      vm.candidates = LocalStorageService.get('candidates') || [];
+      vm.candidate = LocalStorageService.get('candidate') || {};
       $element.on('$destroy', _setToStorage);
       $window.onbeforeunload = _setToStorage;
    }());

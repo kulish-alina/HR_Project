@@ -70,6 +70,7 @@ export default function CandidatesController(
       CandidateService.search(vm.candidate).then(response => {
          vm.total = response.total;
          vm.candidates = response.candidate;
+         _setToStorage();
          _initPagination();
       }).catch(_onError);
    }

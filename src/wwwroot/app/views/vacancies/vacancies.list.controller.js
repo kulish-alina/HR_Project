@@ -33,19 +33,11 @@ export default function VacanciesController(
    vm.searchVacancies  = searchVacancies;
    vm.vacancy          = LocalStorageService.get('vacancy') || {};
    vm.vacancies        = LocalStorageService.get('vacancies') || [];
-   vm.total            = 0;
+   vm.vacancyTotal     = 0;
    vm.vacancy.current  = 0;
    vm.vacancy.size     = 20;
    vm.pagination       = { current: 0 };
    vm.pageChanged      = pageChanged;
-
-   function pageChanged(newPage) {
-      vm.vacancy.current = newPage;
-      VacancyService.search(vm.vacancy).then(response => {
-         vm.total = response.total;
-         vm.vacancies = response.vacancies;
-      }).catch(_onError);
-   };
 
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
@@ -55,9 +47,14 @@ export default function VacanciesController(
       $window.onbeforeunload = _setToStorage;
    }());
 
+   function pageChanged(newPage) {
+      vm.vacancy.current = newPage - 1;
+      searchVacancies();
+   };
+
    function searchVacancies() {
       VacancyService.search(vm.vacancy).then(response => {
-         vm.total = response.total;
+         vm.vacancyTotal = response.total;
          vm.vacancies = response.vacancies;
       }).catch(_onError);
    }

@@ -29,7 +29,10 @@ export default function CandidatesController(
    vm.thesaurus         = [];
    vm.searchCandidates  = searchCandidates;
    vm.candidates        = LocalStorageService.get('candidates') || [];
-   vm.total             = 0;
+   vm.candidate         = LocalStorageService.get('candidate') || {};
+   vm.candidate.current = 0;
+   vm.candidate.size    = 20;
+   vm.candidateTotal    = 0;
    vm.pagination        = { current: 0 };
    vm.pageChanged       = pageChanged;
    vm.slider = {
@@ -47,31 +50,20 @@ export default function CandidatesController(
 
    (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-      _initPagination();
       $element.on('$destroy', _setToStorage);
       $window.onbeforeunload = _setToStorage;
    }());
 
-   function _initPagination() {
-      vm.candidate = LocalStorageService.get('candidate') || {};
-      vm.candidate.current = 0;
-      vm.candidate.size    = 20;
-   }
-
    function pageChanged(newPage) {
-      vm.candidate.current = newPage;
-      CandidateService.search(vm.candidate).then(response => {
-         vm.total = response.total;
-         vm.candidates = response.candidate;
-      }).catch(_onError);
+      vm.candidate.current = newPage - 1;
+      searchCandidates();
    };
 
    function searchCandidates() {
       CandidateService.search(vm.candidate).then(response => {
-         vm.total = response.total;
+         vm.candidateTotal = response.total;
          vm.candidates = response.candidate;
          _setToStorage();
-         _initPagination();
       }).catch(_onError);
    }
 

@@ -126,22 +126,22 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr dir-paginate="candidate in candidates | itemsPerPage: candidate.size" total-items="total" current-page="pagination.current">
-                        <th>
+                     <tr dir-paginate="c in candidates.candidate | itemsPerPage: candidate.size" total-items="candidates.total" current-page="candidate.current">
+                          <th>
                            <input id="checkbox9" type="checkbox">
                         </th>
                         <td>
-                           <a ng-click="viewCandidate(candidate)" ng-bind="::(candidate.lastName+' '+candidate.firstName)"></a>
+                           <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
                         </td>
-                        <td ng-bind="::candidate.industry | arrayAsString: 'title'"></td>
-                        <td ng-bind="::candidate.mainSource | arrayAsString: 'title'"></td>
-                        <td ng-bind="::candidate.positionDesired"></td>
-                        <td ng-bind="::candidate.salaryDesired"></td>
-                        <td ng-bind="::candidate.createdOn"></td>
+                        <td ng-bind="::c.industry | arrayAsString: 'title'"></td>
+                        <td ng-bind="::c.mainSource | arrayAsString: 'title'"></td>
+                        <td ng-bind="::c.positionDesired"></td>
+                        <td ng-bind="::c.salaryDesired"></td>
+                        <td ng-bind="::c.createdOn"></td>
                         <td>
-                           <a ng-click="deleteCandidate(candidate.id)"><i class="foundicon-trash general-icon"></i>
+                           <a ng-click="deleteCandidate(c.id)"><i class="foundicon-trash general-icon"></i>
                         </a>
-                           <a ng-click="editCandidate(candidate)"><i class="foundicon-edit general-icon"></i>
+                           <a ng-click="editCandidate(c)"><i class="foundicon-edit general-icon"></i>
                         </a>
                         </td>
                      </tr>

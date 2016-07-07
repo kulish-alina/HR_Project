@@ -28,10 +28,11 @@ export default function CandidatesController(
    vm.cancel            = cancel;
    vm.thesaurus         = [];
    vm.searchCandidates  = searchCandidates;
-   vm.candidates        = LocalStorageService.get('candidates') || [];
-   vm.total             = 0;
-   vm.pagination        = { current: 0 };
    vm.pageChanged       = pageChanged;
+   vm.candidate         = {};
+   vm.candidate.current = 0;
+   vm.candidate.size    = 20;
+
    vm.slider = {
       min: 21,
       max: 45,
@@ -46,32 +47,22 @@ export default function CandidatesController(
    };
 
    (function _initData() {
-      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-      _initPagination();
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
+         .then(topics => set(vm, 'thesaurus', topics));
+      vm.candidates        = LocalStorageService.get('candidates') || [];
+      vm.candidate         = LocalStorageService.get('candidate') || {};
       $element.on('$destroy', _setToStorage);
       $window.onbeforeunload = _setToStorage;
    }());
 
-   function _initPagination() {
-      vm.candidate = LocalStorageService.get('candidate') || {};
-      vm.candidate.current = 0;
-      vm.candidate.size    = 20;
-   }
-
    function pageChanged(newPage) {
       vm.candidate.current = newPage;
-      CandidateService.search(vm.candidate).then(response => {
-         vm.total = response.total;
-         vm.candidates = response.candidate;
-      }).catch(_onError);
+      searchCandidates();
    };
 
    function searchCandidates() {
       CandidateService.search(vm.candidate).then(response => {
-         vm.total = response.total;
-         vm.candidates = response.candidate;
-         _setToStorage();
-         _initPagination();
+         vm.candidates = response;
       }).catch(_onError);
    }
 
@@ -90,9 +81,9 @@ export default function CandidatesController(
    function deleteCandidate(candidateId) {
       UserDialogService.confirm($translate.instant('DIALOG_SERVICE.CANDIDATE_REMOVING_DIALOG')).then(() => {
          let predicate = {id: candidateId};
-         let candidateForRemove = find(vm.candidates, predicate);
+         let candidateForRemove = find(vm.candidates.candidate, predicate);
          CandidateService.deleteCandidate(candidateForRemove).then(() => {
-            remove(vm.candidates, predicate);
+            remove(vm.candidates.candidate, predicate);
             UserDialogService.notification
             ($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING_CANDIDATE'), 'success');
          });

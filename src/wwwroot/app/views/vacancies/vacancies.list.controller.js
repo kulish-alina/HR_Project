@@ -55,11 +55,6 @@ export default function VacanciesController(
       }).catch(_onError);
    }
 
-   function pageChanged(newPage) {
-      vm.vacancy.current = newPage;
-      searchVacancies();
-   };
-
    function getVacancy(vacancyId) {
       VacancyService.getVacancy(vacancyId).then(value => {
          vm.vacancies.push(value);

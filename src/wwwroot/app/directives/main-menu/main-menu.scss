@@ -1,0 +1,79 @@
+@import './../../common.scss';
+
+.main-menu {
+   min-height: $rem-base*3.125;
+   max-height: $rem-base*3.125;
+   background-color: $menubar-background;
+   padding-left: $global-padding/2;
+   padding-right: $global-padding/2;
+   padding-bottom: 0;
+   padding-top: 0;
+   display: flex;
+   align-items: center;
+}
+.main-button-bar {
+   @extend %menu-bar;
+   @include menu-bar-align($align: center);
+   @include menu-bar-icons ($position: left);
+   @include menu-bar-layout(
+      $orientation: horizontal,
+      $stretch: false
+   );
+
+   @include menu-bar-style(
+      $background: $menubar-background,
+      $background-hover: $menubar-background,
+      $background-active: $menubar-background,
+      $color: $body-background,
+      $color-hover: $body-background,
+      $color-active: $body-background
+   );
+   li {
+      a {
+         flex-flow: inherit;
+      }
+   }
+   i {
+      font-size: $rem-base*0.6;
+   }
+}
+
+.main-button-bar :hover {
+   box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
+}
+.menu-img {
+   width: $rem-base*3.125;
+}
+.search-input {
+   margin-bottom: 0 !important;
+}
+input[type="search"] {
+   height: inherit;
+}
+
+.for-large-screen {
+   @include breakpoint(medium only) {
+     display: none;
+   }
+   @include breakpoint(small only) {
+     display: none;
+   }
+}
+.for-small-screen {
+   @include breakpoint(large only) {
+     display: none;
+   }
+}
+.search-button {
+   @extend %button;
+   height: inherit;
+   color: $body-background;
+   background-color: $primary-color;
+   padding-top: $rem-base*0.625;
+   padding-bottom: $rem-base*0.625;
+}
+.logo {
+   @include breakpoint(small only) {
+     display: none;
+   }
+}

@@ -1,0 +1,14 @@
+<div>
+   <a ng-if="!currentUser.login" ng-click="showLoginForm()">
+      <img class="logo" src="/app/images/profile.svg">
+      <span class="for-large-screen" ng-bind="::'INDEX.USER_NAME' | translate"></span>
+   </a>
+
+   <div ng-if="currentUser.login">
+      <a ui-sref="profile" class="user-pic" ng-click="redirect()">
+         <img class="logo" src="/app/images/profile.svg">
+         <span class="for-large-screen" ng-bind="currentUser.login"></span>
+      </a>
+      <a href="#" ng-click="logout()" class="logout"><img src="/app/images/logout.svg"></a>
+   </div>
+</div>

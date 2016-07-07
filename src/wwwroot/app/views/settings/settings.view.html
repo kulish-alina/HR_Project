@@ -1,0 +1,37 @@
+<div class="secondary-menu grid-block">
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5 ng-bind="::('SETTINGS.SETTINGS' | translate)"></h5>
+      </div>
+   </div>
+   <div class="large-7 grid-block">
+      <ul class="menu-bar second-button-bar">
+         <li>
+            <a ui-sref="profile" ng-bind="::('SETTINGS.PROFILE' | translate)"></a>
+         </li>
+         <li>
+            <a ui-sref="members" ng-bind="::('SETTINGS.MEMBERS' | translate)"></a>
+         </li>
+         <li>
+            <a ui-sref="roles" ng-bind="::('SETTINGS.ROLES' | translate)"></a>
+         </li>
+         <li>
+            <a ui-sref="thesauruses" ng-bind="::('SETTINGS.RECRUITING' | translate)"></a>
+         </li>
+      </ul>
+   </div>
+   <div class="large-3 grid-block align-right">
+      <ul class="menu-bar second-button-bar align-right">
+         <li ng-if="$state.current.data.asEdit" class="secondary-menu-button">
+            <a ng-click="cancel()"ng-bind="::('COMMON.CANCEL' | translate)"></a>
+         </li>
+         <li ng-if="$state.current.data.asEdit" class="secondary-menu-button">
+            <a ng-click="submit()" id="_onSubmit" ng-bind="::('COMMON.SUBMIT' | translate)"></a>
+         </li>
+         <li ng-if="!$state.current.data.asEdit" class="secondary-menu-button">
+            <a ng-click="edit()" ng-bind="::('COMMON.EDIT' | translate)"></a>
+         </li>
+      </ul>
+   </div>
+</div>
+<div ui-view class="vertical grid-block"></div>

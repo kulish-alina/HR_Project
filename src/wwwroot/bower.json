@@ -1,0 +1,30 @@
+{
+  "name": "bot",
+  "description": "base of talents",
+  "directory": "bower_components",
+  "authors": [
+    "isd"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/kulish-alina/HR_Project",
+  "moduleType": [
+    "es6"
+  ],
+  "dependencies": {
+    "foundation-apps": ">=1.2",
+    "foundation-icons": "*",
+    "textAngular": "^1.5.0",
+    "foundation-icon-fonts": "*",
+    "angular-srph-age-filter": "^0.0.1"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "resolutions": {
+    "angular": "^1.0.8"
+  }
+}

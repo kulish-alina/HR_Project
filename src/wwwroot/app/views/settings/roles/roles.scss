@@ -1,0 +1,65 @@
+@import "../../../common.scss";
+.tabs {
+   @include tabstrip(
+      $orientation: vertical
+   );
+   @include tabstrip-item(
+	$background: $body-background,
+	$background-hover: $body-background,
+	$background-active: $body-background,
+	$color: $tab-title-color,
+	$color-active: $tab-title-color-active,
+	$padding: 0);
+   width: 100%;
+}
+.tabs-container {
+   width: 100%;
+}
+.tab-item {
+   height: $rem-base*8;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: $body-background !important;
+   border: 1px solid $border-color;
+   position: relative;
+}
+.tab-contents {
+   width: 100%;
+   padding: 0;
+   border: 1px solid $border-color;
+}
+.roles-table {
+   margin-top: 0;
+   margin-left: 0;
+}
+.tab-item.is-active {
+   box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
+   font-weight: 600;
+}
+ul.roles-tab {
+   width: 100%;
+   margin-top: -4px;
+}
+ul.roles-tab li {
+   display: inline-block;
+   list-style: none;
+   text-align: left;
+   vertical-align: text-top;
+   padding: 0.6rem;
+   width: 32.8%;
+   border: 1px solid $border-color;
+   height: 13rem;
+   margin-left: 0.3rem;
+}
+.roles-close-button {
+   position: absolute;
+   top: 1rem;
+   right: 1rem;
+   font-size: 1.5em;
+   line-height: 0.5;
+   cursor: pointer;
+}
+.role-header {
+   padding-bottom: 0.5rem;
+}

@@ -1,0 +1,217 @@
+<div class="secondary-menu grid-block">
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5 ng-bind="::'COMMON.ADD_VACANCY' | translate"></h5>
+      </div>
+   </div>
+   <div class="large-7 grid-block">
+   </div>
+   <div class="large-3 grid-block align-right">
+      <ul class="menu-bar second-button-bar">
+         <li>
+            <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+         </li>
+         <li>
+            <a ng-click="saveVacancy($event, Vacancy)" ng-bind="::'COMMON.SUBMIT' | translate"></a>
+         </li>
+      </ul>
+   </div>
+</div>
+<div class="grid-block">
+   <div class="medium-9 grid-block">
+      <div class="main-card">
+         <div class="card-divider" ng-bind="::'VACANCY.NEW_VACANCY' | translate">
+         </div>
+         <div class="card-section">
+            <form name="Vacancy">
+               <div class="grid-block">
+                  <div class="medium-4 grid-block">
+                     <fieldset>
+                        <input name="Title" ng-model="vacancy.title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, minlength=3, maxlength=50">
+                        <select name="Industry" ng-model="vacancy.industryId" validator="required">
+                           <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
+                           <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
+                        </select>
+                        <div class="grid-block">
+                           <div class="medium-6 grid-block">
+                              <select name="Language" ng-model="vacancy.languageSkill.languageId">
+                                 <option selected value="" ng-bind="::'COMMON.LANGUAGE' | translate"></option>
+                                 <option ng-repeat="language in thesaurus.language" value="{{language.id}}" ng-bind="language.title"></option>
+                              </select>
+                           </div>
+                           <div class="medium-6 grid-block">
+                              <select ng-disabled="!vacancy.languageSkill.languageId" name="LanguageLevel" ng-model="vacancy.languageSkill.languageLevel">
+                                 <option selected value="" ng-bind="::'COMMON.LEVEL' | translate"></option>
+                                 <option ng-repeat="languageLevel in thesaurus.languageLevel" value="{{languageLevel.id}}" ng-bind="languageLevel.title"></option>
+                              </select>
+                           </div>
+                        </div>
+                        <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                     </fieldset>
+                  </div>
+                  <div class="medium-4 grid-block">
+                     <fieldset>
+                        <select name="Responsible" ng-model="vacancy.responsibleId" validator="required">
+                           <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
+                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
+                        </select>
+                        <select name="Department" ng-model="vacancy.departmentId" validator="required">
+                           <option selected value="" ng-bind="::'COMMON.DEPARTMENT' | translate"></option>
+                           <option ng-repeat="department in thesaurus.department" value="{{department.id}}" ng-bind="department.title">
+                           </option>
+                        </select>
+                        <div class="grid-block">
+                           <div class="medium-6 grid-block">
+                              <input ng-model="vacancy.salaryMin" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="number" min="0" step="50">
+                           </div>
+                           <div class="medium-6 grid-block">
+                              <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="number" min="{{vacancy.salaryMin}}" step="50">
+                           </div>
+                        </div>
+                        <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
+                           <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
+                           <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
+                        </select>
+                        <div class="grid-block">
+                           <div ng-if="vacancy.childVacanciesIds.length" class="medium-6 grid-block">
+                              <input disabled="disabled" id="masterVacancy" type="checkbox"  checked="checked">
+                              <label for="masterVacancy" ng-bind="::'COMMON.MASTER_VACANCY' | translate"></label>
+                           </div>
+                           <div class="medium-6 grid-block">
+                              <input ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
+                           </div>
+                        </div>
+                     </fieldset>
+                  </div>
+                  <div class="medium-4 grid-block">
+                     <fieldset>
+                        <select name="Status" ng-model="vacancy.state">
+                           <option selected value="" ng-bind="::'COMMON.STATUS' | translate"></option>
+                           <option selected value="5" ng-bind="::'VACANCY.OPEN' | translate"></option>
+                           <option selected value="6" ng-bind="::'VACANCY.PROCESSING' | translate"></option>
+                           <option selected value="7" ng-bind="::'VACANCY.CLOSED' | translate"></option>
+                           <option selected value="8" ng-bind="::'VACANCY.CANCELLED' | translate"></option>
+                        </select>
+                        <input placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input  placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input ng-model="vacancy.deadlineToCalendar" value="true" id="DeadlineToCalendar" type="checkbox">
+                        <label for="DeadlineToCalendar" ng-bind="::'COMMON.ADD_DEADLINE_TO_CALENDAR' | translate"></label>
+                     </fieldset>
+                  </div>
+               </div>
+               <fieldset>
+                  <div class="grid-block">
+                     <div class="medium-6 grid-block">
+                        <oi-select class="multiple-select" oi-options="skill.title for skill in thesaurus.skill" ng-model="vacancy.requiredSkills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}"></oi-select>
+                     </div>
+                     <div class="medium-6 grid-block">
+                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tag" ng-model="vacancy.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
+                     </div>
+                  </div>
+                  <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
+               </fieldset>
+               <div class="grid-block">
+                  <div class="medium-6 grid-block">
+                     <fieldset>
+                        <input id="file-upload" type="file" nv-file-select="" multiple uploader="uploader">
+                        <table class="upload-table" ng-hide="!vacancy.files.length">
+                           <caption ng-bind="::'COMMON.ADDED_FILES' | translate">:</caption>
+                           <thead>
+                              <tr>
+                                 <th>№</th>
+                                 <th ng-bind="::'COMMON.NAME' | translate"></th>
+                                 <th ng-bind="::'COMMON.SIZE' | translate"></th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="item in vacancy.files">
+                                 <td>{{$index+1}}</td>
+                                 <td>
+                                    <a target="_blank" href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
+                                 </td>
+                                 <td ng-bind="item.fileSize"></td>
+                                 <td><a class="remove-item" ng-click="addFilesForRemove(item)"><i class="foundicon-remove general-icon"></i></a></td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <table class="upload-table" ng-hide="isFilesUploaded">
+                           <caption ng-bind="::'COMMON.FILES_TO_UPLOAD' | translate">:</caption>
+                           <thead>
+                              <tr>
+                                 <th>№</th>
+                                 <th ng-bind="::'COMMON.NAME' | translate"></th>
+                                 <th ng-bind="::'COMMON.SIZE' | translate"></th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr ng-repeat="item in uploader.queue">
+                                 <td>{{$index+1}}</td>
+                                 <td ng-bind="item.file.name"></td>
+                                 <td ng-bind="item.file.size"></td>
+                                 <td><a class="remove-item" ng-click="item.remove()"><i class="foundicon-remove general-icon"></i></a></td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </fieldset>
+                  </div>
+                  <div class="medium-6 grid-block"></div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div class="medium-3 grid-block vertical-sidebar">
+      <div class="vertical medium-horizontal grid-block">
+         <div class="sidebar">
+            <div class="card-divider" ng-bind="::'CANDIDATES.CANDIDATES' | translate">
+            </div>
+            <div class="sidebar-content">
+               <ul class="some-change">
+                  <li>
+                     <input name="newCandidate" id="newCandidate" checked="" type="radio" ui-sref="candidate">
+                     <label for="newCandidate" ng-bind="::'COMMON.NEW' | translate"></label>
+                  </li>
+                  <li>
+                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ui-sref="candidates">
+                     <label for="candidateFromBOT" ng-bind="::'COMMON.FROM_BOT' | translate"></label>
+                  </li>
+               </ul>
+               <section class="block-list">
+                  <ul class="candidates">
+                     <li>
+                        <div class="grid-block sidebar-row">
+                           <div class="medium-5 grid-block ">
+                              <a class="sidebar-col" href="#">Antonov Anton</a>
+                           </div>
+                           <div class="medium-7 grid-block">
+                              <select name="Candidate stage" id="">
+                                 <option ng-repeat="stage in thesaurus.stages" value="" ng-bind="stage.title"></option>
+                              </select>
+                           </div>
+                        </div>
+                     </li>
+                     <li>
+                        <div class="grid-block sidebar-row">
+                           <div class="medium-5 grid-block">
+                              <a class="sidebar-col" href="#">Petrova Margarita</a>
+                           </div>
+                           <div class="medium-7 grid-block">
+                              <select name="Candidate stage" id="">
+                                 <option ng-repeat="stage in thesaurus.stages" value="" ng-bind="stage.title"></option>
+                              </select>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </section>
+            </div>
+         </div>
+         <div class="sidebar">
+            <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>
+         </div>
+      </div>
+   </div>

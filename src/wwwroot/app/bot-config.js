@@ -90,6 +90,10 @@ export default function _config(
          url: '/candidate',
          template: candidateTemplate,
          controller: candidateController,
+         params: {
+            _data: null,
+            candidateId: null
+         },
          parent: 'candidates',
          data: { hide: true }
       })

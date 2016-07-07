@@ -25,6 +25,7 @@ namespace Domain.Entities
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
+        public bool DeadlineToCalendar { get; set; }
 
         public virtual ICollection<Level> Levels { get; set; }
         public virtual ICollection<City> Cities { get; set; }
@@ -33,6 +34,8 @@ namespace Domain.Entities
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+
+        public int? ChildVacanciesNumber { get; set; }
         public virtual ICollection<Vacancy> ChildVacancies { get; set; }
 
         public int? ParentVacancyId { get; set; }

@@ -1,4 +1,4 @@
-<div ui-view></div>
+<div ui-view="candidates"></div>
 <div ng-hide="$state.current.data.hide">
    <div class="secondary-menu grid-block">
       <div class="large-2 grid-block">
@@ -100,9 +100,7 @@
                      </select>
                   </div>
                </div>
-               <div class="grid-block">
-                  <!--TODO: add input for language and languageLevel-->
-               </div>
+               <language-skills selectedSkills="candidate.convertedLanguageSkills"></language-skills>
                <a class="expand button" ng-click="searchCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
             </div>
          </div>

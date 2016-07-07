@@ -1,9 +1,11 @@
-import { set, forEach, remove, chunk, isEmpty, cloneDeep, clone } from 'lodash';
+import { set, forEach, remove, chunk, isEmpty, cloneDeep, clone, find, curry } from 'lodash';
 
 import './candidate.edit.scss';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel', 'source',
     'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork'];
+
+let curriedSet = curry(set, 3);
 
 export default function CandidateController(//eslint-disable-line max-statements
    $q,
@@ -25,7 +27,6 @@ export default function CandidateController(//eslint-disable-line max-statements
    vm.keys           = Object.keys;
    vm.candidate      = vm.candidate || {};
    vm.thesaurus      = {};
-   vm.languages      = [];
    vm.locations      = [];
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
@@ -42,9 +43,10 @@ export default function CandidateController(//eslint-disable-line max-statements
    vm.clear                   = clear;
 
    (function _init() {
-      _initThesauruses();
+      _initThesauruses()
+         .then(_initCandidate)
+         .then(_initLocations);
       _initUploaders();
-      _initCandidate();
    }());
 
    function clearUploaderQueue(uploader, name) {
@@ -54,44 +56,37 @@ export default function CandidateController(//eslint-disable-line max-statements
 
    function _onError(message) {
       LoggerService.error(message);
+      UserDialogService.notification(message);
    }
 
    function _initThesauruses() {
-      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
-         .then(data => vm.thesaurus = data)
-         .then(_initLanguages)
-         .then(_initLocations)
-         .then(() => _addEmptySocials());
+      return ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(curriedSet(vm, 'thesaurus'));
+   }
+
+   function _getCandidate() {
+      if ($state.params._data) {
+         return $q.when($state.params._data);
+      } else if ($state.params.candidateId) {
+         return CandidateService.getCandidate($state.params.candidateId);
+      } else {
+         return $q.when({});
+      }
+   }
+
+   function _setCandidateProperties(candidate) {
+      candidate.skills     = candidate.skills || [];
+      candidate.tags       = candidate.tags || [];
+      candidate.files      = candidate.files || [];
+      candidate.languageSkills   = candidate.languageSkills || [];
+      candidate.convertedSocials = candidate.convertedSocials || [];
+      _addAdditionProperties(candidate);
+      return candidate;
    }
 
    function _initCandidate() {
-      if ($state.params._data) {
-         vm.candidate = $state.params._data;
-         vm.candidate.skills = $state.params._data.skills;
-         vm.candidate.tags = $state.params._data.tags;
-         vm.candidate.files = $state.params._data.files;
-         vm.candidate.languageSkills = $state.params._data.languageSkills;
-         vm.candidate.convertedSocials = $state.params._data.convertedSocials || [];
-         _initPhones();
-      } else if ($state.params.candidateId) {
-         CandidateService.getCandidate($state.params.candidateId).then(candidate => {
-            set(vm, 'candidate', candidate);
-            vm.candidate.skills     = vm.candidate.skills || [];
-            vm.candidate.tags       = vm.candidate.tags || [];
-            vm.candidate.files      = vm.candidate.files || [];
-            vm.candidate.languageSkills = vm.candidate.languageSkills || [];
-            vm.candidate.convertedSocials = vm.candidate.convertedSocials || [];
-            _initPhones();
-         });
-      } else {
-         vm.candidate = {};
-         vm.candidate.skills     = [];
-         vm.candidate.tags       = [];
-         vm.candidate.files      = [];
-         vm.candidate.languageSkills = [];
-         vm.candidate.convertedSocials = [];
-         _initPhones();
-      }
+      _getCandidate()
+         .then(curriedSet(vm, 'candidate'))
+         .then(() => _setCandidateProperties(vm.candidate));
    }
 
    function _initUploaders() {
@@ -144,8 +139,9 @@ export default function CandidateController(//eslint-disable-line max-statements
       vm.filesUploader = uploader;
    }
 
-   function _deleteEmptyPhoneNumber() {
-      remove(vm.candidate.phoneNumbers, phone => isEmpty(phone.number));
+   function _deleteEmptyPhoneNumber(candidate) {
+      remove(candidate.phoneNumbers, phone => isEmpty(phone.number));
+      return candidate;
    }
 
    function saveCandidate(form) {
@@ -165,13 +161,11 @@ export default function CandidateController(//eslint-disable-line max-statements
    function _saveCandidate() {
       let memo = vm.candidate.comments;
       vm.candidate.comments = vm.comments;
-      _deleteEmptyPhoneNumber();
-      _removeEmptySocials();
+      _deleteAdditionProperties(vm.candidate);
       CandidateService.saveCandidate(vm.candidate)
+         .then(curriedSet(vm, 'candidate'))
+         .then(() => _addAdditionProperties(vm.candidate))
          .then(entity => {
-            set(vm, 'candidate', entity);
-            _addEmptySocials();
-            _initPhones();
             vm.comments = cloneDeep(vm.candidate.comments);
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
             return entity;
@@ -183,48 +177,51 @@ export default function CandidateController(//eslint-disable-line max-statements
          });
    }
 
-   function _initLanguages(thesauruses) {
-      forEach(thesauruses.language, language => {
-         vm.languages.push({language});
-         forEach(thesauruses.languageLevel, languageLevel => {
-            vm.languages.push({language, languageLevel});
-         });
-      });
-      return thesauruses;
+   function _addAdditionProperties(candidate) {
+      _addEmptySocials(candidate);
+      _groupSocials(3);
+      _initPhones(candidate);
+      return candidate;
    }
 
-   function _initLocations(thesauruses) {
-      forEach(thesauruses.country, country => {
+   function _deleteAdditionProperties(candidate) {
+      _deleteEmptyPhoneNumber(candidate);
+      _deleteEmptySocials(candidate);
+   }
+
+   function _initLocations() {
+      forEach(vm.thesaurus.country, country => {
          vm.locations.push({country});
       });
-      forEach(thesauruses.city, city => {
+      forEach(vm.thesaurus.city, city => {
          vm.locations.push({country : city.countryObject, city});
       });
-      return thesauruses;
    }
 
-   function _addEmptySocials() {
+   function _addEmptySocials(candidate) {
       forEach(vm.thesaurus.socialNetwork, social => {
          let candidateSocial = find(vm.candidate.socialNetworks,
             _candidateSocial => _candidateSocial.socialNetworkId === social.id);
          if (!candidateSocial) {
-            vm.candidate.convertedSocials.push({socialNetwork : social});
+            candidate.convertedSocials.push({socialNetwork : social});
          }
       });
-      _groupSocials(3);
+      return candidate;
    }
 
-   function _removeEmptySocials() {
-      remove(vm.candidate.convertedSocials, social => !social.path);
+   function _deleteEmptySocials(candidate) {
+      remove(candidate.convertedSocials, social => !social.path);
+      return candidate;
    }
 
    function _groupSocials(chunkSize) {
       vm.socialGroups = chunk(vm.candidate.convertedSocials, chunkSize);
    }
 
-   function _initPhones() {
-      vm.candidate.phoneNumbers = vm.candidate.phoneNumbers || [];
-      vm.candidate.phoneNumbers.push({});
+   function _initPhones(candidate) {
+      candidate.phoneNumbers = candidate.phoneNumbers || [];
+      candidate.phoneNumbers.push({});
+      return candidate;
    }
 
    function saveComment(comment) {
@@ -252,7 +249,6 @@ export default function CandidateController(//eslint-disable-line max-statements
       EventsService.getEventsByCandidate(candidateId).then(events => {
          set(vm, 'candidateEvents', events);
          vm.cloneCandidateEvents  = clone(vm.candidateEvents);
-         console.log('vm.cloneCandidateEvents', vm.cloneCandidateEvents);
       });
    }
    function saveEvent(event) {

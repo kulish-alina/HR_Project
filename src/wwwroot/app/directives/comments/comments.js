@@ -38,7 +38,7 @@ function CommentsController($scope, $translate) {
 
    function removeComment(comment) {
       comment.isForRemoved = true;
-      vm.remove(comment);
+      vm.remove(comment).catch(() => comment.isForRemoved = false);
    }
 
    function editComment(comment) {

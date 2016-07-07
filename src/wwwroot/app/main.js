@@ -27,48 +27,50 @@ import './directives/datepickerwrapper/angularjs-datetime-picker.scss';
 import './ta';
 import './main.scss';
 
-import config                 from './bot-config';
-import configValidation       from './config-validation';
+import config                    from './bot-config';
+import configValidation          from './config-validation';
 
-import LoggerProvider         from './services/LoggerProvider';
-import HttpProvider           from './services/HttpProvider';
-import ValidationProvider     from './services/ValidationProvider';
-import CandidateService       from './services/CandidateService';
-import VacancyService         from './services/VacancyService';
-import ThesaurusService       from './services/ThesaurusService';
-import UserService            from './services/UserService';
-import SettingsService        from './services/SettingsService';
-import RolesService           from './services/RolesService';
-import HttpCacheService       from './services/HttpCacheService';
-import UserDialogService      from './services/UserDialogService/UserDialogService';
-import FileService            from './services/FileService';
-import EventsService          from './services/EventsService';
-import NoteService            from './services/NoteService';
-import LocalStorageService    from './services/LocalStorageService';
-import LoginService           from './services/LoginService';
+import LoggerProvider            from './services/LoggerProvider';
+import HttpProvider              from './services/HttpProvider';
+import ValidationProvider        from './services/ValidationProvider';
+import CandidateService          from './services/CandidateService';
+import VacancyService            from './services/VacancyService';
+import ThesaurusService          from './services/ThesaurusService';
+import UserService               from './services/UserService';
+import SettingsService           from './services/SettingsService';
+import RolesService              from './services/RolesService';
+import HttpCacheService          from './services/HttpCacheService';
+import UserDialogService         from './services/UserDialogService/UserDialogService';
+import FileService               from './services/FileService';
+import EventsService             from './services/EventsService';
+import NoteService               from './services/NoteService';
+import LocalStorageService       from './services/LocalStorageService';
+import LoginService              from './services/LoginService';
+import SessionService            from './services/SessionService';
 
-import ThesaurusDirective     from './directives/thesaurus/thesaurus';
-import ContactInfoDirective   from './directives/contacts/contact-info';
-import PhoneInputsDirective   from './directives/phones/phone-inputs';
-import CanvasPreviewDirective from './directives/file-preview/canvas-preview';
-import CommentsDirective      from './directives/comments/comments';
-import MainMenuDirective      from './directives/main-menu/main-menu';
-import SideMenuDirective      from './directives/side-menu/side-menu';
-import EventsDirective        from './directives/events/events';
-import convertToNumberDirective from './directives/convertToNumber/convert-to-number';
-import CandidateInfoDirective from './directives/candidate-info/candidate-info';
-import LoginDirective         from './directives/login/login';
+import ThesaurusDirective        from './directives/thesaurus/thesaurus';
+import ContactInfoDirective      from './directives/contacts/contact-info';
+import PhoneInputsDirective      from './directives/phones/phone-inputs';
+import CanvasPreviewDirective    from './directives/file-preview/canvas-preview';
+import CommentsDirective         from './directives/comments/comments';
+import MainMenuDirective         from './directives/main-menu/main-menu';
+import SideMenuDirective         from './directives/side-menu/side-menu';
+import EventsDirective           from './directives/events/events';
+import CandidateInfoDirective    from './directives/candidate-info/candidate-info';
+import LoginDirective            from './directives/login/login';
+import convertToNumberDirective  from './directives/convertToNumber/convert-to-number';
+import languageSkillsDirective   from './directives/language-skills/language-skills';
 
-import uiMask from 'angular-ui-mask';
+import uiMask                    from 'angular-ui-mask';
 
-import PhoneFormatFilter      from './filters/PhoneFormatFilter';
-import ArrayAsString          from './filters/ArrayAsString';
-import botUrl                 from './filters/botUrl';
+import PhoneFormatFilter         from './filters/PhoneFormatFilter';
+import ArrayAsString             from './filters/ArrayAsString';
+import botUrl                    from './filters/botUrl';
 
-import StateRunner from './state-runner';
-import AuthRunner from './runner.auth';
+import StateRunner               from './state-runner';
+import AuthRunner                from './runner.auth';
 
-import authInterceptor from './factories/AuthInterceptor';
+import authInterceptor           from './interceptors/AuthRequestInterceptor';
 
 const dependencies = [
    router,
@@ -105,6 +107,7 @@ angular
    .service('NoteService',         NoteService)
    .service('LocalStorageService', LocalStorageService)
    .service('LoginService',        LoginService)
+   .service('SessionService',       SessionService)
 
 
    .directive('thesaurus',        ThesaurusDirective.createInstance)
@@ -117,7 +120,8 @@ angular
    .directive('events',           EventsDirective.createInstance)
    .directive('convertToNumber',  convertToNumberDirective)
    .directive('candidateInfo',    CandidateInfoDirective.createInstance)
-   .directive('login',          LoginDirective.createInstance)
+   .directive('login',            LoginDirective.createInstance)
+   .directive('languageSkills',   languageSkillsDirective.createInstance)
 
    .filter('tel',                 PhoneFormatFilter)
    .filter('arrayAsString',       ArrayAsString)

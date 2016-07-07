@@ -1,5 +1,6 @@
-
-export default function _authInterceptor($injector, $translate) {
+export default function _authInterceptor(
+   $injector,
+   $translate) {
    'ngInject';
    return {
       request: (config) => {

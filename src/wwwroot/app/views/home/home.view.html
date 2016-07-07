@@ -35,7 +35,7 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | itemsPerPage: vacancy.size" total-items="total" current-page="pagination.current">
+                     <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | itemsPerPage: vacancy.size" total-items="totalHome" current-page="pagination.current">
                         <td>{{$index+1}}</td>
                         <td>
                            <a ng-click="viewVacancy(vacancy)" ng-bind="::vacancy.title"></a>

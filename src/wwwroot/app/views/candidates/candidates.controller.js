@@ -28,6 +28,9 @@ export default function CandidatesController(
    vm.cancel            = cancel;
    vm.thesaurus         = [];
    vm.searchCandidates  = searchCandidates;
+   vm.candidate.current = 0;
+   vm.candidate.size    = 20;
+   vm.candidateTotal    = 0;
    vm.pageChanged       = pageChanged;
    vm.candidate         = {};
    vm.candidate.current = 0;
@@ -56,7 +59,7 @@ export default function CandidatesController(
    }());
 
    function pageChanged(newPage) {
-      vm.candidate.current = newPage;
+      vm.candidate.current = newPage - 1;
       searchCandidates();
    };
 

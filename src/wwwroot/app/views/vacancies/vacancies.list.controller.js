@@ -36,7 +36,6 @@ export default function VacanciesController(
    vm.pageChanged      = pageChanged;
    vm.vacancy          = LocalStorageService.get('vacancy') || {};
    vm.vacancies        = LocalStorageService.get('vacancies') || [];
-
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
@@ -44,6 +43,11 @@ export default function VacanciesController(
       $element.on('$destroy', _setToStorage);
       $window.onbeforeunload = _setToStorage;
    }());
+
+   function pageChanged(newPage) {
+      vm.vacancy.current = newPage - 1;
+      searchVacancies();
+   };
 
    function searchVacancies() {
       VacancyService.search(vm.vacancy).then(response => {

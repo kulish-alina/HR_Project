@@ -1,3 +1,6 @@
+import {
+   clone
+} from 'lodash';
 (function() {
   'use strict';
 
@@ -117,11 +120,13 @@
     '  <div class="adp-days" id="adp-time"> ',
     '    Time : {{("0"+inputHour).slice(-2)}} : {{("0"+inputMinute).slice(-2)}} <br/>',
     '    <label>Hour:</label> <input type="range" min="0" max="23" ng-model="inputHour" ng-change="updateNgModel()" />',
-    '    <label>Min.:</label> <input type="range" min="0" max="59" ng-model="inputMinute"  ng-change="updateNgModel()"/> ',
+    '    <label>Min.:</label> <input type="range" step="5" min="0" max="59" ng-model="inputMinute"  ng-change="updateNgModel()"/> ',
     '  </div> ',
     '</div>'].join("\n");
 
   var datetimePickerPopup = function($locale, dateFilter){
+   var today = new Date().getDate();
+   let clonedDay = today;
     var days, months, daysOfWeek, firstDayOfWeek;
 
     var initVars = function() {
@@ -248,15 +253,13 @@
           }
         }
       };
-
       scope.updateNgModel = function(day) {
-        day = day ? day : scope.selectedDate.getDate();
+        day = day ? day : clonedDay;
         scope.selectedDate = new Date(
           scope.mv.year, scope.mv.month, day, scope.inputHour, scope.inputMinute, 0
         );
         scope.selectedDay = scope.selectedDate.getDate();
         if (attrs.ngModel) {
-          //console.log('attrs.ngModel',attrs.ngModel);
           var elScope = ctrl.triggerEl.scope(), dateValue;
           if (elScope.$eval(attrs.ngModel) && elScope.$eval(attrs.ngModel).constructor.name === 'Date') {
             dateValue = new Date(dateFilter(scope.selectedDate, dateFormat));
@@ -265,6 +268,7 @@
           }
           elScope.$eval(attrs.ngModel + '= date', {date: dateValue});
         }
+        clonedDay = day;
       };
 
       scope.$on('$destroy', ctrl.closeDatetimePicker);

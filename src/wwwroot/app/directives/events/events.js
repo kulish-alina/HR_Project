@@ -108,7 +108,7 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
       let eventDate = '';
 
       $scope.$watch('event.eventDate', function watch() {
-         let clonedTrimedEventDate = split(clone(eventDate), ' ');
+         let clonedTrimedEventDate = split(eventDate, ' ');
          let newEventDate = split(vm.event.eventDate, ' ');
          if (!isEqual(newEventDate[0], clonedTrimedEventDate[0])) {
             getEvents(vm.event.eventDate);

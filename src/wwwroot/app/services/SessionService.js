@@ -26,7 +26,7 @@ export default class SessionService {
       _loggerService = LoggerService;
    }
 
-   validateAccess(event, toState) {
+   validateAccess(event, toState, toParams) {
       if (_stateToRedirect && (toState.name === _stateToRedirect.name) ||
          includes(accessArray, toState.name)) {
          return;
@@ -50,7 +50,7 @@ export default class SessionService {
                   _userService.setCurrentUser(result);
                   _loggerService.log('User Authorized');
 
-                  return _$state.go(_stateToRedirect.name, _stateToRedirect.params);
+                  return _$state.go(_stateToRedirect.name, toParams);
                } else {
                   _storageService.remove(tokenInfo);
                   _loggerService.log('Outdated session');

@@ -31,14 +31,11 @@ export default function VacanciesController(
    vm.thesaurus        = [];
    vm.responsibles     = [];
    vm.searchVacancies  = searchVacancies;
-   vm.vacancy          = LocalStorageService.get('vacancy') || {};
-   vm.vacancies        = LocalStorageService.get('vacancies') || [];
-   vm.vacancyTotal     = 0;
    vm.vacancy.current  = 0;
    vm.vacancy.size     = 20;
-   vm.pagination       = { current: 0 };
    vm.pageChanged      = pageChanged;
-
+   vm.vacancy          = LocalStorageService.get('vacancy') || {};
+   vm.vacancies        = LocalStorageService.get('vacancies') || [];
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
@@ -54,8 +51,7 @@ export default function VacanciesController(
 
    function searchVacancies() {
       VacancyService.search(vm.vacancy).then(response => {
-         vm.vacancyTotal = response.total;
-         vm.vacancies = response.vacancies;
+         vm.vacancies = response;
       }).catch(_onError);
    }
 
@@ -80,9 +76,9 @@ export default function VacanciesController(
    function deleteVacancy(vacancyId) {
       UserDialogService.confirm($translate.instant('VACANCY.VACANCY_REMOVE_MESSAGE')).then(() => {
          let predicate = {id: vacancyId};
-         let vacancyForRemove = find(vm.vacancies, predicate);
+         let vacancyForRemove = find(vm.vacancies.vacancies, predicate);
          VacancyService.remove(vacancyForRemove).then(() => {
-            remove(vm.vacancies, predicate);
+            remove(vm.vacancies.vacancies, predicate);
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING'), 'success');
          });
       });

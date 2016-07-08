@@ -76,7 +76,7 @@ export default function _config(
          parent: 'home'
       })
       .state('vacancyView', {
-         url: '/vacancy/:vacancyId',
+         url: '/vacancyView/:vacancyId',
          template: vacancyViewTemplate,
          controller: vacancyViewController,
          params: {
@@ -87,7 +87,7 @@ export default function _config(
          data: { hide: true }
       })
       .state('candidate', {
-         url: '/candidate',
+         url: '/candidate/:candidateId',
          template: candidateTemplate,
          controller: candidateController,
          params: {

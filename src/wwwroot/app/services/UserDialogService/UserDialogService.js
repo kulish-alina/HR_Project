@@ -64,14 +64,14 @@ export default class UserDialogService {
    }
 /**
     * Function that show modal window.
-    * @param {string} header  - text for header into modal window.
-    * @param {string} content - html which will be shown into modal.
-    * @param {array}  buttons - array of objects with properties:
-                         "name" for buttons text which will be shown,
-                         "func" for functions which will be fired after click,
-                         "needValidate for flag which will be true if need to call validation.
-    * @param {object} scope   -  an object with variables for content.
-    * @param {boolean}   unclosable - flag which must be truthly if we need unclosable modal.
+    * @param {string}   header  - text for header into modal window.
+    * @param {string}   content - html which will be shown into modal.
+    * @param {Object[]} buttons - array of objects with properties:
+    * @param {string}   buttons[].name for buttons' text which will be shown,
+    * @callback         buttons[].func for functions which will be fired after click,
+    * @param {boolean}  buttons[].needValidate for flag which will be true if need to call validation.
+    * @param {Object}   scope - an object with variables for content.
+    * @param {boolean}  unclosable - flag which must be truthly if we need unclosable modal.
     * @returns {undefined}
     */
    dialog(header, content, buttons, scope, unclosable) {

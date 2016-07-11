@@ -1,6 +1,7 @@
 import {
    clone,
-   set
+   split,
+   isEqual
 } from 'lodash';
 import template from './events.directive.html';
 import './events.scss';
@@ -15,7 +16,8 @@ export default class EventsDirective {
          remove         : '=',
          getEventsByDate: '=',
          candidateId    : '=',
-         userId         : '='
+         userId         : '=',
+         source         : '@'
       };
       this.controller = EventsController;
    }
@@ -48,12 +50,12 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
    vm.currentEvents       = [];
 
    function _init() {
-      VacancyService.search(vm.vacancy).then(data => set(vm, 'vacancies', data.vacancies));
-      UserService.getUsers().then(users => set(vm, 'responsibles', users));
-      CandidateService.search(vm.candidate).then(data => set(vm, 'candidates', data.candidate));
-      ThesaurusService.getThesaurusTopics('eventtype').then(eventTypes => set(vm, 'eventTypes', eventTypes));
+      VacancyService.search(vm.vacancy).then((data) => vm.vacancies.push.apply(vm.vacancies, data.vacancies));
+      UserService.getUsers().then((users) => vm.responsibles.push.apply(vm.responsibles, users));
+      CandidateService.search(vm.candidate).then((data) => vm.candidates.push.apply(vm.candidates, data.candidate));
+      ThesaurusService.getThesaurusTopics('eventtype')
+         .then((eventTypes) => vm.eventTypes.push.apply(vm.eventTypes, eventTypes));
    }
-
    _init();
 
    function saveEvent() {
@@ -61,19 +63,24 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
    }
 
    function getEvents(date) {
-      vm.getEventsByDate(date).then((e) => {
+      if (date && vm.source === 'user') {
+         vm.getEventsByDate(date).then((e) => {
+            vm.currentEvents.length = 0;
+            vm.currentEvents.push.apply(vm.currentEvents, e);
+         });
+      } else {
          vm.currentEvents.length = 0;
-         vm.currentEvents.push.apply(vm.currentEvents, e);
-      });
+      }
    }
 
    function showAddEventDialog() {
       vm.event = {};
-      if (vm.candidateId) {
-         vm.event.candidateId = `${vm.candidateId}`;
-      }
+      vm.currentEvents.length = 0;
       if (vm.userId) {
          vm.event.responsibleId = `${vm.userId}`;
+      }
+      if (vm.candidateId) {
+         vm.event.candidateId = `${vm.candidateId}`;
       }
       let scope = {
          type         : 'list-with-input',
@@ -83,7 +90,8 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
          candidates   : vm.candidates,
          events       : vm.currentEvents,
          event        : vm.event,
-         getEvents    : vm.getEvents
+         getEvents    : vm.getEvents,
+         source       : vm.source
       };
       let buttons = [
          {
@@ -96,28 +104,35 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
          }
       ];
       UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
-      let initializing = true;
+
+      let eventDate = '';
 
       $scope.$watch('event.eventDate', function watch() {
-         if (initializing || vm.candidateId) {
-            $timeout(function timeout() {
-               initializing = false;
-            });
-         } else {
+         let clonedTrimedEventDate = split(eventDate, ' ');
+         let newEventDate = split(vm.event.eventDate, ' ');
+         if (!isEqual(newEventDate[0], clonedTrimedEventDate[0])) {
             getEvents(vm.event.eventDate);
          }
+         eventDate = vm.event.eventDate;
       });
    }
 
    function showEditEventDialog(currentEvent) {
       vm.event = clone(currentEvent);
+      if (vm.userId) {
+         vm.event.responsibleId = `${vm.userId}`;
+      }
+      if (vm.candidateId) {
+         vm.event.candidateId = `${vm.candidateId}`;
+      }
       let scope = {
          type         : 'form-only',
          responsibles : vm.responsibles,
          eventTypes   : vm.eventTypes,
          vacancies    : vm.vacancies,
          candidates   : vm.candidates,
-         event        : vm.event
+         event        : vm.event,
+         source       : vm.source
       };
       let buttons = [
          {

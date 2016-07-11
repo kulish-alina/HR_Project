@@ -6,16 +6,16 @@
    </div>
    <div class="large-7 grid-block">
       <ul class="menu-bar second-button-bar">
-         <li>
+         <li ng-class="{'active' : $state.current.name === 'profile'}">
             <a ui-sref="profile" ng-bind="::('SETTINGS.PROFILE' | translate)"></a>
          </li>
-         <li>
+         <li ng-class="{'active' : $state.current.name === 'members'}">
             <a ui-sref="members" ng-bind="::('SETTINGS.MEMBERS' | translate)"></a>
          </li>
-         <li>
+         <li ng-class="{'active' : $state.current.name === 'roles'}">
             <a ui-sref="roles" ng-bind="::('SETTINGS.ROLES' | translate)"></a>
          </li>
-         <li>
+         <li ng-class="{'active' : $state.current.name === 'thesauruses'}">
             <a ui-sref="thesauruses" ng-bind="::('SETTINGS.RECRUITING' | translate)"></a>
          </li>
       </ul>

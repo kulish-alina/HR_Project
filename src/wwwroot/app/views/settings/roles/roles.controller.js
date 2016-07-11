@@ -19,10 +19,13 @@ export default function RolesController(
    $state,
    $filter,
    $translate,
+   $window,
    RolesService,
    SettingsService,
    UserDialogService,
-   UserService) {
+   UserService,
+   LocalStorageService
+   ) {
    'ngInject';
 
    /*---api---*/
@@ -32,7 +35,7 @@ export default function RolesController(
    vm.permissions     = null;
    vm.currentRole     = {};
    vm.newRole         = {title: ''};
-   vm.currentRoleName = '';
+   vm.currentRoleName = LocalStorageService.get('currentRoleName') || '';
    vm.getFlag         = _getFlag;
    vm.setFlag         = _setFlag;
    vm.setAll          = _setAll;
@@ -42,18 +45,19 @@ export default function RolesController(
    vm.clearModalModel = _clearModalModel;
 
    /*---impl---*/
-   function _init() {
+   (function _init() {
       SettingsService.addOnSubmitListener(_onSubmit);
       SettingsService.addOnCancelListener(_onCancel);
       $element.on('$destroy', _onDestroy);
+      $window.onbeforeunload = _onDestroy;
       _initRoles();
       _initPermissions();
-   }
-   _init();
+   }());
 
    function _onDestroy() {
       SettingsService.removeOnSubmitListener(_onSubmit);
       SettingsService.removeOnCancelListener(_onCancel);
+      LocalStorageService.set('currentRoleName', vm.currentRoleName);
    }
 
    function _onSubmit() {
@@ -73,7 +77,7 @@ export default function RolesController(
    function _initRoles() {
       RolesService.getRoles()
          .then((rol) => set(vm, 'roles', keyBy(rol, 'title')))
-         .then(_selectFirstRole);
+         .then(vm.currentRoleName ? vm.selectRole(vm.currentRoleName) : _selectFirstRole);
    }
 
    function _initPermissions() {

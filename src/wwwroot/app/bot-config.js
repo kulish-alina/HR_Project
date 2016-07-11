@@ -53,7 +53,7 @@ export default function _config(
          params: {
             _data: null
          },
-         data: {hideHome: false}
+         data: { hideHome: false }
       })
       .state('candidates', {
          url: '/candidates',
@@ -76,7 +76,7 @@ export default function _config(
          parent: 'home'
       })
       .state('vacancyView', {
-         url: '/vacancy/:vacancyId',
+         url: '/vacancyView/:vacancyId',
          template: vacancyViewTemplate,
          controller: vacancyViewController,
          params: {
@@ -84,14 +84,18 @@ export default function _config(
             vacancyId: null
          },
          parent: 'vacancies',
-         data: {hide: true}
+         data: { hide: true }
       })
       .state('candidate', {
-         url: '/candidate',
+         url: '/candidate/:candidateId',
          template: candidateTemplate,
          controller: candidateController,
+         params: {
+            _data: null,
+            candidateId: null
+         },
          parent: 'candidates',
-         data: {hide: true}
+         data: { hide: true }
       })
       .state('candidateProfile', {
          url: '/candidateProfile/:candidateId',
@@ -102,7 +106,7 @@ export default function _config(
             candidateId: null
          },
          parent: 'candidates',
-         data: {hide: true}
+         data: { hide: true }
       })
       .state('vacancyEdit', {
          url: '/vacancy/edit/:vacancyId',
@@ -113,7 +117,7 @@ export default function _config(
             vacancyId: null
          },
          parent: 'vacancies',
-         data: {hide: true}
+         data: { hide: true }
       })
       .state('settings', {
          url: '/settings',
@@ -130,27 +134,27 @@ export default function _config(
          parent: 'settings',
          template: profileTemplate,
          controller: profileController,
-         data: {asEdit: false}
+         data: { asEdit: false }
       })
       .state('profile.edit', {
          url: '/edit',
          parent: 'profile',
          template: profileEditTemplate,
-         data: {asEdit: true}
+         data: { asEdit: true }
       })
       .state('members', {
          url: '/members',
          parent: 'settings',
          template: membersTemplate,
          controller: membersController,
-         data: {asEdit: true}
+         data: { asEdit: true }
       })
       .state('roles', {
          url: '/roles',
          parent: 'settings',
          template: rolesTemplate,
          controller: rolesController,
-         data: {asEdit: true}
+         data: { asEdit: true }
       })
       .state('thesauruses', {
          url: '/recruiting',
@@ -162,12 +166,12 @@ export default function _config(
          url: '/login',
          template: loginTemplate,
          controller: loginController,
-         data: {hideHome: true}
+         data: { hideHome: true }
       })
       .state('loading', {
-         url:'/loading',
+         url: '/loading',
          template: loaderTemplate,
-         data: {hideHome: true}
+         data: { hideHome: true }
       });
 
    $locationProvider.html5Mode({
@@ -175,7 +179,10 @@ export default function _config(
       requireBase: false
    });
 
-   $urlRouterProvider.otherwise('bot');
+   $urlRouterProvider.otherwise($injector => {
+      let $state = $injector.get('$state');
+      $state.go('home');
+   });
 
    $translateProvider
       .useSanitizeValueStrategy('sanitize')

@@ -28,24 +28,18 @@
                         <input type="text" ng-model="candidate.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName">
                         <input type="text" ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" name="lastName" validator="required, maxlength=50">
                         <date datemodel="candidate.birthDate" placeholder="{{::'COMMON.DATE_OF_BIRTH' | translate}}"></date>
-                        <ul class="some-change" ng-model='candidate.isMale'>
+                        <ul class="some-change">
                            <li>
-                              <input name="isMale" value="true" id="male" type="radio">
+                              <input ng-model="candidate.isMale" name="Male" ng-value="true" id="male" type="radio">
                               <label for="male" ng-bind="::'COMMON.MALE' | translate"></label>
                            </li>
                            <li>
-                              <input name="isMale" value="false" id="female" type="radio">
+                              <input ng-model="candidate.isMale" name="Female" ng-value="false" id="female" type="radio">
                               <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
                            </li>
                         </ul>
                         <input placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                        <div class="grid-block candidate-oi-select">
-                           <oi-select ng-model="candidate.convertedLanguageSkills"
-                              oi-options="{language: language.language, languageLevel: language.languageLevel}
-                              as language.language.title+' '+language.languageLevel.title 
-                              group by language.language.title for language in languages" multiple>
-                           </oi-select>
-                        </div>
+                        <language-skills selectedSkills="candidate.convertedLanguageSkills"></language-skills>
                         <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city track by city.id" ng-model="candidate.cityId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
 
                      </fieldset>
@@ -183,7 +177,7 @@
                               <tr ng-repeat="item in candidate.files">
                                  <td ng-bind="::$index+1"></td>
                                  <td>
-                                    <a href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
+                                    <a target="_blank" href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
                                  </td>
                                  <td ng-bind="item.fileSize"></td>
                                  <td><a class="remove-item" ng-click="addFilesForRemove(item)"><i class="foundicon-remove general-icon"></i></a></td>
@@ -290,7 +284,7 @@
             -->
          </div>
          <div class="sidebar">
-             <events candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
+             <events source="candidate" candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
          </div>
          <div class="sidebar">
             <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>

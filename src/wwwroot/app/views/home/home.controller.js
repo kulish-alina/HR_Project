@@ -31,7 +31,7 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.vacancy                 = {};
    vm.vacancies               = [];
    vm.viewVacancy             = viewVacancy;
-   vm.total                   = 0;
+   vm.totalHome               = 0;
    vm.vacancy.current         = 0;
    vm.vacancy.size            = 30;
    vm.pagination              = { current: 0 };
@@ -58,7 +58,7 @@ export default function HomeController( //eslint-disable-line max-statements
          vm.notes  = cloneDeep(vm.userNotes);
       });
       VacancyService.search(vm.vacancy).then(response => {
-         vm.total = response.total;
+         vm.totalHome = response.total;
          vm.vacancies = response.vacancies;
       }).catch(_onError);
       _getCurrentUser();
@@ -70,9 +70,9 @@ export default function HomeController( //eslint-disable-line max-statements
    _init();
 
    function pageChanged(newPage) {
-      vm.vacancy.current = newPage;
+      vm.vacancy.current = newPage - 1;
       VacancyService.search(vm.vacancy).then(response => {
-         vm.total = response.total;
+         vm.totalHome = response.total;
          vm.vacancies = response.vacancies;
       }).catch(_onError);
    };
@@ -89,7 +89,7 @@ export default function HomeController( //eslint-disable-line max-statements
    }
 
    function removeNote(note) {
-      UserDialogService.confirm($translate.instant('DIALOG_SERVICE.NOTE_REMOVING_DIALOG')).then(() => {
+      return UserDialogService.confirm($translate.instant('DIALOG_SERVICE.NOTE_REMOVING_DIALOG')).then(() => {
          return NoteService.remove(note).then(() => {
             remove(vm.userNotes, {id: note.id});
             return vm.notes  = cloneDeep(vm.userNotes);

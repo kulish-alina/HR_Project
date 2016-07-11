@@ -71,7 +71,7 @@ export default class UserDialogService {
                          "func" for functions which will be fired after click,
                          "needValidate for flag which will be true if need to call validation.
     * @param {object} scope   -  an object with variables for content.
-    * @param {bool}   unclosable - flag which must be truthly if we need unclosable modal.
+    * @param {boolean}   unclosable - flag which must be truthly if we need unclosable modal.
     * @returns {undefined}
     */
    dialog(header, content, buttons, scope, unclosable) {

@@ -121,7 +121,7 @@ namespace DAL.Services
                     dto.ChildVacanciesNumber.Value.Times(() =>
                     {
                         Vacancy childVacancy = new Vacancy();
-                        childVacancy.UpdateChildWithParent(domain);
+                        childVacancy.UpdateChildWithParent(domain, uow);
                         childVacancies.Add(childVacancy);
                     });
                     childVacancies.ForEach(x => domain.ChildVacancies.Add(x));

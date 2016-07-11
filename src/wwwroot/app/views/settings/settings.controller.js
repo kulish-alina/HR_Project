@@ -1,3 +1,4 @@
+import './settings.scss';
 export default function SettingsController(
    $scope,
    ValidationService,

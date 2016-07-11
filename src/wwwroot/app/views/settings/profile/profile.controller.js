@@ -34,15 +34,15 @@ export default function ProfileController (
    }
 
    function _onSubmit() {
-      if (ValidationService.validate(vm.form.userEdit)) {
+      ValidationService.validate(vm.form.userEdit).then(() => {
          vm.user.birthDate = utils.formatDateToServer(vm.user.birthDate);
          return UserService.saveUser(vm.user).then(() => {
             $state.go('profile');
             vm.user.birthDate = utils.formatDateFromServer(vm.user.birthDate);
          });
-      } else {
+      }).catch(() => {
          return $q.reject();
-      };
+      });
    }
 
    function _onCancel() {

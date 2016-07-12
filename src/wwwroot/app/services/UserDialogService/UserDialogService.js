@@ -71,10 +71,10 @@ export default class UserDialogService {
     * @callback         buttons[].func for functions which will be fired after click,
     * @param {boolean}  buttons[].needValidate for flag which will be true if need to call validation.
     * @param {Object}   scope - an object with variables for content.
-    * @param {boolean}  unclosable - flag which must be truthly if we need unclosable modal.
+    * @param {boolean}  closable - flag which must be falsely if we need unclosable modal.
     * @returns {undefined}
     */
-   dialog(header, content, buttons, scope, unclosable) {
+   dialog(header, content, buttons, scope, closable = true) {
       let wrappedButtons = forEach(buttons, (value) => {
          value.func = _closeElementWrapp(value.func);
          if (value.needValidate) {
@@ -85,7 +85,7 @@ export default class UserDialogService {
       let contentScope = assign(scope, {
          header,
          buttons: wrappedButtons,
-         unclosable
+         closable
       });
       let modal = new _ModalFactory({
          template: _dialog.split('<!-- content will be here -->').join(content),

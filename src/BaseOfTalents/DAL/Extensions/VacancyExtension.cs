@@ -12,7 +12,7 @@ namespace DAL.Extensions
 {
     public static class VacancyExtension
     {
-        public static void UpdateChildWithParent(this Vacancy childVacancy, Vacancy parentVacancy)
+        public static void UpdateChildWithParent(this Vacancy childVacancy, Vacancy parentVacancy, IUnitOfWork uow)
         {
             if (childVacancy.Id != 0 && childVacancy.ParentVacancyId != parentVacancy.Id)
             {
@@ -31,20 +31,25 @@ namespace DAL.Extensions
             childVacancy.IndustryId = parentVacancy.IndustryId;
             childVacancy.DepartmentId = parentVacancy.DepartmentId;
             childVacancy.ResponsibleId = parentVacancy.ResponsibleId;
-            childVacancy.Levels = parentVacancy.Levels;
-            childVacancy.Cities = parentVacancy.Cities;
-            childVacancy.Tags = parentVacancy.Tags;
-            childVacancy.RequiredSkills = parentVacancy.RequiredSkills;
-            childVacancy.LanguageSkill = parentVacancy.LanguageSkill;
-            childVacancy.CandidatesProgress = parentVacancy.CandidatesProgress;
-            childVacancy.ParentVacancyId = parentVacancy.Id;
-            childVacancy.CandidatesProgress.ToList().ForEach(x =>
+
+            childVacancy.Cities.Clear();
+            childVacancy.Cities = parentVacancy.Cities.Select(x => uow.CityRepo.GetByID(x.Id)).ToList();
+            childVacancy.Levels.Clear();
+            childVacancy.Levels = parentVacancy.Levels.Select(x => uow.LevelRepo.GetByID(x.Id)).ToList();
+            childVacancy.Tags.Clear();
+            childVacancy.Tags = parentVacancy.Tags.Select(x => uow.TagRepo.GetByID(x.Id)).ToList();
+            childVacancy.RequiredSkills.Clear();
+            childVacancy.RequiredSkills = parentVacancy.RequiredSkills.Select(x => uow.SkillRepo.GetByID(x.Id)).ToList();
+            childVacancy.LanguageSkill = new LanguageSkill
             {
-                x.Vacancy = childVacancy;
-                x.VacancyId = childVacancy.Id;
-            });
+                LanguageId = parentVacancy.LanguageSkill.LanguageId,
+                LanguageLevel = parentVacancy.LanguageSkill.LanguageLevel
+            };
+            childVacancy.ParentVacancyId = parentVacancy.Id;
+            //CandidatesProgress
             childVacancy.Files = parentVacancy.Files;
-            childVacancy.Comments = parentVacancy.Comments;
+            childVacancy.Comments.Clear();
+            childVacancy.Comments = parentVacancy.Comments.Select(x => new Comment { Message = x.Message }).ToList();
         }
 
         public static void Update(this Vacancy destination, VacancyDTO source, IUnitOfWork uow)
@@ -78,7 +83,7 @@ namespace DAL.Extensions
             PerformVacanciesProgressSaving(destination, source, uow.VacancyStageRepo);
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
-            PerformChildVacanciesUpdating(destination);
+            PerformChildVacanciesUpdating(destination, uow);
         }
 
         private static void PerformAddingDeadlineToCalendar(Vacancy destination, VacancyDTO source, IUnitOfWork uow)
@@ -122,11 +127,11 @@ namespace DAL.Extensions
             return !destination.DeadlineToCalendar && source.DeadlineToCalendar;
         }
 
-        private static void PerformChildVacanciesUpdating(Vacancy destination)
+        private static void PerformChildVacanciesUpdating(Vacancy destination, IUnitOfWork uow)
         {
             destination.ChildVacancies.ToList().ForEach(x =>
             {
-                x.UpdateChildWithParent(destination);
+                x.UpdateChildWithParent(destination, uow);
             });
         }
 

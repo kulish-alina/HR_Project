@@ -28,9 +28,7 @@ export default class ValidationProvider {
 
 class ValidationService {
    validate(form) {
-      return validation.validate(form).then(() => {
-         return validation.checkValid(form);
-      });
+      return validation.validate(form);
    }
 
    reset(form) {

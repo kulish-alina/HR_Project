@@ -108,8 +108,6 @@ function _closeElementWrapp(func) {
 
 function _validationWrapp(callback) {
    return (form) => {
-      if (_ValidationService.validate(form)) {
-         callback();
-      }
+      _ValidationService.validate(form).then(callback);
    };
 }

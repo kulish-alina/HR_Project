@@ -47,7 +47,6 @@ describe('ValidationService tests for', () => {
    it('validation.validate and validation.checkValid are called with expected arguments ', () => {
       service.validate('fake');
       expect(_validationMock.validate).toHaveBeenCalledWith('fake');
-      expect(_validationMock.checkValid).toHaveBeenCalledWith('fake');
    });
 
    it('validation.reset called with expected argument', () => {

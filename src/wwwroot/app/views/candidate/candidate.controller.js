@@ -145,13 +145,13 @@ export default function CandidateController(//eslint-disable-line max-statements
    }
 
    function saveCandidate(form) {
-      if (ValidationService.validate(form)) {
+      ValidationService.validate(form).then(() => {
          if (isEmpty(vm.filesUploader.getNotUploadedItems())) {
             _saveCandidate();
          } else {
             vm.filesUploader.uploadAll();
          }
-      }
+      });
    }
 
    function addFilesForRemove(file) {

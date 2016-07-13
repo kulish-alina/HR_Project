@@ -62,15 +62,19 @@ export default class UserDialogService {
       };
       notify.addNotification(configs[type] || configs.notification);
    }
-
-   dialog(header, content, buttons, scope) {
-   /* header  - text for header into modal window;
-      content - html which will be shown into modal;
-      buttons - array of objects with properties:
-               "name" for buttons text which will be shown,
-               "func" for functions which will be fired after click,
-               "needValidate for flag which will be true if need to call validation
-      scope   - an object with variables for content. */
+/**
+    * Function that show modal window.
+    * @param {string}   header  - text for header into modal window.
+    * @param {string}   content - html which will be shown into modal.
+    * @param {Object[]} buttons - array of objects with properties:
+    * @param {string}   buttons[].name for buttons' text which will be shown,
+    * @callback         buttons[].func for functions which will be fired after click,
+    * @param {boolean}  buttons[].needValidate for flag which will be true if need to call validation.
+    * @param {Object}   scope - an object with variables for content.
+    * @param {boolean}  closable - flag which must be falsely if we need unclosable modal.
+    * @returns {undefined}
+    */
+   dialog(header, content, buttons, scope, closable = true) {
       let wrappedButtons = forEach(buttons, (value) => {
          value.func = _closeElementWrapp(value.func);
          if (value.needValidate) {
@@ -80,14 +84,15 @@ export default class UserDialogService {
 
       let contentScope = assign(scope, {
          header,
-         buttons: wrappedButtons
+         buttons: wrappedButtons,
+         closable
       });
-      let config = {
+      let modal = new _ModalFactory({
          template: _dialog.split('<!-- content will be here -->').join(content),
          contentScope,
-         overlayClose: 'false'
-      };
-      let modal = new _ModalFactory(config);
+         overlayClose: 'false',
+         close: () => modal.destroy()
+      });
       modal.activate();
    }
 }
@@ -103,8 +108,6 @@ function _closeElementWrapp(func) {
 
 function _validationWrapp(callback) {
    return (form) => {
-      if (_ValidationService.validate(form)) {
-         callback();
-      }
+      _ValidationService.validate(form).then(callback);
    };
 }

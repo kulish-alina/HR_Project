@@ -1,6 +1,7 @@
-import angular    from 'angular';
-import router     from 'angular-ui-router';
-import translate  from 'angular-translate';
+import angular      from 'angular';
+import router       from 'angular-ui-router';
+import translate    from 'angular-translate';
+import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists';
 
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
@@ -77,6 +78,7 @@ const dependencies = [
    translate,
    uiMask,
    pagination,
+   'dndLists',
    'rzModule',
    'foundation',
    'validation',
@@ -107,7 +109,7 @@ angular
    .service('NoteService',         NoteService)
    .service('LocalStorageService', LocalStorageService)
    .service('LoginService',        LoginService)
-   .service('SessionService',       SessionService)
+   .service('SessionService',      SessionService)
 
 
    .directive('thesaurus',        ThesaurusDirective.createInstance)

@@ -1,13 +1,18 @@
 <div class="main-card">
    <div class="grid-block">
       <zf-accordion class="medium-12" collapsible="true">
-         <zf-accordion-item ng-repeat="role in roles" title="{{role.title + ':' +(users[role.id].length||0)}}" ng-click="selectGroup(role.id)" style="position: relative; ">
+         <zf-accordion-item ng-repeat="role in roles" title="{{role.title + ':' +(users[role.id].length||0)}}" ng-click="selectGroup(role.id)" style="position: relative; " dnd-list="currentGroup" dnd-drop="changeRole(role)">
             <a class="invite-member" ng-click="showInvite(role)"><i class="fi-torsos"> {{'MEMBERS.INVITE'|translate}}</i></a>
             <ul class="members-tab">
-               <li ng-repeat="user in currentGroup">
+               <li ng-repeat="user in currentGroup" 
+                 dnd-draggable="user"
+                 dnd-effect-allowed="move"
+                 dnd-moved="currentGroup.splice($index, 1)"
+                 dnd-selected="user"
+                 dnd-dragstart="setMovedUser(user)">
                   <a class="close-member-button" ng-click="removeUser(user)">×</a>
                   <contacts entity="user" direction="ttb"></contacts>
-                  <select ng-model="role" ng-options="role.title for role in roles" ng-change="changeRole(user, role)">
+                  <select ng-model="role" ng-options="role.title for role in roles" ng-change="changeRole(role, user)">
                   </select>
                </li>
             </ul>

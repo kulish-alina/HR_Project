@@ -91,7 +91,7 @@ export default function VacancyController(
 
    function saveVacancy(ev, form) {
       ev.preventDefault();
-      if (ValidationService.validate(form)) {
+      ValidationService.validate(form).then(() => {
          if (vm.uploader.getNotUploadedItems().length) {
             vm.uploader.uploadAll();
          } else if (vm.queueFilesForRemove) {
@@ -101,7 +101,7 @@ export default function VacancyController(
          } else {
             _vs();
          }
-      }
+      });
       return false;
    }
 

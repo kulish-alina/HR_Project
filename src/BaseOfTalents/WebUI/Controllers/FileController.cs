@@ -1,8 +1,4 @@
-﻿using DAL.DTO;
-using DAL.Services;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,8 +6,11 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
+using DAL.DTO;
+using DAL.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using WebUI.Extensions;
 
 namespace WebUI.Controllers
@@ -118,15 +117,15 @@ namespace WebUI.Controllers
 
         private Tuple<string, string> GetUploadPath()
         {
-            var root = @"~/";
-            var upload = @"Uploads";
+            var upload = @"uploads";
+            var uploadsPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, Globals.Constants.RootFolder, upload);
             var year = DateTime.Now.Year;
             var week = DateTime.Now.GetIso8601WeekOfYear();
 
-            return new Tuple<string, string>(
-                string.Format(@"{0}\{1}\{2}\", HttpContext.Current.Server.MapPath(root + upload), year, week),
-                string.Format(@"{0}/{1}/{2}/", upload, year, week)
-                );
+            var first = $"{uploadsPath}\\{year}\\{week}";
+            var second = $"{upload}/{year}/{week}";
+
+            return Tuple.Create(first, second);
         }
 
         private class UploadMultipartFormProvider : MultipartFormDataStreamProvider

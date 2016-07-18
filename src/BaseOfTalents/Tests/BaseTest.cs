@@ -1,8 +1,8 @@
-﻿using DAL;
-using NUnit.Framework;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Web.Http;
+using DAL;
+using NUnit.Framework;
 using WebUI.App_Start;
 
 namespace Tests
@@ -28,8 +28,7 @@ namespace Tests
         public void GlobalInit()
         {
             System.Diagnostics.Debug.WriteLine("OneTimeSetUp");
-            httpConf = new HttpConfiguration();
-            WebApiConfig.Register(httpConf);
+            httpConf = WebApiConfig.Create();
         }
 
         [OneTimeTearDown]

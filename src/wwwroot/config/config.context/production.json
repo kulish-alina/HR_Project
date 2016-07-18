@@ -1,5 +1,5 @@
 {
    "logLevel"  : "ERROR",
    "logPattern": "*",
-   "serverUrl" : "http://i1605005.edu.isd.dp.ua/api/"
+   "serverUrl" : "http://dws02.edu.isd.dp.ua:9000/"
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using Microsoft.Owin.Hosting;
 
 namespace BaseOfTalents.WebUI
@@ -29,17 +28,17 @@ namespace BaseOfTalents.WebUI
 #endif
             using (WebApp.Start<ApiStartup>(options))
             {
-                Console.WriteLine("Server started...");
-                Console.WriteLine($"Machine name: {Environment.MachineName}");
+                Console.WriteLine("Server started");
+                Console.WriteLine($"\tMachine name: {Environment.MachineName}");
+                Console.WriteLine($"\tPort: {port}");
 #if DEBUG
                 HttpClient client = new HttpClient();
                 var res = client.GetAsync($"http://localhost:{port}/api/tag").Result;
                 Console.WriteLine($"{res.Content.ReadAsStringAsync().Result}");
 #endif
-                Console.WriteLine("Press ENTER to stop server");
+                Console.WriteLine("Press ENTER to stop server...");
                 Console.ReadLine();
             }
-            Console.WriteLine("End");
         }
     }
 }

@@ -88,31 +88,31 @@ namespace WebUI.App_Start
                 x.CreateMap<VacancyStageInfoDTO, VacancyStageInfo>();
 
                 x.CreateMap<Currency, int>()
-                     .ConstructUsing(source => (source.SourceValue as Currency).Id);
+                     .ConstructUsing(source => (source as Currency).Id);
 
                 x.CreateMap<Vacancy, int>()
-                    .ConstructUsing(source => (source.SourceValue as Vacancy).Id);
+                    .ConstructUsing(source => (source as Vacancy).Id);
 
                 x.CreateMap<Skill, int>()
-                     .ConstructUsing(source => (source.SourceValue as Skill).Id);
+                     .ConstructUsing(source => (source as Skill).Id);
 
                 x.CreateMap<Permission, int>()
-                    .ConstructUsing(source => (source.SourceValue as Permission).Id);
+                    .ConstructUsing(source => (source as Permission).Id);
 
                 x.CreateMap<Role, int>()
-                        .ConstructUsing(source => (source.SourceValue as Role).Id);
+                        .ConstructUsing(source => (source as Role).Id);
 
                 x.CreateMap<Tag, int>()
-                     .ConstructUsing(source => (source.SourceValue as Tag).Id);
+                     .ConstructUsing(source => (source as Tag).Id);
 
                 x.CreateMap<Level, int>()
-                     .ConstructUsing(source => (source.SourceValue as Level).Id);
+                     .ConstructUsing(source => (source as Level).Id);
 
                 x.CreateMap<Department, int>()
-                    .ConstructUsing(source => (source.SourceValue as Department).Id);
+                    .ConstructUsing(source => (source as Department).Id);
 
                 x.CreateMap<City, int>()
-                    .ConstructUsing(source => (source.SourceValue as City).Id);
+                    .ConstructUsing(source => (source as City).Id);
 
                 x.CreateMap<Role, RoleDTO>()
                     .ForMember(roleDto => roleDto.Permissions, opt => opt.MapFrom(src => PermissionConverter.Convert(src.Permissions)));

@@ -10,7 +10,7 @@ namespace BaseOfTalents.WebUI
         static void Main()
         {
 #if !RELEASE
-            int port = 8080;
+            int port = 54537;
             string options = $"http://localhost:{port}/";
 
 #else

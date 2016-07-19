@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Owin.Hosting;
 
-namespace BaseOfTalents.WebUI
+namespace WebUI
 {
     public class Program
     {

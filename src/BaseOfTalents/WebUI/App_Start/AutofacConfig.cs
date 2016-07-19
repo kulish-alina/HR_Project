@@ -12,13 +12,14 @@ using DAL.Services;
 using Domain.DTO.DTOModels;
 using Domain.DTO.DTOModels.SetupDTO;
 using Domain.Entities.Enum.Setup;
+using Entities.Enum;
 using WebUI.Infrastructure.Auth;
 using WebUI.Services;
 using WebUI.Services.Auth;
 
-namespace WebApi
+namespace WebUI.App_Start
 {
-    public class AutofacWebApiConfiguration
+    public class AutofacConfig
     {
         public static IContainer Container;
         public static void Initialize(HttpConfiguration config)

@@ -13,7 +13,7 @@ namespace WebUI
             string options = $"http://localhost:{port}/";
 
 #else
-            int port = 9000;
+            int port = 80;
             StartOptions options = new StartOptions($"http://+:{port}")
             {
                 ServerFactory = "Microsoft.Owin.Host.HttpListener"

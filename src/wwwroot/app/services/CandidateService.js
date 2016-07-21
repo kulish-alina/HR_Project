@@ -20,6 +20,7 @@ import utils  from '../utils';
 const CANDIDATE_URL           = 'candidate/';
 const DATE_TYPE_TO_CONVERT    = ['birthDate', 'createdOn'];
 const DELETED_STATE           = 1;
+const ZERO_YEAR               = 1970;
 
 let _forEach   = curryRight(forEach, 2);
 let curriedSet = curry(set, 3);
@@ -75,13 +76,21 @@ export default class CandidateService {
    }
 
    search(condition) {
-      return _HttpService.post(`${CANDIDATE_URL}search`, condition).then(response => {
-         return _$q.all(map(response.candidate, _convertToClientFormat)).then((candidate) => {
-            response.candidate = candidate;
-            return response;
+      _convertLanguageSkillsToBackend(condition);
+      remove(condition.languageSkills, {state : DELETED_STATE});
+      return _HttpService.post(`${CANDIDATE_URL}search`, condition)
+         .then(response => {
+            return _$q.all(map(response.candidate, _convertToClientFormat)).then((candidate) => {
+               response.candidate = candidate;
+               _convertLanguageSkillsToClient(condition);
+               return response;
+            });
          });
-      });
    }
+}
+
+function _setDeletedState(item) {
+   item.state = DELETED_STATE;
 }
 
 function _addSavedThesaurusesTopics(candidate, thesaurusName, topics) {
@@ -152,7 +161,7 @@ function _convertSocialToBackend(candidate) {
       candidate.convertedSocials,
       isEqualSocials);
 
-   forEach(deletedSocials, social => social.state = DELETED_STATE);
+   forEach(deletedSocials, _setDeletedState);
    candidate.socialNetworks = changedSocials;
    delete candidate.convertedSocials;
    return candidate;
@@ -169,7 +178,7 @@ function _convertLanguageSkillsToBackend(candidate) {
       map(candidate.convertedLanguageSkills, _convertLanguageSkillFieldsToBackend),
       isEqualLanguageSkills);
 
-   forEach(deletedLanguageSkills, skill => skill.state = DELETED_STATE);
+   forEach(deletedLanguageSkills, _setDeletedState);
    candidate.languageSkills = changedLanguageSkills;
    delete candidate.convertedLanguageSkills;
    return candidate;
@@ -195,7 +204,7 @@ function _getLanguageSkillObgect(sourceLanguageSkill) {
       .then(curriedSet(convertedLanguageSkill, 'language'));
    _ThesaurusService.getThesaurusTopic('languageLevel', sourceLanguageSkill.languageLevel)
       .then(level => {
-         convertedLanguageSkill.languageLevel = isNull(level) ? undefined : level;
+         convertedLanguageSkill.languageLevel = isNull(level) || level === undefined ? {} : level;
       });
    return convertedLanguageSkill;
 }
@@ -237,7 +246,7 @@ function _convertRelocationPlacesToBackend(candidate) {
       map(candidate.convertedRelocationPlaces, _convertRelocationsFieldsToBackend),
       isEqualRelocationPlaces);
 
-   forEach(deletedRelocationPlaces, place => place.state = DELETED_STATE);
+   forEach(deletedRelocationPlaces, _setDeletedState);
    candidate.relocationPlaces = changedRelocationPlaces;
    delete candidate.convertedRelocationPlaces;
    return candidate;
@@ -313,8 +322,9 @@ function _setMonthYearExperience(candidate) {
    if (candidate.startExperience) {
       let nowDate                    = new Date(now());
       let startExperienceDate        = new Date(candidate.startExperience);
-      candidate.experienceYears      = nowDate.getFullYear()   - startExperienceDate.getFullYear();
-      candidate.experienceMonthes    = nowDate.getMonth()      - startExperienceDate.getMonth();
+      let differenceDate             = new Date(nowDate - startExperienceDate);
+      candidate.experienceYears      = differenceDate.getFullYear() - ZERO_YEAR;
+      candidate.experienceMonthes    = differenceDate.getMonth();
    }
 }
 

@@ -64,11 +64,11 @@
                </select>
                <ul class="some-change">
                   <li>
-                     <input ng-model="candidate.isMale" name="isMale" value="true" id="male" checked="" type="radio">
+                     <input ng-model="checked" name="isMale" ng-value="true" id="male" type="radio">
                      <label for="male" ng-bind="::'COMMON.MALE' | translate"></label>
                   </li>
                   <li>
-                     <input ng-model="candidate.isMale" name="isMale" value="false" id="female" type="radio">
+                     <input ng-model="candidate.isMale" name="isMale" ng-value="false" id="female" type="radio">
                      <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
                   </li>
                </ul>
@@ -100,7 +100,7 @@
                      </select>
                   </div>
                </div>
-               <language-skills selectedSkills="candidate.convertedLanguageSkills"></language-skills>
+               <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
                <a class="expand button" ng-click="searchCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
             </div>
          </div>

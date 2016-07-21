@@ -23,24 +23,24 @@ export default function CandidateController(//eslint-disable-line max-statements
    ) {
    'ngInject';
 
-   const vm          = $scope;
-   vm.keys           = Object.keys;
-   vm.candidate      = vm.candidate || {};
-   vm.thesaurus      = {};
-   vm.locations      = [];
+   const vm                = $scope;
+   vm.keys                 = Object.keys;
+   vm.candidate            = vm.candidate || {};
+   vm.thesaurus            = {};
+   vm.locations            = [];
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
    vm.addFilesForRemove    = addFilesForRemove;
-   vm.candidate.comments     = $state.params._data ? $state.params._data.comments : vm.candidate.comments;
-   vm.comments               = cloneDeep(vm.candidate.comments);
-   vm.saveComment            = saveComment;
-   vm.removeComment          = removeComment;
-   vm.editComment             = editComment;
-   vm.candidateEvents         = [];
-   vm.cloneCandidateEvents    = [];
-   vm.saveEvent               = saveEvent;
-   vm.removeEvent             = removeEvent;
-   vm.clear                   = clear;
+   vm.candidate.comments   = $state.params._data ? $state.params._data.comments : vm.candidate.comments;
+   vm.comments             = cloneDeep(vm.candidate.comments);
+   vm.saveComment          = saveComment;
+   vm.removeComment        = removeComment;
+   vm.editComment          = editComment;
+   vm.candidateEvents      = [];
+   vm.cloneCandidateEvents = [];
+   vm.saveEvent            = saveEvent;
+   vm.removeEvent          = removeEvent;
+   vm.clear                = clear;
 
    (function _init() {
       _initThesauruses()
@@ -74,9 +74,9 @@ export default function CandidateController(//eslint-disable-line max-statements
    }
 
    function _setCandidateProperties(candidate) {
-      candidate.skills     = candidate.skills || [];
-      candidate.tags       = candidate.tags || [];
-      candidate.files      = candidate.files || [];
+      candidate.skills           = candidate.skills || [];
+      candidate.tags             = candidate.tags || [];
+      candidate.files            = candidate.files || [];
       candidate.languageSkills   = candidate.languageSkills || [];
       candidate.convertedSocials = candidate.convertedSocials || [];
       _addAdditionProperties(candidate);
@@ -163,7 +163,10 @@ export default function CandidateController(//eslint-disable-line max-statements
       vm.candidate.comments = vm.comments;
       _deleteAdditionProperties(vm.candidate);
       CandidateService.saveCandidate(vm.candidate)
-         .then(curriedSet(vm, 'candidate'))
+         .then(candidate => {
+            set(vm, 'candidate', candidate);
+            return candidate;
+         })
          .then(() => _addAdditionProperties(vm.candidate))
          .then(entity => {
             vm.comments = cloneDeep(vm.candidate.comments);
@@ -199,6 +202,7 @@ export default function CandidateController(//eslint-disable-line max-statements
    }
 
    function _addEmptySocials(candidate) {
+      candidate.convertedSocials = candidate.convertedSocials || [];
       forEach(vm.thesaurus.socialNetwork, social => {
          let candidateSocial = find(vm.candidate.socialNetworks,
             _candidateSocial => _candidateSocial.socialNetworkId === social.id);

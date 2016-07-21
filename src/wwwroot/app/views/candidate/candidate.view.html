@@ -39,7 +39,7 @@
                            </li>
                         </ul>
                         <input placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                        <language-skills selectedSkills="candidate.convertedLanguageSkills"></language-skills>
+                        <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
                         <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city track by city.id" ng-model="candidate.cityId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
 
                      </fieldset>

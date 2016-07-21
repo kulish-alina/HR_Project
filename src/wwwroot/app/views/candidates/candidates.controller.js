@@ -21,19 +21,18 @@ export default function CandidatesController(
    LocalStorageService
    ) {
    'ngInject';
-   const vm             = $scope;
-   vm.deleteCandidate   = deleteCandidate;
-   vm.editCandidate     = editCandidate;
-   vm.viewCandidate     = viewCandidate;
-   vm.cancel            = cancel;
-   vm.thesaurus         = [];
-   vm.searchCandidates  = searchCandidates;
-   vm.candidate         = {};
-   vm.candidate.current = 0;
-   vm.candidate.size    = 20;
-   vm.candidateTotal    = 0;
-   vm.pageChanged       = pageChanged;
-
+   const vm                = $scope;
+   vm.deleteCandidate      = deleteCandidate;
+   vm.editCandidate        = editCandidate;
+   vm.viewCandidate        = viewCandidate;
+   vm.cancel               = cancel;
+   vm.thesaurus            = [];
+   vm.searchCandidates     = searchCandidates;
+   vm.candidate            = {};
+   vm.candidate.current    = 0;
+   vm.candidate.size       = 20;
+   vm.candidateTotal       = 0;
+   vm.pageChanged          = pageChanged;
    vm.slider = {
       min: 21,
       max: 45,
@@ -52,8 +51,8 @@ export default function CandidatesController(
          .then(topics => set(vm, 'thesaurus', topics));
       vm.candidates = LocalStorageService.get('candidates') || [];
       vm.candidate = LocalStorageService.get('candidate') || {};
-      $element.on('$destroy', _setToStorage);
-      $window.onbeforeunload = _setToStorage;
+      vm.candidate.minAge  = vm.slider.min;
+      vm.candidate.maxAge  = vm.slider.max;
    }());
 
    function pageChanged(newPage) {
@@ -64,6 +63,7 @@ export default function CandidatesController(
    function searchCandidates() {
       CandidateService.search(vm.candidate).then(response => {
          vm.candidates = response;
+         _setToStorage();
       }).catch(_onError);
    }
 

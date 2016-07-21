@@ -41,19 +41,22 @@ export default function VacancyProfileController(
    vm.addFilesForRemove    = addFilesForRemove;
    vm.queueFilesForRemove  = [];
    vm.saveChanges          = saveChanges;
+   vm.vacancy.comments     = $state.params._data ? $state.params._data.comments : [];
+   vm.comments             = cloneDeep(vm.vacancy.comments);
    vm.isChanged            = isChanged;
    vm.selectStage          = selectStage;
    vm.currentStage         = '';
    vm.saveComment          = _saveComment;
    vm.removeComment        = _removeComment;
    vm.editComment          = _editComment;
+   vm.goToParentVacancy    = goToParentVacancy;
+   vm.goToChildVacancy     = goToChildVacancy;
 
-   function _init() {
+   (function _init() {
       _initCurrentVacancy();
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-   }
-   _init();
+   }());
 
    function _initCurrentVacancy() {
       if ($state.params._data) {
@@ -69,6 +72,18 @@ export default function VacancyProfileController(
             vm.comments = cloneDeep(vm.vacancy.comments);
          });
       }
+   }
+
+   function goToParentVacancy() {
+      $state.go('vacancyEdit', {_data: null, vacancyId: vm.vacancy.parentVacancyId});
+   }
+
+   function goToChildVacancy(vacancy) {
+      $state.go('vacancyEdit', {_data: null, vacancyId: vacancy.id});
+   }
+
+   function edit() {
+      $state.go('vacancyEdit', {_data: vm.vacancy, vacancyId: vm.vacancy.id});
    }
 
    function isChanged() {
@@ -110,10 +125,6 @@ export default function VacancyProfileController(
    function addFilesForRemove(file) {
       vm.queueFilesForRemove.push(file);
       remove(vm.vacancy.files, {id: file.id});
-   }
-
-   function edit() {
-      $state.go('vacancyEdit', {_data: vm.vacancy, vacancyId: vm.vacancy.id});
    }
 
    function saveChanges() {

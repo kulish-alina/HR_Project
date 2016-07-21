@@ -124,8 +124,22 @@ namespace DAL.Services
                         childVacancy.UpdateChildWithParent(domain, uow);
                         childVacancies.Add(childVacancy);
                     });
-                    childVacancies.ForEach(x => domain.ChildVacancies.Add(x));
                 }
+                else if (dto.ChildVacanciesNumber.Value > domain.ChildVacancies.Count)
+                {
+                    var additionalVacancyChildsNumber = dto.ChildVacanciesNumber.Value - domain.ChildVacancies.Count;
+                    additionalVacancyChildsNumber.Times(() =>
+                    {
+                        Vacancy childVacancy = new Vacancy();
+                        childVacancy.UpdateChildWithParent(domain, uow);
+                        childVacancies.Add(childVacancy);
+                    });
+                }
+                childVacancies.ForEach(x => domain.ChildVacancies.Add(x));
+            }
+            if(domain.ChildVacanciesNumber < domain.ChildVacancies.Count)
+            {
+                domain.ChildVacanciesNumber = domain.ChildVacancies.Count;
             }
         }
     }

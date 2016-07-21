@@ -43,7 +43,17 @@ export default function VacancyController(
    vm.removeComment                = _removeComment;
    vm.editComment                  = _editComment;
    vm.comments                     = cloneDeep(vm.vacancy.comments);
+   vm.goToChildVacancy             = goToChildVacancy;
+   vm.goToParentVacancy            = goToParentVacancy;
+   vm.removeChildVacancy           = removeChildVacancy;
+
    /* === impl === */
+
+   (function init() {
+      _initCurrentVacancy();
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
+      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+   }());
 
    function _initCurrentVacancy() {
       if ($state.params._data) {
@@ -59,12 +69,6 @@ export default function VacancyController(
          vm.vacancy.files = [];
       }
    }
-
-   _initCurrentVacancy();
-
-   ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-
-   UserService.getUsers().then(users => set(vm, 'responsibles', users));
 
    function createNewUploader() {
       let newUploader = FileService.getFileUploader({ onCompleteAllCallBack : _vs, maxSize : 2048000 });
@@ -87,6 +91,23 @@ export default function VacancyController(
 
    function clear() {
       $state.go('vacancyEdit', {_data: null, vacancyId: null});
+   }
+
+   function goToChildVacancy(vacancy) {
+      $state.go('vacancyView', {_data: null, vacancyId: vacancy.id});
+   }
+
+   function removeChildVacancy(vacancy) {
+      UserDialogService.confirm($translate.instant('VACANCY.VACANCY_REMOVE_MESSAGE')).then(() => {
+         VacancyService.remove(vacancy).then((responseVacancy) => {
+            vm.vacancy = responseVacancy;
+            UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING'), 'success');
+         });
+      });
+   }
+
+   function goToParentVacancy() {
+      $state.go('vacancyEdit', {_data: null, vacancyId: vm.vacancy.parentVacancyId});
    }
 
    function saveVacancy(ev, form) {

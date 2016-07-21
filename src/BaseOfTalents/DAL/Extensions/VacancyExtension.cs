@@ -45,9 +45,15 @@ namespace DAL.Extensions
                 LanguageId = parentVacancy.LanguageSkill.LanguageId,
                 LanguageLevel = parentVacancy.LanguageSkill.LanguageLevel
             };
-            childVacancy.ParentVacancyId = parentVacancy.Id;
+            childVacancy.ParentVacancy = parentVacancy;
             //CandidatesProgress
-            childVacancy.Files = parentVacancy.Files;
+            childVacancy.Files.Clear();
+            childVacancy.Files = parentVacancy.Files.Select(x=> new File
+            {
+                FilePath = x.FilePath,
+                Size = x.Size,
+                Description = x.Description
+            }).ToList();
             childVacancy.Comments.Clear();
             childVacancy.Comments = parentVacancy.Comments.Select(x => new Comment { Message = x.Message }).ToList();
         }
@@ -100,7 +106,8 @@ namespace DAL.Extensions
                     EventDate = source.DeadlineDate.Value,
                     EventType = eventType,
                     ResponsibleId = source.ResponsibleId,
-                    Vacancy = destination
+                    Vacancy = destination,
+                    Description = string.Format("Deadline for {0} vacancy", destination.Title)
                 });
             }
             else if (NeedDeleteDeadlineEvent(destination, source))

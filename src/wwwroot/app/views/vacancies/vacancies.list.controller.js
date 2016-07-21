@@ -3,7 +3,9 @@ const LIST_OF_THESAURUS = ['industry', 'level', 'city',
 import {
    remove,
    find,
-   set
+   set,
+   assign,
+   includes
 } from 'lodash';
 
 export default function VacanciesController(
@@ -36,6 +38,7 @@ export default function VacanciesController(
    vm.pageChanged      = pageChanged;
    vm.vacancy          = LocalStorageService.get('vacancy') || {};
    vm.vacancies        = LocalStorageService.get('vacancies') || [];
+
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
@@ -73,12 +76,18 @@ export default function VacanciesController(
       $state.reload();
    }
 
-   function deleteVacancy(vacancyId) {
+   function deleteVacancy(vacancy) {
       UserDialogService.confirm($translate.instant('VACANCY.VACANCY_REMOVE_MESSAGE')).then(() => {
-         let predicate = {id: vacancyId};
+         let predicate = {id: vacancy.id};
          let vacancyForRemove = find(vm.vacancies.vacancies, predicate);
-         VacancyService.remove(vacancyForRemove).then(() => {
+         VacancyService.remove(vacancyForRemove).then((responseVacancy) => {
             remove(vm.vacancies.vacancies, predicate);
+            if (vacancy.parentVacancyId !== null) {
+               let parentVacancy = find(vm.vacancies.vacancies, {childVacanciesIds: [ vacancy.id ]});
+               assign(parentVacancy, responseVacancy);
+            } else if (vacancy.childVacanciesIds.length !== 0) {
+               remove(vm.vacancies.vacancies, _vacancy => includes(vacancy.childVacanciesIds, _vacancy.id));
+            }
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING'), 'success');
          });
       });

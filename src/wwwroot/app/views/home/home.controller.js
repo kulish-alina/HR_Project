@@ -50,7 +50,7 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.getEventsForDate        = getEventsForDate;
    vm.user                    = {};
 
-   function _init() {
+   (function _init() {
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       NoteService.getNotesByUser().then((notes) => {
@@ -66,8 +66,7 @@ export default function HomeController( //eslint-disable-line max-statements
       if (!vm.user) {
          $state.go('login');
       }
-   };
-   _init();
+   }());
 
    function pageChanged(newPage) {
       vm.vacancy.current = newPage - 1;

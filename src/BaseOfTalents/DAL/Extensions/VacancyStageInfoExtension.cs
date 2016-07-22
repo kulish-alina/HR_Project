@@ -1,41 +1,50 @@
 ﻿using DAL.DTO;
 using Domain.Entities;
 using System;
+using System.Linq;
 
 namespace DAL.Extensions
 {
     public static class VacancyStageInfoExtension
     {
-        public static void Update(this VacancyStageInfo domain, VacancyStageInfoDTO dto)
+        public static void Update(this VacancyStageInfo vacancyStageInfoDomain, Vacancy destination, VacancyStageInfoDTO vacancyStageInfoSource)
         {
-            if (dto.Comment == null)
+            vacancyStageInfoDomain.CandidateId = vacancyStageInfoSource.CandidateId;
+            if (vacancyStageInfoSource.VacancyId.HasValue)
             {
-                if (dto.VacancyStage.IsCommentRequired)
-                {
-                    throw new ArgumentNullException("Vacancy stage info should have comment");
-                }
-                else
-                {
-                    domain.Comment = null;
-                }
+                vacancyStageInfoDomain.VacancyId = vacancyStageInfoSource.VacancyId.Value;
             }
             else
             {
-                domain.Comment = new Comment()
-                {
-                    Message = dto.Comment.Message
-                };
+                vacancyStageInfoDomain.Vacancy = destination;
             }
-            domain.VacancyStage = new VacancyStage()
+            vacancyStageInfoDomain.IsPassed = vacancyStageInfoSource.IsPassed;
+            vacancyStageInfoDomain.StageId = vacancyStageInfoSource.StageId;
+
+            var stage = destination.StageFlow.FirstOrDefault(x => x.Id == vacancyStageInfoSource.StageId);
+            if (vacancyStageInfoSource.IsNew())
             {
-                Order = dto.VacancyStage.Order,
-                IsCommentRequired = dto.VacancyStage.IsCommentRequired,
-                StageId = dto.VacancyStage.StageId,
-                State = dto.VacancyStage.State,
-            };
-            domain.State = dto.State;
-            domain.CandidateId = dto.CandidateId;
-            domain.VacancyId = dto.VacancyId;
+                if (stage.IsCommentRequired)
+                {
+                    if (vacancyStageInfoSource.Comment == null)
+                    {
+                        if (vacancyStageInfoDomain.IsPassed)
+                        {
+                            throw new Exception("Comment is needed");
+                        }
+                    }
+                    else
+                    {
+                        vacancyStageInfoDomain.Comment = new Comment();
+                        vacancyStageInfoDomain.Comment.Update(vacancyStageInfoSource.Comment);
+                    }
+                }
+            }
+            else if (stage.IsCommentRequired && vacancyStageInfoSource.Comment != null)
+            {
+                vacancyStageInfoDomain.Comment.Update(vacancyStageInfoSource.Comment);
+            }
+
         }
     }
 }

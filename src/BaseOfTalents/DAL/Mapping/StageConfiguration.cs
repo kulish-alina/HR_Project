@@ -7,6 +7,9 @@ namespace DAL.Mapping
         public StageConfiguration()
         {
             Property(sn => sn.Title).IsRequired();
+            Property(sn => sn.IsCommentRequired).IsRequired();
+            Property(sn => sn.IsDefault).IsRequired();
+            Property(sn => sn.Order).IsRequired();
         }
     }
 }

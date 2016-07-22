@@ -11,7 +11,6 @@
         ITagRepository TagRepo { get; }
         ISkillRepository SkillRepo { get; }
         ILanguageSkillRepository LanguageSkillRepo { get; }
-        IVacancyStageRepository VacancyStageRepo { get; }
         ILanguageRepository LanguageRepo { get; }
         ICountryRepository CountryRepo { get; }
         IDepartmentGroupRepository DepartmentGroupRepo { get; }

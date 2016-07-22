@@ -49,7 +49,7 @@ namespace DAL.Mapping
                 x.MapLeftKey("CandidateId");
                 x.ToTable("CandidateToComment");
             });
-            HasMany(c => c.Sources);
+            HasMany(c => c.Sources).WithRequired(x => x.Candidate);
             HasOptional(x => x.MainSource).WithMany().HasForeignKey(x => x.MainSourceId);
 
             HasMany(v => v.Tags).WithMany().Map(x =>

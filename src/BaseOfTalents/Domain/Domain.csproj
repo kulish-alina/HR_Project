@@ -75,7 +75,6 @@
     <Compile Include="Entities\RelocationLocation.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Vacancy.cs" />
-    <Compile Include="Entities\VacancyStage.cs" />
     <Compile Include="Entities\VacancyStageInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

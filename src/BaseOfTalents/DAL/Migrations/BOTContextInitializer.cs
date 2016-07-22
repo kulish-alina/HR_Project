@@ -48,8 +48,8 @@ namespace DAL.Migrations
             context.SaveChanges();
             context.Sources.AddRange(DummyData.Sources);
             context.SaveChanges();
-            context.CandidateSources.AddRange(DummyData.CandidateSources);
-            context.SaveChanges();
+            /*context.CandidateSources.AddRange(DummyData.CandidateSources);
+            context.SaveChanges();*/
             context.Candidates.AddRange(DummyData.Candidates);
             context.SaveChanges();
             context.Events.AddRange(DummyData.Events);

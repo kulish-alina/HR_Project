@@ -61,6 +61,9 @@ export default function _config(
          url: '/candidates',
          template: candidatesTemplate,
          controller: candidatesController,
+         params: {
+            vacancyIdToGoBack: null
+         },
          data: {
             hide: false,
             hideHome: true
@@ -71,6 +74,9 @@ export default function _config(
          url: '/vacancies',
          template: vacanciesTemplate,
          controller: vacanciesController,
+         params: {
+            candidateIdToGoBack: null
+         },
          data: {
             hide: false,
             hideHome: true
@@ -82,6 +88,7 @@ export default function _config(
          template: vacancyViewTemplate,
          controller: vacancyViewController,
          params: {
+            candidatesIds: [],
             _data: null,
             vacancyId: null
          },
@@ -94,7 +101,8 @@ export default function _config(
          controller: candidateController,
          params: {
             _data: null,
-            candidateId: null
+            candidateId: null,
+            vacancyIdToGoBack: null
          },
          parent: 'candidates',
          data: { hide: true }
@@ -104,6 +112,7 @@ export default function _config(
          template: candidateProfileTemplate,
          controller: candidateProfileController,
          params: {
+            vacancies: [],
             _data: null,
             candidateId: null
          },

@@ -104,7 +104,7 @@ namespace DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Message = c.String(nullable: false),
+                        Message = c.String(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -315,41 +315,25 @@ namespace DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        StageId = c.Int(nullable: false),
+                        IsPassed = c.Boolean(nullable: false),
                         CandidateId = c.Int(nullable: false),
                         VacancyId = c.Int(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         Comment_Id = c.Int(),
-                        VacancyStage_Id = c.Int(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Comment", t => t.Comment_Id)
+                .ForeignKey("dbo.Stage", t => t.StageId)
                 .ForeignKey("dbo.Vacancy", t => t.VacancyId)
-                .ForeignKey("dbo.VacancyStage", t => t.VacancyStage_Id)
                 .ForeignKey("dbo.Candidate", t => t.CandidateId)
+                .Index(t => t.StageId)
                 .Index(t => t.CandidateId)
                 .Index(t => t.VacancyId)
-                .Index(t => t.Comment_Id)
-                .Index(t => t.VacancyStage_Id);
-            
-            CreateTable(
-                "dbo.VacancyStage",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Order = c.Int(nullable: false),
-                        IsCommentRequired = c.Boolean(nullable: false),
-                        StageId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Stage", t => t.StageId)
-                .Index(t => t.StageId);
+                .Index(t => t.Comment_Id);
             
             CreateTable(
                 "dbo.Stage",
@@ -357,6 +341,9 @@ namespace DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
+                        Order = c.Int(nullable: false),
+                        IsDefault = c.Boolean(nullable: false),
+                        IsCommentRequired = c.Boolean(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -530,7 +517,7 @@ namespace DAL.Migrations
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
-                        Candidate_Id = c.Int(),
+                        Candidate_Id = c.Int(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -657,6 +644,19 @@ namespace DAL.Migrations
                 .Index(t => t.SkillId);
             
             CreateTable(
+                "dbo.StageToVacancy",
+                c => new
+                    {
+                        VacancyId = c.Int(nullable: false),
+                        StageId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.VacancyId, t.StageId })
+                .ForeignKey("dbo.Vacancy", t => t.VacancyId)
+                .ForeignKey("dbo.Stage", t => t.StageId)
+                .Index(t => t.VacancyId)
+                .Index(t => t.StageId);
+            
+            CreateTable(
                 "dbo.VacancyToTag",
                 c => new
                     {
@@ -776,6 +776,8 @@ namespace DAL.Migrations
             DropForeignKey("dbo.Event", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyToTag", "TagId", "dbo.Tag");
             DropForeignKey("dbo.VacancyToTag", "VacancyId", "dbo.Vacancy");
+            DropForeignKey("dbo.StageToVacancy", "StageId", "dbo.Stage");
+            DropForeignKey("dbo.StageToVacancy", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "ResponsibleId", "dbo.User");
             DropForeignKey("dbo.VacancyToSkill", "SkillId", "dbo.Skill");
             DropForeignKey("dbo.VacancyToSkill", "VacancyId", "dbo.Vacancy");
@@ -796,9 +798,8 @@ namespace DAL.Migrations
             DropForeignKey("dbo.VacancyToCity", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.ParentVacancyToChildVacancy", "ChildVacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.ParentVacancyToChildVacancy", "ParentVacancyId", "dbo.Vacancy");
-            DropForeignKey("dbo.VacancyStageInfo", "VacancyStage_Id", "dbo.VacancyStage");
-            DropForeignKey("dbo.VacancyStage", "StageId", "dbo.Stage");
             DropForeignKey("dbo.VacancyStageInfo", "VacancyId", "dbo.Vacancy");
+            DropForeignKey("dbo.VacancyStageInfo", "StageId", "dbo.Stage");
             DropForeignKey("dbo.VacancyStageInfo", "Comment_Id", "dbo.Comment");
             DropForeignKey("dbo.Event", "ResponsibleId", "dbo.User");
             DropForeignKey("dbo.User", "RoleId", "dbo.Role");
@@ -832,6 +833,8 @@ namespace DAL.Migrations
             DropIndex("dbo.FileToCandidate", new[] { "CandidateId" });
             DropIndex("dbo.VacancyToTag", new[] { "TagId" });
             DropIndex("dbo.VacancyToTag", new[] { "VacancyId" });
+            DropIndex("dbo.StageToVacancy", new[] { "StageId" });
+            DropIndex("dbo.StageToVacancy", new[] { "VacancyId" });
             DropIndex("dbo.VacancyToSkill", new[] { "SkillId" });
             DropIndex("dbo.VacancyToSkill", new[] { "VacancyId" });
             DropIndex("dbo.VacancyToLevel", new[] { "LevelId" });
@@ -856,11 +859,10 @@ namespace DAL.Migrations
             DropIndex("dbo.CandidateSocial", new[] { "SocialNetworkId" });
             DropIndex("dbo.LanguageSkill", new[] { "LanguageId" });
             DropIndex("dbo.Department", new[] { "DepartmentGroupId" });
-            DropIndex("dbo.VacancyStage", new[] { "StageId" });
-            DropIndex("dbo.VacancyStageInfo", new[] { "VacancyStage_Id" });
             DropIndex("dbo.VacancyStageInfo", new[] { "Comment_Id" });
             DropIndex("dbo.VacancyStageInfo", new[] { "VacancyId" });
             DropIndex("dbo.VacancyStageInfo", new[] { "CandidateId" });
+            DropIndex("dbo.VacancyStageInfo", new[] { "StageId" });
             DropIndex("dbo.Vacancy", new[] { "LanguageSkill_Id" });
             DropIndex("dbo.Vacancy", new[] { "CurrencyId" });
             DropIndex("dbo.Vacancy", new[] { "ResponsibleId" });
@@ -892,6 +894,7 @@ namespace DAL.Migrations
             DropTable("dbo.CandidateToLanguageSkill");
             DropTable("dbo.FileToCandidate");
             DropTable("dbo.VacancyToTag");
+            DropTable("dbo.StageToVacancy");
             DropTable("dbo.VacancyToSkill");
             DropTable("dbo.VacancyToLevel");
             DropTable("dbo.FileToVacancy");
@@ -914,7 +917,6 @@ namespace DAL.Migrations
             DropTable("dbo.DepartmentGroup");
             DropTable("dbo.Department");
             DropTable("dbo.Stage");
-            DropTable("dbo.VacancyStage");
             DropTable("dbo.VacancyStageInfo");
             DropTable("dbo.Vacancy");
             DropTable("dbo.Permission");

@@ -1,7 +1,9 @@
 import {
    remove,
    find,
-   set
+   set,
+   filter,
+   forEach
 } from 'lodash';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
@@ -33,6 +35,9 @@ export default function CandidatesController(
    vm.candidate.size       = 20;
    vm.candidateTotal       = 0;
    vm.pageChanged          = pageChanged;
+   vm.selectedCandidates   = [];
+   vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
+
    vm.slider = {
       min: 21,
       max: 45,
@@ -49,7 +54,8 @@ export default function CandidatesController(
    (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
-      vm.candidates = LocalStorageService.get('candidates') || [];
+      vm.candidates = /*LocalStorageService.get('candidates') ||*/ [];
+      searchCandidates();
       vm.candidate = LocalStorageService.get('candidate') || {};
       vm.candidate.minAge  = vm.slider.min;
       vm.candidate.maxAge  = vm.slider.max;
@@ -62,6 +68,9 @@ export default function CandidatesController(
 
    function searchCandidates() {
       CandidateService.search(vm.candidate).then(response => {
+         forEach(response.candidate, (cand) => {
+            cand.isToogled = vm.isCandidateWasToogled(cand.id);
+         });
          vm.candidates = response;
          _setToStorage();
       }).catch(_onError);
@@ -97,7 +106,39 @@ export default function CandidatesController(
    }
 
    function _setToStorage() {
-      LocalStorageService.set('candidate', vm.candidate);
+      //LocalStorageService.set('candidate', vm.candidate);
       LocalStorageService.set('candidates', vm.candidates);
    }
+
+   vm.goBackToVacancy = () => {
+      if (vm.vacancyIdToGoBack) {
+         if (vm.selectedCandidates && vm.selectedCandidates.length) {
+            $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': vm.selectedCandidates });
+         }
+      }
+   };
+
+   vm.isCandidateWasToogled = (candidateId) => {
+      let foundedCand = find(vm.selectedCandidates, (cand) => {
+         return cand === candidateId;
+      });
+      if (foundedCand) {
+         return true;
+      } else {
+         return false;
+      }
+   };
+
+   vm.toogleCandidate = (candidateId) => {
+      let foundedCand = find(vm.selectedCandidates, (cand) => {
+         return cand === candidateId;
+      });
+      if (foundedCand) {
+         vm.selectedCandidates = filter(vm.selectedCandidates, (candId) => {
+            return candId !== candidateId;
+         });
+      } else {
+         vm.selectedCandidates.push(candidateId);
+      }
+   };
 }

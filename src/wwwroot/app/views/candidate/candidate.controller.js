@@ -25,6 +25,8 @@ export default function CandidateController( //eslint-disable-line max-statement
    ) {
    'ngInject';
 
+   console.log($state.params._data, 'stageparapmsdata');
+
    const vm                = $scope;
    vm.keys                 = Object.keys;
    vm.candidate            = vm.candidate || {};
@@ -43,6 +45,9 @@ export default function CandidateController( //eslint-disable-line max-statement
    vm.saveEvent            = saveEvent;
    vm.removeEvent          = removeEvent;
    vm.clear                = clear;
+   vm.vacancyIdToGoBack       = $state.params.vacancyIdToGoBack;
+
+   console.log(vm.vacancyIdToGoBack);
 
    (function _init() {
       _initDataForEvents();
@@ -162,10 +167,17 @@ export default function CandidateController( //eslint-disable-line max-statement
       return candidate;
    }
 
+   vm.saveAndGoBack = (form) => {
+      saveCandidate(form).then(() => {
+         console.log(vm.candidate, 'вывэсты');
+         $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ] });
+      });
+   };
+
    function saveCandidate(form) {
-      ValidationService.validate(form).then(() => {
+      return ValidationService.validate(form).then(() => {
          if (isEmpty(vm.filesUploader.getNotUploadedItems())) {
-            _saveCandidate();
+            return _saveCandidate();
          } else {
             vm.filesUploader.uploadAll();
          }
@@ -180,7 +192,7 @@ export default function CandidateController( //eslint-disable-line max-statement
       let memo = vm.candidate.comments;
       vm.candidate.comments = vm.comments;
       _deleteAdditionProperties(vm.candidate);
-      CandidateService.saveCandidate(vm.candidate)
+      return CandidateService.saveCandidate(vm.candidate)
          .then(candidate => {
             set(vm, 'candidate', candidate);
             return candidate;
@@ -287,6 +299,13 @@ export default function CandidateController( //eslint-disable-line max-statement
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING_EVENT'), 'success');
       });
    }
+
+   vm.isNeedToGoBack = () => {
+      if (vm.vacancyIdToGoBack) {
+         return true;
+      }
+      return false;
+   };
 
    function clear() {
       $state.go('candidate', {_data: null, candidateId: null});

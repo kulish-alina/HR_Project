@@ -12,7 +12,7 @@
                <a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
             </li>
             <li>
-               <a href="#" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
+            <a ng-click="goBackToCandidate()" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
             </li>
          </ul>
       </div>
@@ -57,6 +57,9 @@
                <table>
                   <thead>
                      <tr>
+                        <th>
+                           <input id="vacancy" type="checkbox">
+                        </th>
                         <th>№</th>
                         <th ng-bind="::'COMMON.TITLE' | translate"></th>
                         <th ng-bind="::'COMMON.STATUS' | translate"></th>
@@ -68,6 +71,9 @@
                   </thead>
                   <tbody>
                      <tr ng-hide="!vacancy" dir-paginate="vacancyItem in vacancies.vacancies | itemsPerPage: vacancy.size" total-items="vacancies.total" current-page="vacancy.current">
+                         <th>
+                           <input id="checkbox9" type="checkbox" ng-model="vacancyItem.isToogled" ng-change="toogleVacancy(vacancyItem)">
+                        </th>
                         <td>{{$index+1}}</td>
                         <td>
                            <a ng-click="viewVacancy(vacancyItem)" ng-bind="::vacancyItem.title"></a> <span ng-bind="::'VACANCY.CHILD_VACANCY' | translate" ng-if="vacancyItem.parentVacancyId"></span> <span ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancyItem.childVacanciesIds.length !== 0"></span> </td>

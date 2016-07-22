@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Enum;
+﻿using DAL.DTO.SetupDTO;
+using Domain.Entities.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,6 +18,7 @@ namespace DAL.DTO
             Files = new List<FileDTO>();
             ChildVacanciesIds = new List<int>();
             Comments = new List<CommentDTO>();
+            StageFlow = new List<StageDTO>();
         }
 
         [Required]
@@ -32,6 +34,7 @@ namespace DAL.DTO
         public IEnumerable<int> LevelIds { get; set; }
         public IEnumerable<int> CityIds { get; set; }
         public IEnumerable<int> RequiredSkillIds { get; set; }
+        public IEnumerable<StageDTO> StageFlow { get; set; }
         public IEnumerable<VacancyStageInfoDTO> CandidatesProgress { get; set; }
         public IEnumerable<int> TagIds { get; set; }
         public IEnumerable<FileDTO> Files { get; set; }

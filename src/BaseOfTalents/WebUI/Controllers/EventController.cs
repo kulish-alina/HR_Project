@@ -34,8 +34,7 @@ namespace WebUI.Controllers
         public IHttpActionResult Get()
         {
             ModelState.AddModelError("Search", "Go to /search and specify search parameters");
-            return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
-
+            return BadRequest(ModelState);
         }
 
         [HttpPost]
@@ -48,7 +47,7 @@ namespace WebUI.Controllers
             }
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
 
             var foundedEvents = service.Get(searchParams.UserIds, searchParams.StartDate, searchParams.EndDate);

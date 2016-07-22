@@ -81,11 +81,12 @@ namespace WebApi
                 x.CreateMap<LanguageSkill, LanguageSkillDTO>();
                 x.CreateMap<LanguageSkillDTO, LanguageSkill>();
 
-                x.CreateMap<VacancyStage, VacancyStageDTO>();
-                x.CreateMap<VacancyStageDTO, VacancyStage>();
-
-                x.CreateMap<VacancyStageInfo, VacancyStageInfoDTO>();
+                x.CreateMap<VacancyStageInfo, VacancyStageInfoDTO>()
+                    .ForMember(dest => dest.StageId, opt => opt.MapFrom(src => Mapper.Map<Stage, int>(src.Stage)));
                 x.CreateMap<VacancyStageInfoDTO, VacancyStageInfo>();
+
+                x.CreateMap<Stage, int>()
+                     .ConstructUsing(source => (source.SourceValue as Stage).Id);
 
                 x.CreateMap<Currency, int>()
                      .ConstructUsing(source => (source.SourceValue as Currency).Id);
@@ -143,7 +144,9 @@ namespace WebApi
                     .ForMember(dest => dest.TagIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Tag>, IEnumerable<int>>(src.Tags)))
                     .ForMember(dest => dest.RequiredSkillIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.RequiredSkills)))
                     .ForMember(dest => dest.ChildVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ChildVacancies)))
-                    .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
+                    .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)))
+                    .ForMember(dest => dest.StageFlow, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Stage>, IEnumerable<StageDTO>>(src.StageFlow)));
+
 
                 x.CreateMap<RelocationPlace, RelocationPlaceDTO>();
                 x.CreateMap<RelocationPlaceDTO, RelocationPlace>();

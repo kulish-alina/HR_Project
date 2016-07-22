@@ -9,6 +9,13 @@ namespace DAL.Mapping
             Property(v => v.Title).IsRequired();
             Property(v => v.StartDate).IsRequired();
 
+            HasMany(x => x.StageFlow).WithMany().Map(x =>
+            {
+                x.MapRightKey("StageId");
+                x.MapLeftKey("VacancyId");
+                x.ToTable("StageToVacancy");
+            });
+
             HasMany(v => v.CandidatesProgress);
             HasMany(v => v.Files).WithMany().Map(x =>
             {

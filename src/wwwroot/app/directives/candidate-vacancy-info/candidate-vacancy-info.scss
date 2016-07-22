@@ -1,0 +1,8 @@
+@import './../../common.scss';
+
+candidate-vacancy-info {
+    width: 100%;
+    select :first-child {
+        color: $body-font-color;
+    }
+}

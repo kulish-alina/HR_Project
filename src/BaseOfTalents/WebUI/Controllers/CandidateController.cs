@@ -4,7 +4,6 @@ using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
-using WebUI.Extensions;
 using WebUI.Models;
 
 namespace WebUI.Controllers
@@ -66,7 +65,7 @@ namespace WebUI.Controllers
                 var ret = new { Candidate = candidatesQuerryResult, Current = searchParameters.Current, Size = searchParameters.Size, Total = total };
                 return Json(ret, BOT_SERIALIZER_SETTINGS);
             }
-            return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+            return BadRequest(ModelState);
         }
 
         // GET api/<controller>/5
@@ -75,11 +74,12 @@ namespace WebUI.Controllers
         public IHttpActionResult Get(int id)
         {
             var foundedEntity = service.Get(id);
-            if (foundedEntity != null)
+            if (foundedEntity == null)
             {
-                return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
+                ModelState.AddModelError("Candidate", "Candidate with id " + id + " not founded.");
+                return BadRequest(ModelState);
             }
-            return BadRequest();
+            return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
         }
 
         // POST api/<controller>
@@ -89,7 +89,7 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
             var addedCandidate = service.Add(newCandidate);
             return Json(addedCandidate, BOT_SERIALIZER_SETTINGS);
@@ -102,7 +102,7 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
             var updatedCandidate = service.Update(changedCandidate);
             return Json(updatedCandidate, BOT_SERIALIZER_SETTINGS);

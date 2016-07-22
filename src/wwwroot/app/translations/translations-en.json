@@ -92,6 +92,7 @@
       "EMAIL": "Email",
       "SKYPE": "Skype",
       "PHONE": "Phone number",
+      "PASS_STAGE": "Pass stage",
       "BIRTH": "Birth day",
       "REMOVE" : "Remove",
       "TITLE": "Title",

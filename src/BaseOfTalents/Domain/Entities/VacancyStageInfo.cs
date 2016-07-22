@@ -1,8 +1,13 @@
-﻿namespace Domain.Entities
+﻿using Domain.Entities.Enum.Setup;
+
+namespace Domain.Entities
 {
     public class VacancyStageInfo : BaseEntity
     {
-        public virtual VacancyStage VacancyStage { get; set; }
+        public int StageId { get; set; }
+        public virtual Stage Stage { get; set; }
+
+        public bool IsPassed { get; set; }
 
         public int CandidateId { get; set; }
         public virtual Candidate Candidate { get; set; }

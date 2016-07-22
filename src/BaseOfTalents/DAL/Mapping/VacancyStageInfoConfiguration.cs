@@ -6,8 +6,7 @@ namespace DAL.Mapping
     {
         public VacancyStageInfoConfiguration()
         {
-            HasRequired(vsi => vsi.VacancyStage).WithMany();
-            HasOptional(vsi => vsi.Comment).WithOptionalDependent();
+            HasRequired(x => x.Stage).WithMany().HasForeignKey(x => x.StageId);
 
             HasRequired(vsi => vsi.Candidate).WithMany().HasForeignKey(vsi => vsi.CandidateId);
             HasRequired(vsi => vsi.Vacancy).WithMany().HasForeignKey(vsi => vsi.VacancyId);

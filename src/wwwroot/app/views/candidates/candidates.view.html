@@ -14,7 +14,7 @@
                <a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
             </li>
             <li>
-               <a href="#" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
+               <a ng-if="vacancyIdToGoBack" ng-click="goBackToVacancy()" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
             </li>
          </ul>
       </div>
@@ -128,7 +128,7 @@
                   <tbody>
                      <tr dir-paginate="c in candidates.candidate | itemsPerPage: candidates.size" total-items="candidates.total" current-page="candidate.current">
                           <th>
-                           <input id="checkbox9" type="checkbox">
+                           <input id="checkbox9" type="checkbox" ng-model="c.isToogled" ng-change="toogleCandidate(c.id)">
                         </th>
                         <td>
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>

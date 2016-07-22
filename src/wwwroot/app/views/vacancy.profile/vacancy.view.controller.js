@@ -7,7 +7,11 @@ import {
    find,
    pick,
    some,
-   every
+   every,
+   forEach,
+   map,
+   isEqual,
+   maxBy
 } from 'lodash';
 
 import {
@@ -17,7 +21,7 @@ import {
 
 const MATCH_FIELDS = ['responsibleId', 'startDate', 'endDate', 'deadlineDate'];
 
-export default function VacancyProfileController(
+export default function VacancyProfileController( // eslint-disable-line max-params, max-statements
    $scope,
    $q,
    $state,
@@ -29,7 +33,8 @@ export default function VacancyProfileController(
    VacancyService,
    UserDialogService,
    FileService,
-   LoggerService
+   LoggerService,
+   CandidateService
    ) {
    'ngInject';
 
@@ -51,28 +56,153 @@ export default function VacancyProfileController(
    vm.editComment          = _editComment;
    vm.goToParentVacancy    = goToParentVacancy;
    vm.goToChildVacancy     = goToChildVacancy;
+   vm.clonedComposedBy     = [];
+   vm.composedBy           = [];
 
    (function _init() {
-      _initCurrentVacancy();
+      _initCurrentVacancy().then(() => {
+         addCandidatesToVacancyIfNeeded().then(() => {
+            return _recompose(vm.vacancy.candidatesProgress);
+         }).then((recomposed) => {
+            return _fillWithCandidates(recomposed);
+         }).then((recomposedAndFilledWithCandidates) => {
+            return _fillWithVacancies(recomposedAndFilledWithCandidates);
+         }).then((vacancyStagesObject) => {
+            vm.composedBy = vacancyStagesObject;
+            vm.clonedComposedBy = cloneDeep(vm.composedBy);
+         }).catch((err) => {
+            console.log(err, 'ошибка');
+         });
+      });;
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
    }());
 
    function _initCurrentVacancy() {
+      let deffered = $q.defer();
       if ($state.params._data) {
          vm.vacancy = $state.params._data;
          vm.vacancy.comments = $state.params._data.comments;
          vm.vacancy.files = $state.params._data.files;
          vm.clonedVacancy = cloneDeep(vm.vacancy);
          vm.comments = cloneDeep(vm.vacancy.comments);
+         deffered.resolve();
       } else {
          VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.clonedVacancy = cloneDeep(vm.vacancy);
             vm.comments = cloneDeep(vm.vacancy.comments);
+            deffered.resolve();
          });
       }
+      return deffered.promise;
    }
+
+   function addCandidatesToVacancyIfNeeded() {
+      let deffered = $q.defer();
+      if ($state.params.candidatesIds && $state.params.candidatesIds.length) {
+         forEach($state.params.candidatesIds, (cId) => {
+            let newVSI = {
+               vacancyId: vm.vacancy.id,
+               candidateId: cId,
+               comment: null,
+               isPassed: false,
+               stageId: _getVacancyFirstStage().id,
+               createdOn: (new Date()).toISOString()
+            };
+            vm.vacancy.candidatesProgress.push(newVSI);
+         });
+      }
+      deffered.resolve();
+      return deffered.promise;
+   }
+
+   function _getVacancyFirstStage() {
+      return find(vm.vacancy.stageFlow, { order: 1 });
+   };
+
+   function _recompose(vacancyStageInfos) {
+      let deffered = $q.defer();
+      let composedBy = [];
+      vm.parentEntity = 'vacancy';
+      forEach(vacancyStageInfos, (vsi) => {
+         let composedEntity = find(composedBy, { candidateId: vsi.candidateId });
+         if (composedEntity) {
+            composedEntity.stages.push(vsi);
+         } else {
+            composedBy.push({
+               candidateId: vsi.candidateId,
+               vacancyId: vsi.vacancyId,
+               stages: [ vsi ]
+            });
+         }
+      });
+      let composedWithStages = map(composedBy, (obj) => {
+         let currentStage = find(obj.stages, { isPassed: false });
+
+         if (currentStage) {
+            obj.currentStageId = currentStage.stageId;
+            obj.selectedStageId = currentStage.stageId;
+            obj.selectedStageIsPassed = currentStage.isPassed;
+         } else if (obj.stages.length > 1) {
+            let foundLastStage = maxBy(obj.stages, 'stageId');
+            obj.currentStageId = foundLastStage.stageId;
+            obj.selectedStageId = foundLastStage.stageId;
+            obj.selectedStageIsPassed = foundLastStage.isPassed;
+         } else {
+            obj.currentStageId = 1;
+            obj.selectedStageId = 1;
+            obj.selectedStageIsPassed = false;
+         }
+         return obj;
+      });
+      deffered.resolve(composedWithStages);
+      return deffered.promise;
+   }
+
+
+   function _fillWithCandidates(recomposed) {
+      let deffered = $q.defer();
+      deffered.resolve(map(recomposed, _loadCandidates));
+      return deffered.promise;
+   }
+
+   function _fillWithVacancies(recomposed) {
+      let deffered = $q.defer();
+      if (vm.getvacancy) {
+         deffered.resolve(map(recomposed, _loadVacancies));
+      } else {
+         deffered.resolve(recomposed);
+      }
+      return deffered.promise;
+   }
+
+   function _loadCandidates(candidateStagesObject) {
+      let stagesObjectWithCandidate = candidateStagesObject;
+      CandidateService.getCandidate(candidateStagesObject.candidateId).then(value => {
+         stagesObjectWithCandidate.candidate = value;
+      });
+      return stagesObjectWithCandidate;
+   }
+
+   function _loadVacancies(vacanciesStagesObject) {
+      let stagesObjectWithCandidate = vacanciesStagesObject;
+      VacancyService.getVacancy(vacanciesStagesObject.vacancyId).then(value => {
+         stagesObjectWithCandidate.vacancy = value;
+         stagesObjectWithCandidate.stageFlow = value.stageFlow;
+      });
+      return stagesObjectWithCandidate;
+   }
+
+   vm.goToCandidates = () => {
+      saveChanges();
+      $state.go('candidates', { _data: null, vacancyIdToGoBack: vm.vacancy.id });
+   };
+
+   vm.goToCandidate = () => {
+      saveChanges();
+      $state.go('candidate', { _data: null, vacancyIdToGoBack: vm.vacancy.id });
+   };
 
    function goToParentVacancy() {
       $state.go('vacancyEdit', {_data: null, vacancyId: vm.vacancy.parentVacancyId});
@@ -94,6 +224,7 @@ export default function VacancyProfileController(
       res = res || vm.uploader.queue.length !== 0;
       res = res || !isMatch(pick(vm.clonedVacancy, MATCH_FIELDS), vm.vacancy);
       res = res || !_isEqualComents();
+      res = res || !isEqual(vm.clonedComposedBy, vm.composedBy);
       return res;
    }
 
@@ -162,9 +293,21 @@ export default function VacancyProfileController(
       return $q.when(remove(vm.comments, comment));
    }
 
+   function _recomposeBack(composedBy) {
+      let newCandidatesProgress = [];
+      forEach(composedBy, (stageObject) => {
+         forEach(stageObject.stages, (vsi) => {
+            newCandidatesProgress.push(vsi);
+         });
+      });
+      debugger;
+      return newCandidatesProgress;
+   }
+
    function _vs() {
       let memo = vm.vacancy.comments;
       vm.vacancy.comments = vm.comments;
+      vm.vacancy.candidatesProgress = _recomposeBack(vm.composedBy);
       VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
          vm.comments = cloneDeep(vm.vacancy.comments);

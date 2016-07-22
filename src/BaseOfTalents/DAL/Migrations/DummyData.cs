@@ -332,17 +332,17 @@ namespace DAL.Migrations
 
         public static readonly List<Stage> Stages = new List<Stage>
         {
-            new Stage {Title = "Pool"},
-            new Stage {Title = "Selected"},
-            new Stage {Title = "HR Interview"},
-            new Stage {Title = "Test task"},
-            new Stage {Title = "Tech Interview"},
-            new Stage {Title = "Additional interview"},
-            new Stage {Title = "Final Interview"},
-            new Stage {Title = "Job Offer Issued"},
-            new Stage {Title = "Job Offer Accepted"},
-            new Stage {Title = "Hired"},
-            new Stage {Title = "Rejected"}
+            new Stage {Title = "Pool", IsCommentRequired = false, IsDefault=true, Order=1},
+            new Stage {Title = "Selected", IsCommentRequired = false, IsDefault=true, Order=2},
+            new Stage {Title = "HR Interview", IsCommentRequired = false, IsDefault=true, Order=3},
+            new Stage {Title = "Test task", IsCommentRequired = true, IsDefault=true, Order=4},
+            new Stage {Title = "Tech Interview", IsCommentRequired = true, IsDefault=true, Order=5},
+            new Stage {Title = "Additional interview", IsCommentRequired = true, IsDefault=true, Order=6 },
+            new Stage {Title = "Final Interview", IsCommentRequired = true, IsDefault=true, Order=7},
+            new Stage {Title = "Job Offer Issued", IsCommentRequired = true, IsDefault=true, Order=8},
+            new Stage {Title = "Job Offer Accepted", IsCommentRequired = true, IsDefault=true, Order=9},
+            new Stage {Title = "Hired", IsCommentRequired = true, IsDefault=true, Order=10},
+            new Stage {Title = "Rejected", IsCommentRequired = true, IsDefault=true, Order=11}
         };
 
 
@@ -403,13 +403,6 @@ namespace DAL.Migrations
             new Source { Title = "RabotaUa" },
             new Source { Title = "WorkUa" },
             new Source { Title = "HeadHunter" },
-        };
-
-        public static readonly List<CandidateSource> CandidateSources = new List<CandidateSource>
-        {
-            new CandidateSource {Source = Sources.GetRandom(), Path = "Path to source"},
-            new CandidateSource {Source = Sources.GetRandom(), Path = "Path to source"},
-            new CandidateSource {Source = Sources.GetRandom(), Path = "Path to source"}
         };
 
         public static readonly List<Candidate> Candidates;
@@ -572,11 +565,29 @@ namespace DAL.Migrations
         {
             Roles = GetRoles(42);
             Users = GetUsers(150);
-            Vacancies = GetVacancies(2403);
             Candidates = GetCandidates(1978);
+            Vacancies = GetVacancies(2403);
             Events = GetEvents(100);
+            FillVacancyProgresses();
         }
 
+        private static void FillVacancyProgresses()
+        {
+            Candidates.ForEach(x =>
+            {
+                x.VacanciesProgress.Add(new VacancyStageInfo
+                {
+                    Candidate = x,
+                    Comment = new Comment
+                    {
+                        Message = "message"
+                    },
+                    StageId = 1,
+                    IsPassed = false,
+                    Vacancy = Vacancies.GetRandom()
+                });
+            });
+        }
 
         private static List<Event> GetEvents(int count)
         {
@@ -679,29 +690,30 @@ namespace DAL.Migrations
             var vacancies = new List<Vacancy>();
             for (var i = 0; i < count; i++)
             {
-                vacancies.Add(
-                    new Vacancy
-                    {
-                        DeadlineDate = DateTime.Now.AddDays(RandomNumber(-40, 40)),
-                        Department = Departments.GetRandom(),
-                        Description = LoremIpsum(5, 40, 1, 5, 1),
-                        Industry = Industries.GetRandom(),
-                        LanguageSkill = LanguageSkills.GetRandom(),
-                        Levels = Levels.Take(RandomNumber(0, Levels.Count)).ToList(),
-                        Cities = Cities.Take(RandomNumber(0, Levels.Count)).ToList(),
-                        RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
-                        Responsible = Users.GetRandom(),
-                        SalaryMax = RandomNumber(1000, 2000),
-                        SalaryMin = RandomNumber(0, 1000),
-                        StartDate = DateTime.Now.AddDays(RandomNumber(-80, -40)),
-                        Title = professons.GetRandom(),
-                        TypeOfEmployment = TypeOfEmployment.FullTime,
-                        EndDate = DateTime.Now.AddDays(RandomNumber(0, 30)),
-                        Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
-                        Comments = Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1) }, RandomNumber(0, 5)).Distinct().ToList(),
-                        State = EntityState.Open
-                    }
-                    );
+                var vacancy = new Vacancy
+                {
+                    DeadlineDate = DateTime.Now.AddDays(RandomNumber(-40, 40)),
+                    Department = Departments.GetRandom(),
+                    Description = LoremIpsum(5, 40, 1, 5, 1),
+                    Industry = Industries.GetRandom(),
+                    LanguageSkill = LanguageSkills.GetRandom(),
+                    Levels = Levels.Take(RandomNumber(0, Levels.Count)).ToList(),
+                    Cities = Cities.Take(RandomNumber(0, Levels.Count)).ToList(),
+                    RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
+                    Responsible = Users.GetRandom(),
+                    SalaryMax = RandomNumber(1000, 2000),
+                    SalaryMin = RandomNumber(0, 1000),
+                    StartDate = DateTime.Now.AddDays(RandomNumber(-80, -40)),
+                    Title = professons.GetRandom(),
+                    TypeOfEmployment = TypeOfEmployment.FullTime,
+                    EndDate = DateTime.Now.AddDays(RandomNumber(0, 30)),
+                    Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
+                    Comments = Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1) }, RandomNumber(0, 5)).Distinct().ToList(),
+                    State = EntityState.Open,
+                    StageFlow = Stages.Where(x => x.IsDefault).ToList()
+                };
+
+                vacancies.Add(vacancy);
             }
             return vacancies;
         }
@@ -741,13 +753,14 @@ namespace DAL.Migrations
                     SalaryDesired = RandomNumber(300, 3000),
                     Skills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     Skype = "skyper." + GetRandomNumbers(4),
-                    Sources = Enumerable.Repeat(CandidateSources.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
+                    //Sources = Enumerable.Repeat(CandidateSources.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     StartExperience = DateTime.Now.AddYears(-RandomNumber(0, 10)),
                     Tags = new List<Tag>(),
                     TypeOfEmployment = TypeOfEmployment.FullTime,
                     Level = Levels.GetRandom(),
                     VacanciesProgress = new List<VacancyStageInfo>()
                 };
+
                 candidate.RelocationPlaces =
                             Enumerable.Repeat(
                                 new RelocationPlace

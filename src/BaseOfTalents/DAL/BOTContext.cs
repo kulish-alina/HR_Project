@@ -48,7 +48,6 @@ namespace DAL
         public virtual DbSet<LanguageSkill> LanguageSkills { get; set; }
         public virtual DbSet<CandidateSource> CandidateSources { get; set; }
         public virtual DbSet<VacancyStageInfo> VacanciesStageInfos { get; set; }
-        public virtual DbSet<VacancyStage> VacancyStages { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
@@ -77,7 +76,6 @@ namespace DAL
             modelBuilder.Configurations.Add(new SourceConfiguration());
 
             modelBuilder.Configurations.Add(new VacancyConfiguration());
-            modelBuilder.Configurations.Add(new VacancyStageConfiguration());
             modelBuilder.Configurations.Add(new VacancyStageInfoConfiguration());
 
             modelBuilder.Configurations.Add(new UserConfiguration());

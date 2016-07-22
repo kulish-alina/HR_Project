@@ -18,7 +18,6 @@ namespace DAL
         private ISkillRepository skillRepo;
         private ILanguageSkillRepository languageSkillRepo;
         private ILanguageRepository languageRepo;
-        private IVacancyStageRepository vacancyStageRepo;
         private ICountryRepository countryRepo;
         private IDepartmentGroupRepository departmentGroupRepo;
         private IDepartmentRepository departmentRepo;
@@ -193,18 +192,6 @@ namespace DAL
             }
         }
 
-        public IVacancyStageRepository VacancyStageRepo
-        {
-            get
-            {
-                if (vacancyStageRepo == null)
-                {
-                    vacancyStageRepo = new VacancyStageRepository(context);
-                }
-
-                return vacancyStageRepo;
-            }
-        }
 
         public IDepartmentGroupRepository DepartmentGroupRepo
         {

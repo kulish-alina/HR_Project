@@ -8,8 +8,12 @@
       <ul class="menu-bar second-button-bar">
          <li>
             <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+            </li>
+         <li>
+                 <a ng-if='isNeedToGoBack()' ng-click="saveAndGoBack(Candidate)"> <span ng-bind="::'COMMON.ADD_AND_BACK' | translate"></span></a>
+                 <a ng-if='!isNeedToGoBack()' ng-click="saveCandidate(Candidate)"><span ng-bind="::'COMMON.SUBMIT' | translate"></span></a>
          </li>
-         <li><a ng-click="saveCandidate(Candidate)"><span ng-bind="::'COMMON.SUBMIT' | translate"></span></a> </li>
+        
       </ul>
    </div>
 </div>

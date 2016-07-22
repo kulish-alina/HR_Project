@@ -6,7 +6,7 @@ namespace DAL.Mapping
     {
         public CommentConfiguration()
         {
-            Property(c => c.Message).IsRequired();
+            Property(c => c.Message).IsOptional();
         }
     }
 }

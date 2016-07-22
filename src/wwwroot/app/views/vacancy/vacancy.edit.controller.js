@@ -5,7 +5,9 @@ import {
    set,
    each,
    find,
-   cloneDeep
+   cloneDeep,
+   split,
+   map
 } from 'lodash';
 
 export default function VacancyController(
@@ -112,6 +114,16 @@ export default function VacancyController(
 
    function saveVacancy(ev, form) {
       ev.preventDefault();
+      //TODO: remove this terrible method and use moment.js
+      let dates = [vm.vacancy.startDate, vm.vacancy.deadlineDate, vm.vacancy.endDate];
+      let convertedDates = map(dates, invertDate);
+      let starDate = Date.parse(convertedDates[0]);
+      let deadlineDate = Date.parse(convertedDates[1]);
+      let endDate = Date.parse(convertedDates[2]);
+      if (starDate > deadlineDate || starDate > endDate || deadlineDate > endDate) {
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.INVALID_DATES'), 'error');
+         return false;
+      }
       ValidationService.validate(form).then(() => {
          if (vm.uploader.getNotUploadedItems().length) {
             vm.uploader.uploadAll();
@@ -124,6 +136,11 @@ export default function VacancyController(
          }
       });
       return false;
+   }
+
+   function invertDate(date) {
+      let splitedDate = split(date, '-');
+      return `${splitedDate[2]}-${splitedDate[1]}-${splitedDate[0]}`;
    }
 
    function _saveComment(comment) {

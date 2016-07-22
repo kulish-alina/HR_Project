@@ -1,0 +1,31 @@
+<div ui-view></div>
+<div class="secondary-menu grid-block">
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5 ng-bind="::'COMMON.EVENT_CALENDAR' | translate"></h5> </div>
+   </div>
+   <div class="large-10 grid-block"> </div>
+</div>
+<div class="grid-block">
+   <div class="medium-2 grid-block">
+      <div class="sidebar user-filter">
+         <div class="card-divider" ng-bind="::'COMMON.USERS' | translate"> </div>
+         <hr>
+         <div class="card-section">
+            <div class="grid-block" ng-repeat="user in users">
+               <div class="small-2 grid-block">
+                  <input value="user" ng-change="addUserToChekedUsers(user)" ng-model="user.selected" id="user" type="checkbox">
+               </div>
+               <div class="small-10 grid-block">
+                  <label for="user" ng-bind="::(user.lastName+' '+user.firstName)"></label>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="medium-10 grid-block">
+      <div class="main-card event-calendar">
+         <event-calendar get-events-by-date="getEventsForDate" vacancies="vacancies" candidates="candidates" event-types="eventTypes" save-event="saveEvent" remove-event="removeEvent" users="users" get-events="getEventsForMonth"></event-calendar>
+      </div>
+   </div>
+</div>

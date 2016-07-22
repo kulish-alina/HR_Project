@@ -60,6 +60,7 @@ import CandidateInfoDirective    from './directives/candidate-info/candidate-inf
 import LoginDirective            from './directives/login/login';
 import convertToNumberDirective  from './directives/convertToNumber/convert-to-number';
 import languageSkillsDirective   from './directives/language-skills/language-skills';
+import EventCalendarDirective    from './directives/event-calendar/event-calendar';
 
 import uiMask                    from 'angular-ui-mask';
 
@@ -122,6 +123,7 @@ angular
    .directive('candidateInfo',    CandidateInfoDirective.createInstance)
    .directive('login',            LoginDirective.createInstance)
    .directive('languageSkills',   languageSkillsDirective.createInstance)
+   .directive('eventCalendar',    EventCalendarDirective.createInstance)
 
    .filter('tel',                 PhoneFormatFilter)
    .filter('arrayAsString',       ArrayAsString)

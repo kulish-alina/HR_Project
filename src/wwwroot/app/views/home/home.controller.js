@@ -1,5 +1,4 @@
-const LIST_OF_THESAURUS = ['industry', 'level', 'city',
-    'typeOfEmployment'];
+const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'typeOfEmployment', 'eventtype'];
 const AMOUNT_OF_DAYS = 6;
 import {
    set,
@@ -21,7 +20,8 @@ export default function HomeController( //eslint-disable-line max-statements
    LoggerService,
    UserDialogService,
    EventsService,
-   NoteService
+   NoteService,
+   CandidateService
    ) {
    'ngInject';
 
@@ -34,6 +34,9 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.totalHome               = 0;
    vm.vacancy.current         = 0;
    vm.vacancy.size            = 30;
+   vm.candidate               = {};
+   vm.candidate.current       = 0;
+   vm.candidate.size          = 20;
    vm.pagination              = { current: 0 };
    vm.pageChanged             = pageChanged;
    vm.userNotes               = [];
@@ -51,6 +54,7 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.user                    = {};
 
    (function _init() {
+      CandidateService.search(vm.candidate).then(data  => set(vm, 'candidates', data.candidate));
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       NoteService.getNotesByUser().then((notes) => {
@@ -114,9 +118,10 @@ export default function HomeController( //eslint-disable-line max-statements
    }
 
    function saveEvent(event) {
-      EventsService.save(event).then(() => {
+      return EventsService.save(event).then((resronseEvent) => {
          _getUpcomingEvents();
          vm.cloneUpcomingEvents  = clone(vm.upcomingEvents);
+         return resronseEvent;
       });
    }
 

@@ -145,7 +145,9 @@
       "APLY" : "Apply",
       "ATTACH" : "Attach",
       "CURRENCY" : "Currency",
-      "MAIN_SOURCE" : "Main source"
+      "MAIN_SOURCE" : "Main source",
+      "EVENT_CALENDAR" : "Event calendar",
+      "USERS" : "Users"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -239,6 +241,7 @@
       "ERROR_SAVING": "Some error has occurred while saving vacancy!",
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
       "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
+      "SUCCESSFUL_SAVING_EVENT": "Event was successfully saved!",
       "SUCCESSFUL_REMOVING_EVENT": "Event was successfully removed!",
       "SUCCESSFUL_REMOVING_COMMENT": "Comment was successfully removed!",
       "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?",
@@ -246,7 +249,8 @@
       "SUCCESSFUL_REMOVING_CANDIDATE": "Candidate was successfully removed!",
       "SUCCESSFUL_CANDIDATE_SAVING": "Candidate was successfully saved!",
       "ERROR_CANDIDATE_SAVING": "Some error has occurred while saving candidate!",
-      "ERROR_CANDIDATES_SEARCH": "Some error has occurred while receiving candidates from database!"
+      "ERROR_CANDIDATES_SEARCH": "Some error has occurred while receiving candidates from database!",
+      "EVENT_REMOVING_DIALOG": "Do you really want to remove this event?"
    },
 
    "MEMBERS" : {

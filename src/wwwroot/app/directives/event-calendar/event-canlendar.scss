@@ -1,0 +1,46 @@
+@import './../../common.scss';
+table {
+   width: 100%;
+}
+
+tr:nth-child(2n) {
+   background-color: $body-background;
+}
+
+.week-row {
+   min-height: $rem-base*10;
+   height: auto;
+   .day-of-month:hover {background-color: #f5f5f5}
+   .day-of-month {
+      min-height: $rem-base*10;
+      width: 14.28%;
+      vertical-align: top;
+      border: 1px solid $border-color;
+      padding: $rem-base/2;
+      font-size: $rem-base/3;
+      .event-content {
+        font-size: $rem-base*0.75; 
+        line-height: 1.2;
+        a {
+           font-weight: 100;
+        }
+      }
+      .icon-link {
+         font-size: $rem-base*0.75;
+         line-height: 1.2;
+      }
+      .events {
+           padding-left: $rem-base/4;
+           padding-right: $rem-base/4;
+      }
+   }
+}
+
+.today-date {
+   background-color: transparentize($secondary-color, 0.8);
+}
+
+.day-title {
+   color: $primary-color;
+   margin-bottom: $rem-base/2;
+}

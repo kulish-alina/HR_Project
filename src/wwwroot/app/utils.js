@@ -1,7 +1,8 @@
 import {
    reduce,
    split,
-   isString
+   isString,
+   trimEnd
 } from 'lodash';
 
 let utils = {
@@ -47,8 +48,11 @@ function formatDateTimeToServer(entityDate) {
       let partsOfDate = split(splitDate[0], '-');
       let partsOfTime = split(splitDate[1], ':');
       return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]}T${partsOfTime[0]}:${partsOfTime[1]}:${partsOfTime[2]}.000Z`; // eslint-disable-line max-len
-   } else {
+   } else if (entityDate === null) {
       return entityDate;
+   } else {
+      let date = new Date(entityDate.valueOf() - entityDate.getTimezoneOffset() * 60000);
+      return date;
    }
 }
 
@@ -62,9 +66,9 @@ function formatDateFromServer(entityDate) {
 
 function formatDateTimeFromServer(entityDate) {
    if (entityDate) {
-      let trimOfDate = split(entityDate, 'T');
+      let trimOfDate = split(trimEnd(entityDate, 'Z'), 'T');
       let partsOfDate = split(trimOfDate[0], '-');
-      let partsOfTime = split(trimOfDate[1], ':');
+      let partsOfTime = split(split(trimOfDate[1], '.')[0], ':');
       return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]} ${partsOfTime[0]}:${partsOfTime[1]}:${partsOfTime[2]}`; // eslint-disable-line max-len
    }
 }

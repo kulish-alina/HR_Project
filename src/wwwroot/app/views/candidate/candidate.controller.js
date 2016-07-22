@@ -3,11 +3,11 @@ import { set, forEach, remove, chunk, isEmpty, cloneDeep, clone, find, curry } f
 import './candidate.edit.scss';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel', 'source',
-    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork'];
+    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork', 'eventtype'];
 
 let curriedSet = curry(set, 3);
 
-export default function CandidateController(//eslint-disable-line max-statements
+export default function CandidateController( //eslint-disable-line max-statements
    $q,
    $element,
    $scope,
@@ -19,7 +19,9 @@ export default function CandidateController(//eslint-disable-line max-statements
    ThesaurusService,
    UserDialogService,
    LoggerService,
-   EventsService
+   EventsService,
+   UserService,
+   VacancyService
    ) {
    'ngInject';
 
@@ -31,7 +33,7 @@ export default function CandidateController(//eslint-disable-line max-statements
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
    vm.addFilesForRemove    = addFilesForRemove;
-   vm.candidate.comments   = $state.params._data ? $state.params._data.comments : vm.candidate.comments;
+   vm.candidate.comments     = $state.params._data ? $state.params._data.comments : [];
    vm.comments             = cloneDeep(vm.candidate.comments);
    vm.saveComment          = saveComment;
    vm.removeComment        = removeComment;
@@ -43,6 +45,7 @@ export default function CandidateController(//eslint-disable-line max-statements
    vm.clear                = clear;
 
    (function _init() {
+      _initDataForEvents();
       _initThesauruses()
          .then(_initCandidate)
          .then(_initLocations);
@@ -61,6 +64,21 @@ export default function CandidateController(//eslint-disable-line max-statements
 
    function _initThesauruses() {
       return ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(curriedSet(vm, 'thesaurus'));
+   }
+
+   function _initDataForEvents() {
+      vm.vacancies                  = [];
+      vm.candidates                 = [];
+      vm.responsibles               = [];
+      vm.vacancyPredicat            = {};
+      vm.vacancyPredicat.current    = 0;
+      vm.vacancyPredicat.size       = 30;
+      vm.candidatePredicat          = {};
+      vm.candidatePredicat.current  = 0;
+      vm.candidatePredicat.size     = 20;
+      CandidateService.search(vm.candidatePredicat).then(data  => set(vm, 'candidates', data.candidate));
+      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+      VacancyService.search(vm.vacancyPredicat).then(response => vm.vacancies = response.vacancies);
    }
 
    function _getCandidate() {

@@ -41,9 +41,13 @@ export default class EventsService {
    save(entity) {
       this._convertToServerFormat(entity);
       if (entity.id) {
-         return _HttpService.put(`${EVENT_URL}/${entity.id}`, entity).then(this._convertIdsToString);
+         return _HttpService.put(`${EVENT_URL}/${entity.id}`, entity).then((response) => {
+            return this._convertFromServerFormat(response);
+         });
       } else {
-         return _HttpService.post(EVENT_URL, entity).then(this._convertIdsToString);
+         return _HttpService.post(EVENT_URL, entity).then((response) => {
+            return this._convertFromServerFormat(response);
+         });
       }
    }
 
@@ -67,7 +71,8 @@ export default class EventsService {
    _convertFromServerFormat(event) {
       event.eventDate = utils.formatDateTimeFromServer(event.eventDate);
       this._fillEntities(event);
-      return this._convertIdsToString(event);
+      this._convertIdsToString(event);
+      return event;
    }
 
    _convertIdsToString(event) {
@@ -86,15 +91,15 @@ export default class EventsService {
       let promises = [];
       promises.push(_UserService.getUserById(event.responsibleId)
                     .then(user => set(event, 'responsible', user)));
-      if (event.vacancyId) {
+      if (event.vacancyId !== null) {
          promises.push(_VacancyService.getVacancy(event.vacancyId)
                       .then(vacancy => set(event, 'vacancy', vacancy)));
       }
-      if (event.candidateId) {
+      if (event.candidateId !== null) {
          promises.push(_CandidateService.getCandidate(event.candidateId)
                        .then(candidate => set(event, 'candidate', candidate)));
       }
-      if (event.eventTypeId) {
+      if (event.eventTypeId !== null) {
          promises.push(_ThesaurusService.getThesaurusTopic('eventtype', event.eventTypeId)
                        .then(eventType => set(event, 'eventType', eventType)));
       }

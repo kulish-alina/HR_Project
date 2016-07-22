@@ -59,7 +59,6 @@ export default class VacancyService {
    }
 
    convertFromServerFormat(vacancy) {
-      vacancy.responsibleId = toString(vacancy.responsibleId);
       vacancy = _convertFromServerDates(vacancy);
       _VacancyService._fillVacancyLanguageSkills(vacancy)
       .then((responsePromise) => {
@@ -71,6 +70,7 @@ export default class VacancyService {
       return _VacancyService._getVacancyFields(vacancy)
       .then((promises) => {
          vacancy.responsible = promises[0];
+         vacancy.responsibleId = toString(vacancy.responsibleId);
          assignIn(vacancy, promises[1]);
          vacancy.childVacancies = promises[2];
          return vacancy;

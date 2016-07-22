@@ -1,4 +1,4 @@
-const LIST_OF_THESAURUS = [ 'stage' ];
+const LIST_OF_THESAURUS = ['stage', 'eventtype'];
 import {
    set,
    cloneDeep,
@@ -17,7 +17,9 @@ export default function CandidateProfileController(
    ThesaurusService,
    CandidateService,
    LoggerService,
-   EventsService
+   EventsService,
+   UserService,
+   VacancyService
    ) {
    'ngInject';
 
@@ -43,6 +45,7 @@ export default function CandidateProfileController(
    function _init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       _initCurrentCandidate();
+      _initDataForEvents();
    }
    _init();
 
@@ -57,6 +60,21 @@ export default function CandidateProfileController(
             _getCandidateEvents(vm.candidate.id);
          });
       }
+   }
+
+   function _initDataForEvents() {
+      vm.vacancies                  = [];
+      vm.candidates                 = [];
+      vm.responsibles               = [];
+      vm.vacancyPredicat            = {};
+      vm.vacancyPredicat.current    = 0;
+      vm.vacancyPredicat.size       = 30;
+      vm.candidatePredicat          = {};
+      vm.candidatePredicat.current  = 0;
+      vm.candidatePredicat.size     = 20;
+      CandidateService.search(vm.candidatePredicat).then(data  => set(vm, 'candidates', data.candidate));
+      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+      VacancyService.search(vm.vacancyPredicat).then(response => vm.vacancies = response.vacancies);
    }
 
    function _createNewUploader() {

@@ -15,7 +15,9 @@
       color: $primary-color;
    }
 }
-
+.only-events {
+   display: none;
+}
 .list-only {
    display: none;
 }
@@ -57,4 +59,7 @@
 .event-icon {
    height: 100%;
    width: 100%;
+}
+.fot-calendar-list {
+   padding: 0;
 }

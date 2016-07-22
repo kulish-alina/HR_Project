@@ -60,7 +60,7 @@
       "strict": 0,
       "max-params": [
          2,
-         12
+         14
       ],
       "max-depth": [
          2,

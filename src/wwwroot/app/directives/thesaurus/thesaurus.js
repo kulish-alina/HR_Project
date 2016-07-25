@@ -96,6 +96,7 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate,
    function _initThesaurusStructure() {
       let structure = ThesaurusService.getThesaurusStructure(vm.name);
       vm.fields = filter(structure.fields, isShowField);
+      vm.orderField = getOrderField();
       forEach(vm.fields, _fillAdditionThesauruses);
    }
 
@@ -177,5 +178,10 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate,
    function _onError(message) {
       LoggerService.error(message);
       vm.message = $translate.instant('ERRORS.someErrorMsg') + message;
+   }
+
+   function getOrderField() {
+      let orderField = find(vm.fields, {type : 'number'});
+      return orderField ? orderField.name : 'createdOn';
    }
 }

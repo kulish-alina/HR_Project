@@ -8,6 +8,7 @@ input.edit[type="text"] {
 input.edit[type="text"]:disabled {
    background-color: inherit;
    border: none;
+   margin: 1px;
 }
 
 select.edit {
@@ -18,6 +19,7 @@ select.edit:disabled {
    background-color: inherit;
    border: none;
    background-image: none;
+   margin: 1px;
 }
 
 div.thesaurus-row {
@@ -28,7 +30,6 @@ div.thesaurus-row {
 div.thesaurus-column {
    @extend .column;
    margin: $rem-base*0.25;
-   width: $rem-base*15;
 }
 
 div.action-column {
@@ -42,6 +43,16 @@ div.thesaurus-column-header {
    padding-left: $rem-base*0.5;
 }
 
+div.thesaurus-column-header-big {
+   @extend .thesaurus-column-header;
+   width: $rem-base*12;
+}
+
+div.thesaurus-column-header-small {
+   @extend .thesaurus-column-header;
+   width: $rem-base*5;
+}
+
 .main-card img.thesaurus-img {
    float: left;
    width: $rem-base*2;
@@ -49,4 +60,25 @@ div.thesaurus-column-header {
 
 input.thesaurus-file-uploader[type="file"] {
    width: $rem-base*12;
+}
+
+div.thesaurus-img {
+   width: $rem-base*12;
+}
+
+input.thesaurus-checkbox[type="checkbox"] {
+   width: $rem-base*5;
+   text-align: center;
+}
+
+input.thesaurus-number[type="number"] {
+   width: $rem-base*5;
+   text-align: right;
+   margin: 0px;
+}
+
+input.thesaurus-number[type="number"]:disabled {
+   background-color: inherit;
+   border: none;
+   background-image: none;
 }

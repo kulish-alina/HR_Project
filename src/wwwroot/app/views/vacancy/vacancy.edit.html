@@ -184,42 +184,7 @@
       <div class="vertical medium-horizontal grid-block">
          <div class="sidebar">
             <div class="card-divider" ng-bind="::'CANDIDATES.CANDIDATES' | translate"> </div>
-            <div class="sidebar-content">
-               <ul class="some-change">
-                  <li>
-                     <input name="newCandidate" id="newCandidate" checked="" type="radio" ui-sref="candidate">
-                     <label for="newCandidate" ng-bind="::'COMMON.NEW' | translate"></label>
-                  </li>
-                  <li>
-                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ui-sref="candidates">
-                     <label for="candidateFromBOT" ng-bind="::'COMMON.FROM_BOT' | translate"></label>
-                  </li>
-               </ul>
-               <section class="block-list">
-                  <ul class="candidates">
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-5 grid-block "> <a class="sidebar-col" href="#">Antonov Anton</a> </div>
-                           <div class="medium-7 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stages" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-5 grid-block"> <a class="sidebar-col" href="#">Petrova Margarita</a> </div>
-                           <div class="medium-7 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stages" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-            </div>
+            <div class="coming-soon-text" ng-bind="::'COMMON.COMING_SOON' | translate"></div>
          </div>
          <div class="sidebar">
             <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>

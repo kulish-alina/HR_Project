@@ -87,6 +87,7 @@ namespace DAL
             modelBuilder.Configurations.Add(new TagConfiguration());
             modelBuilder.Configurations.Add(new StageConfiguration());
             modelBuilder.Configurations.Add(new CityConfiguration());
+            modelBuilder.Configurations.Add(new LanguageConfiguration());
             modelBuilder.Configurations.Add(new LanguageSkillConfiguration());
             modelBuilder.Configurations.Add(new EventTypeConfiguration());
             modelBuilder.Configurations.Add(new PermissionConfiguration());

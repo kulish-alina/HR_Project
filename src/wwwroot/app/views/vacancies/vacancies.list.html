@@ -11,8 +11,8 @@
             <li>
                <a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
             </li>
-            <li>
-            <a ng-click="goBackToCandidate()" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
+            <li ng-if="candidateIdToGoBack" >
+              <a ng-click="goBackToCandidate()" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
             </li>
          </ul>
       </div>
@@ -23,25 +23,25 @@
             <div class="card-divider" ng-bind="::'VACANCIES.SEARCH_VACANCIES' | translate"> </div>
             <div class="card-section">
                <form name="searchVacancy">
-                  <select name="Industry" ng-model="vacancy.industryId">
+                  <select name="Industry" ng-model="vacancyPredicate.industryId">
                      <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
                      <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
                   </select>
                   <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
-                  <input ng-model="vacancy.title" placeholder="Position" type="text">
+                  <input ng-model="vacancyPredicate.title" placeholder="Position" type="text">
                   <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
-                  <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
+                  <select name="Type of Employment" ng-model="vacancyPredicate.typeOfEmployment">
                      <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
                      <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
                   </select>
-                  <select name="State" ng-model="vacancy.vacancyState">
+                  <select name="State" ng-model="vacancyPredicate.vacancyState">
                      <option selected value="" ng-bind="::'COMMON.STATUS' | translate"></option>
                      <option selected value="5" ng-bind="::'VACANCY.OPEN' | translate"></option>
                      <option selected value="6" ng-bind="::'VACANCY.PROCESSING' | translate"></option>
                      <option selected value="7" ng-bind="::'VACANCY.CLOSED' | translate"></option>
                      <option selected value="8" ng-bind="::'VACANCY.CANCELLED' | translate"></option>
                   </select>
-                  <select ng-model="vacancy.userId" name="Responsible">
+                  <select ng-model="vacancyPredicate.userId" name="Responsible">
                      <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
                      <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
                   </select>
@@ -70,7 +70,7 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-hide="!vacancy" dir-paginate="vacancyItem in vacancies.vacancies | itemsPerPage: vacancy.size" total-items="vacancies.total" current-page="vacancy.current">
+                     <tr ng-hide="!vacancy" dir-paginate="vacancyItem in vacancies.vacancies | itemsPerPage: vacancyPredicate.size" total-items="vacancies.total" current-page="vacancyPredicate.current">
                          <th>
                            <input id="checkbox9" type="checkbox" ng-model="vacancyItem.isToogled" ng-change="toogleVacancy(vacancyItem)">
                         </th>

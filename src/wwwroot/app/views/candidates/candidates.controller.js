@@ -54,8 +54,7 @@ export default function CandidatesController(
    (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
-      vm.candidates = /*LocalStorageService.get('candidates') ||*/ [];
-      searchCandidates();
+      vm.candidates = LocalStorageService.get('candidates') || [];
       vm.candidate = LocalStorageService.get('candidate') || {};
       vm.candidate.minAge  = vm.slider.min;
       vm.candidate.maxAge  = vm.slider.max;
@@ -106,7 +105,7 @@ export default function CandidatesController(
    }
 
    function _setToStorage() {
-      //LocalStorageService.set('candidate', vm.candidate);
+      LocalStorageService.set('candidate', vm.candidate);
       LocalStorageService.set('candidates', vm.candidates);
    }
 

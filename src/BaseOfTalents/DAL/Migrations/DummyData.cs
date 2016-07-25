@@ -334,13 +334,13 @@ namespace DAL.Migrations
         {
             new Stage {Title = "Pool", IsCommentRequired = false, IsDefault=true, Order=1},
             new Stage {Title = "Selected", IsCommentRequired = false, IsDefault=true, Order=2},
-            new Stage {Title = "HR Interview", IsCommentRequired = false, IsDefault=true, Order=3},
-            new Stage {Title = "Test task", IsCommentRequired = true, IsDefault=true, Order=4},
+            new Stage {Title = "HR Interview", IsCommentRequired = true, IsDefault=true, Order=3},
+            new Stage {Title = "Test task", IsCommentRequired = false, IsDefault=true, Order=4},
             new Stage {Title = "Tech Interview", IsCommentRequired = true, IsDefault=true, Order=5},
             new Stage {Title = "Additional interview", IsCommentRequired = true, IsDefault=true, Order=6 },
             new Stage {Title = "Final Interview", IsCommentRequired = true, IsDefault=true, Order=7},
-            new Stage {Title = "Job Offer Issued", IsCommentRequired = true, IsDefault=true, Order=8},
-            new Stage {Title = "Job Offer Accepted", IsCommentRequired = true, IsDefault=true, Order=9},
+            new Stage {Title = "Job Offer Issued", IsCommentRequired = false, IsDefault=true, Order=8},
+            new Stage {Title = "Job Offer Accepted", IsCommentRequired = false, IsDefault=true, Order=9},
             new Stage {Title = "Hired", IsCommentRequired = true, IsDefault=true, Order=10},
             new Stage {Title = "Rejected", IsCommentRequired = true, IsDefault=true, Order=11}
         };

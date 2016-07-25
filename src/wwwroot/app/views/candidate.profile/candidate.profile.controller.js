@@ -58,9 +58,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
             vm.$watch('composedBy', () => {
                vm.isChanged = true;
             });
-         }).catch((err) => {
-            console.log(err, 'error');
-         });
+         }).catch(LoggerService.error);
    }
    _initDataForEvents();
    _init();

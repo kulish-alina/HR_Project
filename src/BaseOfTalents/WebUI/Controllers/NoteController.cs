@@ -32,7 +32,7 @@ namespace WebUI.Controllers
         public IHttpActionResult GetByUser(int id)
         {
             var foundedNotes = service.GetByUserId(id);
-            if (foundedNotes != null)
+            if (foundedNotes == null)
             {
                 ModelState.AddModelError("Note", "Note with id " + id + " not found");
                 return BadRequest(ModelState);

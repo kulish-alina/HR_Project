@@ -56,7 +56,7 @@ namespace DAL.Extensions
             childVacancy.ParentVacancy = parentVacancy;
             //CandidatesProgress
             childVacancy.Files.Clear();
-            childVacancy.Files = parentVacancy.Files.Select(x=> new File
+            childVacancy.Files = parentVacancy.Files.Select(x => new File
             {
                 FilePath = x.FilePath,
                 Size = x.Size,
@@ -71,7 +71,7 @@ namespace DAL.Extensions
             destination.Id = source.Id;
             if (source.Id == 0)
             {
-                //PerformVacancyStageFilling(destination, uow);
+                PerformVacancyStageFilling(destination, uow);
             }
             destination.State = source.State;
 

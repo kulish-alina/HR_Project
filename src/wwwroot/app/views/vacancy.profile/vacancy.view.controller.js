@@ -70,10 +70,8 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          }).then((vacancyStagesObject) => {
             vm.composedBy = vacancyStagesObject;
             vm.clonedComposedBy = cloneDeep(vm.composedBy);
-         }).catch((err) => {
-            console.log(err, 'ошибка');
-         });
-      });;
+         }).catch(LoggerService.error);
+      });
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
    }());
@@ -300,7 +298,6 @@ export default function VacancyProfileController( // eslint-disable-line max-par
             newCandidatesProgress.push(vsi);
          });
       });
-      debugger;
       return newCandidatesProgress;
    }
 

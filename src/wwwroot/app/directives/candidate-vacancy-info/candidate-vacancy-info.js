@@ -33,10 +33,6 @@ function CandidateVacancyInfoController($scope, $translate, $q, $state, UserDial
    'ngInject';
    const vm = $scope;
 
-   console.log(vm.composedby);
-
- //passStageToNext(candidateStage)
-
    function handleStagePassing(stagesObject, stageToPass) {
       let deffered = $q.defer();
       if (stageToPass.isCommentRequired) {
@@ -173,15 +169,12 @@ function CandidateVacancyInfoController($scope, $translate, $q, $state, UserDial
             deffered.reject(currentStage);
          });
       } else if (selectedStage.id > currentStage.id) {
-         //TODO: dont show passed stages
-         //TODO: add next not passed VSI after adding all passed
          _findStagesAndRecomposeBy(stagesObject).then((recomposed) => {
             return showManyCommentDialog(recomposed);
          }).then((dialogTransferObject) => {
             forEach(dialogTransferObject.stagesToPass, (stageObj) => {
                _createOrUpdateVSIWith(stagesObject, stageObj.stage, stageObj.comment, stageObj.isPassed);
             });
-
             return setCurrentStageBySelected(stagesObject, selectedStage);
          }).then(() => {
             deffered.resolve(selectedStage);
@@ -198,7 +191,6 @@ function CandidateVacancyInfoController($scope, $translate, $q, $state, UserDial
    function _isSelectedIsNextToCurrent(selectedStage, currentStage) {
       return currentStage.order + 1 === selectedStage.order;
    }
-
 
    function setCurrentStageBySelected(candidateStagesObject, selectedStage) {
       let deffered = $q.defer();
@@ -233,7 +225,6 @@ function CandidateVacancyInfoController($scope, $translate, $q, $state, UserDial
    }
 
    function _handleStageChanged(candidateStagesObject, selectedStageId) {
-      debugger;
       let VSI = find(candidateStagesObject.stages, { stageId: selectedStageId });
       if (VSI) {
          candidateStagesObject.selectedStageIsPassed = VSI.isPassed;
@@ -305,10 +296,10 @@ function CandidateVacancyInfoController($scope, $translate, $q, $state, UserDial
          if (vacancyStageInfo.createdOn) {
             return vacancyStageInfo.createdOn;
          } else {
-            return 'no date';
+            return '';
          }
       }
-      return 'no vsi for this stage';
+      return '';
    };
 
    vm.goCandidate = (candidateId) => {

@@ -25,8 +25,6 @@ export default function CandidateController( //eslint-disable-line max-statement
    ) {
    'ngInject';
 
-   console.log($state.params._data, 'stageparapmsdata');
-
    const vm                = $scope;
    vm.keys                 = Object.keys;
    vm.candidate            = vm.candidate || {};
@@ -46,8 +44,6 @@ export default function CandidateController( //eslint-disable-line max-statement
    vm.removeEvent          = removeEvent;
    vm.clear                = clear;
    vm.vacancyIdToGoBack       = $state.params.vacancyIdToGoBack;
-
-   console.log(vm.vacancyIdToGoBack);
 
    (function _init() {
       _initDataForEvents();
@@ -169,7 +165,6 @@ export default function CandidateController( //eslint-disable-line max-statement
 
    vm.saveAndGoBack = (form) => {
       saveCandidate(form).then(() => {
-         console.log(vm.candidate, 'вывэсты');
          $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ] });
       });
    };

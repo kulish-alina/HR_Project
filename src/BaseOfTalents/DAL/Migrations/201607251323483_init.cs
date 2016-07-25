@@ -414,11 +414,11 @@ namespace DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
+                        Title = c.String(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             

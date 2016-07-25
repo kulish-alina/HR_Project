@@ -188,74 +188,8 @@
       <div class="vertical medium-horizontal grid-block">
          <div class="sidebar">
             <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate"></div>
-            <div class="coming-soon-text">Coming soon</div>
-            <!-- 
-            <div class="sidebar-content">
-               <div class="grid-block">
-                  <div class="medium-9 grid-block">
-                     <select name="Open vacancies" id="">
-                        <option value="">Vacancy 1</option>
-                        <option value="">Vacancy 2</option>
-                        <option value="">Vacancy 3</option>
-                        <option value="">Vacancy 4</option>
-                     </select>
-                  </div>
-                  <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#"><span ng-bind="::'COMMON.ADD' | translate"></span></a>
-                  </div>
-               </div>
-               <section class="block-list">
-                  <ul class="vacancies">
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-6 grid-block">
-                              <a href="#">.NET Developer</a>
-                           </div>
-                           <div class="medium-6 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option value="">Pool</option>
-                                 <option value="">Selected</option>
-                                 <option value="">HR Interview</option>
-                                 <option value="">Test Task</option>
-                                 <option value="">Tech Interview</option>
-                                 <option value="">Additional Interview</option>
-                                 <option value="">Final Interview</option>
-                                 <option value="">Job Offer Issued</option>
-                                 <option value="">Job Offer Accepted</option>
-                                 <option value="">Hired</option>
-                                 <option value="">Rejected by company</option>
-                                 <option value="">Rejected by candidate</option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-6 grid-block">
-                              <a href="#">.NET Developer</a>
-                           </div>
-                           <div class="medium-6 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option value="">Pool</option>
-                                 <option value="">Selected</option>
-                                 <option value="">HR Interview</option>
-                                 <option value="">Test Task</option>
-                                 <option value="">Tech Interview</option>
-                                 <option value="">Additional Interview</option>
-                                 <option value="">Final Interview</option>
-                                 <option value="">Job Offer Issued</option>
-                                 <option value="">Job Offer Accepted</option>
-                                 <option value="">Hired</option>
-                                 <option value="">Rejected by company</option>
-                                 <option value="">Rejected by candidate</option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-            </div>
-            --></div>
+            <div class="coming-soon-text" ng-bind="::'COMMON.COMING_SOON' | translate"></div>
+        </div>
          <div class="sidebar">
             <events responsibles="responsibles" vacancies="vacancies" candidates="candidates" event-types="thesaurus.eventtype" source="candidate" candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
          </div>

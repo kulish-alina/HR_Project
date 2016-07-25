@@ -26,43 +26,42 @@ export default function VacanciesController(
    ) {
    'ngInject';
 
-   const vm             = $scope;
-   vm.getVacancy        = getVacancy;
-   vm.deleteVacancy     = deleteVacancy;
-   vm.editVacancy       = editVacancy;
-   vm.viewVacancy       = viewVacancy;
-   vm.cancel            = cancel;
-   vm.thesaurus         = [];
-   vm.responsibles      = [];
-   vm.searchVacancies   = searchVacancies;
-   vm.vacancy.current   = 0;
-   vm.vacancy.size      = 20;
-   vm.pageChanged       = pageChanged;
-   vm.vacancy           = LocalStorageService.get('vacancy') || {};
-   vm.vacancies         = /*LocalStorageService.get('vacancies')*/ [];
-   vm.selectedVacancies = [];
-   vm.candidateIdToGoBack = $state.params.candidateIdToGoBack;
+   const vm                     = $scope;
+   vm.getVacancy                = getVacancy;
+   vm.deleteVacancy             = deleteVacancy;
+   vm.editVacancy               = editVacancy;
+   vm.viewVacancy               = viewVacancy;
+   vm.cancel                    = cancel;
+   vm.thesaurus                 = [];
+   vm.responsibles              = [];
+   vm.vacancyPredicate           = LocalStorageService.get('vacancyPredicate') || {};
+   vm.vacancyPredicate.current   = 0;
+   vm.vacancyPredicate.size      = 20;
+   vm.pageChanged               = pageChanged;
+   vm.searchVacancies           = searchVacancies;
+   vm.vacancies                 = LocalStorageService.get('vacancies') || [];
+   vm.selectedVacancies         = [];
+   vm.candidateIdToGoBack       = $state.params.candidateIdToGoBack;
 
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
       searchVacancies();
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
-      $element.on('$destroy', _setToStorage);
-      $window.onbeforeunload = _setToStorage;
    }());
 
    function pageChanged(newPage) {
-      vm.vacancy.current = newPage - 1;
+      vm.vacancyPredicate.current = newPage - 1;
       searchVacancies();
    };
 
    function searchVacancies() {
-      VacancyService.search(vm.vacancy).then(response => {
-         forEach(response.vacancy, (vac) => {
+      VacancyService.search(vm.vacancyPredicate).then(response => {
+         forEach(response.vacancies, (vac) => {
             vac.isToogled = vm.isVacancyWasToogled(vac.id);
          });
          vm.vacancies = response;
+         _setToStorage();
       }).catch(_onError);
    }
 
@@ -107,7 +106,7 @@ export default function VacanciesController(
    }
 
    function _setToStorage() {
-      LocalStorageService.set('vacancy', vm.vacancy);
+      LocalStorageService.set('vacancyPredicate', vm.vacancyPredicate);
       LocalStorageService.set('vacancies', vm.vacancies);
    }
 

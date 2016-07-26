@@ -96,24 +96,21 @@ function CandidateVacancyInfoController($scope, $translate, $q, $state, UserDial
 
    vm.getCommentByStageId = (stages, stageId, candidateId) => {
       stageId = parseInt(stageId);
+      let comment = '';
       let vacancyStageInfo = find(stages, { candidateId, stageId });
       if (vacancyStageInfo) {
          if (vacancyStageInfo.comment) {
-            return vacancyStageInfo.comment.message;
-         } else {
-            return '';
+            comment = vacancyStageInfo.comment.message;
          }
       }
-      return 'no vsi for this stage';
+      return comment;
    };
 
    vm.passStageToNext = (candidateStagesObject) => {
-      let candidateCurrentStageBuff = candidateStagesObject.currentStageId;
       candidateStagesObject.currentStageId = candidateStagesObject.selectedStageId;
       candidateStagesObject.selectedStageId = candidateStagesObject.selectedStageId + 1;
       changeStage(candidateStagesObject).then(() => {
          _handleStageChanged(candidateStagesObject, candidateStagesObject.selectedStageId);
-         candidateStagesObject.currentStageId = candidateCurrentStageBuff;
       }).catch((currentStage) => {
          notifySelectedStageChangingBack();
          candidateStagesObject.selectedStageId = currentStage.id;

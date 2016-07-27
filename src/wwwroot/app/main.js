@@ -1,6 +1,7 @@
-import angular    from 'angular';
-import router     from 'angular-ui-router';
-import translate  from 'angular-translate';
+import angular      from 'angular';
+import router       from 'angular-ui-router';
+import translate    from 'angular-translate';
+import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists';
 
 import 'angular-validation/dist/angular-validation';
 import 'angular-validation/dist/angular-validation-rule';
@@ -79,6 +80,7 @@ const dependencies = [
    translate,
    uiMask,
    pagination,
+   'dndLists',
    'rzModule',
    'foundation',
    'validation',

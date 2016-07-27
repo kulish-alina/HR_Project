@@ -580,7 +580,8 @@ namespace DAL.Migrations
                     Candidate = x,
                     Comment = new Comment
                     {
-                        Message = "message"
+                        Message = "message",
+                        Author = Users.GetRandom()
                     },
                     StageId = 1,
                     IsPassed = false,
@@ -708,7 +709,7 @@ namespace DAL.Migrations
                     TypeOfEmployment = TypeOfEmployment.FullTime,
                     EndDate = DateTime.Now.AddDays(RandomNumber(0, 30)),
                     Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
-                    Comments = Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1) }, RandomNumber(0, 5)).Distinct().ToList(),
+                    Comments = Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1), Author = Users.GetRandom() }, RandomNumber(0, 5)).Distinct().ToList(),
                     State = EntityState.Open,
                     StageFlow = Stages.Where(x => x.IsDefault).ToList()
                 };
@@ -730,7 +731,7 @@ namespace DAL.Migrations
                     CityId = RandomNumber(1, Cities.Count - 1),
                     BirthDate = DateTime.Now.AddYears(RandomNumber(-40, -20)),
                     Comments =
-                        Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1) }, RandomNumber(0, 5)).Distinct().ToList(),
+                        Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1), Author = Users.GetRandom() }, RandomNumber(0, 5)).Distinct().ToList(),
                     Education = GetRandomString(15),
                     FirstName = names.GetRandom(),
                     IndustryId = RandomNumber(1, Industries.Count - 1),

@@ -5,6 +5,7 @@ import {
 } from 'lodash';
 import template from './event-calendar.directive.html';
 import './event-canlendar.scss';
+let LENGTH_OF_WEEK = 7;
 export default class EventCalendarDirective {
    constructor() {
       this.restrict = 'E';
@@ -18,7 +19,8 @@ export default class EventCalendarDirective {
          vacancies       : '=',
          candidates      : '=',
          eventTypes      : '=',
-         getEventsByDate : '='
+         getEventsByDate : '=',
+         userColor       : '='
       };
    }
    static createInstance() {
@@ -33,43 +35,72 @@ function EventCalendarController($scope) {
    vm.onDblclick          = showAddDialog;
    vm.eventsForMonth      = {};
    vm.todayDate           = new Date();
+   vm.selectedDay         = new Date();
    vm.dateForSearchEvents = new Date();
    vm.currentMonth        = vm.dateForSearchEvents.getMonth();
    vm.currentYear         = vm.dateForSearchEvents.getFullYear();
    vm.goToNextMonth       = goToNextMonth;
    vm.goToPreviousMonth   = goToPreviousMonth;
+   vm.goToNextYear        = goToNextYear;
+   vm.goToPreviousYear    = goToPreviousYear;
    vm.removeCurrentEvent  = removeCurrentEvent;
    vm.saveCurrentEvent    = saveCurrentEvent;
    vm.onDblclick          = showAddDialog;
    vm.checkedUsers        = [];
+   vm.eventsForDay        = [];
+   vm.getEventsForDate    = getEventsForDate;
+   vm.daysOfWeek          = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-   function init() {
-      getDaysInMonth(vm.currentMonth, vm.currentYear);
-      vm.getEvents(new Date(), vm.chekedUsers).then((events) => {
+   (function init() {
+      formatingSearchCondition();
+      getDaysInMonth(vm.startDate, vm.endDate);
+      vm.getEvents(vm.startDate, vm.endDate, vm.checkedUsers).then((events) => {
          convertEventsToHash(events);
       });
-   }
-   init();
+   }());
 
    function showAddDialog(day) {
       vm.$broadcast('onDblclick', {date: day});
    }
 
+   function formatingSearchCondition() {
+      vm.startDate = new Date(vm.currentYear, vm.currentMonth, 1);
+      vm.firstDayOfWeek = vm.startDate.getDay();
+      if (vm.firstDayOfWeek === 0) {
+         vm.startDate.setDate(vm.startDate.getDate() - (LENGTH_OF_WEEK - 1));
+      } else {
+         vm.startDate.setDate(vm.startDate.getDate() - (vm.firstDayOfWeek - 1));
+      }
+      vm.endDate = new Date(vm.dateForSearchEvents.getFullYear(), vm.dateForSearchEvents.getMonth() + 1, 0);
+      vm.lastDayOfWeek = vm.endDate.getDay();
+      if (vm.lastDayOfWeek !== 0) {
+         vm.endDate.setDate(vm.endDate.getDate() + (LENGTH_OF_WEEK - vm.lastDayOfWeek));
+      }
+   }
+
    vm.$on('checkUser', function fromParent(event, obj) {
-      vm.checkedUsers = obj.chekedUsers;
+      formatingSearchCondition();
+      vm.checkedUsers = obj.checkedUsersIds;
       vm.eventsForMonth = {};
-      vm.getEvents(vm.dateForSearchEvents, vm.chekedUsers).then((events) => {
+      vm.getEvents(vm.startDate, vm.endDate, vm.checkedUsers).then((events) => {
          convertEventsToHash(events);
+         getEventsForDate();
       });
    });
 
-   function getDaysInMonth(month, year) {
+   function getDaysInMonth(startDt, endDt) {
       vm.daysInMonth = [];
-      let date = new Date(year, month, 1);
-      while (date.getMonth() === month) {
-         vm.daysInMonth.push(new Date(date));
-         date.setDate(date.getDate() + 1);
+      vm.currentDate = new Date(startDt);
+      let end = new Date(endDt);
+      while (vm.currentDate <= end) {
+         vm.daysInMonth.push(new Date(vm.currentDate));
+         vm.currentDate.setDate(vm.currentDate.getDate() + 1);
       }
+   }
+
+   function getEventsForDate(day) {
+      vm.selectedDay = day ? day : vm.selectedDay;
+      vm.eventsForDay = vm.eventsForMonth[`${vm.selectedDay.getDate()},${vm.selectedDay.getMonth() + 1},${vm.selectedDay.getFullYear()}`]; // eslint-disable-line max-len
    }
 
    function goToNextMonth() {
@@ -79,13 +110,7 @@ function EventCalendarController($scope) {
          vm.currentMonth = 0;
          vm.currentYear = vm.currentYear + 1;
       }
-      vm.daysInMonth = [];
-      vm.eventsForMonth      = {};
-      vm.dateForSearchEvents = new Date(vm.currentYear, vm.currentMonth);
-      getDaysInMonth(vm.currentMonth, vm.currentYear);
-      vm.getEvents(new Date(vm.currentYear, vm.currentMonth, 1), vm.checkedUsers).then((events) => {
-         convertEventsToHash(events);
-      });
+      formattingDataToCalendarView();
    }
 
    function goToPreviousMonth() {
@@ -95,45 +120,71 @@ function EventCalendarController($scope) {
          vm.currentYear = vm.currentYear - 1;
          vm.currentMonth = 11;
       }
+      formattingDataToCalendarView();
+   }
+
+   function goToNextYear() {
+      vm.currentYear = vm.currentYear + 1;
+      formattingDataToCalendarView();
+   }
+
+   function goToPreviousYear() {
+      vm.currentYear = vm.currentYear - 1;
+      formattingDataToCalendarView();
+   }
+
+   function formattingDataToCalendarView() {
       vm.daysInMonth = [];
       vm.eventsForMonth  = {};
       vm.dateForSearchEvents = new Date(vm.currentYear, vm.currentMonth);
-      getDaysInMonth(vm.currentMonth, vm.currentYear);
-      vm.getEvents(new Date(vm.currentYear, vm.currentMonth, 1), vm.checkedUsers).then((events) => {
+      formatingSearchCondition();
+      getDaysInMonth(vm.startDate, vm.endDate);
+      vm.getEvents(vm.startDate, vm.endDate, vm.checkedUsers).then((events) => {
          convertEventsToHash(events);
       });
+      getEventsForDate(new Date(vm.currentYear, vm.currentMonth, 1));
    }
+
 
    function convertEventsToHash(events) {
       each(events, (event) => {
-         let eventDate = split(split(event.eventDate,  ' ')[0], '-');
-         if (vm.eventsForMonth[eventDate[0]]) {
-            vm.eventsForMonth[eventDate[0]].push(event);
+         let eventDate = convertDate(event);
+         if (vm.eventsForMonth[eventDate]) {
+            vm.eventsForMonth[eventDate].push(event);
          } else {
-            vm.eventsForMonth[eventDate[0]] = [];
-            vm.eventsForMonth[eventDate[0]].push(event);
+            vm.eventsForMonth[eventDate] = [];
+            vm.eventsForMonth[eventDate].push(event);
          }
       });
    }
 
+   function convertDate(event) {
+      let splitedDate = split(split(event.eventDate,  ' ')[0], '-');
+      let convertedSplitedDate = [];
+      each(splitedDate, (part) => {
+         convertedSplitedDate.push(parseInt(part));
+      });
+      return convertedSplitedDate.toString();
+   }
+
    function removeCurrentEvent(event) {
-      let eventDate = split(split(event.eventDate,  ' ')[0], '-');
+      let eventDate = convertDate(event);
       vm.removeEvent(event).then(() => {
-         remove(vm.eventsForMonth[eventDate[0]], {id: event.id});
+         remove(vm.eventsForMonth[eventDate], {id: event.id});
       });
    }
 
    function saveCurrentEvent(event) {
-      let eventDate = split(split(event.eventDate,  ' ')[0], '-');
+      let eventDate = convertDate(event);
       if (event.id) {
          remove(vm.eventsForMonth, {id: event.id});
       }
       return vm.saveEvent(event).then((responseEvent) => {
-         if (vm.eventsForMonth[eventDate[0]]) {
-            vm.eventsForMonth[eventDate[0]].push(responseEvent);
+         if (vm.eventsForMonth[eventDate]) {
+            vm.eventsForMonth[eventDate].push(responseEvent);
          } else {
-            vm.eventsForMonth[eventDate[0]] = [];
-            vm.eventsForMonth[eventDate[0]].push(responseEvent);
+            vm.eventsForMonth[eventDate] = [];
+            vm.eventsForMonth[eventDate].push(responseEvent);
          }
          return responseEvent;
       });

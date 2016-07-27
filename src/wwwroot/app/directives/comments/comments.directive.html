@@ -15,7 +15,16 @@
       <ul class="comments">
          <li ng-repeat="comment in comments" ng-class="{'is-removed': comment.isForRemoved === true}">
             <div class="grid-block">
-               <div class="medium-10 grid-block" ng-bind="comment.message">
+               <div class="vertical medium-10 grid-block">
+                  <div class="grid-block">
+                     <div class="small-5 grid-block comment-title"  ng-bind="::'COMMON.CREATED_ON' | translate"></div>
+                     <div class="small-7 grid-block"  ng-bind="comment.createdOn"></div>
+                  </div>
+                  <div ng-if="type === 'comment'" class="grid-block">
+                     <div class="small-5 grid-block comment-title"  ng-bind="::'COMMON.AUTHOR' | translate"></div>
+                     <div class="small-7 grid-block"  ng-bind="::(comment.responsible.lastName+' '+comment.responsible.firstName)"></div>
+                  </div>
+                  <div ng-bind="comment.message"></div>
                </div>
                <div class="medium-1 grid-block">
                   <a ng-click="editComment(comment)"><i class="foundicon-edit general-icon"></i></a>

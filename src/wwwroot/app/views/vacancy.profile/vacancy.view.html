@@ -10,7 +10,7 @@
             <a ng-click="edit()" ng-bind="::'COMMON.EDIT' | translate"></a>
          </li>
          <li ng-if="isChanged()">
-            <a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
+            <a ng-click="saveChanges()" ng-bind="::'COMMON.SAVE' | translate"></a>
          </li>
       </ul>
    </div>
@@ -136,7 +136,7 @@
                      <label for="newCandidate" ng-bind="::'COMMON.NEW' | translate"></label>
                   </li>
                   <li>
-                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ng-click="goToCandidates()"">
+                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ng-click="goToCandidates()">
                      <label for="candidateFromBOT" ng-bind="::'COMMON.FROM_BOT' | translate"></label>
                   </li>
                </ul>

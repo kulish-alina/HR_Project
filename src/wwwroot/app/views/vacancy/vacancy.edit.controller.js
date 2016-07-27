@@ -169,6 +169,7 @@ export default function VacancyController(
          vm.vacancy = vacancy;
          vm.comments = cloneDeep(vm.vacancy.comments);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
+         $state.go('vacancies');
       }).catch((error) => {
          vm.vacancy.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');

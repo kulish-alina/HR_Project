@@ -1,4 +1,6 @@
 import utils  from './../../utils.js';
+let MIN_EVENTS_NUM = 3;
+let MAX_EVENTS_NUM = 100;
 import {
    clone,
    split,
@@ -24,7 +26,8 @@ export default class EventsDirective {
          candidates      : '=',
          eventTypes      : '=',
          responsibles    : '=',
-         selectedDate    : '='
+         selectedDate    : '=',
+         userColor       : '='
       };
       this.controller = EventsController;
    }
@@ -45,8 +48,9 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
    vm.showEditEventDialog = showEditEventDialog;
    vm.getEvents           = getEvents;
    vm.currentEvents       = [];
+   vm.limit               = vm.source === 'calendar' ? MIN_EVENTS_NUM : MAX_EVENTS_NUM;
    vm.$on('onDblclick', function fromParent(event, obj) {
-      if (vm.selectedDate === obj.date) {
+      if (vm.selectedDate === obj.date && vm.source === 'calendar') {
          vm.currentDate = obj.date;
          showAddEventDialog();
       }

@@ -9,7 +9,8 @@ import {
    cloneDeep,
    reduce,
    result,
-   assignIn
+   assignIn,
+   set
 } from 'lodash';
 
 const VACANCY_URL = 'vacancy/';
@@ -71,6 +72,7 @@ export default class VacancyService {
       .then((promises) => {
          vacancy.responsible = promises[0];
          vacancy.responsibleId = toString(vacancy.responsibleId);
+         vacancy.comments = promises[3];
          assignIn(vacancy, promises[1]);
          vacancy.childVacancies = promises[2];
          return vacancy;
@@ -104,6 +106,7 @@ export default class VacancyService {
          });
          vacancy = _convertThesaurusToIds(vacancy);
          vacancy = _convertToServerDates(vacancy);
+         this._convertCommentsToServer(vacancy);
          delete vacancy.createdOn;
          delete vacancy.responsible;
          delete vacancy.childVacancies;
@@ -130,11 +133,33 @@ export default class VacancyService {
       let userPromise = _VacancyService._getUser(vacancy);
       let thesaurusesPromises = _VacancyService._getThesauruses(vacancy);
       let childVacancyPromises = _VacancyService._getChildVacancies(vacancy);
-      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises]);
+      let commentsPromise = _VacancyService._getCommentsFields(vacancy);
+      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises, commentsPromise]);
    }
 
    _getUser(vacancy) {
       return _UserService.getUserById(vacancy.responsibleId);
+   }
+
+   _getCommentsFields(vacancy) {
+      if (vacancy.comments.length) {
+         let promises = map(vacancy.comments, (comment) => {
+            comment.createdOn = utils.formatDateFromServer(comment.createdOn);
+            //TODO: get user by comment.authorId
+            _UserService.getUserById(1).then(user => set(comment, 'responsible', user));
+            return comment;
+         });
+         return _$q.all(promises);
+      }
+   }
+
+   _convertCommentsToServer(vacancy) {
+      if (vacancy.comments.length) {
+         each(vacancy.comments, (comment) => {
+            comment.createdOn = utils.formatDateToServer(comment.createdOn);
+            delete comment.responsible;
+         });
+      }
    }
 
    _getChildVacancies(vacancy) {

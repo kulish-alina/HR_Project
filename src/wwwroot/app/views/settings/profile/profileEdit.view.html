@@ -1,0 +1,41 @@
+<div>
+   <form name="form.userEdit">
+      <div class="grid-block">
+         <div class="medium-3 grid-block">
+            <fieldset>
+               <input type="text" ng-model="user.lastName" placeholder="{{::'COMMON.LAST' | translate}}" name="lastName" validator="required, maxlength=50">
+               <input type="text" ng-model="user.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" name="firstName" validator="required, maxlength=50">
+               <input type="text" ng-model="user.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName" validator="required, maxlength=50">
+            </fieldset>
+         </div>
+         <div class="medium-3 grid-block">
+            <fieldset>
+               <ul class="some-change">
+                  <li>
+                     <input ng-model="user.isMale" value="true" type="radio" id="male">
+                     <label for="male">{{::'COMMON.MALE' | translate}}</label>
+                  </li>
+                  <li>
+                     <input ng-model="user.isMale" value="false" type="radio" id="female">
+                     <label for="female">{{::'COMMON.FEMALE' | translate}}</label>
+                  </li>
+               </ul>
+               <input type="text" ng-model="user.location" placeholder="{{::'COMMON.CITY' | translate}}" name="Location" validator="title">
+               <input type="text" placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="user.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+            </fieldset>
+         </div>
+         <div class="medium-3 grid-block">
+            <fieldset>
+               <input type="text" ng-model="user.email" placeholder="{{::'COMMON.EMAIL' | translate}}" name="Email" validator="required, email">
+               <input type="text" ng-model="user.skype" placeholder="{{::'COMMON.SKYPE' | translate}}" name="Skype" validator="minlength=6, maxlength=32">
+               <input type="password" ng-model="user.password" placeholder="{{::'SETTINGS.PASS' | translate}}" name="Password" validator="required, minlength=6, maxlength=50">
+            </fieldset>
+         </div>
+         <div class="medium-3 grid-block">
+            <fieldset>
+               <phones ng-model="user.phoneNumbers"></phones>
+            </fieldset>
+         </div>
+      </div>
+   </form>
+</div>

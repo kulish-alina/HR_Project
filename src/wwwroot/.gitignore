@@ -1,0 +1,17 @@
+# Non project data
+typings/
+node_modules/
+bower_components/
+
+# Build data
+dist/
+coverage/
+
+# Editor settings
+.vscode/
+typings.json
+jsconfig.json
+
+# Local Enviroment settings
+db.json
+local.json

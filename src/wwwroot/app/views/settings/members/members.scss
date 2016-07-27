@@ -1,0 +1,29 @@
+@import '../../../common.scss';
+
+ul.members-tab {
+   width: 100%;
+   margin-top: -4px;
+}
+ul.members-tab li {
+   display: inline-block;
+   list-style: none;
+   text-align: left;
+   vertical-align: text-top;
+   padding: 0.6rem;
+   width: 19%;
+   border: 1px solid $border-color;
+   height: 15rem;
+   margin-left: 0.3rem;
+}
+
+.invite-member {
+   position: absolute;
+   top: 1rem;
+   right: 1rem;
+}
+.accordion-item {
+   border-bottom: 1px solid $border-color;
+}
+.close-member-button {
+   float: right;
+}

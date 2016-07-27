@@ -1,0 +1,29 @@
+<div class="main-card">
+   <div class="card-section">
+      <div class="grid-block" ng-if="currentRoleName && permissions">
+         <div class="medium-2 grid-block">
+            <div class="tabs-container">
+               <div class="tabs">
+                  <div ng-repeat="(roleName, perms) in roles" class="tab-item" ng-click="selectRole(roleName)" ng-class="{'is-active': roleName === currentRoleName}">
+                     <span ng-bind="::roleName"></span>
+                     <a ng-if="roleName === currentRoleName" class="roles-close-button" ng-click="removeRole(roleName)">×</a>
+                  </div>
+                  <div class="tab-item" ng-class="{'is-active': roleName === currentRoleName}" ng-bind="::('ROLES.NEW'|translate)" ng-click="showAddDialog()">
+                  </div>   
+               </div>
+            </div>
+         </div>
+         <div class="medium-10 grid-block">
+            <ul class="roles-tab">
+               <li ng-repeat="(groupName, permissions) in permissions">
+                  <h5 ng-bind="::groupName"></h5>
+                  <div ng-repeat="permission in permissions">
+                     <input type="checkbox" ng-model="currentRole[permission.id].flag" id="{{permission.id}}">
+                     <label ng-bind="::permission.description" for="{{permission.id}}"></label>
+                  </div>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>

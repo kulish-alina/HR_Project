@@ -1,0 +1,82 @@
+{
+   "INDEX": {
+      "HOME" : "Домой",
+      "CANDIDATES" : "Кандидаты",
+      "VACANCIES" : "Вакансии",
+      "ADD_CANDIDATE" : "Добавить кандидата"
+   },
+   "CANDIDATE" : {},
+   "CANDIDATES" : {},
+   "HOME" : {},
+   "VACANCIES" : {},
+   "COMMON" : {
+      "EDIT" : "Редактировать",
+      "ADD" : "Добавить",
+      "SAVE" : "Сохранить",
+      "CANCEL" : "Отмена",
+      "REMOVE" : "Удалить",
+      "COMING_SOON": "Скоро будет..."
+   },
+   "THESAURUSES" : {
+      "COUNTRIES" : "Страны",
+      "SOCIALS" : "Социальные сети",
+      "LANGUAGES" : "Языки",
+      "LOCATIONS" : "Расположения",
+      "DEPARTMENTS" : "",
+      "DEPARTMENT_GROUPS" : "",
+      "INDUSTRIES" : "Отрасли",
+      "SKILLS" : "Навыки",
+      "TAGS" : "Теги",
+      "STAGES" : "Этапы",
+      "LEVELS" : "Уровни",
+      "THESAURUSES.EVENT_TYPES" : "События"
+   },
+   "VALIDATION" : {
+      "required": {
+         "error": "*обязательное поле!",
+         "success": "*заполнено"
+      },
+      "url": {
+         "error": "*необходимо ввести Url",
+         "success": "*Url"
+      },
+      "email": {
+         "error": "*необходимо ввести E-mail",
+         "success": "*E-mail"
+      },
+      "number": {
+         "error": "*необходимо ввести число",
+         "success": "*число"
+      },
+      "minlength": {
+         "error": "*слишком коротко",
+         "success": "*достаточно!"
+      },
+      "maxlength": {
+         "error": "*необходимо меньше символов",
+         "success": "*достаточно!"
+      },
+      "name": {
+         "error": "*ввод должен быть от 1 до 50 символов",
+         "success": "*верно!"
+      },
+      "title": {
+         "error": "*ввод должен быть от 3 до 50 символов",
+         "success": "*верно!"
+      }
+   },
+   "ERRORS" : {
+      "someErrorMsg" : "Извините! Произошла ошибка: ",
+      "thesaurusErrors" : {
+         "incorrectNameMsg" : "Некорректное имя словаря."
+      }
+   },
+   "LOGIN" : {
+      "MESSAGE" : "Пожалуйста, заполните поля",
+      "OK" : "Отправить",
+      "CANCEL" : "Отменить",
+      "LOGIN" : "Логин",
+      "PASSWORD" : "Пароль",
+      "SESSION_EXPIRED":"Простите, ваша сессия истекла. Войдите пожалуйста в систему"
+   }
+}

@@ -1,0 +1,146 @@
+.custom-form-content {
+   min-height: $rem-base*10;
+   border: 1px solid $gray;
+   font-family: $body-font-family;
+}
+.custom-form-content div.ta-bind {
+   min-height: $rem-base*10;
+   padding: $rem-base;
+}
+.custom-focussed .custom-btn-group button {
+   opacity: 1;
+}
+.custom-toolbar {
+   background-color: lighten($gray, 9);
+   border: 1px solid $gray;
+   display: table;
+   width: 100%;
+   font-weight: 500;
+   padding: 10px 10px 5px;
+}
+.fa {
+   font-family: "foundation-icons";
+   font-style: normal;
+   font-weight: normal;
+   display: inline-block;
+   font-size: $rem-base*1.2;
+}
+.custom-form-content {
+   .ng-touched{
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 $rem-base/3 $primary-color;
+      }
+   .ng-untouched{
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 $rem-base/3 $primary-color;
+   }
+   .placeholder-text {
+      outline: none;
+      border: 0;
+      box-shadow: none;
+   }
+}
+.fa-quote-right:before {
+    content: "\f1a3";
+}
+.fa-youtube-play:before {
+   content: "\f01f";
+}
+.fa-picture-o:before {
+   content: "\f020";
+}
+.fa-bold:before {
+   content: "\f11c";
+}
+.fa-italic:before {
+   content: "\f15f";
+}
+.fa-underline:before {
+   content: "\f207";
+}
+.fa-strikethrough:before {
+   content: "\f1f0";
+}
+.fa-list-ul:before {
+   content: "\f166";
+}
+.fa-list-ol:before {
+   content: "\f167";
+}
+.fa-list-ol:before {
+   content: "\f167";
+}
+.fa-repeat:before {
+    content: "\f10b";
+}
+.fa-undo:before {
+   content: "\f10a";
+}
+.fa-ban:before {
+   content: "\f1a0";
+}
+.fa-align-left:before {
+   content: "\f104";
+}
+.fa-align-center:before {
+   content: "\f102";
+}
+.fa-align-right:before {
+   content: "\f105";
+}
+.fa-align-justify:before {
+   content: "\f103";
+}
+.fa-indent:before {
+   content: "\f15d";
+}
+.fa-outdent:before {
+   content: "\f15c";
+}
+.fa-code:before {
+   content: "\f15c";
+}
+.fa-youtube-play:before {
+   content: "\f198";
+}
+.fa-picture-o:before {
+   content: "\f195";
+}
+.fa-link:before {
+   content: "\f165";
+}
+
+.custom-btn-group {
+   width: 33%;
+   font-size: $rem-base*0.8;
+   float: left;
+   margin-bottom: 5px;
+   display: inline-block;
+}
+.custom-btn-group button {
+   width: $rem-base*1.9;
+   height: $rem-base*1.6;
+   background-color: $body-background;
+   opacity: .65;
+   border: 1px solid $gray;
+   margin-left: -1px;
+   float: left;
+   text-align: center;
+}
+#toolbarCC {
+   position: relative;
+   display: block;
+   min-width: 100px;
+   background-color: $body-background;
+   border: 1px solid $gray;
+   height: $rem-base*1.6;
+   float: left;
+   padding: 6px 12px;
+   text-align: center;
+}
+#toolbarWC{
+   height: 0;
+   visibility: hidden;
+}

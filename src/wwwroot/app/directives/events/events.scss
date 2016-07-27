@@ -1,0 +1,65 @@
+@import "../../common.scss";
+.events {
+   font-size: $rem-base*0.8;
+   i {
+      font-size: $rem-base;
+      color: $gray-dark;
+      @include breakpoint(medium only) { 
+         font-size: $rem-base;
+      }
+      @include breakpoint(small only) { 
+         font-size: $rem-base;
+      }
+   }
+   i:hover {
+      color: $primary-color;
+   }
+}
+.only-events {
+   display: none;
+}
+.list-only {
+   display: none;
+}
+.form-only {
+   display: none;
+}
+.without-list {
+   flex: 0 0 100%;
+   max-width: 100%; 
+}
+.without-form {
+   flex: 0 0 100%;
+   max-width: 100%;
+   .block-list {
+      width: 100%;
+      margin-left: 0;
+   }
+}
+.list-with-form {
+   display: none;
+}
+.full-temlate {
+   min-width: $rem-base*10;
+   .block-list {
+      width: 100%;
+      margin-left: 0;
+   }
+}
+.event-form {
+   padding-top: 0;
+}
+.event-content {
+   flex-wrap: wrap;
+   padding-left: $rem-base/2;
+   .event-title {
+      font-weight: 600;
+   }
+}
+.event-icon {
+   height: 100%;
+   width: 100%;
+}
+.fot-calendar-list {
+   padding: 0;
+}

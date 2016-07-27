@@ -1,0 +1,84 @@
+@import '../../common.scss';
+@import '../../grid.scss';
+
+input.edit[type="text"] {
+   margin: 0px;
+}
+
+input.edit[type="text"]:disabled {
+   background-color: inherit;
+   border: none;
+   margin: 1px;
+}
+
+select.edit {
+   margin: 0px;
+}
+
+select.edit:disabled {
+   background-color: inherit;
+   border: none;
+   background-image: none;
+   margin: 1px;
+}
+
+div.thesaurus-row {
+   @extend .row;
+   margin: 0px;
+}
+
+div.thesaurus-column {
+   @extend .column;
+   margin: $rem-base*0.25;
+}
+
+div.action-column {
+   @extend .thesaurus-column;
+   width : $rem-base*5;
+}
+
+div.thesaurus-column-header {
+   @extend .header-column;
+   @extend .thesaurus-column;
+   padding-left: $rem-base*0.5;
+}
+
+div.thesaurus-column-header-big {
+   @extend .thesaurus-column-header;
+   width: $rem-base*12;
+}
+
+div.thesaurus-column-header-small {
+   @extend .thesaurus-column-header;
+   width: $rem-base*5;
+}
+
+.main-card img.thesaurus-img {
+   float: left;
+   width: $rem-base*2;
+}
+
+input.thesaurus-file-uploader[type="file"] {
+   width: $rem-base*12;
+}
+
+div.thesaurus-img {
+   width: $rem-base*12;
+}
+
+input.thesaurus-checkbox[type="checkbox"] {
+   width: $rem-base*5;
+   text-align: center;
+}
+
+input.thesaurus-number[type="number"] {
+   width: $rem-base*5;
+   text-align: right;
+   margin: 0px;
+}
+
+input.thesaurus-number[type="number"]:disabled {
+   background-color: inherit;
+   border: none;
+   background-image: none;
+}

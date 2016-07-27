@@ -1,0 +1,30 @@
+.switch-pages {
+   float: right;
+   margin-bottom: $rem-base/2;
+   margin-top: $rem-base/2;
+}
+ul.pagination {
+   list-style-type: none;
+   display: inline-block;
+   margin: 0;
+   padding: 0;
+   li {
+      display: inline;
+      a {
+         color: $body-font-color;
+         float: left;
+         padding: $rem-base/2 $rem-base;
+         text-decoration: none;
+         border: 1px solid $border-color;
+         transition: background-color .3s;
+     }
+     a:hover {
+        color: $primary-color;
+        box-shadow: inset 0px 0px 10px 0px transparentize($body-font-color, 0.9);
+      }
+   }
+}
+
+.filter-items {
+   float: right;
+}

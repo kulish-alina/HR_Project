@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="bot">
+
+<head>
+   <meta charset="UTF-8">
+   <title>Bot Start Page</title>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+   <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+</head>
+
+<body zf-close-all>
+   <style>
+      body {
+         opacity: 0;
+      }
+   </style>
+
+   <div ui-view class="vertical grid-block">
+   </div>
+
+   <!-- Some kind of magic for webpack assets-->
+   {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+   <script src="/{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script> {% } %}
+</body>
+
+</html>

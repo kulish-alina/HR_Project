@@ -1,0 +1,7 @@
+<div ng-repeat="stageObject in dialogTransferObject.stagesToPass">
+    <label ng-bind="::stageObject.stage.title">
+        </label>
+        <input type="checkbox" ng-model="stageObject.isPassed">
+    <textarea ng-if="stageObject.stage.isCommentRequired && stageObject.isPassed" ng-model="stageObject.comment">
+    </textarea>
+</div>

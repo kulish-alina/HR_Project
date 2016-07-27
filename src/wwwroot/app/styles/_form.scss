@@ -1,0 +1,126 @@
+// Styles for forms
+form {
+   width: 100%;
+}
+input[type="number"]:focus, input[type="text"]:focus, input[type="url"]:focus, textarea:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 $rem-base/3 $primary-color;
+}
+
+fieldset {
+   width: 100%;
+   border: 0;
+}
+textarea {
+   resize: vertical;
+   height: $rem-base*2.4;
+   min-height: $rem-base*2.4;
+   @include breakpoint(medium only) { 
+      font-size: $rem-base*0.8125;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base*0.8125;
+   }
+}
+.main-card textarea {
+   height: $rem-base*5; 
+}
+.checkbox-block {
+   margin-bottom: $rem-base*0.625;
+}
+.some-change {
+   @include button-group(
+     $segmented: true,
+     $expand: true,
+     $background: $primary-color,
+     $color: $body-background
+   );
+   margin-bottom: $rem-base !important;
+   height: $rem-base*2.4;
+   padding: 0 !important;
+}
+.range-slider {
+   margin-bottom: $rem-base;
+}
+
+// Styles for form validation forms
+form p {
+   line-height: 1;
+}
+.validation-invalid {
+   color: $alert-color;
+   margin: 0;
+   font-size: $rem-base*0.8;
+   font-family: $body-font-family;
+}
+form .ng-invalid {
+   margin-bottom: $rem-base*0.2;
+   box-shadow: inset 0px 0px 3px 0px transparentize($alert-color, 0.3);
+}
+.button-with-input {
+   @extend %button;
+   height: $rem-base*2.4;
+   width: 100%;
+}
+
+//Styles for candidate/user
+.profile-photo {
+//   background-image: url(/images/upload-photo.png);
+//   background-repeat: no-repeat;
+   background-color: $gray;
+   background-size: 100%;
+   width: 100%;
+   height: $rem-base*12.5;
+   margin-bottom: $rem-base;
+   padding-bottom: 30%;
+   padding-top: 30%;
+   text-align: center;
+}
+.modal {
+   height: $rem-base*7.5;
+}
+.upload-title {
+   font-size: $rem-base*2;
+   color: lighten($dark-color, 7);
+   @include breakpoint(medium only) {
+     font-size: $rem-base;
+   }
+   @include breakpoint(small only) {
+     font-size: $rem-base;
+   }
+}
+input {
+   @include breakpoint(medium only) { 
+      font-size: $rem-base*0.8125 !important;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base*0.8125 !important;
+   }
+}
+
+select {
+   @include breakpoint(medium only) { 
+      font-size: $rem-base*0.8125;
+   }
+   @include breakpoint(small only) { 
+      font-size: $rem-base*0.8125;
+   }
+   margin-bottom: $rem-base;
+}
+option {
+   height: inherit;
+}
+select :first-child {
+   color: $placeholder-color;
+}
+select :nth-child(n+2) {
+   color: $body-font-color;
+} 
+select[multiple] {
+   height: auto;
+}
+.source-col {
+   padding-left: 0;
+   padding-right: 0;
+}

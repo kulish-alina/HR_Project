@@ -1,0 +1,17 @@
+<form name="dialogForm">
+   <div id="dialog">
+      <div>
+         <h3 ng-bind="header"></h3>
+         <a zf-close="" ng-if="closable" class="close-button">×</a>
+      </div>
+      <div>
+         <!-- content will be here -->
+      </div>
+      <div class="dialog-button-group">
+         <a class="button"
+            ng-repeat="button in buttons"
+            ng-bind="button.name"
+            ng-click="button.func(dialogForm)"></a>
+      </div>
+   </div>
+</form>

@@ -1,0 +1,17 @@
+<div class="contacts-directive {{direction}}">
+   <div class="medium-4 member-photo">
+      <img src="/app/images/upload-photo.png" ng-if="!entity.photo">
+      <img ng-src="{{entity.photo.filePath | botUrl}}" ng-if="entity.photo">
+   </div>
+   <div>
+      <h3 ng-if="entity.login" ng-bind="::(entity.firstName+' '+entity.lastName)"></h3>
+      <div ng-repeat="phone in entity.phoneNumbers">
+         <a ng-if="phone.number" href="tel:+{{phone.number}}"><i class="fi-telephone"></i> <span ng-bind="(phone.number | tel)"></span></a>
+      </div>
+      <div ng-if="entity.skype" class="skype-div"><a href="skype:{{entity.skype}}?chat"><i class="fi-social-skype"></i>  <span ng-bind="entity.skype"></span></a></div>
+      <div ng-if="entity.email"><a href="mailto:{{entity.email}}"><i class="fi-mail"></i>  <span ng-bind="entity.email"></span></a></div>
+      <div ng-if="entity.socialNetworks" class="contacts-socials">
+         <img ng-repeat="social in entitty.socialNetworks" ng-href="social.path" ng-src="{{social.imagePath | botUrl}}">
+      </div>
+   </div>
+</div>

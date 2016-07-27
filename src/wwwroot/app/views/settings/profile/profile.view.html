@@ -1,0 +1,23 @@
+<div ng-class="($state.current.data.asEdit) ? 'main-card' : 'userProfile'">
+   <div class="card-section">
+      <div class="grid-block">
+         <div class="vertical medium-12 grid-block">
+            <div class="grid-block">
+               <div class="medium-6 grid-block">
+                  <contacts class="profile-contacts" entity="user"></contacts>
+               </div>
+               <div class="medium-2 profile-info">
+                  <div ng-if="user.location"><i class="fi-marker"></i> <span ng-bind="::user.city"></span></div>
+                  <div ng-if="user.role"><i class="fi-torso"></i> <span ng-bind="::user.role"></span></div>
+                  <div ng-if="user.birthDate"><i class="fi-calendar"></i> <span ng-bind="::user.birthDate | age"></span></div>
+               </div>
+               <div class="medium-4">
+                  <a class="button change-pass" ng-bind="::('PROFILE.CHANGE_PASS'|translate)"></a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <hr/>
+   <div ui-view></div>
+</div>

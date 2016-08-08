@@ -20,21 +20,22 @@ namespace WebUI.App_Start
     public class AutofacConfig
     {
         public static IContainer Container;
-        public static void Initialize(HttpConfiguration config)
+        public static IContainer Initialize(HttpConfiguration config)
         {
-            Initialize(config, RegisterServices(new ContainerBuilder()));
+            return Initialize(config, RegisterServices(new ContainerBuilder()));
         }
-        public static void Initialize(HttpConfiguration config, IContainer container)
+        public static IContainer Initialize(HttpConfiguration config, IContainer container)
         {
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            return container;
         }
 
         private static IContainer RegisterServices(ContainerBuilder builder)
         {
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<BOTContext>()
-                .As<System.Data.Entity.DbContext>()
+            builder.RegisterType<BotContextFactory>()
+                .As<IContextFactory>()
                 .InstancePerRequest();
 
             builder.RegisterType<UnitOfWork>()

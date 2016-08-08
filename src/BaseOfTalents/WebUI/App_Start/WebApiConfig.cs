@@ -1,5 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Cors;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace WebUI.App_Start
 {
@@ -7,15 +9,21 @@ namespace WebUI.App_Start
     {
         public static HttpConfiguration Create()
         {
-            // Web API configuration and services
-            var config = new HttpConfiguration();
+            return new HttpConfiguration();
+        }
+    }
 
-            AutomapperConfig.Configure();
-            AutofacConfig.Initialize(config);
-
+    public static class HttpConfigurationExtensions
+    {
+        public static HttpConfiguration ConfigureCors(this HttpConfiguration config)
+        {
             var corsAtts = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(corsAtts);
+            return config;
+        }
 
+        public static HttpConfiguration ConfigureRouting(this HttpConfiguration config)
+        {
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                  name: "DefaultApi",
@@ -23,6 +31,19 @@ namespace WebUI.App_Start
                  defaults: new { id = RouteParameter.Optional }
              );
 
+            return config;
+        }
+
+        public static HttpConfiguration ConfigJsonSerialization(this HttpConfiguration config)
+        {
+            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+#if DEBUG
+            config.Formatters.JsonFormatter.SerializerSettings.Formatting = Formatting.Indented;
+#else
+            config.Formatters.JsonFormatter.SerializerSettings.Formatting = Formatting.None;
+#endif
             return config;
         }
     }

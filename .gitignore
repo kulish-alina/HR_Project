@@ -22,6 +22,7 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
+[Bb]uild/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -243,6 +244,8 @@ _Pvt_Extensions
 *.~ml
 
 
-src/wwwroot/db/db.json
-Upload/
-src/BaseOfTalents/WebApi/Uploads/
+db.json
+deploy.json
+release-*
+
+**/.vscode

@@ -1,8 +1,4 @@
-﻿using DAL.Mapping;
-using DAL.Migrations;
-using Domain.Entities;
-using Domain.Entities.Enum.Setup;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -10,25 +6,61 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
+using DAL.Infrastructure;
+using DAL.Mapping;
+using Domain.Entities;
+using Domain.Entities.Enum.Setup;
 
 namespace DAL
 {
+    public class BotContextFactory : IContextFactory
+    {
+        public DbContext Create()
+        {
+            return Create(DbSettingsContext.Instance.DbInitialCatalog, DbSettingsContext.Instance.DbDataSource);
+        }
+
+        public DbContext Create(string connectionString)
+        {
+            return new BOTContext(connectionString);
+        }
+
+        public DbContext Create(string dbName, string dataSource)
+        {
+            string connectionString = ConnectionHelper.CreateConnectionString(dataSource, dbName);
+            return Create(connectionString);
+        }
+
+        private static string CreateConnectionString(string dataSource, string initialCatalog)
+        {
+            if (string.IsNullOrEmpty(dataSource))
+            {
+                throw new ArgumentException("DataSource can't be null or empty");
+            }
+
+            if (string.IsNullOrEmpty(initialCatalog))
+            {
+                throw new ArgumentException("InitialCatalog can't be null or empty");
+            }
+
+            SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
+            sqlBuilder.DataSource = dataSource;
+            sqlBuilder.InitialCatalog = initialCatalog;
+            sqlBuilder.IntegratedSecurity = true;
+            return sqlBuilder.ConnectionString;
+        }
+    }
+
     public class BOTContext : DbContext
     {
         private static readonly Dictionary<Type, EntitySetBase> _mappingCache =
             new Dictionary<Type, EntitySetBase>();
 
-        public BOTContext()
-        {
-            Database.SetInitializer(new BOTContextInitializer());
-            AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
-        }
 
-        public BOTContext(string connectionString) : base(connectionString)
+        public BOTContext(string connectionString)
+            : base(connectionString)
         {
-            AppDomain.CurrentDomain.SetData("DataDirectory", Directory.GetCurrentDirectory());
         }
 
         public virtual DbSet<Source> Sources { get; set; }

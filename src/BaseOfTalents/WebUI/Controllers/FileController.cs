@@ -12,6 +12,7 @@ using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using WebUI.Extensions;
+using WebUI.Globals;
 
 namespace WebUI.Controllers
 {
@@ -118,7 +119,7 @@ namespace WebUI.Controllers
         private Tuple<string, string> GetUploadPath()
         {
             var upload = @"uploads";
-            var uploadsPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, Globals.Constants.RootFolder, upload);
+            var uploadsPath = SettingsContext.Instance.GetUploadsPath();
             var year = DateTime.Now.Year;
             var week = DateTime.Now.GetIso8601WeekOfYear();
 

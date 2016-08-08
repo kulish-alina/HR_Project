@@ -47,7 +47,7 @@ export default function CandidateProfileController(
    (function init() {
       UserService.getUsers().then(users => {
          set(vm, 'users', users);
-         genereteColorsForUsers();
+         generateColorsForUsers();
          each(vm.users, (user) => {
             if (vm.chekedUsersIds.length && vm.chekedUsersIds.includes(user.id)) {
                assign(user, {selected: true});
@@ -62,7 +62,7 @@ export default function CandidateProfileController(
          .then(eventTypes  => set(vm, 'eventTypes', eventTypes));
    }());
 
-   function genereteColorsForUsers() {
+   function generateColorsForUsers() {
       let userIdsArr = map(vm.responsibles, (user) => {
          return user.id;
       });

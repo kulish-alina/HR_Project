@@ -145,8 +145,7 @@ export default class VacancyService {
       if (vacancy.comments.length) {
          let promises = map(vacancy.comments, (comment) => {
             comment.createdOn = utils.formatDateFromServer(comment.createdOn);
-            //TODO: get user by comment.authorId
-            _UserService.getUserById(1).then(user => set(comment, 'responsible', user));
+            _UserService.getUserById(comment.authorId).then(user => set(comment, 'responsible', user));
             return comment;
          });
          return _$q.all(promises);

@@ -577,9 +577,11 @@ namespace DAL.Migrations
         {
             Vacancies.ForEach(x =>
             {
+                var candidate = Candidates.GetRandom();
                 x.CandidatesProgress.Add(new VacancyStageInfo
                 {
-                    Candidate = Candidates.GetRandom(),
+                    Candidate = candidate,
+                    CandidateId = candidate.Id,
                     Comment = null,
                     StageId = 1,
                     StageState = StageState.Active,

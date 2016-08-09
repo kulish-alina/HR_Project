@@ -41,7 +41,7 @@
                         </ul>
                         <input type="text" placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                         <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
-                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city track by city.id" ng-model="candidate.cityId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city  | orderBy : 'title' track by city.id" ng-model="candidate.cityId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
@@ -74,7 +74,7 @@
                            <div class="medium-6 grid-block">
                               <input placeholder="{{::'COMMON.YEARS' | translate}}" type="number" min="0" step="1" ng-model='candidate.experienceYears'> </div>
                            <div class="medium-6 grid-block">
-                              <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="number" min="0" step="1" ng-model='candidate.experienceMonthes'> </div>
+                              <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="number" min="0" step="1" ng-model='candidate.experienceMonths'> </div>
                         </div>
                         <input id="relocationAgreement" type="checkbox" ng-model="candidate.relocationAgreement">
                         <label for="relocateAgreement" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate"></label>

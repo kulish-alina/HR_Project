@@ -133,10 +133,10 @@
                         <td>
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
                         </td>
-                        <td ng-bind="::c.industry | arrayAsString: 'title'"></td>
-                        <td ng-bind="::c.mainSource | arrayAsString: 'title'"></td>
+                        <td ng-bind="c.industry.title"></td>
+                        <td ng-bind="c.mainSource.title"></td>
                         <td ng-bind="::c.positionDesired"></td>
-                        <td ng-bind="::c.salaryDesired"></td>
+                        <td ng-bind="(c.salaryDesired+' '+c.currency.title)"></td>
                         <td ng-bind="::c.createdOn"></td>
                         <td>
                            <a ng-click="deleteCandidate(c.id)"><i class="foundicon-trash general-icon"></i>

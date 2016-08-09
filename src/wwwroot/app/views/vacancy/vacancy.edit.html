@@ -74,7 +74,7 @@
                               <label for="masterVacancy" ng-bind="::'COMMON.MASTER_VACANCY' | translate"></label>
                            </div>
                            <div class="medium-6 grid-block">
-                              <input ng-if="!vacancy.parentVacancyId" ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0"> </div>
+                              <input ng-if="!vacancy.parentVacancyId" ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0" max="30"> </div>
                         </div>
                      </fieldset>
                   </div>

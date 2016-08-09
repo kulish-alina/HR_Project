@@ -18,7 +18,13 @@ namespace DAL.Mapping
 
             HasRequired(u => u.Role).WithMany().HasForeignKey(u => u.RoleId);
             HasRequired(u => u.City).WithMany().HasForeignKey(u => u.CityId);
-            HasMany(x => x.UserComments).WithRequired(x => x.Author).HasForeignKey(x => x.AuthorId);
+
+            HasMany(x => x.UserComments).WithMany().Map(x =>
+            {
+                x.MapRightKey("CommentId");
+                x.MapLeftKey("UserId");
+                x.ToTable("UserToComment");
+            });
 
             HasMany(u => u.PhoneNumbers).WithMany().Map(x =>
             {

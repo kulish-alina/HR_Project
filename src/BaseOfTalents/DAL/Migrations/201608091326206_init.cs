@@ -556,6 +556,19 @@ namespace DAL.Migrations
                 .Index(t => t.Role_Id);
             
             CreateTable(
+                "dbo.UserToComment",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false),
+                        CommentId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.CommentId })
+                .ForeignKey("dbo.User", t => t.UserId)
+                .ForeignKey("dbo.Comment", t => t.CommentId)
+                .Index(t => t.UserId)
+                .Index(t => t.CommentId);
+            
+            CreateTable(
                 "dbo.CandidateToComment",
                 c => new
                     {
@@ -810,6 +823,8 @@ namespace DAL.Migrations
             DropForeignKey("dbo.CandidateToComment", "CommentId", "dbo.Comment");
             DropForeignKey("dbo.CandidateToComment", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Comment", "AuthorId", "dbo.User");
+            DropForeignKey("dbo.UserToComment", "CommentId", "dbo.Comment");
+            DropForeignKey("dbo.UserToComment", "UserId", "dbo.User");
             DropForeignKey("dbo.User", "RoleId", "dbo.Role");
             DropForeignKey("dbo.PermissionRole", "Role_Id", "dbo.Role");
             DropForeignKey("dbo.PermissionRole", "Permission_Id", "dbo.Permission");
@@ -853,6 +868,8 @@ namespace DAL.Migrations
             DropIndex("dbo.ParentVacancyToChildVacancy", new[] { "ParentVacancyId" });
             DropIndex("dbo.CandidateToComment", new[] { "CommentId" });
             DropIndex("dbo.CandidateToComment", new[] { "CandidateId" });
+            DropIndex("dbo.UserToComment", new[] { "CommentId" });
+            DropIndex("dbo.UserToComment", new[] { "UserId" });
             DropIndex("dbo.PermissionRole", new[] { "Role_Id" });
             DropIndex("dbo.PermissionRole", new[] { "Permission_Id" });
             DropIndex("dbo.UserToPhoneNumber", new[] { "PhoneNumberId" });
@@ -907,6 +924,7 @@ namespace DAL.Migrations
             DropTable("dbo.VacancyToCity");
             DropTable("dbo.ParentVacancyToChildVacancy");
             DropTable("dbo.CandidateToComment");
+            DropTable("dbo.UserToComment");
             DropTable("dbo.PermissionRole");
             DropTable("dbo.UserToPhoneNumber");
             DropTable("dbo.CandidateSource");

@@ -28,6 +28,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    $translate,
    $element,
    $timeout,
+   $window,
    ThesaurusService,
    UserService,
    VacancyService,
@@ -42,6 +43,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.thesaurus            = [];
    vm.responsibles         = [];
    vm.edit                 = edit;
+   vm.back                 = back;
    vm.uploader             = createNewUploader();
    vm.addFilesForRemove    = addFilesForRemove;
    vm.queueFilesForRemove  = [];
@@ -78,20 +80,20 @@ export default function VacancyProfileController( // eslint-disable-line max-par
 
    function _initCurrentVacancy() {
       let deffered = $q.defer();
-      if ($state.params._data) {
+      if ($state.previous.params._data || $state.params.vacancyId) {
+         VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
+            set(vm, 'vacancy', vacancy);
+            vm.clonedVacancy = cloneDeep(vm.vacancy);
+            vm.comments = cloneDeep(vm.vacancy.comments);
+            deffered.resolve();
+         });
+      } else if ($state.params._data) {
          vm.vacancy = $state.params._data;
          vm.vacancy.comments = $state.params._data.comments;
          vm.vacancy.files = $state.params._data.files;
          vm.clonedVacancy = cloneDeep(vm.vacancy);
          vm.comments = cloneDeep(vm.vacancy.comments);
          deffered.resolve();
-      } else {
-         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
-            set(vm, 'vacancy', vacancy);
-            vm.clonedVacancy = cloneDeep(vm.vacancy);
-            vm.comments = cloneDeep(vm.vacancy.comments);
-            deffered.resolve();
-         });
       }
       return deffered.promise;
    }
@@ -272,6 +274,10 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       vm.currentStage = stageName;
    }
 
+   function back() {
+      $window.history.back();
+   }
+
    function _saveComment(comment) {
       let currentUser = UserService.getCurrentUser();
       comment.authorId = currentUser.id;
@@ -313,6 +319,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          vm.clonedVacancy = cloneDeep(vm.vacancy);
          vm.uploader.clearQueue();
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
+         $state.go($state.previous.name, $state.previous.params);
       }).catch((error) => {
          vm.vacancy.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');

@@ -7,12 +7,13 @@ const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLev
 
 let curriedSet = curry(set, 3);
 
-export default function CandidateController( //eslint-disable-line max-statements
+export default function CandidateController( // eslint-disable-line max-params, max-statements
    $q,
    $element,
    $scope,
    $state,
    $translate,
+   $window,
    CandidateService,
    ValidationService,
    FileService,
@@ -198,7 +199,7 @@ export default function CandidateController( //eslint-disable-line max-statement
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
             return entity;
          })
-         .then(() => $state.go('candidates'))
+         .then(() => $state.go($state.previous.name, $state.previous.params))
          .catch(() => {
             _onError();
             vm.candidate.comments = memo;
@@ -306,6 +307,6 @@ export default function CandidateController( //eslint-disable-line max-statement
    };
 
    function back() {
-      $state.go($state.previous.name, $state.previous.params);
+      $window.history.back();
    }
 }

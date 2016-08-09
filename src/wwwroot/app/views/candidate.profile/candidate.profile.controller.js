@@ -15,6 +15,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    $q,
    $translate,
    $state,
+   $window,
    FileService,
    UserDialogService,
    ThesaurusService,
@@ -34,6 +35,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    vm.isChanged              = false;
    vm.candidate              = $state.params._data ? $state.params._data : {};
    vm.editCandidate          = editCandidate;
+   vm.back                   = back;
    vm.candidate.comments     = $state.params._data ? $state.params._data.comments : vm.candidate.comments;
    vm.candidate.files        = $state.params._data ? $state.params._data.files : vm.candidate.files;
    vm.comments               = cloneDeep(vm.candidate.comments);
@@ -94,17 +96,17 @@ export default function CandidateProfileController( // eslint-disable-line max-s
 
    function _initCurrentCandidate() {
       let deffered = $q.defer();
-      if ($state.params._data) {
-         vm.candidate = $state.params._data;
-         _getCandidateEvents(vm.candidate.id);
-         deffered.resolve();
-      } else {
+      if ($state.previous.params._data || $state.params.candidateId) {
          CandidateService.getCandidate($state.params.candidateId).then(candidate => {
             set(vm, 'candidate', candidate);
             vm.comments = cloneDeep(vm.candidate.comments);
             _getCandidateEvents(vm.candidate.id);
             deffered.resolve();
          });
+      } else {
+         vm.candidate = $state.params._data;
+         _getCandidateEvents(vm.candidate.id);
+         deffered.resolve();
       }
       return deffered.promise;
    }
@@ -225,6 +227,10 @@ export default function CandidateProfileController( // eslint-disable-line max-s
       $state.go('candidate', {_data: vm.candidate, candidateId: vm.candidate.id});
    }
 
+   function back() {
+      $window.history.back();
+   }
+
    function saveChanges() {
       if (vm.uploader.getNotUploadedItems().length) {
          vm.uploader.uploadAll();
@@ -248,6 +254,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
          vm.isChanged = false;
          vm.uploader.clearQueue();
+         $state.go($state.previous.name, $state.previous.params);
       }).catch((error) => {
          vm.candidate.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_CANDIDATE_SAVING'), 'error');

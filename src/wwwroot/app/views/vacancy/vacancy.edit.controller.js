@@ -15,6 +15,7 @@ export default function VacancyController(
    $translate,
    $state,
    $q,
+   $window,
    VacancyService,
    ValidationService,
    ThesaurusService,
@@ -58,13 +59,13 @@ export default function VacancyController(
    }());
 
    function _initCurrentVacancy() {
-      if ($state.params._data) {
-         vm.vacancy = $state.params._data;
-      } else if ($state.params.vacancyId) {
+      if ($state.params.vacancyId || $state.previous.params._data) {
          VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.comments = cloneDeep(vm.vacancy.comments);
          });
+      } else if ($state.params._data) {
+         vm.vacancy = $state.params._data;
       } else {
          vm.vacancy = {};
          vm.vacancy.comments = [];
@@ -92,7 +93,7 @@ export default function VacancyController(
    }
 
    function back() {
-      $state.go($state.previous.name, $state.previous.params);
+      $window.history.back();
    }
 
    function goToChildVacancy(vacancy) {
@@ -171,8 +172,7 @@ export default function VacancyController(
          vm.vacancy = vacancy;
          vm.comments = cloneDeep(vm.vacancy.comments);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
-         $state.go('vacancies');
-      }).catch((error) => {
+      }).then(() => $state.go($state.previous.name, $state.previous.params)).catch((error) => {
          vm.vacancy.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
          LoggerService.error(error);

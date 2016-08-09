@@ -8,7 +8,7 @@ export default function StateRunner($rootScope, $state, $stateParams) {
    };
 
    $rootScope.$on('$stateChangeSuccess', function stateReload (ev, to, toParams, from, fromParams) {
-      from.params = fromParams;
       $state.previous = from;
+      from.params = fromParams;
    });
 }

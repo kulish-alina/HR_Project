@@ -33,7 +33,7 @@ export default function CandidateController( //eslint-disable-line max-statement
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
    vm.addFilesForRemove    = addFilesForRemove;
-   vm.candidate.comments     = $state.params._data ? $state.params._data.comments : [];
+   vm.candidate.comments   = $state.params._data ? $state.params._data.comments : [];
    vm.comments             = cloneDeep(vm.candidate.comments);
    vm.saveComment          = saveComment;
    vm.removeComment        = removeComment;
@@ -42,8 +42,8 @@ export default function CandidateController( //eslint-disable-line max-statement
    vm.cloneCandidateEvents = [];
    vm.saveEvent            = saveEvent;
    vm.removeEvent          = removeEvent;
-   vm.clear                = clear;
-   vm.vacancyIdToGoBack       = $state.params.vacancyIdToGoBack;
+   vm.back                 = back;
+   vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
 
    (function _init() {
       _initDataForEvents();
@@ -305,7 +305,7 @@ export default function CandidateController( //eslint-disable-line max-statement
       return false;
    };
 
-   function clear() {
-      $state.go('candidate', {_data: null, candidateId: null});
+   function back() {
+      $state.go($state.previous.name, $state.previous.params);
    }
 }

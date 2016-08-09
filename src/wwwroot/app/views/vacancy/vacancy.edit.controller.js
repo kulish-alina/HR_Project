@@ -28,7 +28,7 @@ export default function VacancyController(
    const vm = $scope;
 
    /* --- api --- */
-   vm.clear                        = clear;
+   vm.back                         = back;
    vm.saveVacancy                  = saveVacancy;
    vm.vacancy                      = {};
    vm.vacancy.comments             = $state.params._data ? $state.params._data.comments : [];
@@ -91,8 +91,8 @@ export default function VacancyController(
       vm.isChanged = true;
    }
 
-   function clear() {
-      $state.go('vacancyEdit', {_data: null, vacancyId: null});
+   function back() {
+      $state.go($state.previous.name, $state.previous.params);
    }
 
    function goToChildVacancy(vacancy) {

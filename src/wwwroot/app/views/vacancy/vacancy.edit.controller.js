@@ -144,6 +144,8 @@ export default function VacancyController(
    }
 
    function _saveComment(comment) {
+      let currentUser = UserService.getCurrentUser();
+      comment.authorId = currentUser.id;
       return $q.when(vm.comments.push(comment));
    }
 

@@ -273,6 +273,8 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    }
 
    function _saveComment(comment) {
+      let currentUser = UserService.getCurrentUser();
+      comment.authorId = currentUser.id;
       return $q.when(vm.comments.push(comment));
    }
 

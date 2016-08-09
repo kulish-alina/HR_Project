@@ -257,6 +257,8 @@ export default function CandidateProfileController( // eslint-disable-line max-s
 
    function saveComment(comment) {
       vm.isChanged = true;
+      let currentUser = UserService.getCurrentUser();
+      comment.authorId = currentUser.id;
       return $q.when(vm.comments.push(comment));
    }
 

@@ -50,7 +50,8 @@ const CONVERTORS_TO_SERVER = [
    _convertRelocationPlacesToBackend,
    _convertLanguageSkillsToBackend,
    _convertSocialToBackend,
-   _deleteReferencedThesaurusObjects
+   _deleteReferencedThesaurusObjects,
+   _convertCommentsToBackend
 ];
 
 const CONVERTORS_TO_CLIENT = [
@@ -59,16 +60,18 @@ const CONVERTORS_TO_CLIENT = [
    _setMonthYearExperience,
    _convertRelocationPlacesToClient,
    _convertLanguageSkillsToClient,
-   _convertSocialToClient
+   _convertSocialToClient,
+   _convertCommentsToClient
 ];
 
-let _HttpService, _ThesaurusService, _$q;
+let _HttpService, _ThesaurusService, _UserService, _$q;
 
 export default class CandidateService {
-   constructor(HttpService, ThesaurusService, $q) {
+   constructor(HttpService, ThesaurusService, UserService, $q) {
       'ngInject';
       _HttpService = HttpService;
       _ThesaurusService = ThesaurusService;
+      _UserService      = UserService;
       _$q = $q;
    }
 
@@ -246,6 +249,28 @@ function _convertRelocationPlacesToBackend(candidate) {
       isEqualRelocationPlaces,
       _convertRelocationsFieldsToBackend
    );
+}
+
+function _convertCommentsToClient(candidate) {
+   if (candidate.comments.length) {
+      let promises = map(candidate.comments, (comment) => {
+         comment.createdOn = utils.formatDateFromServer(comment.createdOn);
+         _UserService.getUserById(comment.authorId).then(user => set(comment, 'responsible', user));
+         return comment;
+      });
+      return _$q.all(promises).then(() => candidate);
+   }
+}
+
+function _convertCommentsToBackend(candidate) {
+   if (candidate.comments.length) {
+      let promises = map(candidate.comments, (comment) => {
+         comment.createdOn = utils.formatDateToServer(comment.createdOn);
+         delete comment.responsible;
+         return comment;
+      });
+      return _$q.all(promises).then(() => candidate);
+   }
 }
 
 function _convertFromServerDates(candidate) {

@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Entities.Enum;
 
 namespace DAL.DTO
 {
     public class VacancyStageInfoDTO : BaseEntityDTO
     {
-        [Required]
         public int StageId { get; set; }
-        public bool IsPassed { get; set; }
+        public StageState StageState { get; set; }
         public int CandidateId { get; set; }
         public int? VacancyId { get; set; }
         public CommentDTO Comment { get; set; }

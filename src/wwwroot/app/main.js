@@ -1,4 +1,5 @@
 import angular      from 'angular';
+import ngAnimate    from 'angular-animate';
 import router       from 'angular-ui-router';
 import translate    from 'angular-translate';
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists';
@@ -76,6 +77,7 @@ import AuthRunner                    from './runner.auth';
 import authInterceptor               from './interceptors/AuthRequestInterceptor';
 
 const dependencies = [
+   ngAnimate,
    router,
    translate,
    uiMask,

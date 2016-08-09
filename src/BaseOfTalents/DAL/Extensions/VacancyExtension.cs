@@ -39,7 +39,11 @@ namespace DAL.Extensions
             childVacancy.Tags.Clear();
             childVacancy.Tags = parentVacancy.Tags.Select(x => uow.TagRepo.GetByID(x.Id)).ToList();
             childVacancy.StageFlow.Clear();
-            childVacancy.StageFlow = parentVacancy.StageFlow.Select(x => uow.StageRepo.GetByID(x.Id)).ToList();
+            childVacancy.StageFlow = parentVacancy.StageFlow.Select(x =>
+            {
+                var stage = uow.StageRepo.GetByID(x.Id);
+                return new ExtendedStage { Stage = stage, Order = stage.Order };
+            }).ToList();
             childVacancy.Cities.Clear();
             childVacancy.Cities = parentVacancy.Cities.Select(x => uow.CityRepo.GetByID(x.Id)).ToList();
             childVacancy.Levels.Clear();
@@ -107,7 +111,8 @@ namespace DAL.Extensions
         private static void PerformVacancyStageFilling(Vacancy destination, IUnitOfWork uow)
         {
             var stages = uow.StageRepo.Get(new List<Expression<Func<Stage, bool>>>() { x => x.IsDefault }).ToList();
-            stages.ForEach(x => destination.StageFlow.Add(x));
+            var extendedStages = stages.Select(x => new ExtendedStage { Stage = x, Order = x.Order }).ToList();
+            extendedStages.ForEach(x => destination.StageFlow.Add(x));
         }
 
         private static void PerformAddingDeadlineToCalendar(Vacancy destination, VacancyDTO source, IUnitOfWork uow)
@@ -187,6 +192,7 @@ namespace DAL.Extensions
 
         private static void PerformVacanciesProgressSaving(Vacancy destination, VacancyDTO source, IVacancyStageInfoRepository vacancyStageInfoRepository)
         {
+
             //TODO: if vacancy id null - set to THIS
             RefreshExistingVacanciesProgress(destination, source, vacancyStageInfoRepository);
             CreateNewVacanciesProgress(destination, source);

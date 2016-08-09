@@ -1,83 +1,56 @@
 <div class="candidate-info-table" ng-if="parentEntity==='vacancy' && directiveType==='full'">
+    <div class="stages">
+        <div class="stage-filter" ng-click="filterByStage(stage)" ng-repeat="stage in vacancyStages track by $index" ng-class="{'pressed': stage._isPressed}">
+            <a class='fitler-button' ng-bind="stage.stage.title" ng-class="{'has-candidates': stage._hasCandidates}"></a>
+            <a ng-if="stage._hasCandidates" class='filter-count' ng-bind="stage.candidateCount"></a>
+        </div>
+      </div> 
+    <div class="">
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th ng-bind=":: 'CANDIDATE.CANDIDATE' | translate "></th>
+                    <th>Current stage</th>
+                    <!--<th ng-bind=":: 'COMMON.DATE' | translate "></th>
+                    <th ng-bind=":: 'COMMON.COMMENTS' | translate "></th>-->
+                    <th>Stages</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="candidateStage in candObjectsToShow track by $index ">
+                    <td ng-bind="$index+1"></td>
+                    <td><a ng-click="goCandidate(candidateStage.candidateId)">{{candidateStage.candidate.firstName}} {{candidateStage.candidate.lastName}}</a></td>
+                    <td ng-bind="getStageTitle(candidateStage.currentStageId)"></td>
+                    <td>
+                        <a class="table-stage-button" ng-click="callStagesDialog(candidateStage)">Stages progress</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="candidate-info-table " ng-if="parentEntity==='candidate' && directiveType==='full' ">
     <table>
         <thead>
             <tr>
                 <th>№</th>
-                <th ng-bind="::'CANDIDATE.CANDIDATE' | translate"></th>
-                <th ng-bind="::'COMMON.DATE' | translate"></th>
-                <th ng-bind="::'COMMON.STAGE' | translate"></th>
-                <th ng-bind="::'COMMON.COMMENTS' | translate"></th>
+                <th ng-bind=":: 'VACANCIES.VACANCIES' | translate "></th>
+                <th>Current stage</th>
+                <th ng-bind=":: 'COMMON.DATE' | translate "></th>
+                <th ng-bind=":: 'COMMON.COMMENTS' | translate "></th>
+                <th>Stages</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="candidateStage in composedby track by $index">
+            <tr ng-repeat="vacancyStage in composedby track by $index ">
                 <td ng-bind="$index+1"></td>
-                <td><a ng-click="goCandidate(candidateStage.candidateId)">{{candidateStage.candidate.firstName}} {{candidateStage.candidate.lastName}}</a></td>
-                <td ng-bind="getDateByStageId(candidateStage.stages, candidateStage.selectedStageId, candidateStage.candidateId) | date"></td>
-                <td>
-                    <select ng-model="candidateStage.selectedStageId" ng-options="stage.id as stage.title for stage in vacancyStages" ng-change="onStageChange(candidateStage)"></select>
-                </td>
-                <td>
-                    <span ng-if="candidateStage.selectedStageIsPassed" ng-bind="getCommentByStageId(candidateStage.stages, candidateStage.selectedStageId, candidateStage.candidateId)"></span>
-                    <a class="button" ng-if="!candidateStage.selectedStageIsPassed" ng-click="passStageToNext(candidateStage)">Pass stage </a>
-                </td>
+                <td><a ng-click="goVacancy(vacancyStage.candidateId)">{{vacancyStage.vacancy.title}}</a></td>
+                <td ng-bind="getStageTitle(vacancyStage.latestStageId, vacancyStage)"></td>
+                <td ng-bind="getDate(vacancyStage) | date "></td>
+                <td ng-bind="getComment(vacancyStage)"></td>
+                <td><a class="button" ng-click="callStagesDialog(vacancyStage)">Stages progress</a></td>
             </tr>
         </tbody>
     </table>
-</div>
-<div class="candidates" ng-if="parentEntity==='vacancy' && directiveType==='compact'">
-    <ul>
-        <li ng-repeat="candidateStage in composedby track by $index">
-            <div class="grid-block sidebar-row">
-                <div class="medium-5 grid-block ">
-                    <a class="sidebar-col" ng-click="goCandidate(candidateStage.candidateId)">{{candidateStage.candidate.firstName}} {{candidateStage.candidate.lastName}}</a>
-                </div>
-                <div class="medium-7 grid-block">
-                  <select ng-model="candidateStage.selectedStageId" ng-options="stage.id as stage.title for stage in vacancyStages" ng-change="onStageChange(candidateStage)"></select>
-                </div>
-            </div>
-        </li>
-    </ul>
-</div>
-<div class="candidate-info-table" ng-if="parentEntity==='candidate' && directiveType==='full'">
-    <table>
-        <thead>
-            <tr>
-                <th>№</th>
-                <th ng-bind="::'VACANCIES.VACANCIES' | translate"></th>
-                <th ng-bind="::'COMMON.DATE' | translate"></th>
-                <th ng-bind="::'COMMON.STAGE' | translate"></th>
-                <th ng-bind="::'COMMON.COMMENTS' | translate"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="vacancyStage in composedby track by $index">
-                <td ng-bind="$index+1"></td>
-                <td><a ng-click="">{{vacancyStage.vacancy.title}}</a></td>
-                <td ng-bind="getDateByStageId(vacancyStage.stages, vacancyStage.selectedStageId, vacancyStage.candidateId) | date"></td>
-                <td>
-                    <select ng-model="vacancyStage.selectedStageId" ng-options="stage.id as stage.title for stage in vacancyStage.stageFlow"
-                        ng-change="onStageChange(vacancyStage)"></select>
-                </td>
-                <td>
-                    <span ng-if="vacancyStage.selectedStageIsPassed" ng-bind="getCommentByStageId(vacancyStage.stages, vacancyStage.selectedStageId, vacancyStage.candidateId)"></span>
-                    <a class="button" ng-if="!vacancyStage.selectedStageIsPassed" ng-click="passStageToNext(vacancyStage)">Pass stage </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div ng-if="parentEntity==='candidate' && directiveType==='compact'">
-    <ul>
-        <li ng-repeat="vacancyStage in composedby track by $index">
-            <div class="grid-block sidebar-row">
-                <div class="medium-5 grid-block ">
-                    <a class="sidebar-col" ng-click="goCandidate(vacancyStage.candidateId)">{{vacancyStage.vacancy.title}}</a>
-                </div>
-                <div class="medium-7 grid-block">
-                  <select ng-model="vacancyStage.selectedStageId" ng-options="stage.id as stage.title for stage in vacancyStage.stageFlow" ng-change="onStageChange(candidateStage)"></select>
-                </div>
-            </div>
-        </li>
-    </ul>
 </div>

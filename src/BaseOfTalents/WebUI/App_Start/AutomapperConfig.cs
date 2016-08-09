@@ -60,6 +60,10 @@ namespace WebUI.App_Start
                 x.CreateMap<Stage, StageDTO>();
                 x.CreateMap<StageDTO, Stage>();
 
+                x.CreateMap<ExtendedStage, ExtendedStageDTO>()
+                    .ForMember(dest => dest.Stage, opt => opt.MapFrom(src => Mapper.Map<Stage, StageDTO>(src.Stage)));
+                x.CreateMap<StageDTO, Stage>();
+
                 x.CreateMap<Source, SourceDTO>();
                 x.CreateMap<SourceDTO, Source>();
 
@@ -145,7 +149,7 @@ namespace WebUI.App_Start
                     .ForMember(dest => dest.RequiredSkillIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.RequiredSkills)))
                     .ForMember(dest => dest.ChildVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ChildVacancies)))
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)))
-                    .ForMember(dest => dest.StageFlow, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Stage>, IEnumerable<StageDTO>>(src.StageFlow)));
+                    .ForMember(dest => dest.StageFlow, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<ExtendedStage>, IEnumerable<ExtendedStageDTO>>(src.StageFlow)));
 
 
                 x.CreateMap<RelocationPlace, RelocationPlaceDTO>();

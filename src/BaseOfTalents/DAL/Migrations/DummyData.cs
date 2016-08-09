@@ -342,7 +342,9 @@ namespace DAL.Migrations
             new Stage {Title = "Job Offer Issued", IsCommentRequired = false, IsDefault=true, Order=8},
             new Stage {Title = "Job Offer Accepted", IsCommentRequired = false, IsDefault=true, Order=9},
             new Stage {Title = "Hired", IsCommentRequired = true, IsDefault=true, Order=10},
-            new Stage {Title = "Rejected", IsCommentRequired = true, IsDefault=true, Order=11}
+            new Stage {Title = "Job Offer Rejected", IsCommentRequired = true, IsDefault=true, Order=11},
+            new Stage {Title = "Rejected by Company", IsCommentRequired = true, IsDefault=true, Order=12},
+            new Stage {Title = "Rejected by Candidate", IsCommentRequired = true, IsDefault=true, Order=13}
         };
 
 
@@ -573,18 +575,15 @@ namespace DAL.Migrations
 
         private static void FillVacancyProgresses()
         {
-            Candidates.ForEach(x =>
+            Vacancies.ForEach(x =>
             {
-                x.VacanciesProgress.Add(new VacancyStageInfo
+                x.CandidatesProgress.Add(new VacancyStageInfo
                 {
-                    Candidate = x,
-                    Comment = new Comment
-                    {
-                        Message = "message"
-                    },
+                    Candidate = Candidates.GetRandom(),
+                    Comment = null,
                     StageId = 1,
-                    IsPassed = false,
-                    Vacancy = Vacancies.GetRandom()
+                    StageState = StageState.Active,
+                    Vacancy = x
                 });
             });
         }
@@ -632,8 +631,6 @@ namespace DAL.Migrations
                         Skype = GetRandomString(8)
                     }
                     );
-
-
             for (var i = 0; i < count; i++)
             {
                 users.Add(
@@ -666,8 +663,6 @@ namespace DAL.Migrations
                 Title = "Adminstrator",
                 Permissions = Permissions
             });
-
-
             for (var i = 0; i < count; i++)
             {
                 roles.Add(new Role
@@ -688,6 +683,7 @@ namespace DAL.Migrations
         public static List<Vacancy> GetVacancies(int count)
         {
             var vacancies = new List<Vacancy>();
+            var stages = Stages.Where(x => x.IsDefault);
             for (var i = 0; i < count; i++)
             {
                 var vacancy = new Vacancy
@@ -710,9 +706,8 @@ namespace DAL.Migrations
                     Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     Comments = Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1) }, RandomNumber(0, 5)).Distinct().ToList(),
                     State = EntityState.Open,
-                    StageFlow = Stages.Where(x => x.IsDefault).ToList()
+                    StageFlow = stages.Select(x => new ExtendedStage { Stage = x, Order = x.Order }).ToList()
                 };
-
                 vacancies.Add(vacancy);
             }
             return vacancies;
@@ -722,7 +717,6 @@ namespace DAL.Migrations
         private static List<Candidate> GetCandidates(int count)
         {
             var candidates = new List<Candidate>();
-
             for (var i = 0; i < count; i++)
             {
                 var candidate = new Candidate

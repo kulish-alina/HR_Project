@@ -53,6 +53,7 @@ namespace DAL
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<Vacancy> Vacancies { get; set; }
+        public virtual DbSet<ExtendedStage> ExtendedStages { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Stage> Stages { get; set; }
@@ -86,6 +87,7 @@ namespace DAL
             modelBuilder.Configurations.Add(new DepartmentGroupConfiguration());
             modelBuilder.Configurations.Add(new TagConfiguration());
             modelBuilder.Configurations.Add(new StageConfiguration());
+            modelBuilder.Configurations.Add(new ExtendedStageConfiguration());
             modelBuilder.Configurations.Add(new CityConfiguration());
             modelBuilder.Configurations.Add(new LanguageConfiguration());
             modelBuilder.Configurations.Add(new LanguageSkillConfiguration());

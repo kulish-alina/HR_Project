@@ -76,6 +76,7 @@
     <Compile Include="DTO\SetupDTO\DepartmentDTO.cs" />
     <Compile Include="DTO\SetupDTO\DepartmentGroupDTO.cs" />
     <Compile Include="DTO\SetupDTO\EventTypeDTO.cs" />
+    <Compile Include="DTO\SetupDTO\ExtendedStageDTO.cs" />
     <Compile Include="DTO\SetupDTO\IndustryDTO.cs" />
     <Compile Include="DTO\SetupDTO\LanguageDTO.cs" />
     <Compile Include="DTO\SetupDTO\LevelDTO.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Mapping\DepartmentGroupConfiguration.cs" />
     <Compile Include="Mapping\EventConfiguration.cs" />
     <Compile Include="Mapping\EventTypeConfiguration.cs" />
+    <Compile Include="Mapping\ExtendedStageConfiguration.cs" />
     <Compile Include="Mapping\FileConfiguration.cs" />
     <Compile Include="Mapping\IndustryConfiguration.cs" />
     <Compile Include="Mapping\LanguageConfiguration.cs" />

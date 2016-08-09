@@ -6,7 +6,6 @@ namespace DAL.DTO.SetupDTO
     {
         [Required]
         public string Title { get; set; }
-
         [Required]
         public int Order { get; set; }
         [Required]

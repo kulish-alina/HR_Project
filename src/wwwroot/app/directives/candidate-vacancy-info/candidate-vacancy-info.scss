@@ -1,8 +1,127 @@
 @import './../../common.scss';
-
+@import './../../foundation.scss';
 candidate-vacancy-info {
     width: 100%;
-    select :first-child {
+    select:first-child {
         color: $body-font-color;
     }
+    min-height: 440px;
+}
+
+
+textarea {
+    max-height: 3*$rem-base;
+}
+.passed {
+    box-shadow: inset 0px 0px 13px 9px transparentize($gray-dark, 0.88);
+}
+.active {
+    box-shadow: inset 0px 0px 13px 9px transparentize($gray-dark, 0.78);
+}
+.invalid {
+    box-shadow: inset 0px 0px 3px 0px rgba(240, 65, 36, 0.7);
+}
+.valid {
+    box-shadow: inset 0px 0px 3px 0px transparentize(green, 0.9);
+}
+.stages {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: $rem-base / 2;
+    div {
+        margin-right: $rem-base / 2;
+        margin-bottom: $rem-base / 2;
+    }
+}
+
+.table-stage-button {
+    @include button ( $background: #fff, $color: #0097a7, $background-hover: rgba(0, 151, 167, 0.25));
+    border: solid 1px $primary-color;
+    :hover {
+        color: #03899C;
+    }
+}
+
+.table-hire-button {
+    @include button ( $background: #fff, $color: #0097a7, $background-hover: rgba(0, 151, 167, 0.25));
+    border: solid 1px $primary-color;
+    :hover {
+        color: #03899C;
+    }
+}
+
+.table-reject-button {
+    @include button ( $background: #fff, $color: #0097a7, $background-hover: rgba(0, 151, 167, 0.25));
+    border: solid 1px $primary-color;
+    transition: 0.4s ease-in-out all;
+    :hover {
+        color: #03899C;
+    }
+}
+
+.table-stage-buttons-container a {
+    margin-right: $rem-base / 2;
+}
+
+th {
+    text-align: center;
+}
+
+@media only screen and (min-width: 1251px) and (max-width: 1600px) {
+    .stages {
+        justify-content: space-around;
+    }
+}
+
+.pressed {
+    box-shadow: inset 0px 0px 26px -12px rgba(0, 0, 0, 1) !important;
+    border: solid 1px transparentize(#0097a7, 0.68) !important;
+}
+
+.has-candidates {
+    border-right: solid 1px $border-color;
+}
+
+.fitler-button {
+    color: $body-font-color;
+    padding: $rem-base / 2;
+}
+
+.filter-count {
+    color: $gray-dark;
+}
+
+.stage-filter {
+    box-shadow: none;
+    transition: box-shadow 0.2s ease-in-out !important;
+    border-radius: $rem-base / 2;
+    display: inline-block;
+    border: 0;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.25s ease-out;
+    vertical-align: middle;
+    padding: $rem-base / 2;
+    border: solid 1px $border-color;
+}
+
+.stage-button {
+    display: inline-block;
+    border: 0;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.25s ease-out;
+    vertical-align: middle;
+    width: 100%;
+    border: solid 1px $border-color;
+    padding: $rem-base / 2;
+    color: $body-font-color;
 }

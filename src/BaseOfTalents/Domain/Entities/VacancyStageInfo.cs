@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Enum.Setup;
+﻿using Domain.Entities.Enum;
+using Domain.Entities.Enum.Setup;
 
 namespace Domain.Entities
 {
@@ -7,7 +8,7 @@ namespace Domain.Entities
         public int StageId { get; set; }
         public virtual Stage Stage { get; set; }
 
-        public bool IsPassed { get; set; }
+        public StageState StageState { get; set; }
 
         public int CandidateId { get; set; }
         public virtual Candidate Candidate { get; set; }

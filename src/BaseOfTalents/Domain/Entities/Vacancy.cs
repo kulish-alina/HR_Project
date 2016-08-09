@@ -17,7 +17,7 @@ namespace Domain.Entities
             Comments = new List<Comment>();
             Tags = new List<Tag>();
             ChildVacancies = new List<Vacancy>();
-            StageFlow = new List<Stage>();
+            StageFlow = new List<ExtendedStage>();
         }
 
         public string Title { get; set; }
@@ -31,7 +31,7 @@ namespace Domain.Entities
         public virtual ICollection<Level> Levels { get; set; }
         public virtual ICollection<City> Cities { get; set; }
         public virtual ICollection<Skill> RequiredSkills { get; set; }
-        public virtual ICollection<Stage> StageFlow { get; set; }
+        public virtual ICollection<ExtendedStage> StageFlow { get; set; }
         public virtual ICollection<VacancyStageInfo> CandidatesProgress { get; set; }
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }

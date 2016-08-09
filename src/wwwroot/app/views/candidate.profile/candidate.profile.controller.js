@@ -7,6 +7,7 @@ import {
    find,
    forEach,
    map,
+   filter,
    maxBy
 } from 'lodash';
 
@@ -45,19 +46,24 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    vm.saveEvent               = saveEvent;
    vm.removeEvent             = removeEvent;
    vm.composedBy              = [];
+   vm.isCandidateLoaded       = false;
+
+   debugger;
 
    function _init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       _initCurrentCandidate()
          .then(addVacanciesToCandidateIfNeeded)
          .then(_recompose)
-         .then(_fillWithCandidates)
          .then(_fillWithVacancies)
+         .then(calculateLatestStages)
+         .then(_fillWithCandidates)
          .then((vacancyStagesObject) => {
             vm.composedBy = vacancyStagesObject;
-            vm.$watch('composedBy', () => {
+            vm.$watchCollection('composedBy', () => {
                vm.isChanged = true;
             });
+            vm.isCandidateLoaded = true;
          }).catch(LoggerService.error);
    }
    _initDataForEvents();
@@ -65,6 +71,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
 
    function addVacanciesToCandidateIfNeeded() {
       let deffered = $q.defer();
+      debugger;
       if ($state.params.vacancies && $state.params.vacancies.length) {
          forEach($state.params.vacancies, (v) => {
             let newVSI = {
@@ -103,6 +110,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
             set(vm, 'candidate', candidate);
             vm.comments = cloneDeep(vm.candidate.comments);
             _getCandidateEvents(vm.candidate.id);
+            debugger;
             deffered.resolve();
          });
       }
@@ -110,6 +118,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    }
 
    function _recompose() {
+      debugger;
       let vacancyStageInfos = vm.candidate.vacanciesProgress;
       let deffered = $q.defer();
       let composedBy = [];
@@ -126,28 +135,35 @@ export default function CandidateProfileController( // eslint-disable-line max-s
             );
          }
       });
-
-      let composedWithStages = map(composedBy, (obj) => {
-         let currentStage = find(obj.stages, { isPassed: false });
-
-         if (currentStage) {
-            obj.currentStageId = currentStage.stageId;
-            obj.selectedStageId = currentStage.stageId;
-            obj.selectedStageIsPassed = currentStage.isPassed;
-         } else if (obj.stages.length > 1) {
-            let foundLastStage = maxBy(obj.stages, 'stageId');
-            obj.currentStageId = foundLastStage.stageId;
-            obj.selectedStageId = foundLastStage.stageId;
-            obj.selectedStageIsPassed = foundLastStage.isPassed;
-         } else {
-            obj.currentStageId = 1;
-            obj.selectedStageId = 1;
-            obj.selectedStageIsPassed = false;
-         }
-         return obj;
-      });
-      deffered.resolve(composedWithStages);
+      deffered.resolve(composedBy);
       return deffered.promise;
+   }
+
+   function calculateLatestStages(composedBy) {
+      let composedWithStages = map(composedBy, (vacObject) => {
+         let latestStageIdByOrder = 1;
+         if (vacObject.stages.length  > 1) {
+            let passedStages = filter(vacObject.stages, (vacancyStageInfo) => {
+               return vacancyStageInfo.isPassed;
+            });
+            let avalaiblePassedStages = map(passedStages, (vacancyStageInfo) => {
+               return {
+                  stage: filter(vm.vacancy.stageFlow, (extStage) => {
+                     return extStage.stage.id === vacancyStageInfo.stageId;
+                  })[0],
+                  vacancyStageInfo
+               };
+            });
+            if (avalaiblePassedStages.length) {
+               latestStageIdByOrder = maxBy(avalaiblePassedStages, 'stage.order').stage.id;
+            }
+
+         }
+         vacObject.latestStageId = latestStageIdByOrder;
+         return vacObject;
+      });
+      console.log(composedWithStages);
+      return composedWithStages;
    }
 
    function _initDataForEvents() {
@@ -167,32 +183,32 @@ export default function CandidateProfileController( // eslint-disable-line max-s
 
 
    function _fillWithCandidates(recomposed) {
-      let deffered = $q.defer();
-      deffered.resolve(map(recomposed, _loadCandidates));
-      return deffered.promise;
+      return $q.all(map(recomposed, _loadCandidate));
    }
 
    function _fillWithVacancies(recomposed) {
-      let deffered = $q.defer();
-      deffered.resolve(map(recomposed, _loadVacancies));
-      return deffered.promise;
+      return $q.all(map(recomposed, _loadVacancy));
    }
 
-   function _loadCandidates(candidateStagesObject) {
+   function _loadCandidate(candidateStagesObject) {
+      let deffered = $q.defer();
       let stagesObjectWithCandidate = candidateStagesObject;
       CandidateService.getCandidate(candidateStagesObject.candidateId).then(value => {
          stagesObjectWithCandidate.candidate = value;
+         deffered.resolve(stagesObjectWithCandidate);
       });
-      return stagesObjectWithCandidate;
+      return deffered.promise;
    }
 
-   function _loadVacancies(vacanciesStagesObject) {
-      let stagesObjectWithCandidate = vacanciesStagesObject;
+   function _loadVacancy(vacanciesStagesObject) {
+      let deffered = $q.defer();
+      let stagesObjectWithVacancy = vacanciesStagesObject;
       VacancyService.getVacancy(vacanciesStagesObject.vacancyId).then(value => {
-         stagesObjectWithCandidate.vacancy = value;
-         stagesObjectWithCandidate.stageFlow = value.stageFlow;
+         stagesObjectWithVacancy.vacancy = value;
+         stagesObjectWithVacancy.stageFlow = value.stageFlow;
+         deffered.resolve(stagesObjectWithVacancy);
       });
-      return stagesObjectWithCandidate;
+      return deffered.promise;
    }
 
    vm.goToVacancies = () => {

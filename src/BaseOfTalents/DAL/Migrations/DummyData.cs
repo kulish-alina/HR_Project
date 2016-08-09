@@ -1,14 +1,26 @@
-﻿using Domain.Entities;
-using Domain.Entities.Enum;
-using Domain.Entities.Enum.Setup;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Domain.Entities;
+using Domain.Entities.Enum;
+using Domain.Entities.Enum.Setup;
 
 namespace DAL.Migrations
 {
     public static class DummyData
     {
+        public static readonly List<MailContent> Mails = new List<MailContent>
+        {
+            new MailContent
+            {
+                Invitation = "Hello our dear incomer,",
+                Body = @"   Your login is: #UserLogin
+    With password: #UserPassword",
+                Farewell = "We hope that you will enjoy usage of our new service!",
+                Subject = "Meeting HR-bot"
+            }
+        };
+
         public static readonly List<Currency> Currencies = new List<Currency>
         {
             new Currency { Title = "UAH" },

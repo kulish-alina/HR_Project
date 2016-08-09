@@ -16,37 +16,52 @@
         private static volatile SettingsContext instance;
         private static object syncRoot = new object();
 
-        private string _url;
+        private string _hostUrl;
+        private string _remoteUrl;
         private int _port;
-        private string _wwwroot;
-        private string _uploads;
 
         private string _email;
         private string _password;
 
-        private SettingsContext(string url, int port, string wwwroot,
-            string uploads, string email, string password)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsContext"/> class.
+        /// </summary>
+        /// <param name="hostUrl"></param>
+        /// <param name="remoteUrl"></param>
+        /// <param name="port"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        private SettingsContext(string hostUrl, string remoteUrl, int port, string email, string password)
         {
-            _url = url;
+            _hostUrl = hostUrl;
+            _remoteUrl = remoteUrl;
             _port = port;
 
-            _wwwroot = wwwroot;
-            _uploads = uploads;
             _email = email;
             _password = password;
         }
 
-        public static void SetInstance(string url, int port, string wwwroot,
-            string uploads, string email, string password)
+        /// <summary>
+        /// Creates an instance of <see cref="SettingsContext"/> singleton.
+        /// </summary>
+        /// <param name="hostUrl"></param>
+        /// <param name="remoteUrl"></param>
+        /// <param name="port"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        public static void SetInstance(string hostUrl, string remoteUrl, int port, string email, string password)
         {
             if (instance != null)
             {
                 throw new SettingsModificationException();
             }
 
-            instance = new SettingsContext(url, port, wwwroot, uploads, email, password);
+            instance = new SettingsContext(hostUrl, remoteUrl, port, email, password);
         }
 
+        /// <summary>
+        /// The only instance of <see cref="SettingsContext"/> class.
+        /// </summary>
         public static SettingsContext Instance
         {
             get
@@ -62,14 +77,28 @@
             }
         }
 
-        public string Url
+        /// <summary>
+        /// Url of where to host the server
+        /// </summary>
+        public string HostUrl
         {
             get
             {
-                return _url;
+                return _hostUrl;
             }
         }
 
+        public string RemoteUrl
+        {
+            get
+            {
+                return _remoteUrl;
+            }
+        }
+
+        /// <summary>
+        /// Port on which hosting should start
+        /// </summary>
         public int Port
         {
             get
@@ -78,22 +107,32 @@
             }
         }
 
+        /// <summary>
+        /// Root where is located content of the website
+        /// </summary>
         public string WWWRoot
         {
             get
             {
-                return _wwwroot;
+                return "wwwroot";
             }
         }
 
+        /// <summary>
+        /// Folder where will be placed files uploaded by users
+        /// </summary>
         public string Uploads
         {
             get
             {
-                return _uploads;
+                return $"{WWWRoot}/uploads";
             }
         }
 
+        /// <summary>
+        /// Email from which email invitations would be sent
+        /// <seealso cref="Mailer.MailAgent.Send(string, string, string)"/>
+        /// </summary>
         public string Email
         {
             get
@@ -102,6 +141,9 @@
             }
         }
 
+        /// <summary>
+        /// Password for the <see cref="Email"/>. Is emtpy if smtp server doesn't require authorization.
+        /// </summary>
         public string Password
         {
             get
@@ -110,11 +152,36 @@
             }
         }
 
+        /// <summary>
+        /// Relative url on where
+        /// </summary>
         public string RequestPath
         {
             get
             {
                 return "/uploads";
+            }
+        }
+
+        /// <summary>
+        /// Relative url to image for invitational email
+        /// </summary>
+        public string ImageUrl
+        {
+            get
+            {
+                return "/isdmail.png";
+            }
+        }
+
+        /// <summary>
+        /// Relative url to a location on which user should be sent with click on the email link
+        /// </summary>
+        public string OuterUrl
+        {
+            get
+            {
+                return "/login";
             }
         }
     }

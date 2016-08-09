@@ -1,9 +1,9 @@
-﻿using Domain.Entities;
-using Domain.Entities.Enum;
-using System;
+﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using Domain.Entities;
+using Domain.Entities.Enum;
 
 namespace DAL.Migrations
 {
@@ -50,6 +50,8 @@ namespace DAL.Migrations
             context.Vacancies.AddRange(DummyData.Vacancies);
             context.SaveChanges();
             context.Sources.AddRange(DummyData.Sources);
+            context.SaveChanges();
+            context.MailContents.AddRange(DummyData.Mails);
             context.SaveChanges();
             context.Candidates.AddRange(DummyData.Candidates);
             context.SaveChanges();

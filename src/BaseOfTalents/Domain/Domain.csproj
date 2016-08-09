@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Domain</RootNamespace>
-    <AssemblyName>Domain</AssemblyName>
+    <AssemblyName>Bot.Entitites</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -78,6 +78,7 @@
     <Compile Include="Entities\LanguageSkill.cs" />
     <Compile Include="Entities\LogUnit.cs" />
     <Compile Include="Entities\LogValue.cs" />
+    <Compile Include="Entities\MailContent.cs" />
     <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Entities\RelocationLocation.cs" />

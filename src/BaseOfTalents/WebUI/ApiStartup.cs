@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using Mailer;
+using Microsoft.Owin;
 using Owin;
 using WebUI.App_Start;
 using WebUI.Extensions;
@@ -22,6 +23,10 @@ namespace WebUI
             AppConfiguration.ConfigureDatabaseInitializer();
             AppConfiguration.ConfigureDirrectory(rootFolder);
             AppConfiguration.ConfigureDirrectory(uploadsPath);
+            AppConfiguration.ConfigureMailAgent(SettingsContext.Instance.Email,
+                SettingsContext.Instance.Password);
+
+            TemplateLoader.SetupFile("Data/email.html");
 
             var config = WebApiConfig
                 .Create()
@@ -31,11 +36,11 @@ namespace WebUI
 
             var container = AutofacConfig.Initialize(config);
 
-            app.UseAutofacMiddleware(container)
-                .UseAutofacWebApi(config)
-                .UseWebApi(config)
-                .UseStaticFilesServer(uploadsPath, requestPath)
-                .UseHtml5Routing(rootFolder, defaultPage);
+            app.UseAutofacMiddleware(container);
+            app.UseAutofacWebApi(config);
+            app.UseWebApi(config);
+            app.UseStaticFilesServer(uploadsPath, requestPath);
+            app.UseHtml5Routing(rootFolder, defaultPage);
         }
     }
 }

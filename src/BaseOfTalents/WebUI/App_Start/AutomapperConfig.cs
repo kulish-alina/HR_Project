@@ -178,6 +178,9 @@ namespace WebUI.App_Start
 
                 x.CreateMap<VacancyDTO, VacancySearchModel>()
                    .ForMember(dest => dest.State, opt => opt.MapFrom(src => (int)src.State));
+
+                x.CreateMap<MailContent, MailDTO>();
+                x.CreateMap<MailDTO, MailContent>();
             });
         }
     }

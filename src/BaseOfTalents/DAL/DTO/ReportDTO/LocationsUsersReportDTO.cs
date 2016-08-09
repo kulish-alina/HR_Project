@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DAL.DTO.ReportDTO
 {
@@ -12,7 +8,7 @@ namespace DAL.DTO.ReportDTO
         {
             UsersStatisticsInfo = new List<UsersReportDTO>();
         }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public List<UsersReportDTO> UsersStatisticsInfo { get; set; }
     }
 }

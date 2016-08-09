@@ -5,8 +5,6 @@ Param (
 
 $neededParameters =  @("url",
                      "port",
-                     "wwwroot",
-                     "uploads",
                      "dbInitialCatalog",
                      "dbDataSource"
                      "email",

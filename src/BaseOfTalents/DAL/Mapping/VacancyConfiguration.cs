@@ -11,7 +11,15 @@ namespace DAL.Mapping
 
             HasMany(x => x.StageFlow).WithRequired();
 
-            HasMany(v => v.CandidatesProgress).WithRequired(x => x.Vacancy).HasForeignKey(x => x.VacancyId);
+
+            HasMany(c => c.CandidatesProgress).WithRequired().HasForeignKey(x => x.VacancyId);
+
+            /*HasMany(c => c.CandidatesProgress).WithMany().Map(x =>
+            {
+                x.MapRightKey("VacancyStageInfo");
+                x.MapLeftKey("VacancyId");
+                x.ToTable("VacancyToVacancyStageInfo");
+            });*/
 
             HasMany(v => v.Files).WithMany().Map(x =>
             {
@@ -19,6 +27,8 @@ namespace DAL.Mapping
                 x.MapLeftKey("VacancyId");
                 x.ToTable("FileToVacancy");
             });
+
+            HasOptional(x => x.ClosingCandidate).WithMany(x => x.ClosedVacancies).HasForeignKey(x => x.ClosingCandidateId);
 
             HasOptional(v => v.ParentVacancy).WithMany(v => v.ChildVacancies).HasForeignKey(v => v.ParentVacancyId);
             HasOptional(v => v.LanguageSkill);

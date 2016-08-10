@@ -97,6 +97,8 @@ namespace DAL.Extensions
             destination.CurrencyId = source.CurrencyId;
             destination.ChildVacanciesNumber = source.ChildVacanciesNumber;
 
+            destination.ClosingCandidateId = source.ClosingCandidateId;
+
             PerformLevelsSaving(destination, source, uow.LevelRepo);
             PerformLocationsSaving(destination, source, uow.CityRepo);
             PerformTagsSaving(destination, source, uow.TagRepo);

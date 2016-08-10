@@ -18,6 +18,7 @@ namespace DAL.Extensions
             {
                 vacancyStageInfoDomain.Vacancy = destination;
             }
+            vacancyStageInfoDomain.DateOfPass = vacancyStageInfoSource.DateOfPass;
             vacancyStageInfoDomain.StageState = vacancyStageInfoSource.StageState;
             vacancyStageInfoDomain.StageId = vacancyStageInfoSource.StageId;
 

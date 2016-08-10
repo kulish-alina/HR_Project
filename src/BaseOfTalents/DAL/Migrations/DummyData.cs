@@ -332,19 +332,19 @@ namespace DAL.Migrations
 
         public static readonly List<Stage> Stages = new List<Stage>
         {
-            new Stage {Title = "Pool", IsCommentRequired = false, IsDefault=true, Order=1},
-            new Stage {Title = "Selected", IsCommentRequired = false, IsDefault=true, Order=2},
-            new Stage {Title = "HR Interview", IsCommentRequired = true, IsDefault=true, Order=3},
-            new Stage {Title = "Test task", IsCommentRequired = false, IsDefault=true, Order=4},
-            new Stage {Title = "Tech Interview", IsCommentRequired = true, IsDefault=true, Order=5},
-            new Stage {Title = "Additional interview", IsCommentRequired = true, IsDefault=true, Order=6 },
-            new Stage {Title = "Final Interview", IsCommentRequired = true, IsDefault=true, Order=7},
-            new Stage {Title = "Job Offer Issued", IsCommentRequired = false, IsDefault=true, Order=8},
-            new Stage {Title = "Job Offer Accepted", IsCommentRequired = false, IsDefault=true, Order=9},
-            new Stage {Title = "Hired", IsCommentRequired = true, IsDefault=true, Order=10},
-            new Stage {Title = "Job Offer Rejected", IsCommentRequired = true, IsDefault=true, Order=11},
-            new Stage {Title = "Rejected by Company", IsCommentRequired = true, IsDefault=true, Order=12},
-            new Stage {Title = "Rejected by Candidate", IsCommentRequired = true, IsDefault=true, Order=13}
+            new Stage {Title = "Pool", IsCommentRequired = false, IsDefault=true, Order=1, StageType = StageType.MainStage},
+            new Stage {Title = "Selected", IsCommentRequired = false, IsDefault=true, Order=2, StageType = StageType.MainStage},
+            new Stage {Title = "HR Interview", IsCommentRequired = true, IsDefault=true, Order=3, StageType = StageType.MainStage},
+            new Stage {Title = "Test task", IsCommentRequired = false, IsDefault=true, Order=4, StageType = StageType.MainStage},
+            new Stage {Title = "Tech Interview", IsCommentRequired = true, IsDefault=true, Order=5, StageType = StageType.MainStage},
+            new Stage {Title = "Additional interview", IsCommentRequired = true, IsDefault=true, Order=6, StageType = StageType.MainStage },
+            new Stage {Title = "Final Interview", IsCommentRequired = true, IsDefault=true, Order=7, StageType = StageType.MainStage},
+            new Stage {Title = "Job Offer Issued", IsCommentRequired = false, IsDefault=true, Order=8, StageType = StageType.MainStage},
+            new Stage {Title = "Job Offer Accepted", IsCommentRequired = false, IsDefault=true, Order=9, StageType = StageType.MainStage},
+            new Stage {Title = "Hired", IsCommentRequired = true, IsDefault=true, Order=10, StageType = StageType.HireStage},
+            new Stage {Title = "Job Offer Rejected", IsCommentRequired = true, IsDefault=true, Order=11, StageType = StageType.RejectStage},
+            new Stage {Title = "Rejected by Company", IsCommentRequired = true, IsDefault=true, Order=12, StageType = StageType.RejectStage},
+            new Stage {Title = "Rejected by Candidate", IsCommentRequired = true, IsDefault=true, Order=13, StageType = StageType.RejectStage}
         };
 
 
@@ -567,27 +567,9 @@ namespace DAL.Migrations
         {
             Roles = GetRoles(42);
             Users = GetUsers(150);
-            Candidates = GetCandidates(1978);
-            Vacancies = GetVacancies(2403);
+            Candidates = GetCandidates(197);
+            Vacancies = GetVacancies(240);
             Events = GetEvents(100);
-            FillVacancyProgresses();
-        }
-
-        private static void FillVacancyProgresses()
-        {
-            Vacancies.ForEach(x =>
-            {
-                var candidate = Candidates.GetRandom();
-                x.CandidatesProgress.Add(new VacancyStageInfo
-                {
-                    Candidate = candidate,
-                    CandidateId = candidate.Id,
-                    Comment = null,
-                    StageId = 1,
-                    StageState = StageState.Active,
-                    Vacancy = x
-                });
-            });
         }
 
         private static List<Event> GetEvents(int count)

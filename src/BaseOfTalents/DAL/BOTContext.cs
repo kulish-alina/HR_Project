@@ -68,6 +68,7 @@ namespace DAL
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Configurations.Add(new CandidateConfiguration());
+            modelBuilder.Configurations.Add(new VacancyConfiguration());
             modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
             modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
 
@@ -76,7 +77,6 @@ namespace DAL
             modelBuilder.Configurations.Add(new RoleConfiguration());
             modelBuilder.Configurations.Add(new SourceConfiguration());
 
-            modelBuilder.Configurations.Add(new VacancyConfiguration());
             modelBuilder.Configurations.Add(new VacancyStageInfoConfiguration());
 
             modelBuilder.Configurations.Add(new UserConfiguration());

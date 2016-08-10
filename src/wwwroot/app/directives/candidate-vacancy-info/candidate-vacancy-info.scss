@@ -8,6 +8,13 @@ candidate-vacancy-info {
     min-height: 440px;
 }
 
+@mixin overrided-button() {
+    @include button ( $background: #fff, $color: #0097a7, $background-hover: rgba(0, 151, 167, 0.25));
+    border: solid 1px $primary-color;
+    :hover {
+        color: #03899C;
+    }
+}
 
 textarea {
     max-height: 3*$rem-base;
@@ -15,50 +22,47 @@ textarea {
 .passed {
     box-shadow: inset 0px 0px 13px 9px transparentize($gray-dark, 0.88);
 }
+.not-passed {
+    box-shadow: inset 0px 0px 13px 9px transparentize(red, 0.8);
+}
 .active {
-    box-shadow: inset 0px 0px 13px 9px transparentize($gray-dark, 0.78);
+    box-shadow: inset 0px 0px 13px 9px transparentize($gray-dark, 0.68);
 }
 .invalid {
     box-shadow: inset 0px 0px 3px 0px rgba(240, 65, 36, 0.7);
 }
+.action-sheet {
+    width: 170px !important;
+}
+
+
 .valid {
     box-shadow: inset 0px 0px 3px 0px transparentize(green, 0.9);
 }
 .stages {
     display: flex;
     justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    margin-bottom: $rem-base / 2;
-    div {
-        margin-right: $rem-base / 2;
-        margin-bottom: $rem-base / 2;
-    }
+    width: 35%;
 }
 
 .table-stage-button {
-    @include button ( $background: #fff, $color: #0097a7, $background-hover: rgba(0, 151, 167, 0.25));
-    border: solid 1px $primary-color;
-    :hover {
-        color: #03899C;
-    }
+    @include overrided-button();
 }
 
 .table-hire-button {
-    @include button ( $background: #fff, $color: #0097a7, $background-hover: rgba(0, 151, 167, 0.25));
-    border: solid 1px $primary-color;
-    :hover {
-        color: #03899C;
-    }
+     @include overrided-button();
 }
 
 .table-reject-button {
-    @include button ( $background: #fff, $color: #0097a7, $background-hover: rgba(0, 151, 167, 0.25));
-    border: solid 1px $primary-color;
-    transition: 0.4s ease-in-out all;
-    :hover {
-        color: #03899C;
-    }
+     @include overrided-button();
+}
+
+.candidate-info-table {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
 }
 
 .table-stage-buttons-container a {
@@ -69,19 +73,20 @@ th {
     text-align: center;
 }
 
-@media only screen and (min-width: 1251px) and (max-width: 1600px) {
-    .stages {
-        justify-content: space-around;
+.table-container {
+    width: 100%;
+    td {
+        text-align: center;
+        font-size: 0.9*$rem-base;
     }
 }
 
 .pressed {
     box-shadow: inset 0px 0px 26px -12px rgba(0, 0, 0, 1) !important;
-    border: solid 1px transparentize(#0097a7, 0.68) !important;
 }
 
-.has-candidates {
-    border-right: solid 1px $border-color;
+.has-entities {
+    border-right: solid 1px #fff;
 }
 
 .fitler-button {
@@ -91,23 +96,13 @@ th {
 
 .filter-count {
     color: $gray-dark;
+    text-align: center;
 }
 
 .stage-filter {
-    box-shadow: none;
-    transition: box-shadow 0.2s ease-in-out !important;
-    border-radius: $rem-base / 2;
-    display: inline-block;
-    border: 0;
-    text-align: center;
-    line-height: 1;
-    cursor: pointer;
-    -webkit-appearance: none;
-    -webkit-font-smoothing: antialiased;
-    transition: background 0.25s ease-out;
-    vertical-align: middle;
-    padding: $rem-base / 2;
-    border: solid 1px $border-color;
+    @include button ($background: transparentize(#0097a7, 0.9), $color: #fff, $background-hover: rgba(0, 151, 167, 0.75));
+    border-bottom: solid 1px #fff;
+    transition: 0.2s ease-in-out all;
 }
 
 .stage-button {

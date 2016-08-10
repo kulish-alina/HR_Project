@@ -40,6 +40,9 @@ namespace Domain.Entities
         public int? ChildVacanciesNumber { get; set; }
         public virtual ICollection<Vacancy> ChildVacancies { get; set; }
 
+        public int? ClosingCandidateId { get; set; }
+        public Candidate ClosingCandidate { get; set; }
+
         public int? ParentVacancyId { get; set; }
         public virtual Vacancy ParentVacancy { get; set; }
 

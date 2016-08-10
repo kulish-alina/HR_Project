@@ -68,6 +68,7 @@
     <Compile Include="Entities\Enum\Setup\Tag.cs" />
     <Compile Include="Entities\Enum\ParsingSource.cs" />
     <Compile Include="Entities\Enum\StageState.cs" />
+    <Compile Include="Entities\Enum\StageType.cs" />
     <Compile Include="Entities\Enum\TypeOfEmployment.cs" />
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Entities\File.cs" />

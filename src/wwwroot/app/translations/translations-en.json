@@ -69,6 +69,12 @@
       "INFORMATION": "Information",
       "FILES": "Files"
    },
+   "VACANCY_STAGE_INFO": {
+       "CURRENT_STAGE": "Current stage",
+       "STAGE_PROGRESS": "Stage progress",
+       "HIRE": "Hire",
+       "REJECT": "Reject"
+   },
    "COMMON": {
       "ADD": "Add",
       "ADD_AND_BACK": "Add and back",
@@ -79,6 +85,7 @@
       "COUNT": "Count",
       "COMING_SOON": "Coming soon",
       "CITY": "City",
+      
       "OK": "Ok",
       "SUBMIT": "Submit",
       "SAVE": "Save",

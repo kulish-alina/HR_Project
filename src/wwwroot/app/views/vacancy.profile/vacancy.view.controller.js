@@ -11,6 +11,7 @@ import {
    forEach,
    map,
    isEqual,
+   filter
 } from 'lodash';
 
 import {
@@ -75,6 +76,11 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
    }());
 
+   vm.closeVacancyWith = (candidate) => {
+      vm.vacancy.closingCandidateId = candidate.id;
+      vm.vacancy.closingCandidate = candidate;
+   };
+
    function _initCurrentVacancy() {
       let deffered = $q.defer();
       if ($state.params._data) {
@@ -95,6 +101,16 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       return deffered.promise;
    }
 
+   vm.getPassDate = () => {
+      if (vm.isVacancyLoaded) {
+         let candidatesProgress = _recomposeBack(vm.composedBy) || vm.vacancy.candidatesProgress;
+         let hireStage = filter(vm.vacancy.stageFlow, (extStage) => {
+            return extStage.stage.title === 'Hired';
+         })[0];
+         return new Date(find(candidatesProgress, {stageId: hireStage.stage.id}).createdOn).toDateString();
+      }
+   };
+
    function addCandidatesToVacancyIfNeeded() {
       let deffered = $q.defer();
       if ($state.params.candidatesIds && $state.params.candidatesIds.length) {
@@ -103,8 +119,8 @@ export default function VacancyProfileController( // eslint-disable-line max-par
                vacancyId: vm.vacancy.id,
                candidateId: cId,
                comment: null,
-               isPassed: false,
-               stageId: _getVacancyFirstStage().id,
+               stageState: 1,
+               stageId: _getVacancyFirstStage().stage.id,
                createdOn: (new Date()).toISOString()
             };
             vm.vacancy.candidatesProgress.push(newVSI);
@@ -118,9 +134,18 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       return find(vm.vacancy.stageFlow, { order: 1 });
    };
 
+   vm.getHiredCandidateFullName = () => {
+      if (vm.isVacancyLoaded) {
+         let space = ' ';
+         let fullName = vm.vacancy.closingCandidate.firstName;
+         fullName = fullName + space;
+         fullName = fullName + vm.vacancy.closingCandidate.lastName;
+         return fullName;
+      }
+   };
+
    function recompose() {
       let vacancyStageInfos = vm.vacancy.candidatesProgress;
-      let deffered = $q.defer();
       let composedBy = [];
       vm.parentEntity = 'vacancy';
       forEach(vacancyStageInfos, (vsi) => {
@@ -143,20 +168,19 @@ export default function VacancyProfileController( // eslint-disable-line max-par
             currentStageId
          });
       });
-      deffered.resolve(composedWithCurrentStage);
-      return deffered.promise;
+      return $q.when(composedWithCurrentStage);
    }
 
+   vm.isVacancyClosed = () => {
+      return !!vm.vacancy.closingCandidateId;
+   };
 
    function fillWithCandidates(recomposed) {
       return $q.all(map(recomposed, _loadCandidate));
    }
 
    function fillWithVacancies(recomposed) {
-      if (vm.parentEntity === 'vacancy') {
-         return $q.all(map(recomposed, _loadVacancy));
-      }
-      return $q.when(recomposed);
+      return $q.all(map(recomposed, _loadVacancy));
    }
 
    function _loadCandidate(candidateStagesObject) {

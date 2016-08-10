@@ -20,6 +20,7 @@ namespace DAL.DTO
             Files = new List<FileDTO>();
             Comments = new List<CommentDTO>();
             RelocationPlaces = new List<RelocationPlaceDTO>();
+            ClosedVacanciesIds = new List<int>();
         }
 
         [Required]
@@ -48,6 +49,8 @@ namespace DAL.DTO
         public int? LevelId { get; set; }
         public int? CurrencyId { get; set; }
         public int? CityId { get; set; }
+
+        public IEnumerable<int> ClosedVacanciesIds { get; set; }
 
         public IEnumerable<CandidateSourceDTO> Sources { get; set; }
         public int? MainSourceId { get; set; }

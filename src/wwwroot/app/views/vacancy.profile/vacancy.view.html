@@ -64,10 +64,9 @@
          </div>
       </div>
       <div class="main-card vacancy-profile">
-         <!--<div class="card-divider" ng-bind="::'CANDIDATES.CANDIDATES' | translate"> </div>
-         <hr style="">!-->
          <div class="card-section candidate-vacancy-info-container">
-               <candidate-vacancy-info ng-if="isVacancyLoaded" vacancy-stages="vacancy.stageFlow" composedby="composedBy" parent-entity="vacancy" directive-type="full"> </candidate-vacancy-info>
+               <h3 ng-if="isVacancyLoaded && isVacancyClosed()">Vacancy closed {{getPassDate()}} by {{getHiredCandidateFullName()}}</h3>
+               <candidate-vacancy-info ng-if="isVacancyLoaded && !isVacancyClosed()" closevacancy="closeVacancyWith" vacancy-stages="vacancy.stageFlow" composedby="composedBy" parent-entity="vacancy" directive-type="full"> </candidate-vacancy-info>
          </div>
       </div>
       <div class="main-card vacancy-profile">

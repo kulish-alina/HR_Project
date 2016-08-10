@@ -21,6 +21,8 @@ namespace DAL.Mapping
                 x.ToTable("CandidateToRelocationPlace");
             });
 
+            HasMany(x => x.ClosedVacancies).WithOptional(x => x.ClosingCandidate).HasForeignKey(x => x.ClosingCandidateId);
+
             HasOptional(c => c.Currency).WithMany().HasForeignKey(c => c.CurrencyId);
 
             HasOptional(c => c.City).WithMany().HasForeignKey(c => c.CityId);
@@ -30,7 +32,15 @@ namespace DAL.Mapping
                 x.MapLeftKey("CandidateId");
                 x.ToTable("FileToCandidate");
             });
-            HasMany(c => c.VacanciesProgress).WithRequired(vs => vs.Candidate).HasForeignKey(vs => vs.CandidateId);
+
+            HasMany(c => c.VacanciesProgress).WithRequired().HasForeignKey(x => x.CandidateId);
+
+            /*HasMany(c => c.VacanciesProgress).WithMany().Map(x =>
+            {
+                x.MapRightKey("VacancyStageInfo");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("CandidateToVacancyStageInfo");
+            });*/
 
             HasMany(x => x.Events).WithOptional(x => x.Candidate).HasForeignKey(x => x.CandidateId);
 

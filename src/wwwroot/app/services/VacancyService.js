@@ -33,8 +33,10 @@ let _$q;
 let _LoggerService;
 let _UserService;
 let _VacancyService;
+let _CandidateService;
+
 export default class VacancyService {
-   constructor(HttpService, ThesaurusService, $q, LoggerService, UserService) {
+   constructor(HttpService, ThesaurusService, $q, LoggerService, UserService, CandidateService) {
       'ngInject';
       _HttpService = HttpService;
       _ThesaurusService = ThesaurusService;
@@ -42,6 +44,7 @@ export default class VacancyService {
       _LoggerService = LoggerService;
       _UserService = UserService;
       _VacancyService = this;
+      _CandidateService  = CandidateService;
    }
 
    getVacancy(id) {
@@ -73,6 +76,7 @@ export default class VacancyService {
          vacancy.responsibleId = toString(vacancy.responsibleId);
          assignIn(vacancy, promises[1]);
          vacancy.childVacancies = promises[2];
+         vacancy.closingCandidate = promises[3];
          return vacancy;
       });
    }
@@ -130,7 +134,8 @@ export default class VacancyService {
       let userPromise = _VacancyService._getUser(vacancy);
       let thesaurusesPromises = _VacancyService._getThesauruses(vacancy);
       let childVacancyPromises = _VacancyService._getChildVacancies(vacancy);
-      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises]);
+      let closingCandidatePromise = _VacancyService._getClosingCandidate(vacancy);
+      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises, closingCandidatePromise]);
    }
 
    _getUser(vacancy) {
@@ -143,6 +148,12 @@ export default class VacancyService {
             return _VacancyService.getVacancy(childVacancyId);
          });
          return _$q.all(promises);
+      }
+   }
+
+   _getClosingCandidate(vacancy) {
+      if (vacancy.closingCandidateId) {
+         return _CandidateService.getCandidate(vacancy.closingCandidateId);
       }
    }
 

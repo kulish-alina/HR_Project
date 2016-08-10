@@ -41,6 +41,7 @@ namespace DAL.DTO
         public IEnumerable<CommentDTO> Comments { get; set; }
         public IEnumerable<int> ChildVacanciesIds { get; set; }
 
+        public int? ClosingCandidateId { get; set; }
         public int? ParentVacancyId { get; set; }
         public int? ChildVacanciesNumber { get; set; }
 

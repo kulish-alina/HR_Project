@@ -96,17 +96,24 @@ export default function CandidateProfileController( // eslint-disable-line max-s
 
    function _initCurrentCandidate() {
       let deffered = $q.defer();
-      if ($state.previous.params._data || $state.params.candidateId) {
+      if ($state.previous.params._data) {
+         CandidateService.getCandidate($state.previous.params._data.id).then(candidate => {
+            set(vm, 'candidate', candidate);
+            vm.comments = cloneDeep(vm.candidate.comments);
+            _getCandidateEvents(vm.candidate.id);
+            deffered.resolve();
+         });
+      } else if ($state.params._data) {
+         vm.candidate = $state.params._data;
+         _getCandidateEvents(vm.candidate.id);
+         deffered.resolve();
+      } else {
          CandidateService.getCandidate($state.params.candidateId).then(candidate => {
             set(vm, 'candidate', candidate);
             vm.comments = cloneDeep(vm.candidate.comments);
             _getCandidateEvents(vm.candidate.id);
             deffered.resolve();
          });
-      } else {
-         vm.candidate = $state.params._data;
-         _getCandidateEvents(vm.candidate.id);
-         deffered.resolve();
       }
       return deffered.promise;
    }
@@ -254,8 +261,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
          vm.isChanged = false;
          vm.uploader.clearQueue();
-         $state.go($state.previous.name, $state.previous.params);
-      }).catch((error) => {
+      }).then(() => $state.go($state.previous.name, $state.previous.params)).catch((error) => {
          vm.candidate.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_CANDIDATE_SAVING'), 'error');
          LoggerService.error(error);
@@ -293,9 +299,10 @@ export default function CandidateProfileController( // eslint-disable-line max-s
       });
    }
    function saveEvent(event) {
-      EventsService.save(event).then(() => {
+      return EventsService.save(event).then((responseEvent) => {
          _getCandidateEvents(vm.candidate.id);
          vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+         return responseEvent;
       });
    }
 

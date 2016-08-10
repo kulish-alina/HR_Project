@@ -142,7 +142,7 @@ export default class VacancyService {
    }
 
    _getCommentsFields(vacancy) {
-      if (vacancy.comments.length) {
+      if (vacancy.comments) {
          let promises = map(vacancy.comments, (comment) => {
             comment.createdOn = utils.formatDateFromServer(comment.createdOn);
             _UserService.getUserById(comment.authorId).then(user => set(comment, 'responsible', user));
@@ -153,7 +153,7 @@ export default class VacancyService {
    }
 
    _convertCommentsToServer(vacancy) {
-      if (vacancy.comments.length) {
+      if (vacancy.comments) {
          each(vacancy.comments, (comment) => {
             comment.createdOn = utils.formatDateToServer(comment.createdOn);
             delete comment.responsible;

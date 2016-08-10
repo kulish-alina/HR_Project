@@ -39,8 +39,8 @@ export default function CandidateController( // eslint-disable-line max-params, 
    vm.saveComment          = saveComment;
    vm.removeComment        = removeComment;
    vm.editComment          = editComment;
-   vm.candidateEvents      = [];
-   vm.cloneCandidateEvents = [];
+   vm.candidateEvents      = $state.params._data ? $state.params._data.events : [];
+   vm.cloneCandidateEvents = clone(vm.candidateEvents);
    vm.saveEvent            = saveEvent;
    vm.removeEvent          = removeEvent;
    vm.back                 = back;
@@ -84,7 +84,9 @@ export default function CandidateController( // eslint-disable-line max-params, 
    }
 
    function _getCandidate() {
-      if ($state.params._data) {
+      if ($state.previous.params._data) {
+         return CandidateService.getCandidate($state.previous.params._data.id);
+      } else if ($state.params._data) {
          return $q.when($state.params._data);
       } else if ($state.params.candidateId) {
          return CandidateService.getCandidate($state.params.candidateId);

@@ -59,7 +59,12 @@ export default function VacancyController(
    }());
 
    function _initCurrentVacancy() {
-      if ($state.params.vacancyId || $state.previous.params._data) {
+      if ($state.previous.params._data) {
+         VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
+            set(vm, 'vacancy', vacancy);
+            vm.comments = cloneDeep(vm.vacancy.comments);
+         });
+      } else if ($state.params.vacancyId) {
          VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.comments = cloneDeep(vm.vacancy.comments);

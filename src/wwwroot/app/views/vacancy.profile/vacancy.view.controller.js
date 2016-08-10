@@ -48,8 +48,6 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.addFilesForRemove    = addFilesForRemove;
    vm.queueFilesForRemove  = [];
    vm.saveChanges          = saveChanges;
-   vm.vacancy.comments     = $state.params._data ? $state.params._data.comments : [];
-   vm.comments             = cloneDeep(vm.vacancy.comments);
    vm.isChanged            = isChanged;
    vm.selectStage          = selectStage;
    vm.currentStage         = '';
@@ -80,7 +78,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
 
    function _initCurrentVacancy() {
       let deffered = $q.defer();
-      if ($state.previous.params._data || $state.params.vacancyId) {
+      if ($state.previous.params._data) {
          VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.clonedVacancy = cloneDeep(vm.vacancy);
@@ -89,11 +87,18 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          });
       } else if ($state.params._data) {
          vm.vacancy = $state.params._data;
-         vm.vacancy.comments = $state.params._data.comments;
-         vm.vacancy.files = $state.params._data.files;
+         vm.vacancy.comments = $state.params._data.comments ? $state.params._data.comments : [];
+         vm.vacancy.files =  $state.params._data.files ? $state.params._data.files : [];
          vm.clonedVacancy = cloneDeep(vm.vacancy);
          vm.comments = cloneDeep(vm.vacancy.comments);
          deffered.resolve();
+      } else {
+         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
+            set(vm, 'vacancy', vacancy);
+            vm.clonedVacancy = cloneDeep(vm.vacancy);
+            vm.comments = cloneDeep(vm.vacancy.comments);
+            deffered.resolve();
+         });
       }
       return deffered.promise;
    }
@@ -229,8 +234,10 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    }
 
    function _isEqualComents() {
-      if (vm.comments.length !== vm.vacancy.comments.length || vm.queueFilesForRemove.length) {
-         return false;
+      if (vm.comments && vm.vacancy.comments) {
+         if (vm.comments.length !== vm.vacancy.comments.length || vm.queueFilesForRemove.length) {
+            return false;
+         }
       }
       let fields = ['createdOn', 'id', 'message', 'state'];
       return every(vm.comments, (comment) => {
@@ -319,8 +326,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          vm.clonedVacancy = cloneDeep(vm.vacancy);
          vm.uploader.clearQueue();
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
-         $state.go($state.previous.name, $state.previous.params);
-      }).catch((error) => {
+      }).then(() => $state.go($state.previous.name, $state.previous.params)).catch((error) => {
          vm.vacancy.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
          LoggerService.error(error);

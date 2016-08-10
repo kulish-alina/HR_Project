@@ -252,7 +252,7 @@ function _convertRelocationPlacesToBackend(candidate) {
 }
 
 function _convertCommentsToClient(candidate) {
-   if (candidate.comments.length) {
+   if (candidate.comments) {
       let promises = map(candidate.comments, (comment) => {
          comment.createdOn = utils.formatDateFromServer(comment.createdOn);
          _UserService.getUserById(comment.authorId).then(user => set(comment, 'responsible', user));
@@ -263,7 +263,7 @@ function _convertCommentsToClient(candidate) {
 }
 
 function _convertCommentsToBackend(candidate) {
-   if (candidate.comments.length) {
+   if (candidate.comments) {
       let promises = map(candidate.comments, (comment) => {
          comment.createdOn = utils.formatDateToServer(comment.createdOn);
          delete comment.responsible;

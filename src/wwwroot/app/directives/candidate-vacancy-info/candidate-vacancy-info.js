@@ -7,12 +7,9 @@ import {
       map,
       filter,
       find,
-      curry,
       cloneDeep,
       reduce,
-      maxBy,
-      union,
-      forEach
+      maxBy
 } from 'lodash';
 
 export default class CandidateVacancyInfoDirective {
@@ -36,7 +33,7 @@ export default class CandidateVacancyInfoDirective {
    }
 }
 
-function CandidateVacancyInfoController($scope,
+function CandidateVacancyInfoController($scope, // eslint-disable-line max-statements
       UserDialogService,
       $translate,
       $state,
@@ -59,64 +56,35 @@ function CandidateVacancyInfoController($scope,
    vm.objectsToShow = vm.composedby;
    vm.stageQueries = [];
 
-   let curriedUpdateCandidateStage = curry(updateCandidateStages, 2);
-
    function _init() {
       if (vm.parentEntity === 'vacancy') {
          vm.rejectStages = filter(vm.vacancyStages, (extStage) => {
             return extStage.stage.stageType === STAGE_TYPES.RejectStage;
          });
-         let withoutHireStage = filter(vm.vacancyStages, (extStage) => {
-            return extStage.stage.stageType !== STAGE_TYPES.HireStage;
-         });
-         vm.stagesToShow = calculateVacancyStagesCandidatesCount(withoutHireStage, vm.composedby);
+         vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.composedby);
       } else if (vm.parentEntity === 'candidate') {
-         forEach(vm.composedby, (vacancyStage) => {
-            vacancyStage.rejectStages = filter(vacancyStage.stageFlow, (extStage) => {
-               return extStage.stage.stageType === STAGE_TYPES.RejectStage;
-            });
-         });
+         vm.composedby = map(vm.composedby, findAndSetRejectStagesFor);
          if (vm.composedby[0]) {
             //TODO intersect of stages
-            let vacanciesFlowIntersection = vm.composedby[0].stageFlow;
-            let withoutHireStage = filter(vacanciesFlowIntersection, (extStage) => {
-               return extStage.stage.stageType !== STAGE_TYPES.HireStage;
-            });
-            vm.stagesToShow = calculateVacancyStagesCandidatesCount(withoutHireStage, vm.composedby);
+            vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.composedby);
          }
       }
    }
-   _init();
 
-   vm.reject = (candidateStage, rejectStage) => {
-      let latestActiveVsi = find(candidateStage.stages, { stageState: STAGE_STATES.Active});
-      if (latestActiveVsi) {
-         latestActiveVsi.stageState = STAGE_STATES.NotPassed;
-      }
-      let rejectedVsi = {
-         vacancyId: candidateStage.vacancyId,
-         candidateId: candidateStage.candidateId,
-         stage: rejectStage.stage,
-         stageId: rejectStage.stage.id,
-         //TODO: open dialog to write a comment
-         comment: { message: 'rejected' },
-         stageState: STAGE_STATES.Active,
-         createdOn: (new Date()).toISOString()
-      };
-      candidateStage.stages.push(rejectedVsi);
-      recalculateCurrentStageId(candidateStage);
-      let stageFlow = vm.vacancyStages;
-      if (!stageFlow) {
-         stageFlow = candidateStage.stageFlow;
-      }
-      let withoutHireStage = filter(stageFlow, (extStage) => {
+   function findAndSetRejectStagesFor(vacancyStage)  {
+      return Object.assign (vacancyStage, {
+         rejectStages: filter(vacancyStage.stageFlow, (extStage) => {
+            return extStage.stage.stageType === STAGE_TYPES.RejectStage;
+         })
+      });
+   }
+
+   function calculateVacancyStagesEntitiesCount(composedBy) {
+      let stagesFlow = vm.vacancyStage || composedBy[0].stageFlow;
+      let withoutHireStage = filter(stagesFlow, (extStage) => {
          return extStage.stage.stageType !== STAGE_TYPES.HireStage;
       });
-      vm.stagesToShow = calculateVacancyStagesCandidatesCount(withoutHireStage, vm.composedby);
-   };
-
-   function calculateVacancyStagesCandidatesCount(vacancyStages, composedBy) {
-      return map(vacancyStages, (extStage) => {
+      return map(withoutHireStage, (extStage) => {
          let stageCandCount = reduce(composedBy, (count, vsi) => {
             return vsi.currentStageId === extStage.stage.id ? count + 1 : count + 0;
          }, 0);
@@ -127,73 +95,71 @@ function CandidateVacancyInfoController($scope,
          });
       });
    }
-
-
-   function updateCandidateStages(entityStageObject, result) {
-      entityStageObject.stages = map(filter(result.vacancyStagesCandidatesVSIs, (stageVsi) => {
-         if (stageVsi.vsi) {
-            return true;
-         }
-      }), (stageVsi) => {
-         return stageVsi.vsi;
-      });
-      recalculateCurrentStageId(entityStageObject);
-      let stageFlow = vm.vacancyStages;
-      if (!stageFlow) {
-         stageFlow = entityStageObject.stageFlow;
-      }
-      let withoutHireStage = filter(stageFlow, (extStage) => {
-         return extStage.stage.stageType !== STAGE_TYPES.HireStage;
-      });
-      vm.stagesToShow = calculateVacancyStagesCandidatesCount(withoutHireStage, vm.composedby);
-      return $q.when();
-   }
-
-   function recalculateCurrentStageId(entityStageObject) {
-      entityStageObject.currentStageId = currentStageOf(entityStageObject);
-      return $q.when();
-   }
-
-   vm.candidateCount = (extStage) => {
-      return extStage.candidates.length ? extStage.candidates.length : '';
-   };
-
-   vm.queryByStage = (extStage) => {
-      if (extStage) {
-         vm.objectsToShow = extStage.candidates;
-      } else {
-         vm.objectsToShow = vm.composedby;
-      }
-   };
-
-   vm.callRejectButton = (candidateStage) => {
-      candidateStage.rejectButtonClicked = !!!candidateStage.rejectButtonClicked;
-   };
+   _init();
 
    vm.callStagesDialog = (entityStageObject) => {
       let stageFlow = entityStageObject.stageFlow ? entityStageObject.stageFlow : vm.vacancyStages;
-      showManyStagesDialogFor(stageFlow, entityStageObject)
-         .then(curriedUpdateCandidateStage(entityStageObject))
+      showStagesFlowDialogFor(entityStageObject, stageFlow)
+         .then(changedVSIs => {
+            updateCandidateStagesForWith(entityStageObject, changedVSIs);
+         })
          .then(notifySuccess)
-         .catch((result) => {
-            curriedUpdateCandidateStage(entityStageObject)(result);
+         .catch((notChangedVSIs) => {
+            updateCandidateStagesForWith(entityStageObject, notChangedVSIs);
          });
    };
 
-   function showManyStagesDialogFor(vacancyStages, entityStageObject) {
+   function showStagesFlowDialogFor(entityStageObject, vacancyStages) {
       let dialogResult = $q.defer();
-      let dialogTransferObject = {};
       let mainStages = filter(vacancyStages, (extStage) => {
          return extStage.stage.stageType === STAGE_TYPES.MainStage;
       });
-      let vacancyStagesCandidatesVSIs = cloneDeep(map(mainStages, (vacancyStage) => {
+      let vacancyStagesEntitiesVSIs = getVacancyStageInfosToEdit(entityStageObject, mainStages);
+      let rejectVacancyStageInfosContainer = keepRejectVSIs(entityStageObject, vacancyStages);
+      let hireVacancyStageInfoContainer = keepHireVSI(entityStageObject, vacancyStages);
+      let scope = {
+         vacancyStagesEntitiesVSIs,
+         stageClick: vm.stageClick,
+         entityStageObject
+      };
+      let buttons = [
+         {
+            name: $translate.instant('COMMON.CANCEL'),
+            func: () => {
+               vacancyStagesEntitiesVSIs = [
+                  ...vacancyStagesEntitiesVSIs,
+                  ...rejectVacancyStageInfosContainer,
+                  hireVacancyStageInfoContainer
+               ];
+               dialogResult.reject(vacancyStagesEntitiesVSIs);
+            }
+         },
+         {
+            name: $translate.instant('COMMON.APLY'),
+            func: () => {
+               let updatedStagesWithRejectedAndHire = [
+                  ...vacancyStagesEntitiesVSIs,
+                  ...rejectVacancyStageInfosContainer,
+                  hireVacancyStageInfoContainer
+               ];
+               dialogResult.resolve(updatedStagesWithRejectedAndHire);
+            }
+         }
+      ];
+      UserDialogService.dialog($translate.instant('Candidate stages'),
+                  manyStageCommentDialogTemplate, buttons, scope);
+      return dialogResult.promise;
+   }
+
+   function getVacancyStageInfosToEdit(entityStageObject, mainStages) {
+      return cloneDeep(map(mainStages, (vacancyStage) => {
          let showCommentArea = false;
-         let stageVsi = find(entityStageObject.stages, { stageId: vacancyStage.stage.id });
+         let stageVacancyStageInfo = find(entityStageObject.vacancyStageInfos, { stageId: vacancyStage.stage.id });
          let stageState = STAGE_STATES.Inactive;
          let vsiClass = '';
-         if (stageVsi) {
-            stageVsi.stage = vacancyStage.stage;
-            switch (stageVsi.stageState) {
+         if (stageVacancyStageInfo) {
+            stageVacancyStageInfo.stage = vacancyStage.stage;
+            switch (stageVacancyStageInfo.stageState) {
                case STAGE_STATES.Active: {
                   stageState = STAGE_STATES.Active;
                   vsiClass = 'active';
@@ -215,107 +181,63 @@ function CandidateVacancyInfoController($scope,
                   break;
                }
             }
-            if (stageVsi.stage.isCommentRequired) {
+            if (stageVacancyStageInfo.stage.isCommentRequired) {
                showCommentArea = true;
             }
          }
          return {
             stage: vacancyStage,
-            vsi: stageVsi,
+            vsi: stageVacancyStageInfo,
             showCommentArea,
             stageState,
             class: vsiClass
          };
       }));
+   }
+
+   function updateCandidateStagesForWith(entityStageObject, vacancyStagesEntitiesVSIs) {
+      entityStageObject.vacancyStageInfos = map(filter(vacancyStagesEntitiesVSIs, (stageVsi) => {
+         if (stageVsi.vsi) {
+            return true;
+         }
+      }), (stageVsi) => {
+         return stageVsi.vsi;
+      });
+      recalculateCurrentStageId(entityStageObject);
+      vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.composedby);
+      return $q.when();
+   }
+
+   function keepRejectVSIs(entityStageObject, vacancyStages) {
       let rejectStages = filter(vacancyStages, (extStage) => {
          return extStage.stage.stageType === STAGE_TYPES.RejectStage;
       });
+      return map(rejectStages, (extStage) => {
+         return {
+            stage: extStage,
+            vsi: find(entityStageObject.vacancyStageInfos, { stageId: extStage.stage.id })
+         };
+      });
+   }
+
+   function keepHireVSI(entityStageObject, vacancyStages) {
       let hireStage = filter(vacancyStages, (extStage) => {
          return extStage.stage.stageType === STAGE_TYPES.HireStage;
       })[0];
-      let rejectVsisBuff = map(rejectStages, (extStage) => {
-         return {
-            stage: extStage,
-            vsi: find(entityStageObject.stages, { stageId: extStage.stage.id })
-         };
-      });
-      let hireVsisBuff = {
+      return {
          stage: hireStage,
-         vsi: find(entityStageObject.stages, { stageId: hireStage.stage.id })
+         vsi: find(entityStageObject.vacancyStageInfos, { stageId: hireStage.stage.id })
       };
-
-      dialogTransferObject.vacancyStagesCandidatesVSIs = cloneDeep(vacancyStagesCandidatesVSIs);
-      let scope = {
-         dialogResult,
-         dialogTransferObject,
-         stageClick: vm.stageClick,
-         entityStageObject
-      };
-      let buttons = [
-         {
-            name: $translate.instant('COMMON.CANCEL'),
-            func: () => {
-               vacancyStagesCandidatesVSIs = union(vacancyStagesCandidatesVSIs, rejectVsisBuff);
-               vacancyStagesCandidatesVSIs = [...vacancyStagesCandidatesVSIs, hireVsisBuff];
-               dialogResult.reject({ vacancyStagesCandidatesVSIs });
-            }
-         },
-         {
-            name: $translate.instant('COMMON.APLY'),
-            func: () => {
-               let updatedStagesWithRejected = union(dialogTransferObject.vacancyStagesCandidatesVSIs, rejectVsisBuff);
-               updatedStagesWithRejected = [...updatedStagesWithRejected, hireVsisBuff];
-               dialogResult.resolve({ vacancyStagesCandidatesVSIs: updatedStagesWithRejected });
-            }
-         }
-      ];
-      UserDialogService.dialog($translate.instant('Candidate stages'),
-                  manyStageCommentDialogTemplate, buttons, scope);
-      return dialogResult.promise;
    }
 
-   vm.goCandidate = (candidateId) => {
-      $state.go('candidateProfile', { _data: null, candidateId });
-   };
-
-   vm.goVacancy = (vacancyId) => {
-      $state.go('vacancyView', { _data: null, vacancyId });
-   };
-
-   vm.filterByStage = (selectedStage) => {
-      selectedStage._isPressed = !selectedStage._isPressed;
-      if (selectedStage._isPressed) {
-         vm.stageQueries = [...vm.stageQueries, selectedStage];
-      } else {
-         vm.stageQueries = filter(vm.stageQueries, (extStage) => {
-            return extStage.stage.id !== selectedStage.stage.id;
-         });
-      }
-      if (vm.stageQueries.length) {
-         vm.objectsToShow = filter(vm.composedby, (entityStageObject) => {
-            return filter(vm.stageQueries, (extStage) => {
-               return extStage.stage.id === entityStageObject.currentStageId;
-            }).length;
-         });
-      } else {
-         vm.objectsToShow = vm.composedby;
-      }
-   };
 
    vm.hire = (entityStageObject) => {
-      callHireDialog(entityStageObject)
+      callDatepickDialogFor(entityStageObject)
            .then(hireDate => {
               updateCurrentStage(entityStageObject);
-              setHireActive(entityStageObject, hireDate);
+              createHireStage(entityStageObject, hireDate);
               recalculateCurrentStageId(entityStageObject);
-              let stageFlow = vm.vacancyStages;
-              if (!stageFlow) {
-                 stageFlow = entityStageObject.stageFlow;
-              }
-              let withoutHireStage = filter(stageFlow, (extStage) => {
-                 return extStage.stage.stageType !== STAGE_TYPES.HireStage;
-              });
-              vm.stagesToShow = calculateVacancyStagesCandidatesCount(withoutHireStage, vm.composedby);
+              vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.composedby);
            })
            .then(() => {
               if (vm.parentEntity === 'vacancy') {
@@ -326,7 +248,7 @@ function CandidateVacancyInfoController($scope,
               }
            });
    };
-   function callHireDialog(candidateStage) {
+   function callDatepickDialogFor(candidateStage) {
       let dialogResult = $q.defer();
       let dialogTransferObject = {};
       let scope = {
@@ -358,12 +280,12 @@ function CandidateVacancyInfoController($scope,
    }
 
    function updateCurrentStage(candidateStage) {
-      let currentVsi = find(candidateStage.stages, {stageId: candidateStage.currentStageId});
-      currentVsi.stageState = STAGE_STATES.Passed;
-      currentVsi.dateOfPass = new Date();
+      let currentVacancyStageInfo = find(candidateStage.vacancyStageInfos, {stageId: candidateStage.currentStageId});
+      currentVacancyStageInfo.stageState = STAGE_STATES.Passed;
+      currentVacancyStageInfo.dateOfPass = new Date();
    }
 
-   function setHireActive(entityStageObject, hireDate) {
+   function createHireStage(entityStageObject, hireDate) {
       let hireStage = filter(entityStageObject.stageFlow, (extStage) => {
          return extStage.stage.stageType === STAGE_TYPES.HireStage;
       })[0];
@@ -376,13 +298,129 @@ function CandidateVacancyInfoController($scope,
          stageState: STAGE_STATES.Active,
          createdOn: hireDate.toISOString()
       };
-      entityStageObject.stages.push(hiredVsi);
+      entityStageObject.vacancyStageInfos.push(hiredVsi);
    }
 
-   function getCurrentStageAndVsi(vacancyStagesCandidatesVSIs, currentStageId) {
-      return $q.when(filter(vacancyStagesCandidatesVSIs, (stageAndVsi) => {
-         return stageAndVsi.stage.stage.id === currentStageId;
-      })[0]);
+   vm.reject = (candidateStage, rejectStage) => {
+      let latestActiveVacancyStageInfo = find(candidateStage.vacancyStageInfos, { stageState: STAGE_STATES.Active});
+      if (latestActiveVacancyStageInfo) {
+         latestActiveVacancyStageInfo.stageState = STAGE_STATES.NotPassed;
+      }
+      let rejectedVsi = {
+         vacancyId: candidateStage.vacancyId,
+         candidateId: candidateStage.candidateId,
+         stage: rejectStage.stage,
+         stageId: rejectStage.stage.id,
+         //TODO: open dialog to write a comment
+         comment: { message: 'rejected' },
+         stageState: STAGE_STATES.Active,
+         createdOn: (new Date()).toISOString()
+      };
+      candidateStage.vacancyStageInfos.push(rejectedVsi);
+      recalculateCurrentStageId(candidateStage);
+      vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.composedby);
+   };
+
+   function recalculateCurrentStageId(entityStageObject) {
+      entityStageObject.currentStageId = currentStageOf(entityStageObject);
+   }
+
+   vm.candidateCount = (extStage) => {
+      return extStage.candidates.length ? extStage.candidates.length : '';
+   };
+
+   vm.queryByStage = (extStage) => {
+      if (extStage) {
+         vm.objectsToShow = extStage.candidates;
+      } else {
+         vm.objectsToShow = vm.composedby;
+      }
+   };
+
+   vm.callRejectButton = (candidateStage) => {
+      candidateStage.rejectButtonClicked = !!!candidateStage.rejectButtonClicked;
+   };
+
+   vm.goCandidate = (candidateId) => {
+      $state.go('candidateProfile', { _data: null, candidateId });
+   };
+
+   vm.goVacancy = (vacancyId) => {
+      $state.go('vacancyView', { _data: null, vacancyId });
+   };
+
+   vm.filterByStage = (selectedStage) => {
+      selectedStage._isPressed = !selectedStage._isPressed;
+      if (selectedStage._isPressed) {
+         addToQuery(selectedStage);
+      } else {
+         removeFromQuery(selectedStage);
+      }
+      vm.objectsToShow = needToPerformQuery() ? performQuery() : vm.composedby;
+   };
+
+   function performQuery() {
+      return filter(vm.composedby, (entityStageObject) => {
+         return filter(vm.stageQueries, (extStage) => {
+            return extStage.stage.id === entityStageObject.currentStageId;
+         }).length;
+      });
+   }
+
+   function needToPerformQuery() {
+      return vm.stageQueries.length;
+   }
+
+   function addToQuery(selectedStage) {
+      vm.stageQueries = [...vm.stageQueries, selectedStage];
+   }
+   function removeFromQuery(selectedStage) {
+      vm.stageQueries = filter(vm.stageQueries, (extStage) => {
+         return extStage.stage.id !== selectedStage.stage.id;
+      });
+   }
+
+   vm.stageClick = (selectedStageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs) => {
+      if (vm.isHiredOrRejected(entityStageObject)) {
+         return;
+      }
+      let currentExtendedStage = getCurrentExtendedStage(vacancyStagesEntitiesVSIs);
+      if (isSelectedStageInactive(selectedStageAndVsi)) {
+         let currentStageAndVsi = getCurrentStageAndVsi(vacancyStagesEntitiesVSIs, currentExtendedStage);
+         if (isCurrentCommentValid(currentStageAndVsi)) {
+            setCurrentToPassed(currentStageAndVsi);
+            setSelectedStageToActive(selectedStageAndVsi, entityStageObject);
+         } else {
+            addValidationError(currentStageAndVsi);
+         }
+      } else if (isSelectedStageIsActiveAndNotFirst(selectedStageAndVsi, currentExtendedStage)) {
+         setSelectedToInactive(selectedStageAndVsi);
+         setLatestPassedStageToActive(vacancyStagesEntitiesVSIs);
+      }
+   };
+
+   function addValidationError(currentStageAndVsi) {
+      currentStageAndVsi.areaIsValid = false;
+   }
+
+   function isSelectedStageIsActiveAndNotFirst(selectedStageAndVsi, currentExtStage) {
+      return selectedStageAndVsi.stageState === STAGE_STATES.Active && currentExtStage.order !== 1;
+   }
+
+   function getCurrentExtendedStage(vacancyStagesEntitiesVSIs) {
+      return filter(vacancyStagesEntitiesVSIs, (stageAndVsi) => {
+         return stageAndVsi.stageState === STAGE_STATES.Active;
+      })[0].stage;
+   }
+
+   function isSelectedStageInactive(selectedStageAndVsi) {
+      return  selectedStageAndVsi.stageState === STAGE_STATES.Inactive;
+   }
+
+   function getCurrentStageAndVsi(vacancyStagesEntitiesVSIs, currentStage) {
+      return filter(vacancyStagesEntitiesVSIs, (stageAndVsi) => {
+         return stageAndVsi.stage.stage.id === currentStage.stage.id;
+      })[0];
    }
 
    function isCurrentCommentValid(currentStageAndVsi) {
@@ -398,10 +436,9 @@ function CandidateVacancyInfoController($scope,
       currentStageAndVsi.class = 'passed';
       currentStageAndVsi.vsi.stageState = STAGE_STATES.Passed;
       currentStageAndVsi.vsi.dateOfPass = (new Date()).toISOString();
-      return $q.when();
    }
 
-   function setSelectedToActive(selectedStageAndVsi, candObject) {
+   function setSelectedStageToActive(selectedStageAndVsi, candObject) {
       selectedStageAndVsi.stageState = STAGE_STATES.Active;
       selectedStageAndVsi.class = 'active';
       selectedStageAndVsi.showCommentArea = selectedStageAndVsi.stage.stage.isCommentRequired && true;
@@ -413,7 +450,6 @@ function CandidateVacancyInfoController($scope,
          comment: selectedStageAndVsi.showCommentArea ? { message: '' } : null,
          stageState: STAGE_STATES.Active
       };
-      return $q.when();
    }
 
    function setSelectedToInactive(selectedStageAndVsi) {
@@ -421,12 +457,11 @@ function CandidateVacancyInfoController($scope,
       selectedStageAndVsi.class = 'inactive';
       selectedStageAndVsi.showCommentArea = false;
       selectedStageAndVsi.vsi = null;
-      return $q.when();
    }
 
-   function setLatestPassedStageToActive(vacancyStagesCandidatesVSIs) {
+   function setLatestPassedStageToActive(vacancyStagesEntitiesVSIs) {
       let latestPassedStageAndVsi;
-      let passedStages = filter(vacancyStagesCandidatesVSIs, (stageAndVsi) => {
+      let passedStages = filter(vacancyStagesEntitiesVSIs, (stageAndVsi) => {
          return stageAndVsi.stageState === STAGE_STATES.Passed;
       });
       if (passedStages.length) {
@@ -438,56 +473,21 @@ function CandidateVacancyInfoController($scope,
          latestPassedStageAndVsi.vsi.stageState = STAGE_STATES.Active;
          latestPassedStageAndVsi.vsi.dateOfPass = null;
       }
-      return $q.when();
    }
 
    vm.isHiredOrRejected = (entityStageObject) => {
-      let notPassed = filter(entityStageObject.stages, (stageAndVsi) => {
+      let notPassed = filter(entityStageObject.vacancyStageInfos, (stageAndVsi) => {
          return stageAndVsi.stageState === STAGE_STATES.NotPassed;
       });
       let stageFlow = entityStageObject.stageFlow || vm.vacancyStages;
       let hireStage = filter(stageFlow, (extStage) => {
          return extStage.stage.stageType === STAGE_TYPES.HireStage;
       })[0];
-      let hired = filter(entityStageObject.stages, (vsi) => {
+      let hired = filter(entityStageObject.vacancyStageInfos, (vsi) => {
          return vsi.stageId === hireStage.stage.id;
       });
       let result = !!(notPassed.length || hired.length);
       return result;
-   };
-
-   vm.stageClick = (selectedStageAndVsi, entityStageObject, vacancyStagesCandidatesVSIs) => {
-      let notPassed = filter(vacancyStagesCandidatesVSIs, (stageAndVsi) => {
-         return stageAndVsi.stageState === STAGE_STATES.NotPassed;
-      });
-      let stageFlow = entityStageObject.stageFlow || vm.vacancyStages;
-      let hireStage = filter(stageFlow, (extStage) => {
-         return extStage.stage.stageType === STAGE_TYPES.HireStage;
-      })[0];
-      let hired = filter(entityStageObject.stages, (vsi) => {
-         return vsi.stageId === hireStage.stage.id;
-      });
-      if (hired.length || notPassed.length) {
-         return;
-      }
-      let currentExtStage = filter(vacancyStagesCandidatesVSIs, (stageAndVsi) => {
-         return stageAndVsi.stageState === STAGE_STATES.Active;
-      })[0].stage;
-      let currentStageId = currentExtStage.stage.id;
-      if (selectedStageAndVsi.stageState === STAGE_STATES.Inactive) {
-         getCurrentStageAndVsi(vacancyStagesCandidatesVSIs, currentStageId)
-            .then(currentStageAndVsi => {
-               if (isCurrentCommentValid(currentStageAndVsi)) {
-                  setCurrentToPassed(currentStageAndVsi)
-                     .then(setSelectedToActive(selectedStageAndVsi, entityStageObject));
-               } else {
-                  currentStageAndVsi.areaIsValid = false;
-               }
-            });
-      } else if (selectedStageAndVsi.stageState === STAGE_STATES.Active && currentExtStage.order !== 1) {
-         setSelectedToInactive(selectedStageAndVsi)
-            .then(setLatestPassedStageToActive(vacancyStagesCandidatesVSIs));
-      }
    };
 
    vm.getStageTitle = (currentStageId, entityStageObject) => {
@@ -510,27 +510,9 @@ function CandidateVacancyInfoController($scope,
    }
 
    function currentStageOf(entityStageObject) {
-      let currentStageId = filter(entityStageObject.stages, (vsi) => {
+      let currentStageId = filter(entityStageObject.vacancyStageInfos, (vsi) => {
          return vsi.stageState === STAGE_STATES.Active;
       })[0].stageId;
       return currentStageId;
    }
-
-   vm.getDate = (composedStageObject) => {
-      let vacancyStageInfo = find(composedStageObject.stages, { stageId: composedStageObject.latestStageId });
-      let date = '';
-      if (vacancyStageInfo) {
-         date = vacancyStageInfo.createdOn;
-      }
-      return date;
-   };
-
-   vm.getComment = (composedStageObject) => {
-      let vacancyStageInfo = find(composedStageObject.stages, { stageId: composedStageObject.latestStageId });
-      let comment = '';
-      if (vacancyStageInfo && vacancyStageInfo.comment) {
-         comment = vacancyStageInfo.comment.message;
-      }
-      return comment;
-   };
 }

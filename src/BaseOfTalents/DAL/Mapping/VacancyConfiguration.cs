@@ -14,13 +14,6 @@ namespace DAL.Mapping
 
             HasMany(c => c.CandidatesProgress).WithRequired().HasForeignKey(x => x.VacancyId);
 
-            /*HasMany(c => c.CandidatesProgress).WithMany().Map(x =>
-            {
-                x.MapRightKey("VacancyStageInfo");
-                x.MapLeftKey("VacancyId");
-                x.ToTable("VacancyToVacancyStageInfo");
-            });*/
-
             HasMany(v => v.Files).WithMany().Map(x =>
             {
                 x.MapRightKey("FileId");

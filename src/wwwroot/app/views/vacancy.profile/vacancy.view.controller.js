@@ -151,17 +151,17 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       forEach(vacancyStageInfos, (vsi) => {
          let composedEntity = find(composedBy, { candidateId: vsi.candidateId });
          if (composedEntity) {
-            composedEntity.stages.push(vsi);
+            composedEntity.vacancyStageInfos.push(vsi);
          } else {
             composedBy.push({
                candidateId: vsi.candidateId,
                vacancyId: vsi.vacancyId,
-               stages: [ vsi ]
+               vacancyStageInfos: [ vsi ]
             });
          }
       });
       let composedWithCurrentStage = map(composedBy, (candObject) => {
-         let currentStageId = filter(candObject.stages, (vsi) => {
+         let currentStageId = filter(candObject.vacancyStageInfos, (vsi) => {
             return vsi.stageState === 1;
          })[0].stageId;
          return Object.assign(candObject, {
@@ -306,7 +306,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    function _recomposeBack(composedBy) {
       let newCandidatesProgress = [];
       forEach(composedBy, (stageObject) => {
-         forEach(stageObject.stages, (vsi) => {
+         forEach(stageObject.vacancyStageInfos, (vsi) => {
             newCandidatesProgress.push(vsi);
          });
       });

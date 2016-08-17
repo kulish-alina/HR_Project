@@ -12,6 +12,7 @@
                     <th>№</th>
                     <th ng-bind=":: 'CANDIDATE.CANDIDATE' | translate "></th>
                     <th ng-bind=":: 'VACANCY_STAGE_INFO.CURRENT_STAGE' | translate "> </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -21,9 +22,9 @@
                     <td ng-bind="getStageTitle(candidateStage.currentStageId)"></td>
                     <td>
                         <a class="table-stage-button" ng-click="callStagesDialog(candidateStage)" ng-bind="::'VACANCY_STAGE_INFO.STAGE_PROGRESS' | translate"></a>
-                        <a class="table-stage-button" ng-click="hire(candidateStage)" ng-bind="::'VACANCY_STAGE_INFO.HIRE' | translate"></a>
-                        <div zf-action-sheet="" id="{{$index+1}}">
-                            <div zf-as-button="" title="::'VACANCY_STAGE_INFO.REJECT' | translate"></div>
+                        <a ng-if="!isHiredOrRejected(candidateStage)" class="table-stage-button" ng-click="hire(candidateStage)" ng-bind="::'VACANCY_STAGE_INFO.HIRE' | translate"></a>
+                        <div ng-if="!isHiredOrRejected(candidateStage)" zf-action-sheet="" id="{{$index+1}}">
+                            <div zf-as-button="" title="{{::'VACANCY_STAGE_INFO.REJECT' | translate}}"></div>
                             <div zf-as-content="" position="bottom">
                                 <ul >
                                     <li ng-repeat="rejectStage in rejectStages track by $index">
@@ -52,18 +53,19 @@
                     <th>№</th>
                     <th ng-bind=":: 'VACANCIES.VACANCIES' | translate "></th>
                     <th ng-bind=":: 'VACANCY_STAGE_INFO.CURRENT_STAGE' | translate "> </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="vacancyStage in objectsToShow track by $index">
                     <td ng-bind="$index+1"></td>
-                    <td><a ng-click="goVacancy(vacancyStage.vacancyId)">{{vacancyStage.vacancy.title}}</a></td>
+                    <td><a ng-click="goVacancy(vacancyStage.vacancyId)" ng-bind="vacancyStage.vacancy.title"></a></td>
                     <td ng-bind="getStageTitle(vacancyStage.currentStageId, vacancyStage)"></td>
                     <td>
-                        <a class="table-stage-button" ng-click="callStagesDialog(vacancyStage)">Stages progress</a>
-                        <a ng-if="!isHiredOrRejected(vacancyStage)" class="table-stage-button" ng-click="hire(vacancyStage)">Hire</a>
+                        <a class="table-stage-button" ng-click="callStagesDialog(vacancyStage)" ng-bind="::'VACANCY_STAGE_INFO.STAGE_PROGRESS' | translate"></a>
+                        <a ng-if="!isHiredOrRejected(vacancyStage)" class="table-stage-button" ng-click="hire(vacancyStage)" ng-bind="::'VACANCY_STAGE_INFO.HIRE' | translate"></a>
                         <div ng-if="!isHiredOrRejected(vacancyStage)" zf-action-sheet="" id="{{$index+1}}">
-                            <div zf-as-button="" title="Reject"></div>
+                            <div zf-as-button="" title="{{::'VACANCY_STAGE_INFO.REJECT' | translate}}"></div>
                             <div zf-as-content="" position="bottom">
                                 <ul >
                                     <li ng-repeat="rejectStage in vacancyStage.rejectStages track by $index">

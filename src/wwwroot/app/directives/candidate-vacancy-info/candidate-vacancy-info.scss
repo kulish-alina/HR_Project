@@ -34,7 +34,11 @@ textarea {
 .action-sheet {
     width: 170px !important;
 }
-
+.stages-dialog-container {
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-start;
+} 
 
 .valid {
     box-shadow: inset 0px 0px 3px 0px transparentize(green, 0.9);

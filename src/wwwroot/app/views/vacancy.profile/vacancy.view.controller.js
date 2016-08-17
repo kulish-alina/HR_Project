@@ -56,8 +56,8 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.editComment          = _editComment;
    vm.goToParentVacancy    = goToParentVacancy;
    vm.goToChildVacancy     = goToChildVacancy;
-   vm.clonedComposedBy     = [];
-   vm.composedBy           = [];
+   vm.clonedVacancyStageInfosComposedByCandidateIdVacancyId     = [];
+   vm.vacancyStageInfosComposedByCandidateIdVacancyId           = [];
    vm.isVacancyLoaded      = false;
 
    (function _init() {
@@ -67,8 +67,9 @@ export default function VacancyProfileController( // eslint-disable-line max-par
         .then(fillWithCandidates)
         .then(fillWithVacancies)
         .then((vacancyStagesObject) => {
-           vm.clonedComposedBy = cloneDeep(vm.composedBy);
-           vm.composedBy = vacancyStagesObject;
+           vm.vacancyStageInfosComposedByCandidateIdVacancyId = vacancyStagesObject;
+           vm.vacancyStageInfosComposedByCandidateIdVacancyId = cloneDeep(
+             vm.vacancyStageInfosComposedByCandidateIdVacancyId);
            vm.isVacancyLoaded = true;
         })
         .catch(LoggerService.error);
@@ -103,7 +104,8 @@ export default function VacancyProfileController( // eslint-disable-line max-par
 
    vm.getPassDate = () => {
       if (vm.isVacancyLoaded) {
-         let candidatesProgress = _recomposeBack(vm.composedBy) || vm.vacancy.candidatesProgress;
+         let candidatesProgress = _recomposeBack(
+           vm.vacancyStageInfosComposedByCandidateIdVacancyId) || vm.vacancy.candidatesProgress;
          let hireStage = filter(vm.vacancy.stageFlow, (extStage) => {
             return extStage.stage.title === 'Hired';
          })[0];
@@ -146,21 +148,21 @@ export default function VacancyProfileController( // eslint-disable-line max-par
 
    function recompose() {
       let vacancyStageInfos = vm.vacancy.candidatesProgress;
-      let composedBy = [];
+      let vacancyStageInfosComposedByCandidateIdVacancyId = [];
       vm.parentEntity = 'vacancy';
       forEach(vacancyStageInfos, (vsi) => {
-         let composedEntity = find(composedBy, { candidateId: vsi.candidateId });
+         let composedEntity = find(vacancyStageInfosComposedByCandidateIdVacancyId, { candidateId: vsi.candidateId });
          if (composedEntity) {
             composedEntity.vacancyStageInfos.push(vsi);
          } else {
-            composedBy.push({
+            vacancyStageInfosComposedByCandidateIdVacancyId.push({
                candidateId: vsi.candidateId,
                vacancyId: vsi.vacancyId,
                vacancyStageInfos: [ vsi ]
             });
          }
       });
-      let composedWithCurrentStage = map(composedBy, (candObject) => {
+      let composedWithCurrentStage = map(vacancyStageInfosComposedByCandidateIdVacancyId, (candObject) => {
          let currentStageId = filter(candObject.vacancyStageInfos, (vsi) => {
             return vsi.stageState === 1;
          })[0].stageId;
@@ -234,7 +236,8 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       res = res || vm.uploader.queue.length !== 0;
       res = res || !isMatch(pick(vm.clonedVacancy, MATCH_FIELDS), vm.vacancy);
       res = res || !_isEqualComents();
-      res = res || !isEqual(vm.clonedComposedBy, vm.composedBy);
+      res = res || !isEqual(vm.clonedVacancyStageInfosComposedByCandidateIdVacancyId,
+        vm.vacancyStageInfosComposedByCandidateIdVacancyId);
       return res;
    }
 
@@ -303,9 +306,9 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       return $q.when(remove(vm.comments, comment));
    }
 
-   function _recomposeBack(composedBy) {
+   function _recomposeBack(vacancyStageInfosComposedByCandidateIdVacancyId) {
       let newCandidatesProgress = [];
-      forEach(composedBy, (stageObject) => {
+      forEach(vacancyStageInfosComposedByCandidateIdVacancyId, (stageObject) => {
          forEach(stageObject.vacancyStageInfos, (vsi) => {
             newCandidatesProgress.push(vsi);
          });
@@ -316,7 +319,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    function _vs() {
       let memo = vm.vacancy.comments;
       vm.vacancy.comments = vm.comments;
-      vm.vacancy.candidatesProgress = _recomposeBack(vm.composedBy);
+      vm.vacancy.candidatesProgress = _recomposeBack(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
       VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
          vm.comments = cloneDeep(vm.vacancy.comments);

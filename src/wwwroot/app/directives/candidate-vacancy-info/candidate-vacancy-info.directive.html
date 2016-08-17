@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="candidateStage in objectsToShow track by $index">
+                <tr ng-repeat="candidateStage in vacancyStageInfoComposedObjectsToShow track by $index">
                     <td ng-bind="$index+1"></td>
                     <td><a ng-click="goCandidate(candidateStage.candidateId)" ng-bind="candidateStage.candidate.firstName + ' ' + candidateStage.candidate.lastName"></a></td>
                     <td ng-bind="getStageTitle(candidateStage.currentStageId)"></td>
@@ -57,7 +57,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="vacancyStage in objectsToShow track by $index">
+                <tr ng-repeat="vacancyStage in vacancyStageInfoComposedObjectsToShow track by $index">
                     <td ng-bind="$index+1"></td>
                     <td><a ng-click="goVacancy(vacancyStage.vacancyId)" ng-bind="vacancyStage.vacancy.title"></a></td>
                     <td ng-bind="getStageTitle(vacancyStage.currentStageId, vacancyStage)"></td>

@@ -11,7 +11,8 @@ import {
       reduce,
       maxBy,
       some,
-      head
+      head,
+      isNil
 } from 'lodash';
 
 export default class CandidateVacancyInfoDirective {
@@ -60,9 +61,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    function _init() {
       if (vm.parentEntity === 'vacancy') {
-         vm.rejectStages = filter(vm.vacancyStages, (extStage) => {
-            return extStage.stage.stageType === STAGE_TYPES.RejectStage;
-         });
+         vm.rejectStages = filter(vm.vacancyStages, ['stage.stageType', STAGE_TYPES.RejectStage]);
          vm.stagesToShow = calculateVacancyStagesEntitiesCount(
                vm.vacancyStageInfosComposedByCandidateIdVacancyId);
       } else if (vm.parentEntity === 'candidate') {
@@ -77,20 +76,16 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    function findAndSetRejectStagesFor(vacancyStage)  {
       return Object.assign (vacancyStage, {
-         rejectStages: filter(vacancyStage.stageFlow, (extStage) => {
-            return extStage.stage.stageType === STAGE_TYPES.RejectStage;
-         })
+         rejectStages: filter(vacancyStage.stageFlow, ['stage.stageType', STAGE_TYPES.RejectStage])
       });
    }
 
    function calculateVacancyStagesEntitiesCount(vacancyStageInfosComposedByCandidateIdVacancyId) {
       let stagesFlow = vm.vacancyStage || head(vacancyStageInfosComposedByCandidateIdVacancyId).stageFlow;
-      let withoutHireStage = filter(stagesFlow, (extStage) => {
-         return extStage.stage.stageType !== STAGE_TYPES.HireStage;
-      });
+      let withoutHireStage = filter(stagesFlow, extStage => extStage.stage.stageType !== STAGE_TYPES.HireStage);
       return map(withoutHireStage, (extStage) => {
          let stageEntitiesCount = reduce(vacancyStageInfosComposedByCandidateIdVacancyId, (count, vsi) => {
-            return vsi.currentStageId === extStage.stage.id ? count + 1 : count + 0;
+            return vsi.currentStageId === extStage.stage.id ? count + 1 : count;
          }, 0);
          return Object.assign(extStage, {
             entitiesCount: stageEntitiesCount,
@@ -104,20 +99,14 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    vm.callStagesDialog = (entityStageObject) => {
       let stageFlow = entityStageObject.stageFlow ? entityStageObject.stageFlow : vm.vacancyStages;
       showStagesFlowDialogFor(entityStageObject, stageFlow)
-         .then(changedVSIs => {
-            updateCandidateStagesForWith(entityStageObject, changedVSIs);
-         })
+         .then(changedVSIs => updateCandidateStagesForWith(entityStageObject, changedVSIs))
          .then(notifySuccess)
-         .catch((notChangedVSIs) => {
-            updateCandidateStagesForWith(entityStageObject, notChangedVSIs);
-         });
+         .catch(notChangedVSIs => updateCandidateStagesForWith(entityStageObject, notChangedVSIs));
    };
 
    function showStagesFlowDialogFor(entityStageObject, vacancyStages) {
       let dialogResult = $q.defer();
-      let mainStages = filter(vacancyStages, (extStage) => {
-         return extStage.stage.stageType === STAGE_TYPES.MainStage;
-      });
+      let mainStages = filter(vacancyStages, ['stage.stageType', STAGE_TYPES.MainStage]);
       let vacancyStagesEntitiesVSIs = getVacancyStageInfosToEdit(entityStageObject, mainStages);
       let rejectVacancyStageInfosContainer = keepRejectVSIs(entityStageObject, vacancyStages);
       let hireVacancyStageInfoContainer = keepHireVSI(entityStageObject, vacancyStages);
@@ -200,22 +189,16 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
 
    function updateCandidateStagesForWith(entityStageObject, vacancyStagesEntitiesVSIs) {
-      entityStageObject.vacancyStageInfos = map(filter(vacancyStagesEntitiesVSIs, (stageVsi) => {
-         if (stageVsi.vsi) {
-            return true;
-         }
-      }), (stageVsi) => {
-         return stageVsi.vsi;
-      });
+      entityStageObject.vacancyStageInfos = map(filter(vacancyStagesEntitiesVSIs, stageVsi =>
+            !isNil(stageVsi.vsi)),
+      stageVsi => stageVsi.vsi);
       recalculateCurrentStageId(entityStageObject);
       vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
       return $q.when();
    }
 
    function keepRejectVSIs(entityStageObject, vacancyStages) {
-      let rejectStages = filter(vacancyStages, (extStage) => {
-         return extStage.stage.stageType === STAGE_TYPES.RejectStage;
-      });
+      let rejectStages = filter(vacancyStages, ['stage.stageType', STAGE_TYPES.RejectStage]);
       return map(rejectStages, (extStage) => {
          return {
             stage: extStage,
@@ -225,9 +208,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
 
    function keepHireVSI(entityStageObject, vacancyStages) {
-      let hireStage = head(filter(vacancyStages, (extStage) => {
-         return extStage.stage.stageType === STAGE_TYPES.HireStage;
-      }));
+      let hireStage = find(vacancyStages, ['stage.stageType', STAGE_TYPES.HireStage]);
       return {
          stage: hireStage,
          vsi: find(entityStageObject.vacancyStageInfos, { stageId: hireStage.stage.id })
@@ -290,9 +271,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
 
    function createHireStage(entityStageObject, hireDate) {
-      let hireStage = head(filter(entityStageObject.stageFlow, (extStage) => {
-         return extStage.stage.stageType === STAGE_TYPES.HireStage;
-      }));
+      let hireStage = find(entityStageObject.stageFlow, ['stage.stageType', STAGE_TYPES.HireStage]);
       let hiredVacancyStageInfo = {
          vacancyId: entityStageObject.vacancyId,
          candidateId: entityStageObject.candidateId,
@@ -342,7 +321,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    };
 
    vm.callRejectButton = (candidateStage) => {
-      candidateStage.rejectButtonClicked = !!!candidateStage.rejectButtonClicked;
+      candidateStage.rejectButtonClicked = !candidateStage.rejectButtonClicked;
    };
 
    vm.goCandidate = (candidateId) => {
@@ -380,9 +359,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       vm.stageQueries = [...vm.stageQueries, selectedStage];
    }
    function removeFromQuery(selectedStage) {
-      vm.stageQueries = filter(vm.stageQueries, (extStage) => {
-         return extStage.stage.id !== selectedStage.stage.id;
-      });
+      vm.stageQueries = filter(vm.stageQueries, extStage => extStage.stage.id !== selectedStage.stage.id);
    }
 
    vm.stageClick = (selectedStageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs) => {
@@ -413,26 +390,19 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
 
    function getCurrentExtendedStage(vacancyStagesEntitiesVSIs) {
-      return head(filter(vacancyStagesEntitiesVSIs, (stageAndVsi) => {
-         return stageAndVsi.stageState === STAGE_STATES.Active;
-      })).stage;
+      return find(vacancyStagesEntitiesVSIs, ['stageState', STAGE_STATES.Active]).stage;
    }
 
    function isSelectedStageInactive(selectedStageAndVsi) {
-      return  selectedStageAndVsi.stageState === STAGE_STATES.Inactive;
+      return selectedStageAndVsi.stageState === STAGE_STATES.Inactive;
    }
 
    function getCurrentStageAndVsi(vacancyStagesEntitiesVSIs, currentStage) {
-      return head(filter(vacancyStagesEntitiesVSIs, (stageAndVsi) => {
-         return stageAndVsi.stage.stage.id === currentStage.stage.id;
-      }));
+      return find(vacancyStagesEntitiesVSIs, ['stage.stage.id', currentStage.stage.id]);
    }
 
    function isCurrentCommentValid(currentStageAndVsi) {
-      if (currentStageAndVsi.stage.stage.isCommentRequired && !currentStageAndVsi.vsi.comment.message) {
-         return false;
-      }
-      return true;
+      return !(currentStageAndVsi.stage.stage.isCommentRequired && !currentStageAndVsi.vsi.comment.message);
    }
 
    function setCurrentToPassed(currentStageAndVsi) {
@@ -480,19 +450,13 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       }
    }
 
+   //TODO: make one filter (sum) loop
    vm.isHiredOrRejected = (entityStageObject) => {
-      let notPassed = filter(entityStageObject.vacancyStageInfos, (stageAndVsi) => {
-         return stageAndVsi.stageState === STAGE_STATES.NotPassed;
-      });
       let stageFlow = entityStageObject.stageFlow || vm.vacancyStages;
-      let hireStage = head(filter(stageFlow, (extStage) => {
-         return extStage.stage.stageType === STAGE_TYPES.HireStage;
-      }));
-      let hired = filter(entityStageObject.vacancyStageInfos, (vsi) => {
-         return vsi.stageId === hireStage.stage.id;
-      });
-      let result = !!(notPassed.length || hired.length);
-      return result;
+      let hireStage = find(stageFlow, ['stage.stageType', STAGE_TYPES.HireStage]);
+      let rejectedOrHired = filter(entityStageObject.vacancyStageInfos, stageAndVsi =>
+            stageAndVsi.stageState === STAGE_STATES.NotPassed || stageAndVsi.stageId === hireStage.stage.id);
+      return rejectedOrHired.length;
    };
 
    vm.getStageTitle = (currentStageId, entityStageObject) => {
@@ -503,9 +467,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       if (entityStageObject && entityStageObject.stageFlow) {
          stageFlow = entityStageObject.stageFlow;
       }
-      let stage = head(filter(stageFlow, (extStage) => {
-         return extStage.stage.id === currentStageId;
-      }));
+      let stage = find(stageFlow, ['stage.id', currentStageId]);
       return stage.stage.title;
    };
 
@@ -515,9 +477,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
 
    function currentStageOf(entityStageObject) {
-      let currentStageId = head(filter(entityStageObject.vacancyStageInfos, (vsi) => {
-         return vsi.stageState === STAGE_STATES.Active;
-      })).stageId;
+      let currentStageId = find(entityStageObject.vacancyStageInfos, ['stageState', STAGE_STATES.Active]).stageId;
       return currentStageId;
    }
 }

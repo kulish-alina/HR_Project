@@ -76,6 +76,7 @@
     <Compile Include="DTO\SetupDTO\DepartmentDTO.cs" />
     <Compile Include="DTO\SetupDTO\DepartmentGroupDTO.cs" />
     <Compile Include="DTO\SetupDTO\EventTypeDTO.cs" />
+    <Compile Include="DTO\SetupDTO\ExtendedStageDTO.cs" />
     <Compile Include="DTO\SetupDTO\IndustryDTO.cs" />
     <Compile Include="DTO\SetupDTO\LanguageDTO.cs" />
     <Compile Include="DTO\SetupDTO\LevelDTO.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Mapping\DepartmentGroupConfiguration.cs" />
     <Compile Include="Mapping\EventConfiguration.cs" />
     <Compile Include="Mapping\EventTypeConfiguration.cs" />
+    <Compile Include="Mapping\ExtendedStageConfiguration.cs" />
     <Compile Include="Mapping\FileConfiguration.cs" />
     <Compile Include="Mapping\IndustryConfiguration.cs" />
     <Compile Include="Mapping\LanguageConfiguration.cs" />
@@ -163,9 +165,9 @@
     <Compile Include="Mapping\UserConfiguration.cs" />
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201607251323483_init.cs" />
-    <Compile Include="Migrations\201607251323483_init.Designer.cs">
-      <DependentUpon>201607251323483_init.cs</DependentUpon>
+    <Compile Include="Migrations\201608170840536_init.cs" />
+    <Compile Include="Migrations\201608170840536_init.Designer.cs">
+      <DependentUpon>201608170840536_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\BOTContextInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -244,8 +246,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607251323483_init.resx">
-      <DependentUpon>201607251323483_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608170840536_init.resx">
+      <DependentUpon>201608170840536_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

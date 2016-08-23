@@ -20,6 +20,7 @@ namespace Domain.Entities
             Sources = new List<CandidateSource>();
             RelocationPlaces = new List<RelocationPlace>();
             Events = new List<Event>();
+            ClosedVacancies = new List<Vacancy>();
         }
 
         public string FirstName { get; set; }
@@ -57,6 +58,7 @@ namespace Domain.Entities
 
         public string Education { get; set; }
 
+        public virtual ICollection<Vacancy> ClosedVacancies { get; set; }
         public virtual ICollection<CandidateSocial> SocialNetworks { get; set; }
         public virtual ICollection<LanguageSkill> LanguageSkills { get; set; }
         public virtual ICollection<File> Files { get; set; }

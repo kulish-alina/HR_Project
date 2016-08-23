@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using DAL.DTO;
 using DAL.DTO.SetupDTO;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
+using System.Collections.Generic;
 using WebUI.Globals.Converters;
 using WebUI.Models;
 
@@ -60,6 +60,10 @@ namespace WebUI.App_Start
                 x.CreateMap<Stage, StageDTO>();
                 x.CreateMap<StageDTO, Stage>();
 
+                x.CreateMap<ExtendedStage, ExtendedStageDTO>()
+                    .ForMember(dest => dest.Stage, opt => opt.MapFrom(src => Mapper.Map<Stage, StageDTO>(src.Stage)));
+                x.CreateMap<StageDTO, Stage>();
+
                 x.CreateMap<Source, SourceDTO>();
                 x.CreateMap<SourceDTO, Source>();
 
@@ -84,6 +88,9 @@ namespace WebUI.App_Start
                 x.CreateMap<VacancyStageInfo, VacancyStageInfoDTO>()
                     .ForMember(dest => dest.StageId, opt => opt.MapFrom(src => Mapper.Map<Stage, int>(src.Stage)));
                 x.CreateMap<VacancyStageInfoDTO, VacancyStageInfo>();
+
+                x.CreateMap<Vacancy, int>()
+                     .ConstructUsing(source => (source as Vacancy).Id);
 
                 x.CreateMap<Stage, int>()
                      .ConstructUsing(source => (source as Stage).Id);
@@ -126,6 +133,7 @@ namespace WebUI.App_Start
                    .ForMember(dest => dest.PhoneNumbers, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<PhoneNumberDTO>>(src.PhoneNumbers)));
 
                 x.CreateMap<Candidate, CandidateDTO>()
+                    .ForMember(dest => dest.ClosedVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ClosedVacancies)))
                     .ForMember(dest => dest.VacanciesProgress, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.VacanciesProgress)))
                     .ForMember(dest => dest.SocialNetworks, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<CandidateSocial>, IEnumerable<CandidateSocialDTO>>(src.SocialNetworks)))
                     .ForMember(dest => dest.LanguageSkills, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<LanguageSkill>, IEnumerable<LanguageSkillDTO>>(src.LanguageSkills)))
@@ -145,7 +153,7 @@ namespace WebUI.App_Start
                     .ForMember(dest => dest.RequiredSkillIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.RequiredSkills)))
                     .ForMember(dest => dest.ChildVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ChildVacancies)))
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)))
-                    .ForMember(dest => dest.StageFlow, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Stage>, IEnumerable<StageDTO>>(src.StageFlow)));
+                    .ForMember(dest => dest.StageFlow, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<ExtendedStage>, IEnumerable<ExtendedStageDTO>>(src.StageFlow)));
 
 
                 x.CreateMap<RelocationPlace, RelocationPlaceDTO>();

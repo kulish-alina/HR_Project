@@ -20,6 +20,7 @@ namespace DAL.Services
         public VacancyDTO Get(int id)
         {
             var entity = uow.VacancyRepo.GetByID(id);
+
             return DTOService.ToDTO<Vacancy, VacancyDTO>(entity);
         }
 

@@ -67,21 +67,9 @@
          </div>
       </div>
       <div class="main-card vacancy-profile">
-         <div class="card-divider" ng-bind="::'CANDIDATES.CANDIDATES' | translate"> </div>
-         <hr>
-         <div class="card-section">
-            <div class="grid-block">
-               <div class="small-3 grid-block">
-                  <div class="tab-container">
-                     <div class="tab">
-                        <div ng-repeat="stage in thesaurus.stage" ng-click="selectStage(stage.title)" class="tab-item" ng-class="{'is-active': stage.title === currentStage}"> <span ng-bind="stage.title"></span> </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="small-9 grid-block">
-                  <candidate-vacancy-info vacancy-stages="vacancy.stageFlow" composedBy="composedBy" parent-entity="vacancy" directive-type="full"> </candidate-vacancy-info>
-               </div>
-            </div>
+         <div class="card-section candidate-vacancy-info-container">
+               <h3 ng-if="isVacancyLoaded && isVacancyClosed()">Vacancy closed {{getPassDate()}} by {{getHiredCandidateFullName()}}</h3>
+               <candidate-vacancy-info ng-if="isVacancyLoaded && !isVacancyClosed()" closevacancy="closeVacancyWith" vacancy-stages="vacancy.stageFlow" vacancy-stage-infos-composed-by-candidate-id-vacancy-id="vacancyStageInfosComposedByCandidateIdVacancyId" parent-entity="vacancy" directive-type="full"> </candidate-vacancy-info>
          </div>
       </div>
       <div class="main-card vacancy-profile">
@@ -144,7 +132,6 @@
                   </li>
                </ul>
                <section class="block-list">
-                  <candidate-vacancy-info vacancy-stages="vacancy.stageFlow" composedby="composedBy" parent-entity="vacancy" directive-type="compact"> </candidate-vacancy-info>
                </section>
             </div>
          </div>

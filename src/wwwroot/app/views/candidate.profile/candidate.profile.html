@@ -24,7 +24,7 @@
          <candidate-info candidate="candidate"></candidate-info>
       </div>
       <div class="main-card candidate-profile">
-         <candidate-vacancy-info composedby="composedBy" parent-entity="candidate" directive-type="full"> </candidate-vacancy-info>
+      <candidate-vacancy-info ng-if="isCandidateLoaded" vacancy-stage-infos-composed-by-candidate-id-vacancy-id="vacancyStageInfosComposedByCandidateIdVacancyId" parent-entity="candidate" directive-type="full"> </candidate-vacancy-info>
       </div>
       <div class="main-card candidate-profile">
          <div class="card-divider" ng-bind="::'CANDIDATE.CANDIDATE_RESUME' | translate"></div>
@@ -60,9 +60,6 @@
                      <label for="vacancyFromBOT " ng-bind=":: 'COMMON.FROM_BOT' | translate "></label>
                   </li>
                </ul>
-               <section class="block-list ">
-                  <candidate-vacancy-info composedby="composedBy " parent-entity="candidate " directive-type="compact "> </candidate-vacancy-info>
-               </section>
             </div>
          </div>
          <div class="sidebar ">

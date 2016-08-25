@@ -18,7 +18,7 @@ namespace DAL.DTO
             Files = new List<FileDTO>();
             ChildVacanciesIds = new List<int>();
             Comments = new List<CommentDTO>();
-            StageFlow = new List<StageDTO>();
+            StageFlow = new List<ExtendedStageDTO>();
         }
 
         [Required]
@@ -34,13 +34,14 @@ namespace DAL.DTO
         public IEnumerable<int> LevelIds { get; set; }
         public IEnumerable<int> CityIds { get; set; }
         public IEnumerable<int> RequiredSkillIds { get; set; }
-        public IEnumerable<StageDTO> StageFlow { get; set; }
+        public IEnumerable<ExtendedStageDTO> StageFlow { get; set; }
         public IEnumerable<VacancyStageInfoDTO> CandidatesProgress { get; set; }
         public IEnumerable<int> TagIds { get; set; }
         public IEnumerable<FileDTO> Files { get; set; }
         public IEnumerable<CommentDTO> Comments { get; set; }
         public IEnumerable<int> ChildVacanciesIds { get; set; }
 
+        public int? ClosingCandidateId { get; set; }
         public int? ParentVacancyId { get; set; }
         public int? ChildVacanciesNumber { get; set; }
 

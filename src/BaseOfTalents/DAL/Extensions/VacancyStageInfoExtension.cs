@@ -18,17 +18,18 @@ namespace DAL.Extensions
             {
                 vacancyStageInfoDomain.Vacancy = destination;
             }
-            vacancyStageInfoDomain.IsPassed = vacancyStageInfoSource.IsPassed;
+            vacancyStageInfoDomain.DateOfPass = vacancyStageInfoSource.DateOfPass;
+            vacancyStageInfoDomain.StageState = vacancyStageInfoSource.StageState;
             vacancyStageInfoDomain.StageId = vacancyStageInfoSource.StageId;
 
-            var stage = destination.StageFlow.FirstOrDefault(x => x.Id == vacancyStageInfoSource.StageId);
+            var extendedStage = destination.StageFlow.FirstOrDefault(x => x.StageId == vacancyStageInfoSource.StageId);
             if (vacancyStageInfoSource.IsNew())
             {
-                if (stage.IsCommentRequired)
+                if (extendedStage.Stage.IsCommentRequired)
                 {
                     if (vacancyStageInfoSource.Comment == null)
                     {
-                        if (vacancyStageInfoDomain.IsPassed)
+                        if (vacancyStageInfoDomain.StageState == Domain.Entities.Enum.StageState.Passed)
                         {
                             throw new Exception("Comment is needed");
                         }
@@ -40,8 +41,9 @@ namespace DAL.Extensions
                     }
                 }
             }
-            else if (stage.IsCommentRequired && vacancyStageInfoSource.Comment != null)
+            else if (extendedStage.Stage.IsCommentRequired && vacancyStageInfoSource.Comment != null)
             {
+                vacancyStageInfoDomain.Comment = new Comment();
                 vacancyStageInfoDomain.Comment.Update(vacancyStageInfoSource.Comment);
             }
 

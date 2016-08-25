@@ -41,7 +41,7 @@ namespace WebUI.Controllers
         public virtual IHttpActionResult Get(int id)
         {
             var foundedEntity = entityService.Get(id);
-            if (foundedEntity != null)
+            if (foundedEntity == null)
             {
                 ModelState.AddModelError("Entity", "Entity with id " + id + " not founded");
                 return BadRequest(ModelState);

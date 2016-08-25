@@ -1,7 +1,6 @@
 import './calendar.scss';
 import {
    set,
-   isEqual,
    remove,
    each,
    assign,
@@ -81,9 +80,6 @@ export default function CandidateProfileController(
    }
 
    function getEventsForMonth(startDate, endDate, usersIds) {
-      if (!isEqual(usersIds, vm.chekedUsersIds)) {
-         usersIds = vm.chekedUsersIds;
-      }
       vm.eventCondidtion.startDate = startDate;
       vm.eventCondidtion.endDate = endDate;
       vm.eventCondidtion.userIds = usersIds;

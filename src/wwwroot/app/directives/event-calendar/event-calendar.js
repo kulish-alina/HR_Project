@@ -1,7 +1,10 @@
 import {
    each,
    split,
-   remove
+   remove,
+   difference,
+   clone,
+   mapKeys
 } from 'lodash';
 import template from './event-calendar.directive.html';
 import './event-canlendar.scss';
@@ -79,13 +82,23 @@ function EventCalendarController($scope) {
    }
 
    vm.$on('checkUser', function fromParent(event, obj) {
-      formatingSearchCondition();
-      vm.checkedUsers = obj.checkedUsersIds;
-      vm.eventsForMonth = {};
-      vm.getEvents(vm.startDate, vm.endDate, vm.checkedUsers).then((events) => {
-         convertEventsToHash(events);
-         getEventsForDate();
-      });
+      let diff = [];
+      let clonedCheckedUsersIds = clone(obj.checkedUsersIds);
+      if (vm.checkedUsers.length > obj.checkedUsersIds.length) {
+         let unCheckedUserId = difference(vm.checkedUsers, obj.checkedUsersIds);
+         mapKeys(vm.eventsForMonth, value => {
+            remove(value, {responsibleId: unCheckedUserId[0].toString()});
+         });
+         remove(vm.eventsForMonth, {responsibleId: unCheckedUserId[0].toString()});
+      } else {
+         diff = difference(obj.checkedUsersIds, vm.checkedUsers);
+         formatingSearchCondition();
+         vm.getEvents(vm.startDate, vm.endDate, diff).then((events) => {
+            convertEventsToHash(events);
+            getEventsForDate();
+         });
+      }
+      vm.checkedUsers = clonedCheckedUsersIds;
    });
 
    function getDaysInMonth(startDt, endDt) {

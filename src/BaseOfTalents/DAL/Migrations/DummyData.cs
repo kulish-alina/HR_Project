@@ -688,7 +688,7 @@ namespace DAL.Migrations
                     TypeOfEmployment = TypeOfEmployment.FullTime,
                     EndDate = DateTime.Now.AddDays(RandomNumber(0, 30)),
                     Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
-                    Comments = Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1) }, RandomNumber(0, 5)).Distinct().ToList(),
+                    Comments = Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1), Author = Users.GetRandom() }, RandomNumber(0, 5)).Distinct().ToList(),
                     State = EntityState.Open,
                     StageFlow = stages.Select(x => new ExtendedStage { Stage = x, Order = x.Order }).ToList()
                 };
@@ -708,7 +708,7 @@ namespace DAL.Migrations
                     CityId = RandomNumber(1, Cities.Count - 1),
                     BirthDate = DateTime.Now.AddYears(RandomNumber(-40, -20)),
                     Comments =
-                        Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1) }, RandomNumber(0, 5)).Distinct().ToList(),
+                        Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1), Author = Users.GetRandom() }, RandomNumber(0, 5)).Distinct().ToList(),
                     Education = GetRandomString(15),
                     FirstName = names.GetRandom(),
                     IndustryId = RandomNumber(1, Industries.Count - 1),

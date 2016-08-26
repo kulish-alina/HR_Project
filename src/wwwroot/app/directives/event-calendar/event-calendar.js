@@ -84,15 +84,20 @@ function EventCalendarController($scope) {
    vm.$on('checkUser', function fromParent(event, obj) {
       let diff = [];
       let clonedCheckedUsersIds = clone(obj.checkedUsersIds);
-      if (vm.checkedUsers.length > obj.checkedUsersIds.length) {
+      formatingSearchCondition();
+      if (vm.checkedUsers.length === 0) {
+         vm.eventsForMonth = {};
+         vm.getEvents(vm.startDate, vm.endDate, obj.checkedUsersIds).then((events) => {
+            convertEventsToHash(events);
+            getEventsForDate();
+         });
+      } else if (vm.checkedUsers.length > obj.checkedUsersIds.length) {
          let unCheckedUserId = difference(vm.checkedUsers, obj.checkedUsersIds);
          mapKeys(vm.eventsForMonth, value => {
             remove(value, {responsibleId: unCheckedUserId[0].toString()});
          });
-         remove(vm.eventsForMonth, {responsibleId: unCheckedUserId[0].toString()});
       } else {
          diff = difference(obj.checkedUsersIds, vm.checkedUsers);
-         formatingSearchCondition();
          vm.getEvents(vm.startDate, vm.endDate, diff).then((events) => {
             convertEventsToHash(events);
             getEventsForDate();

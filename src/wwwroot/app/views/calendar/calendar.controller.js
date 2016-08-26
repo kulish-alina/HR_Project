@@ -7,7 +7,8 @@ import {
    map,
    zipObject,
    flatten,
-   round
+   round,
+   isEqual
 } from 'lodash';
 let HUE_SATURATION_LIGHTNESS_LIMIT = 360;
 let HUE_SATURATION_LIGHTNESS_OFFSET = 20;
@@ -82,6 +83,9 @@ export default function CandidateProfileController(
    function getEventsForMonth(startDate, endDate, usersIds) {
       vm.eventCondidtion.startDate = startDate;
       vm.eventCondidtion.endDate = endDate;
+      if (usersIds.length !== 1 && !isEqual(usersIds, vm.chekedUsersIds)) {
+         usersIds = vm.chekedUsersIds;
+      }
       vm.eventCondidtion.userIds = usersIds;
       return EventsService.getEventsForPeriod(vm.eventCondidtion);
    }

@@ -139,8 +139,8 @@ export default class VacancyService {
       let childVacancyPromises = _VacancyService._getChildVacancies(vacancy);
       let commentsPromise = _VacancyService._getCommentsFields(vacancy);
       let closingCandidatePromise = _VacancyService._getClosingCandidate(vacancy);
-      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises, closingCandidatePromise,
-             commentsPromise]);
+      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises,
+             commentsPromise, closingCandidatePromise]);
    }
 
    _getUser(vacancy) {
@@ -179,6 +179,8 @@ export default class VacancyService {
    _getClosingCandidate(vacancy) {
       if (vacancy.closingCandidateId) {
          return _CandidateService.getCandidate(vacancy.closingCandidateId);
+      } else {
+         return true;
       }
    }
 

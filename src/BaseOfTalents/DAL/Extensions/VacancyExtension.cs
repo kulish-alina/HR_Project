@@ -41,7 +41,7 @@ namespace DAL.Extensions
             childVacancy.StageFlow.Clear();
             childVacancy.StageFlow = parentVacancy.StageFlow.Select(x =>
             {
-                var stage = uow.StageRepo.GetByID(x.Id);
+                var stage = uow.StageRepo.GetByID(x.Stage.Id);
                 return new ExtendedStage { Stage = stage, Order = stage.Order };
             }).ToList();
             childVacancy.Cities.Clear();

@@ -88,7 +88,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.clonedVacancy = cloneDeep(vm.vacancy);
-            vm.comments = cloneDeep(vm.vacancy.comments);
+            vm.comments = cloneDeep(vm.vacancy.comments) || [];
             deffered.resolve();
          });
       } else if ($state.params._data) {
@@ -96,13 +96,13 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          vm.vacancy.comments = $state.params._data.comments ? $state.params._data.comments : [];
          vm.vacancy.files =  $state.params._data.files ? $state.params._data.files : [];
          vm.clonedVacancy = cloneDeep(vm.vacancy);
-         vm.comments = cloneDeep(vm.vacancy.comments);
+         vm.comments = cloneDeep(vm.vacancy.comments)  || [];
          deffered.resolve();
       } else {
          VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.clonedVacancy = cloneDeep(vm.vacancy);
-            vm.comments = cloneDeep(vm.vacancy.comments);
+            vm.comments = cloneDeep(vm.vacancy.comments)  || [];
             deffered.resolve();
          });
       }

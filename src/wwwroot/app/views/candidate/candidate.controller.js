@@ -168,7 +168,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
 
    vm.saveAndGoBack = (form) => {
       saveCandidate(form).then(() => {
-         $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ] });
+         $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ]});
       });
    };
 

@@ -287,8 +287,14 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          each(vm.queueFilesForRemove, (file) => FileService.remove(file));
          vm.queueFilesForRemove = [];
          _vs();
+         if ($state.parentView) {
+            $state.go($state.parentView.name, {}, {reload: true});
+         }
       } else {
          _vs();
+         if ($state.parentView) {
+            $state.go($state.parentView.name, {}, {reload: true});
+         }
       }
    }
 
@@ -297,7 +303,11 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    }
 
    function back() {
-      $window.history.back();
+      if ($state.parentView) {
+         $state.go($state.parentView.name, {}, {reload: true});
+      } else {
+         $window.history.back();
+      }
    }
 
    function _saveComment(comment) {
@@ -341,7 +351,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          vm.clonedVacancy = cloneDeep(vm.vacancy);
          vm.uploader.clearQueue();
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
-      }).then(() => $state.go($state.previous.name, $state.previous.params)).catch((error) => {
+      }).catch((error) => {
          vm.vacancy.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
          LoggerService.error(error);

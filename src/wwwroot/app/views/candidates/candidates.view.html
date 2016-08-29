@@ -113,9 +113,10 @@
                <table>
                   <thead>
                      <tr>
-                        <th>
+                        <th ng-if="$state.previous.name === 'vacancyView'">
                            <input id="candidate" type="checkbox">
                         </th>
+                        <th>№</th>
                         <th ng-bind="::'CANDIDATE.FULL_NAME' | translate"></th>
                         <th ng-bind="::'COMMON.INDUSTRY' | translate"></th>
                         <th ng-bind="::'CANDIDATE.SOURCE' | translate"></th>
@@ -127,9 +128,10 @@
                   </thead>
                   <tbody>
                      <tr dir-paginate="c in candidates.candidate | itemsPerPage: candidates.size" total-items="candidates.total" current-page="candidate.current">
-                          <th>
+                        <th ng-if="$state.previous.name === 'vacancyView'">
                            <input id="checkbox9" type="checkbox" ng-model="c.isToogled" ng-change="toogleCandidate(c.id)">
                         </th>
+                        <td>{{$index+1}}</td>
                         <td>
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
                         </td>

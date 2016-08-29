@@ -59,7 +59,7 @@ export default function VacancyController(
    }());
 
    function _initCurrentVacancy() {
-      if ($state.previous.params._data &&&& $state.params.toPrevious === truecons $state.params.toPrevious === true) {
+      if ($state.previous.params._data && $state.params.toPrevious === true) {
          VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.comments = cloneDeep(vm.vacancy.comments);

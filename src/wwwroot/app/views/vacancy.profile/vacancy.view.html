@@ -34,7 +34,7 @@
                      <div zf-as-content="" position="bottom">
                         <ul>
                            <li ng-repeat="childVacancy in vacancy.childVacancies">
-                              <a ng-click="goToChildVacancy(childVacancy)" href="#" ng-bind="childVacancy.title"></a>
+                              <a ng-click="goToChildVacancy(childVacancy.id)" href="#" ng-bind="childVacancy.title"></a>
                            </li>
                         </ul>
                      </div>

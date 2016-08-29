@@ -84,7 +84,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
 
    function _initCurrentVacancy() {
       let deffered = $q.defer();
-      if ($state.previous.params._data) {
+      if ($state.previous.params._data && $state.params.toPrevious === true) {
          VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.clonedVacancy = cloneDeep(vm.vacancy);
@@ -224,11 +224,11 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    };
 
    function goToParentVacancy() {
-      $state.go('vacancyEdit', {_data: null, vacancyId: vm.vacancy.parentVacancyId});
+      $state.go('vacancyView', {_data: null, vacancyId: vm.vacancy.parentVacancyId, toPrevious: false});
    }
 
-   function goToChildVacancy(vacancy) {
-      $state.go('vacancyEdit', {_data: null, vacancyId: vacancy.id});
+   function goToChildVacancy(childVacancyId) {
+      $state.go('vacancyView', {_data: null, vacancyId: childVacancyId, toPrevious: false});
    }
 
    function edit() {

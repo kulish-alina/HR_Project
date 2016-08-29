@@ -201,7 +201,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
             return entity;
          })
-         .then(() => $state.go($state.previous.name, $state.previous.params))
+         .then(() => $state.go($state.previous.name, $state.previous.params, { reload: true }))
          .catch(() => {
             _onError();
             vm.candidate.comments = memo;

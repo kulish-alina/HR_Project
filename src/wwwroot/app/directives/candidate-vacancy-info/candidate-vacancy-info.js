@@ -81,7 +81,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
 
    function calculateVacancyStagesEntitiesCount(vacancyStageInfosComposedByCandidateIdVacancyId) {
-      let stagesFlow = vm.vacancyStage || head(vacancyStageInfosComposedByCandidateIdVacancyId).stageFlow;
+      let stagesFlow = vm.vacancyStages || head(vacancyStageInfosComposedByCandidateIdVacancyId).stageFlow;
       let withoutHireStage = filter(stagesFlow, extStage => extStage.stage.stageType !== STAGE_TYPES.HireStage);
       return map(withoutHireStage, (extStage) => {
          let stageEntitiesCount = reduce(vacancyStageInfosComposedByCandidateIdVacancyId, (count, vsi) => {

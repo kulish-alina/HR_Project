@@ -63,7 +63,7 @@ import CandidateInfoDirective        from './directives/candidate-info/candidate
 import LoginDirective                from './directives/login/login';
 import convertToNumberDirective      from './directives/convertToNumber/convert-to-number';
 import languageSkillsDirective       from './directives/language-skills/language-skills';
-import EventCalendarDirective    from './directives/event-calendar/event-calendar';
+import EventCalendarDirective        from './directives/event-calendar/event-calendar';
 import CandidateVacancyInfoDirective from './directives/candidate-vacancy-info/candidate-vacancy-info';
 
 import uiMask                        from 'angular-ui-mask';
@@ -130,7 +130,7 @@ angular
    .directive('candidateInfo',          CandidateInfoDirective.createInstance)
    .directive('login',                  LoginDirective.createInstance)
    .directive('languageSkills',         languageSkillsDirective.createInstance)
-   .directive('eventCalendar',    EventCalendarDirective.createInstance)
+   .directive('eventCalendar',          EventCalendarDirective.createInstance)
    .directive('candidateVacancyInfo',   CandidateVacancyInfoDirective.createInstance)
 
    .filter('tel',                 PhoneFormatFilter)

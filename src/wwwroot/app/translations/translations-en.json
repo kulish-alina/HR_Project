@@ -54,7 +54,10 @@
       "CLOSED": "Closed",
       "CANCELLED": "Canceled",
       "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy?",
-      "VACANCY": "Vacancy"
+      "VACANCY": "Vacancy",
+      "CHILD_VACANCIES": "Child vacancies",
+      "CHILD_VACANCY": "Child",
+      "PARENT_VACANCY": "Parent"
    },
    "VACANCIES": {
       "VACANCIES": "Vacancies",
@@ -66,15 +69,25 @@
       "INFORMATION": "Information",
       "FILES": "Files"
    },
+   "VACANCY_STAGE_INFO": {
+       "CURRENT_STAGE": "Current stage",
+       "STAGE_PROGRESS": "Stage progress",
+       "HIRE": "Hire",
+       "REJECT": "Reject"
+   },
    "COMMON": {
+      "ADD": "Add",
+      "ADD_AND_BACK": "Add and back",
       "ADD_CANDIDATE" : "Add Candidate",
-      "ADD_VACANCY" : "Add Vacancy",
       "ADD_EVENT" : "Add Event",
+      "ADD_VACANCY" : "Add Vacancy",
       "CANCEL": "Cancel",
+      "COUNT": "Count",
+      "COMING_SOON": "Coming soon",
+      "CITY": "City",
+      
       "OK": "Ok",
       "SUBMIT": "Submit",
-      "ADD_AND_BACK": "Add and back",
-      "ADD": "Add",
       "SAVE": "Save",
       "EVENTS": "Events",
       "NOTES": "Notes",
@@ -85,10 +98,10 @@
       "MIDDLE": "Middle Name",
       "MALE": "Male",
       "FEMALE": "Female",
-      "CITY": "City",
       "EMAIL": "Email",
       "SKYPE": "Skype",
       "PHONE": "Phone number",
+      "PASS_STAGE": "Pass stage",
       "BIRTH": "Birth day",
       "REMOVE" : "Remove",
       "TITLE": "Title",
@@ -103,7 +116,6 @@
       "SALARY": "Salary",
       "TYPE_OF_EMPLOYMENT": "Type of Employment",
       "MASTER_VACANCY": "Master vacancy",
-      "COUNT": "Count",
       "STATUS": "Status",
       "START_DATE": "Start date",
       "DEADLINE_DATE": "Deadline date",
@@ -142,7 +154,9 @@
       "APLY" : "Apply",
       "ATTACH" : "Attach",
       "CURRENCY" : "Currency",
-      "MAIN_SOURCE" : "Main source"
+      "MAIN_SOURCE" : "Main source",
+      "EVENT_CALENDAR" : "Event calendar",
+      "USERS" : "Users"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -236,6 +250,7 @@
       "ERROR_SAVING": "Some error has occurred while saving vacancy!",
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
       "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
+      "SUCCESSFUL_SAVING_EVENT": "Event was successfully saved!",
       "SUCCESSFUL_REMOVING_EVENT": "Event was successfully removed!",
       "SUCCESSFUL_REMOVING_COMMENT": "Comment was successfully removed!",
       "NOTE_REMOVING_DIALOG": "Do you really want to remove this note?",
@@ -243,7 +258,9 @@
       "SUCCESSFUL_REMOVING_CANDIDATE": "Candidate was successfully removed!",
       "SUCCESSFUL_CANDIDATE_SAVING": "Candidate was successfully saved!",
       "ERROR_CANDIDATE_SAVING": "Some error has occurred while saving candidate!",
-      "ERROR_CANDIDATES_SEARCH": "Some error has occurred while receiving candidates from database!"
+      "ERROR_CANDIDATES_SEARCH": "Some error has occurred while receiving candidates from database!",
+      "EVENT_REMOVING_DIALOG": "Do you really want to remove this event?",
+      "INVALID_DATES": "Dealine date or end date cannot be less than start date"
    },
 
    "MEMBERS" : {

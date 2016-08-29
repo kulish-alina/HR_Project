@@ -13,7 +13,7 @@ export default class LanguageSkillsDirective {
       this.restrict = 'E';
       this.template = template;
       this.scope = {
-         selectedSkills : '@'
+         selectedSkills : '='
       };
       this.controller = LanguageSkillsController;
    };
@@ -39,9 +39,15 @@ function LanguageSkillsController($scope, ThesaurusService) {
    function _initLanguages() {
       vm.languages = [];
       forEach(vm.thesauruses.language, language => {
-         vm.languages.push({language});
+         vm.languages.push({
+            language,
+            languageLevel: {}
+         });
          forEach(vm.thesauruses.languageLevel, languageLevel => {
-            vm.languages.push({language, languageLevel});
+            vm.languages.push({
+               language,
+               languageLevel
+            });
          });
       });
    }

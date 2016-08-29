@@ -1,18 +1,16 @@
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
       <div class="grid-content">
-         <h5 ng-bind="::'VACANCY_PROFILE.VACANCY_PROFILE' | translate"></h5>
-      </div>
+         <h5 ng-bind="::'VACANCY_PROFILE.VACANCY_PROFILE' | translate"></h5> </div>
    </div>
-   <div class="large-7 grid-block">
-   </div>
+   <div class="large-7 grid-block"> </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
          <li>
             <a ng-click="edit()" ng-bind="::'COMMON.EDIT' | translate"></a>
          </li>
          <li ng-if="isChanged()">
-            <a ng-click="saveChanges()"  ng-bind="::'COMMON.SUBMIT' | translate"></a>
+            <a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
          </li>
       </ul>
    </div>
@@ -21,52 +19,41 @@
    <div class="vertical medium-9 grid-block">
       <div class="main-card vacancy-profile">
          <div class="card-divider">
-            <h4 ng-bind="vacancy.title"></h4>
+            <div class="grid-block">
+               <div class="vertical small-4 grid-block"> <span ng-bind="::'VACANCY.CHILD_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></span> <span ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.childVacanciesIds.length"></span>
+                  <h4 ng-bind="vacancy.title"></h4> </div>
+               <div class="small-4 grid-block">
+                  <a ng-click="goToParentVacancy()" ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></a>
+               </div>
+               <div class="small-4 grid-block">
+                  <div zf-action-sheet="" ng-if="vacancy.childVacanciesIds.length">
+                     <div zf-as-button="" title="Child vacancies"></div>
+                     <div zf-as-content="" position="bottom">
+                        <ul>
+                           <li ng-repeat="childVacancy in vacancy.childVacancies">
+                              <a ng-click="goToChildVacancy(childVacancy)" href="#" ng-bind="childVacancy.title"></a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
          </div>
          <div class="card-section">
             <div class="grid-block">
                <div class="vertical small-4 grid-block">
-                  <div>
-                     <i class="fi-graph-bar"></i><span class="property-title" ng-bind="::'COMMON.LEVEL' | translate">:</span>
-                     <span ng-bind="vacancy.levels | arrayAsString: 'title'"></span>
-                  </div>
-                  <div>
-                     <i class="fi-dollar-bill"></i>
-                     <span class="property-title" ng-bind="::'COMMON.SALARY' | translate">:</span>
-                     <span ng-bind="::'COMMON.FROM' | translate">:</span>
-                     <span ng-bind="::vacancy.salaryMin"></span>
-                     <span ng-bind="::'COMMON.TO' | translate">:</span>
-                     <span ng-bind="::vacancy.salaryMax"></span>
-                  </div>
-                  <div>
-                     <i class="fi-torsos-all"></i><span class="property-title" ng-bind="::'COMMON.DEPARTMENT' | translate">:</span>
-                     <span ng-bind="vacancy.departments | arrayAsString: 'title'"></span>
-                  </div>
+                  <div> <i class="fi-graph-bar"></i><span class="property-title" ng-bind="::'COMMON.LEVEL' | translate">:</span> <span ng-bind="vacancy.levels | arrayAsString: 'title'"></span> </div>
+                  <div> <i class="fi-dollar-bill"></i> <span class="property-title" ng-bind="::'COMMON.SALARY' | translate">:</span> <span ng-bind="::'COMMON.FROM' | translate">:</span> <span ng-bind="::vacancy.salaryMin"></span> <span ng-bind="::'COMMON.TO' | translate">:</span> <span ng-bind="::vacancy.salaryMax"></span> </div>
+                  <div> <i class="fi-torsos-all"></i><span class="property-title" ng-bind="::'COMMON.DEPARTMENT' | translate">:</span> <span ng-bind="vacancy.departments | arrayAsString: 'title'"></span> </div>
                </div>
                <div class="vertical small-4 grid-block">
-                  <div>
-                     <i class="fi-results-demographics"></i><span class="property-title" ng-bind="::'COMMON.INDUSTRY' | translate">:</span>
-                     <span ng-bind="vacancy.industries | arrayAsString: 'title'"></span>
-                  </div>
-                  <div>
-                     <i class="fi-marker"></i>
-                     <span class="property-title" ng-bind="::'COMMON.LOCATION' | translate"></span>
-                     <span ng-bind="vacancy.cities | arrayAsString: 'title'"></span>
-                  </div>
-                  <div>
-                     <i class="fi-clock"></i><span class="property-title" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate">:</span>
-                     <span ng-bind="vacancy.typesOfEmployment | arrayAsString: 'title'"></span>
-                  </div>
+                  <div> <i class="fi-results-demographics"></i><span class="property-title" ng-bind="::'COMMON.INDUSTRY' | translate">:</span> <span ng-bind="vacancy.industries | arrayAsString: 'title'"></span> </div>
+                  <div> <i class="fi-marker"></i> <span class="property-title" ng-bind="::'COMMON.LOCATION' | translate"></span> <span ng-bind="vacancy.cities | arrayAsString: 'title'"></span> </div>
+                  <div> <i class="fi-clock"></i><span class="property-title" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate">:</span> <span ng-bind="vacancy.typesOfEmployment | arrayAsString: 'title'"></span> </div>
                </div>
                <div class="vertical small-4 grid-block">
-                  <div>
-                     <i class="fi-flag"></i><span class="property-title" ng-bind="::'COMMON.LANGUAGE' | translate">:</span>
-                     <span ng-bind="vacancy.languageSkill.language.title"></span>
-                  </div>
-                  <div>
-                     <i class="fi-star"></i><span class="property-title" ng-bind="::'COMMON.LANGUAGE_LEVEL' | translate">:</span>
-                     <span ng-bind="vacancy.languageSkill.languageLevelObj.title"></span>
-                  </div>
+                  <div> <i class="fi-flag"></i><span class="property-title" ng-bind="::'COMMON.LANGUAGE' | translate">:</span> <span ng-bind="vacancy.languageSkill.language.title"></span> </div>
+                  <div> <i class="fi-star"></i><span class="property-title" ng-bind="::'COMMON.LANGUAGE_LEVEL' | translate">:</span> <span ng-bind="vacancy.languageSkill.languageLevelObj.title"></span> </div>
                </div>
             </div>
             <hr>
@@ -77,88 +64,15 @@
          </div>
       </div>
       <div class="main-card vacancy-profile">
-         <div class="card-divider" ng-bind="::'CANDIDATES.CANDIDATES' | translate">
-         </div>
-         <hr>
-         <div class="card-section">
-            <div class="grid-block">
-               <div class="small-3 grid-block">
-                  <div class="tab-container">
-                     <div class="tab">
-                        <div ng-repeat="stage in thesaurus.stage" ng-click="selectStage(stage.title)" class="tab-item" ng-class="{'is-active': stage.title === currentStage}">
-                           <span ng-bind="stage.title"></span>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="small-9 grid-block">
-                  <table>
-                     <thead>
-                        <tr>
-                           <th>№</th>
-                           <th ng-bind="::'CANDIDATE.CANDIDATE' | translate"></th>
-                           <th ng-bind="::'COMMON.DATE' | translate"></th>
-                           <th ng-bind="::'COMMON.STAGE' | translate"></th>
-                           <th ng-bind="::'COMMON.COMMENTS' | translate"></th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr>
-                           <td>1</td>
-                           <td>Koroleva Viktoriya</td>
-                           <td>25.05.16</td>
-                           <td>
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stage" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </td>
-                           <td>Some comment</td>
-                        </tr>
-                        <tr>
-                           <td>2</td>
-                           <td>Koroleva Viktoriya</td>
-                           <td>25.05.16</td>
-                           <td>
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stage" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </td>
-                           <td>Some comment</td>
-                        </tr>
-                        <tr>
-                           <td>3</td>
-                           <td>Koroleva Viktoriya</td>
-                           <td>25.05.16</td>
-                           <td>
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stage" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </td>
-                           <td>Some comment</td>
-                        </tr>
-                        <tr>
-                           <td>4</td>
-                           <td>Koroleva Viktoriya</td>
-                           <td>25.05.16</td>
-                           <td>
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stage" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </td>
-                           <td>Some comment</td>
-                        </tr>
-                     </tbody>
-                  </table>
-
-               </div>
-            </div>
+         <div class="card-section candidate-vacancy-info-container">
+               <h3 ng-if="isVacancyLoaded && isVacancyClosed()">Vacancy closed {{getPassDate()}} by {{getHiredCandidateFullName()}}</h3>
+               <candidate-vacancy-info ng-if="isVacancyLoaded && !isVacancyClosed()" closevacancy="closeVacancyWith" vacancy-stages="vacancy.stageFlow" vacancy-stage-infos-composed-by-candidate-id-vacancy-id="vacancyStageInfosComposedByCandidateIdVacancyId" parent-entity="vacancy" directive-type="full"> </candidate-vacancy-info>
          </div>
       </div>
       <div class="main-card vacancy-profile">
          <div class="card-divider">
             <div class="grid-block">
-               <div class="small-6 grid-block" ng-bind="::'COMMON.HISTORY' | translate">
-               </div>
+               <div class="small-6 grid-block" ng-bind="::'COMMON.HISTORY' | translate"> </div>
                <div class="small-3 grid-block">
                   <a ng-bind="::'COMMON.SHOW_ALL_ACTIONS' | translate"></a>
                </div>
@@ -168,20 +82,16 @@
             </div>
          </div>
          <hr>
-         <div class="card-section">
-
-         </div>
+         <div class="card-section"> </div>
       </div>
    </div>
    <div class="medium-3 grid-block vertical-sidebar">
       <div class="vertical medium-horizontal grid-block vacancy-view">
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'VACANCY_PROFILE.INFORMATION' | translate">
-            </div>
+            <div class="card-divider" ng-bind="::'VACANCY_PROFILE.INFORMATION' | translate"> </div>
             <div class="sidebar-content">
                <div class="grid-block sidebar-row">
-                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.RESPONSIBLE' | translate">:
-                  </div>
+                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.RESPONSIBLE' | translate">: </div>
                   <div class="medium-7 grid-block">
                      <select ng-model="vacancy.responsibleId">
                         <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
@@ -189,70 +99,36 @@
                   </div>
                </div>
                <div class="grid-block sidebar-row">
-                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.START_DATE' | translate">:
-                  </div>
+                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.START_DATE' | translate">: </div>
                   <div class="medium-7 grid-block ">
-                     <input placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                  </div>
+                     <input type="text" placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
                </div>
                <div class="grid-block sidebar-row">
-                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.DEADLINE_DATE' | translate">:
-                  </div>
+                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.DEADLINE_DATE' | translate">: </div>
                   <div class="medium-7 grid-block ">
-                     <input placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                  </div>
+                     <input type="text" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
                </div>
                <div class="grid-block sidebar-row">
-                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.END_DATE' | translate">:
-                  </div>
+                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.END_DATE' | translate">: </div>
                   <div class="medium-7 grid-block">
-                     <input placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                  </div>
+                     <input type="text" placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
                </div>
-
             </div>
          </div>
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'CANDIDATES.CANDIDATES' | translate">
-            </div>
+            <div class="card-divider" ng-bind="::'CANDIDATES.CANDIDATES' | translate"> </div>
             <div class="sidebar-content">
                <ul class="some-change">
                   <li>
-                     <input name="newCandidate" id="newCandidate" checked="" type="radio" ui-sref="candidate">
+                     <input name="newCandidate" id="newCandidate" checked="" type="radio" ng-click="goToCandidate()">
                      <label for="newCandidate" ng-bind="::'COMMON.NEW' | translate"></label>
                   </li>
                   <li>
-                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ui-sref="candidates">
+                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ng-click="goToCandidates()">
                      <label for="candidateFromBOT" ng-bind="::'COMMON.FROM_BOT' | translate"></label>
                   </li>
                </ul>
                <section class="block-list">
-                  <ul class="candidates">
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-5 grid-block ">
-                              <a class="sidebar-col" href="#">Antonov Anton</a>
-                           </div>
-                           <div class="medium-7 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stage" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-5 grid-block">
-                              <a class="sidebar-col" href="#">Petrova Margarita</a>
-                           </div>
-                           <div class="medium-7 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stages" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
                </section>
             </div>
          </div>
@@ -260,8 +136,7 @@
             <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>
          </div>
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'VACANCY_PROFILE.FILES' | translate">
-            </div>
+            <div class="card-divider" ng-bind="::'VACANCY_PROFILE.FILES' | translate"> </div>
             <div class="sidebar-content">
                <fieldset class="file-upload">
                   <input type="file" nv-file-select="" multiple uploader="uploader">

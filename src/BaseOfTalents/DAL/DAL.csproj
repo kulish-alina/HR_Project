@@ -32,12 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -80,6 +76,7 @@
     <Compile Include="DTO\SetupDTO\DepartmentDTO.cs" />
     <Compile Include="DTO\SetupDTO\DepartmentGroupDTO.cs" />
     <Compile Include="DTO\SetupDTO\EventTypeDTO.cs" />
+    <Compile Include="DTO\SetupDTO\ExtendedStageDTO.cs" />
     <Compile Include="DTO\SetupDTO\IndustryDTO.cs" />
     <Compile Include="DTO\SetupDTO\LanguageDTO.cs" />
     <Compile Include="DTO\SetupDTO\LevelDTO.cs" />
@@ -91,7 +88,6 @@
     <Compile Include="DTO\SetupDTO\TagDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\VacancyDTO.cs" />
-    <Compile Include="DTO\VacancyStageDTO.cs" />
     <Compile Include="DTO\VacancyStageInfoDTO.cs" />
     <Compile Include="Exceptions\EntityNotFoundException.cs" />
     <Compile Include="Extensions\CandidateExtensions.cs" />
@@ -139,7 +135,6 @@
     <Compile Include="Infrastructure\IUserRepository.cs" />
     <Compile Include="Infrastructure\IVacancyRepository.cs" />
     <Compile Include="Infrastructure\IVacancyStageInfoRepository.cs" />
-    <Compile Include="Infrastructure\IVacancyStageRepository.cs" />
     <Compile Include="Mapping\BaseEntityConfiguration.cs" />
     <Compile Include="Mapping\CandidateConfiguration.cs" />
     <Compile Include="Mapping\CandidateSocialConfiguration.cs" />
@@ -150,8 +145,10 @@
     <Compile Include="Mapping\DepartmentGroupConfiguration.cs" />
     <Compile Include="Mapping\EventConfiguration.cs" />
     <Compile Include="Mapping\EventTypeConfiguration.cs" />
+    <Compile Include="Mapping\ExtendedStageConfiguration.cs" />
     <Compile Include="Mapping\FileConfiguration.cs" />
     <Compile Include="Mapping\IndustryConfiguration.cs" />
+    <Compile Include="Mapping\LanguageConfiguration.cs" />
     <Compile Include="Mapping\LanguageSkillConfiguration.cs" />
     <Compile Include="Mapping\LevelConfiguration.cs" />
     <Compile Include="Mapping\CityConfiguration.cs" />
@@ -167,11 +164,10 @@
     <Compile Include="Mapping\TagConfiguration.cs" />
     <Compile Include="Mapping\UserConfiguration.cs" />
     <Compile Include="Mapping\VacancyConfiguration.cs" />
-    <Compile Include="Mapping\VacancyStageConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201607061501337_init.cs" />
-    <Compile Include="Migrations\201607061501337_init.Designer.cs">
-      <DependentUpon>201607061501337_init.cs</DependentUpon>
+    <Compile Include="Migrations\201608170840536_init.cs" />
+    <Compile Include="Migrations\201608170840536_init.Designer.cs">
+      <DependentUpon>201608170840536_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\BOTContextInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -206,7 +202,6 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\VacancyRepository.cs" />
     <Compile Include="Repositories\VacancyStageInfoRepository.cs" />
-    <Compile Include="Repositories\VacancyStageRepository.cs" />
     <Compile Include="Services\AccessRightsService.cs" />
     <Compile Include="Services\BaseEnumService.cs" />
     <Compile Include="Services\BaseService.cs" />
@@ -251,8 +246,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607061501337_init.resx">
-      <DependentUpon>201607061501337_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608170840536_init.resx">
+      <DependentUpon>201608170840536_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

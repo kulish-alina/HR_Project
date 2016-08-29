@@ -81,9 +81,12 @@ const THESAURUS_STRUCTURES = {
    'stage' : {
       thesaurusName : 'THESAURUSES.STAGES',
       fields : [
-         {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
-         {name : 'state',     label : 'state',     type : ''}
+         {name : 'order',        label : 'order',     type : 'number'},
+         {name : 'id',           label : 'id',        type : ''},
+         {name : 'title',        label : 'title',     type : 'text', validator : 'required, maxlength=50, minlength=3'},
+         {name : 'state',        label : 'state',     type : ''},
+         {name : 'isDefault',          label : 'default',   type : 'checkbox'},
+         {name : 'isCommentRequired',  label : 'comment',   type : 'checkbox'}
       ]
    },
    'level' : {

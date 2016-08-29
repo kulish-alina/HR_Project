@@ -1,3 +1,4 @@
+import mainTemplate             from './views/main.view.html';
 import homeTemplate             from './views/home/home.view.html';
 import candidatesTemplate       from './views/candidates/candidates.view.html';
 import candidateTemplate        from './views/candidate/candidate.view.html';
@@ -13,6 +14,7 @@ import vacancyViewTemplate      from './views/vacancy.profile/vacancy.view.html'
 import candidateProfileTemplate from './views/candidate.profile/candidate.profile.html';
 import loaderTemplate           from './views/loading/loading.view.html';
 import loginTemplate            from './views/login/login.view.html';
+import calendarTemplate         from './views/calendar/calendar.html';
 
 import homeController             from './views/home/home.controller';
 import candidatesController       from './views/candidates/candidates.controller';
@@ -27,11 +29,12 @@ import rolesController            from './views/settings/roles/roles.controller'
 import vacancyViewController      from './views/vacancy.profile/vacancy.view.controller';
 import candidateProfileController from './views/candidate.profile/candidate.profile.controller';
 import loginController            from './views/login/login.controller';
+import calendarController         from './views/calendar/calendar.controller';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
 
-import context                from './context';
+import context from './context';
 
 export default function _config(
    $stateProvider,
@@ -46,6 +49,10 @@ export default function _config(
    'ngInject';
 
    $stateProvider
+      .state('main', {
+         template: mainTemplate,
+         abstract: true
+      })
       .state('home', {
          url: '/bot',
          template: homeTemplate,
@@ -53,88 +60,99 @@ export default function _config(
          params: {
             _data: null
          },
-         data: { hideHome: false }
+         parent: 'main'
       })
       .state('candidates', {
+         abstract: true,
+         parent: 'main',
          url: '/candidates',
+         template: '<ui-view/>'
+      })
+      .state('candidates.search', {
+         url: '',
          template: candidatesTemplate,
          controller: candidatesController,
-         data: {
-            hide: false,
-            hideHome: true
-         },
-         parent: 'home'
+         params: {
+            vacancyIdToGoBack: null
+         }
       })
       .state('vacancies', {
+         abstract: true,
+         parent: 'main',
          url: '/vacancies',
+         template: '<ui-view/>'
+      })
+      .state('vacancies.search', {
+         url: '',
          template: vacanciesTemplate,
          controller: vacanciesController,
-         data: {
-            hide: false,
-            hideHome: true
-         },
-         parent: 'home'
+         params: {
+            candidateIdToGoBack: null
+         }
       })
       .state('vacancyView', {
-         url: '/vacancyView/:vacancyId',
+         url: '/view/:vacancyId',
          template: vacancyViewTemplate,
          controller: vacancyViewController,
          params: {
+            candidatesIds: [],
             _data: null,
             vacancyId: null
          },
-         parent: 'vacancies',
-         data: { hide: true }
+         parent: 'vacancies'
       })
       .state('candidate', {
-         url: '/candidate/:candidateId',
+         url: '/edit/:candidateId',
          template: candidateTemplate,
          controller: candidateController,
          params: {
             _data: null,
-            candidateId: null
+            candidateId: null,
+            vacancyIdToGoBack: null
          },
-         parent: 'candidates',
-         data: { hide: true }
+         parent: 'candidates'
       })
       .state('candidateProfile', {
-         url: '/candidateProfile/:candidateId',
+         url: '/profile/:candidateId',
          template: candidateProfileTemplate,
          controller: candidateProfileController,
          params: {
+            vacancies: [],
             _data: null,
             candidateId: null
          },
-         parent: 'candidates',
-         data: { hide: true }
+         parent: 'candidates'
       })
       .state('vacancyEdit', {
-         url: '/vacancy/edit/:vacancyId',
+         url: '/edit/:vacancyId',
          template: vacancyEditTemplate,
          controller: vacancyEditController,
          params: {
             _data: null,
             vacancyId: null
          },
-         parent: 'vacancies',
-         data: { hide: true }
+         parent: 'vacancies'
+      })
+      .state('calendar', {
+         url: '/calendar',
+         template: calendarTemplate,
+         controller: calendarController,
+         parent: 'main'
       })
       .state('settings', {
          url: '/settings',
          template: settingsTemplate,
          controller: settingsController,
          data: {
-            asEdit: false,
-            hideHome: true
+            asEdit: false
          },
-         parent: 'home'
+         parent: 'main'
       })
       .state('profile', {
          url: '/profile',
          parent: 'settings',
          template: profileTemplate,
-         controller: profileController,
-         data: { asEdit: false }
+         controller: profileController
       })
       .state('profile.edit', {
          url: '/edit',
@@ -165,13 +183,11 @@ export default function _config(
       .state('login', {
          url: '/login',
          template: loginTemplate,
-         controller: loginController,
-         data: { hideHome: true }
+         controller: loginController
       })
       .state('loading', {
          url: '/loading',
-         template: loaderTemplate,
-         data: { hideHome: true }
+         template: loaderTemplate
       });
 
    $locationProvider.html5Mode({

@@ -1,7 +1,9 @@
+import utils  from './../../utils.js';
 import {
    clone,
    split,
-   isEqual
+   isEqual,
+   remove
 } from 'lodash';
 import template from './events.directive.html';
 import './events.scss';
@@ -10,14 +12,19 @@ export default class EventsDirective {
       this.restrict   = 'E';
       this.template   = template;
       this.scope      = {
-         type           : '@',
-         events         : '=',
-         save           : '=',
-         remove         : '=',
-         getEventsByDate: '=',
-         candidateId    : '=',
-         userId         : '=',
-         source         : '@'
+         type            : '@',
+         events          : '=',
+         save            : '=',
+         remove          : '=',
+         getEventsByDate : '=',
+         candidateId     : '=',
+         userId          : '=',
+         source          : '@',
+         vacancies       : '=',
+         candidates      : '=',
+         eventTypes      : '=',
+         responsibles    : '=',
+         selectedDate    : '='
       };
       this.controller = EventsController;
    }
@@ -33,33 +40,27 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
    'ngInject';
    const vm               = $scope;
    vm.event               = {};
-   vm.vacancies           = [];
-   vm.candidates          = [];
-   vm.responsibles        = [];
-   vm.eventTypes          = [];
    vm.saveEvent           = saveEvent;
    vm.showAddEventDialog  = showAddEventDialog;
    vm.showEditEventDialog = showEditEventDialog;
-   vm.vacancy             = {};
-   vm.vacancy.current     = 0;
-   vm.vacancy.size        = 20;
-   vm.candidate           = {};
-   vm.candidate.current   = 0;
-   vm.candidate.size      = 20;
    vm.getEvents           = getEvents;
    vm.currentEvents       = [];
-
-   function _init() {
-      VacancyService.search(vm.vacancy).then((data) => vm.vacancies.push.apply(vm.vacancies, data.vacancies));
-      UserService.getUsers().then((users) => vm.responsibles.push.apply(vm.responsibles, users));
-      CandidateService.search(vm.candidate).then((data) => vm.candidates.push.apply(vm.candidates, data.candidate));
-      ThesaurusService.getThesaurusTopics('eventtype')
-         .then((eventTypes) => vm.eventTypes.push.apply(vm.eventTypes, eventTypes));
-   }
-   _init();
+   vm.$on('onDblclick', function fromParent(event, obj) {
+      if (vm.selectedDate === obj.date) {
+         vm.currentDate = obj.date;
+         showAddEventDialog();
+      }
+   });
 
    function saveEvent() {
-      vm.save(vm.event);
+      vm.save(vm.event).then((event) => {
+         if (vm.eventForEdit && event.eventDate === vm.eventForEdit.eventDate) {
+            remove(vm.events, {id: vm.eventForEdit.id, eventDate: vm.eventForEdit.eventDate});
+            vm.events.push(event);
+         }  else if (vm.eventForEdit) {
+            remove(vm.events, {id: vm.eventForEdit.id, eventDate: vm.eventForEdit.eventDate});
+         }
+      });
    }
 
    function getEvents(date) {
@@ -74,6 +75,10 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
    }
 
    function showAddEventDialog() {
+      let typeOfModalDialog = 'list-with-input';
+      if (vm.source === 'calendar') {
+         typeOfModalDialog = 'form-only';
+      }
       vm.event = {};
       vm.currentEvents.length = 0;
       if (vm.userId) {
@@ -82,8 +87,13 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
       if (vm.candidateId) {
          vm.event.candidateId = `${vm.candidateId}`;
       }
+      if (vm.currentDate) {
+         let date = new Date(vm.currentDate.valueOf() - vm.currentDate.getTimezoneOffset() * 60000);
+         let convertedDate = utils.formatDateTimeFromServer(date.toISOString());
+         vm.event.eventDate = convertedDate;
+      }
       let scope = {
-         type         : 'list-with-input',
+         type         : typeOfModalDialog,
          responsibles : vm.responsibles,
          eventTypes   : vm.eventTypes,
          vacancies    : vm.vacancies,
@@ -108,20 +118,20 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
       let eventDate = '';
 
       $scope.$watch('event.eventDate', function watch() {
-         let clonedTrimedEventDate = split(eventDate, ' ');
          let newEventDate = split(vm.event.eventDate, ' ');
-         if (!isEqual(newEventDate[0], clonedTrimedEventDate[0])) {
-            getEvents(vm.event.eventDate);
+         if (eventDate) {
+            let clonedTrimedEventDate = split(eventDate, ' ');
+            if (!isEqual(newEventDate[0], clonedTrimedEventDate[0])) {
+               getEvents(vm.event.eventDate);
+            }
          }
          eventDate = vm.event.eventDate;
       });
    }
 
    function showEditEventDialog(currentEvent) {
+      vm.eventForEdit = clone(currentEvent);
       vm.event = clone(currentEvent);
-      if (vm.userId) {
-         vm.event.responsibleId = `${vm.userId}`;
-      }
       if (vm.candidateId) {
          vm.event.candidateId = `${vm.candidateId}`;
       }
@@ -136,7 +146,8 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
       };
       let buttons = [
          {
-            name: $translate.instant('COMMON.CANCEL')
+            name: $translate.instant('COMMON.CANCEL'),
+            func: vm.returnEventToList
          },
          {
             name: $translate.instant('COMMON.APLY'),

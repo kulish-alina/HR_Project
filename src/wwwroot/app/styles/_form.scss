@@ -2,6 +2,12 @@
 form {
    width: 100%;
 }
+input[type="number"]:focus, input[type="text"]:focus, input[type="url"]:focus, textarea:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 $rem-base/3 $primary-color;
+}
+
 fieldset {
    width: 100%;
    border: 0;

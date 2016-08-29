@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using System.Web.Http;
+using Autofac;
 using Autofac.Integration.WebApi;
 using DAL;
 using DAL.DTO;
@@ -9,15 +11,13 @@ using DAL.Services;
 using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
 using Entities.Enum;
-using System.Reflection;
-using System.Web.Http;
 using WebUI.Infrastructure.Auth;
 using WebUI.Services;
 using WebUI.Services.Auth;
 
-namespace WebUI
+namespace WebUI.App_Start
 {
-    public class AutofacWebApiConfiguration
+    public class AutofacConfig
     {
         public static IContainer Container;
         public static void Initialize(HttpConfiguration config)

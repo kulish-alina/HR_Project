@@ -38,6 +38,18 @@ namespace DAL.Extensions
             childVacancy.Levels = parentVacancy.Levels.Select(x => uow.LevelRepo.GetByID(x.Id)).ToList();
             childVacancy.Tags.Clear();
             childVacancy.Tags = parentVacancy.Tags.Select(x => uow.TagRepo.GetByID(x.Id)).ToList();
+            childVacancy.StageFlow.Clear();
+            childVacancy.StageFlow = parentVacancy.StageFlow.Select(x =>
+            {
+                var stage = uow.StageRepo.GetByID(x.Id);
+                return new ExtendedStage { Stage = stage, Order = stage.Order };
+            }).ToList();
+            childVacancy.Cities.Clear();
+            childVacancy.Cities = parentVacancy.Cities.Select(x => uow.CityRepo.GetByID(x.Id)).ToList();
+            childVacancy.Levels.Clear();
+            childVacancy.Levels = parentVacancy.Levels.Select(x => uow.LevelRepo.GetByID(x.Id)).ToList();
+            childVacancy.Tags.Clear();
+            childVacancy.Tags = parentVacancy.Tags.Select(x => uow.TagRepo.GetByID(x.Id)).ToList();
             childVacancy.RequiredSkills.Clear();
             childVacancy.RequiredSkills = parentVacancy.RequiredSkills.Select(x => uow.SkillRepo.GetByID(x.Id)).ToList();
             childVacancy.LanguageSkill = new LanguageSkill
@@ -45,9 +57,15 @@ namespace DAL.Extensions
                 LanguageId = parentVacancy.LanguageSkill.LanguageId,
                 LanguageLevel = parentVacancy.LanguageSkill.LanguageLevel
             };
-            childVacancy.ParentVacancyId = parentVacancy.Id;
+            childVacancy.ParentVacancy = parentVacancy;
             //CandidatesProgress
-            childVacancy.Files = parentVacancy.Files;
+            childVacancy.Files.Clear();
+            childVacancy.Files = parentVacancy.Files.Select(x => new File
+            {
+                FilePath = x.FilePath,
+                Size = x.Size,
+                Description = x.Description
+            }).ToList();
             childVacancy.Comments.Clear();
             childVacancy.Comments = parentVacancy.Comments.Select(x => new Comment { Message = x.Message }).ToList();
         }
@@ -55,6 +73,10 @@ namespace DAL.Extensions
         public static void Update(this Vacancy destination, VacancyDTO source, IUnitOfWork uow)
         {
             destination.Id = source.Id;
+            if (source.Id == 0)
+            {
+                PerformVacancyStageFilling(destination, uow);
+            }
             destination.State = source.State;
 
             destination.Title = source.Title;
@@ -75,15 +97,26 @@ namespace DAL.Extensions
             destination.CurrencyId = source.CurrencyId;
             destination.ChildVacanciesNumber = source.ChildVacanciesNumber;
 
+            destination.ClosingCandidateId = source.ClosingCandidateId;
+
             PerformLevelsSaving(destination, source, uow.LevelRepo);
             PerformLocationsSaving(destination, source, uow.CityRepo);
             PerformTagsSaving(destination, source, uow.TagRepo);
             PerformSkillsSaving(destination, source, uow.SkillRepo);
             PerformLanguageSkillsSaving(destination, source, uow.LanguageSkillRepo);
-            PerformVacanciesProgressSaving(destination, source, uow.VacancyStageRepo);
+            PerformVacanciesProgressSaving(destination, source, uow.VacancyStageInfoRepo);
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
             PerformChildVacanciesUpdating(destination, uow);
+        }
+
+        private static void PerformVacancyStageFilling(Vacancy destination, IUnitOfWork uow)
+        {
+            var stages = uow.StageRepo.Get(new List<Expression<Func<Stage, bool>>>() { x => x.IsDefault }).ToList();
+            var extendedStages = stages.Select(x => new ExtendedStage { Stage = x, Order = x.Order }).ToList();
+            extendedStages.ForEach(x => destination.StageFlow.Add(x));
+            extendedStages = extendedStages.OrderBy(x => x.Order).ToList();
+            destination.StageFlow = extendedStages;
         }
 
         private static void PerformAddingDeadlineToCalendar(Vacancy destination, VacancyDTO source, IUnitOfWork uow)
@@ -100,7 +133,8 @@ namespace DAL.Extensions
                     EventDate = source.DeadlineDate.Value,
                     EventType = eventType,
                     ResponsibleId = source.ResponsibleId,
-                    Vacancy = destination
+                    Vacancy = destination,
+                    Description = string.Format("Deadline for {0} vacancy", destination.Title)
                 });
             }
             else if (NeedDeleteDeadlineEvent(destination, source))
@@ -160,39 +194,30 @@ namespace DAL.Extensions
             });
         }
 
-        private static void PerformVacanciesProgressSaving(Vacancy destination, VacancyDTO source, IVacancyStageRepository vacancyStageInfoRepository)
+        private static void PerformVacanciesProgressSaving(Vacancy destination, VacancyDTO source, IVacancyStageInfoRepository vacancyStageInfoRepository)
         {
+
+            //TODO: if vacancy id null - set to THIS
             RefreshExistingVacanciesProgress(destination, source, vacancyStageInfoRepository);
             CreateNewVacanciesProgress(destination, source);
         }
         private static void CreateNewVacanciesProgress(Vacancy destination, VacancyDTO source)
         {
-            source.CandidatesProgress.Where(x => x.Id == 0).ToList().ForEach(newVacancyStageInfo =>
+            source.CandidatesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo =>
             {
                 var toDomain = new VacancyStageInfo();
-                toDomain.Update(newVacancyStageInfo);
-                if (toDomain.VacancyId == 0)
-                {
-                    toDomain.Vacancy = destination;
-                }
+                toDomain.Update(destination, newVacancyStageInfo);
                 destination.CandidatesProgress.Add(toDomain);
             });
         }
-        private static void RefreshExistingVacanciesProgress(Vacancy destination, VacancyDTO source, IVacancyStageRepository vacancyStageInfoRepository)
+        private static void RefreshExistingVacanciesProgress(Vacancy destination, VacancyDTO source, IVacancyStageInfoRepository vacancyStageInfoRepository)
         {
-            source.CandidatesProgress.Where(x => x.Id != 0).ToList().ForEach(updatedVacanciesStageInfo =>
+            source.CandidatesProgress.Where(x => !x.IsNew()).ToList().ForEach(updatedVacanciesStageInfo =>
             {
                 var domainVacancyStageInfo = destination.CandidatesProgress.FirstOrDefault(x => x.Id == updatedVacanciesStageInfo.Id);
                 if (domainVacancyStageInfo == null)
                 {
                     throw new ArgumentNullException("You trying to update vacanies progress which is actually doesn't exists in database");
-                }
-                if (updatedVacanciesStageInfo.VacancyStage.IsCommentRequired)
-                {
-                    if (updatedVacanciesStageInfo.Comment == null)
-                    {
-                        throw new ArgumentNullException("Vacancy stage info should have comment");
-                    }
                 }
                 if (updatedVacanciesStageInfo.ShouldBeRemoved())
                 {
@@ -200,7 +225,7 @@ namespace DAL.Extensions
                 }
                 else
                 {
-                    domainVacancyStageInfo.Update(updatedVacanciesStageInfo);
+                    domainVacancyStageInfo.Update(destination, updatedVacanciesStageInfo);
                 }
             });
         }

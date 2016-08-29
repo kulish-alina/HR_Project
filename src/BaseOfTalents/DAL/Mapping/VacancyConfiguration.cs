@@ -9,13 +9,19 @@ namespace DAL.Mapping
             Property(v => v.Title).IsRequired();
             Property(v => v.StartDate).IsRequired();
 
-            HasMany(v => v.CandidatesProgress);
+            HasMany(x => x.StageFlow).WithRequired();
+
+
+            HasMany(c => c.CandidatesProgress).WithRequired().HasForeignKey(x => x.VacancyId);
+
             HasMany(v => v.Files).WithMany().Map(x =>
             {
                 x.MapRightKey("FileId");
                 x.MapLeftKey("VacancyId");
                 x.ToTable("FileToVacancy");
             });
+
+            HasOptional(x => x.ClosingCandidate).WithMany(x => x.ClosedVacancies).HasForeignKey(x => x.ClosingCandidateId);
 
             HasOptional(v => v.ParentVacancy).WithMany(v => v.ChildVacancies).HasForeignKey(v => v.ParentVacancyId);
             HasOptional(v => v.LanguageSkill);

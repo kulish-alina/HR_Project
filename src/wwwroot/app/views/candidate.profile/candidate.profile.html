@@ -1,183 +1,118 @@
 <div class="secondary-menu grid-block">
-   <div class="large-2 grid-block">
-      <div class="grid-content">
-         <h5 ng-bind="::'CANDIDATE.CANDIDATE_PROFILE' | translate"></h5>
-      </div>
-   </div>
-   <div class="large-7 grid-block">
-   </div>
-   <div class="large-3 grid-block align-right">
-      <ul class="menu-bar second-button-bar">
-         <li>
-            <a ng-click="editCandidate()" ng-bind="::'COMMON.EDIT' | translate"></a>
-         </li>
-         <li ng-if="isChanged">
-            <a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
-         </li>
-      </ul>
-   </div>
+  <div class="large-2 grid-block">
+    <div class="grid-content">
+      <h5 ng-bind="::'CANDIDATE.CANDIDATE_PROFILE' | translate"></h5>
+    </div>
+  </div>
+  <div class="large-7 grid-block">
+  </div>
+  <div class="large-3 grid-block align-right">
+    <ul class="menu-bar second-button-bar">
+      <li>
+        <a ng-click="editCandidate()" ng-bind="::'COMMON.EDIT' | translate"></a>
+      </li>
+      <li ng-if="isChanged">
+        <a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
+      </li>
+    </ul>
+  </div>
 </div>
 <div class="grid-block">
-   <div class="vertical medium-9 grid-block">
-      <div class="main-card candidate-profile">
-         <candidate-info candidate="candidate"></candidate-info>
+  <div class="vertical medium-9 grid-block">
+    <div class="main-card candidate-profile">
+      <candidate-info candidate="candidate"></candidate-info>
+    </div>
+    <div class="main-card candidate-profile">
+      <candidate-vacancy-info ng-if="isCandidateLoaded" vacancy-stage-infos-composed-by-candidate-id-vacancy-id="vacancyStageInfosComposedByCandidateIdVacancyId" parent-entity="candidate" directive-type="full"> </candidate-vacancy-info>
+    </div>
+    <div class="main-card candidate-profile">
+      <div class="card-divider" ng-bind="::'CANDIDATE.CANDIDATE_RESUME' | translate"></div>
+      <hr>
+      <div class="card-section">
+        <div ng-bind="candidate.description"></div>
       </div>
-      <div class="main-card candidate-profile">
-         <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate">
-         </div>
-         <hr>
-         <table>
-            <thead>
-               <tr>
-                  <th>№</th>
-                  <th ng-bind="::'VACANCY.VACANCY' | translate"></th>
-                  <th ng-bind="::'COMMON.STAGE' | translate"></th>
-                  <th ng-bind="::'COMMON.COMMENTS' | translate"></th>
-                  <th ng-bind="::'COMMON.DATE' | translate"></th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | itemsPerPage: vacancy.size" total-items="total" current-page="pagination.current">
-                  <td>{{$index+1}}</td>
-                  <td>
-                     <a ng-click="viewVacancy(vacancy)" ng-bind="::vacancy.title"></a>
-                  </td>
-                  <td>
-                     <select name="Candidate stage" id="">
-                        <option ng-repeat="stage in thesaurus.stage" value="" ng-bind="stage.title"></option>
-                     </select>
-                  </td>
-                  <td>
-                  </td>
-                  <td></td>
-               </tr>
-            </tbody>
-         </table>
+    </div>
+    <div class="main-card candidate-profile">
+      <div class="card-divider">
+        <div class="grid-block">
+          <div class="small-6 grid-block" ng-bind="::'COMMON.HISTORY' | translate">
+          </div>
+          <div class="small-3 grid-block">
+            <a ng-bind="::'COMMON.SHOW_ALL_ACTIONS' | translate"></a>
+          </div>
+          <div class="small-3 grid-block">
+            <a ng-bind="::'COMMON.SHOW_COMMENTS_ONLY' | translate"></a>
+          </div>
+        </div>
       </div>
-      <div class="main-card candidate-profile">
-         <div class="card-divider" ng-bind="::'CANDIDATE.CANDIDATE_RESUME' | translate"></div>
-         <hr>
-         <div class="card-section">
-            <div ng-bind="candidate.description"></div>
-         </div>
+      <hr>
+      <div class="card-section">
       </div>
-      <div class="main-card candidate-profile">
-         <div class="card-divider">
-            <div class="grid-block">
-               <div class="small-6 grid-block" ng-bind="::'COMMON.HISTORY' | translate">
-               </div>
-               <div class="small-3 grid-block">
-                  <a ng-bind="::'COMMON.SHOW_ALL_ACTIONS' | translate"></a>
-               </div>
-               <div class="small-3 grid-block">
-                  <a ng-bind="::'COMMON.SHOW_COMMENTS_ONLY' | translate"></a>
-               </div>
+    </div>
+  </div>
+  <div class="medium-3 grid-block vertical-sidebar">
+    <div class="vertical medium-horizontal grid-block vacancy-view">
+      <div class="sidebar">
+        <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate">
+        </div>
+        <div class="sidebar-content">
+          <ul class="some-change">
+            <li ng-click="goToVacancies()">
+                <input name="vacancyFromBOT" id="vacancyFromBOT" type="radio" ">
+                     <label for="vacancyFromBOT " ng-bind=":: 'COMMON.FROM_BOT' | translate "></label>
+                  </li>
+               </ul>
             </div>
          </div>
-         <hr>
-         <div class="card-section">
-
+         <div class="sidebar ">
+            <events responsibles="responsibles" vacancies="vacancies" candidates="candidates" event-types="thesaurus.eventtype" source="candidate" candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
          </div>
-      </div>
-   </div>
-   <div class="medium-3 grid-block vertical-sidebar">
-      <div class="vertical medium-horizontal grid-block vacancy-view">
-         <div class="sidebar">
-            <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate">
+         <div class="sidebar ">
+            <comments comments="comments " save="saveComment " remove="removeComment " edit="editComment " type="comment "></comments>
+         </div>
+         <div class="sidebar ">
+            <div class="card-divider " ng-bind=":: 'COMMON.FILES' | translate ">
             </div>
-            <div class="sidebar-content">
-               <div class="grid-block">
-                  <div class="medium-9 grid-block">
-                     <select name="Vacancy">
-                        <option selected value="" ng-bind="::'VACANCY.VACANCY' | translate"></option>
-                        <option ng-repeat="vacancy in vacancies" value="{{vacancy.id}}" ng-bind="vacancy.title"></option>
-                     </select>
-                  </div>
-                  <div class="medium-3 grid-block">
-                     <a class="button button-with-input" ng-click="attachCandidate()">
-                        <span ng-bind="::'COMMON.ATTACH' | translate"></span>
-                     </a>
-                  </div>
-               </div>
-               <section class="block-list">
-                  <ul class="candidates">
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-5 grid-block ">
-                              <a class="sidebar-col" href="#">Antonov Anton</a>
-                           </div>
-                           <div class="medium-7 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stage" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-5 grid-block">
-                              <a class="sidebar-col" href="#">Petrova Margarita</a>
-                           </div>
-                           <div class="medium-7 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stage" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-            </div>
-         </div>
-         <div class="sidebar">
-            <events source="candidate" candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
-         </div>
-         <div class="sidebar">
-            <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>
-         </div>
-         <div class="sidebar">
-            <div class="card-divider" ng-bind="::'COMMON.FILES' | translate">
-            </div>
-            <div class="sidebar-content">
-               <fieldset class="file-upload">
-                  <input type="file" nv-file-select="" multiple uploader="uploader">
-                  <table class="upload-table" ng-hide="!candidate.files.length">
-                     <caption ng-bind="::'COMMON.ADDED_FILES' | translate">:</caption>
+            <div class="sidebar-content ">
+               <fieldset class="file-upload ">
+                  <input type="file " nv-file-select=" " multiple uploader="uploader ">
+                  <table class="upload-table " ng-hide="!candidate.files.length ">
+                     <caption ng-bind=":: 'COMMON.ADDED_FILES' | translate ">:</caption>
                      <thead>
                         <tr>
                            <th>№</th>
-                           <th ng-bind-html="::'COMMON.NAME' | translate"></th>
-                           <th ng-bind="::'COMMON.SIZE' | translate"></th>
+                           <th ng-bind-html=":: 'COMMON.NAME' | translate "></th>
+                           <th ng-bind=":: 'COMMON.SIZE' | translate "></th>
                            <th></th>
                         </tr>
                      </thead>
                      <tbody>
-                        <tr ng-repeat="item in candidate.files">
+                        <tr ng-repeat="item in candidate.files ">
                            <td>{{$index+1}}</td>
                            <td>
-                              <a target="_blank" href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
+                              <a target="_blank " href="{{item.filePath | botUrl}} " ng-bind="item.description "></a>
                            </td>
-                           <td ng-bind="item.fileSize"></td>
-                           <td><a class="remove-item" ng-click="addFilesForRemove(item)"><i class="foundicon-remove general-icon"></i></a></td>
+                           <td ng-bind="item.fileSize "></td>
+                           <td><a class="remove-item " ng-click="addFilesForRemove(item) "><i class="foundicon-remove general-icon "></i></a></td>
                         </tr>
                      </tbody>
                   </table>
-                  <table class="upload-table" ng-hide="!uploader.queue">
-                     <caption ng-bind="::'COMMON.FILES_TO_UPLOAD' | translate">:</caption>
+                  <table class="upload-table " ng-hide="!uploader.queue ">
+                     <caption ng-bind=":: 'COMMON.FILES_TO_UPLOAD' | translate ">:</caption>
                      <thead>
                         <tr>
                            <th>№</th>
-                           <th ng-bind="::'COMMON.NAME' | translate"></th>
-                           <th ng-bind="::'COMMON.SIZE' | translate"></th>
+                           <th ng-bind=":: 'COMMON.NAME' | translate "></th>
+                           <th ng-bind=":: 'COMMON.SIZE' | translate "></th>
                            <th></th>
                         </tr>
                      </thead>
                      <tbody>
-                        <tr ng-repeat="item in uploader.queue">
-                           <td ng-bind="$index+1"></td>
-                           <td ng-bind="item.file.name"></td>
-                           <td ng-bind="item.file.size"></td>
-                           <td><a class="remove-item" ng-click="item.remove()"><i class="foundicon-remove general-icon"></i></a></td>
+                        <tr ng-repeat="item in uploader.queue ">
+                           <td ng-bind="$index+1 "></td>
+                           <td ng-bind="item.file.name "></td>
+                           <td ng-bind="item.file.size "></td>
+                           <td><a class="remove-item " ng-click="item.remove() "><i class="foundicon-remove general-icon "></i></a></td>
                         </tr>
                      </tbody>
                   </table>

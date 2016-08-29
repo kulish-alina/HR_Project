@@ -23,9 +23,11 @@ export default function MembersController(
    vm.changeRole     = _changeRole;
    vm.showInvite     = _showInvite;
    vm.removeUser     = _removeUser;
+   vm.setMovedUser   = _setMovedUser;
    vm.currentGroup   = null;
    vm.currentGroupId = null;
 
+   let movedUser     = null;
 
    function _initData() {
       RolesService.getRoles().then((res) => set(vm, 'roles', res));
@@ -41,7 +43,7 @@ export default function MembersController(
       vm.currentGroupId = id;
    }
 
-   function _changeRole(user, role) {
+   function _changeRole(role, user = movedUser) {
       user.roleId = role.id;
       UserService.saveUser(user).then(() => {
          remove(vm.users[vm.currentGroupId], user);
@@ -84,5 +86,9 @@ export default function MembersController(
             UserDialogService.notification($translate.instant('MEMBERS.REMOVED'), 'success');
          });
       });
+   }
+
+   function _setMovedUser(user) {
+      movedUser = user;
    }
 }

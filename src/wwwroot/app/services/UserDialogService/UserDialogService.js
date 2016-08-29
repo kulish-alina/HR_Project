@@ -40,7 +40,8 @@ export default class UserDialogService {
          notification: {
             title: _$translate.instant('DIALOG_SERVICE.NOTIF'),
             content: message,
-            color: 'info'
+            color: 'info',
+            autoclose: '3000'
          },
          success: {
             title: _$translate.instant('DIALOG_SERVICE.SUCCESS'),

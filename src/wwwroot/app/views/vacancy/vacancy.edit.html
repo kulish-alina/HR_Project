@@ -1,11 +1,9 @@
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
       <div class="grid-content">
-         <h5 ng-bind="::'COMMON.ADD_VACANCY' | translate"></h5>
-      </div>
+         <h5 ng-bind="::'COMMON.ADD_VACANCY' | translate"></h5> </div>
    </div>
-   <div class="large-7 grid-block">
-   </div>
+   <div class="large-7 grid-block"> </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
          <li>
@@ -20,8 +18,7 @@
 <div class="grid-block">
    <div class="medium-9 grid-block">
       <div class="main-card">
-         <div class="card-divider" ng-bind="::'VACANCY.NEW_VACANCY' | translate">
-         </div>
+         <div class="card-divider" ng-bind="::'VACANCY.NEW_VACANCY' | translate"> </div>
          <div class="card-section">
             <form name="Vacancy">
                <div class="grid-block">
@@ -58,29 +55,26 @@
                         </select>
                         <select name="Department" ng-model="vacancy.departmentId" validator="required">
                            <option selected value="" ng-bind="::'COMMON.DEPARTMENT' | translate"></option>
-                           <option ng-repeat="department in thesaurus.department" value="{{department.id}}" ng-bind="department.title">
-                           </option>
+                           <option ng-repeat="department in thesaurus.department" value="{{department.id}}" ng-bind="department.title"> </option>
                         </select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <input ng-model="vacancy.salaryMin" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="number" min="0" step="50">
-                           </div>
+                              <input ng-model="vacancy.salaryMin" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="number" min="0" step="50"> </div>
                            <div class="medium-6 grid-block">
-                              <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="number" min="{{vacancy.salaryMin}}" step="50">
-                           </div>
+                              <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="number" min="{{vacancy.salaryMin}}" step="50"> </div>
                         </div>
                         <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
                            <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
                            <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
                         </select>
                         <div class="grid-block">
+                           <a ng-click="goToParentVacancy()" ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></a>
                            <div ng-if="vacancy.childVacanciesIds.length" class="medium-6 grid-block">
-                              <input disabled="disabled" id="masterVacancy" type="checkbox"  checked="checked">
+                              <input disabled="disabled" id="masterVacancy" type="checkbox" checked="checked">
                               <label for="masterVacancy" ng-bind="::'COMMON.MASTER_VACANCY' | translate"></label>
                            </div>
                            <div class="medium-6 grid-block">
-                              <input ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0">
-                           </div>
+                              <input ng-if="!vacancy.parentVacancyId" ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0"> </div>
                         </div>
                      </fieldset>
                   </div>
@@ -93,9 +87,9 @@
                            <option selected value="7" ng-bind="::'VACANCY.CLOSED' | translate"></option>
                            <option selected value="8" ng-bind="::'VACANCY.CANCELLED' | translate"></option>
                         </select>
-                        <input placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                        <input placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                        <input  placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input type="text" placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input type="text" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input type="text" placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
                         <input ng-model="vacancy.deadlineToCalendar" value="true" id="DeadlineToCalendar" type="checkbox">
                         <label for="DeadlineToCalendar" ng-bind="::'COMMON.ADD_DEADLINE_TO_CALENDAR' | translate"></label>
                      </fieldset>
@@ -158,7 +152,29 @@
                         </table>
                      </fieldset>
                   </div>
-                  <div class="medium-6 grid-block"></div>
+                  <div class="medium-6 grid-block">
+                     <table ng-if="!vacancy.parentVacancyId" class="upload-table">
+                        <caption ng-bind="::'VACANCY.CHILD_VACANCIES' | translate">:</caption>
+                        <thead>
+                           <tr>
+                              <th>№</th>
+                              <th ng-bind="::'COMMON.TITLE' | translate"></th>
+                              <th></th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="childVacancy in vacancy.childVacancies">
+                              <td>{{$index+1}}</td>
+                              <td>
+                                 <a ng-click="goToChildVacancy(childVacancy)" ng-bind="vacancy.title"></a>
+                              </td>
+                              <td>
+                                 <a ng-click="removeChildVacancy(childVacancy)"><i class="foundicon-trash general-icon"></i></a>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
                </div>
             </form>
          </div>
@@ -166,50 +182,6 @@
    </div>
    <div class="medium-3 grid-block vertical-sidebar">
       <div class="vertical medium-horizontal grid-block">
-         <div class="sidebar">
-            <div class="card-divider" ng-bind="::'CANDIDATES.CANDIDATES' | translate">
-            </div>
-            <div class="sidebar-content">
-               <ul class="some-change">
-                  <li>
-                     <input name="newCandidate" id="newCandidate" checked="" type="radio" ui-sref="candidate">
-                     <label for="newCandidate" ng-bind="::'COMMON.NEW' | translate"></label>
-                  </li>
-                  <li>
-                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ui-sref="candidates">
-                     <label for="candidateFromBOT" ng-bind="::'COMMON.FROM_BOT' | translate"></label>
-                  </li>
-               </ul>
-               <section class="block-list">
-                  <ul class="candidates">
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-5 grid-block ">
-                              <a class="sidebar-col" href="#">Antonov Anton</a>
-                           </div>
-                           <div class="medium-7 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stages" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-5 grid-block">
-                              <a class="sidebar-col" href="#">Petrova Margarita</a>
-                           </div>
-                           <div class="medium-7 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option ng-repeat="stage in thesaurus.stages" value="" ng-bind="stage.title"></option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-            </div>
-         </div>
          <div class="sidebar">
             <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>
          </div>

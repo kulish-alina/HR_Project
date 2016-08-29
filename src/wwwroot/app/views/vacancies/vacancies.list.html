@@ -1,20 +1,17 @@
 <div ui-view></div>
-  <div ng-hide="$state.current.data.hide">
    <div class="secondary-menu grid-block">
       <div class="large-2 grid-block">
          <div class="grid-content">
-            <h5 ng-bind="::'VACANCIES.BASE_OF_VACANCIES' | translate"></h5>
-         </div>
+            <h5 ng-bind="::'VACANCIES.BASE_OF_VACANCIES' | translate"></h5> </div>
       </div>
-      <div class="large-8 grid-block">
-      </div>
+      <div class="large-8 grid-block"> </div>
       <div class="large-2 grid-block align-right">
          <ul class="menu-bar second-button-bar">
-         <li>
-            <a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
+            <li>
+               <a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
             </li>
-         <li>
-            <a href="#" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
+            <li ng-if="candidateIdToGoBack" >
+              <a ng-click="goBackToCandidate()" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
             </li>
          </ul>
       </div>
@@ -22,29 +19,28 @@
    <div class="grid-block">
       <div class="medium-3 grid-block">
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'VACANCIES.SEARCH_VACANCIES' | translate">
-            </div>
+            <div class="card-divider" ng-bind="::'VACANCIES.SEARCH_VACANCIES' | translate"> </div>
             <div class="card-section">
                <form name="searchVacancy">
-                  <select name="Industry" ng-model="vacancy.industryId">
+                  <select name="Industry" ng-model="vacancyPredicate.industryId">
                      <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
                      <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
                   </select>
                   <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
-                  <input ng-model="vacancy.title" placeholder="Position" type="text">
-               <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
-                  <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
+                  <input ng-model="vacancyPredicate.title" placeholder="Position" type="text">
+                  <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                  <select name="Type of Employment" ng-model="vacancyPredicate.typeOfEmployment">
                      <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
                      <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
                   </select>
-                  <select name="State" ng-model="vacancy.vacancyState">
+                  <select name="State" ng-model="vacancyPredicate.vacancyState">
                      <option selected value="" ng-bind="::'COMMON.STATUS' | translate"></option>
                      <option selected value="5" ng-bind="::'VACANCY.OPEN' | translate"></option>
                      <option selected value="6" ng-bind="::'VACANCY.PROCESSING' | translate"></option>
                      <option selected value="7" ng-bind="::'VACANCY.CLOSED' | translate"></option>
                      <option selected value="8" ng-bind="::'VACANCY.CANCELLED' | translate"></option>
                   </select>
-                  <select ng-model="vacancy.userId" name="Responsible">
+                  <select ng-model="vacancyPredicate.userId" name="Responsible">
                      <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
                      <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
                   </select>
@@ -55,12 +51,14 @@
       </div>
       <div class="medium-9 grid-block">
          <div class="main-card">
-            <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate">
-            </div>
+            <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate"> </div>
             <div class="card-section">
                <table>
                   <thead>
                      <tr>
+                        <th>
+                           <input id="vacancy" type="checkbox">
+                        </th>
                         <th>№</th>
                         <th ng-bind="::'COMMON.TITLE' | translate"></th>
                         <th ng-bind="::'COMMON.STATUS' | translate"></th>
@@ -71,25 +69,23 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-hide="!vacancy" dir-paginate="vacancyItem in vacancies.vacancies | itemsPerPage: vacancy.size" total-items="vacancies.total" current-page="vacancy.current">
+                     <tr dir-paginate="vacancyItem in vacancies.vacancies | itemsPerPage: vacancyPredicate.size" total-items="vacancies.total" current-page="vacancyPredicate.current">
+                         <th>
+                           <input id="checkbox9" type="checkbox" ng-model="vacancyItem.isToogled" ng-change="toogleVacancy(vacancyItem)">
+                        </th>
                         <td>{{$index+1}}</td>
-                     <td>
-                        <a ng-click="viewVacancy(vacancyItem)" ng-bind="::vacancyItem.title"></a>
-                     </td>
+                        <td>
+                           <a ng-click="viewVacancy(vacancyItem)" ng-bind="::vacancyItem.title"></a> <span ng-bind="::'VACANCY.CHILD_VACANCY' | translate" ng-if="vacancyItem.parentVacancyId"></span> <span ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancyItem.childVacanciesIds.length !== 0"></span> </td>
                         <td ng-bind="::vacancyItem.entityStates[0].title"></td>
                         <td ng-bind="::vacancyItem.cities | arrayAsString: 'title'" class="col4"></td>
                         <td ng-bind="::vacancyItem.responsible.lastName"></td>
-                     <td ng-bind="::vacancyItem.createdOn  | date: 'mediumDate'"></td>
-                        <td>
-                           <a ng-click="editVacancy(vacancyItem)"><i class="foundicon-edit general-icon"></i></a>
-                           <a ng-click="deleteVacancy(vacancyItem.id)"><i class="foundicon-trash general-icon"></i></a>
-                        </td>
+                        <td ng-bind="::vacancyItem.createdOn  | date: 'mediumDate'"></td>
+                        <td> <a ng-click="editVacancy(vacancyItem)"><i class="foundicon-edit general-icon"></i></a> <a ng-click="deleteVacancy(vacancyItem)"><i class="foundicon-trash general-icon"></i></a> </td>
                      </tr>
                   </tbody>
                </table>
                <div class="switch-pages">
-                  <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
-                  </dir-pagination-controls>
+                  <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)"> </dir-pagination-controls>
                </div>
             </div>
          </div>

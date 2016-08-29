@@ -4,7 +4,6 @@ using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
-using WebUI.Extensions;
 using WebUI.Filters;
 using WebUI.Models;
 
@@ -55,7 +54,7 @@ namespace WebUI.Controllers
                 var ret = new { Vacancies = vacanciesViewModel, Current = vacancyParams.Current, Size = vacancyParams.Size, Total = total };
                 return Json(ret, BOT_SERIALIZER_SETTINGS);
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         // GET api/<controller>/5
@@ -64,11 +63,12 @@ namespace WebUI.Controllers
         public IHttpActionResult Get(int id)
         {
             var foundedEntity = service.Get(id);
-            if (foundedEntity != null)
+            if (foundedEntity == null)
             {
-                return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
+                ModelState.AddModelError("Vacancy", "The entity with id: " + id + " not found.");
+                return BadRequest(ModelState);
             }
-            return BadRequest();
+            return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
         }
 
         // POST api/<controller>
@@ -79,7 +79,7 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
             var updatedVacancy = service.Add(vacancy);
             return Json(updatedVacancy, BOT_SERIALIZER_SETTINGS);
@@ -93,9 +93,8 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
-
             var updatedVacancy = service.Update(vacancy);
             return Json(updatedVacancy, BOT_SERIALIZER_SETTINGS);
         }

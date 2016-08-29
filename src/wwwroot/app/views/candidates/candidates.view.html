@@ -1,5 +1,4 @@
 <div ui-view></div>
-<div ng-hide="$state.current.data.hide">
    <div class="secondary-menu grid-block">
       <div class="large-2 grid-block">
          <div class="grid-content">
@@ -14,7 +13,7 @@
                <a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
             </li>
             <li>
-               <a href="#" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
+               <a ng-if="vacancyIdToGoBack" ng-click="goBackToVacancy()" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
             </li>
          </ul>
       </div>
@@ -64,11 +63,11 @@
                </select>
                <ul class="some-change">
                   <li>
-                     <input ng-model="candidate.isMale" name="isMale" value="true" id="male" checked="" type="radio">
+                     <input ng-model="candidate.isMale" name="isMale" ng-value="true" id="male" type="radio">
                      <label for="male" ng-bind="::'COMMON.MALE' | translate"></label>
                   </li>
                   <li>
-                     <input ng-model="candidate.isMale" name="isMale" value="false" id="female" type="radio">
+                     <input ng-model="candidate.isMale" name="isMale" ng-value="false" id="female" type="radio">
                      <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
                   </li>
                </ul>
@@ -100,7 +99,7 @@
                      </select>
                   </div>
                </div>
-               <language-skills selectedSkills="candidate.convertedLanguageSkills"></language-skills>
+               <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
                <a class="expand button" ng-click="searchCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
             </div>
          </div>
@@ -128,15 +127,15 @@
                   <tbody>
                      <tr dir-paginate="c in candidates.candidate | itemsPerPage: candidates.size" total-items="candidates.total" current-page="candidate.current">
                           <th>
-                           <input id="checkbox9" type="checkbox">
+                           <input id="checkbox9" type="checkbox" ng-model="c.isToogled" ng-change="toogleCandidate(c.id)">
                         </th>
                         <td>
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
                         </td>
-                        <td ng-bind="::c.industry | arrayAsString: 'title'"></td>
-                        <td ng-bind="::c.mainSource | arrayAsString: 'title'"></td>
+                        <td ng-bind="c.industry.title"></td>
+                        <td ng-bind="c.mainSource.title"></td>
                         <td ng-bind="::c.positionDesired"></td>
-                        <td ng-bind="::c.salaryDesired"></td>
+                        <td ng-bind="(c.salaryDesired+' '+c.currency.title)"></td>
                         <td ng-bind="::c.createdOn"></td>
                         <td>
                            <a ng-click="deleteCandidate(c.id)"><i class="foundicon-trash general-icon"></i>
@@ -155,4 +154,3 @@
          </div>
       </div>
    </div>
-</div>

@@ -7,14 +7,10 @@ import {
    map,
    union,
    cloneDeep,
-   first,
    reduce,
    result,
-   set,
-   curry
+   assignIn
 } from 'lodash';
-
-import { assign } from 'lodash/fp';
 
 const VACANCY_URL = 'vacancy/';
 const DATE_TYPE = ['startDate', 'deadlineDate', 'endDate', 'createdOn'];
@@ -36,27 +32,28 @@ let _ThesaurusService;
 let _$q;
 let _LoggerService;
 let _UserService;
-let curriedSet = curry(set, 3);
+let _VacancyService;
+let _CandidateService;
+
 export default class VacancyService {
-   constructor(HttpService, ThesaurusService, $q, LoggerService, UserService) {
+   constructor(HttpService, ThesaurusService, $q, LoggerService, UserService, CandidateService) {
       'ngInject';
       _HttpService = HttpService;
       _ThesaurusService = ThesaurusService;
       _$q = $q;
       _LoggerService = LoggerService;
       _UserService = UserService;
+      _VacancyService = this;
+      _CandidateService  = CandidateService;
    }
 
    getVacancy(id) {
-      let additionalUrl = VACANCY_URL + id;
-      return _HttpService.get(additionalUrl).then(this.convertFromServerFormat);
+      return _HttpService.get(`${VACANCY_URL}${id}`).then(this.convertFromServerFormat);
    }
 
    search(condition) {
       _LoggerService.debug('search vacancies', condition);
-      const searchUrl = 'search';
-      const additionalUrl = VACANCY_URL + searchUrl;
-      return _HttpService.post(additionalUrl, condition).then(response => {
+      return _HttpService.post(`${VACANCY_URL}search`, condition).then(response => {
          return _$q.all(map(response.vacancies, this.convertFromServerFormat)).then((vacancies) => {
             response.vacancies = vacancies;
             return response;
@@ -66,24 +63,45 @@ export default class VacancyService {
 
    convertFromServerFormat(vacancy) {
       vacancy = _convertFromServerDates(vacancy);
-      let userPromise = _fillUser(vacancy);
-      vacancy.responsibleId = toString(vacancy.responsibleId);
-      return _$q.all([_fillThesauruses(vacancy), userPromise]).then(first);
+      _VacancyService._fillVacancyLanguageSkills(vacancy)
+      .then((responsePromise) => {
+         vacancy.languageSkill.languageLevelObj = responsePromise[0];
+         vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
+         vacancy.languageSkill.language = responsePromise[1];
+         vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
+      });
+      return _VacancyService._getVacancyFields(vacancy)
+      .then((promises) => {
+         vacancy.responsible = promises[0];
+         vacancy.responsibleId = toString(vacancy.responsibleId);
+         assignIn(vacancy, promises[1]);
+         vacancy.childVacancies = promises[2];
+         vacancy.closingCandidate = promises[3];
+         return vacancy;
+      });
    }
 
    remove(vacancy) {
-      if (vacancy.id) {
-         const additionalUrl = VACANCY_URL + vacancy.id;
-         return _HttpService.remove(additionalUrl, vacancy);
+      if (vacancy.id && vacancy.parentVacancyId !== null) {
+         let predicate = {id: vacancy.id};
+         let parentVacancy = {};
+         return _VacancyService.getVacancy(vacancy.parentVacancyId)
+         .then((responseVacancy) => {
+            parentVacancy = responseVacancy;
+            return _HttpService.remove(`${VACANCY_URL}${vacancy.id}`, vacancy);
+         })
+         .then(() => {
+            remove(parentVacancy.childVacancies, predicate);
+            parentVacancy.childVacanciesNumber = parentVacancy.childVacancies.length;
+            return _VacancyService.save(parentVacancy);
+         });
       } else {
-         _LoggerService.debug('Can\'t remove new vacancy', vacancy);
-         return _$q.when(true);
+         return _HttpService.remove(`${VACANCY_URL}${vacancy.id}`, vacancy);
       }
    }
 
    save(vacancy) {
       vacancy = cloneDeep(vacancy);
-
       return _saveNewTopics(vacancy).then((storedTopics) => {
          each(storedTopics, (list, fieldName) => {
             vacancy[fieldName] = union(vacancy[fieldName] || [], list);
@@ -92,6 +110,7 @@ export default class VacancyService {
          vacancy = _convertToServerDates(vacancy);
          delete vacancy.createdOn;
          delete vacancy.responsible;
+         delete vacancy.childVacancies;
          vacancy.languageSkill = vacancy.languageSkill || {};
          if (result(vacancy, 'languageSkill.languageId')) {
             delete vacancy.languageSkill.language;
@@ -104,12 +123,55 @@ export default class VacancyService {
          vacancy.responsibleId = parseInt(vacancy.responsibleId);
 
          if (vacancy.id) {
-            const additionalUrl = VACANCY_URL + vacancy.id;
-            return _HttpService.put(additionalUrl, vacancy);
+            return _HttpService.put(`${VACANCY_URL}${vacancy.id}`, vacancy);
          } else {
             return _HttpService.post(VACANCY_URL, vacancy);
          }
       }).then(this.convertFromServerFormat);
+   }
+
+   _getVacancyFields(vacancy) {
+      let userPromise = _VacancyService._getUser(vacancy);
+      let thesaurusesPromises = _VacancyService._getThesauruses(vacancy);
+      let childVacancyPromises = _VacancyService._getChildVacancies(vacancy);
+      let closingCandidatePromise = _VacancyService._getClosingCandidate(vacancy);
+      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises, closingCandidatePromise]);
+   }
+
+   _getUser(vacancy) {
+      return _UserService.getUserById(vacancy.responsibleId);
+   }
+
+   _getChildVacancies(vacancy) {
+      if (vacancy.childVacanciesIds.length) {
+         let promises = map(vacancy.childVacanciesIds, (childVacancyId) => {
+            return _VacancyService.getVacancy(childVacancyId);
+         });
+         return _$q.all(promises);
+      }
+   }
+
+   _getClosingCandidate(vacancy) {
+      if (vacancy.closingCandidateId) {
+         return _CandidateService.getCandidate(vacancy.closingCandidateId);
+      }
+   }
+
+   _getThesauruses(vacancy) {
+      let promises = reduce(THESAURUS, (memo, {thesaurusName, serverField, clientField}) => {
+         memo[clientField] = _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, vacancy[serverField]);
+         vacancy[serverField] = _convertIdsToString(vacancy[serverField]);
+         return memo;
+      }, {});
+      return _$q.all(promises);
+   }
+
+   _fillVacancyLanguageSkills(vacancy) {
+      vacancy.languageSkill = vacancy.languageSkill || {};
+      let languageLevelPromise = _ThesaurusService.getThesaurusTopic('languageLevel',
+                                                                     vacancy.languageSkill.languageLevel);
+      let languagePromise = _ThesaurusService.getThesaurusTopic('language', vacancy.languageSkill.languageId);
+      return _$q.all([languageLevelPromise, languagePromise]);
    }
 }
 
@@ -127,28 +189,6 @@ function _convertToServerDates(vacancy) {
       };
    });
    return vacancy;
-}
-
-function _fillUser(vacancy) {
-   return _UserService.getUserById(vacancy.responsibleId).then((user) => vacancy.responsible = user);
-}
-
-function _fillThesauruses(vacancy) {
-   let promises = reduce(THESAURUS, (memo, {thesaurusName, serverField, clientField}) => {
-      memo[clientField] = _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, vacancy[serverField]);
-      vacancy[serverField] = _convertIdsToString(vacancy[serverField]);
-      return memo;
-   }, {});
-
-   vacancy.languageSkill = vacancy.languageSkill || {};
-   _ThesaurusService.getThesaurusTopic('languageLevel', vacancy.languageSkill.languageLevel)
-      .then(curriedSet(vacancy, 'languageSkill.languageLevelObj'));
-   vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
-   _ThesaurusService.getThesaurusTopic('language', vacancy.languageSkill.languageId)
-      .then(curriedSet(vacancy, 'languageSkill.language'));
-   vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
-
-   return _$q.all(promises).then(assign(vacancy));
 }
 
 function _convertIdsToString(data) {

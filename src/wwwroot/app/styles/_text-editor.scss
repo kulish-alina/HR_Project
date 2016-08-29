@@ -25,6 +25,23 @@
    display: inline-block;
    font-size: $rem-base*1.2;
 }
+.custom-form-content {
+   .ng-touched{
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 $rem-base/3 $primary-color;
+      }
+   .ng-untouched{
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 $rem-base/3 $primary-color;
+   }
+   .placeholder-text {
+      outline: none;
+      border: 0;
+      box-shadow: none;
+   }
+}
 .fa-quote-right:before {
     content: "\f1a3";
 }

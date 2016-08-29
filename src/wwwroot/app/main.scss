@@ -168,7 +168,6 @@ i.profile-icons {
    }
 }
 
-
 .property-title {
    font-weight: 600; 
 }
@@ -182,7 +181,7 @@ i.profile-icons {
 
 hr {
    margin-top: $rem-base/2;
-   margin-bottom: $rem-base;
+   margin-bottom: $rem-base/2;
 }
 
 .content-wrapper {
@@ -192,4 +191,14 @@ hr {
 .loading-img {
    height: 291px;
    width: 491px;
+}
+.event-calendar {
+   padding: $rem-base;
+}
+.user-filter {
+   min-width: $rem-base;
+}
+
+.candidate-vacancy-info-container {
+  min-height: 440px;
 }

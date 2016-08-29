@@ -48,12 +48,12 @@ namespace DAL
         public virtual DbSet<LanguageSkill> LanguageSkills { get; set; }
         public virtual DbSet<CandidateSource> CandidateSources { get; set; }
         public virtual DbSet<VacancyStageInfo> VacanciesStageInfos { get; set; }
-        public virtual DbSet<VacancyStage> VacancyStages { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<Vacancy> Vacancies { get; set; }
+        public virtual DbSet<ExtendedStage> ExtendedStages { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Stage> Stages { get; set; }
@@ -68,6 +68,7 @@ namespace DAL
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Configurations.Add(new CandidateConfiguration());
+            modelBuilder.Configurations.Add(new VacancyConfiguration());
             modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
             modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
 
@@ -76,8 +77,6 @@ namespace DAL
             modelBuilder.Configurations.Add(new RoleConfiguration());
             modelBuilder.Configurations.Add(new SourceConfiguration());
 
-            modelBuilder.Configurations.Add(new VacancyConfiguration());
-            modelBuilder.Configurations.Add(new VacancyStageConfiguration());
             modelBuilder.Configurations.Add(new VacancyStageInfoConfiguration());
 
             modelBuilder.Configurations.Add(new UserConfiguration());
@@ -88,7 +87,9 @@ namespace DAL
             modelBuilder.Configurations.Add(new DepartmentGroupConfiguration());
             modelBuilder.Configurations.Add(new TagConfiguration());
             modelBuilder.Configurations.Add(new StageConfiguration());
+            modelBuilder.Configurations.Add(new ExtendedStageConfiguration());
             modelBuilder.Configurations.Add(new CityConfiguration());
+            modelBuilder.Configurations.Add(new LanguageConfiguration());
             modelBuilder.Configurations.Add(new LanguageSkillConfiguration());
             modelBuilder.Configurations.Add(new EventTypeConfiguration());
             modelBuilder.Configurations.Add(new PermissionConfiguration());

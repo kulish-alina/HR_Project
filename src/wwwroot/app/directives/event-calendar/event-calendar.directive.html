@@ -1,0 +1,44 @@
+<div>
+   <div class="grid-block">
+      <div class="small-1 grid-block" ng-bind="dateForSearchEvents | date:'yyyy'"></div>
+      <div class="small-1 grid-block" ng-bind="dateForSearchEvents | date: 'MMMM'"></div>
+      <div class="small-8 grid-block"></div>
+      <div class="small-1 grid-block"> <a ng-click="goToPreviousMonth()"><i class="fi-rewind"></i></a> </div>
+      <div class="small-1 grid-block"> <a ng-click="goToNextMonth()"><i class="fi-fast-forward"></i></a> </div>
+   </div>
+   <hr>
+   <table>
+      <tbody>
+         <tr class="week-row">
+            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 0">
+               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
+               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
+            </td>
+         </tr>
+         <tr class="week-row">
+            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 7">
+               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
+               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
+            </td>
+         </tr>
+         <tr class="week-row">
+            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 14">
+               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
+               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
+            </td>
+         </tr>
+         <tr class="week-row">
+            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 21">
+               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
+               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
+            </td>
+         </tr>
+         <tr class="week-row">
+            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 28">
+               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
+               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+</div>

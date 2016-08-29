@@ -1,7 +1,7 @@
 <div class="grid-block language-skills-oi-select">
    <oi-select  ng-model="selectedSkills" placeholder="{{::'COMMON.LANGUAGE' | translate}}"
                oi-options="{language: language.language, languageLevel: language.languageLevel}
-               as language.language.title+' '+language.languageLevel.title 
+               as language.language.title+' '+language.languageLevel.title
                group by language.language.title for language in languages" multiple>
    </oi-select>
 </div>

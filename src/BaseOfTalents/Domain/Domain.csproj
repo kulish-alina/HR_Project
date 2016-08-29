@@ -54,6 +54,7 @@
     <Compile Include="Entities\Enum\Setup\Department.cs" />
     <Compile Include="Entities\Enum\Setup\DepartmentGroup.cs" />
     <Compile Include="Entities\Enum\Setup\EventType.cs" />
+    <Compile Include="Entities\Enum\Setup\ExtendedStage.cs" />
     <Compile Include="Entities\Enum\Setup\Industry.cs" />
     <Compile Include="Entities\Enum\Setup\Language.cs" />
     <Compile Include="Entities\Enum\Setup\Level.cs" />
@@ -66,6 +67,8 @@
     <Compile Include="Entities\Enum\Setup\Stage.cs" />
     <Compile Include="Entities\Enum\Setup\Tag.cs" />
     <Compile Include="Entities\Enum\ParsingSource.cs" />
+    <Compile Include="Entities\Enum\StageState.cs" />
+    <Compile Include="Entities\Enum\StageType.cs" />
     <Compile Include="Entities\Enum\TypeOfEmployment.cs" />
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Entities\File.cs" />
@@ -75,7 +78,6 @@
     <Compile Include="Entities\RelocationLocation.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Vacancy.cs" />
-    <Compile Include="Entities\VacancyStage.cs" />
     <Compile Include="Entities\VacancyStageInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,0 +1,8 @@
+<div id="stages">
+    <div ng-repeat="stageAndVsi in vacancyStagesEntitiesVSIs">
+        <div class="stages-dialog-container">
+            <a class="stage-button" ng-bind="stageAndVsi.stage.stage.title" ng-class='stageAndVsi.class' ng-click="stageClick(stageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs)"></a>
+            <textarea ng-class="{'invalid': !stageAndVsi.areaIsValid, 'valid': stageAndVsi.areaIsValid}" class="comment-area" ng-if='stageAndVsi.showCommentArea' ng-model='stageAndVsi.vsi.comment.message'></textarea>
+        </div>
+    </div>
+</div>

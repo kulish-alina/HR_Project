@@ -1,27 +1,16 @@
-<zf-offcanvas id="menu" position="left">
-   <side-menu></side-menu>
-</zf-offcanvas>
-<div class="vertical grid-frame app-content">
-   <main-menu></main-menu>
-</div>
-
 <div ui-view class="grid-frame content-wrapper"></div>
-
 <div ng-hide="$state.current.data.hideHome" class="grid-frame content-wrapper">
    <div class="secondary-menu grid-block">
       <div class="large-2 grid-block">
          <div class="grid-content">
-            <h5 ng-bind="::'HOME.HOME' | translate"></h5>
-         </div>
+            <h5 ng-bind="::'HOME.HOME' | translate"></h5> </div>
       </div>
-      <div class="large-10 grid-block">
-      </div>
+      <div class="large-10 grid-block"> </div>
    </div>
    <div class="grid-block">
       <div class="medium-9 grid-block">
          <div class="main-card">
-            <div class="card-divider" ng-bind="::'VACANCIES.BASE_OF_VACANCIES' | translate">
-            </div>
+            <div class="card-divider" ng-bind="::'VACANCIES.BASE_OF_VACANCIES' | translate"> </div>
             <div class="card-section">
                <table>
                   <thead>
@@ -35,22 +24,19 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | itemsPerPage: vacancy.size" total-items="totalHome" current-page="pagination.current">
+                     <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies.vacancies | itemsPerPage: vacancies.size" total-items="vacancies.total" current-page="pagination.current">
                         <td>{{$index+1}}</td>
                         <td>
-                           <a ng-click="viewVacancy(vacancy)" ng-bind="::vacancy.title"></a>
-                        </td>
+                           <a ng-click="viewVacancy(vacancy)"> <span ng-bind="::vacancy.title"></span> </a> <span ng-bind="::'VACANCY.CHILD_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></span> <span ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.childVacanciesIds.length"></span> </td>
                         <td ng-bind="vacancy.entityStates[0].title"></td>
-                        <td ng-bind="vacancy.cities | arrayAsString: 'title'" class="col4">
-                        </td>
+                        <td ng-bind="vacancy.cities | arrayAsString: 'title'" class="col4"> </td>
                         <td ng-bind="::vacancy.responsible.lastName"></td>
                         <td ng-bind="::vacancy.createdOn | date: 'mediumDate'"></td>
                      </tr>
                   </tbody>
                </table>
                <div class="switch-pages">
-                  <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
-                  </dir-pagination-controls>
+                  <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)"> </dir-pagination-controls>
                </div>
             </div>
          </div>
@@ -58,7 +44,7 @@
       <div class="medium-3 grid-block vertical-sidebar">
          <div class="vertical medium-horizontal grid-block">
             <div class="sidebar">
-            <events source="user" type="list-only" user-id="user.id" events="cloneUpcomingEvents" save="saveEvent" remove="removeEvent" get-events-by-date="getEventsForDate"></events>
+            <events responsibles="responsibles" vacancies="vacancies" candidates="candidates" event-types="thesaurus.eventtype" source="user" type="list-only" user-id="user.id" events="cloneUpcomingEvents" save="saveEvent" remove="removeEvent" get-events-by-date="getEventsForDate"></events>
             </div>
             <div class="sidebar">
                <comments type="note" save="saveNote" remove="removeNote" edit="editNote" comments="notes"></comments>

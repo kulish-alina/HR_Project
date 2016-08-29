@@ -49,7 +49,6 @@ export default class SessionService {
                if (result.login) {
                   _userService.setCurrentUser(result);
                   _loggerService.log('User Authorized');
-
                   return _$state.go(_stateToRedirect.name, toParams);
                } else {
                   _storageService.remove(tokenInfo);

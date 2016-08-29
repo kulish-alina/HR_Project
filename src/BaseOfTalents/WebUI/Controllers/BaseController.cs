@@ -4,7 +4,6 @@ using Domain.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
-using WebUI.Extensions;
 
 namespace WebUI.Controllers
 {
@@ -42,11 +41,12 @@ namespace WebUI.Controllers
         public virtual IHttpActionResult Get(int id)
         {
             var foundedEntity = entityService.Get(id);
-            if (foundedEntity != null)
+            if (foundedEntity == null)
             {
-                return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
+                ModelState.AddModelError("Entity", "Entity with id " + id + " not founded");
+                return BadRequest(ModelState);
             }
-            return NotFound();
+            return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
         }
 
         [HttpDelete]
@@ -66,7 +66,7 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
             var newEntity = entityService.Add(entity);
             return Json((newEntity), BOT_SERIALIZER_SETTINGS);
@@ -78,7 +78,7 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
             var domainChangedEntity = entityService.Update(changedEntity);
             return Json(domainChangedEntity, BOT_SERIALIZER_SETTINGS);

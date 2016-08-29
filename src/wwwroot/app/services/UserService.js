@@ -29,7 +29,7 @@ export default class UserService {
 
    saveUser(entity) {
       if (entity.id) {
-         return _HttpService.put(`${USER_URL}/${entity.id}`, entity);
+         return _HttpService.put(`${USER_URL}${entity.id}`, entity);
       } else {
          return _HttpService.post(USER_URL, entity).then(user => {
             _HttpCacheService.clearCache(USER_URL);
@@ -45,7 +45,7 @@ export default class UserService {
    removeUser(entity) {
       if (entity.id) {
          _HttpCacheService.clearCache(USER_URL);
-         return _HttpService.remove(`${USER_URL}/${entity.id}`, entity);
+         return _HttpService.remove(`${USER_URL}${entity.id}`, entity);
       } else {
          _LoggerService.debug('Can\'t remove user', entity);
          return _$q.reject();

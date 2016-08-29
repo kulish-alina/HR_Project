@@ -24,7 +24,6 @@ namespace WebUI.Controllers
 
         public NoteController()
         {
-
         }
 
         // GET api/<controller>
@@ -33,11 +32,12 @@ namespace WebUI.Controllers
         public IHttpActionResult GetByUser(int id)
         {
             var foundedNotes = service.GetByUserId(id);
-            if (foundedNotes != null)
+            if (foundedNotes == null)
             {
-                return Json(foundedNotes, BOT_SERIALIZER_SETTINGS);
+                ModelState.AddModelError("Note", "Note with id " + id + " not found");
+                return BadRequest(ModelState);
             }
-            return BadRequest();
+            return Json(foundedNotes, BOT_SERIALIZER_SETTINGS);
         }
 
 

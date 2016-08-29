@@ -1,0 +1,126 @@
+@import './../../common.scss';
+@import './../../foundation.scss';
+candidate-vacancy-info {
+    width: 100%;
+    select:first-child {
+        color: $body-font-color;
+    }
+    min-height: 440px;
+}
+
+@mixin overrided-button() {
+    @include button ( $background: #fff, $color: #0097a7, $background-hover: rgba(0, 151, 167, 0.25));
+    border: solid 1px $primary-color;
+    :hover {
+        color: #03899C;
+    }
+}
+
+textarea {
+    max-height: 3*$rem-base;
+}
+.passed {
+    box-shadow: inset 0px 0px 13px 9px transparentize($gray-dark, 0.88);
+}
+.not-passed {
+    box-shadow: inset 0px 0px 13px 9px transparentize(red, 0.8);
+}
+.active {
+    box-shadow: inset 0px 0px 13px 9px transparentize($gray-dark, 0.68);
+}
+.invalid {
+    box-shadow: inset 0px 0px 3px 0px rgba(240, 65, 36, 0.7);
+}
+.action-sheet {
+    width: 170px !important;
+}
+.stages-dialog-container {
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-start;
+} 
+
+.valid {
+    box-shadow: inset 0px 0px 3px 0px transparentize(green, 0.9);
+}
+.stages {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 35%;
+}
+
+.table-stage-button {
+    @include overrided-button();
+}
+
+.table-hire-button {
+     @include overrided-button();
+}
+
+.table-reject-button {
+     @include overrided-button();
+}
+
+.candidate-info-table {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.table-stage-buttons-container a {
+    margin-right: $rem-base / 2;
+}
+
+th {
+    text-align: center;
+}
+
+.table-container {
+    width: 100%;
+    td {
+        text-align: center;
+        font-size: 0.9*$rem-base;
+    }
+}
+
+.pressed {
+    box-shadow: inset 0px 0px 26px -12px rgba(0, 0, 0, 1) !important;
+}
+
+.has-entities {
+    border-right: solid 1px #fff;
+}
+
+.fitler-button {
+    color: $body-font-color;
+    padding: $rem-base / 2;
+}
+
+.filter-count {
+    color: $gray-dark;
+    text-align: center;
+}
+
+.stage-filter {
+    @include button ($background: transparentize(#0097a7, 0.9), $color: #fff, $background-hover: rgba(0, 151, 167, 0.75));
+    border-bottom: solid 1px #fff;
+    transition: 0.2s ease-in-out all;
+}
+
+.stage-button {
+    display: inline-block;
+    border: 0;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.25s ease-out;
+    vertical-align: middle;
+    width: 100%;
+    border: solid 1px $border-color;
+    padding: $rem-base / 2;
+    color: $body-font-color;
+}

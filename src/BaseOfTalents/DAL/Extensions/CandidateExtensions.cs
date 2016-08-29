@@ -34,11 +34,25 @@ namespace DAL.Extensions
             destination.LevelId = source.LevelId;
             destination.CurrencyId = source.CurrencyId;
 
+            destination.ClosedVacancies.Clear();
+            destination.ClosedVacancies = source.ClosedVacanciesIds.Select(x => uow.VacancyRepo.GetByID(x)).ToList();
+
             PerformRelocationPlacesSaving(destination, source, uow.CityRepo);
             PerformSocialSaving(destination, source, uow.CandidateSocialRepo);
             PerformLanguageSkillsSaving(destination, source, uow.LanguageSkillRepo);
             PerformSourcesSaving(destination, source, uow.CandidateSourceRepo);
             PerformVacanciesProgressSaving(destination, source, uow.VacancyStageInfoRepo, uow.VacancyRepo);
+
+            destination.VacanciesProgress.ToList().ForEach((vsi) =>
+            {
+                if (uow.StageRepo.GetByID(vsi.StageId).StageType == Domain.Entities.Enum.StageType.HireStage)
+                {
+                    var linkedVacancy = uow.VacancyRepo.GetByID(vsi.VacancyId);
+                    linkedVacancy.ClosingCandidateId = vsi.CandidateId;
+                    uow.VacancyRepo.Update(linkedVacancy);
+                }
+            });
+
             PerformTagsSaving(destination, source, uow.TagRepo);
             PerformPhoneNumbersSaving(destination, source, uow.PhoneNumberRepo);
             PerformSkillsSaving(destination, source, uow.SkillRepo);
@@ -182,19 +196,20 @@ namespace DAL.Extensions
 
         private static void PerformVacanciesProgressSaving(Candidate destination, CandidateDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository, IRepository<Vacancy> vacancyRepository)
         {
-            RefreshExistingVacanciesProgress(destination, source, vacancyStageInfoRepository);
-            CreateNewVacanciesProgress(destination, source);
+            RefreshExistingVacanciesProgress(destination, source, vacancyStageInfoRepository, vacancyRepository);
+            CreateNewVacanciesProgress(destination, source, vacancyRepository);
+
         }
-        private static void CreateNewVacanciesProgress(Candidate destination, CandidateDTO source)
+        private static void CreateNewVacanciesProgress(Candidate destination, CandidateDTO source, IRepository<Vacancy> vacancyRepo)
         {
             source.VacanciesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo =>
             {
                 var toDomain = new VacancyStageInfo();
-                toDomain.Update(newVacancyStageInfo);
+                toDomain.Update(vacancyRepo.GetByID(newVacancyStageInfo.VacancyId.Value), newVacancyStageInfo);
                 destination.VacanciesProgress.Add(toDomain);
             });
         }
-        private static void RefreshExistingVacanciesProgress(Candidate destination, CandidateDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository)
+        private static void RefreshExistingVacanciesProgress(Candidate destination, CandidateDTO source, IRepository<VacancyStageInfo> vacancyStageInfoRepository, IRepository<Vacancy> vacancyRepo)
         {
             source.VacanciesProgress.Where(x => !x.IsNew()).ToList().ForEach(updatedVacanciesStageInfo =>
             {
@@ -203,20 +218,13 @@ namespace DAL.Extensions
                 {
                     throw new ArgumentNullException("You trying to update vacancy stage info which is actually doesn't exists in database");
                 }
-                if (updatedVacanciesStageInfo.VacancyStage.IsCommentRequired)
-                {
-                    if (updatedVacanciesStageInfo.Comment == null)
-                    {
-                        throw new ArgumentNullException("Vacancy stage info should have comment");
-                    }
-                }
                 if (updatedVacanciesStageInfo.ShouldBeRemoved())
                 {
                     vacancyStageInfoRepository.Delete(updatedVacanciesStageInfo.Id);
                 }
                 else
                 {
-                    domainVacancyStageInfo.Update(updatedVacanciesStageInfo);
+                    domainVacancyStageInfo.Update(vacancyRepo.GetByID(domainVacancyStageInfo.VacancyId), updatedVacanciesStageInfo);
                 }
             });
         }

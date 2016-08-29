@@ -1,5 +1,4 @@
-const LIST_OF_THESAURUS = ['industry', 'level', 'city',
-    'typeOfEmployment'];
+const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'typeOfEmployment', 'eventtype'];
 const AMOUNT_OF_DAYS = 6;
 import {
    set,
@@ -15,13 +14,14 @@ export default function HomeController( //eslint-disable-line max-statements
    $q,
    $state,
    $translate,
-   VacancyService,
+   SearchService,
    ThesaurusService,
    UserService,
    LoggerService,
    UserDialogService,
    EventsService,
-   NoteService
+   NoteService,
+   CandidateService
    ) {
    'ngInject';
 
@@ -33,7 +33,10 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.viewVacancy             = viewVacancy;
    vm.totalHome               = 0;
    vm.vacancy.current         = 0;
-   vm.vacancy.size            = 30;
+   vm.vacancy.size            = 20;
+   vm.candidate               = {};
+   vm.candidate.current       = 0;
+   vm.candidate.size          = 20;
    vm.pagination              = { current: 0 };
    vm.pageChanged             = pageChanged;
    vm.userNotes               = [];
@@ -50,31 +53,25 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.getEventsForDate        = getEventsForDate;
    vm.user                    = {};
 
-   function _init() {
+   (function _init() {
+      CandidateService.search(vm.candidate).then(data  => set(vm, 'candidates', data.candidate));
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       NoteService.getNotesByUser().then((notes) => {
          vm.userNotes = notes;
          vm.notes  = cloneDeep(vm.userNotes);
       });
-      VacancyService.search(vm.vacancy).then(response => {
-         vm.totalHome = response.total;
-         vm.vacancies = response.vacancies;
-      }).catch(_onError);
       _getCurrentUser();
       _getUpcomingEvents();
       if (!vm.user) {
          $state.go('login');
       }
-   };
-   _init();
+      SearchService.getVacancies(vm.vacancy).then(r => set(vm, 'vacancies', r)).catch(_onError);
+   }());
 
    function pageChanged(newPage) {
       vm.vacancy.current = newPage - 1;
-      VacancyService.search(vm.vacancy).then(response => {
-         vm.totalHome = response.total;
-         vm.vacancies = response.vacancies;
-      }).catch(_onError);
+      SearchService.getVacancies(vm.vacancy).then(r => set(vm, 'vacancies', r)).catch(_onError);
    };
 
    function viewVacancy(vacancy) {
@@ -115,9 +112,10 @@ export default function HomeController( //eslint-disable-line max-statements
    }
 
    function saveEvent(event) {
-      EventsService.save(event).then(() => {
+      return EventsService.save(event).then((resronseEvent) => {
          _getUpcomingEvents();
          vm.cloneUpcomingEvents  = clone(vm.upcomingEvents);
+         return resronseEvent;
       });
    }
 

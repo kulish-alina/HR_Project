@@ -4,7 +4,6 @@ using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
-using WebUI.Extensions;
 
 namespace WebUI.Controllers
 {
@@ -48,11 +47,12 @@ namespace WebUI.Controllers
         public IHttpActionResult Get(int id)
         {
             var foundedEntity = service.Get(id);
-            if (foundedEntity != null)
+            if (foundedEntity == null)
             {
-                return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
+                ModelState.AddModelError("User", "User with id " + id + " not found.");
+                return BadRequest(ModelState);
             }
-            return BadRequest();
+            return Json(foundedEntity, BOT_SERIALIZER_SETTINGS);
         }
 
         // POST api/<controller>
@@ -62,7 +62,7 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
             var addedUser = service.Add(newUser);
             return Json(addedUser, BOT_SERIALIZER_SETTINGS);
@@ -75,7 +75,7 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
             var updatedUser = service.Update(changedUser);
             return Json(updatedUser, BOT_SERIALIZER_SETTINGS);

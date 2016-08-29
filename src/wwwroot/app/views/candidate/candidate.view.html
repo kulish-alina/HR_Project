@@ -1,17 +1,19 @@
 <div class="secondary-menu grid-block">
    <div class="large-2 grid-block">
       <div class="grid-content">
-         <h5 ng-bind="::'COMMON.ADD_CANDIDATE' | translate"></h5>
-      </div>
+         <h5 ng-bind="::'COMMON.ADD_CANDIDATE' | translate"></h5> </div>
    </div>
-   <div class="large-7 grid-block">
-   </div>
+   <div class="large-7 grid-block"> </div>
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
-         <li><a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+         <li>
+            <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+            </li>
+         <li>
+                 <a ng-if='isNeedToGoBack()' ng-click="saveAndGoBack(Candidate)"> <span ng-bind="::'COMMON.ADD_AND_BACK' | translate"></span></a>
+                 <a ng-if='!isNeedToGoBack()' ng-click="saveCandidate(Candidate)"><span ng-bind="::'COMMON.SUBMIT' | translate"></span></a>
          </li>
-         <li><a ng-click="saveCandidate(Candidate)"><span ng-bind="::'COMMON.SUBMIT' | translate"></span></a>
-         </li>
+        
       </ul>
    </div>
 </div>
@@ -27,7 +29,6 @@
                         <input type="text" ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" name="firstName" validator="required, maxlength=50">
                         <input type="text" ng-model="candidate.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName">
                         <input type="text" ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" name="lastName" validator="required, maxlength=50">
-                        <date datemodel="candidate.birthDate" placeholder="{{::'COMMON.DATE_OF_BIRTH' | translate}}"></date>
                         <ul class="some-change">
                            <li>
                               <input ng-model="candidate.isMale" name="Male" ng-value="true" id="male" type="radio">
@@ -38,59 +39,47 @@
                               <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
                            </li>
                         </ul>
-                        <input placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                        <language-skills selectedSkills="candidate.convertedLanguageSkills"></language-skills>
-                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city track by city.id" ng-model="candidate.cityId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
-
+                        <input type="text" placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
+                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city  | orderBy : 'title' track by city.id" ng-model="candidate.cityId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <select name="Industry" ng-model="candidate.industryId" validator="required"
-                                ng-init="candidate.industryId=candidate.industryId || ''" convert-to-number>
+                        <select name="Industry" ng-model="candidate.industryId" validator="required" ng-init="candidate.industryId=candidate.industryId || ''" convert-to-number>
                            <option ng-selected="true" value="" ng-bind="::('COMMON.INDUSTRY' | translate)"></option>
-                           <option ng-repeat="industry in thesaurus.industry" value='{{ industry.id }}' 
-                                   ng-bind="::(industry.title)"></option>
+                           <option ng-repeat="industry in thesaurus.industry" value='{{ industry.id }}' ng-bind="::(industry.title)"></option>
                         </select>
                         <select ng-model="candidate.levelId" ng-init="candidate.levelId = candidate.levelId || ''" convert-to-number name="Level">
                            <option ng-selected="true" value="" ng-bind="::'COMMON.LEVEL' | translate"></option>
-                           <option ng-repeat="level in thesaurus.level" 
-                                   value="{{level.id}}" ng-bind="::(level.title)"></option>
+                           <option ng-repeat="level in thesaurus.level" value="{{level.id}}" ng-bind="::(level.title)"></option>
                         </select>
                         <input type="text" ng-model="candidate.positionDesired" placeholder="{{::'CANDIDATE.DESIRED_POSITION' | translate}}">
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <input ng-model="candidate.salaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50">
-                           </div>
+                              <input ng-model="candidate.salaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="number" min="0" step="50"> </div>
                            <div class="medium-6 grid-block">
-                              <select name="Сurrency" ng-disabled="!candidate.salaryDesired" convert-to-number
-                                      ng-model="candidate.currencyId" ng-init="candidate.currencyId= candidate.currencyId || ''">
+                              <select name="Сurrency" ng-disabled="!candidate.salaryDesired" convert-to-number ng-model="candidate.currencyId" ng-init="candidate.currencyId= candidate.currencyId || ''">
                                  <option ng-selected="true" value="" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
                                  <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
                               </select>
                            </div>
                         </div>
-                        <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment= candidate.typeOfEmployment || ''" name="TypeOfEmployment" convert-to-number >
+                        <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment= candidate.typeOfEmployment || ''" name="TypeOfEmployment" convert-to-number>
                            <option ng-selected="true" value="" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate)"></option>
-                           <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" 
-                                   value="{{typeOfEmployment.id}}" ng-bind="::(typeOfEmployment.title)"></option>
+                           <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="::(typeOfEmployment.title)"></option>
                         </select>
                         <label>Experience</label>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <input placeholder="{{::'COMMON.YEARS' | translate}}" type="number" min="0" step="1"
-                              ng-model='candidate.experienceYears'>
-                           </div>
+                              <input placeholder="{{::'COMMON.YEARS' | translate}}" type="number" min="0" step="1" ng-model='candidate.experienceYears'> </div>
                            <div class="medium-6 grid-block">
-                              <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="number" min="0" step="1"
-                              ng-model='candidate.experienceMonthes'>
-                           </div>
+                              <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="number" min="0" step="1" ng-model='candidate.experienceMonths'> </div>
                         </div>
                         <input id="relocationAgreement" type="checkbox" ng-model="candidate.relocationAgreement">
                         <label for="relocateAgreement" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate"></label>
                         <div class="grid-block" ng-if="candidate.relocationAgreement">
-                           <oi-select ng-model="candidate.convertedRelocationPlaces"
-                              oi-options="{country: location.country, city: location.city}
+                           <oi-select ng-model="candidate.convertedRelocationPlaces" oi-options="{country: location.country, city: location.city}
                               as location.city.title || location.country.title 
                               group by location.country.title for location in locations" multiple></oi-select>
                         </div>
@@ -98,12 +87,7 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <div zf-open="basicModal" 
-                             ng-class="candidate.photo ? 'profile-photo-container' : 'profile-photo'">
-                           <span zf-open="basicModal" ng-hide="candidate.photo" class="upload-title">Upload Photo</span>
-                           <img alt="Candidate photo" class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" 
-                                ng-src="{{candidate.photo.filePath | botUrl}}">
-                        </div>
+                        <div zf-open="basicModal" ng-class="candidate.photo ? 'profile-photo-container' : 'profile-photo'"> <span zf-open="basicModal" ng-hide="candidate.photo" class="upload-title">Upload Photo</span> <img alt="Candidate photo" class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" ng-src="{{candidate.photo.filePath | botUrl}}"> </div>
                         <div class="uploader-photo" zf-modal="" id="basicModal">
                            <div class="grid-block">
                               <div class="medium-8 grid-block">
@@ -114,47 +98,37 @@
                                           <div ng-show="imageUploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
                                        </div>
                                     </div>
-                                    <div class="medium-8 grid-block">
-                                       <a ng-hide="!imageUploader.queue.length" class="remove-item" ng-click="clearUploaderQueue(imageUploader, '#photoUpload')"><i class="foundicon-remove general-icon"></i></a>
-                                    </div>
+                                    <div class="medium-8 grid-block"> <a ng-hide="!imageUploader.queue.length" class="remove-item" ng-click="clearUploaderQueue(imageUploader, '#photoUpload')"><i class="foundicon-remove general-icon"></i></a> </div>
                                  </div>
                               </div>
-                              <div class="medium-4 grid-block">
-                                 <a class="upload-button" href="#" ng-click="imageUploader.uploadAll()"><span ng-bind="::'COMMON.UPLOAD' | translate"></span></a>
-                              </div>
+                              <div class="medium-4 grid-block"> <a class="upload-button" href="#" ng-click="imageUploader.uploadAll()"><span ng-bind="::'COMMON.UPLOAD' | translate"></span></a> </div>
                            </div>
-                        </div>                
+                        </div>
                         <phones class="add-phone-number" ng-model="candidate.phoneNumbers"></phones>
                         <input ng-model="candidate.email" name="e-mail" type="text" placeholder="E-mail">
                         <input type="text" placeholder="Skype" ng-model=candidate.skype>
-                        <select name="MainSource" convert-to-number
-                                ng-model="candidate.mainSourceId" ng-init="candidate.mainSourceId=''">
+                        <select name="MainSource" convert-to-number ng-model="candidate.mainSourceId" ng-init="candidate.mainSourceId=''">
                            <option ng-selected="true" value="" ng-bind="::('COMMON.MAIN_SOURCE' | translate)"></option>
                            <option ng-repeat="source in thesaurus.source" ng-bind="source.title" value="{{source.id}}"></option>
                         </select>
                      </fieldset>
                   </div>
                </div>
-               <hr>               
+               <hr>
                <div class="grid-block" ng-repeat="socialRow in socialGroups">
                   <div class="medium-4 grid-block" ng-repeat="social in socialRow">
                      <fieldset>
-                        <input class="social-input" type="url" placeholder="{{::social.socialNetwork.title}}" ng-model="social.path">
-                     </fieldset>
+                        <input class="social-input" type="url" placeholder="{{::social.socialNetwork.title}}" ng-model="social.path"> </fieldset>
                   </div>
                </div>
-                           
                <hr>
                <fieldset>
                   <div class="grid-block">
                      <div class="medium-6 grid-block technologies-select">
-                        <oi-select class="multiple-select" ng-model="candidate.skills" 
-                        oi-options="skill.title for skill in thesaurus.skill" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" 
-                        oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" ng-model="candidate.skills" oi-options="skill.title for skill in thesaurus.skill" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                      <div class="medium-6 grid-block technologies-select">
-                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tag" ng-model="candidate.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" 
-                         oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tag" ng-model="candidate.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                   </div>
                   <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="candidate.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
@@ -213,78 +187,7 @@
    <div class="medium-3 grid-block vertical-sidebar">
       <div class="vertical medium-horizontal grid-block">
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate"></div>
-            <div class="coming-soon-text">Coming soon</div>
-            <!-- 
-            <div class="sidebar-content">
-               <div class="grid-block">
-                  <div class="medium-9 grid-block">
-                     <select name="Open vacancies" id="">
-                        <option value="">Vacancy 1</option>
-                        <option value="">Vacancy 2</option>
-                        <option value="">Vacancy 3</option>
-                        <option value="">Vacancy 4</option>
-                     </select>
-                  </div>
-                  <div class="medium-3 grid-block">
-                     <a class="button button-with-input" href="#"><span ng-bind="::'COMMON.ADD' | translate"></span></a>
-                  </div>
-               </div>
-               <section class="block-list">
-                  <ul class="vacancies">
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-6 grid-block">
-                              <a href="#">.NET Developer</a>
-                           </div>
-                           <div class="medium-6 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option value="">Pool</option>
-                                 <option value="">Selected</option>
-                                 <option value="">HR Interview</option>
-                                 <option value="">Test Task</option>
-                                 <option value="">Tech Interview</option>
-                                 <option value="">Additional Interview</option>
-                                 <option value="">Final Interview</option>
-                                 <option value="">Job Offer Issued</option>
-                                 <option value="">Job Offer Accepted</option>
-                                 <option value="">Hired</option>
-                                 <option value="">Rejected by company</option>
-                                 <option value="">Rejected by candidate</option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="grid-block sidebar-row">
-                           <div class="medium-6 grid-block">
-                              <a href="#">.NET Developer</a>
-                           </div>
-                           <div class="medium-6 grid-block">
-                              <select name="Candidate stage" id="">
-                                 <option value="">Pool</option>
-                                 <option value="">Selected</option>
-                                 <option value="">HR Interview</option>
-                                 <option value="">Test Task</option>
-                                 <option value="">Tech Interview</option>
-                                 <option value="">Additional Interview</option>
-                                 <option value="">Final Interview</option>
-                                 <option value="">Job Offer Issued</option>
-                                 <option value="">Job Offer Accepted</option>
-                                 <option value="">Hired</option>
-                                 <option value="">Rejected by company</option>
-                                 <option value="">Rejected by candidate</option>
-                              </select>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </section>
-            </div>
-            -->
-         </div>
-         <div class="sidebar">
-             <events source="candidate" candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
+            <events responsibles="responsibles" vacancies="vacancies" candidates="candidates" event-types="thesaurus.eventtype" source="candidate" candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
          </div>
          <div class="sidebar">
             <comments comments="comments" save="saveComment" remove="removeComment" edit="editComment" type="comment"></comments>

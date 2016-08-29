@@ -10,26 +10,27 @@
          </div>
          <div>
             <i class="fi-results-demographics"></i><span class="property-title" ng-bind="::'COMMON.INDUSTRY' | translate">:</span>
-            <span ng-bind="::candidate.industry | arrayAsString: 'title'"></span>
+            <span ng-bind="::candidate.industry.title"></span>
          </div>
          <div>
-            <i class="fi-flag"></i><span class="property-title" ng-bind="::'COMMON.LANGUAGE' | translate">:</span>
+            <i class="fi-flag"></i><span class="property-title" ng-bind="::'COMMON.LANGUAGE' | translate">: </span>
             <span ng-repeat="convertedLanguageSkill in candidate.convertedLanguageSkills" ng-bind="(convertedLanguageSkill.language.title+' '+convertedLanguageSkill.languageLevel.title)"></span>
          </div>
          <div>
             <i class="fi-marker"></i>
             <span class="property-title" ng-bind="::'COMMON.LOCATION' | translate"></span>
-            <span ng-bind="::candidate.city | arrayAsString: 'title'"></span>
+            <span ng-bind="::candidate.city.title"></span>
          </div>
          <div ng-show="candidate.relocationAgreement">
             <i class="fi-checkbox"></i>
-            <span class="property-title" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate"></span>
+            <span class="property-title" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate">: </span>
+            <span ng-repeat="place in candidate.convertedRelocationPlaces" ng-bind="::(place.city.title)"></span>
          </div>
       </div>
       <div class="vertical small-4 grid-block">
          <div>
             <i class="fi-clock"></i><span class="property-title" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate">:</span>
-            <span ng-bind="::candidate.typeOfEmployment | arrayAsString: 'title'"></span>
+            <span ng-bind="::candidate.typeOfEmploymentObject.title"></span>
          </div>
          <div>
             <i class="fi-target"></i><span class="property-title" ng-bind="::'CANDIDATE.DESIRED_POSITION' | translate">:</span>
@@ -37,7 +38,7 @@
          </div>
          <div>
             <i class="fi-dollar-bill"></i><span class="property-title" ng-bind="::'CANDIDATE.DESIRED_SALARY' | translate">:</span>
-            <span ng-bind="::candidate.salaryDesired"></span>
+            <span ng-bind="::(candidate.salaryDesired+' '+candidate.currency.title)"></span>
          </div>
          <div>
             <i class="fi-mountains"></i><span class="property-title" ng-bind="::'CANDIDATE.EXPERIENCE' | translate">:</span>

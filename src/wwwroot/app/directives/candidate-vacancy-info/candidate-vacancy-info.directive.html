@@ -1,0 +1,82 @@
+<div class="candidate-info-table" ng-if="parentEntity==='vacancy' && directiveType==='full'">
+    <div class="stages">
+        <div class="stage-filter" ng-click="filterByStage(stage)" ng-repeat="stage in stagesToShow track by $index" ng-class="{'pressed': stage._isPressed}">
+            <span class='fitler-button' ng-bind="stage.stage.title" ng-class="{'has-entities': stage._hasEntities}"></span>
+            <span ng-if="stage._hasEntities" class='filter-count' ng-bind="stage.entitiesCount"></span>
+        </div>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th ng-bind=":: 'CANDIDATE.CANDIDATE' | translate "></th>
+                    <th ng-bind=":: 'VACANCY_STAGE_INFO.CURRENT_STAGE' | translate "> </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="candidateStage in vacancyStageInfoComposedObjectsToShow track by $index">
+                    <td ng-bind="$index+1"></td>
+                    <td><a ng-click="goCandidate(candidateStage.candidateId)" ng-bind="candidateStage.candidate.firstName + ' ' + candidateStage.candidate.lastName"></a></td>
+                    <td ng-bind="getStageTitle(candidateStage.currentStageId)"></td>
+                    <td>
+                        <a class="table-stage-button" ng-click="callStagesDialog(candidateStage)" ng-bind="::'VACANCY_STAGE_INFO.STAGE_PROGRESS' | translate"></a>
+                        <a ng-if="!isHiredOrRejected(candidateStage)" class="table-stage-button" ng-click="hire(candidateStage)" ng-bind="::'VACANCY_STAGE_INFO.HIRE' | translate"></a>
+                        <div ng-if="!isHiredOrRejected(candidateStage)" zf-action-sheet="" id="{{$index+1}}">
+                            <div zf-as-button="" title="{{::'VACANCY_STAGE_INFO.REJECT' | translate}}"></div>
+                            <div zf-as-content="" position="bottom">
+                                <ul >
+                                    <li ng-repeat="rejectStage in rejectStages track by $index">
+                                        <a ng-click="reject(candidateStage, rejectStage)" zf-hard-toggle="$index" ng-bind="rejectStage.stage.title"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="candidate-info-table" ng-if="parentEntity==='candidate' && directiveType==='full' ">
+    <div class="stages">
+        <div class="stage-filter" ng-click="filterByStage(stage)" ng-repeat="stage in stagesToShow track by $index" ng-class="{'pressed': stage._isPressed}">
+            <span class='fitler-button' ng-bind="stage.stage.title" ng-class="{'has-entities': stage._hasEntities}"></span>
+            <span ng-if="stage._hasEntities" class='filter-count' ng-bind="stage.entitiesCount"></span>
+        </div>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th ng-bind=":: 'VACANCIES.VACANCIES' | translate "></th>
+                    <th ng-bind=":: 'VACANCY_STAGE_INFO.CURRENT_STAGE' | translate "> </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="vacancyStage in vacancyStageInfoComposedObjectsToShow track by $index">
+                    <td ng-bind="$index+1"></td>
+                    <td><a ng-click="goVacancy(vacancyStage.vacancyId)" ng-bind="vacancyStage.vacancy.title"></a></td>
+                    <td ng-bind="getStageTitle(vacancyStage.currentStageId, vacancyStage)"></td>
+                    <td>
+                        <a class="table-stage-button" ng-click="callStagesDialog(vacancyStage)" ng-bind="::'VACANCY_STAGE_INFO.STAGE_PROGRESS' | translate"></a>
+                        <a ng-if="!isHiredOrRejected(vacancyStage)" class="table-stage-button" ng-click="hire(vacancyStage)" ng-bind="::'VACANCY_STAGE_INFO.HIRE' | translate"></a>
+                        <div ng-if="!isHiredOrRejected(vacancyStage)" zf-action-sheet="" id="{{$index+1}}">
+                            <div zf-as-button="" title="{{::'VACANCY_STAGE_INFO.REJECT' | translate}}"></div>
+                            <div zf-as-content="" position="bottom">
+                                <ul >
+                                    <li ng-repeat="rejectStage in vacancyStage.rejectStages track by $index">
+                                        <a ng-click="reject(vacancyStage, rejectStage)" zf-hard-toggle="$index" ng-bind="rejectStage.stage.title"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

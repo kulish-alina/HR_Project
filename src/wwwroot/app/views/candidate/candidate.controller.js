@@ -3,11 +3,11 @@ import { set, forEach, remove, chunk, isEmpty, cloneDeep, clone, find, curry } f
 import './candidate.edit.scss';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel', 'source',
-    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork'];
+    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork', 'eventtype'];
 
 let curriedSet = curry(set, 3);
 
-export default function CandidateController(//eslint-disable-line max-statements
+export default function CandidateController( //eslint-disable-line max-statements
    $q,
    $element,
    $scope,
@@ -19,30 +19,34 @@ export default function CandidateController(//eslint-disable-line max-statements
    ThesaurusService,
    UserDialogService,
    LoggerService,
-   EventsService
+   EventsService,
+   UserService,
+   VacancyService
    ) {
    'ngInject';
 
-   const vm          = $scope;
-   vm.keys           = Object.keys;
-   vm.candidate      = vm.candidate || {};
-   vm.thesaurus      = {};
-   vm.locations      = [];
+   const vm                = $scope;
+   vm.keys                 = Object.keys;
+   vm.candidate            = vm.candidate || {};
+   vm.thesaurus            = {};
+   vm.locations            = [];
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
    vm.addFilesForRemove    = addFilesForRemove;
-   vm.candidate.comments     = $state.params._data ? $state.params._data.comments : vm.candidate.comments;
-   vm.comments               = cloneDeep(vm.candidate.comments);
-   vm.saveComment            = saveComment;
-   vm.removeComment          = removeComment;
-   vm.editComment             = editComment;
-   vm.candidateEvents         = [];
-   vm.cloneCandidateEvents    = [];
-   vm.saveEvent               = saveEvent;
-   vm.removeEvent             = removeEvent;
-   vm.clear                   = clear;
+   vm.candidate.comments     = $state.params._data ? $state.params._data.comments : [];
+   vm.comments             = cloneDeep(vm.candidate.comments);
+   vm.saveComment          = saveComment;
+   vm.removeComment        = removeComment;
+   vm.editComment          = editComment;
+   vm.candidateEvents      = [];
+   vm.cloneCandidateEvents = [];
+   vm.saveEvent            = saveEvent;
+   vm.removeEvent          = removeEvent;
+   vm.clear                = clear;
+   vm.vacancyIdToGoBack       = $state.params.vacancyIdToGoBack;
 
    (function _init() {
+      _initDataForEvents();
       _initThesauruses()
          .then(_initCandidate)
          .then(_initLocations);
@@ -63,6 +67,21 @@ export default function CandidateController(//eslint-disable-line max-statements
       return ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(curriedSet(vm, 'thesaurus'));
    }
 
+   function _initDataForEvents() {
+      vm.vacancies                  = [];
+      vm.candidates                 = [];
+      vm.responsibles               = [];
+      vm.vacancyPredicat            = {};
+      vm.vacancyPredicat.current    = 0;
+      vm.vacancyPredicat.size       = 30;
+      vm.candidatePredicat          = {};
+      vm.candidatePredicat.current  = 0;
+      vm.candidatePredicat.size     = 20;
+      CandidateService.search(vm.candidatePredicat).then(data  => set(vm, 'candidates', data.candidate));
+      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+      VacancyService.search(vm.vacancyPredicat).then(response => vm.vacancies = response.vacancies);
+   }
+
    function _getCandidate() {
       if ($state.params._data) {
          return $q.when($state.params._data);
@@ -74,9 +93,9 @@ export default function CandidateController(//eslint-disable-line max-statements
    }
 
    function _setCandidateProperties(candidate) {
-      candidate.skills     = candidate.skills || [];
-      candidate.tags       = candidate.tags || [];
-      candidate.files      = candidate.files || [];
+      candidate.skills           = candidate.skills || [];
+      candidate.tags             = candidate.tags || [];
+      candidate.files            = candidate.files || [];
       candidate.languageSkills   = candidate.languageSkills || [];
       candidate.convertedSocials = candidate.convertedSocials || [];
       _addAdditionProperties(candidate);
@@ -144,10 +163,16 @@ export default function CandidateController(//eslint-disable-line max-statements
       return candidate;
    }
 
+   vm.saveAndGoBack = (form) => {
+      saveCandidate(form).then(() => {
+         $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ] });
+      });
+   };
+
    function saveCandidate(form) {
-      ValidationService.validate(form).then(() => {
+      return ValidationService.validate(form).then(() => {
          if (isEmpty(vm.filesUploader.getNotUploadedItems())) {
-            _saveCandidate();
+            return _saveCandidate();
          } else {
             vm.filesUploader.uploadAll();
          }
@@ -162,8 +187,11 @@ export default function CandidateController(//eslint-disable-line max-statements
       let memo = vm.candidate.comments;
       vm.candidate.comments = vm.comments;
       _deleteAdditionProperties(vm.candidate);
-      CandidateService.saveCandidate(vm.candidate)
-         .then(curriedSet(vm, 'candidate'))
+      return CandidateService.saveCandidate(vm.candidate)
+         .then(candidate => {
+            set(vm, 'candidate', candidate);
+            return candidate;
+         })
          .then(() => _addAdditionProperties(vm.candidate))
          .then(entity => {
             vm.comments = cloneDeep(vm.candidate.comments);
@@ -199,6 +227,7 @@ export default function CandidateController(//eslint-disable-line max-statements
    }
 
    function _addEmptySocials(candidate) {
+      candidate.convertedSocials = candidate.convertedSocials || [];
       forEach(vm.thesaurus.socialNetwork, social => {
          let candidateSocial = find(vm.candidate.socialNetworks,
             _candidateSocial => _candidateSocial.socialNetworkId === social.id);
@@ -265,6 +294,13 @@ export default function CandidateController(//eslint-disable-line max-statements
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING_EVENT'), 'success');
       });
    }
+
+   vm.isNeedToGoBack = () => {
+      if (vm.vacancyIdToGoBack) {
+         return true;
+      }
+      return false;
+   };
 
    function clear() {
       $state.go('candidate', {_data: null, candidateId: null});

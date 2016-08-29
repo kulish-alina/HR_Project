@@ -4,7 +4,6 @@ module.exports = function _production(webpack, appPath) {
    return {
       context: appPath,
       debug: false,
-      devtool: 'source-map ',
       module: {
 
       },

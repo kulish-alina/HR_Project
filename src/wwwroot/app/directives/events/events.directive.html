@@ -1,4 +1,4 @@
-<div class="card-divider" ng-class="{'list-with-form': type === 'list-with-input', 'form-only': type === 'form-only'}">
+<div class="card-divider" ng-class="{'list-with-form': type === 'list-with-input', 'form-only': type === 'form-only', 'only-events': type === 'only-events'}">
    <div class="grid-block">
       <div class="small-4 grid-block" ng-bind="::'COMMON.EVENTS' | translate"></div>
       <div class="small-3 grid-block"></div>
@@ -7,9 +7,9 @@
       </div>
    </div>
 </div>
-<div class="sidebar-content">
+<div class="sidebar-content" ng-class="{'fot-calendar-list': type === 'only-events'}">
    <div class="grid-block">
-      <div class="small-6 grid-block"  ng-class="{'list-only': type === 'list-only', 'without-list': type === 'form-only'}">
+      <div class="small-6 grid-block" ng-class="{'list-only': type === 'list-only', 'without-list': type === 'form-only', 'only-events': type === 'only-events'}">
          <form name="Event">
             <fieldset class="event-form">
                <label for="EventDescription" ng-bind="::'COMMON.DESCRIPTION' | translate"></label>
@@ -35,29 +35,21 @@
                   <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="::(responsible.lastName+' '+responsible.firstName)"></option>
                </select>
                <label for="Date" ng-bind="::'COMMON.EVENT_DATE' | translate"></label>
-               <input id="Date" placeholder="{{::'COMMON.EVENT_DATE' | translate}}" class="input-date" ng-change="getEvents(event.eventDate)" ng-model="event.eventDate" datetime-picker date-format="dd-MM-yyyy HH:mm:ss" close-on-select="true"/>
-            </fieldset>
+               <input type="text" id="Date" placeholder="{{::'COMMON.EVENT_DATE' | translate}}" class="input-date" ng-model="event.eventDate" datetime-picker date-format="dd-MM-yyyy HH:mm:ss" close-on-select="true" /> </fieldset>
          </form>
       </div>
-      <div class="small-6 grid-block" ng-class="{'without-form': type === 'list-only', 'form-only' : type === 'form-only', 'full-temlate' : type === 'list-with-input'}">
+      <div class="small-6 grid-block" ng-class="{'without-form': (type === 'list-only' || type === 'only-events'), 'form-only' : type === 'form-only', 'full-temlate' : type === 'list-with-input'}">
          <section ng-if="events.length > 0" class="block-list">
             <ul class="icon-left events">
                <li ng-repeat="event in events track by $index">
                   <div class="grid-block">
-                     <div class="medium-1 grid-block">
-                        <img ng-if="event.eventType.imagePath" class="event-icon" ng-src="{{event.eventType.imagePath | botUrl}}">
-                     </div>
-                     <div class="vertical medium-9 grid-block event-content">
-                        <span class="event-title" ng-bind="event.eventDate | date: 'MMM d, y HH:mm'">:</span>
-                        <span class="event-title" ng-bind="event.eventType.title"></span>
+                     <div class="medium-1 grid-block"> <img ng-if="event.eventType.imagePath" class="event-icon" ng-src="{{event.eventType.imagePath | botUrl}}"> </div>
+                     <div class="vertical medium-10 grid-block event-content">
+                        <a ng-click="showEditEventDialog(event)"> <span class="event-title" ng-bind="event.eventDate">:
+                           </span> </a> <span class="event-title" ng-bind="event.eventType.title"></span>
                         <div ng-bind="event.description"></div>
                      </div>
-                     <div class="medium-1 grid-block" ng-class="{'list-with-form': type === 'list-with-input'}">
-                        <a ng-click="showEditEventDialog(event)"><i class="foundicon-edit general-icon"></i></a>
-                     </div>
-                     <div class="medium-1 grid-block" ng-class="{'list-with-form': type === 'list-with-input'}">
-                        <a ng-click="remove(event)"><i class="foundicon-trash general-icon"></i></a>
-                     </div>
+                     <div class="medium-1 grid-block" ng-class="{'list-with-form': type === 'list-with-input'}"> <a ng-click="remove(event)"><i class="foundicon-trash general-icon icon-link"></i></a> </div>
                   </div>
                </li>
             </ul>

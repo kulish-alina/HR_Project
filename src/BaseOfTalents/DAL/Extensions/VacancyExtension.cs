@@ -115,6 +115,8 @@ namespace DAL.Extensions
             var stages = uow.StageRepo.Get(new List<Expression<Func<Stage, bool>>>() { x => x.IsDefault }).ToList();
             var extendedStages = stages.Select(x => new ExtendedStage { Stage = x, Order = x.Order }).ToList();
             extendedStages.ForEach(x => destination.StageFlow.Add(x));
+            extendedStages = extendedStages.OrderBy(x => x.Order).ToList();
+            destination.StageFlow = extendedStages;
         }
 
         private static void PerformAddingDeadlineToCalendar(Vacancy destination, VacancyDTO source, IUnitOfWork uow)

@@ -226,7 +226,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    }
 
    function back() {
-      $window.history.back();
+      $state.go($state.current.parent, {}, {reload: true});
    }
 
    function saveChanges() {
@@ -236,15 +236,13 @@ export default function CandidateProfileController( // eslint-disable-line max-s
          FileService.removeGroup(vm.queueFileIdsForRemove).then(() => {
             vm.queueFileIdsForRemove = [];
             _candidateSave();
-            if ($state.parentView) {
-               $state.go($state.parentView.name, {}, {reload: true});
-            }
+            $state.go($state.current.parent, {_data: vm.candidate, candidateId: vm.candidate.id},
+            {reload: true});
          });
       } else {
          _candidateSave();
-         if ($state.parentView) {
-            $state.go($state.parentView.name, {}, {reload: true});
-         }
+         $state.go($state.current.parent, {_data: vm.candidate, candidateId: vm.candidate.id},
+         {reload: true});
       }
    }
 

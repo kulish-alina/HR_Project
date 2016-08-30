@@ -287,14 +287,10 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          each(vm.queueFilesForRemove, (file) => FileService.remove(file));
          vm.queueFilesForRemove = [];
          _vs();
-         if ($state.parentView) {
-            $state.go($state.parentView.name, {}, {reload: true});
-         }
+         $state.go($state.current.parent, {_data: vm.vacancy, vacancyId: vm.vacancy.id}, {reload: true});
       } else {
          _vs();
-         if ($state.parentView) {
-            $state.go($state.parentView.name, {}, {reload: true});
-         }
+         $state.go($state.current.parent, {_data: vm.vacancy, vacancyId: vm.vacancy.id}, {reload: true});
       }
    }
 
@@ -303,11 +299,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    }
 
    function back() {
-      if ($state.parentView) {
-         $state.go($state.parentView.name, {}, {reload: true});
-      } else {
-         $window.history.back();
-      }
+      $state.go($state.current.parent, {}, {reload: true});
    }
 
    function _saveComment(comment) {

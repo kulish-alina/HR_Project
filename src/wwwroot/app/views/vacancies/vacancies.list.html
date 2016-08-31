@@ -58,7 +58,7 @@
                   <thead>
                      <tr>
                         <th>
-                           <input id="vacancy" type="checkbox">
+                           <input id="vacancy" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
                         </th>
                         <th>№</th>
                         <th ng-bind="::'COMMON.TITLE' | translate"></th>

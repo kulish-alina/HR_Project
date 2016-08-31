@@ -114,7 +114,7 @@
                   <thead>
                      <tr>
                         <th>
-                           <input id="candidate" type="checkbox">
+                           <input id="candidate" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
                         </th>
                         <th ng-bind="::'CANDIDATE.FULL_NAME' | translate"></th>
                         <th ng-bind="::'COMMON.INDUSTRY' | translate"></th>

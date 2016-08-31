@@ -28,6 +28,14 @@ const THESAURUS = [
    new ThesaurusHelper('typeOfEmployment', 'typeOfEmployment', 'typesOfEmployment')
 ];
 
+const PROMISE_INDEXES = {
+   responsible:      0,
+   vacancy:          1,
+   childVacancies:   2,
+   comments:         3,
+   closingCandidate: 4
+};
+
 let _HttpService;
 let _ThesaurusService;
 let _$q;
@@ -73,12 +81,12 @@ export default class VacancyService {
       });
       return _VacancyService._getVacancyFields(vacancy)
       .then((promises) => {
-         vacancy.responsible = promises[0];
+         vacancy.responsible = promises[PROMISE_INDEXES.responsible];
          vacancy.responsibleId = toString(vacancy.responsibleId);
-         vacancy.comments = promises[3];
-         assignIn(vacancy, promises[1]);
-         vacancy.childVacancies = promises[2];
-         vacancy.closingCandidate = promises[3];
+         vacancy.comments = promises[PROMISE_INDEXES.comments];
+         assignIn(vacancy, promises[PROMISE_INDEXES.vacancy]);
+         vacancy.childVacancies = promises[PROMISE_INDEXES.childVacancies];
+         vacancy.closingCandidate = promises[PROMISE_INDEXES.closingCandidate];
          return vacancy;
       });
    }

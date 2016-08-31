@@ -15,10 +15,10 @@
    <hr>
    <div class="div-table">
       <div class="div-table-head">
-         <div ng-bind="day" ng-repeat="day in daysOfWeek" class="div-table-col-head" align="center"></div>
+         <div ng-bind="day" ng-repeat="day in namesOfWeekdays" class="div-table-col-head" align="center"></div>
       </div>
       <div class="div-table-row">
-         <div ng-click="getEventsForDate(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 0">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 0">
             <div class="grid-block">
                <div class="small-10 grid-block">
                   <p class="day-title" ng-bind="day | date:'d'"></p>
@@ -32,7 +32,7 @@
          </div>
       </div>
       <div class="div-table-row">
-         <div ng-click="getEventsForDate(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : lengthOfWeek">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : lengthOfWeek">
             <div class="grid-block">
                <div class="small-10 grid-block">
                   <p class="day-title" ng-bind="day | date:'d'"></p>
@@ -46,7 +46,7 @@
          </div>
       </div>
       <div class="div-table-row">
-         <div ng-click="getEventsForDate(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 2*lengthOfWeek">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 2*lengthOfWeek">
             <div class="grid-block">
                <div class="small-10 grid-block">
                   <p class="day-title" ng-bind="day | date:'d'"></p>
@@ -60,7 +60,7 @@
          </div>
       </div>
       <div class="div-table-row">
-         <div ng-click="getEventsForDate(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 3*lengthOfWeek">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 3*lengthOfWeek">
             <div class="grid-block">
                <div class="small-10 grid-block">
                   <p class="day-title" ng-bind="day | date:'d'"></p>
@@ -74,7 +74,7 @@
          </div>
       </div>
       <div class="div-table-row">
-         <div ng-click="getEventsForDate(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 4*lengthOfWeek">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 4*lengthOfWeek">
             <div class="grid-block">
                <div class="small-10 grid-block">
                   <p class="day-title" ng-bind="day | date:'d'"></p>
@@ -88,7 +88,7 @@
          </div>
       </div>
       <div class="div-table-row">
-         <div ng-click="getEventsForDate(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 5*lengthOfWeek">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 5*lengthOfWeek">
             <div class="grid-block">
                <div class="small-10 grid-block">
                   <p class="day-title" ng-bind="day | date:'d'"></p>

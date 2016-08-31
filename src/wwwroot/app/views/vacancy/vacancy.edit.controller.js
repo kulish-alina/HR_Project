@@ -177,10 +177,13 @@ export default function VacancyController(
          vm.vacancy = vacancy;
          vm.comments = cloneDeep(vm.vacancy.comments);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
-      }).then(() => $state.go($state.previous.name, $state.previous.params, { reload: true })).catch((error) => {
-         vm.vacancy.comments = memo;
-         UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
-         LoggerService.error(error);
-      });
+      })
+         .then(() => $state.go($state.previous.name, {_data: vm.vacancy, vacancyId: vm.vacancy.id},
+                     { reload: true }))
+         .catch((error) => {
+            vm.vacancy.comments = memo;
+            UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
+            LoggerService.error(error);
+         });
    }
 }

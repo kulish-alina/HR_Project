@@ -144,7 +144,9 @@
                         <td ng-bind="c.industry.title"></td>
                         <td ng-bind="c.mainSource.title"></td>
                         <td ng-bind="::c.positionDesired"></td>
-                        <td ng-bind="(c.salaryDesired+' '+c.currency.title)"></td>
+                        <td >
+                           <span ng-if="c.salaryDesired" ng-bind="::(c.salaryDesired+' '+c.currency.title)"></span>
+                        </td>
                         <td ng-bind="::c.createdOn"></td>
                         <td>
                            <a ng-click="deleteCandidate(c.id)"><i class="foundicon-trash general-icon"></i>

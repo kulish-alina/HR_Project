@@ -37,11 +37,12 @@ export default function CandidatesController(
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
-   vm.isAllToogled         = false;
+   vm.isActiveAgeField     = true;
+   vm.useAgeInSearch       = useAgeInSearch;
    vm.isAllToogled         = false;
 
    vm.slider = {
-      min: 21,
+      min: 18,
       max: 45,
       options: {
          floor: 15,
@@ -85,8 +86,21 @@ export default function CandidatesController(
       $state.go('candidateProfile', {_data: candidate, candidateId: candidate.id});
    }
 
-   function cancel() {
-      $state.reload();
+   function clear() {
+      vm.candidate = {};
+      vm.candidate.current = 0;
+      vm.candidate.size = 20;
+      vm.isActiveAgeField = false;
+   }
+
+   function useAgeInSearch() {
+      if (vm.isActiveAgeField === true) {
+         vm.candidate.minAge  = vm.slider.min;
+         vm.candidate.maxAge  = vm.slider.max;
+      } else {
+         vm.candidate.minAge  = null;
+         vm.candidate.maxAge  = null;
+      }
    }
 
    function deleteCandidate(candidateId) {

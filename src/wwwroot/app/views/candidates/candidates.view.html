@@ -19,7 +19,13 @@
    <div class="grid-block">
       <div class="medium-3 grid-block">
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'CANDIDATES.SEARCH_CANDIDATES' | translate">
+            <div class="card-divider">
+               <div class="grid-block">
+                  <div  class="medium-8 grid-block" ng-bind="::'CANDIDATES.SEARCH_CANDIDATES' | translate"></div>
+                  <div class="medium-4 grid-block align-right">
+                     <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+                  </div>
+               </div>
             </div>
             <div class="card-section">
                <div class="grid-block checkbox-block">
@@ -70,8 +76,11 @@
                   </li>
                </ul>
                <div class="range-slider">
-                  <label ng-bind="::'CANDIDATE.CANDIDATE_AGE' | translate"></label>
-                  <rzslider rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
+                  <div class="grid-block">
+                     <label ng-bind="::'CANDIDATE.CANDIDATE_AGE' | translate"></label>&nbsp;
+                     <input id="ageSlider" type="checkbox" ng-model="isActiveAgeField" ng-change="useAgeInSearch()">
+                  </div>
+                  <rzslider ng-if="isActiveAgeField" rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
                </div>
                <label ng-bind="::'CANDIDATE.EXPERIENCE' | translate"></label>
                <div class="grid-block">
@@ -110,9 +119,10 @@
                <table>
                   <thead>
                      <tr>
-                        <th>
+                        <th ng-if="$state.previous.name === 'vacancyView'">
                            <input id="candidate" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
                         </th>
+                        <th>№</th>
                         <th ng-bind="::'CANDIDATE.FULL_NAME' | translate"></th>
                         <th ng-bind="::'COMMON.INDUSTRY' | translate"></th>
                         <th ng-bind="::'CANDIDATE.SOURCE' | translate"></th>
@@ -124,16 +134,19 @@
                   </thead>
                   <tbody>
                      <tr dir-paginate="c in candidates.candidate | itemsPerPage: candidates.size" total-items="candidates.total" current-page="candidate.current">
-                          <th>
+                        <th ng-if="$state.previous.name === 'vacancyView'">
                            <input id="checkbox9" type="checkbox" ng-model="c.isToogled" ng-change="toogleCandidate(c.id)">
                         </th>
+                        <td>{{$index+1}}</td>
                         <td>
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
                         </td>
                         <td ng-bind="c.industry.title"></td>
                         <td ng-bind="c.mainSource.title"></td>
                         <td ng-bind="::c.positionDesired"></td>
-                        <td ng-bind="(c.salaryDesired+' '+c.currency.title)"></td>
+                        <td >
+                           <span ng-if="c.salaryDesired" ng-bind="::(c.salaryDesired+' '+c.currency.title)"></span>
+                        </td>
                         <td ng-bind="::c.createdOn"></td>
                         <td>
                            <a ng-click="deleteCandidate(c.id)"><i class="foundicon-trash general-icon"></i>

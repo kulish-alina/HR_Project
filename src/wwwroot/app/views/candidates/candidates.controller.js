@@ -27,7 +27,7 @@ export default function CandidatesController(
    vm.deleteCandidate      = deleteCandidate;
    vm.editCandidate        = editCandidate;
    vm.viewCandidate        = viewCandidate;
-   vm.cancel               = cancel;
+   vm.clear                = clear;
    vm.thesaurus            = [];
    vm.searchCandidates     = searchCandidates;
    vm.candidate            = {};
@@ -37,6 +37,7 @@ export default function CandidatesController(
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
+   vm.isAllToogled         = false;
    vm.isAllToogled         = false;
 
    vm.slider = {

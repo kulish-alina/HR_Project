@@ -92,3 +92,9 @@
 .angularjs-datetime-picker input[type=range] {
   width: 150px;
 }
+.time-pick {
+   margin-top: $rem-base/2;
+}
+.time-divider {
+   padding-top: $rem-base/2;
+}

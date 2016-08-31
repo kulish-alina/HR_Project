@@ -37,6 +37,8 @@ export default function CandidatesController(
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
+   vm.isActiveAgeField     = true;
+   vm.useAgeInSearch       = useAgeInSearch;
 
    vm.isActiveAgeField     = true;
    vm.useAgeInSearch       = useAgeInSearch;

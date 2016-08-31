@@ -1,44 +1,108 @@
 <div>
    <div class="grid-block">
-      <div class="small-1 grid-block" ng-bind="dateForSearchEvents | date:'yyyy'"></div>
-      <div class="small-1 grid-block" ng-bind="dateForSearchEvents | date: 'MMMM'"></div>
+      <div class="small-2 grid-block" >
+         <a ng-click="goToPreviousYear()"><i class="fi-rewind"></i></a>
+         <span class="date-title" ng-bind="dateForSearchEvents | date:'yyyy'"></span>
+         <a ng-click="goToNextYear()"><i class="fi-fast-forward"></i></a>
+      </div>
+      <div class="small-2 grid-block" >
+         <a ng-click="goToPreviousMonth()"><i class="fi-rewind"></i></a>
+         <span class="date-title" ng-bind="dateForSearchEvents | date: 'MMMM'"></span>
+         <a ng-click="goToNextMonth()"><i class="fi-fast-forward"></i></a>
+      </div>
       <div class="small-8 grid-block"></div>
-      <div class="small-1 grid-block"> <a ng-click="goToPreviousMonth()"><i class="fi-rewind"></i></a> </div>
-      <div class="small-1 grid-block"> <a ng-click="goToNextMonth()"><i class="fi-fast-forward"></i></a> </div>
    </div>
    <hr>
-   <table>
-      <tbody>
-         <tr class="week-row">
-            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 0">
-               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
-               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
-            </td>
-         </tr>
-         <tr class="week-row">
-            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 7">
-               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
-               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
-            </td>
-         </tr>
-         <tr class="week-row">
-            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 14">
-               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
-               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
-            </td>
-         </tr>
-         <tr class="week-row">
-            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 21">
-               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
-               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
-            </td>
-         </tr>
-         <tr class="week-row">
-            <td ng-click="$event.stopPropagation()" ng-dblclick="onDblclick(day)" class='day-of-month' ng-class="{'today-date': (todayDate | date:'EEEE, d') === (day | date:'EEEE, d')}" ng-repeat="day in daysInMonth | limitTo : 7 : 28">
-               <p class="day-title" ng-bind="day | date:'EEEE, d'"></p>
-               <events selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="eventsForMonth[day.getDate()<10 ? '0'+ day.getDate() : day.getDate()]" source="calendar" type="only-events"></events>
-            </td>
-         </tr>
-      </tbody>
-   </table>
+   <div class="div-table">
+      <div class="div-table-head">
+         <div ng-bind="day" ng-repeat="day in namesOfWeekdays" class="div-table-col-head" align="center"></div>
+      </div>
+      <div class="div-table-row">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 0">
+            <div class="grid-block">
+               <div class="small-10 grid-block">
+                  <p class="day-title" ng-bind="day | date:'d'"></p>
+               </div>
+               <div class="small-2 grid-block" ng-if="(getDailyEvents(day).length - numberEventsForDailyView) > 0">
+                  <p class="events-number">+</p>
+                  <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView "></p>
+               </div>
+            </div>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+         </div>
+      </div>
+      <div class="div-table-row">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : lengthOfWeek">
+            <div class="grid-block">
+               <div class="small-10 grid-block">
+                  <p class="day-title" ng-bind="day | date:'d'"></p>
+               </div>
+               <div class="small-2 grid-block" ng-if="(getDailyEvents(day).length - numberEventsForDailyView) > 0">
+                  <p class="events-number">+</p>
+                  <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
+               </div>
+            </div>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+         </div>
+      </div>
+      <div class="div-table-row">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 2*lengthOfWeek">
+            <div class="grid-block">
+               <div class="small-10 grid-block">
+                  <p class="day-title" ng-bind="day | date:'d'"></p>
+               </div>
+               <div class="small-2 grid-block" ng-if="(getDailyEvents(day).length - numberEventsForDailyView) > 0">
+                  <p class="events-number">+</p>
+                  <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
+               </div>
+            </div>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+         </div>
+      </div>
+      <div class="div-table-row">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 3*lengthOfWeek">
+            <div class="grid-block">
+               <div class="small-10 grid-block">
+                  <p class="day-title" ng-bind="day | date:'d'"></p>
+               </div>
+               <div class="small-2 grid-block" ng-if="(getDailyEvents(day).length - numberEventsForDailyView) > 0">
+                  <p class="events-number">+</p>
+                  <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
+               </div>
+            </div>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+         </div>
+      </div>
+      <div class="div-table-row">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 4*lengthOfWeek">
+            <div class="grid-block">
+               <div class="small-10 grid-block">
+                  <p class="day-title" ng-bind="day | date:'d'"></p>
+               </div>
+               <div class="small-2 grid-block" ng-if="(getDailyEvents(day).length - numberEventsForDailyView) > 0">
+                  <p class="events-number">+</p>
+                  <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
+               </div>
+            </div>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+         </div>
+      </div>
+      <div class="div-table-row">
+         <div ng-click="selectionEventsForSpecificDay(day)" ng-dblclick="showAddDialog(day)" ng-class="{'today-date': (todayDate | date:'dd, MM, yyyy') === (day | date:'dd, MM, yyyy'), 'dates-from-previous-month': (dateForSearchEvents | date:'MM') !== (day | date:'MM')}" class="div-table-col" ng-repeat="day in daysInMonth | limitTo : lengthOfWeek : 5*lengthOfWeek">
+            <div class="grid-block">
+               <div class="small-10 grid-block">
+                  <p class="day-title" ng-bind="day | date:'d'"></p>
+               </div>
+               <div class="small-2 grid-block" ng-if="(getDailyEvents(day).length - numberEventsForDailyView) > 0">
+                  <p class="events-number">+</p>
+                  <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
+               </div>
+            </div>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="event-board">
+   <events user-color="userColor" selected-date="selectedDay" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" source="full-calendar-list" save="saveCurrentEvent" events="eventsForDay" type="only-events"></events>
 </div>

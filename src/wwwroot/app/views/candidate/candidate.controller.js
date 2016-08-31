@@ -7,12 +7,13 @@ const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLev
 
 let curriedSet = curry(set, 3);
 
-export default function CandidateController( //eslint-disable-line max-statements
+export default function CandidateController( // eslint-disable-line max-params, max-statements
    $q,
    $element,
    $scope,
    $state,
    $translate,
+   $window,
    CandidateService,
    ValidationService,
    FileService,
@@ -33,17 +34,17 @@ export default function CandidateController( //eslint-disable-line max-statement
    vm.saveCandidate        = saveCandidate;
    vm.clearUploaderQueue   = clearUploaderQueue;
    vm.addFilesForRemove    = addFilesForRemove;
-   vm.candidate.comments     = $state.params._data ? $state.params._data.comments : [];
+   vm.candidate.comments   = $state.params._data ? $state.params._data.comments : [];
    vm.comments             = cloneDeep(vm.candidate.comments);
    vm.saveComment          = saveComment;
    vm.removeComment        = removeComment;
    vm.editComment          = editComment;
-   vm.candidateEvents      = [];
-   vm.cloneCandidateEvents = [];
+   vm.candidateEvents      = $state.params._data ? $state.params._data.events : [];
+   vm.cloneCandidateEvents = clone(vm.candidateEvents);
    vm.saveEvent            = saveEvent;
    vm.removeEvent          = removeEvent;
-   vm.clear                = clear;
-   vm.vacancyIdToGoBack       = $state.params.vacancyIdToGoBack;
+   vm.back                 = back;
+   vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
 
    (function _init() {
       _initDataForEvents();
@@ -83,7 +84,9 @@ export default function CandidateController( //eslint-disable-line max-statement
    }
 
    function _getCandidate() {
-      if ($state.params._data) {
+      if ($state.previous.params._data  && $state.params.toPrevious === true) {
+         return CandidateService.getCandidate($state.previous.params._data.id);
+      } else if ($state.params._data) {
          return $q.when($state.params._data);
       } else if ($state.params.candidateId) {
          return CandidateService.getCandidate($state.params.candidateId);
@@ -165,7 +168,7 @@ export default function CandidateController( //eslint-disable-line max-statement
 
    vm.saveAndGoBack = (form) => {
       saveCandidate(form).then(() => {
-         $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ] });
+         $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ]});
       });
    };
 
@@ -198,6 +201,8 @@ export default function CandidateController( //eslint-disable-line max-statement
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
             return entity;
          })
+         .then(() => $state.go($state.previous.name, {_data: vm.candidate, vacancyId: vm.candidate.id},
+                     { reload: true }))
          .catch(() => {
             _onError();
             vm.candidate.comments = memo;
@@ -254,6 +259,8 @@ export default function CandidateController( //eslint-disable-line max-statement
    }
 
    function saveComment(comment) {
+      let currentUser = UserService.getCurrentUser();
+      comment.authorId = currentUser.id;
       return $q.when(vm.comments.push(comment));
    }
 
@@ -302,7 +309,7 @@ export default function CandidateController( //eslint-disable-line max-statement
       return false;
    };
 
-   function clear() {
-      $state.go('candidate', {_data: null, candidateId: null});
+   function back() {
+      $window.history.back();
    }
 }

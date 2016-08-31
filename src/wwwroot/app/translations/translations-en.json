@@ -156,7 +156,11 @@
       "CURRENCY" : "Currency",
       "MAIN_SOURCE" : "Main source",
       "EVENT_CALENDAR" : "Event calendar",
-      "USERS" : "Users"
+      "USERS" : "Users",
+      "EVENT_TYPE": "Event type",
+      "CREATED_ON": "Created on:",
+      "AUTHOR": "Author:",
+      "BACK": "Back"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

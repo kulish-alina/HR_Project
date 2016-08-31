@@ -38,7 +38,8 @@
          </div>
          <div>
             <i class="fi-dollar-bill"></i><span class="property-title" ng-bind="::'CANDIDATE.DESIRED_SALARY' | translate">:</span>
-            <span ng-bind="::(candidate.salaryDesired+' '+candidate.currency.title)"></span>
+            <span ng-bind="::candidate.salaryDesired"></span>
+            <span ng-bind="::candidate.currency.title"></span>
          </div>
          <div>
             <i class="fi-mountains"></i><span class="property-title" ng-bind="::'CANDIDATE.EXPERIENCE' | translate">:</span>

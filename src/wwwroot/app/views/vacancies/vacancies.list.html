@@ -8,9 +8,6 @@
       <div class="large-8 grid-block"> </div>
       <div class="large-2 grid-block align-right">
          <ul class="menu-bar second-button-bar">
-            <li>
-               <a ng-click="cancel()" ng-bind="::'COMMON.CANCEL' | translate"></a>
-            </li>
             <li ng-if="candidateIdToGoBack" >
               <a ng-click="goBackToCandidate()" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
             </li>
@@ -20,16 +17,23 @@
    <div class="grid-block">
       <div class="medium-3 grid-block">
          <div class="sidebar">
-            <div class="card-divider" ng-bind="::'VACANCIES.SEARCH_VACANCIES' | translate"> </div>
+            <div class="card-divider"> 
+               <div class="grid-block">
+                  <div  class="medium-8 grid-block" ng-bind="::'VACANCIES.SEARCH_VACANCIES' | translate"></div>
+                  <div class="medium-4 grid-block align-right">
+                     <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+                  </div>
+               </div>
+            </div>
             <div class="card-section">
                <form name="searchVacancy">
                   <select name="Industry" ng-model="vacancyPredicate.industryId">
                      <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
                      <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
                   </select>
-                  <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
+                  <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancyPredicate.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
                   <input ng-model="vacancyPredicate.title" placeholder="Position" type="text">
-                  <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                  <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancyPredicate.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
                   <select name="Type of Employment" ng-model="vacancyPredicate.typeOfEmployment">
                      <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
                      <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
@@ -57,7 +61,7 @@
                <table>
                   <thead>
                      <tr>
-                        <th>
+                        <th ng-if="$state.previous.name === 'candidateProfile'">
                            <input id="vacancy" type="checkbox">
                         </th>
                         <th>№</th>
@@ -71,7 +75,7 @@
                   </thead>
                   <tbody>
                      <tr ng-hide="!vacancy" dir-paginate="vacancyItem in vacancies.vacancies | itemsPerPage: vacancyPredicate.size" total-items="vacancies.total" current-page="vacancyPredicate.current">
-                         <th>
+                         <th ng-if="$state.previous.name === 'candidateProfile'">
                            <input id="checkbox9" type="checkbox" ng-model="vacancyItem.isToogled" ng-change="toogleVacancy(vacancyItem)">
                         </th>
                         <td>{{$index+1}}</td>

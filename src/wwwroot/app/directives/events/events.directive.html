@@ -1,4 +1,4 @@
-<div class="card-divider" ng-class="{'list-with-form': type === 'list-with-input', 'form-only': type === 'form-only', 'only-events': type === 'only-events'}">
+<div ng-if="type === 'list-only'" class="card-divider" ng-class="{'list-with-form': type === 'list-with-input'}">
    <div class="grid-block">
       <div class="small-4 grid-block" ng-bind="::'COMMON.EVENTS' | translate"></div>
       <div class="small-3 grid-block"></div>
@@ -9,11 +9,11 @@
 </div>
 <div class="sidebar-content" ng-class="{'fot-calendar-list': type === 'only-events'}">
    <div class="grid-block">
-      <div class="small-6 grid-block" ng-class="{'list-only': type === 'list-only', 'without-list': type === 'form-only', 'only-events': type === 'only-events'}">
+      <div class="small-6 grid-block" ng-if="type === 'form-only' || type === 'list-with-input'" ng-class="{'without-list': type === 'form-only'}">
          <form name="Event">
             <fieldset class="event-form">
                <label for="EventDescription" ng-bind="::'COMMON.DESCRIPTION' | translate"></label>
-               <input id="EventDescription" name="EventDescription" type="text" ng-model="event.description" placeholder="{{::'COMMON.DESCRIPTION' | translate}}" type="text" validator="required, minlength=3, maxlength=200">
+               <textarea validator="required, minlength=3, maxlength=100" id="EventDescription" name="EventDescription" type="text" ng-model="event.description" placeholder="{{::'COMMON.DESCRIPTION' | translate}}"></textarea> 
                <label for="EventType" ng-bind="::'THESAURUSES.THESAURUSES.EVENT_TYPES' | translate"></label>
                <select id="EventType" name="EventType" ng-model="event.eventTypeId">
                   <option selected value="" ng-bind="::'THESAURUSES.THESAURUSES.EVENT_TYPES' | translate"></option>
@@ -35,21 +35,43 @@
                   <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="::(responsible.lastName+' '+responsible.firstName)"></option>
                </select>
                <label for="Date" ng-bind="::'COMMON.EVENT_DATE' | translate"></label>
-               <input type="text" id="Date" placeholder="{{::'COMMON.EVENT_DATE' | translate}}" class="input-date" ng-model="event.eventDate" datetime-picker date-format="dd-MM-yyyy HH:mm:ss" close-on-select="true" /> </fieldset>
+               <input type="text" id="Date" placeholder="{{::'COMMON.EVENT_DATE' | translate}}" class="input-date" ng-model="event.eventDate" datetime-picker date-format="dd-MM-yyyy HH:mm:ss" close-on-select="false" /> </fieldset>
          </form>
       </div>
-      <div class="small-6 grid-block" ng-class="{'without-form': (type === 'list-only' || type === 'only-events'), 'form-only' : type === 'form-only', 'full-temlate' : type === 'list-with-input'}">
+      <div ng-if="type === 'list-with-input' || type === 'only-events' || type === 'list-only'" class="small-6 grid-block" ng-class="{'without-form': (type === 'list-only' || type === 'only-events'), 'full-temlate' : type === 'list-with-input'}">
          <section ng-if="events.length > 0" class="block-list">
             <ul class="icon-left events">
-               <li ng-repeat="event in events track by $index">
+               <li ng-style="{background: userColor[event.responsible.id]}" ng-class="{'event-height': source === 'calendar', 'event-width': source === 'full-calendar-list'}" ng-repeat="event in events | limitTo : limit">
                   <div class="grid-block">
-                     <div class="medium-1 grid-block"> <img ng-if="event.eventType.imagePath" class="event-icon" ng-src="{{event.eventType.imagePath | botUrl}}"> </div>
+                     <div class="event-icon" class="medium-1 grid-block"> <img ng-if="event.eventType.imagePath" ng-src="{{event.eventType.imagePath | botUrl}}"> </div>
                      <div class="vertical medium-10 grid-block event-content">
-                        <a ng-click="showEditEventDialog(event)"> <span class="event-title" ng-bind="event.eventDate">:
-                           </span> </a> <span class="event-title" ng-bind="event.eventType.title"></span>
-                        <div ng-bind="event.description"></div>
+                        <a ng-click="showEditEventDialog(event)">
+                        <div class="event-title" ng-bind="event.description"></div>
+                        </a> 
+                        <span class="event-title" ng-class="{'display-none': source === 'calendar'}" ng-bind="event.eventDate">
+                        </span>
+                        <div ng-if="source === 'full-calendar-list'" class="grid-block">
+                           <span class="event-title"  ng-bind="::'COMMON.EVENT_TYPE' | translate"></span>
+                           <span>:&nbsp;</span>
+                           <span ng-bind="::event.eventType.title"></span>
+                        </div>
+                        <div ng-if="source === 'full-calendar-list'" class="grid-block">
+                           <span class="event-title" ng-bind="::'VACANCY.VACANCY' | translate"></span>
+                           <span>:&nbsp;</span>
+                           <span ng-bind="::event.vacancy.title"></span>
+                        </div>
+                        <div ng-if="source === 'full-calendar-list'" class="grid-block">
+                           <span class="event-title" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></span>
+                           <span>:&nbsp;</span>
+                           <span ng-bind="(event.candidate.lastName+' '+event.candidate.firstName)"></span>
+                        </div>
+                        <div ng-if="source === 'full-calendar-list'" class="grid-block">
+                           <span class="event-title" ng-bind="::'COMMON.RESPONSIBLE' | translate"></span>
+                           <span>:&nbsp;</span>
+                           <span ng-bind="::(event.responsible.lastName+' '+event.responsible.firstName)"></span>
+                        </div>
                      </div>
-                     <div class="medium-1 grid-block" ng-class="{'list-with-form': type === 'list-with-input'}"> <a ng-click="remove(event)"><i class="foundicon-trash general-icon icon-link"></i></a> </div>
+                     <div class="medium-1 grid-block" ng-class="{'display-none': type === 'list-with-input'}"> <a ng-click="remove(event)"><i class="foundicon-trash general-icon icon-link"></i></a> </div>
                   </div>
                </li>
             </ul>

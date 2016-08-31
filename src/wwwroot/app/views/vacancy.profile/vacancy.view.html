@@ -7,10 +7,13 @@
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
          <li>
+            <a ng-click="back()" ng-bind="::'COMMON.BACK' | translate"></a>
+         </li>
+         <li>
             <a ng-click="edit()" ng-bind="::'COMMON.EDIT' | translate"></a>
          </li>
          <li ng-if="isChanged()">
-            <a ng-click="saveChanges()" ng-bind="::'COMMON.SUBMIT' | translate"></a>
+            <a ng-click="saveChanges()" ng-bind="::'COMMON.SAVE' | translate"></a>
          </li>
       </ul>
    </div>
@@ -31,7 +34,7 @@
                      <div zf-as-content="" position="bottom">
                         <ul>
                            <li ng-repeat="childVacancy in vacancy.childVacancies">
-                              <a ng-click="goToChildVacancy(childVacancy)" href="#" ng-bind="childVacancy.title"></a>
+                              <a ng-click="goToChildVacancy(childVacancy.id)" href="#" ng-bind="childVacancy.title"></a>
                            </li>
                         </ul>
                      </div>
@@ -124,7 +127,7 @@
                      <label for="newCandidate" ng-bind="::'COMMON.NEW' | translate"></label>
                   </li>
                   <li>
-                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ng-click="goToCandidates()"">
+                     <input name="candidateFromBOT" id="candidateFromBOT" type="radio" ng-click="goToCandidates()">
                      <label for="candidateFromBOT" ng-bind="::'COMMON.FROM_BOT' | translate"></label>
                   </li>
                </ul>

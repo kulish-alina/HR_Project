@@ -7,10 +7,10 @@
    <div class="large-3 grid-block align-right">
       <ul class="menu-bar second-button-bar">
          <li>
-            <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+            <a ng-click="back()" ng-bind="::'COMMON.BACK' | translate"></a>
          </li>
          <li>
-            <a ng-click="saveVacancy($event, Vacancy)" ng-bind="::'COMMON.SUBMIT' | translate"></a>
+            <a ng-click="saveVacancy($event, Vacancy)" ng-bind="::'COMMON.SAVE' | translate"></a>
          </li>
       </ul>
    </div>
@@ -51,7 +51,7 @@
                      <fieldset>
                         <select name="Responsible" ng-model="vacancy.responsibleId" validator="required">
                            <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
-                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
+                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="::(responsible.lastName+' '+responsible.firstName)"></option>
                         </select>
                         <select name="Department" ng-model="vacancy.departmentId" validator="required">
                            <option selected value="" ng-bind="::'COMMON.DEPARTMENT' | translate"></option>
@@ -74,7 +74,7 @@
                               <label for="masterVacancy" ng-bind="::'COMMON.MASTER_VACANCY' | translate"></label>
                            </div>
                            <div class="medium-6 grid-block">
-                              <input ng-if="!vacancy.parentVacancyId" ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0"> </div>
+                              <input ng-if="!vacancy.parentVacancyId" ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0" max="30"> </div>
                         </div>
                      </fieldset>
                   </div>

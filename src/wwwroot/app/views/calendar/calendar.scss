@@ -1,0 +1,13 @@
+@import '../../common.scss';
+
+.event-calendar {
+   padding: $rem-base;
+}
+.user-filter {
+   min-width: $rem-base;
+   height:  $rem-base*50.5;
+   overflow-y: scroll;
+   hr {
+      margin: 0;
+   }
+}

@@ -174,6 +174,114 @@ namespace DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Message = c.String(),
+                        AuthorId = c.Int(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.User", t => t.AuthorId)
+                .Index(t => t.AuthorId);
+            
+            CreateTable(
+                "dbo.User",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        FirstName = c.String(nullable: false),
+                        MiddleName = c.String(nullable: false),
+                        LastName = c.String(nullable: false),
+                        isMale = c.Boolean(nullable: false),
+                        BirthDate = c.DateTime(),
+                        Email = c.String(nullable: false),
+                        Skype = c.String(),
+                        Login = c.String(nullable: false),
+                        Password = c.String(nullable: false),
+                        RoleId = c.Int(nullable: false),
+                        CityId = c.Int(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        Photo_Id = c.Int(),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.City", t => t.CityId)
+                .ForeignKey("dbo.File", t => t.Photo_Id)
+                .ForeignKey("dbo.Role", t => t.RoleId)
+                .Index(t => t.RoleId)
+                .Index(t => t.CityId)
+                .Index(t => t.Photo_Id);
+            
+            CreateTable(
+                "dbo.Note",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Message = c.String(),
+                        UserId = c.Int(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        User_Id = c.Int(),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.User", t => t.UserId)
+                .ForeignKey("dbo.User", t => t.User_Id)
+                .Index(t => t.UserId)
+                .Index(t => t.User_Id);
+            
+            CreateTable(
+                "dbo.PhoneNumber",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Number = c.String(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.File",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        FilePath = c.String(nullable: false),
+                        Description = c.String(),
+                        Size = c.Long(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Role",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Permission",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Description = c.String(nullable: false),
+                        AccessRights = c.Int(nullable: false),
+                        Group = c.String(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -233,21 +341,6 @@ namespace DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.File",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        FilePath = c.String(nullable: false),
-                        Description = c.String(),
-                        Size = c.Long(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -316,96 +409,6 @@ namespace DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.User",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        FirstName = c.String(nullable: false),
-                        MiddleName = c.String(nullable: false),
-                        LastName = c.String(nullable: false),
-                        isMale = c.Boolean(nullable: false),
-                        BirthDate = c.DateTime(),
-                        Email = c.String(nullable: false),
-                        Skype = c.String(),
-                        Login = c.String(nullable: false),
-                        Password = c.String(nullable: false),
-                        RoleId = c.Int(nullable: false),
-                        CityId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        Photo_Id = c.Int(),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.City", t => t.CityId)
-                .ForeignKey("dbo.File", t => t.Photo_Id)
-                .ForeignKey("dbo.Role", t => t.RoleId)
-                .Index(t => t.RoleId)
-                .Index(t => t.CityId)
-                .Index(t => t.Photo_Id);
-            
-            CreateTable(
-                "dbo.Note",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Message = c.String(),
-                        UserId = c.Int(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        User_Id = c.Int(),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.User", t => t.UserId)
-                .ForeignKey("dbo.User", t => t.User_Id)
-                .Index(t => t.UserId)
-                .Index(t => t.User_Id);
-            
-            CreateTable(
-                "dbo.PhoneNumber",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Number = c.String(nullable: false),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Role",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
-                        LastModified = c.DateTime(),
-                        CreatedOn = c.DateTime(),
-                        State = c.Int(nullable: false),
-                        IsDeleted = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Permission",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Description = c.String(nullable: false),
-                        AccessRights = c.Int(nullable: false),
-                        Group = c.String(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -551,6 +554,45 @@ namespace DAL.Migrations
                 .Index(t => t.Candidate_Id);
             
             CreateTable(
+                "dbo.UserToPhoneNumber",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false),
+                        PhoneNumberId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.PhoneNumberId })
+                .ForeignKey("dbo.User", t => t.UserId)
+                .ForeignKey("dbo.PhoneNumber", t => t.PhoneNumberId)
+                .Index(t => t.UserId)
+                .Index(t => t.PhoneNumberId);
+            
+            CreateTable(
+                "dbo.PermissionRole",
+                c => new
+                    {
+                        Permission_Id = c.Int(nullable: false),
+                        Role_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Permission_Id, t.Role_Id })
+                .ForeignKey("dbo.Permission", t => t.Permission_Id)
+                .ForeignKey("dbo.Role", t => t.Role_Id)
+                .Index(t => t.Permission_Id)
+                .Index(t => t.Role_Id);
+            
+            CreateTable(
+                "dbo.UserToComment",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false),
+                        CommentId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.CommentId })
+                .ForeignKey("dbo.User", t => t.UserId)
+                .ForeignKey("dbo.Comment", t => t.CommentId)
+                .Index(t => t.UserId)
+                .Index(t => t.CommentId);
+            
+            CreateTable(
                 "dbo.ParentVacancyToChildVacancy",
                 c => new
                     {
@@ -627,32 +669,6 @@ namespace DAL.Migrations
                 .ForeignKey("dbo.Skill", t => t.SkillId)
                 .Index(t => t.VacancyId)
                 .Index(t => t.SkillId);
-            
-            CreateTable(
-                "dbo.UserToPhoneNumber",
-                c => new
-                    {
-                        UserId = c.Int(nullable: false),
-                        PhoneNumberId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.UserId, t.PhoneNumberId })
-                .ForeignKey("dbo.User", t => t.UserId)
-                .ForeignKey("dbo.PhoneNumber", t => t.PhoneNumberId)
-                .Index(t => t.UserId)
-                .Index(t => t.PhoneNumberId);
-            
-            CreateTable(
-                "dbo.PermissionRole",
-                c => new
-                    {
-                        Permission_Id = c.Int(nullable: false),
-                        Role_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.Permission_Id, t.Role_Id })
-                .ForeignKey("dbo.Permission", t => t.Permission_Id)
-                .ForeignKey("dbo.Role", t => t.Role_Id)
-                .Index(t => t.Permission_Id)
-                .Index(t => t.Role_Id);
             
             CreateTable(
                 "dbo.VacancyToTag",
@@ -795,15 +811,6 @@ namespace DAL.Migrations
             DropForeignKey("dbo.ExtendedStage", "Vacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.ExtendedStage", "StageId", "dbo.Stage");
             DropForeignKey("dbo.Vacancy", "ResponsibleId", "dbo.User");
-            DropForeignKey("dbo.User", "RoleId", "dbo.Role");
-            DropForeignKey("dbo.PermissionRole", "Role_Id", "dbo.Role");
-            DropForeignKey("dbo.PermissionRole", "Permission_Id", "dbo.Permission");
-            DropForeignKey("dbo.User", "Photo_Id", "dbo.File");
-            DropForeignKey("dbo.UserToPhoneNumber", "PhoneNumberId", "dbo.PhoneNumber");
-            DropForeignKey("dbo.UserToPhoneNumber", "UserId", "dbo.User");
-            DropForeignKey("dbo.Note", "User_Id", "dbo.User");
-            DropForeignKey("dbo.Note", "UserId", "dbo.User");
-            DropForeignKey("dbo.User", "CityId", "dbo.City");
             DropForeignKey("dbo.VacancyToSkill", "SkillId", "dbo.Skill");
             DropForeignKey("dbo.VacancyToSkill", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "ParentVacancyId", "dbo.Vacancy");
@@ -826,6 +833,18 @@ namespace DAL.Migrations
             DropForeignKey("dbo.VacancyStageInfo", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyStageInfo", "StageId", "dbo.Stage");
             DropForeignKey("dbo.VacancyStageInfo", "Comment_Id", "dbo.Comment");
+            DropForeignKey("dbo.Comment", "AuthorId", "dbo.User");
+            DropForeignKey("dbo.UserToComment", "CommentId", "dbo.Comment");
+            DropForeignKey("dbo.UserToComment", "UserId", "dbo.User");
+            DropForeignKey("dbo.User", "RoleId", "dbo.Role");
+            DropForeignKey("dbo.PermissionRole", "Role_Id", "dbo.Role");
+            DropForeignKey("dbo.PermissionRole", "Permission_Id", "dbo.Permission");
+            DropForeignKey("dbo.User", "Photo_Id", "dbo.File");
+            DropForeignKey("dbo.UserToPhoneNumber", "PhoneNumberId", "dbo.PhoneNumber");
+            DropForeignKey("dbo.UserToPhoneNumber", "UserId", "dbo.User");
+            DropForeignKey("dbo.Note", "User_Id", "dbo.User");
+            DropForeignKey("dbo.Note", "UserId", "dbo.User");
+            DropForeignKey("dbo.User", "CityId", "dbo.City");
             DropForeignKey("dbo.VacancyStageInfo", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Candidate", "CityId", "dbo.City");
             DropForeignKey("dbo.RelocationPlace", "CountryId", "dbo.Country");
@@ -847,10 +866,6 @@ namespace DAL.Migrations
             DropIndex("dbo.CandidateToComment", new[] { "CandidateId" });
             DropIndex("dbo.VacancyToTag", new[] { "TagId" });
             DropIndex("dbo.VacancyToTag", new[] { "VacancyId" });
-            DropIndex("dbo.PermissionRole", new[] { "Role_Id" });
-            DropIndex("dbo.PermissionRole", new[] { "Permission_Id" });
-            DropIndex("dbo.UserToPhoneNumber", new[] { "PhoneNumberId" });
-            DropIndex("dbo.UserToPhoneNumber", new[] { "UserId" });
             DropIndex("dbo.VacancyToSkill", new[] { "SkillId" });
             DropIndex("dbo.VacancyToSkill", new[] { "VacancyId" });
             DropIndex("dbo.VacancyToLevel", new[] { "LevelId" });
@@ -863,6 +878,12 @@ namespace DAL.Migrations
             DropIndex("dbo.VacancyToCity", new[] { "VacancyId" });
             DropIndex("dbo.ParentVacancyToChildVacancy", new[] { "ChildVacancyId" });
             DropIndex("dbo.ParentVacancyToChildVacancy", new[] { "ParentVacancyId" });
+            DropIndex("dbo.UserToComment", new[] { "CommentId" });
+            DropIndex("dbo.UserToComment", new[] { "UserId" });
+            DropIndex("dbo.PermissionRole", new[] { "Role_Id" });
+            DropIndex("dbo.PermissionRole", new[] { "Permission_Id" });
+            DropIndex("dbo.UserToPhoneNumber", new[] { "PhoneNumberId" });
+            DropIndex("dbo.UserToPhoneNumber", new[] { "UserId" });
             DropIndex("dbo.CandidateSource", new[] { "Candidate_Id" });
             DropIndex("dbo.CandidateSource", new[] { "SourceId" });
             DropIndex("dbo.CandidateSocial", new[] { "Candidate_Id" });
@@ -873,13 +894,14 @@ namespace DAL.Migrations
             DropIndex("dbo.Event", new[] { "ResponsibleId" });
             DropIndex("dbo.ExtendedStage", new[] { "Vacancy_Id" });
             DropIndex("dbo.ExtendedStage", new[] { "StageId" });
+            DropIndex("dbo.LanguageSkill", new[] { "LanguageId" });
+            DropIndex("dbo.Department", new[] { "DepartmentGroupId" });
             DropIndex("dbo.Note", new[] { "User_Id" });
             DropIndex("dbo.Note", new[] { "UserId" });
             DropIndex("dbo.User", new[] { "Photo_Id" });
             DropIndex("dbo.User", new[] { "CityId" });
             DropIndex("dbo.User", new[] { "RoleId" });
-            DropIndex("dbo.LanguageSkill", new[] { "LanguageId" });
-            DropIndex("dbo.Department", new[] { "DepartmentGroupId" });
+            DropIndex("dbo.Comment", new[] { "AuthorId" });
             DropIndex("dbo.VacancyStageInfo", new[] { "Comment_Id" });
             DropIndex("dbo.VacancyStageInfo", new[] { "CandidateId" });
             DropIndex("dbo.VacancyStageInfo", new[] { "VacancyId" });
@@ -908,14 +930,15 @@ namespace DAL.Migrations
             DropTable("dbo.FileToCandidate");
             DropTable("dbo.CandidateToComment");
             DropTable("dbo.VacancyToTag");
-            DropTable("dbo.PermissionRole");
-            DropTable("dbo.UserToPhoneNumber");
             DropTable("dbo.VacancyToSkill");
             DropTable("dbo.VacancyToLevel");
             DropTable("dbo.FileToVacancy");
             DropTable("dbo.VacancyToComment");
             DropTable("dbo.VacancyToCity");
             DropTable("dbo.ParentVacancyToChildVacancy");
+            DropTable("dbo.UserToComment");
+            DropTable("dbo.PermissionRole");
+            DropTable("dbo.UserToPhoneNumber");
             DropTable("dbo.CandidateSource");
             DropTable("dbo.SocialNetwork");
             DropTable("dbo.CandidateSocial");
@@ -924,21 +947,21 @@ namespace DAL.Migrations
             DropTable("dbo.Event");
             DropTable("dbo.Tag");
             DropTable("dbo.ExtendedStage");
-            DropTable("dbo.Permission");
-            DropTable("dbo.Role");
-            DropTable("dbo.PhoneNumber");
-            DropTable("dbo.Note");
-            DropTable("dbo.User");
             DropTable("dbo.Skill");
             DropTable("dbo.Level");
             DropTable("dbo.Language");
             DropTable("dbo.LanguageSkill");
             DropTable("dbo.Industry");
-            DropTable("dbo.File");
             DropTable("dbo.DepartmentGroup");
             DropTable("dbo.Department");
             DropTable("dbo.Currency");
             DropTable("dbo.Stage");
+            DropTable("dbo.Permission");
+            DropTable("dbo.Role");
+            DropTable("dbo.File");
+            DropTable("dbo.PhoneNumber");
+            DropTable("dbo.Note");
+            DropTable("dbo.User");
             DropTable("dbo.Comment");
             DropTable("dbo.VacancyStageInfo");
             DropTable("dbo.Vacancy");

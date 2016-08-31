@@ -31,5 +31,6 @@ namespace Domain.Entities
 
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public virtual ICollection<Note> Notes { get; set; }
+        public virtual ICollection<Comment> UserComments { get; set; }
     }
 }

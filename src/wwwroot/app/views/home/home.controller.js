@@ -104,6 +104,7 @@ export default function HomeController( //eslint-disable-line max-statements
    }
 
    function _getUpcomingEvents() {
+      _getCurrentUser();
       _formingDateConditions();
       EventsService.getEventsForPeriod(vm.eventCondidtion).then(events => {
          set(vm, 'upcomingEvents', events);
@@ -112,10 +113,10 @@ export default function HomeController( //eslint-disable-line max-statements
    }
 
    function saveEvent(event) {
-      return EventsService.save(event).then((resronseEvent) => {
+      return EventsService.save(event).then((responseEvent) => {
          _getUpcomingEvents();
          vm.cloneUpcomingEvents  = clone(vm.upcomingEvents);
-         return resronseEvent;
+         return responseEvent;
       });
    }
 
@@ -134,6 +135,7 @@ export default function HomeController( //eslint-disable-line max-statements
    }
 
    function _getCurrentUser() {
+      vm.eventCondidtion.userIds = [];
       vm.user = UserService.getCurrentUser();
       vm.eventCondidtion.userIds.push(vm.user.id);
    }

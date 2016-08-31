@@ -22,10 +22,10 @@ function MainMenuController($scope, $state) {
    vm.goVacancy   = _goVacancy;
 
    function _goCandidate() {
-      $state.go('candidate', {_data: null, candidateId: null});
+      $state.go('candidate', {_data: null, candidateId: null, toPrevious: false});
    }
 
    function _goVacancy() {
-      $state.go('vacancyEdit', {_data: null, vacancyId: null});
+      $state.go('vacancyEdit', {_data: null, vacancyId: null, toPrevious: false});
    }
 }

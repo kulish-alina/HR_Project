@@ -1,8 +1,17 @@
+import './calendar.scss';
 import {
    set,
-   isEqual,
-   remove
+   remove,
+   each,
+   assign,
+   map,
+   zipObject,
+   flatten,
+   round,
+   isEqual
 } from 'lodash';
+let HUE_SATURATION_LIGHTNESS_LIMIT = 360;
+let HUE_SATURATION_LIGHTNESS_OFFSET = 20;
 export default function CandidateProfileController(
    $scope,
    $translate,
@@ -11,7 +20,8 @@ export default function CandidateProfileController(
    UserDialogService,
    VacancyService,
    CandidateService,
-   ThesaurusService
+   ThesaurusService,
+   LocalStorageService
    ) {
    'ngInject';
 
@@ -22,7 +32,7 @@ export default function CandidateProfileController(
    vm.getEventsForMonth       = getEventsForMonth;
    vm.users                   = [];
    vm.addUserToChekedUsers    = addUserToChekedUsers;
-   vm.chekedUsersIds          = [];
+   vm.chekedUsersIds          = LocalStorageService.get('chekedUsersIds') || [];
    vm.removeEvent             = removeEvent;
    vm.saveEvent               = saveEvent;
    vm.getEventsForDate        = getEventsForDate;
@@ -32,21 +42,50 @@ export default function CandidateProfileController(
    vm.candidate               = {};
    vm.candidate.current       = 0;
    vm.candidate.size          = 20;
+   vm.userColorObject         = {};
 
    (function init() {
-      UserService.getUsers().then(users => set(vm, 'users', users));
+      UserService.getUsers().then(users => {
+         set(vm, 'users', users);
+         generateColorsForUsers();
+         each(vm.users, (user) => {
+            if (vm.chekedUsersIds.length && vm.chekedUsersIds.includes(user.id)) {
+               assign(user, {selected: true});
+            } else {
+               assign(user, {selected: false});
+            }
+         });
+      });
       VacancyService.search(vm.vacancy).then(data  => set(vm, 'vacancies',  data.vacancies));
       CandidateService.search(vm.candidate).then(data  => set(vm, 'candidates', data.candidate));
       ThesaurusService.getThesaurusTopics('eventtype')
          .then(eventTypes  => set(vm, 'eventTypes', eventTypes));
    }());
 
-   function getEventsForMonth(date, usersIds) {
-      if (!isEqual(usersIds, vm.chekedUsersIds)) {
+   function generateColorsForUsers() {
+      let userIdsArr = map(vm.responsibles, (user) => {
+         return user.id;
+      });
+      let count = 0;
+      let colorIndexArray = [];
+      while (count <= HUE_SATURATION_LIGHTNESS_LIMIT) {
+         colorIndexArray.push(count);
+         count += HUE_SATURATION_LIGHTNESS_OFFSET;
+      }
+      let userColors = map(colorIndexArray, (num) => {
+         let pastel =  `hsl(${num}, 100%, 95%)`;
+         return pastel;
+      });
+      let fulluserColors = flatten(Array(round(userIdsArr.length / userColors.length) + 1).fill(userColors));
+      vm.userColorObject = zipObject(userIdsArr, fulluserColors);
+   }
+
+   function getEventsForMonth(startDate, endDate, usersIds) {
+      vm.eventCondidtion.startDate = startDate;
+      vm.eventCondidtion.endDate = endDate;
+      if (usersIds.length !== 1 && !isEqual(usersIds, vm.chekedUsersIds)) {
          usersIds = vm.chekedUsersIds;
       }
-      vm.eventCondidtion.startDate = new Date(date.getFullYear(), date.getMonth(), 1);
-      vm.eventCondidtion.endDate = null;
       vm.eventCondidtion.userIds = usersIds;
       return EventsService.getEventsForPeriod(vm.eventCondidtion);
    }
@@ -58,12 +97,13 @@ export default function CandidateProfileController(
    }
 
    function addUserToChekedUsers(user) {
-      if (user.selected) {
+      if (user.selected && !(vm.chekedUsersIds.includes(user.id))) {
          vm.chekedUsersIds.push(user.id);
-      } else {
+      } else if (!user.selected) {
          remove(vm.chekedUsersIds, (currentUserId) =>  currentUserId === user.id);
       }
-      vm.$broadcast('checkUser', {chekedUsers: vm.chekedUsers});
+      vm.$broadcast('checkUser', {checkedUsersIds: vm.chekedUsersIds});
+      LocalStorageService.set('chekedUsersIds', vm.chekedUsersIds);
    }
 
    function removeEvent(event) {

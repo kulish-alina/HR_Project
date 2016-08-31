@@ -9,7 +9,8 @@ import {
    cloneDeep,
    reduce,
    result,
-   assignIn
+   assignIn,
+   set
 } from 'lodash';
 
 const VACANCY_URL = 'vacancy/';
@@ -26,6 +27,14 @@ const THESAURUS = [
    new ThesaurusHelper('entityState', 'state',       'entityStates'),
    new ThesaurusHelper('typeOfEmployment', 'typeOfEmployment', 'typesOfEmployment')
 ];
+
+const PROMISE_INDEXES = {
+   responsible:      0,
+   vacancy:          1,
+   childVacancies:   2,
+   comments:         3,
+   closingCandidate: 4
+};
 
 let _HttpService;
 let _ThesaurusService;
@@ -72,11 +81,12 @@ export default class VacancyService {
       });
       return _VacancyService._getVacancyFields(vacancy)
       .then((promises) => {
-         vacancy.responsible = promises[0];
+         vacancy.responsible = promises[PROMISE_INDEXES.responsible];
          vacancy.responsibleId = toString(vacancy.responsibleId);
-         assignIn(vacancy, promises[1]);
-         vacancy.childVacancies = promises[2];
-         vacancy.closingCandidate = promises[3];
+         vacancy.comments = promises[PROMISE_INDEXES.comments];
+         assignIn(vacancy, promises[PROMISE_INDEXES.vacancy]);
+         vacancy.childVacancies = promises[PROMISE_INDEXES.childVacancies];
+         vacancy.closingCandidate = promises[PROMISE_INDEXES.closingCandidate];
          return vacancy;
       });
    }
@@ -108,6 +118,7 @@ export default class VacancyService {
          });
          vacancy = _convertThesaurusToIds(vacancy);
          vacancy = _convertToServerDates(vacancy);
+         this._convertCommentsToServer(vacancy);
          delete vacancy.createdOn;
          delete vacancy.responsible;
          delete vacancy.childVacancies;
@@ -134,12 +145,34 @@ export default class VacancyService {
       let userPromise = _VacancyService._getUser(vacancy);
       let thesaurusesPromises = _VacancyService._getThesauruses(vacancy);
       let childVacancyPromises = _VacancyService._getChildVacancies(vacancy);
+      let commentsPromise = _VacancyService._getCommentsFields(vacancy);
       let closingCandidatePromise = _VacancyService._getClosingCandidate(vacancy);
-      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises, closingCandidatePromise]);
+      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises,
+             commentsPromise, closingCandidatePromise]);
    }
 
    _getUser(vacancy) {
       return _UserService.getUserById(vacancy.responsibleId);
+   }
+
+   _getCommentsFields(vacancy) {
+      if (vacancy.comments) {
+         let promises = map(vacancy.comments, (comment) => {
+            comment.createdOn = utils.formatDateFromServer(comment.createdOn);
+            _UserService.getUserById(comment.authorId).then(user => set(comment, 'responsible', user));
+            return comment;
+         });
+         return _$q.all(promises);
+      }
+   }
+
+   _convertCommentsToServer(vacancy) {
+      if (vacancy.comments) {
+         each(vacancy.comments, (comment) => {
+            comment.createdOn = utils.formatDateToServer(comment.createdOn);
+            delete comment.responsible;
+         });
+      }
    }
 
    _getChildVacancies(vacancy) {
@@ -154,6 +187,8 @@ export default class VacancyService {
    _getClosingCandidate(vacancy) {
       if (vacancy.closingCandidateId) {
          return _CandidateService.getCandidate(vacancy.closingCandidateId);
+      } else {
+         return true;
       }
    }
 

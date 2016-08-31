@@ -15,6 +15,7 @@ export default function VacancyController(
    $translate,
    $state,
    $q,
+   $window,
    VacancyService,
    ValidationService,
    ThesaurusService,
@@ -28,7 +29,7 @@ export default function VacancyController(
    const vm = $scope;
 
    /* --- api --- */
-   vm.clear                        = clear;
+   vm.back                         = back;
    vm.saveVacancy                  = saveVacancy;
    vm.vacancy                      = {};
    vm.vacancy.comments             = $state.params._data ? $state.params._data.comments : [];
@@ -58,13 +59,18 @@ export default function VacancyController(
    }());
 
    function _initCurrentVacancy() {
-      if ($state.params._data) {
-         vm.vacancy = $state.params._data;
+      if ($state.previous.params._data && $state.params.toPrevious === true) {
+         VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
+            set(vm, 'vacancy', vacancy);
+            vm.comments = cloneDeep(vm.vacancy.comments);
+         });
       } else if ($state.params.vacancyId) {
          VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.comments = cloneDeep(vm.vacancy.comments);
          });
+      } else if ($state.params._data) {
+         vm.vacancy = $state.params._data;
       } else {
          vm.vacancy = {};
          vm.vacancy.comments = [];
@@ -91,12 +97,12 @@ export default function VacancyController(
       vm.isChanged = true;
    }
 
-   function clear() {
-      $state.go('vacancyEdit', {_data: null, vacancyId: null});
+   function back() {
+      $window.history.back();
    }
 
    function goToChildVacancy(vacancy) {
-      $state.go('vacancyView', {_data: null, vacancyId: vacancy.id});
+      $state.go('vacancyEdit', {_data: null, vacancyId: vacancy.id, toPrevious: false});
    }
 
    function removeChildVacancy(vacancy) {
@@ -144,6 +150,8 @@ export default function VacancyController(
    }
 
    function _saveComment(comment) {
+      let currentUser = UserService.getCurrentUser();
+      comment.authorId = currentUser.id;
       return $q.when(vm.comments.push(comment));
    }
 
@@ -169,10 +177,13 @@ export default function VacancyController(
          vm.vacancy = vacancy;
          vm.comments = cloneDeep(vm.vacancy.comments);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
-      }).catch((error) => {
-         vm.vacancy.comments = memo;
-         UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
-         LoggerService.error(error);
-      });
+      })
+         .then(() => $state.go($state.previous.name, {_data: vm.vacancy, vacancyId: vm.vacancy.id},
+                     { reload: true }))
+         .catch((error) => {
+            vm.vacancy.comments = memo;
+            UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
+            LoggerService.error(error);
+         });
    }
 }

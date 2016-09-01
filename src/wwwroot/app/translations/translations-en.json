@@ -284,5 +284,12 @@
       "LOGIN" :"Login",
       "PASSWORD" : "Password",
       "SESSION_EXPIRED":"Sorry, your session has expired, please login again"
+   },
+   
+   "REPORTS" : {
+      "REPORTS" : "Reports",
+      "USERS_REPORT" : "User report",
+      "VACANCIES_REPORT" : "Vacancies report",
+      "RECRUITING_FUNNEL" : "Recruiting funnel"
    }
 }

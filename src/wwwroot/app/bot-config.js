@@ -14,6 +14,7 @@ import candidateProfileTemplate from './views/candidate.profile/candidate.profil
 import loaderTemplate           from './views/loading/loading.view.html';
 import loginTemplate            from './views/login/login.view.html';
 import calendarTemplate         from './views/calendar/calendar.html';
+import reportsTemplate           from './views/reports/reports.html';
 
 import homeController             from './views/home/home.controller';
 import candidatesController       from './views/candidates/candidates.controller';
@@ -29,6 +30,7 @@ import vacancyViewController      from './views/vacancy.profile/vacancy.view.con
 import candidateProfileController from './views/candidate.profile/candidate.profile.controller';
 import loginController            from './views/login/login.controller';
 import calendarController         from './views/calendar/calendar.controller';
+import reportsController          from './views/reports/reports.controller';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -134,6 +136,13 @@ export default function _config(
          url: '/calendar',
          template: calendarTemplate,
          controller: calendarController,
+         parent: 'home',
+         data: { hideHome: true }
+      })
+      .state('reports', {
+         url: '/reports',
+         template: reportsTemplate,
+         controller: reportsController,
          parent: 'home',
          data: { hideHome: true }
       })

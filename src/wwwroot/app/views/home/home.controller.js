@@ -66,12 +66,12 @@ export default function HomeController( //eslint-disable-line max-statements
       if (!vm.user) {
          $state.go('login');
       }
-      SearchService.getVacancies(vm.vacancy).then(r => set(vm, 'vacancies', r)).catch(_onError);
+      SearchService.fetchVacancies(vm.vacancy).then(resp => set(vm, 'vacancies', resp)).catch(_onError);
    }());
 
    function pageChanged(newPage) {
       vm.vacancy.current = newPage - 1;
-      SearchService.getVacancies(vm.vacancy).then(r => set(vm, 'vacancies', r)).catch(_onError);
+      SearchService.fetchVacancies(vm.vacancy).then(resp => set(vm, 'vacancies', resp)).catch(_onError);
    };
 
    function viewVacancy(vacancy) {

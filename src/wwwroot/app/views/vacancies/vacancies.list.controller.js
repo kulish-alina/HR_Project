@@ -57,7 +57,7 @@ export default function VacanciesController(
    };
 
    function searchVacancies() {
-      SearchService.getVacancies(vm.vacancyPredicate).then(response => {
+      SearchService.fetchVacancies(vm.vacancyPredicate).then(response => {
          forEach(response.vacancies, (vac) => {
             vac.isToogled = vm.isVacancyWasToogled(vac.id);
          });

@@ -160,7 +160,8 @@
       "EVENT_TYPE": "Event type",
       "CREATED_ON": "Created on:",
       "AUTHOR": "Author:",
-      "BACK": "Back"
+      "BACK": "Back",
+      "FOR": "for"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -288,8 +289,14 @@
    
    "REPORTS" : {
       "REPORTS" : "Reports",
-      "USERS_REPORT" : "User report",
+      "USERS_REPORT" : "Users report",
       "VACANCIES_REPORT" : "Vacancies report",
-      "RECRUITING_FUNNEL" : "Recruiting funnel"
+      "RECRUITING_FUNNEL" : "Recruiting funnel",
+      "REPORT_CONDITIONS" : "Report conditions",
+      "USER_REPORT_CHART" : "Users' report chart",
+      "VACANCY_REPORT_CHART" : "Vacancies' report chart",
+      "USER_REPORT_DATA" : "Users' report data",
+      "VACANCY_REPORT_DATA" : "Vacancies' report data",
+      "DATE_RANGE" : "Date range"
    }
 }

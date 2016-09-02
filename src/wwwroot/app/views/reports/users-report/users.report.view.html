@@ -1,0 +1,57 @@
+<div class="grid-block">
+   <div class="medium-3 grid-block">
+      <div class="sidebar">
+         <div class="card-divider">
+            <div class="grid-block">
+               <div class="medium-8 grid-block" ng-bind="::'REPORTS.REPORT_CONDITIONS' | translate"></div>
+               <div class="medium-4 grid-block align-right">
+                  <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+               </div>
+            </div>
+         </div>
+         <div class="card-section">
+            <form>
+               <label ng-bind="::'REPORTS.DATE_RANGE' | translate"></label>
+               <div class="grid-block">
+                  <div class="medium-6 grid-block">
+                     <input type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="userReportCondition.startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
+                  <div class="medium-6 grid-block">
+                     <input type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="userReportCondition.endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
+               </div>
+               <div class="grid-block">
+                  <label ng-bind="::'THESAURUSES.LOCATIONS' | translate"></label>&nbsp;
+                  <input type="checkbox" ng-model="isActiveLocationField" ng-checked="isActiveLocationField">
+               </div>
+               <div ng-if="isActiveLocationField" class="grid-block" ng-repeat="location in listOfLocations">
+                  <div class="small-2 grid-block">
+                     <input ng-value="user" ng-change="addUserToChekedUsers(user)" ng-checked="user.selected" ng-model="user.selected" id="user" type="checkbox"> </div>
+                  <div class="small-10 grid-block">
+                     <label for="user" ng-bind="location"></label>
+                  </div>
+               </div>
+               <div class="grid-block">
+                  <label ng-bind="::'COMMON.USERS' | translate"></label>&nbsp;
+                  <input type="checkbox" ng-model="isActiveUsersField" ng-checked="isActiveUsersField">
+               </div>
+               <div ng-if="isActiveUsersField" class="grid-block" ng-repeat="user in users | limitTo: 7">
+                  <div class="small-2 grid-block">
+                     <input ng-value="user" ng-change="addUserToChekedUsers(user)" ng-checked="user.selected" ng-model="user.selected" id="user" type="checkbox"> </div>
+                  <div class="small-10 grid-block">
+                     <label for="user" ng-bind="::(user.lastName+' '+user.firstName)"></label>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div class="vertical medium-9 grid-block">
+      <div class="main-card">
+         <div class="card-divider" ng-bind="::'REPORTS.USER_REPORT_CHART' | translate"> </div>
+         <div class="card-section"> </div>
+      </div>
+      <div class="main-card">
+         <div class="card-divider" ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"> </div>
+         <div class="card-section"> </div>
+      </div>
+   </div>
+</div>

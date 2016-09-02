@@ -1,0 +1,42 @@
+<div class="grid-block">
+   <div class="medium-3 grid-block">
+      <div class="sidebar">
+         <div class="card-divider">
+            <div class="grid-block">
+               <div class="medium-8 grid-block" ng-bind="::'REPORTS.REPORT_CONDITIONS' | translate"></div>
+               <div class="medium-4 grid-block align-right">
+                  <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+               </div>
+            </div>
+         </div>
+         <div class="card-section">
+            <form>
+               <oi-select class="multiple-select" oi-options="vacancy as vacancy.title for vacancy in vacancies track by vacancy.id" ng-model="selectedVacancy" placeholder="{{::'VACANCY.VACANCY' | translate}}"></oi-select>
+               <div class="grid-block">
+                  <label ng-bind="::'THESAURUSES.STAGES' | translate"></label>&nbsp;
+                  <input type="checkbox" ng-model="isActiveStagesField" ng-checked="isActiveStagesField">
+               </div>
+               <div class="vertical grid-block" ng-if="isActiveStagesField">
+                  <div class="stage-filter" ng-click="filterByStage(stage)" ng-repeat="stage in stages track by $index" ng-class="{'pressed': stage._isPressed}">
+                     <span class='fitler-button' ng-bind="stage.title" ng-class="{'has-entities': stage._hasEntities}"></span>
+                     <span ng-if="stage._hasEntities" class='filter-count' ng-bind="stage.entitiesCount"></span>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div class="vertical medium-9 grid-block">
+      <div class="main-card">
+         <div class="card-divider">
+            <span ng-bind="::'REPORTS.RECRUITING_FUNNEL' | translate"></span>
+            <span ng-bind="::'COMMON.FOR' | translate"></span>
+            <a ng-click="viewVacancy()" ng-bind="::selectedVacancy.title"></a> </div>
+         <div class="card-section"> </div>
+      </div>
+      <div class="main-card">
+         <div class="card-divider" ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"> </div>
+         <div class="card-section"> </div>
+      </div>
+   </div>
+</div>

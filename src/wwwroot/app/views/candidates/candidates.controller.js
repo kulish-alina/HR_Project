@@ -69,7 +69,7 @@ export default function CandidatesController(
    };
 
    function searchCandidates() {
-      SearchService.getCandidates(vm.candidate).then(response => {
+      SearchService.fetchCandidates(vm.candidate).then(response => {
          forEach(response.candidate, (cand) => {
             cand.isToogled = vm.isCandidateWasToogled(cand.id);
          });

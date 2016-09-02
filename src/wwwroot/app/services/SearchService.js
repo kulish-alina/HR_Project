@@ -14,12 +14,20 @@ export default class SearchService {
       _CandidateService = CandidateService;
    }
 
-   getVacancies(options, updateTimeout) {
+   fetchVacancies(options, updateTimeout) {
       return _search(_VacancyService, options, 'vacancies', updateTimeout);
    }
 
-   getCandidates(options, updateTimeout) {
+   fetchCandidates(options, updateTimeout) {
       return _search(_CandidateService, options, 'candidates', updateTimeout);
+   }
+
+   invalidateVacancies() {
+      cache.vacancies = null;
+   }
+
+   invalidateCandidates() {
+      cache.candidates = null;
    }
 }
 

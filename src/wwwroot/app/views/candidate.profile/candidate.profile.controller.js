@@ -23,7 +23,8 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    VacancyService,
    LoggerService,
    EventsService,
-   UserService
+   UserService,
+   SearchService
    ) {
    'ngInject';
 
@@ -261,6 +262,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
          vm.candidate.comments = memo;
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_CANDIDATE_SAVING'), 'error');
          LoggerService.error(error);
+         SearchService.invalidateCandidates();
       });
    }
 

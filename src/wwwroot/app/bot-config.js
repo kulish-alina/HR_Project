@@ -47,6 +47,13 @@ export default function _config(
    HttpServiceProvider
 ) {
    'ngInject';
+   //this case must be before $stateProvider
+   $urlRouterProvider.otherwise($injector => {
+      let $state = $injector.get('$state');
+      $state.go('home');
+   })
+      .when('/vacancies','/vacancies/search')
+      .when('/candidates', 'candidates/search');
 
    $stateProvider
       .state('main', {
@@ -63,13 +70,12 @@ export default function _config(
          parent: 'main'
       })
       .state('candidates', {
-         abstract: true,
          parent: 'main',
          url: '/candidates',
          template: '<ui-view/>'
       })
       .state('candidates.search', {
-         url: '',
+         url: '/search',
          template: candidatesTemplate,
          controller: candidatesController,
          params: {
@@ -77,13 +83,12 @@ export default function _config(
          }
       })
       .state('vacancies', {
-         abstract: true,
          parent: 'main',
          url: '/vacancies',
          template: '<ui-view/>'
       })
       .state('vacancies.search', {
-         url: '',
+         url: '/search',
          template: vacanciesTemplate,
          controller: vacanciesController,
          params: {
@@ -193,11 +198,6 @@ export default function _config(
    $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
-   });
-
-   $urlRouterProvider.otherwise($injector => {
-      let $state = $injector.get('$state');
-      $state.go('home');
    });
 
    $translateProvider

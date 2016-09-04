@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebUI</RootNamespace>
     <AssemblyName>WebUI</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -27,6 +27,7 @@
     </NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -184,6 +185,7 @@
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Controllers\SocialNetworkController.cs" />
@@ -210,6 +212,9 @@
     <Compile Include="Models\LanguageSkillModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NoteModel.cs" />
+    <Compile Include="Models\Reports\LocationReportModel.cs" />
+    <Compile Include="Models\Reports\UserReportModel.cs" />
+    <Compile Include="Models\Reports\UsersReportParameters.cs" />
     <Compile Include="Models\VacancyModel.cs" />
     <Compile Include="Models\VacancySearchModel.cs" />
     <Compile Include="Models\VacancySearchParameters.cs" />
@@ -243,6 +248,9 @@
       <Project>{5F863426-F6DF-47EC-885C-EDD5CB46D676}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -297,6 +297,7 @@
       "VACANCY_REPORT_CHART" : "Vacancies' report chart",
       "USER_REPORT_DATA" : "Users' report data",
       "VACANCY_REPORT_DATA" : "Vacancies' report data",
-      "DATE_RANGE" : "Date range"
+      "DATE_RANGE" : "Date range",
+      "GENERATE" : "Generate"
    }
 }

@@ -1,0 +1,18 @@
+@import "../../../common.scss";
+.report-sidebar {
+   min-width: inherit;
+}
+.report-data {
+   font-size: $rem-base*0.8;
+   div {
+      font-size: $rem-base*0.8;
+      min-height: $rem-base*2;
+      border-bottom: 1px solid lighten($gray, 5);
+   }
+}
+table, th, td {
+   border: 1px solid lighten($gray, 5);
+}
+td {
+   padding: 0;
+}

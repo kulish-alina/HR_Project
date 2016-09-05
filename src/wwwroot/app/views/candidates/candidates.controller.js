@@ -39,9 +39,6 @@ export default function CandidatesController(
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
    vm.isActiveAgeField     = true;
    vm.useAgeInSearch       = useAgeInSearch;
-
-   vm.isActiveAgeField     = true;
-   vm.useAgeInSearch       = useAgeInSearch;
    vm.isAllToogled         = false;
 
    vm.slider = {

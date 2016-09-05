@@ -15,15 +15,10 @@
       color: $primary-color;
    }
 }
-.only-events {
+.display-none {
    display: none;
 }
-.list-only {
-   display: none;
-}
-.form-only {
-   display: none;
-}
+
 .without-list {
    flex: 0 0 100%;
    max-width: 100%; 
@@ -35,9 +30,6 @@
       width: 100%;
       margin-left: 0;
    }
-}
-.list-with-form {
-   display: none;
 }
 .full-temlate {
    min-width: $rem-base*10;
@@ -57,9 +49,20 @@
    }
 }
 .event-icon {
-   height: 100%;
    width: 100%;
 }
 .fot-calendar-list {
    padding: 0;
+}
+.event-height {
+   height: $rem-base;
+   overflow: hidden;
+   display: block;
+}
+.event-width {
+   width: 50%;
+   float: left;
+   height: $rem-base*9.4;
+   padding: $rem-base/2;
+   border: solid 1px $gray;
 }

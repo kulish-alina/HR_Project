@@ -1,3 +1,7 @@
+import utils  from '../utils.js';
+import {
+   each
+} from 'lodash';
 const NOTE_URL = 'note';
 let _HttpService, _UserService, _LoggerService, _$q, _$translate;
 
@@ -12,12 +16,17 @@ export default class NoteService {
    }
 
    save(entity) {
+      this.convertDateToServerFormat(entity);
       if (entity.id) {
-         return _HttpService.put(`${NOTE_URL}/${entity.id}`, entity);
+         return _HttpService.put(`${NOTE_URL}/${entity.id}`, entity).then((comment) => {
+            return this.convertDateFromServerFormat(comment);
+         });
       } else {
          let currentUser = _UserService.getCurrentUser();
          entity.userId = currentUser.id;
-         return _HttpService.post(NOTE_URL, entity);
+         return _HttpService.post(NOTE_URL, entity).then((comment) => {
+            return this.convertDateFromServerFormat(comment);
+         });
       }
    }
 
@@ -32,6 +41,19 @@ export default class NoteService {
 
    getNotesByUser() {
       let currentUser = _UserService.getCurrentUser();
-      return _HttpService.get(`${NOTE_URL}/user/${currentUser.id}`);
+      return _HttpService.get(`${NOTE_URL}/user/${currentUser.id}`).then((comments) => {
+         return each(comments, (comment) => {
+            return this.convertDateFromServerFormat(comment);
+         });
+      });
+   }
+
+   convertDateFromServerFormat(entity) {
+      entity.createdOn = utils.formatDateFromServer(entity.createdOn);
+      return entity;
+   }
+   convertDateToServerFormat(entity) {
+      entity.createdOn = utils.formatDateToServer(entity.createdOn);
+      return entity;
    }
 }

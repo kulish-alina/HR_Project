@@ -102,6 +102,7 @@ import {
   };
   DatetimePickerCtrl.$inject = ['$compile', '$document'];
   angular.module('angularjs-datetime-picker').controller('DatetimePickerCtrl', DatetimePickerCtrl);
+   
 
   var tmpl = [
     '<div class="angularjs-datetime-picker" ng-click="$event.stopPropagation()">' ,
@@ -119,15 +120,21 @@ import {
     '  </div>',
     '  <div class="adp-days" id="adp-time"> ',
     '    Time : {{("0"+inputHour).slice(-2)}} : {{("0"+inputMinute).slice(-2)}} <br/>',
-    '    <label>Hour:</label> <input type="range" min="0" max="23" ng-model="inputHour" ng-change="updateNgModel()" />',
-    '    <label>Min.:</label> <input type="range" step="5" min="0" max="59" ng-model="inputMinute"  ng-change="updateNgModel()"/> ',
+    '  <div class="grid-block time-pick"> ',
+    '  <div class="small-6 grid-block"> ',
+    '  <input id="hours" type="number" min="0" max="23" ng-model="inputHour" ng-change="updateNgModel()" />',
+    '  </div> ',
+    '  <div class="small-6 grid-block"> ',
+    '    <label class="time-divider">:</label> <input id="minutes" type="number" step="5" min="0" max="59" ng-model="inputMinute"  ng-change="updateNgModel()"/> ',
+    '  </div> ',
+    '  </div> ',
     '  </div> ',
     '</div>'].join("\n");
 
   var datetimePickerPopup = function($locale, dateFilter){
    var today = new Date().getDate();
    let clonedDay = today;
-    var days, months, daysOfWeek, firstDayOfWeek;
+   var days, months, daysOfWeek, firstDayOfWeek;
 
     var initVars = function() {
       days =[], months=[]; daysOfWeek=[], firstDayOfWeek=0;
@@ -201,13 +208,13 @@ import {
             if (!dateStr.match(/[0-9]{2}:/)) {  // if no time is given, add 00:00:00 at the end
               dateStr += " 00:00:00";
             }
-            dateStr = dateStr.replace(/([0-9]{2}-[0-9]{2})-([0-9]{4})/,'$2-$1');      //mm-dd-yyyy to yyyy-mm-dd
+            dateStr = dateStr.replace(/([0-9]{2})-([0-9]{2})-([0-9]{4})/,'$3-$2-$1');      //dd-mm-yyyy to yyyy-mm-dd
             dateStr = dateStr.replace(/([\/-][0-9]{2,4})\ ([0-9]{2}\:[0-9]{2}\:)/,'$1T$2'); //reformat for FF
             dateStr = dateStr.replace(/EDT|EST|CDT|CST|MDT|PDT|PST|UT|GMT/g,''); //remove timezone
             dateStr = dateStr.replace(/\s*\(\)\s*/,'');                          //remove timezone
             dateStr = dateStr.replace(/[\-\+][0-9]{2}:?[0-9]{2}$/,'');           //remove timezone
-            dateStr += getTimezoneOffset(dateStr);
-            var d = new Date(dateStr);
+            let timeZoneOffset = new Date(dateStr).getTimezoneOffset();
+            var d =  new Date(new Date(dateStr).valueOf() + timeZoneOffset* 60000);
             scope.selectedDate = new Date(
               d.getFullYear(),
               d.getMonth(),
@@ -253,22 +260,37 @@ import {
           }
         }
       };
+       
       scope.updateNgModel = function(day) {
-        day = day ? day : clonedDay;
-        scope.selectedDate = new Date(
-          scope.mv.year, scope.mv.month, day, scope.inputHour, scope.inputMinute, 0
-        );
-        scope.selectedDay = scope.selectedDate.getDate();
-        if (attrs.ngModel) {
-          var elScope = ctrl.triggerEl.scope(), dateValue;
-          if (elScope.$eval(attrs.ngModel) && elScope.$eval(attrs.ngModel).constructor.name === 'Date') {
-            dateValue = new Date(dateFilter(scope.selectedDate, dateFormat));
-          } else {
-            dateValue = dateFilter(scope.selectedDate, dateFormat);
-          }
-          elScope.$eval(attrs.ngModel + '= date', {date: dateValue});
-        }
-        clonedDay = day;
+         let hoursInput = document.getElementById("hours");
+         let minutesInput = document.getElementById("minutes");
+         if (hoursInput.value.length === 1) {
+            hoursInput.value = "0" + hoursInput.value;
+         } 
+         if(minutesInput.value.length === 1) {
+            minutesInput.value = "0" + minutesInput.value;
+         }
+         if (day) {
+            day = day;
+         } else if (scope.selectedDate) {
+            day = scope.selectedDate.getDate();
+         } else {
+            day = clonedDay;
+         }
+         scope.selectedDate = new Date(
+           scope.mv.year, scope.mv.month, day, scope.inputHour, scope.inputMinute, 0
+         );
+         scope.selectedDay = scope.selectedDate.getDate();
+         if (attrs.ngModel) {
+           var elScope = ctrl.triggerEl.scope(), dateValue;
+           if (elScope.$eval(attrs.ngModel) && elScope.$eval(attrs.ngModel).constructor.name === 'Date') {
+             dateValue = new Date(dateFilter(scope.selectedDate, dateFormat));
+           } else {
+             dateValue = dateFilter(scope.selectedDate, dateFormat);
+           }
+           elScope.$eval(attrs.ngModel + '= date', {date: dateValue});
+         }
+         clonedDay = day;
       };
 
       scope.$on('$destroy', ctrl.closeDatetimePicker);

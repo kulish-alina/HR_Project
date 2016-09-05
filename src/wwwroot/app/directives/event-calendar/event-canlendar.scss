@@ -1,28 +1,59 @@
 @import './../../common.scss';
-table {
-   width: 100%;
+.date-title {
+   padding-left: $rem-base;
+   padding-right: $rem-base;
 }
-
-tr:nth-child(2n) {
-   background-color: $body-background;
+.today-date {
+   background-color: transparentize($secondary-color, 0.8);
 }
-
-.week-row {
-   min-height: $rem-base*10;
-   height: auto;
-   .day-of-month:hover {background-color: #f5f5f5}
-   .day-of-month {
-      min-height: $rem-base*10;
-      width: 14.28%;
-      vertical-align: top;
-      border: 1px solid $border-color;
-      padding: $rem-base/2;
-      font-size: $rem-base/3;
-      .event-content {
+.dates-from-previous-month {
+   background-color: $light-color;
+}
+.day-title {
+   color: $primary-color;
+   margin-bottom: 0;
+}
+.events-number {
+  margin-bottom: 0;
+}
+.div-table{
+  display:table;         
+  width:100%;
+  box-shadow: 0px 0px 3px 0px $border-color;
+  margin-bottom: $rem-base;
+}
+.div-table-head {
+  display:table-row;
+  width:auto;
+  clear:both;
+}
+.div-table-col-head {
+  float:left;
+  display:table-column;         
+  width:14.28%;
+  border: 1px solid $gray;
+  padding: $rem-base/4;
+}
+.div-table-row{
+  display:table-row;
+  width:auto;
+  clear:both;
+  .div-table-col{
+     border: 1px solid $gray;
+     float:left;
+     display:table-column;         
+     width:14.28%;
+     height: $rem-base*5.5;
+     padding: $rem-base/4;
+     .event-content {
         font-size: $rem-base*0.75; 
         line-height: 1.2;
         a {
            font-weight: 100;
+        }
+        .event-title {
+           font-weight: 100;
+           color: black;
         }
       }
       .icon-link {
@@ -30,17 +61,12 @@ tr:nth-child(2n) {
          line-height: 1.2;
       }
       .events {
-           padding-left: $rem-base/4;
-           padding-right: $rem-base/4;
+         padding-left: $rem-base/4;
+         padding-right: $rem-base/4;
       }
    }
+  .div-table-col:hover {box-shadow: inset 0px 0px 12px 8px transparentize($gray, 0.73)}
 }
-
-.today-date {
-   background-color: transparentize($secondary-color, 0.8);
-}
-
-.day-title {
-   color: $primary-color;
-   margin-bottom: $rem-base/2;
+.event-board {
+   width: 100%;
 }

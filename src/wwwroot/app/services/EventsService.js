@@ -70,8 +70,9 @@ export default class EventsService {
 
    _convertFromServerFormat(event) {
       event.eventDate = utils.formatDateTimeFromServer(event.eventDate);
-      this._fillEntities(event);
-      this._convertIdsToString(event);
+      this._fillEntities(event).then(() => {
+         this._convertIdsToString(event);
+      });
       return event;
    }
 

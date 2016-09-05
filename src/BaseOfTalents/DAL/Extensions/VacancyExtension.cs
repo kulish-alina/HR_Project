@@ -41,7 +41,7 @@ namespace DAL.Extensions
             childVacancy.StageFlow.Clear();
             childVacancy.StageFlow = parentVacancy.StageFlow.Select(x =>
             {
-                var stage = uow.StageRepo.GetByID(x.Id);
+                var stage = uow.StageRepo.GetByID(x.Stage.Id);
                 return new ExtendedStage { Stage = stage, Order = stage.Order };
             }).ToList();
             childVacancy.Cities.Clear();
@@ -67,7 +67,12 @@ namespace DAL.Extensions
                 Description = x.Description
             }).ToList();
             childVacancy.Comments.Clear();
-            childVacancy.Comments = parentVacancy.Comments.Select(x => new Comment { Message = x.Message }).ToList();
+            childVacancy.Comments = parentVacancy.Comments.Select(x =>
+            new Comment {
+                Message = x.Message,
+                AuthorId = x.AuthorId,
+                State = x.State
+            }).ToList();
         }
 
         public static void Update(this Vacancy destination, VacancyDTO source, IUnitOfWork uow)

@@ -1,6 +1,9 @@
 @import './../../common.scss';
 .comments {
    font-size: $rem-base*0.8;
+   .comment-title {
+      font-weight: 600;
+   }
    i {
       font-size: $rem-base;
       @include breakpoint(medium only) { 

@@ -31,7 +31,7 @@ export default function VacanciesController(
    vm.deleteVacancy             = deleteVacancy;
    vm.editVacancy               = editVacancy;
    vm.viewVacancy               = viewVacancy;
-   vm.cancel                    = cancel;
+   vm.clear                     = clear;
    vm.thesaurus                 = [];
    vm.responsibles              = [];
    vm.vacancyPredicate           = LocalStorageService.get('vacancyPredicate') || {};
@@ -42,6 +42,7 @@ export default function VacanciesController(
    vm.vacancies                 = LocalStorageService.get('vacancies') || [];
    vm.selectedVacancies         = [];
    vm.candidateIdToGoBack       = $state.params.candidateIdToGoBack;
+   vm.isAllToogled              = false;
 
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
@@ -79,8 +80,10 @@ export default function VacanciesController(
       $state.go('vacancyView', {_data: vacancy, vacancyId: vacancy.id});
    }
 
-   function cancel() {
-      $state.reload();
+   function clear() {
+      vm.vacancyPredicate = {};
+      vm.vacancyPredicate.current  = 0;
+      vm.vacancyPredicate.size = 20;
    }
 
    function deleteVacancy(vacancy) {
@@ -127,6 +130,20 @@ export default function VacanciesController(
          return true;
       } else {
          return false;
+      }
+   };
+
+   vm.toogleAll = () => {
+      vm.selectedVacancies = [];
+      if (vm.isAllToogled) {
+         forEach(vm.vacancies.vacancies, (vacancy) => {
+            vacancy.isToogled = true;
+            vm.selectedVacancies.push(vacancy.id);
+         });
+      } else {
+         forEach(vm.vacancies.vacancies, (vacancy) => {
+            vacancy.isToogled = false;
+         });
       }
    };
 

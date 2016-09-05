@@ -27,7 +27,7 @@ export default function CandidatesController(
    vm.deleteCandidate      = deleteCandidate;
    vm.editCandidate        = editCandidate;
    vm.viewCandidate        = viewCandidate;
-   vm.cancel               = cancel;
+   vm.clear                = clear;
    vm.thesaurus            = [];
    vm.searchCandidates     = searchCandidates;
    vm.candidate            = {};
@@ -37,9 +37,12 @@ export default function CandidatesController(
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
+   vm.isActiveAgeField     = true;
+   vm.useAgeInSearch       = useAgeInSearch;
+   vm.isAllToogled         = false;
 
    vm.slider = {
-      min: 21,
+      min: 18,
       max: 45,
       options: {
          floor: 15,
@@ -83,8 +86,21 @@ export default function CandidatesController(
       $state.go('candidateProfile', {_data: candidate, candidateId: candidate.id});
    }
 
-   function cancel() {
-      $state.reload();
+   function clear() {
+      vm.candidate = {};
+      vm.candidate.current = 0;
+      vm.candidate.size = 20;
+      vm.isActiveAgeField = false;
+   }
+
+   function useAgeInSearch() {
+      if (vm.isActiveAgeField === true) {
+         vm.candidate.minAge  = vm.slider.min;
+         vm.candidate.maxAge  = vm.slider.max;
+      } else {
+         vm.candidate.minAge  = null;
+         vm.candidate.maxAge  = null;
+      }
    }
 
    function deleteCandidate(candidateId) {
@@ -125,6 +141,20 @@ export default function CandidatesController(
          return true;
       } else {
          return false;
+      }
+   };
+
+   vm.toogleAll = () => {
+      vm.selectedCandidates = [];
+      if (vm.isAllToogled) {
+         forEach(vm.candidates.candidate, (candidate) => {
+            candidate.isToogled = true;
+            vm.selectedCandidates.push(candidate.id);
+         });
+      } else {
+         forEach(vm.candidates.candidate, (candidate) => {
+            candidate.isToogled = false;
+         });
       }
    };
 

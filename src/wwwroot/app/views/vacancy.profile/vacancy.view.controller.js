@@ -28,6 +28,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    $translate,
    $element,
    $timeout,
+   $window,
    ThesaurusService,
    UserService,
    VacancyService,
@@ -42,12 +43,11 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.thesaurus            = [];
    vm.responsibles         = [];
    vm.edit                 = edit;
+   vm.back                 = back;
    vm.uploader             = createNewUploader();
    vm.addFilesForRemove    = addFilesForRemove;
    vm.queueFilesForRemove  = [];
    vm.saveChanges          = saveChanges;
-   vm.vacancy.comments     = $state.params._data ? $state.params._data.comments : [];
-   vm.comments             = cloneDeep(vm.vacancy.comments);
    vm.isChanged            = isChanged;
    vm.selectStage          = selectStage;
    vm.currentStage         = '';
@@ -84,18 +84,25 @@ export default function VacancyProfileController( // eslint-disable-line max-par
 
    function _initCurrentVacancy() {
       let deffered = $q.defer();
-      if ($state.params._data) {
+      if ($state.previous.params._data && $state.params.toPrevious === true) {
+         VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
+            set(vm, 'vacancy', vacancy);
+            vm.clonedVacancy = cloneDeep(vm.vacancy);
+            vm.comments = cloneDeep(vm.vacancy.comments) || [];
+            deffered.resolve();
+         });
+      } else if ($state.params._data) {
          vm.vacancy = $state.params._data;
-         vm.vacancy.comments = $state.params._data.comments;
-         vm.vacancy.files = $state.params._data.files;
+         vm.vacancy.comments = $state.params._data.comments ? $state.params._data.comments : [];
+         vm.vacancy.files =  $state.params._data.files ? $state.params._data.files : [];
          vm.clonedVacancy = cloneDeep(vm.vacancy);
-         vm.comments = cloneDeep(vm.vacancy.comments);
+         vm.comments = cloneDeep(vm.vacancy.comments)  || [];
          deffered.resolve();
       } else {
          VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.clonedVacancy = cloneDeep(vm.vacancy);
-            vm.comments = cloneDeep(vm.vacancy.comments);
+            vm.comments = cloneDeep(vm.vacancy.comments)  || [];
             deffered.resolve();
          });
       }
@@ -217,11 +224,11 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    };
 
    function goToParentVacancy() {
-      $state.go('vacancyEdit', {_data: null, vacancyId: vm.vacancy.parentVacancyId});
+      $state.go('vacancyView', {_data: null, vacancyId: vm.vacancy.parentVacancyId, toPrevious: false});
    }
 
-   function goToChildVacancy(vacancy) {
-      $state.go('vacancyEdit', {_data: null, vacancyId: vacancy.id});
+   function goToChildVacancy(childVacancyId) {
+      $state.go('vacancyView', {_data: null, vacancyId: childVacancyId, toPrevious: false});
    }
 
    function edit() {
@@ -242,8 +249,10 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    }
 
    function _isEqualComents() {
-      if (vm.comments.length !== vm.vacancy.comments.length || vm.queueFilesForRemove.length) {
-         return false;
+      if (vm.comments && vm.vacancy.comments) {
+         if (vm.comments.length !== vm.vacancy.comments.length || vm.queueFilesForRemove.length) {
+            return false;
+         }
       }
       let fields = ['createdOn', 'id', 'message', 'state'];
       return every(vm.comments, (comment) => {
@@ -278,8 +287,10 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          each(vm.queueFilesForRemove, (file) => FileService.remove(file));
          vm.queueFilesForRemove = [];
          _vs();
+         $state.go($state.current.parent, {_data: vm.vacancy, vacancyId: vm.vacancy.id}, {reload: true});
       } else {
          _vs();
+         $state.go($state.current.parent, {_data: vm.vacancy, vacancyId: vm.vacancy.id}, {reload: true});
       }
    }
 
@@ -287,7 +298,13 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       vm.currentStage = stageName;
    }
 
+   function back() {
+      $state.go($state.current.parent, {}, {reload: true});
+   }
+
    function _saveComment(comment) {
+      let currentUser = UserService.getCurrentUser();
+      comment.authorId = currentUser.id;
       return $q.when(vm.comments.push(comment));
    }
 

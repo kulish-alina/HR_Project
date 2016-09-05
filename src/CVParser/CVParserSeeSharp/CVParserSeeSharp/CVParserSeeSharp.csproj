@@ -59,12 +59,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CVStructure\CV.cs" />
+    <Compile Include="CVStructure\LogicalBlock.cs" />
+    <Compile Include="CVStructure\LogicalCV.cs" />
+    <Compile Include="LogicalPredictor.cs" />
+    <Compile Include="Parser\CVParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\Open-Xml-PowerTools-vNext\OpenXmlPowerTools\OpenXmlPowerTools.csproj">

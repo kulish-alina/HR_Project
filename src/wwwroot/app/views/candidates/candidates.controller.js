@@ -39,6 +39,7 @@ export default function CandidatesController(
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
    vm.isActiveAgeField     = true;
    vm.useAgeInSearch       = useAgeInSearch;
+   vm.isAllToogled         = false;
 
    vm.slider = {
       min: 18,
@@ -140,6 +141,20 @@ export default function CandidatesController(
          return true;
       } else {
          return false;
+      }
+   };
+
+   vm.toogleAll = () => {
+      vm.selectedCandidates = [];
+      if (vm.isAllToogled) {
+         forEach(vm.candidates.candidate, (candidate) => {
+            candidate.isToogled = true;
+            vm.selectedCandidates.push(candidate.id);
+         });
+      } else {
+         forEach(vm.candidates.candidate, (candidate) => {
+            candidate.isToogled = false;
+         });
       }
    };
 

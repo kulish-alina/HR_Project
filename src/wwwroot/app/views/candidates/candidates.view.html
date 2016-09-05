@@ -120,7 +120,7 @@
                   <thead>
                      <tr>
                         <th ng-if="$state.previous.name === 'vacancyView'">
-                           <input id="candidate" type="checkbox">
+                           <input id="candidate" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
                         </th>
                         <th>№</th>
                         <th ng-bind="::'CANDIDATE.FULL_NAME' | translate"></th>

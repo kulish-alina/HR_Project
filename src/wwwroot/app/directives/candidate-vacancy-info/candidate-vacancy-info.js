@@ -423,7 +423,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          candidateId: candObject.candidateId,
          stage: selectedStageAndVsi.stage,
          stageId: selectedStageAndVsi.stage.stage.id,
-         comment: selectedStageAndVsi.showCommentArea ? { message: '', authorId: 1 } : null,
+         comment: selectedStageAndVsi.showCommentArea ? { message: '', authorId: vm.currentUser } : null,
          stageState: STAGE_STATES.Active
       };
    }

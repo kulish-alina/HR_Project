@@ -59,6 +59,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.clonedVacancyStageInfosComposedByCandidateIdVacancyId     = [];
    vm.vacancyStageInfosComposedByCandidateIdVacancyId           = [];
    vm.isVacancyLoaded      = false;
+   vm.currentUser          = UserService.getCurrentUser();
 
    (function _init() {
       _initCurrentVacancy()

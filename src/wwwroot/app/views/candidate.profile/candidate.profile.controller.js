@@ -48,6 +48,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    vm.removeEvent             = removeEvent;
    vm.vacancyStageInfosComposedByCandidateIdVacancyId = [];
    vm.isCandidateLoaded       = false;
+   vm.currentUser             = UserService.getCurrentUser();
 
    function _init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));

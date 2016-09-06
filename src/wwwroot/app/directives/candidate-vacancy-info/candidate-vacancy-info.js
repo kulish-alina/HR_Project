@@ -25,7 +25,8 @@ export default class CandidateVacancyInfoDirective {
          vacancyStages: '=',
          promise: '=',
          vacancyStageInfosComposedByCandidateIdVacancyId: '=',
-         closevacancy: '='
+         closevacancy: '=',
+         currentUser: '@'
       };
       this.controller = CandidateVacancyInfoController;
    }
@@ -277,7 +278,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          candidateId: entityStageObject.candidateId,
          stage: hireStage,
          stageId: hireStage.stage.id,
-         comment: { message: '' },
+         comment: { message: '', authorId: vm.currentUser },
          stageState: STAGE_STATES.Active,
          createdOn: hireDate.toISOString()
       };
@@ -295,7 +296,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          stage: rejectStage.stage,
          stageId: rejectStage.stage.id,
          //TODO: open dialog to write a comment
-         comment: { message: 'rejected' },
+         comment: { message: 'rejected', authorId: vm.currentUser },
          stageState: STAGE_STATES.Active,
          createdOn: (new Date()).toISOString()
       };
@@ -422,7 +423,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          candidateId: candObject.candidateId,
          stage: selectedStageAndVsi.stage,
          stageId: selectedStageAndVsi.stage.stage.id,
-         comment: selectedStageAndVsi.showCommentArea ? { message: '' } : null,
+         comment: selectedStageAndVsi.showCommentArea ? { message: '', authorId: vm.currentUser } : null,
          stageState: STAGE_STATES.Active
       };
    }

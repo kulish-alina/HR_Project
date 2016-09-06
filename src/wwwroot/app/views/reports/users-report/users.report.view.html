@@ -20,7 +20,7 @@
                </div>
                <div class="grid-block">
                   <label ng-bind="::'THESAURUSES.LOCATIONS' | translate"></label>&nbsp;
-                  <input type="checkbox" ng-model="isActiveLocationField" ng-checked="isActiveLocationField"> </div>
+                  <input ng-value="isActiveLocationField" type="checkbox" ng-model="isActiveLocationField" ng-change="useLocationField(isActiveLocationField)" ng-checked="isActiveLocationField"> </div>
                <div ng-if="isActiveLocationField" class="grid-block" ng-repeat="location in locations">
                   <div class="small-2 grid-block">
                      <input ng-value="location" ng-change="addLocationIdsToUsersReportParametrs(location)" ng-checked="location.selected" ng-model="location.selected" id="location" type="checkbox"> </div>
@@ -30,7 +30,7 @@
                </div>
                <div class="grid-block">
                   <label ng-bind="::'COMMON.USERS' | translate"></label>&nbsp;
-                  <input type="checkbox" ng-model="isActiveUsersField" ng-checked="isActiveUsersField"> </div>
+                  <input ng-value="isActiveUsersField" type="checkbox" ng-model="isActiveUsersField" ng-checked="isActiveUsersField" ng-change="useUserField(isActiveUsersField)"> </div>
                <div ng-if="isActiveUsersField" class="grid-block" ng-repeat="user in users | filter: isEqualLocations">
                   <div class="small-2 grid-block">
                      <input ng-value="user" ng-change="addUserIdsToUsersReportParametrs(user)" ng-checked="user.selected" ng-model="user.selected" id="user" type="checkbox"> </div>
@@ -53,61 +53,80 @@
          <div class="card-section">
             <table class="report-data">
                <thead>
-                  <tr>
-                     <th ng-if="isActiveLocationField" ng-bind="::'COMMON.LOCATION' | translate"></th>
+                  <tr ng-if="selectedLocations.length" class="report-data-row">
+                     <th ng-bind="::'COMMON.LOCATION' | translate"></th>
                      <th ng-bind="::'COMMON.USERS' | translate"></th>
                      <th ng-bind="::'COMMON.ADDED' | translate" colspan="2"></th>
                      <th ng-repeat="stage in stages | orderBy:'$index':true" ng-bind="stage.title" colspan="2"></th>
                   </tr>
                </thead>
                <tbody ng-if="selectedLocations.includes(location)" ng-repeat="location in locations">
-                  <tr>
-                     <td ng-bind="location.title"></td>
+                  <tr class="report-data-row">
+                     <td>
+                        <div ng-bind="location.title"></div>
+                     </td>
                      <td>
                         <div ng-if="selectedUsersGroupedByLocation" ng-repeat="user in selectedUsersGroupedByLocation[location.id]" ng-bind="::(user.lastName+' '+user.firstName)"></div>
                      </td>
                      <td>
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">3</div>
                      </td>
-                     <td>12</td>
-                     <!--
-                     <td ng-repeat="stage in stages">
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
--->
                      <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>2</td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>4</td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>6</td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>8</td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>10</td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>12</td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                        <div>12</div>
                      </td>
                      <td>
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
                      </td>
-                     <td>15</td>
+                     <td>
+                        <div>12</div>
+                     </td>
                      <td>
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
+                     </td>
+                     <td>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
+                     </td>
+                     <td>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
+                     </td>
+                     <td>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
+                     </td>
+                     <td>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
+                     </td>
+                     <td>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
+                     </td>
+                     <td>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
+                     </td>
+                     <td>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
                      </td>
                      <td>
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
@@ -116,19 +135,46 @@
                      <td>
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
                      </td>
-                     <td>20</td>
+                     <td>
+                        <div>12</div>
+                     </td>
                      <td>
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
                      </td>
-                     <td>22</td>
+                     <td>
+                        <div>12</div>
+                     </td>
                      <td>
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
                      </td>
-                     <td>24</td>
                      <td>
+                        <div>12</div>
+                     </td>
+                     <!--
+                     <td ng-repeat="stage in stages">
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
                      </td>
-                     <td>26</td>
+-->
+                  </tr>
+               </tbody>
+               <thead ng-if="!selectedLocations.length">
+                  <tr class="report-data-row">
+                     <th ng-bind="::'COMMON.USERS' | translate"></th>
+                     <th ng-bind="::'COMMON.ADDED' | translate"></th>
+                     <th ng-repeat="stage in stages | orderBy:'$index':true" ng-bind="stage.title"></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="user in selectedUsers" class="report-data-row">
+                     <td>
+                        <div ng-bind="::(user.lastName+' '+user.firstName)"></div>
+                     </td>
+                     <td>
+                        <div>3</div>
+                     </td>
+                     <td ng-repeat="stage in stages">
+                        <div>3</div>
+                     </td>
                   </tr>
                </tbody>
             </table>

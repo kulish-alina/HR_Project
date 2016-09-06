@@ -18,6 +18,12 @@ export default class ReportsService {
       return _HttpService.post(`${REPORT_URL}/${userReportUrl}`, searchParameters);
    }
 
+   getDataForVacancyReport(searchParameters) {
+      searchParameters = this._convertToServerDates(searchParameters);
+      let vacancyReportUrl = 'vacanciesReport';
+      return _HttpService.post(`${REPORT_URL}/${vacancyReportUrl}`, searchParameters);
+   }
+
    _convertToServerDates(searchParameters) {
       each(DATE_TYPE, (type) => {
          if (searchParameters[type]) {

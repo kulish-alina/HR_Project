@@ -25,6 +25,8 @@ export default function UsersReportController(
    vm.selectedUsers                        = [];
    vm.selectedUsersGroupedByLocation       = {};
    vm.clear                                = clear;
+   vm.useLocationField                     = useLocationField;
+   vm.useUserField                         = useUserField;
    vm.addLocationIdsToUsersReportParametrs = addLocationIdsToUsersReportParametrs;
    vm.addUserIdsToUsersReportParametrs     = addUserIdsToUsersReportParametrs;
    vm.formingUsersReport                   = formingUsersReport;
@@ -57,6 +59,36 @@ export default function UsersReportController(
          });
       });
    }());
+
+   function useLocationField(isActiveLocationField) {
+      if (!isActiveLocationField) {
+         _clearLocationField();
+      }
+   }
+
+   function useUserField(isActiveUsersField) {
+      if (!isActiveUsersField) {
+         _clearUserField();
+      }
+   }
+
+   function _clearLocationField() {
+      vm.usersReportParametrs.locationIds = [];
+      vm.selectedLocations = [];
+      vm.selectedUsersGroupedByLocation = {};
+      each(vm.locations, (location) => {
+         location.selected = false;
+      });
+   }
+
+   function _clearUserField() {
+      vm.usersReportParametrs.userIds = [];
+      vm.selectedUsers = [];
+      vm.selectedUsersGroupedByLocation = {};
+      each(vm.users, (user) => {
+         user.selected = false;
+      });
+   }
 
    function addLocationIdsToUsersReportParametrs(location) {
       if (location.selected && !vm.usersReportParametrs.locationIds.includes(location.id)) {
@@ -92,6 +124,8 @@ export default function UsersReportController(
 
    function clear() {
       vm.usersReportParametrs = {};
+      _clearLocationField();
+      _clearUserField();
    }
 
    function isEqualLocations(user) {

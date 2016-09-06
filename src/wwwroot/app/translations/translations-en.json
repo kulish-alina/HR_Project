@@ -298,6 +298,11 @@
       "USER_REPORT_DATA" : "Users' report data",
       "VACANCY_REPORT_DATA" : "Vacancies' report data",
       "DATE_RANGE" : "Date range",
-      "GENERATE" : "Generate"
+      "GENERATE" : "Generate",
+      "VACANCIES_OPENED_IN_PREVIOUS_PERIOD" : "Vacancies opened in the previous period",
+      "VACANCIES_OPENED_IN_CURRENT_PERIOD" : "Vacancies opened in the current period",
+      "VACANCIES_IN_PROGRESS" : "Vacancies in progress",
+      "CLOSED_VACANCIES" : "Closed vacancies"
+      
    }
 }

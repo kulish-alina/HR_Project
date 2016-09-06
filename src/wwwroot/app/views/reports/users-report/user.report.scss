@@ -3,16 +3,28 @@
    min-width: inherit;
 }
 .report-data {
+   border-collapse: collapse;
    font-size: $rem-base*0.8;
    div {
       font-size: $rem-base*0.8;
       min-height: $rem-base*2;
       border-bottom: 1px solid lighten($gray, 5);
+      padding: $rem-base/4;
    }
 }
-table, th, td {
-   border: 1px solid lighten($gray, 5);
+.report-data-row {
+   th, td {
+      border: 1px solid lighten($gray, 5);
+   }
+   td {
+      padding: 0;
+      div:last-child {
+         border-bottom: none;
+      }
+      td:first-child {
+         padding: $rem-base/4;
+      }
+   }
+
 }
-td {
-   padding: 0;
-}
+

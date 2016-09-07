@@ -48,6 +48,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    vm.removeEvent             = removeEvent;
    vm.vacancyStageInfosComposedByCandidateIdVacancyId = [];
    vm.isCandidateLoaded       = false;
+   vm.currentUser             = UserService.getCurrentUser();
 
    function _init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
@@ -236,12 +237,12 @@ export default function CandidateProfileController( // eslint-disable-line max-s
          FileService.removeGroup(vm.queueFileIdsForRemove).then(() => {
             vm.queueFileIdsForRemove = [];
             _candidateSave();
-            $state.go($state.current.parent, {_data: vm.candidate, candidateId: vm.candidate.id},
+            $state.go($state.current.parent, {_data: null, candidateId: vm.candidate.id},
             {reload: true});
          });
       } else {
          _candidateSave();
-         $state.go($state.current.parent, {_data: vm.candidate, candidateId: vm.candidate.id},
+         $state.go($state.current.parent, {_data: null, candidateId: vm.candidate.id},
          {reload: true});
       }
    }

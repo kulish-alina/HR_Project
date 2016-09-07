@@ -237,12 +237,12 @@ export default function CandidateProfileController( // eslint-disable-line max-s
          FileService.removeGroup(vm.queueFileIdsForRemove).then(() => {
             vm.queueFileIdsForRemove = [];
             _candidateSave();
-            $state.go($state.current.parent, {_data: vm.candidate, candidateId: vm.candidate.id},
+            $state.go($state.current.parent, {_data: null, candidateId: vm.candidate.id},
             {reload: true});
          });
       } else {
          _candidateSave();
-         $state.go($state.current.parent, {_data: vm.candidate, candidateId: vm.candidate.id},
+         $state.go($state.current.parent, {_data: null, candidateId: vm.candidate.id},
          {reload: true});
       }
    }

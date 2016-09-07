@@ -2,7 +2,8 @@ import {
    set,
    each,
    assign,
-   remove
+   remove,
+   isEmpty
 } from 'lodash';
 const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
 
@@ -22,14 +23,15 @@ export default function VacanciesReportController(
    vm.locations                                = [];
    vm.selectedLocations                        = [];
    vm.selectedUsers                            = [];
-   vm.selectedVacanciesGroupedByLocation       = {};
+   vm.selectedUsersGroupedByLocation           = {};
    vm.clear                                    = clear;
    vm.useLocationField                         = useLocationField;
    vm.useUserField                             = useUserField;
    vm.addLocationIdsToVacanciesReportParametrs = addLocationIdsToVacanciesReportParametrs;
    vm.addUserIdsToVacanciesReportParametrs     = addUserIdsToVacanciesReportParametrs;
-   vm.formingVacanciesReport                   = formingUsersReport;
+   vm.formingVacanciesReport                   = formingVacanciesReport;
    vm.isEqualLocations                         = isEqualLocations;
+   vm.isSelectedUsersGroupedByLocationEmpty    = isSelectedUsersGroupedByLocationEmpty;
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => set(vm, 'stages', topic));
@@ -74,7 +76,7 @@ export default function VacanciesReportController(
    function _clearLocationField() {
       vm.vacanciesReportParametrs.locationIds = [];
       vm.selectedLocations = [];
-      vm.selectedVacanciesGroupedByLocation = {};
+      vm.selectedUsersGroupedByLocation = {};
       each(vm.locations, (location) => {
          location.selected = false;
       });
@@ -83,7 +85,7 @@ export default function VacanciesReportController(
    function _clearUserField() {
       vm.vacanciesReportParametrs.userIds = [];
       vm.selectedUsers = [];
-      vm.selectedVacanciesGroupedByLocation = {};
+      vm.selectedUsersGroupedByLocation = {};
       each(vm.users, (user) => {
          user.selected = false;
       });
@@ -117,7 +119,7 @@ export default function VacanciesReportController(
       }
    }
 
-   function formingUsersReport() {
+   function formingVacanciesReport() {
       ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs);
    }
 
@@ -135,13 +137,17 @@ export default function VacanciesReportController(
       }
    }
 
+   function isSelectedUsersGroupedByLocationEmpty() {
+      return isEmpty(vm.selectedUsersGroupedByLocation);
+   }
+
    function _convertUsersArrayToHash(user) {
       each(vm.selectedLocations, location => {
-         if (vm.selectedVacanciesGroupedByLocation[location.id] && location.id === user.cityId) {
-            vm.selectedVacanciesGroupedByLocation[location.id].push(user);
+         if (vm.selectedUsersGroupedByLocation[location.id] && location.id === user.cityId) {
+            vm.selectedUsersGroupedByLocation[location.id].push(user);
          } else if (!vm.selectedUsers[location.id] && location.id === user.cityId) {
-            vm.selectedVacanciesGroupedByLocation[location.id] = [];
-            vm.selectedVacanciesGroupedByLocation[location.id].push(user);
+            vm.selectedUsersGroupedByLocation[location.id] = [];
+            vm.selectedUsersGroupedByLocation[location.id].push(user);
          }
       });
    }

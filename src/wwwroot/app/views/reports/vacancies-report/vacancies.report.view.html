@@ -52,8 +52,8 @@
          <div class="card-divider" ng-bind="::'REPORTS.VACANCY_REPORT_DATA' | translate"> </div>
          <div class="card-section">
             <table class="report-data">
-               <thead>
-                  <tr ng-if="selectedLocations.length" class="report-data-row">
+               <thead ng-if="!isSelectedUsersGroupedByLocationEmpty()">
+                  <tr class="report-data-row">
                      <th ng-bind="::'COMMON.LOCATION' | translate"></th>
                      <th ng-bind="::'COMMON.USERS' | translate"></th>
                      <th ng-bind="::'REPORTS.VACANCIES_OPENED_IN_PREVIOUS_PERIOD' | translate" colspan="2"></th>
@@ -62,71 +62,83 @@
                      <th ng-bind="::'REPORTS.CLOSED_VACANCIES' | translate" colspan="2"></th>
                   </tr>
                </thead>
-               <tbody ng-if="selectedLocations.includes(location)" ng-repeat="location in locations">
+               <tbody ng-if="(selectedLocations.includes(location) && !isSelectedUsersGroupedByLocationEmpty())" ng-repeat="location in locations">
                   <tr class="report-data-row">
                      <td>
                         <div ng-bind="location.title"></div>
                      </td>
                      <td>
-                        <div ng-if="selectedVacanciesGroupedByLocation" ng-repeat="user in selectedVacanciesGroupedByLocation[location.id]" ng-bind="::(user.lastName+' '+user.firstName)"></div>
+                        <div ng-if="selectedUsersGroupedByLocation" ng-repeat="user in selectedUsersGroupedByLocation[location.id]" ng-bind="::(user.lastName+' '+user.firstName)"></div>
                      </td>
                      <td>
-                        <div ng-repeat="user in selectedVacanciesGroupedByLocation[location.id]">3</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedVacanciesGroupedByLocation[location.id]">1</div>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">3</div>
                      </td>
                      <td>
                         <div>12</div>
                      </td>
                      <td>
-                        <div ng-repeat="user in selectedVacanciesGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedVacanciesGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <!--
-                     <td ng-repeat="stage in stages">
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
                      </td>
--->
+                     <td>
+                        <div>12</div>
+                     </td>
+                     <td>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
+                     </td>
+                     <td>
+                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
+                     </td>
+                     <td>
+                        <div>12</div>
+                     </td>
                   </tr>
                </tbody>
-               <thead ng-if="!selectedLocations.length">
+               <thead ng-if="isSelectedUsersGroupedByLocationEmpty()">
                   <tr class="report-data-row">
-                     <th ng-bind="::'COMMON.USERS' | translate"></th>
-                     <th ng-bind="::'COMMON.ADDED' | translate"></th>
+                     <th ng-if="selectedLocations.length && !selectedUsers.length" ng-bind="::'COMMON.LOCATION' | translate"></th>
+                     <th ng-if="selectedUsers.length && !selectedLocations.length" ng-bind="::'COMMON.USERS' | translate"></th>
                      <th ng-bind="::'REPORTS.VACANCIES_OPENED_IN_PREVIOUS_PERIOD' | translate"></th>
                      <th ng-bind="::'REPORTS.VACANCIES_OPENED_IN_CURRENT_PERIOD' | translate"></th>
                      <th ng-bind="::'REPORTS.VACANCIES_IN_PROGRESS' | translate"></th>
                      <th ng-bind="::'REPORTS.CLOSED_VACANCIES' | translate"></th>
                   </tr>
                </thead>
-               <tbody>
-                  <tr ng-repeat="vacancy in selectedVacancies" class="report-data-row">
+               <tbody ng-if="isSelectedUsersGroupedByLocationEmpty()">
+                  <tr ng-if="selectedUsers.length && !selectedLocations.length" ng-repeat="user in selectedUsers" class="report-data-row">
                      <td>
-                        <div ng-bind="::vacancy.title"></div>
+                        <div ng-bind="::(user.lastName+' '+user.firstName)"></div>
                      </td>
                      <td>
-                        <div ng-repeat="user in selectedVacanciesGroupedByLocation[location.id]">1</div>
+                        <div>3</div>
                      </td>
                      <td>
-                        <div ng-repeat="user in selectedVacanciesGroupedByLocation[location.id]">1</div>
+                        <div>3</div>
                      </td>
                      <td>
-                        <div ng-repeat="user in selectedVacanciesGroupedByLocation[location.id]">1</div>
+                        <div>3</div>
                      </td>
                      <td>
-                        <div ng-repeat="user in selectedVacanciesGroupedByLocation[location.id]">1</div>
+                        <div>3</div>
+                     </td>
+                  </tr>
+                  <tr ng-if="selectedLocations.length && !selectedUsers.length" ng-repeat="location in selectedLocations" class="report-data-row">
+                     <td>
+                        <div ng-bind="::location.title"></div>
+                     </td>
+                     <td>
+                        <div>3</div>
+                     </td>
+                     <td>
+                        <div>3</div>
+                     </td>
+                     <td>
+                        <div>3</div>
+                     </td>
+                     <td>
+                        <div>3</div>
                      </td>
                   </tr>
                </tbody>

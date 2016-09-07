@@ -3,7 +3,8 @@ import {
    set,
    remove,
    assign,
-   each
+   each,
+   isEmpty
 } from 'lodash';
 const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
 
@@ -31,6 +32,7 @@ export default function UsersReportController(
    vm.addUserIdsToUsersReportParametrs     = addUserIdsToUsersReportParametrs;
    vm.formingUsersReport                   = formingUsersReport;
    vm.isEqualLocations                     = isEqualLocations;
+   vm.isSelectedUsersGroupedByLocationEmpty = isSelectedUsersGroupedByLocationEmpty;
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => set(vm, 'stages', topic));
@@ -134,6 +136,10 @@ export default function UsersReportController(
       } else {
          return true;
       }
+   }
+
+   function isSelectedUsersGroupedByLocationEmpty() {
+      return isEmpty(vm.selectedUsersGroupedByLocation);
    }
 
    function _convertUsersArrayToHash(user) {

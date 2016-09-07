@@ -14,24 +14,21 @@
                <oi-select class="multiple-select" oi-options="vacancy as vacancy.title for vacancy in vacancies track by vacancy.id" ng-model="selectedVacancy" placeholder="{{::'VACANCY.VACANCY' | translate}}"></oi-select>
                <div class="grid-block">
                   <label ng-bind="::'THESAURUSES.STAGES' | translate"></label>&nbsp;
-                  <input type="checkbox" ng-model="isActiveStagesField" ng-checked="isActiveStagesField">
-               </div>
+                  <input type="checkbox" ng-model="isActiveStagesField" ng-checked="isActiveStagesField"> </div>
                <div class="vertical grid-block" ng-if="isActiveStagesField">
-                  <div class="stage-filter" ng-click="filterByStage(stage)" ng-repeat="stage in stages track by $index" ng-class="{'pressed': stage._isPressed}">
-                     <span class='fitler-button' ng-bind="stage.title" ng-class="{'has-entities': stage._hasEntities}"></span>
-                     <span ng-if="stage._hasEntities" class='filter-count' ng-bind="stage.entitiesCount"></span>
-                  </div>
+                  <div class="stage-filter" ng-click="addStageIdToRecruitingFunnelReportRarametrs(stage)" ng-repeat="stage in stages track by $index" ng-class="{'pressed': stage._isPressed}"> <span class='fitler-button' ng-bind="stage.title"></span> </div>
                </div>
+               <a class="expand button" ng-click="formingRecruitingFunnelReport()" ng-bind="::'REPORTS.GENERATE' | translate"></a>
             </form>
          </div>
       </div>
    </div>
    <div class="vertical medium-9 grid-block">
       <div class="main-card">
-         <div class="card-divider">
-            <span ng-bind="::'REPORTS.RECRUITING_FUNNEL' | translate"></span>
-            <span ng-bind="::'COMMON.FOR' | translate"></span>
-            <a ng-click="viewVacancy()" ng-bind="::selectedVacancy.title"></a> </div>
+         <div class="card-divider"> <span ng-bind="::'REPORTS.RECRUITING_FUNNEL' | translate"></span> <span ng-bind="::'COMMON.FOR' | translate"></span>
+            <a ng-click="viewVacancy()" ng-bind="selectedVacancy.title"></a>
+            
+         </div>
          <div class="card-section"> </div>
       </div>
       <div class="main-card">

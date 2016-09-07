@@ -79,11 +79,11 @@ export default function CandidatesController(
    }
 
    function editCandidate(candidate) {
-      $state.go('candidate', {_data: candidate, candidateId: candidate.id});
+      $state.go('candidate', {_data: null, candidateId: candidate.id});
    }
 
    function viewCandidate(candidate) {
-      $state.go('candidateProfile', {_data: candidate, candidateId: candidate.id});
+      $state.go('candidateProfile', {_data: null, candidateId: candidate.id});
    }
 
    function clear() {

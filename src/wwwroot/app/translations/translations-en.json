@@ -213,6 +213,14 @@
       "date": {
          "error": "*it is invalid date",
          "success": "Correct!"
+      },
+      "letters": {
+         "error": "*there are invalid characters",
+         "success": "Correct!"
+      },
+      "counter": { 
+         "error": "*this should be number from 1 to 30",
+         "success": "Correct!"
       }
    },
    "ERRORS" : {
@@ -220,7 +228,8 @@
       "thesaurusErrors" : {
          "incorrectNameMsg" : "Thesaurus name is incorrect."
       },
-      "NOTE_REMOVE_ERROR": "Cannot remove new note"
+      "NOTE_REMOVE_ERROR": "Cannot remove new note",
+      "COUNTER": "this should be number from 1 to {{count}}"
    },
    "SETTINGS" : {
       "SETTINGS": "Settings",

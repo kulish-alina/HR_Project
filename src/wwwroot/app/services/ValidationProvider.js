@@ -28,6 +28,7 @@ export default class ValidationProvider {
 
 class ValidationService {
    validate(form) {
+      console.log('validation', validation);
       return validation.validate(form);
    }
 

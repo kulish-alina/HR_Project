@@ -128,7 +128,7 @@ angular
    .directive('candidateInfo',          CandidateInfoDirective.createInstance)
    .directive('login',                  LoginDirective.createInstance)
    .directive('languageSkills',         languageSkillsDirective.createInstance)
-   .directive('eventCalendar',    EventCalendarDirective.createInstance)
+   .directive('eventCalendar',          EventCalendarDirective.createInstance)
    .directive('candidateVacancyInfo',   CandidateVacancyInfoDirective.createInstance)
 
    .filter('tel',                 PhoneFormatFilter)

@@ -36,7 +36,10 @@ function formatDateToServer(entityDate) {
    if (isString(entityDate)) {
       let splitDate = split(entityDate, ' ');
       let partsOfDate = split(splitDate[0], '-');
-      return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]}T00:00:00.000Z`; // eslint-disable-line max-len
+      return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]}T00:00:00.000Z`;
+      /*return `${entityDate.substring(4,8)}-
+      ${entityDate.substring(2,4)}$
+      {entityDate.substring(0,2)}T00:00:00.000Z`; // eslint-disable-line max-len */
    } else {
       return entityDate;
    }

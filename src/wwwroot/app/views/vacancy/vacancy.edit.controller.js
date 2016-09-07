@@ -119,6 +119,7 @@ export default function VacancyController(
    }
 
    function saveVacancy(ev, form) {
+      debugger;
       ev.preventDefault();
       //TODO: remove this terrible method and use moment.js
       let dates = [vm.vacancy.startDate, vm.vacancy.deadlineDate, vm.vacancy.endDate];

@@ -10,7 +10,7 @@
             <a ng-click="back()" ng-bind="::'COMMON.BACK' | translate"></a>
          </li>
          <li>
-            <a ng-if='isNeedToGoBack()' ng-click="saveAndGoBack(Candidate)"> <span ng-bind="::'COMMON.ADD_AND_BACK' | translate"></span></a> 
+            <a ng-if='isNeedToGoBack()' ng-click="saveAndGoBack(Candidate)"> <span ng-bind="::'COMMON.ADD_AND_BACK' | translate"></span></a>
             <a ng-if='!isNeedToGoBack()' ng-click="saveCandidate(Candidate)"><span ng-bind="::'COMMON.SAVE' | translate"></span></a> </li>
       </ul>
    </div>
@@ -24,9 +24,9 @@
                <div class="grid-block">
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <input type="text" ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" name="firstName" validator="required, maxlength=50">
-                        <input type="text" ng-model="candidate.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName">
-                        <input type="text" ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" name="lastName" validator="required, maxlength=50">
+                        <input type="text" ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" name="firstName" validator="required, maxlength=50, letters">
+                        <input type="text" ng-model="candidate.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName" validator="maxlength=50, letters">
+                        <input type="text" ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" name="lastName" validator="required, maxlength=50, letters">
                         <ul class="some-change">
                            <li>
                               <input ng-model="candidate.isMale" name="Male" ng-value="true" id="male" type="radio">
@@ -37,7 +37,7 @@
                               <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
                            </li>
                         </ul>
-                        <input type="text" placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input type="text" placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="candidateName" model-view-value="true" validator="date" />
                         <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
                         <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city  | orderBy : 'title' track by city.id" ng-model="candidate.cityId" placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
                      </fieldset>
@@ -70,9 +70,9 @@
                         <label>Experience</label>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <input placeholder="{{::'COMMON.YEARS' | translate}}" type="number" min="0" step="1" ng-model='candidate.experienceYears'> </div>
+                              <input placeholder="{{::'COMMON.YEARS' | translate}}" type="text" ng-model='candidate.experienceYears' name="expYears" validator="counter=50" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 50}'}}"> </div>
                            <div class="medium-6 grid-block">
-                              <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="number" min="0" step="1" ng-model='candidate.experienceMonths'> </div>
+                              <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="text" ng-model="candidate.experienceMonths" name="expMonths" validator="counter=11" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 11}'}}"> </div>
                         </div>
                         <input id="relocationAgreement" type="checkbox" ng-model="candidate.relocationAgreement">
                         <label for="relocateAgreement" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate"></label>
@@ -103,8 +103,8 @@
                            </div>
                         </div>
                         <phones class="add-phone-number" ng-model="candidate.phoneNumbers"></phones>
-                        <input ng-model="candidate.email" name="e-mail" type="text" placeholder="E-mail">
-                        <input type="text" placeholder="Skype" ng-model=candidate.skype>
+                        <input ng-model="candidate.email" type="text" placeholder="E-mail" name="candidateEmail" validator="email">
+                        <input type="text" placeholder="Skype" ng-model=candidate.skype name="candidateSkype" validator="minlength=6, maxlength=32">
                         <select name="MainSource" convert-to-number ng-model="candidate.mainSourceId" ng-init="candidate.mainSourceId=''">
                            <option ng-selected="true" value="" ng-bind="::('COMMON.MAIN_SOURCE' | translate)"></option>
                            <option ng-repeat="source in thesaurus.source" ng-bind="source.title" value="{{source.id}}"></option>
@@ -113,10 +113,11 @@
                   </div>
                </div>
                <hr>
-               <div class="grid-block" ng-repeat="socialRow in socialGroups">
+               <div class="grid-block" ng-repeat="socialRow in socialGroups track by $index">
                   <div class="medium-4 grid-block" ng-repeat="social in socialRow">
                      <fieldset>
-                        <input class="social-input" type="url" placeholder="{{::social.socialNetwork.title}}" ng-model="social.path"> </fieldset>
+                        <input class="social-input" type="text" placeholder="{{::social.socialNetwork.title}}" ng-model="social.path" name="candidateSocial{{$index}}{{social.socialNetwork.title}}" validator="url">
+                     </fieldset>
                   </div>
                </div>
                <hr>
@@ -178,6 +179,7 @@
                   </div>
                   <div class="medium-6 grid-block"></div>
                </div>
+
             </form>
          </div>
       </div>

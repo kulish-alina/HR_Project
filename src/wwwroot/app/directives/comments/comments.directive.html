@@ -3,8 +3,11 @@
 <div class="sidebar-content">
    <div class="grid-block">
       <div class="medium-9 grid-block">
-         <textarea ng-model="currentComment.message"></textarea>
+         <form name="form.comments">
+            <textarea ng-model="currentComment.message" name="commentsTextArea" validator="required"></textarea>
+         </form>
       </div>
+
       <div class="medium-3 grid-block">
          <a class="button button-with-input" ng-click="addComment()">
             <span ng-bind="::'COMMON.ADD' | translate"></span>
@@ -17,12 +20,12 @@
             <div class="grid-block">
                <div class="vertical medium-10 grid-block">
                   <div class="grid-block">
-                     <div class="small-5 grid-block comment-title"  ng-bind="::'COMMON.CREATED_ON' | translate"></div>
-                     <div class="small-7 grid-block"  ng-bind="comment.createdOn"></div>
+                     <div class="small-5 grid-block comment-title" ng-bind="::'COMMON.CREATED_ON' | translate"></div>
+                     <div class="small-7 grid-block" ng-bind="comment.createdOn"></div>
                   </div>
                   <div ng-if="type === 'comment'" class="grid-block">
-                     <div class="small-5 grid-block comment-title"  ng-bind="::'COMMON.AUTHOR' | translate"></div>
-                     <div class="small-7 grid-block"  ng-bind="::(comment.responsible.lastName+' '+comment.responsible.firstName)"></div>
+                     <div class="small-5 grid-block comment-title" ng-bind="::'COMMON.AUTHOR' | translate"></div>
+                     <div class="small-7 grid-block" ng-bind="::(comment.responsible.lastName+' '+comment.responsible.firstName)"></div>
                   </div>
                   <div ng-bind="comment.message"></div>
                </div>

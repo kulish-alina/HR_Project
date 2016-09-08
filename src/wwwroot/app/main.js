@@ -49,6 +49,7 @@ import NoteService                   from './services/NoteService';
 import LocalStorageService           from './services/LocalStorageService';
 import LoginService                  from './services/LoginService';
 import SessionService                from './services/SessionService';
+import SearchService                 from './services/SearchService';
 
 import ThesaurusDirective            from './directives/thesaurus/thesaurus';
 import ContactInfoDirective          from './directives/contacts/contact-info';
@@ -62,7 +63,7 @@ import CandidateInfoDirective        from './directives/candidate-info/candidate
 import LoginDirective                from './directives/login/login';
 import convertToNumberDirective      from './directives/convertToNumber/convert-to-number';
 import languageSkillsDirective       from './directives/language-skills/language-skills';
-import EventCalendarDirective    from './directives/event-calendar/event-calendar';
+import EventCalendarDirective        from './directives/event-calendar/event-calendar';
 import CandidateVacancyInfoDirective from './directives/candidate-vacancy-info/candidate-vacancy-info';
 
 import uiMask                        from 'angular-ui-mask';
@@ -114,6 +115,7 @@ angular
    .service('LocalStorageService', LocalStorageService)
    .service('LoginService',        LoginService)
    .service('SessionService',      SessionService)
+   .service('SearchService',       SearchService)
 
 
    .directive('thesaurus',              ThesaurusDirective.createInstance)

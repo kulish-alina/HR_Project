@@ -1,9 +1,3 @@
-<zf-offcanvas id="menu" position="left">
-   <side-menu></side-menu>
-</zf-offcanvas>
-<div class="vertical grid-frame app-content">
-   <main-menu></main-menu>
-</div>
 <div ui-view class="grid-frame content-wrapper"></div>
 <div ng-hide="$state.current.data.hideHome" class="grid-frame content-wrapper">
    <div class="secondary-menu grid-block">
@@ -30,7 +24,7 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies | itemsPerPage: vacancy.size" total-items="totalHome" current-page="pagination.current">
+                     <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies.vacancies | itemsPerPage: vacancies.size" total-items="vacancies.total" current-page="pagination.current">
                         <td>{{$index+1}}</td>
                         <td>
                            <a ng-click="viewVacancy(vacancy)"> <span ng-bind="::vacancy.title"></span> </a> <span ng-bind="::'VACANCY.CHILD_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></span> <span ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.childVacanciesIds.length"></span> </td>

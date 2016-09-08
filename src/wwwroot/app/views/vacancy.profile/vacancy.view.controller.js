@@ -42,6 +42,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    const vm                = $scope;
    vm.thesaurus            = [];
    vm.responsibles         = [];
+   vm.vacancy              = {};
    vm.edit                 = edit;
    vm.back                 = back;
    vm.uploader             = createNewUploader();
@@ -216,7 +217,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
 
    vm.goToCandidates = () => {
       saveChanges();
-      $state.go('candidates', { _data: null, vacancyIdToGoBack: vm.vacancy.id });
+      $state.go('candidates.search', { _data: null, vacancyIdToGoBack: vm.vacancy.id });
    };
 
    vm.goToCandidate = () => {

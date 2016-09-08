@@ -18,6 +18,7 @@ export default function VacanciesController(
    $element,
    $window,
    VacancyService,
+   SearchService,
    ThesaurusService,
    UserService,
    UserDialogService,
@@ -57,7 +58,7 @@ export default function VacanciesController(
    };
 
    function searchVacancies() {
-      VacancyService.search(vm.vacancyPredicate).then(response => {
+      SearchService.fetchVacancies(vm.vacancyPredicate).then(response => {
          forEach(response.vacancies, (vac) => {
             vac.isToogled = vm.isVacancyWasToogled(vac.id);
          });

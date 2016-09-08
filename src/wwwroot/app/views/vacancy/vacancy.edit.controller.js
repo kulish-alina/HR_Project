@@ -22,7 +22,8 @@ export default function VacancyController(
    UserService,
    UserDialogService,
    FileService,
-   LoggerService
+   LoggerService,
+   SearchService
 ) {
    'ngInject';
 
@@ -178,6 +179,7 @@ export default function VacancyController(
          vm.vacancy = vacancy;
          vm.comments = cloneDeep(vm.vacancy.comments);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
+         SearchService.invalidateVacancies();
       })
          .then(() => $state.go($state.previous.name, {_data: vm.vacancy, vacancyId: vm.vacancy.id},
                      { reload: true }))

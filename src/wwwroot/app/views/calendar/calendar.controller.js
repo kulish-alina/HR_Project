@@ -43,6 +43,7 @@ export default function CandidateProfileController(
    vm.candidate.current       = 0;
    vm.candidate.size          = 20;
    vm.userColorObject         = {};
+   vm.eventCondidtion         = {};
 
    (function init() {
       UserService.getUsers().then(users => {
@@ -63,7 +64,7 @@ export default function CandidateProfileController(
    }());
 
    function generateColorsForUsers() {
-      let userIdsArr = map(vm.responsibles, (user) => {
+      let userIdsArr = map(vm.users, (user) => {
          return user.id;
       });
       let count = 0;

@@ -1,3 +1,4 @@
+import mainTemplate             from './views/main.view.html';
 import homeTemplate             from './views/home/home.view.html';
 import candidatesTemplate       from './views/candidates/candidates.view.html';
 import candidateTemplate        from './views/candidate/candidate.view.html';
@@ -33,7 +34,7 @@ import calendarController         from './views/calendar/calendar.controller';
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
 
-import context                from './context';
+import context from './context';
 
 export default function _config(
    $stateProvider,
@@ -46,8 +47,19 @@ export default function _config(
    HttpServiceProvider
 ) {
    'ngInject';
+   //this case must be before $stateProvider
+   $urlRouterProvider.otherwise($injector => {
+      let $state = $injector.get('$state');
+      $state.go('home');
+   })
+      .when('/vacancies','/vacancies/search')
+      .when('/candidates', 'candidates/search');
 
    $stateProvider
+      .state('main', {
+         template: mainTemplate,
+         abstract: true
+      })
       .state('home', {
          url: '/bot',
          template: homeTemplate,
@@ -55,36 +67,36 @@ export default function _config(
          params: {
             _data: null
          },
-         data: { hideHome: false }
+         parent: 'main'
       })
       .state('candidates', {
+         parent: 'main',
          url: '/candidates',
+         template: '<ui-view/>'
+      })
+      .state('candidates.search', {
+         url: '/search',
          template: candidatesTemplate,
          controller: candidatesController,
          params: {
             vacancyIdToGoBack: null
-         },
-         data: {
-            hide: false,
-            hideHome: true
-         },
-         parent: 'home'
+         }
       })
       .state('vacancies', {
+         parent: 'main',
          url: '/vacancies',
+         template: '<ui-view/>'
+      })
+      .state('vacancies.search', {
+         url: '/search',
          template: vacanciesTemplate,
          controller: vacanciesController,
          params: {
             candidateIdToGoBack: null
-         },
-         data: {
-            hide: false,
-            hideHome: true
-         },
-         parent: 'home'
+         }
       })
       .state('vacancyView', {
-         url: '/vacancyView/:vacancyId',
+         url: '/view/:vacancyId',
          template: vacancyViewTemplate,
          controller: vacancyViewController,
          params: {
@@ -92,11 +104,10 @@ export default function _config(
             _data: null,
             vacancyId: null
          },
-         parent: 'vacancies',
-         data: { hide: true }
+         parent: 'vacancies'
       })
       .state('candidate', {
-         url: '/candidate/:candidateId',
+         url: '/edit/:candidateId',
          template: candidateTemplate,
          controller: candidateController,
          params: {
@@ -104,11 +115,10 @@ export default function _config(
             candidateId: null,
             vacancyIdToGoBack: null
          },
-         parent: 'candidates',
-         data: { hide: true }
+         parent: 'candidates'
       })
       .state('candidateProfile', {
-         url: '/candidateProfile/:candidateId',
+         url: '/profile/:candidateId',
          template: candidateProfileTemplate,
          controller: candidateProfileController,
          params: {
@@ -116,43 +126,38 @@ export default function _config(
             _data: null,
             candidateId: null
          },
-         parent: 'candidates',
-         data: { hide: true }
+         parent: 'candidates'
       })
       .state('vacancyEdit', {
-         url: '/vacancy/edit/:vacancyId',
+         url: '/edit/:vacancyId',
          template: vacancyEditTemplate,
          controller: vacancyEditController,
          params: {
             _data: null,
             vacancyId: null
          },
-         parent: 'vacancies',
-         data: { hide: true }
+         parent: 'vacancies'
       })
       .state('calendar', {
          url: '/calendar',
          template: calendarTemplate,
          controller: calendarController,
-         parent: 'home',
-         data: { hideHome: true }
+         parent: 'main'
       })
       .state('settings', {
          url: '/settings',
          template: settingsTemplate,
          controller: settingsController,
          data: {
-            asEdit: false,
-            hideHome: true
+            asEdit: false
          },
-         parent: 'home'
+         parent: 'main'
       })
       .state('profile', {
          url: '/profile',
          parent: 'settings',
          template: profileTemplate,
-         controller: profileController,
-         data: { asEdit: false }
+         controller: profileController
       })
       .state('profile.edit', {
          url: '/edit',
@@ -183,23 +188,16 @@ export default function _config(
       .state('login', {
          url: '/login',
          template: loginTemplate,
-         controller: loginController,
-         data: { hideHome: true }
+         controller: loginController
       })
       .state('loading', {
          url: '/loading',
-         template: loaderTemplate,
-         data: { hideHome: true }
+         template: loaderTemplate
       });
 
    $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
-   });
-
-   $urlRouterProvider.otherwise($injector => {
-      let $state = $injector.get('$state');
-      $state.go('home');
    });
 
    $translateProvider

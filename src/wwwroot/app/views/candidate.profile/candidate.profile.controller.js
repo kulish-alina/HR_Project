@@ -198,7 +198,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
 
    vm.goToVacancies = () => {
       saveChanges();
-      $state.go('vacancies', { _data: null, candidateIdToGoBack: vm.candidate.id });
+      $state.go('vacancies.search', { _data: null, candidateIdToGoBack: vm.candidate.id });
    };
 
    function _createNewUploader() {

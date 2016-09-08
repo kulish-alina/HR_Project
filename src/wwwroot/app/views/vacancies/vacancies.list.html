@@ -60,7 +60,7 @@
                <table>
                   <thead>
                      <tr>
-                        <th ng-if="$state.previous.name === 'candidateProfile'">
+                        <th ng-if="$state.params.candidateIdToGoBack">
                            <input id="vacancy" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
                         </th>
                         <th>№</th>
@@ -74,7 +74,7 @@
                   </thead>
                   <tbody>
                      <tr dir-paginate="vacancyItem in vacancies.vacancies | itemsPerPage: vacancyPredicate.size" total-items="vacancies.total" current-page="vacancyPredicate.current">
-                         <th ng-if="$state.previous.name === 'candidateProfile'">
+                         <th ng-if="$state.params.candidateIdToGoBack">
                            <input id="checkbox9" type="checkbox" ng-model="vacancyItem.isToogled" ng-change="toogleVacancy(vacancyItem)">
                         </th>
                         <td>{{$index+1}}</td>

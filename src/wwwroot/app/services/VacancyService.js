@@ -33,7 +33,8 @@ const PROMISE_INDEXES = {
    vacancy:          1,
    childVacancies:   2,
    comments:         3,
-   closingCandidate: 4
+   closingCandidate: 4,
+   candidatesProgress: 5
 };
 
 let _HttpService;
@@ -87,6 +88,7 @@ export default class VacancyService {
          assignIn(vacancy, promises[PROMISE_INDEXES.vacancy]);
          vacancy.childVacancies = promises[PROMISE_INDEXES.childVacancies];
          vacancy.closingCandidate = promises[PROMISE_INDEXES.closingCandidate];
+         vacancy.candidatesProgress = promises[PROMISE_INDEXES.candidatesProgress];
          return vacancy;
       });
    }
@@ -147,8 +149,9 @@ export default class VacancyService {
       let childVacancyPromises = _VacancyService._getChildVacancies(vacancy);
       let commentsPromise = _VacancyService._getCommentsFields(vacancy);
       let closingCandidatePromise = _VacancyService._getClosingCandidate(vacancy);
+      let candidatesProgressPromise = _VacancyService._getCandidatesProgressFields(vacancy);
       return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises,
-             commentsPromise, closingCandidatePromise]);
+             commentsPromise, closingCandidatePromise, candidatesProgressPromise]);
    }
 
    _getUser(vacancy) {
@@ -159,10 +162,27 @@ export default class VacancyService {
       if (vacancy.comments) {
          let promises = map(vacancy.comments, (comment) => {
             comment.createdOn = utils.formatDateFromServer(comment.createdOn);
-            _UserService.getUserById(comment.authorId).then(user => set(comment, 'responsible', user));
-            return comment;
+            return _UserService.getUserById(comment.authorId)
+               .then(user => set(comment, 'responsible', user))
+               .then(responseComment => {
+                  return responseComment;
+               });
          });
          return _$q.all(promises);
+      }
+   }
+
+   _getCandidatesProgressFields(vacancy) {
+      if (vacancy.candidatesProgress.length) {
+         let promises = map(vacancy.candidatesProgress, (candidateProgress) => {
+            _CandidateService.getCandidate(candidateProgress.candidateId).then(candidate => {
+               set(candidateProgress, 'candidate', candidate);
+            });
+            return candidateProgress;
+         });
+         return _$q.all(promises);
+      } else {
+         return true;
       }
    }
 

@@ -17,6 +17,7 @@ export default function CandidatesController(
    $element,
    $window,
    CandidateService,
+   SearchService,
    ThesaurusService,
    UserDialogService,
    LoggerService,
@@ -69,7 +70,7 @@ export default function CandidatesController(
    };
 
    function searchCandidates() {
-      CandidateService.search(vm.candidate).then(response => {
+      SearchService.fetchCandidates(vm.candidate).then(response => {
          forEach(response.candidate, (cand) => {
             cand.isToogled = vm.isCandidateWasToogled(cand.id);
          });

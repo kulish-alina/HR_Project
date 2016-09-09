@@ -5,14 +5,14 @@
    </div>
    <div class="large-7 grid-block">
       <ul class="menu-bar second-button-bar">
+         <li ui-sref="recruitingFunnel" ng-class="{'active-button' : $state.current.name === 'recruitingFunnel'}">
+            <a ng-bind="::'REPORTS.RECRUITING_FUNNEL' | translate"></a>
+         </li>
          <li ui-sref="usersReport" ng-class="{'active-button' : $state.current.name === 'usersReport'}">
             <a ng-bind="::'REPORTS.USERS_REPORT' | translate"></a>
          </li>
          <li ui-sref="vacanciesReport" ng-class="{'active-button' : $state.current.name === 'vacanciesReport'}">
             <a ng-bind="::'REPORTS.VACANCIES_REPORT' | translate"></a>
-         </li>
-         <li ui-sref="recruitingFunnel" ng-class="{'active-button' : $state.current.name === 'recruitingFunnel'}">
-            <a ng-bind="::'REPORTS.RECRUITING_FUNNEL' | translate"></a>
          </li>
       </ul>
    </div>

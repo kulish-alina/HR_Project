@@ -61,7 +61,8 @@ export default function RecruitingFunnelController(
       vm.selectedVacancy = {};
       vm.selectedStageIds = [];
       each(vm.stages, (stage) => {
-         stage._isPressed = false;
+         stage._isPressed = true;
+         vm.selectedStageIds.push(stage.id);
       });
       vm.candidatesGropedByStage = {};
    }

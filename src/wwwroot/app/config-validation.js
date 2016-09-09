@@ -61,10 +61,10 @@ function _lettersValidation(value) {
    return value ? /^[а-яА-ЯёЁa-zA-Z]+$/.test(value) : true;
 }
 
-function _counterValidation(value, scope, element, attrs, param = 30) {
+function _counterValidation(value, scope, element, attrs, param) {
    if (value) {
       let v = parseInt(value, 10);
-      return isNaN(v) ? false : v <= parseInt(param, 10);
+      return isNaN(v) ? false : v <= parseInt(param || '30', 10);
    } else {
       return true;
    }

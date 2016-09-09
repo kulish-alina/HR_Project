@@ -175,7 +175,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
    function saveCandidate(form) {
       return ValidationService.validate(form).then(() => {
          if (isEmpty(vm.filesUploader.getNotUploadedItems())) {
-            _saveCandidate();
+            return _saveCandidate();
          } else {
             vm.filesUploader.uploadAll();
          }

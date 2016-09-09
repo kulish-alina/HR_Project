@@ -31,9 +31,9 @@ export default class SearchService {
    }
 }
 
-function _search(searchService, options, cacheKey, updateTimeout = defaultTimeout) {
+function _search(searchService, options, cacheKey, updateTimeout) {
    if (!cache[cacheKey] ||
-       (Date.now() - cache[cacheKey].timeStamp) > updateTimeout ||
+       (Date.now() - cache[cacheKey].timeStamp) > (updateTimeout || defaultTimeout) ||
        !isEqual(cache[cacheKey].options, options)) {
       return saveToCache(cacheKey, searchService.search(options), options);
    } else {

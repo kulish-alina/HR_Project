@@ -124,6 +124,7 @@ export default class VacancyService {
          delete vacancy.createdOn;
          delete vacancy.responsible;
          delete vacancy.childVacancies;
+         each(vacancy.candidatesProgress, (x) => delete x.candidate);
          vacancy.languageSkill = vacancy.languageSkill || {};
          if (result(vacancy, 'languageSkill.languageId')) {
             delete vacancy.languageSkill.language;

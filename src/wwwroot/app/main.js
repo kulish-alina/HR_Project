@@ -50,6 +50,7 @@ import LocalStorageService           from './services/LocalStorageService';
 import LoginService                  from './services/LoginService';
 import SessionService                from './services/SessionService';
 import ReportsService                from './services/ReportsService';
+import SearchService                 from './services/SearchService';
 
 import ThesaurusDirective            from './directives/thesaurus/thesaurus';
 import ContactInfoDirective          from './directives/contacts/contact-info';
@@ -116,6 +117,7 @@ angular
    .service('LoginService',        LoginService)
    .service('SessionService',      SessionService)
    .service('ReportsService',      ReportsService)
+   .service('SearchService',       SearchService)
 
 
    .directive('thesaurus',              ThesaurusDirective.createInstance)
@@ -130,7 +132,7 @@ angular
    .directive('candidateInfo',          CandidateInfoDirective.createInstance)
    .directive('login',                  LoginDirective.createInstance)
    .directive('languageSkills',         languageSkillsDirective.createInstance)
-   .directive('eventCalendar',    EventCalendarDirective.createInstance)
+   .directive('eventCalendar',          EventCalendarDirective.createInstance)
    .directive('candidateVacancyInfo',   CandidateVacancyInfoDirective.createInstance)
 
    .filter('tel',                 PhoneFormatFilter)

@@ -14,7 +14,7 @@ export default function HomeController( //eslint-disable-line max-statements
    $q,
    $state,
    $translate,
-   VacancyService,
+   SearchService,
    ThesaurusService,
    UserService,
    LoggerService,
@@ -33,7 +33,7 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.viewVacancy             = viewVacancy;
    vm.totalHome               = 0;
    vm.vacancy.current         = 0;
-   vm.vacancy.size            = 30;
+   vm.vacancy.size            = 20;
    vm.candidate               = {};
    vm.candidate.current       = 0;
    vm.candidate.size          = 20;
@@ -61,23 +61,17 @@ export default function HomeController( //eslint-disable-line max-statements
          vm.userNotes = notes;
          vm.notes  = cloneDeep(vm.userNotes);
       });
-      VacancyService.search(vm.vacancy).then(response => {
-         vm.totalHome = response.total;
-         vm.vacancies = response.vacancies;
-      }).catch(_onError);
       _getCurrentUser();
       _getUpcomingEvents();
       if (!vm.user) {
          $state.go('login');
       }
+      SearchService.fetchVacancies(vm.vacancy).then(resp => set(vm, 'vacancies', resp)).catch(_onError);
    }());
 
    function pageChanged(newPage) {
       vm.vacancy.current = newPage - 1;
-      VacancyService.search(vm.vacancy).then(response => {
-         vm.totalHome = response.total;
-         vm.vacancies = response.vacancies;
-      }).catch(_onError);
+      SearchService.fetchVacancies(vm.vacancy).then(resp => set(vm, 'vacancies', resp)).catch(_onError);
    };
 
    function viewVacancy(vacancy) {

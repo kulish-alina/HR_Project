@@ -1,5 +1,4 @@
 <div ui-view></div>
-<div ng-hide="$state.current.data.hide">
    <div class="secondary-menu grid-block">
       <div class="large-2 grid-block">
          <div class="grid-content">
@@ -61,8 +60,8 @@
                <table>
                   <thead>
                      <tr>
-                        <th ng-if="$state.previous.name === 'candidateProfile'">
-                           <input id="vacancy" type="checkbox">
+                        <th ng-if="$state.params.candidateIdToGoBack">
+                           <input id="vacancy" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
                         </th>
                         <th>№</th>
                         <th ng-bind="::'COMMON.TITLE' | translate"></th>
@@ -74,8 +73,8 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-hide="!vacancy" dir-paginate="vacancyItem in vacancies.vacancies | itemsPerPage: vacancyPredicate.size" total-items="vacancies.total" current-page="vacancyPredicate.current">
-                         <th ng-if="$state.previous.name === 'candidateProfile'">
+                     <tr dir-paginate="vacancyItem in vacancies.vacancies | itemsPerPage: vacancyPredicate.size" total-items="vacancies.total" current-page="vacancyPredicate.current">
+                         <th ng-if="$state.params.candidateIdToGoBack">
                            <input id="checkbox9" type="checkbox" ng-model="vacancyItem.isToogled" ng-change="toogleVacancy(vacancyItem)">
                         </th>
                         <td>{{$index+1}}</td>

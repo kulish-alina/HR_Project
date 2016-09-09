@@ -18,6 +18,7 @@ export default function VacanciesController(
    $element,
    $window,
    VacancyService,
+   SearchService,
    ThesaurusService,
    UserService,
    UserDialogService,
@@ -42,6 +43,7 @@ export default function VacanciesController(
    vm.vacancies                 = LocalStorageService.get('vacancies') || [];
    vm.selectedVacancies         = [];
    vm.candidateIdToGoBack       = $state.params.candidateIdToGoBack;
+   vm.isAllToogled              = false;
 
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
@@ -56,7 +58,7 @@ export default function VacanciesController(
    };
 
    function searchVacancies() {
-      VacancyService.search(vm.vacancyPredicate).then(response => {
+      SearchService.fetchVacancies(vm.vacancyPredicate).then(response => {
          forEach(response.vacancies, (vac) => {
             vac.isToogled = vm.isVacancyWasToogled(vac.id);
          });
@@ -129,6 +131,20 @@ export default function VacanciesController(
          return true;
       } else {
          return false;
+      }
+   };
+
+   vm.toogleAll = () => {
+      vm.selectedVacancies = [];
+      if (vm.isAllToogled) {
+         forEach(vm.vacancies.vacancies, (vacancy) => {
+            vacancy.isToogled = true;
+            vm.selectedVacancies.push(vacancy.id);
+         });
+      } else {
+         forEach(vm.vacancies.vacancies, (vacancy) => {
+            vacancy.isToogled = false;
+         });
       }
    };
 

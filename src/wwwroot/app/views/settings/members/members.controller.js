@@ -44,7 +44,6 @@ export default function MembersController(
    }
 
    function _changeRole(role, user = movedUser) {
-      debugger;
       user.roleId = role.id;
       UserService.saveUser(user).then(() => {
          remove(vm.users[vm.currentGroupId], user);

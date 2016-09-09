@@ -8,12 +8,13 @@ import {
 export default function RecruitingFunnelController(
    $scope,
    $state,
-   ThesaurusService
+   ThesaurusService,
+   VacancyService
 ) {
    'ngInject';
 
    const vm                                       = $scope;
-   vm.formingRecruitingFunnelReport               = formingRecruitingFunnelReport;
+   vm.genereteRecruitingFunnel                    = genereteRecruitingFunnel;
    vm.viewVacancy                                 = viewVacancy;
    vm.viewCandidate                               = viewCandidate;
    vm.clear                                       = clear;
@@ -21,8 +22,14 @@ export default function RecruitingFunnelController(
    vm.selectVacancy                               = selectVacancy;
    vm.addStageFilter                              = addStageFilter;
    vm.selectedStageIds                            = [];
+   vm.vacancySearchConditions                     = {};
+   vm.vacancySearchConditions.current             = 0;
+   vm.vacancySearchConditions.size                = 20;
+   vm.vacancies                                   = [];
+
 
    (function init() {
+      VacancyService.search(vm.vacancySearchConditions).then(response => vm.vacancies = response.vacancies);
       ThesaurusService.getThesaurusTopics('stage').then(topic => {
          set(vm, 'stages', topic);
          each(vm.stages, (stage) => {
@@ -31,9 +38,6 @@ export default function RecruitingFunnelController(
          });
       });
    }());
-
-   function formingRecruitingFunnelReport() {
-   }
 
    function selectVacancy() {
       vm.candidatesGropedByStage = {};
@@ -45,6 +49,10 @@ export default function RecruitingFunnelController(
             vm.candidatesGropedByStage[candidateStage.stageId].push(candidateStage.candidate);
          }
       });
+      genereteRecruitingFunnel();
+   }
+
+   function genereteRecruitingFunnel() {
    }
 
    function addStageFilter(stage) {

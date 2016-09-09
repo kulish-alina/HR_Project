@@ -3,3 +3,38 @@
 .active-button {
    box-shadow: inset 0px 0px 1rem 0px transparentize($body-font-color, 0.9);
 }
+.title-stage {
+   margin: 0;
+   height: 50%;
+}
+.report-sidebar {
+   min-width: inherit;
+}
+.report-data {
+   border-collapse: collapse;
+   font-size: $rem-base*0.8;
+   div {
+      font-size: $rem-base*0.8;
+      min-height: $rem-base*2.1;
+      border-bottom: 1px solid lighten($gray, 5);
+      padding: $rem-base/4;
+   }
+}
+.report-data-row {
+   th, td {
+      vertical-align: top;
+      border: 1px solid lighten($gray, 5);
+      p {
+         font-size: $rem-base*0.8;
+      }
+   }
+   td {
+      padding: 0;
+      div:last-child {
+         border-bottom: none;
+      }
+      td:first-child {
+         padding: $rem-base/4;
+      }
+   }
+}

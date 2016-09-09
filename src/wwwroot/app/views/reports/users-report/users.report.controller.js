@@ -1,4 +1,3 @@
-import './user.report.scss';
 import {
    set,
    remove,

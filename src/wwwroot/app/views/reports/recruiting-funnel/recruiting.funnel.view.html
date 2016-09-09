@@ -16,9 +16,8 @@
                   <label ng-bind="::'THESAURUSES.STAGES' | translate"></label>
                </div>
                <div class="vertical grid-block">
-                     <div class="stage-filter" ng-click="addStageFilter(stage)" ng-repeat="stage in stages  | orderBy:'$index':true" ng-class="{'pressed': stage._isPressed}"> <span class='fitler-button' ng-bind="stage.title" ng-class="{'has-entities': candidatesGropedByStage[stage.id].length}"></span> <span class='filter-count' ng-bind="candidatesGropedByStage[stage.id].length"></span> </div>
+                     <div class="stage-filter" ng-click="addStageFilter(stage)" ng-repeat="stage in stages  | orderBy:'$index':true" ng-class="{'pressed': stage._isPressed}"> <span class='fitler-button' ng-bind="stage.title"></span> </div>
                </div>
-               <a class="expand button" ng-click="formingRecruitingFunnelReport()" ng-bind="::'REPORTS.GENERATE' | translate"></a>
             </form>
             </div>
          </div>
@@ -33,14 +32,17 @@
          <div class="main-card">
             <div class="card-divider" ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"> </div>
             <div class="card-section">
-               <table>
+               <table class="report-data">
                   <thead>
                      <tr class="report-data-row">
-                        <th ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true" ng-bind="stage.title"></th>
+                        <th ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true">
+                           <p ng-bind="stage.title" class="title-stage"></p>
+                           <p ng-bind="candidatesGropedByStage[stage.id].length" class="title-stage"></p>
+                        </th>
                      </tr>
                   </thead>
                   <tbody>
-                     <tr>
+                     <tr class="report-data-row">
                         <td ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true">
                            <div ng-click="viewCandidate(candidate.id)" ng-repeat="candidate in candidatesGropedByStage[stage.id]">
                               <a ng-bind="::(candidate.lastName+' '+candidate.firstName)"></a>

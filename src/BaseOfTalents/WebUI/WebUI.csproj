@@ -215,6 +215,7 @@
     <Compile Include="Models\Reports\LocationReportModel.cs" />
     <Compile Include="Models\Reports\UserReportModel.cs" />
     <Compile Include="Models\Reports\UsersReportParameters.cs" />
+    <Compile Include="Models\Reports\VacanciesReportParameters.cs" />
     <Compile Include="Models\VacancyModel.cs" />
     <Compile Include="Models\VacancySearchModel.cs" />
     <Compile Include="Models\VacancySearchParameters.cs" />

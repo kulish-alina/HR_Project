@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Services
 {
-    class ReportService
+    public class ReportService
     {
         IUnitOfWork uow;
         public ReportService(IUnitOfWork uow)
@@ -16,5 +16,14 @@ namespace DAL.Services
             this.uow = uow;
         }
 
+        public object GetUsersReportData(ICollection<int> locationIds, object userIds, DateTime startDate, DateTime endDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetVacanciesReportData(ICollection<int> locationIds, object userIds, DateTime startDate, DateTime endDate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

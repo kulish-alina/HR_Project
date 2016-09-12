@@ -72,7 +72,6 @@
     <Compile Include="DTO\PhoneNumberDTO.cs" />
     <Compile Include="DTO\RelocationPlaceDTO.cs" />
     <Compile Include="DTO\ReportDTO\LocationsUsersReportDTO.cs" />
-    <Compile Include="DTO\ReportDTO\StatisticsDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SetupDTO\CountryDTO.cs" />
     <Compile Include="DTO\SetupDTO\CurrencyDTO.cs" />

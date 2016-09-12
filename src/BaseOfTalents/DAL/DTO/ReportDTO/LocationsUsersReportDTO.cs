@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.DTO.ReportDTO
 {
-    class LocationsUsersReportDTO
+    public class LocationsUsersReportDTO
     {
         public LocationsUsersReportDTO()
         {

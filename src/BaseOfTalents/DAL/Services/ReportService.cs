@@ -25,37 +25,50 @@ namespace DAL.Services
             DateTime startDate,
             DateTime endDate)
         {
-            var usersFilter = new List<Expression<Func<Vacancy, bool>>>();
+            var stagesFilter = new List<Expression<Func<VacancyStageInfo, bool>>>();
+            stagesFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
 
-            if (userIds.Count != 0 )
+            var stages = uow.VacancyStageInfoRepo.Get(stagesFilter);
+
+            var usersGroup = stages.Select(x => x.Vacancy).Select(x => x.Responsible).GroupBy(x => x.CityId);
+
+            var result = new List<LocationsUsersReportDTO>();
+
+            foreach (var usersInCity in usersGroup)
             {
-                usersFilter.Add(x => userIds.Contains(x.Responsible.Id));
-            }
-            var vacancies = uow.VacancyRepo.Get(usersFilter);
-            var groupedVacancies = vacancies.GroupBy(x => x.Responsible);
-            foreach (var group in groupedVacancies)
-            {
-                var groupKey = group.Key;
-                IEnumerable<IGrouping<int, VacancyStageInfo>> groupedVacancyStageInfo = null;
-                foreach (var vacancy in group)
+                var current = new LocationsUsersReportDTO() { LocationId = usersInCity.Key };                
+                foreach (var user in usersInCity)
                 {
-                    if(groupedVacancyStageInfo == null)
+                    var userReportDto = new UsersReportDTO()
                     {
-                        groupedVacancyStageInfo = vacancy.CandidatesProgress.Where(y => y.StageState == Domain.Entities.Enum.StageState.Active).GroupBy(y => y.StageId);
-                    } else
-                    {
-                        var rez = vacancy.CandidatesProgress.Where(y => y.StageState == Domain.Entities.Enum.StageState.Active).GroupBy(y => y.StageId);
-                        groupedVacancyStageInfo.Concat(rez);
-                    }
-                    
-                }      
-            }
-            vacancies.ToList().ForEach(x =>
-            {
-                var groupedVacancyStageInfo = x.CandidatesProgress.Where(y => y.StageState == Domain.Entities.Enum.StageState.Active).GroupBy(y => y.StageId);
+                        UserId = user.Id,
+                        DisplayName = string.Format("{0} {1}", user.LastName, user.FirstName),
+                        StagesData = GetStagesDataForUser(stages, user.Id)
+                    };
+                    userReportDto.StagesData.Add(0, GetAddedCatesCount(stages, user.Id));
 
-            });
-            return new List<LocationsUsersReportDTO>();
+                    current.UsersStatisticsInfo.Add(userReportDto);
+                }
+                result.Add(current);
+            }
+            
+            return result;
+        }
+
+        private int GetAddedCatesCount(IEnumerable<VacancyStageInfo> stages, int p)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Dictionary<int, int> GetStagesDataForUser(IEnumerable<VacancyStageInfo> stages, int userId)
+        {
+            var result = new Dictionary<int, int>();
+            var data = stages.Where(s => s.Vacancy.ResponsibleId == userId).GroupBy(x => x.StageId).Select(s => new { StageId = s.Key, Data = s.Count() });
+            foreach (var item in data)
+            {
+                result.Add(item.StageId, item.Data);
+            }
+            return result;
         }
 
         public IEnumerable<LocationsUsersReportDTO> GetVacanciesReportData(

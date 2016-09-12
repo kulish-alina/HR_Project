@@ -71,6 +71,8 @@
     <Compile Include="DTO\PermissionDTO.cs" />
     <Compile Include="DTO\PhoneNumberDTO.cs" />
     <Compile Include="DTO\RelocationPlaceDTO.cs" />
+    <Compile Include="DTO\ReportDTO\LocationsUsersReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\StatisticsDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SetupDTO\CountryDTO.cs" />
     <Compile Include="DTO\SetupDTO\CurrencyDTO.cs" />
@@ -88,6 +90,8 @@
     <Compile Include="DTO\SetupDTO\StageDTO.cs" />
     <Compile Include="DTO\SetupDTO\TagDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="DTO\ReportDTO\UsersReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\VacanciesReportDTO.cs" />
     <Compile Include="DTO\VacancyDTO.cs" />
     <Compile Include="DTO\VacancyStageInfoDTO.cs" />
     <Compile Include="Exceptions\EntityNotFoundException.cs" />
@@ -252,6 +256,7 @@
       <DependentUpon>201608251216489_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

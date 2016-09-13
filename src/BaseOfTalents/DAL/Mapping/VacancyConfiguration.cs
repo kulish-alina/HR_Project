@@ -8,9 +8,7 @@ namespace DAL.Mapping
         {
             Property(v => v.Title).IsRequired();
             Property(v => v.StartDate).IsRequired();
-
             HasMany(x => x.StageFlow).WithRequired();
-
 
             HasMany(c => c.CandidatesProgress).WithRequired().HasForeignKey(x => x.VacancyId);
 

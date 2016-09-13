@@ -684,6 +684,7 @@ namespace DAL.Migrations
                     SalaryMax = RandomNumber(1000, 2000),
                     SalaryMin = RandomNumber(0, 1000),
                     StartDate = DateTime.Now.AddDays(RandomNumber(-80, -40)),
+                    LastModifiedDate = DateTime.Now,
                     Title = professons.GetRandom(),
                     TypeOfEmployment = TypeOfEmployment.FullTime,
                     EndDate = DateTime.Now.AddDays(RandomNumber(0, 30)),

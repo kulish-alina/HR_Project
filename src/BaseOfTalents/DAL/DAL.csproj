@@ -72,6 +72,7 @@
     <Compile Include="DTO\PhoneNumberDTO.cs" />
     <Compile Include="DTO\RelocationPlaceDTO.cs" />
     <Compile Include="DTO\ReportDTO\LocationsUsersReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\LocationsVacanciesReportDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SetupDTO\CountryDTO.cs" />
     <Compile Include="DTO\SetupDTO\CurrencyDTO.cs" />
@@ -169,9 +170,9 @@
     <Compile Include="Mapping\UserConfiguration.cs" />
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201609131207296_init.cs" />
-    <Compile Include="Migrations\201609131207296_init.Designer.cs">
-      <DependentUpon>201609131207296_init.cs</DependentUpon>
+    <Compile Include="Migrations\201609131512361_init.cs" />
+    <Compile Include="Migrations\201609131512361_init.Designer.cs">
+      <DependentUpon>201609131512361_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\BOTContextInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -251,8 +252,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609131207296_init.resx">
-      <DependentUpon>201609131207296_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609131512361_init.resx">
+      <DependentUpon>201609131512361_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

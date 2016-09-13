@@ -8,11 +8,11 @@ namespace DAL.DTO
 {
     public class VacanciesReportDTO: BaseEntityDTO
     {
-        public VacanciesReportDTO()
-        {
-            UsersStatisticsInfo = new List<UsersReportDTO>();
-        }
-        public int LocationId { get; set; }
-        public List<UsersReportDTO> UsersStatisticsInfo { get; set; }
+        public int UserId { get; set; }
+        public string DisplayName { get; set; }
+        public int VacanciesOpenedInPreviousPeriodCount { get; set; }
+        public int VacanciesOpenedInCurrentPeriodCount { get; set; }
+        public int VacanciesInProgress { get; set; }
+        public int VacanciesClosed { get; set; }
     }
 }

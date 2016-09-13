@@ -48,7 +48,7 @@ namespace DAL.Services
                         DisplayName = string.Format("{0} {1}", user.LastName, user.FirstName),
                         StagesData = GetStagesDataForUser(stages, user.Id)
                     };
-                    userReport.StagesData.Add(0, GetAddedCandedatesCount(stages, user.Id));
+                    userReport.StagesData.Add(0, GetAddedCandedatesCount(startDate, endDate, user.Id));
 
                     current.UsersStatisticsInfo.Add(userReport);
                 }
@@ -58,9 +58,13 @@ namespace DAL.Services
             return result;
         }
 
-        private int GetAddedCandedatesCount(IEnumerable<VacancyStageInfo> stages, int p)
+        private int GetAddedCandedatesCount(DateTime startDate, DateTime endDate, int userId)
         {
-            throw new NotImplementedException();
+            var candidatesFilter = new List<Expression<Func<Candidate, bool>>>();
+            candidatesFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
+
+            var candidates = uow.CandidateRepo.Get(candidatesFilter);
+            return candidates.Where(x => x.CreatorId == userId).Count();
         }
 
         private Dictionary<int, int> GetStagesDataForUser(IEnumerable<VacancyStageInfo> stages, int userId)
@@ -80,6 +84,10 @@ namespace DAL.Services
             DateTime startDate,
             DateTime endDate)
         {
+            var vacanciesFilter = new List<Expression<Func<Vacancy, bool>>>();
+            vacanciesFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
+
+            //var stages = uow.VacancyStageInfoRepo.Get(stagesFilter);
             throw new NotImplementedException();
         }
     }

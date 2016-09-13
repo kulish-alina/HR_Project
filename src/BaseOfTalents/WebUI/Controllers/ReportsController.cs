@@ -30,12 +30,14 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tupleResult = service.GetUsersReportData(
+                var usersReportResult = service.GetUsersReportData(
                     usersReportParams.LocationIds,
                     usersReportParams.UserIds,
                     usersReportParams.StartDate,
                     usersReportParams.EndDate
                     );
+
+                return Json(usersReportResult, BOT_SERIALIZER_SETTINGS);
             }
             return BadRequest(ModelState);
         }

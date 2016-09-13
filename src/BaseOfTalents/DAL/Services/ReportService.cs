@@ -30,7 +30,10 @@ namespace DAL.Services
 
             var stages = uow.VacancyStageInfoRepo.Get(stagesFilter);
 
-            var usersGroup = stages.Select(x => x.Vacancy).Select(x => x.Responsible).GroupBy(x => x.CityId);
+            var usersGroup = stages.Select(x => x.Vacancy).Select(x => x.Responsible)
+                .Where(x => userIds.Count() == 0 || userIds.Contains(x.Id))
+                .Where(x => locationIds.Count() == 0 || locationIds.Contains(x.City.Id))
+                .GroupBy(x => x.CityId);
 
             var result = new List<LocationsUsersReportDTO>();
 
@@ -39,15 +42,15 @@ namespace DAL.Services
                 var current = new LocationsUsersReportDTO() { LocationId = usersInCity.Key };                
                 foreach (var user in usersInCity)
                 {
-                    var userReportDto = new UsersReportDTO()
+                    var userReport = new UsersReportDTO()
                     {
                         UserId = user.Id,
                         DisplayName = string.Format("{0} {1}", user.LastName, user.FirstName),
                         StagesData = GetStagesDataForUser(stages, user.Id)
                     };
-                    userReportDto.StagesData.Add(0, GetAddedCatesCount(stages, user.Id));
+                    userReport.StagesData.Add(0, GetAddedCandedatesCount(stages, user.Id));
 
-                    current.UsersStatisticsInfo.Add(userReportDto);
+                    current.UsersStatisticsInfo.Add(userReport);
                 }
                 result.Add(current);
             }
@@ -55,7 +58,7 @@ namespace DAL.Services
             return result;
         }
 
-        private int GetAddedCatesCount(IEnumerable<VacancyStageInfo> stages, int p)
+        private int GetAddedCandedatesCount(IEnumerable<VacancyStageInfo> stages, int p)
         {
             throw new NotImplementedException();
         }

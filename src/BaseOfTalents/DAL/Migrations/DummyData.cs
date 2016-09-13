@@ -736,6 +736,7 @@ namespace DAL.Migrations
                     Tags = new List<Tag>(),
                     TypeOfEmployment = TypeOfEmployment.FullTime,
                     Level = Levels.GetRandom(),
+                    Creator = Users.GetRandom(),
                     VacanciesProgress = new List<VacancyStageInfo>()
                 };
 

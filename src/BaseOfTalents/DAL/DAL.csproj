@@ -169,9 +169,9 @@
     <Compile Include="Mapping\UserConfiguration.cs" />
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201608251216489_init.cs" />
-    <Compile Include="Migrations\201608251216489_init.Designer.cs">
-      <DependentUpon>201608251216489_init.cs</DependentUpon>
+    <Compile Include="Migrations\201609131207296_init.cs" />
+    <Compile Include="Migrations\201609131207296_init.Designer.cs">
+      <DependentUpon>201609131207296_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\BOTContextInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -251,11 +251,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608251216489_init.resx">
-      <DependentUpon>201608251216489_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609131207296_init.resx">
+      <DependentUpon>201609131207296_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

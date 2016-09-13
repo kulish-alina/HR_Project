@@ -16,4 +16,3 @@ namespace DAL.DTO
         public List<UsersReportDTO> UsersStatisticsInfo { get; set; }
     }
 }
-}

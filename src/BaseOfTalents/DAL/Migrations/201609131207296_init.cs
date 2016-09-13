@@ -14,6 +14,7 @@ namespace DAL.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         FirstName = c.String(nullable: false),
                         MiddleName = c.String(),
+                        CreatorId = c.Int(nullable: false),
                         LastName = c.String(nullable: false),
                         IsMale = c.Boolean(),
                         BirthDate = c.DateTime(),
@@ -40,11 +41,13 @@ namespace DAL.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.City", t => t.CityId)
+                .ForeignKey("dbo.User", t => t.CreatorId)
                 .ForeignKey("dbo.Currency", t => t.CurrencyId)
                 .ForeignKey("dbo.Industry", t => t.IndustryId)
                 .ForeignKey("dbo.Level", t => t.LevelId)
                 .ForeignKey("dbo.Source", t => t.MainSourceId)
                 .ForeignKey("dbo.File", t => t.Photo_Id)
+                .Index(t => t.CreatorId)
                 .Index(t => t.CurrencyId)
                 .Index(t => t.MainSourceId)
                 .Index(t => t.CityId)
@@ -803,6 +806,7 @@ namespace DAL.Migrations
             DropForeignKey("dbo.Event", "ResponsibleId", "dbo.User");
             DropForeignKey("dbo.Event", "EventTypeId", "dbo.EventType");
             DropForeignKey("dbo.Candidate", "CurrencyId", "dbo.Currency");
+            DropForeignKey("dbo.Candidate", "CreatorId", "dbo.User");
             DropForeignKey("dbo.CandidateToComment", "CommentId", "dbo.Comment");
             DropForeignKey("dbo.CandidateToComment", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Vacancy", "ClosingCandidateId", "dbo.Candidate");
@@ -922,6 +926,7 @@ namespace DAL.Migrations
             DropIndex("dbo.Candidate", new[] { "CityId" });
             DropIndex("dbo.Candidate", new[] { "MainSourceId" });
             DropIndex("dbo.Candidate", new[] { "CurrencyId" });
+            DropIndex("dbo.Candidate", new[] { "CreatorId" });
             DropTable("dbo.CandidateToTag");
             DropTable("dbo.CandidateToSkill");
             DropTable("dbo.CandidateToRelocationPlace");

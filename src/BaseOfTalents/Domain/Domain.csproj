@@ -80,6 +80,7 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Vacancy.cs" />
     <Compile Include="Entities\VacancyStageInfo.cs" />
+    <Compile Include="Entities\VacancyState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

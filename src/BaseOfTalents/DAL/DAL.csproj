@@ -94,6 +94,7 @@
     <Compile Include="DTO\ReportDTO\VacanciesReportDTO.cs" />
     <Compile Include="DTO\VacancyDTO.cs" />
     <Compile Include="DTO\VacancyStageInfoDTO.cs" />
+    <Compile Include="DTO\VacancyStateDTO.cs" />
     <Compile Include="Exceptions\EntityNotFoundException.cs" />
     <Compile Include="Extensions\CandidateExtensions.cs" />
     <Compile Include="Extensions\CandidateSocialExtensions.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Extensions\VacancyExtension.cs" />
     <Compile Include="Extensions\VacancyStageInfoExtension.cs" />
+    <Compile Include="Extensions\VacancyStateExtension.cs" />
     <Compile Include="Infrastructure\ICandidateRepository.cs" />
     <Compile Include="Infrastructure\ICandidateSocialRepository.cs" />
     <Compile Include="Infrastructure\ICandidateSourceRepository.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Infrastructure\IUserRepository.cs" />
     <Compile Include="Infrastructure\IVacancyRepository.cs" />
     <Compile Include="Infrastructure\IVacancyStageInfoRepository.cs" />
+    <Compile Include="Infrastructure\IVacancyStateRepository.cs" />
     <Compile Include="Mapping\BaseEntityConfiguration.cs" />
     <Compile Include="Mapping\CandidateConfiguration.cs" />
     <Compile Include="Mapping\CandidateSocialConfiguration.cs" />
@@ -170,6 +173,7 @@
     <Compile Include="Mapping\UserConfiguration.cs" />
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
+    <Compile Include="Mapping\VacancyStateConfiguration.cs" />
     <Compile Include="Migrations\201609141115436_init.cs" />
     <Compile Include="Migrations\201609141115436_init.Designer.cs">
       <DependentUpon>201609141115436_init.cs</DependentUpon>
@@ -207,6 +211,7 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\VacancyRepository.cs" />
     <Compile Include="Repositories\VacancyStageInfoRepository.cs" />
+    <Compile Include="Repositories\VacancyStateRepository.cs" />
     <Compile Include="Services\AccessRightsService.cs" />
     <Compile Include="Services\BaseEnumService.cs" />
     <Compile Include="Services\BaseService.cs" />

@@ -19,10 +19,11 @@ export default function _configValidation($validationProvider, ValidationService
    const _it = partial(_converter, $validationProvider);
    const validationExpression = array2map(methods, _it);
 
-   validationExpression.title   = _titleValidation;
-   validationExpression.date    = _dateValidation;
-   validationExpression.letters = _lettersValidation;
-   validationExpression.counter = _counterValidation;
+   validationExpression.title    = _titleValidation;
+   validationExpression.date     = _dateValidation;
+   validationExpression.letters  = _lettersValidation;
+   validationExpression.counter  = _counterValidation;
+   validationExpression.required = _requiredValidation;
 
    let lang = context.defaultLang || 'en';
    let msg = {en, ru}[lang];
@@ -65,6 +66,15 @@ function _counterValidation(value, scope, element, attrs, param) {
    if (value) {
       let v = parseInt(value, 10);
       return isNaN(v) ? false : v <= parseInt(param || '30', 10);
+   } else {
+      return true;
+   }
+}
+
+function _requiredValidation (value, scope, element, attrs) {
+   let cond = attrs.isNeedRequired || 'true';
+   if (cond === 'true') {
+      return !!value;
    } else {
       return true;
    }

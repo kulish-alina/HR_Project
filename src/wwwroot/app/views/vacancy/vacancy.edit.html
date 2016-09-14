@@ -83,16 +83,16 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <select name="Status" ng-model="vacancy.state">
+                        <select name="Status" ng-model="vacancy.state" validator="required">
                            <option selected value="" ng-bind="::'COMMON.STATUS' | translate"></option>
                            <option selected value="5" ng-bind="::'VACANCY.OPEN' | translate"></option>
                            <option selected value="6" ng-bind="::'VACANCY.PROCESSING' | translate"></option>
                            <option selected value="7" ng-bind="::'VACANCY.CLOSED' | translate"></option>
                            <option selected value="8" ng-bind="::'VACANCY.CANCELLED' | translate"></option>
                         </select>
-                        <input type="tel" placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="candidateName" model-view-value="true" validator="date" />
-                        <input type="tel" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="candidateName" model-view-value="true" validator="date" />
-                        <input type="tel" placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="candidateName" model-view-value="true" validator="date" />
+                        <input type="tel" placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="startDate" model-view-value="true" validator="date, required" is-need-required = "{{vacancy.state === '5'}}"/>
+                        <input type="tel" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="deadlineDate" model-view-value="true" validator="date" />
+                        <input type="tel" placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="endDate" model-view-value="true" validator="date, required" is-need-required = "{{vacancy.state === '7'}}"/>
                         <input ng-model="vacancy.deadlineToCalendar" value="true" id="DeadlineToCalendar" type="checkbox">
                         <label for="DeadlineToCalendar" ng-bind="::'COMMON.ADD_DEADLINE_TO_CALENDAR' | translate"></label>
                      </fieldset>

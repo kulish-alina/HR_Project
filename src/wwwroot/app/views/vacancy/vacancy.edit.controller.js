@@ -52,7 +52,6 @@ export default function VacancyController(
    vm.removeChildVacancy           = removeChildVacancy;
 
    /* === impl === */
-
    (function init() {
       _initCurrentVacancy();
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
@@ -120,7 +119,6 @@ export default function VacancyController(
    }
 
    function saveVacancy(ev, form) {
-      debugger;
       ev.preventDefault();
       //TODO: remove this terrible method and use moment.js
       let dates = [vm.vacancy.startDate, vm.vacancy.deadlineDate, vm.vacancy.endDate];

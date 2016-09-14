@@ -440,6 +440,21 @@ namespace DAL.Migrations
                 .Index(t => t.Vacancy_Id);
             
             CreateTable(
+                "dbo.VacancyState",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        VacancyId = c.Int(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Vacancy", t => t.VacancyId)
+                .Index(t => t.VacancyId);
+            
+            CreateTable(
                 "dbo.Tag",
                 c => new
                     {
@@ -813,6 +828,7 @@ namespace DAL.Migrations
             DropForeignKey("dbo.Vacancy", "ClosingCandidateId", "dbo.Candidate");
             DropForeignKey("dbo.VacancyToTag", "TagId", "dbo.Tag");
             DropForeignKey("dbo.VacancyToTag", "VacancyId", "dbo.Vacancy");
+            DropForeignKey("dbo.VacancyState", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.ExtendedStage", "Vacancy_Id", "dbo.Vacancy");
             DropForeignKey("dbo.ExtendedStage", "StageId", "dbo.Stage");
             DropForeignKey("dbo.Vacancy", "ResponsibleId", "dbo.User");
@@ -897,6 +913,7 @@ namespace DAL.Migrations
             DropIndex("dbo.Event", new[] { "VacancyId" });
             DropIndex("dbo.Event", new[] { "EventTypeId" });
             DropIndex("dbo.Event", new[] { "ResponsibleId" });
+            DropIndex("dbo.VacancyState", new[] { "VacancyId" });
             DropIndex("dbo.ExtendedStage", new[] { "Vacancy_Id" });
             DropIndex("dbo.ExtendedStage", new[] { "StageId" });
             DropIndex("dbo.LanguageSkill", new[] { "LanguageId" });
@@ -952,6 +969,7 @@ namespace DAL.Migrations
             DropTable("dbo.EventType");
             DropTable("dbo.Event");
             DropTable("dbo.Tag");
+            DropTable("dbo.VacancyState");
             DropTable("dbo.ExtendedStage");
             DropTable("dbo.Skill");
             DropTable("dbo.Level");

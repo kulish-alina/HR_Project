@@ -86,8 +86,7 @@ namespace DAL.Extensions
             {
                 PerformVacancyStageFilling(destination, uow);
             }
-            destination.State = source.State;
-
+            
             destination.Title = source.Title;
             destination.Description = source.Description;
             destination.SalaryMin = source.SalaryMin;
@@ -117,6 +116,21 @@ namespace DAL.Extensions
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
             PerformChildVacanciesUpdating(destination, uow);
+            PerformVacancyStatesUpdating(destination, source);
+        }
+
+        private static void PerformVacancyStatesUpdating(Vacancy destination, VacancyDTO source)
+        {
+            if(destination.State != source.State)
+            {
+                destination.StatesInfo.Add(new VacancyState() {
+                    CreatedOn = DateTime.Now,
+                    State = source.State,
+                    VacancyId = source.Id
+                });
+            }
+            destination.State = source.State;
+            //            throw new NotImplementedException();
         }
 
         private static void PerformVacancyStageFilling(Vacancy destination, IUnitOfWork uow)

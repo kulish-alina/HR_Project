@@ -18,6 +18,7 @@ namespace Domain.Entities
             Tags = new List<Tag>();
             ChildVacancies = new List<Vacancy>();
             StageFlow = new List<ExtendedStage>();
+            StatesInfo = new List<VacancyState>();
         }
 
         public string Title { get; set; }
@@ -33,6 +34,7 @@ namespace Domain.Entities
         public virtual ICollection<City> Cities { get; set; }
         public virtual ICollection<Skill> RequiredSkills { get; set; }
         public virtual ICollection<ExtendedStage> StageFlow { get; set; }
+        public virtual ICollection<VacancyState> StatesInfo { get; set; }
         public virtual ICollection<VacancyStageInfo> CandidatesProgress { get; set; }
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }

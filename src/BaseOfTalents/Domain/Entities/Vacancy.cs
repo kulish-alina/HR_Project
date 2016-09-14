@@ -24,7 +24,7 @@ namespace Domain.Entities
         public string Description { get; set; }
         public TypeOfEmployment? TypeOfEmployment { get; set; }
         public DateTime? LastModifiedDate { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
         public bool DeadlineToCalendar { get; set; }

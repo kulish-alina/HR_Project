@@ -111,7 +111,7 @@ namespace DAL.Migrations
                         Description = c.String(),
                         TypeOfEmployment = c.Int(),
                         LastModifiedDate = c.DateTime(),
-                        StartDate = c.DateTime(nullable: false),
+                        StartDate = c.DateTime(),
                         EndDate = c.DateTime(),
                         DeadlineDate = c.DateTime(),
                         DeadlineToCalendar = c.Boolean(nullable: false),

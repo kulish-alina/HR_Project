@@ -6,6 +6,7 @@
         Active,
         Verfied,
         Unverified,
+        Pending,
         Open,
         Processing,
         Closed,

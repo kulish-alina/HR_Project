@@ -30,7 +30,7 @@
         INoteRepository NoteRepo { get; }
         ICurrencyRepository CurrencyRepo { get; }
         ISourceRepository SourceRepo { get; }
-
+        IVacancyStateRepository VacancyStateRepo { get; }
 
         void Commit();
     }

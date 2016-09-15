@@ -2,6 +2,7 @@
 using DAL.DTO.ReportDTO;
 using DAL.Infrastructure;
 using Domain.Entities;
+using Domain.Entities.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,11 +85,29 @@ namespace DAL.Services
             DateTime startDate,
             DateTime endDate)
         {
-            var vacanciesFilter = new List<Expression<Func<Vacancy, bool>>>();
-            vacanciesFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
+            //var vacanciesOfPreviousPeriodStateFilrer = new List<Expression<Func<VacancyState, bool>>>();
+            //vacanciesOfPreviousPeriodStateFilrer.Add(x => (x.State == EntityState.Open ||
+            //x.State == EntityState.Processing) && (x.CreatedOn < startDate));
+            //var stagesFromPreviousPeriod = uow.VacancyStateRepo.Get(vacanciesOfPreviousPeriodStateFilrer);
 
-            //var stages = uow.VacancyStageInfoRepo.Get(stagesFilter);
+            //var vacanciesOfPreviousPeriod = GetFilterVacancies(stagesFromPreviousPeriod, locationIds, userIds);
+
+            //var vacanciesOpenedInCurrentPeriodStateFilrer = new List<Expression<Func<VacancyState, bool>>>();
+            //vacanciesOpenedInCurrentPeriodStateFilrer.Add(x => x.State == EntityState.Open  && 
+            //(x.CreatedOn > startDate && x.CreatedOn < endDate));
+            //var stagesOpenInCurrentPeriod = uow.VacancyStateRepo.Get(vacanciesOpenedInCurrentPeriodStateFilrer);
+
+            //var vacanciesOpenedInCurrentPeriod = GetFilterVacancies(stagesOpenInCurrentPeriod, locationIds, userIds);
+
+
             throw new NotImplementedException();
         }
+
+        //private IEnumerable<Vacancy> GetFilterVacancies(IEnumerable<VacancyState> states, IEnumerable<int> locationIds, IEnumerable<int> userIds)
+        //{
+        //    return states.Select(x => x.Vacancy)
+        //        .Where(x => !userIds.Any() || userIds.Contains(x.ResponsibleId))
+        //        .Where(x => !locationIds.Any() || x.Cities.Any(y => locationIds.Contains(y.Id)));
+        //}
     }
 }

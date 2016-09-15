@@ -419,7 +419,7 @@ namespace DAL
         {
             get
             {
-                if (VacancyStateRepo == null)
+                if (vacancyStateRepo == null)
                 {
                     vacancyStateRepo = new VacancyStateRepository(context);
                 }

@@ -27,6 +27,7 @@
                      </div>
                   </div>
                </div>
+            </div>
                <div class="card-section">
                   <div class="grid-block checkbox-block">
                      <div class="large-6 grid-content source-col">
@@ -88,26 +89,27 @@
                         <input placeholder="{{::'COMMON.YEARS' | translate}}" type="tel" ng-model='candidate.experienceYears' name="expYears" validator="counter=50" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 50}'}}">
                      </div>
                      <div class="medium-6 grid-block">
-                        <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="tel" ng-model="candidate.experienceMonths" name="expMonths" validator="counter=11" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 11}'}}"> </div>
+                        <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="tel" ng-model="candidate.experienceMonths" name="expMonths" validator="counter=11" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 11}'}}">
+                     </div>
                   </div>
-               </div>
-               <div class="grid-block">
-                  <div class="medium-5 grid-block">
-                     <input ng-model="candidate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
+
+                  <div class="grid-block">
+                     <div class="medium-5 grid-block">
+                        <input ng-model="candidate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
+                     </div>
+                     <div class="medium-5 grid-block">
+                        <input ng-model="candidate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
+                     </div>
+                     <div class="medium-2 grid-block">
+                        <select name="Сurrency">
+                           <option value="">&#8372;</option>
+                           <option value="">&#8364;</option>
+                           <option value="">$</option>
+                        </select>
+                     </div>
                   </div>
-                  <div class="medium-5 grid-block">
-                     <input ng-model="candidate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
-                  </div>
-                  <div class="medium-2 grid-block">
-                     <select name="Сurrency">
-                        <option value="">&#8372;</option>
-                        <option value="">&#8364;</option>
-                        <option value="">$</option>
-                     </select>
-                  </div>
-               </div>
-               <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
-               <a class="expand button" ng-click="searchCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
+                  <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
+                  <a class="expand button" ng-click="searchCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
             </div>
          </div>
       </div>

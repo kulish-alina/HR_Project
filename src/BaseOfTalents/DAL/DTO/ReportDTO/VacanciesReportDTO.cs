@@ -10,9 +10,10 @@ namespace DAL.DTO
     {
         public int UserId { get; set; }
         public string DisplayName { get; set; }
-        public int VacanciesOpenedInPreviousPeriodCount { get; set; }
+        public int VacanciesPendingInCurrentPeriodCount { get; set; }
         public int VacanciesOpenedInCurrentPeriodCount { get; set; }
-        public int VacanciesInProgress { get; set; }
-        public int VacanciesClosed { get; set; }
+        public int VacanciesInProgressInCurrentPeriodCount { get; set; }
+        public int VacanciesClosedInCurrentPeriodCount { get; set; }
+        public int VacanciesClosedInCanceledPeriodCount { get; set; }
     }
 }

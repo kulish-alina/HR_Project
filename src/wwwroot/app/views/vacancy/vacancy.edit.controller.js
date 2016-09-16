@@ -1,5 +1,5 @@
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language',
-    'department', 'tag', 'skill', 'typeOfEmployment', 'languageLevel', 'stage', 'state'];
+    'department', 'tag', 'skill', 'typeOfEmployment', 'languageLevel', 'stage'];
 import {
    remove,
    set,

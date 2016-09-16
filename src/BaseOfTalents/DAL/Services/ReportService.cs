@@ -79,35 +79,48 @@ namespace DAL.Services
             return result;
         }
 
-        public IEnumerable<LocationsUsersReportDTO> GetVacanciesReportData(
+        public IEnumerable<LocationsVacanciesReportDTO> GetVacanciesReportData(
             ICollection<int> locationIds,
             ICollection<int> userIds,
             DateTime startDate,
             DateTime endDate)
         {
-            //var vacanciesOfPreviousPeriodStateFilrer = new List<Expression<Func<VacancyState, bool>>>();
-            //vacanciesOfPreviousPeriodStateFilrer.Add(x => (x.State == EntityState.Open ||
-            //x.State == EntityState.Processing) && (x.CreatedOn < startDate));
-            //var stagesFromPreviousPeriod = uow.VacancyStateRepo.Get(vacanciesOfPreviousPeriodStateFilrer);
+            var statesCreatedInCurrentPeriodFilter = new List<Expression<Func<VacancyState, bool>>>();
+            statesCreatedInCurrentPeriodFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
+            statesCreatedInCurrentPeriodFilter.Add(x => !userIds.Any() || userIds.Contains(x.Vacancy.ResponsibleId));
+            statesCreatedInCurrentPeriodFilter.Add(x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id)));
 
-            //var vacanciesOfPreviousPeriod = GetFilterVacancies(stagesFromPreviousPeriod, locationIds, userIds);
+            var statesCreatedInCurrentPeriod = uow.VacancyStateRepo.Get(statesCreatedInCurrentPeriodFilter);
 
-            //var vacanciesOpenedInCurrentPeriodStateFilrer = new List<Expression<Func<VacancyState, bool>>>();
-            //vacanciesOpenedInCurrentPeriodStateFilrer.Add(x => x.State == EntityState.Open  && 
-            //(x.CreatedOn > startDate && x.CreatedOn < endDate));
-            //var stagesOpenInCurrentPeriod = uow.VacancyStateRepo.Get(vacanciesOpenedInCurrentPeriodStateFilrer);
+            var vacanciesGroupedByLocations = statesCreatedInCurrentPeriod.Select(x => x.Vacancy).GroupBy(x => x.Cities.First().Id);
 
-            //var vacanciesOpenedInCurrentPeriod = GetFilterVacancies(stagesOpenInCurrentPeriod, locationIds, userIds);
+            var result = new List<LocationsVacanciesReportDTO>();
 
+            foreach (var vacanciesGroup in vacanciesGroupedByLocations)
+            {
+                var locationReport = new LocationsVacanciesReportDTO() { LocationId = vacanciesGroup.Key };
+                foreach (var vacancy in vacanciesGroup)
+                {
+                    var usersReport = new VacanciesReportDTO() {
+                        UserId = vacancy.ResponsibleId,
+                        DisplayName = string.Format("{0} {1}", vacancy.Responsible.LastName, vacancy.Responsible.FirstName),
+                        VacanciesPendingInCurrentPeriodCount = GetVacanciesCountForUser(statesCreatedInCurrentPeriod, vacancy.ResponsibleId, EntityState.Pending),
+                        VacanciesOpenedInCurrentPeriodCount = GetVacanciesCountForUser(statesCreatedInCurrentPeriod, vacancy.ResponsibleId, EntityState.Open),
+                        VacanciesInProgressInCurrentPeriodCount = GetVacanciesCountForUser(statesCreatedInCurrentPeriod, vacancy.ResponsibleId, EntityState.Processing),
+                        VacanciesClosedInCurrentPeriodCount = GetVacanciesCountForUser(statesCreatedInCurrentPeriod, vacancy.ResponsibleId, EntityState.Closed),
+                        VacanciesClosedInCanceledPeriodCount = GetVacanciesCountForUser(statesCreatedInCurrentPeriod, vacancy.ResponsibleId, EntityState.Cancelled)
+                    };
+                    locationReport.VacanciesStatisticsInfo.Add(usersReport);
+                }
+                result.Add(locationReport); 
+            }
 
-            throw new NotImplementedException();
+            return result;
         }
 
-        //private IEnumerable<Vacancy> GetFilterVacancies(IEnumerable<VacancyState> states, IEnumerable<int> locationIds, IEnumerable<int> userIds)
-        //{
-        //    return states.Select(x => x.Vacancy)
-        //        .Where(x => !userIds.Any() || userIds.Contains(x.ResponsibleId))
-        //        .Where(x => !locationIds.Any() || x.Cities.Any(y => locationIds.Contains(y.Id)));
-        //}
+        private int GetVacanciesCountForUser(IEnumerable<VacancyState> statesCreatedInCurrentPeriod, int responsibleId, EntityState state)
+        {
+            return statesCreatedInCurrentPeriod.Where(x => x.State == state).Select(x => x.Vacancy).Where(x => x.ResponsibleId == responsibleId).Count();
+        }
     }
 }

@@ -28,88 +28,88 @@
                   </div>
                </div>
             </div>
-               <div class="card-section">
-                  <div class="grid-block checkbox-block">
-                     <div class="large-6 grid-content source-col">
-                        <input id="all" type="checkbox">
-                        <label for="all" ng-bind="::'CANDIDATES.ALL' | translate"></label>
-                        <br/>
-                        <input id="vk" type="checkbox">
-                        <label for="vk" ng-bind="::'CANDIDATES.VK' | translate"></label>
-                        <br/>
-                        <input id="rabota" type="checkbox">
-                        <label for="rabota" ng-bind="::'CANDIDATES.RABOTA' | translate"></label>
-                        <br/>
-                        <input id="djinni" type="checkbox">
-                        <label for="djinni" ng-bind="::'CANDIDATES.DJINNI' | translate"></label>
-                     </div>
-                     <div class="large-6 grid-content source-col">
-                        <input id="bot" type="checkbox">
-                        <label for="bot" ng-bind="::'CANDIDATES.BOT' | translate"></label>
-                        <br/>
-                        <input id="linledIn" type="checkbox">
-                        <label for="linledIn" ng-bind="::'CANDIDATES.LINKEDIN' | translate"></label>
-                        <br/>
-                        <input id="work" type="checkbox">
-                        <label for="work" ng-bind="::'CANDIDATES.WORK' | translate"></label>
-                        <br/>
-                        <input id="hr" type="checkbox">
-                        <label for="hr" ng-bind="::'CANDIDATES.HR' | translate"></label>
-                     </div>
+            <div class="card-section">
+               <div class="grid-block checkbox-block">
+                  <div class="large-6 grid-content source-col">
+                     <input id="all" type="checkbox">
+                     <label for="all" ng-bind="::'CANDIDATES.ALL' | translate"></label>
+                     <br/>
+                     <input id="vk" type="checkbox">
+                     <label for="vk" ng-bind="::'CANDIDATES.VK' | translate"></label>
+                     <br/>
+                     <input id="rabota" type="checkbox">
+                     <label for="rabota" ng-bind="::'CANDIDATES.RABOTA' | translate"></label>
+                     <br/>
+                     <input id="djinni" type="checkbox">
+                     <label for="djinni" ng-bind="::'CANDIDATES.DJINNI' | translate"></label>
                   </div>
-                  <input ng-model="candidate.technology" placeholder="{{::'CANDIDATES.TECHNOLOGY' | translate}}" type="text">
-                  <input ng-model="candidate.position" placeholder="{{::'CANDIDATE.POSITION' | translate}}" type="text">
-                  <input ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" type="text">
-                  <input ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" type="text">
-                  <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="candidate.citiesIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
-                  <select name="Industry" ng-model="candidate.industryId">
-                     <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
-                     <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="::industry.title"></option>
-                  </select>
-                  <ul class="some-change">
-                     <li>
-                        <input ng-model="candidate.isMale" name="isMale" ng-value="true" id="male" type="radio">
-                        <label for="male" ng-bind="::'COMMON.MALE' | translate"></label>
-                     </li>
-                     <li>
-                        <input ng-model="candidate.isMale" name="isMale" ng-value="false" id="female" type="radio">
-                        <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
-                     </li>
-                  </ul>
-                  <div class="range-slider">
-                     <div class="grid-block">
-                        <label ng-bind="::'CANDIDATE.CANDIDATE_AGE' | translate"></label>&nbsp;
-                        <input id="ageSlider" type="checkbox" ng-model="isActiveAgeField" ng-change="useAgeInSearch()">
-                     </div>
-                     <rzslider ng-if="isActiveAgeField" rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
+                  <div class="large-6 grid-content source-col">
+                     <input id="bot" type="checkbox">
+                     <label for="bot" ng-bind="::'CANDIDATES.BOT' | translate"></label>
+                     <br/>
+                     <input id="linledIn" type="checkbox">
+                     <label for="linledIn" ng-bind="::'CANDIDATES.LINKEDIN' | translate"></label>
+                     <br/>
+                     <input id="work" type="checkbox">
+                     <label for="work" ng-bind="::'CANDIDATES.WORK' | translate"></label>
+                     <br/>
+                     <input id="hr" type="checkbox">
+                     <label for="hr" ng-bind="::'CANDIDATES.HR' | translate"></label>
                   </div>
-                  <label ng-bind="::'CANDIDATE.EXPERIENCE' | translate"></label>
+               </div>
+               <input ng-model="candidate.technology" placeholder="{{::'CANDIDATES.TECHNOLOGY' | translate}}" type="text">
+               <input ng-model="candidate.position" placeholder="{{::'CANDIDATE.POSITION' | translate}}" type="text">
+               <input ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" type="text">
+               <input ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" type="text">
+               <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="candidate.citiesIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+               <select name="Industry" ng-model="candidate.industryId">
+                  <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
+                  <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="::industry.title"></option>
+               </select>
+               <ul class="some-change">
+                  <li>
+                     <input ng-model="candidate.isMale" name="isMale" ng-value="true" id="male" type="radio">
+                     <label for="male" ng-bind="::'COMMON.MALE' | translate"></label>
+                  </li>
+                  <li>
+                     <input ng-model="candidate.isMale" name="isMale" ng-value="false" id="female" type="radio">
+                     <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
+                  </li>
+               </ul>
+               <div class="range-slider">
                   <div class="grid-block">
-                     <div class="medium-6 grid-block">
-                        <input placeholder="{{::'COMMON.YEARS' | translate}}" type="tel" ng-model='candidate.experienceYears' name="expYears" validator="counter=50" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 50}'}}">
-                     </div>
-                     <div class="medium-6 grid-block">
-                        <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="tel" ng-model="candidate.experienceMonths" name="expMonths" validator="counter=11" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 11}'}}">
-                     </div>
+                     <label ng-bind="::'CANDIDATE.CANDIDATE_AGE' | translate"></label>&nbsp;
+                     <input id="ageSlider" type="checkbox" ng-model="isActiveAgeField" ng-change="useAgeInSearch()">
                   </div>
+                  <rzslider ng-if="isActiveAgeField" rz-slider-model="slider.min" rz-slider-high="slider.max" rz-slider-options="slider.options"></rzslider>
+               </div>
+               <label ng-bind="::'CANDIDATE.EXPERIENCE' | translate"></label>
+               <div class="grid-block">
+                  <div class="medium-6 grid-block">
+                     <input placeholder="{{::'COMMON.YEARS' | translate}}" type="tel" ng-model='candidate.experienceYears' name="expYears" validator="counter=50" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 50}'}}">
+                  </div>
+                  <div class="medium-6 grid-block">
+                     <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="tel" ng-model="candidate.experienceMonths" name="expMonths" validator="counter=11" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 11}'}}">
+                  </div>
+               </div>
 
-                  <div class="grid-block">
-                     <div class="medium-5 grid-block">
-                        <input ng-model="candidate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
-                     </div>
-                     <div class="medium-5 grid-block">
-                        <input ng-model="candidate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
-                     </div>
-                     <div class="medium-2 grid-block">
-                        <select name="Сurrency">
-                           <option value="">&#8372;</option>
-                           <option value="">&#8364;</option>
-                           <option value="">$</option>
-                        </select>
-                     </div>
+               <div class="grid-block">
+                  <div class="medium-5 grid-block">
+                     <input ng-model="candidate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                   </div>
-                  <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
-                  <a class="expand button" ng-click="searchCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
+                  <div class="medium-5 grid-block">
+                     <input ng-model="candidate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
+                  </div>
+                  <div class="medium-2 grid-block">
+                     <select name="Сurrency">
+                        <option value="">&#8372;</option>
+                        <option value="">&#8364;</option>
+                        <option value="">$</option>
+                     </select>
+                  </div>
+               </div>
+               <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
+               <a class="expand button" ng-click="searchCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
             </div>
          </div>
       </div>

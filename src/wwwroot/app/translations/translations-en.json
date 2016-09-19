@@ -215,12 +215,16 @@
          "success": "Correct!"
       },
       "letters": {
-         "error": "*there are invalid characters",
+         "error": "*it seems there is not a name",
          "success": "Correct!"
       },
       "counter": { 
          "error": "*this should be number from 1 to 30",
          "success": "Correct!"
+      },
+      "mincount": {
+         "error": "*this should be more then min value",
+         "success": "Correct!" 
       }
    },
    "ERRORS" : {

@@ -13,6 +13,7 @@ namespace DAL.Extensions
         public static void Update(this VacancyState destination, VacancyStateDTO source)
         {
             destination.VacancyId = source.VacancyId;
+            destination.Passed = source.Passed;
         }
     }
 }

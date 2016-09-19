@@ -48,12 +48,26 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tupleResult = service.GetVacanciesReportData(
-                    vacanciesReportParams.LocationIds,
-                    vacanciesReportParams.UserIds,
-                    vacanciesReportParams.StartDate,
-                    vacanciesReportParams.EndDate
+                var dailyReportForStartDate = service.GetDailyVacanciesReportData(
+                        vacanciesReportParams.LocationIds,
+                        vacanciesReportParams.UserIds,
+                        vacanciesReportParams.StartDate
                     );
+
+                if(vacanciesReportParams.EndDate != null)
+                {
+                    var vacanciesReportResult = service.GetVacanciesReportData(
+                        vacanciesReportParams.LocationIds,
+                        vacanciesReportParams.UserIds,
+                        vacanciesReportParams.StartDate,
+                        vacanciesReportParams.EndDate
+                        );
+                    var dailyReportForEndDate = service.GetDailyVacanciesReportData(
+                        vacanciesReportParams.LocationIds,
+                        vacanciesReportParams.UserIds,
+                        vacanciesReportParams.EndDate
+                        );
+                }
             }
             return BadRequest(ModelState);
         }

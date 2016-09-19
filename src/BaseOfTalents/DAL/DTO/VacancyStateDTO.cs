@@ -9,5 +9,6 @@ namespace DAL.DTO
     public class VacancyStateDTO : BaseEntityDTO
     {
         public int VacancyId { get; set; }
+        public DateTime? Passed { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace Domain.Entities
     {
         public int VacancyId { get; set; }
         public virtual Vacancy Vacancy { get; set; }
+        public DateTime? Passed { get; set; }
     }
 }

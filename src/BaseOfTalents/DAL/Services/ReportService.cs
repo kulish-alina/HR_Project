@@ -118,9 +118,48 @@ namespace DAL.Services
             return result;
         }
 
-        private int GetVacanciesCountForUser(IEnumerable<VacancyState> statesCreatedInCurrentPeriod, int responsibleId, EntityState state)
+        private int GetVacanciesCountForUser(IEnumerable<VacancyState> states, int responsibleId, EntityState state)
         {
-            return statesCreatedInCurrentPeriod.Where(x => x.State == state).Select(x => x.Vacancy).Where(x => x.ResponsibleId == responsibleId).Count();
+            return states.Where(x => x.State == state).Select(x => x.Vacancy).Where(x => x.ResponsibleId == responsibleId).Count();
         }
+
+        public IEnumerable<LocationDailyVacanciesReportDTO> GetDailyVacanciesReportData(
+            ICollection<int> locationIds,
+            ICollection<int> userIds,
+            DateTime date)
+        {
+            var statesFilter = new List<Expression<Func<VacancyState, bool>>>();
+            statesFilter.Add(x => x.CreatedOn > date);
+            statesFilter.Add(x => x.Passed == null);
+            statesFilter.Add(x => x.State == EntityState.Pending || x.State == EntityState.Open || x.State == EntityState.Pending);
+            statesFilter.Add(x => !userIds.Any() || userIds.Contains(x.Vacancy.ResponsibleId));
+            statesFilter.Add(x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id)));
+
+            var states = uow.VacancyStateRepo.Get(statesFilter);
+
+            var vacanciesGroupedByLocations = states.Select(x => x.Vacancy).GroupBy(x => x.Cities.First().Id);
+
+            var result = new List<LocationDailyVacanciesReportDTO>();
+
+            foreach (var vacanciesGroup in vacanciesGroupedByLocations)
+            {
+                var locationReport = new LocationDailyVacanciesReportDTO() { LocationId = vacanciesGroup.Key };
+                foreach (var vacancy in vacanciesGroup)
+                {
+                    var usersReport = new DailyVacanciesReportDTO()
+                    {
+                        UserId = vacancy.ResponsibleId,
+                        DisplayName = string.Format("{0} {1}", vacancy.Responsible.LastName, vacancy.Responsible.FirstName),
+                        PendinVacanciesCount = GetVacanciesCountForUser(states, vacancy.ResponsibleId, EntityState.Pending),
+                        OpenVacanciesCount = GetVacanciesCountForUser(states, vacancy.ResponsibleId, EntityState.Open),
+                        InProgressVacanciesCount = GetVacanciesCountForUser(states, vacancy.ResponsibleId, EntityState.Processing)
+                    };
+                    locationReport.DailyVacanciesStatisticsInfo.Add(usersReport);
+                }
+                result.Add(locationReport);
+            }
+            return result;
+        }
+    }
     }
 }

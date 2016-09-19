@@ -123,6 +123,10 @@ namespace DAL.Extensions
         {
             if(destination.State != source.State)
             {
+                if (destination.StatesInfo.Any())
+                {
+                    destination.StatesInfo.Last().Passed = DateTime.Now;
+                }
                 destination.StatesInfo.Add(new VacancyState() {
                     CreatedOn = DateTime.Now,
                     State = source.State,
@@ -130,7 +134,6 @@ namespace DAL.Extensions
                 });
             }
             destination.State = source.State;
-            //            throw new NotImplementedException();
         }
 
         private static void PerformVacancyStageFilling(Vacancy destination, IUnitOfWork uow)

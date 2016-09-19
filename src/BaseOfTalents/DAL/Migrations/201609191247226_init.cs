@@ -445,6 +445,7 @@ namespace DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         VacancyId = c.Int(nullable: false),
+                        Passed = c.DateTime(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),

@@ -112,7 +112,7 @@ export default function VacanciesReportController(
       } else if (!user.selected) {
          remove(vm.vacanciesReportParametrs.userIds, (userId) =>  userId === user.id);
          if (vm.selectedLocations.length) {
-            remove(vm.vacanciesGroupedByLocation[user.cityId], {id: user.id});
+            remove(vm.selectedUsersGroupedByLocation[user.cityId], {id: user.id});
          } else {
             remove(vm.selectedUsers, (us) =>  us.id === user.id);
          }

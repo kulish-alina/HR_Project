@@ -299,10 +299,13 @@
       "VACANCY_REPORT_DATA" : "Vacancies' report data",
       "DATE_RANGE" : "Date range",
       "GENERATE" : "Generate",
-      "VACANCIES_OPENED_IN_PREVIOUS_PERIOD" : "Vacancies opened in the previous period",
-      "VACANCIES_OPENED_IN_CURRENT_PERIOD" : "Vacancies opened in the current period",
-      "VACANCIES_IN_PROGRESS" : "Vacancies in progress",
-      "CLOSED_VACANCIES" : "Closed vacancies"
+      "CLOSED" : "Closed",
+      "ACTIVE_VACANCIES" : "Active vacancies",
+      "PENDING" : "Pending",
+      "OPEN" : "Open",
+      "IN_PROGRESS" : "In progress",
+      "DYNAMICS" : "Dynamics for a selected period",
+      "CANCELED" : "Canceled"
       
    }
 }

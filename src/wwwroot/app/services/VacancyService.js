@@ -165,9 +165,9 @@ export default class VacancyService {
             comment.createdOn = utils.formatDateFromServer(comment.createdOn);
             return _UserService.getUserById(comment.authorId)
                .then(user => {
-               set(comment, 'responsible', user);
-               return comment;
-            });
+                  set(comment, 'responsible', user);
+                  return comment;
+               });
          });
          return _$q.all(promises);
       }

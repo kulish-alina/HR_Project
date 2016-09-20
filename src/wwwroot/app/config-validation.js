@@ -63,7 +63,7 @@ function _dateValidation(value, scope, element, attrs) {
 }
 
 function _lettersValidation(value) {
-   return value ? /^[а-яА-ЯёЁa-zA-Z]+([\s-]?[а-яА-ЯёЁa-zA-Z]+)+?$/.test(value) : true;
+   return value ? /^[а-яА-ЯёЁa-zA-Z]+([\s-']?[а-яА-ЯёЁa-zA-Z]+)+?$/.test(value) : true;
 }
 
 function _counterValidation(value, scope, element, attrs, param) {

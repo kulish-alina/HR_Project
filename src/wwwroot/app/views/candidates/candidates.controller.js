@@ -7,7 +7,7 @@ import {
 } from 'lodash';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
-    'department', 'typeOfEmployment', 'tag', 'skill', 'stage'];
+    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'currency'];
 
 export default function CandidatesController(
    $scope,

@@ -57,7 +57,7 @@
                            <div class="medium-6 grid-block">
                               <input ng-model="candidate.salaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="text" name="salary", validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}"> </div>
                            <div class="medium-6 grid-block">
-                              <select name="Сurrency" ng-disabled="!candidate.salaryDesired" convert-to-number ng-model="candidate.currencyId" ng-init="candidate.currencyId= candidate.currencyId || ''">
+                              <select name="Сurrency" ng-disabled="!candidate.salaryDesired" convert-to-number ng-model="candidate.currencyId" ng-init="candidate.currencyId= candidate.currencyId || ''" validator="required" is-need-required="{{!!candidate.salaryDesired}}">
                                  <option ng-selected="true" value="" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
                                  <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
                               </select>

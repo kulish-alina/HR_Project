@@ -32,8 +32,8 @@ namespace DAL.Services
             var stages = uow.VacancyStageInfoRepo.Get(stagesFilter);
 
             var usersGroup = stages.Select(x => x.Vacancy).Select(x => x.Responsible)
-                .Where(x => userIds.Count() == 0 || userIds.Contains(x.Id))
-                .Where(x => locationIds.Count() == 0 || locationIds.Contains(x.City.Id))
+                .Where(x => !userIds.Any() || userIds.Contains(x.Id))
+                .Where(x => !locationIds.Any() || locationIds.Contains(x.City.Id))
                 .GroupBy(x => x.CityId);
 
             var result = new List<LocationsUsersReportDTO>();
@@ -130,7 +130,7 @@ namespace DAL.Services
         {
             var statesFilter = new List<Expression<Func<VacancyState, bool>>>();
             statesFilter.Add(x => x.CreatedOn < date);
-            statesFilter.Add(x => x.Passed == null);
+            statesFilter.Add(x => x.Passed < date);
             statesFilter.Add(x => x.State == EntityState.Pending || x.State == EntityState.Open || x.State == EntityState.Processing);
             statesFilter.Add(x => !userIds.Any() || userIds.Contains(x.Vacancy.ResponsibleId));
             statesFilter.Add(x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id)));

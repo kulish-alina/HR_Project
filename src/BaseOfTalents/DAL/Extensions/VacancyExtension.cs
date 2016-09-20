@@ -77,10 +77,6 @@ namespace DAL.Extensions
 
         public static void Update(this Vacancy destination, VacancyDTO source, IUnitOfWork uow)
         {
-            if(destination.LastModifiedDate == null || destination.State != source.State)
-            {
-                destination.LastModifiedDate = DateTime.Now;
-            }
             destination.Id = source.Id;
             if (source.Id == 0)
             {

@@ -110,7 +110,6 @@ namespace DAL.Migrations
                         Title = c.String(nullable: false),
                         Description = c.String(),
                         TypeOfEmployment = c.Int(),
-                        LastModifiedDate = c.DateTime(),
                         StartDate = c.DateTime(),
                         EndDate = c.DateTime(),
                         DeadlineDate = c.DateTime(),

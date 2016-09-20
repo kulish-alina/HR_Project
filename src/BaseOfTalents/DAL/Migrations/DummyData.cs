@@ -678,7 +678,7 @@ namespace DAL.Migrations
                     Industry = Industries.GetRandom(),
                     LanguageSkill = LanguageSkills.GetRandom(),
                     Levels = Levels.Take(RandomNumber(0, Levels.Count)).ToList(),
-                    Cities = Cities.Take(RandomNumber(0, Levels.Count)).ToList(),
+                    Cities = Cities.Take(RandomNumber(1, Levels.Count)).ToList(),
                     RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     Responsible = Users.GetRandom(),
                     SalaryMax = RandomNumber(1000, 2000),
@@ -690,7 +690,7 @@ namespace DAL.Migrations
                     EndDate = DateTime.Now.AddDays(RandomNumber(0, 30)),
                     Tags = Enumerable.Repeat(Tags.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     Comments = Enumerable.Repeat(new Comment { Message = LoremIpsum(3, 15, 1, 2, 1), Author = Users.GetRandom() }, RandomNumber(0, 5)).Distinct().ToList(),
-                    State = EntityState.Open,
+                    State = EntityState.Pending,
                     StageFlow = stages.Select(x => new ExtendedStage { Stage = x, Order = x.Order }).ToList()
                 };
                 vacancies.Add(vacancy);

@@ -53,8 +53,7 @@ namespace WebUI.Controllers
                         vacanciesReportParams.UserIds,
                         vacanciesReportParams.StartDate
                     );
-
-                if(vacanciesReportParams.EndDate != null)
+                if (vacanciesReportParams.EndDate != null)
                 {
                     var vacanciesReportResult = service.GetVacanciesReportData(
                         vacanciesReportParams.LocationIds,
@@ -67,6 +66,13 @@ namespace WebUI.Controllers
                         vacanciesReportParams.UserIds,
                         vacanciesReportParams.EndDate
                         );
+
+                    var resultForPeriod = new { StartDateReport = dailyReportForStartDate, VacanciesReport = vacanciesReportResult, EndReport = dailyReportForEndDate };
+                    return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
+                } else
+                {
+                    var resultForDay = new { StartDateReport = dailyReportForStartDate };
+                    return Json(resultForDay, BOT_SERIALIZER_SETTINGS);
                 }
             }
             return BadRequest(ModelState);

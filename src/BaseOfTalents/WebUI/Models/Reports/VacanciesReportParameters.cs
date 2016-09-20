@@ -15,8 +15,7 @@ namespace WebUI.Models.Reports
         }
         [Required]
         public DateTime StartDate { get; set; }
-        [Required]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public ICollection<int> LocationIds { get; set; }
         public ICollection<int> UserIds { get; set; }
     }

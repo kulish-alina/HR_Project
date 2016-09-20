@@ -83,7 +83,7 @@ namespace DAL.Services
             ICollection<int> locationIds,
             ICollection<int> userIds,
             DateTime startDate,
-            DateTime endDate)
+            DateTime? endDate)
         {
             var statesCreatedInCurrentPeriodFilter = new List<Expression<Func<VacancyState, bool>>>();
             statesCreatedInCurrentPeriodFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
@@ -126,12 +126,12 @@ namespace DAL.Services
         public IEnumerable<LocationDailyVacanciesReportDTO> GetDailyVacanciesReportData(
             ICollection<int> locationIds,
             ICollection<int> userIds,
-            DateTime date)
+            DateTime? date)
         {
             var statesFilter = new List<Expression<Func<VacancyState, bool>>>();
-            statesFilter.Add(x => x.CreatedOn > date);
+            statesFilter.Add(x => x.CreatedOn < date);
             statesFilter.Add(x => x.Passed == null);
-            statesFilter.Add(x => x.State == EntityState.Pending || x.State == EntityState.Open || x.State == EntityState.Pending);
+            statesFilter.Add(x => x.State == EntityState.Pending || x.State == EntityState.Open || x.State == EntityState.Processing);
             statesFilter.Add(x => !userIds.Any() || userIds.Contains(x.Vacancy.ResponsibleId));
             statesFilter.Add(x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id)));
 
@@ -161,5 +161,5 @@ namespace DAL.Services
             return result;
         }
     }
-    }
-}
+ }
+

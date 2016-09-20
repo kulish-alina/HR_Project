@@ -164,10 +164,10 @@ export default class VacancyService {
          let promises = map(vacancy.comments, (comment) => {
             comment.createdOn = utils.formatDateFromServer(comment.createdOn);
             return _UserService.getUserById(comment.authorId)
-               .then(user => set(comment, 'responsible', user))
-               .then(responseComment => {
-                  return responseComment;
-               });
+               .then(user => {
+               set(comment, 'responsible', user);
+               return comment;
+            });
          });
          return _$q.all(promises);
       }

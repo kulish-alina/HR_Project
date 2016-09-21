@@ -19,8 +19,12 @@ export default function _configValidation($validationProvider, ValidationService
    const _it = partial(_converter, $validationProvider);
    const validationExpression = array2map(methods, _it);
 
-   validationExpression.title = _titleValidation;
-   validationExpression.date  = _dateValidation;
+   validationExpression.title    = _titleValidation;
+   validationExpression.date     = _dateValidation;
+   validationExpression.letters  = _lettersValidation;
+   validationExpression.counter  = _counterValidation;
+   validationExpression.required = _requiredValidation;
+   validationExpression.mincount = _minCountValidation;
 
    let lang = context.defaultLang || 'en';
    let msg = {en, ru}[lang];
@@ -51,6 +55,37 @@ function _titleValidation(value) {
    return value ? value.length <= maxTitleLength && value.length >= minTitleLength : true;
 }
 
-function _dateValidation(value) {
-   return value ? !isNaN(Date.parse(utils.formatDateToServer(value))) : true;
+function _dateValidation(value, scope, element, attrs) {
+   let minDate      = Date.parse(utils.formatDateToServer(attrs.minDate)) || new Date('1900-01-01').getTime();
+   let maxDate      = Date.parse(utils.formatDateToServer(attrs.maxDate)) || new Date('2100-01-01').getTime();
+   let selectedDate = Date.parse(value && value.length === 10 ?
+                                 utils.formatDateToServer(value) :
+                                 utils.formatDateTimeToServer(value));
+   return value ? !isNaN(selectedDate) && selectedDate >= minDate && selectedDate <= maxDate : true;
+}
+
+function _lettersValidation(value) {
+   return value ? /^[а-яА-ЯёЁa-zA-Z]+([\s-']?[а-яА-ЯёЁa-zA-Z]+)+?$/.test(value) : true;
+}
+
+function _counterValidation(value, scope, element, attrs, param) {
+   if (value) {
+      let v = parseInt(value, 10);
+      return isNaN(v) ? false : v <= parseInt(param || '30', 10);
+   } else {
+      return true;
+   }
+}
+
+function _requiredValidation (value, scope, element, attrs) {
+   let cond = attrs.isNeedRequired || 'true';
+   return cond === 'true' ? !!value : true;
+}
+
+function _minCountValidation(value, scope, element, attrs) {
+   if (!value) {
+      return true;
+   }
+   let minValue = parseInt(attrs.minCountValue, 10);
+   return (minValue || minValue === 0) ? value > minValue : false;
 }

@@ -200,16 +200,16 @@ describe('Validation must', () => {
       });
 
       it('Return false if value is invalid date', () => {
-         let res = fnc('13.13.1025');
+         let res = fnc('13-13-1025');
          expect(res).toBe(false);
-         res = fnc('40.12.2015');
+         res = fnc('40-12-2015');
          expect(res).toBe(false);
       });
 
       it('Return true if value is valid date, format', () => {
-         let res = fnc('10.10.2012');
+         let res = fnc('10-10-2012');
          expect(res).toBe(true);
-         res = fnc('11.11.2015');
+         res = fnc('11-11-2015');
          expect(res).toBe(true);
       });
    });

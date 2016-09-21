@@ -1,28 +1,30 @@
 <div ui-view></div>
-   <div class="secondary-menu grid-block">
-      <div class="large-2 grid-block">
-         <div class="grid-content">
-            <h5 ng-bind="::'CANDIDATES.BASE_OF_CANDIDATES' | translate"></h5>
-         </div>
-      </div>
-      <div class="large-7 grid-block">
-      </div>
-      <div class="large-3 grid-block align-right">
-         <ul class="menu-bar second-button-bar align-right">
-            <li>
-               <a ng-if="vacancyIdToGoBack" ng-click="goBackToVacancy()" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
-            </li>
-         </ul>
+<div class="secondary-menu grid-block">
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5 ng-bind="::'CANDIDATES.BASE_OF_CANDIDATES' | translate"></h5>
       </div>
    </div>
+   <div class="large-7 grid-block">
+   </div>
+   <div class="large-3 grid-block align-right">
+      <ul class="menu-bar second-button-bar align-right">
+         <li>
+            <a ng-if="vacancyIdToGoBack" ng-click="goBackToVacancy()" ng-bind="::'COMMON.ADD_AND_BACK' | translate"></a>
+         </li>
+      </ul>
+   </div>
+</div>
+<div class="grid-block">
    <div class="grid-block">
       <div class="medium-3 grid-block">
          <div class="sidebar">
             <div class="card-divider">
                <div class="grid-block">
-                  <div  class="medium-8 grid-block" ng-bind="::'CANDIDATES.SEARCH_CANDIDATES' | translate"></div>
-                  <div class="medium-4 grid-block align-right">
-                     <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+                  <div class="medium-8 grid-block" ng-bind="::'CANDIDATES.SEARCH_CANDIDATES' | translate">
+                     <div class="medium-4 grid-block align-right">
+                        <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+                     </div>
                   </div>
                </div>
             </div>
@@ -84,24 +86,24 @@
                <label ng-bind="::'CANDIDATE.EXPERIENCE' | translate"></label>
                <div class="grid-block">
                   <div class="medium-6 grid-block">
-                     <input placeholder="{{::'COMMON.YEARS' | translate}}" ng-model="candidate.experienceYears" type="number" min="0" step="1">
+                     <input placeholder="{{::'COMMON.YEARS' | translate}}" type="tel" ng-model='candidate.experienceYears' name="expYears" validator="counter=50" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 50}'}}">
                   </div>
                   <div class="medium-6 grid-block">
-                     <input placeholder="{{::'COMMON.MONTHS' | translate}}" ng-model="candidate.experienceMonths" type="number" min="0" step="1">
+                     <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="tel" ng-model="candidate.experienceMonths" name="expMonths" validator="counter=11" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 11}'}}">
                   </div>
                </div>
+
                <div class="grid-block">
                   <div class="medium-5 grid-block">
-                     <input ng-model="candidate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="number" min="0" step="50">
+                     <input ng-model="candidate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                   </div>
                   <div class="medium-5 grid-block">
-                     <input ng-model="candidate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="number" min="0" step="50">
+                     <input ng-model="candidate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000, mincount" min-count-value="{{candidate.minSalary}}" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                   </div>
                   <div class="medium-2 grid-block">
-                     <select name="Сurrency">
-                        <option value="">&#8372;</option>
-                        <option value="">&#8364;</option>
-                        <option value="">$</option>
+                     <select name="Сurrency" convert-to-number ng-model="candidate.currencyId" ng-init="candidate.currencyId= candidate.currencyId || ''">
+                        <option ng-selected="true" value="" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
+                        <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
                      </select>
                   </div>
                </div>
@@ -143,7 +145,7 @@
                         <td ng-bind="c.industry.title"></td>
                         <td ng-bind="c.mainSource.title"></td>
                         <td ng-bind="::c.positionDesired"></td>
-                        <td >
+                        <td>
                            <span ng-if="c.salaryDesired" ng-bind="::(c.salaryDesired+' '+c.currency.title)"></span>
                         </td>
                         <td ng-bind="::c.createdOn"></td>
@@ -164,3 +166,4 @@
          </div>
       </div>
    </div>
+</div>

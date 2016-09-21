@@ -24,7 +24,7 @@
                <div class="grid-block">
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <input name="Title" ng-model="vacancy.title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, minlength=3, maxlength=50">
+                        <input name="Title" ng-model="vacancy.title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, minlength=3, maxlength=50, letters">
                         <select name="Industry" ng-model="vacancy.industryId" validator="required">
                            <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
                            <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
@@ -44,7 +44,7 @@
                            </div>
                         </div>
                         <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
-                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}" name="vacancyLocation" validator="required"></oi-select>
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
@@ -58,10 +58,18 @@
                            <option ng-repeat="department in thesaurus.department" value="{{department.id}}" ng-bind="department.title"> </option>
                         </select>
                         <div class="grid-block">
-                           <div class="medium-6 grid-block">
-                              <input ng-model="vacancy.salaryMin" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="number" min="0" step="50"> </div>
-                           <div class="medium-6 grid-block">
-                              <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="number" min="{{vacancy.salaryMin}}" step="50"> </div>
+                           <div class="medium-5 grid-block">
+                              <input ng-model="vacancy.salaryMin" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
+                           </div>
+                           <div class="medium-5 grid-block">
+                              <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMax" , validator="counter=1000000, mincount" min-count-value="{{vacancy.salaryMin}}" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
+                           </div>
+                           <div class="medium-2 grid-block">
+                              <select name="Сurrency" convert-to-number ng-model="vacancy.currencyId" ng-init="vacancy.currencyId = vacancy.currencyId || ''">
+                                 <option ng-selected="true" value="" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
+                                 <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
+                              </select>
+                           </div>
                         </div>
                         <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
                            <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
@@ -74,22 +82,23 @@
                               <label for="masterVacancy" ng-bind="::'COMMON.MASTER_VACANCY' | translate"></label>
                            </div>
                            <div class="medium-6 grid-block">
-                              <input ng-if="!vacancy.parentVacancyId" ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="number" min="0" max="30"> </div>
+                              <input ng-if="!vacancy.parentVacancyId" ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="tel" name="vacCounter" , validator="counter" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space">
+                           </div>
                         </div>
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <select name="Status" ng-model="vacancy.state">
+                        <select name="Status" ng-model="vacancy.state" validator="required">
                            <option selected value="" ng-bind="::'COMMON.STATUS' | translate"></option>
                            <option selected value="5" ng-bind="::'VACANCY.OPEN' | translate"></option>
                            <option selected value="6" ng-bind="::'VACANCY.PROCESSING' | translate"></option>
                            <option selected value="7" ng-bind="::'VACANCY.CLOSED' | translate"></option>
                            <option selected value="8" ng-bind="::'VACANCY.CANCELLED' | translate"></option>
                         </select>
-                        <input type="text" placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                        <input type="text" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
-                        <input type="text" placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/>
+                        <input type="tel" placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="startDate" model-view-value="true" validator="date, required" is-need-required="{{vacancy.state === '5'}}" />
+                        <input type="tel" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="deadlineDate" model-view-value="true" validator="date" min-date="{{vacancy.startDate}}" />
+                        <input type="tel" placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="endDate" model-view-value="true" validator="date, required" is-need-required="{{vacancy.state === '7'}}" min-date="{{vacancy.startDate}}" />
                         <input ng-model="vacancy.deadlineToCalendar" value="true" id="DeadlineToCalendar" type="checkbox">
                         <label for="DeadlineToCalendar" ng-bind="::'COMMON.ADD_DEADLINE_TO_CALENDAR' | translate"></label>
                      </fieldset>

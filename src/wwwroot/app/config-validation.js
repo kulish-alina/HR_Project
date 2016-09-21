@@ -58,7 +58,9 @@ function _titleValidation(value) {
 function _dateValidation(value, scope, element, attrs) {
    let minDate      = Date.parse(utils.formatDateToServer(attrs.minDate)) || new Date('1900-01-01').getTime();
    let maxDate      = Date.parse(utils.formatDateToServer(attrs.maxDate)) || new Date('2100-01-01').getTime();
-   let selectedDate = Date.parse(utils.formatDateToServer(value));
+   let selectedDate = Date.parse(value && value.length === 10 ?
+                                 utils.formatDateToServer(value) :
+                                 utils.formatDateTimeToServer(value));
    return value ? !isNaN(selectedDate) && selectedDate >= minDate && selectedDate <= maxDate : true;
 }
 

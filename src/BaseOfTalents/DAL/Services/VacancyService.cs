@@ -2,7 +2,9 @@
 using DAL.Extensions;
 using DAL.Infrastructure;
 using Domain.Entities;
+using Domain.Entities.Enum.Setup;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -33,7 +35,9 @@ namespace DAL.Services
             IEnumerable<int> levelIds,
             IEnumerable<int> locationIds,
             int current,
-            int size
+            int size,
+            string sortBy,
+            bool? sortAsc
             )
         {
             var filters = new List<Expression<Func<Vacancy, bool>>>();
@@ -68,8 +72,28 @@ namespace DAL.Services
             }
 
             var vacancies = uow.VacancyRepo.Get(filters);
-            var total = vacancies.Count();
 
+            var orderBy = sortBy ?? "Title";
+            var sortAscend = sortAsc ?? true;
+
+            if (typeof(Vacancy).GetProperty(orderBy) != null)
+            {
+                if (orderBy == "Cities")
+                {
+                    vacancies = sortAscend ?
+                    vacancies.OrderBy(v => v.Cities.First().Title) :
+                    vacancies.OrderByDescending(v => v.Cities.First().Title);
+                }
+                else
+                {
+                    vacancies = sortAscend ?
+                    vacancies.OrderBy(v => v.GetType().GetProperty(orderBy).GetValue(v)) :
+                    vacancies.OrderByDescending(v => v.GetType().GetProperty(orderBy).GetValue(v));
+                }
+            }
+            
+            var total = vacancies.Count();
+            
             return new Tuple<IEnumerable<VacancyDTO>, int>(
                 vacancies.Skip(current * size).Take(size).Select(vacancy => DTOService.ToDTO<Vacancy, VacancyDTO>(vacancy)),
                 total);

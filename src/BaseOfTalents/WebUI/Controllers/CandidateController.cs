@@ -56,13 +56,19 @@ namespace WebUI.Controllers
                     searchParameters.LanguageSkills,
                     searchParameters.CitiesIds,
                     searchParameters.Current,
-                    searchParameters.Size
+                    searchParameters.Size,
+                    searchParameters.SortBy,
+                    searchParameters.SortAsc
                     );
 
                 var candidatesQuerryResult = tupleResult.Item1;
                 var total = tupleResult.Item2;
 
-                var ret = new { Candidate = candidatesQuerryResult, Current = searchParameters.Current, Size = searchParameters.Size, Total = total };
+                var ret = new { Candidate = candidatesQuerryResult,
+                                Current = searchParameters.Current,
+                                Size = searchParameters.Size, Total = total,
+                                SortBy = searchParameters.SortBy,
+                                SortAsc = searchParameters.SortAsc };
                 return Json(ret, BOT_SERIALIZER_SETTINGS);
             }
             return BadRequest(ModelState);

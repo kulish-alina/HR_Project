@@ -34,6 +34,8 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.totalHome               = 0;
    vm.vacancy.current         = 0;
    vm.vacancy.size            = 20;
+   vm.vacancy.sortAsc         = false;
+   vm.vacancy.sortBy          = 'CreatedOn';
    vm.candidate               = {};
    vm.candidate.current       = 0;
    vm.candidate.size          = 20;

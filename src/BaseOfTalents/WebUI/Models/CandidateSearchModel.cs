@@ -32,6 +32,9 @@ namespace WebUI.Models
         public IEnumerable<LanguageSkillDTO> LanguageSkills { get; set; }
         public IEnumerable<int> CitiesIds { get; set; }
 
+        public string SortBy { get; set; }
+        public bool? SortAsc { get; set; }
+
         public int Current { get; set; }
         public int Size { get; set; }
     }

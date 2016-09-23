@@ -16,6 +16,8 @@ namespace DAL.DTO
         public int UserId { get; set; }
         public string DisplayName { get; set; }
 
-        public Dictionary<int, int> StagesData { get; set; } //key stage Id (added = id-0), vslue - data from db
+        // key - stage id (added candidates have key 0 because it does not belong to the stages),
+        // value - count of candidates on this stage
+        public Dictionary<int, int> StagesData { get; set; } 
     }
 }

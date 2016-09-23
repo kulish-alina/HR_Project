@@ -10,7 +10,7 @@ namespace DAL.DTO.ReportDTO
     {
         public int UserId { get; set; }
         public string DisplayName { get; set; }
-        public int PendinVacanciesCount { get; set; }
+        public int PendingVacanciesCount { get; set; }
         public int OpenVacanciesCount { get; set; }
         public int InProgressVacanciesCount { get; set; }
     }

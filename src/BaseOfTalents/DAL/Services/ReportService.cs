@@ -26,11 +26,13 @@ namespace DAL.Services
             DateTime startDate,
             DateTime endDate)
         {
+            // select all stages created  for the selected period
             var stagesFilter = new List<Expression<Func<VacancyStageInfo, bool>>>();
             stagesFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
 
             var stages = uow.VacancyStageInfoRepo.Get(stagesFilter);
 
+            // select responsible users from vacancies filtered by userIds and locationIds and grouped by location
             var usersGroup = stages.Select(x => x.Vacancy).Select(x => x.Responsible)
                 .Where(x => !userIds.Any() || userIds.Contains(x.Id))
                 .Where(x => !locationIds.Any() || locationIds.Contains(x.City.Id))
@@ -49,6 +51,7 @@ namespace DAL.Services
                         DisplayName = string.Format("{0} {1}", user.LastName, user.FirstName),
                         StagesData = GetStagesDataForUser(stages, user.Id)
                     };
+                    // data for added candidates
                     userReport.StagesData.Add(0, GetAddedCandedatesCount(startDate, endDate, user.Id));
 
                     current.UsersStatisticsInfo.Add(userReport);
@@ -61,10 +64,13 @@ namespace DAL.Services
 
         private int GetAddedCandedatesCount(DateTime startDate, DateTime endDate, int userId)
         {
+            // select all candidates created  for the selected period
             var candidatesFilter = new List<Expression<Func<Candidate, bool>>>();
             candidatesFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
 
             var candidates = uow.CandidateRepo.Get(candidatesFilter);
+
+            // calculate all candidated added in a data base by some user
             return candidates.Where(x => x.CreatorId == userId).Count();
         }
 
@@ -85,12 +91,8 @@ namespace DAL.Services
             DateTime startDate,
             DateTime? endDate)
         {
-            var statesCreatedInCurrentPeriodFilter = new List<Expression<Func<VacancyState, bool>>>();
-            statesCreatedInCurrentPeriodFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
-            statesCreatedInCurrentPeriodFilter.Add(x => !userIds.Any() || userIds.Contains(x.Vacancy.ResponsibleId));
-            statesCreatedInCurrentPeriodFilter.Add(x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id)));
-
-            var statesCreatedInCurrentPeriod = uow.VacancyStateRepo.Get(statesCreatedInCurrentPeriodFilter);
+            // select vacancies' states for the selected period filtered by userIds and locationIds
+            var statesCreatedInCurrentPeriod = GetFilteredVacanciesStatesForVacanciesReport(locationIds, userIds, startDate, endDate);
 
             var vacanciesGroupedByLocations = statesCreatedInCurrentPeriod.Select(x => x.Vacancy).GroupBy(x => x.Cities.First().Id);
 
@@ -118,24 +120,12 @@ namespace DAL.Services
             return result;
         }
 
-        private int GetVacanciesCountForUser(IEnumerable<VacancyState> states, int responsibleId, EntityState state)
-        {
-            return states.Where(x => x.State == state).Select(x => x.Vacancy).Where(x => x.ResponsibleId == responsibleId).Count();
-        }
-
         public IEnumerable<LocationDailyVacanciesReportDTO> GetDailyVacanciesReportData(
             ICollection<int> locationIds,
             ICollection<int> userIds,
             DateTime? date)
         {
-            var statesFilter = new List<Expression<Func<VacancyState, bool>>>();
-            statesFilter.Add(x => x.CreatedOn < date);
-            statesFilter.Add(x => x.Passed < date);
-            statesFilter.Add(x => x.State == EntityState.Pending || x.State == EntityState.Open || x.State == EntityState.Processing);
-            statesFilter.Add(x => !userIds.Any() || userIds.Contains(x.Vacancy.ResponsibleId));
-            statesFilter.Add(x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id)));
-
-            var states = uow.VacancyStateRepo.Get(statesFilter);
+            var states = GetFilteredVacanciesStatesForDailyVacanciesReport(locationIds, userIds, date);
 
             var vacanciesGroupedByLocations = states.Select(x => x.Vacancy).GroupBy(x => x.Cities.First().Id);
 
@@ -150,7 +140,7 @@ namespace DAL.Services
                     {
                         UserId = vacancy.ResponsibleId,
                         DisplayName = string.Format("{0} {1}", vacancy.Responsible.LastName, vacancy.Responsible.FirstName),
-                        PendinVacanciesCount = GetVacanciesCountForUser(states, vacancy.ResponsibleId, EntityState.Pending),
+                        PendingVacanciesCount = GetVacanciesCountForUser(states, vacancy.ResponsibleId, EntityState.Pending),
                         OpenVacanciesCount = GetVacanciesCountForUser(states, vacancy.ResponsibleId, EntityState.Open),
                         InProgressVacanciesCount = GetVacanciesCountForUser(states, vacancy.ResponsibleId, EntityState.Processing)
                     };
@@ -159,6 +149,40 @@ namespace DAL.Services
                 result.Add(locationReport);
             }
             return result;
+        }
+
+        private IEnumerable<VacancyState> GetFilteredVacanciesStatesForVacanciesReport(
+            ICollection<int> locationIds,
+            ICollection<int> userIds,
+            DateTime startDate,
+            DateTime? endDate)
+        {
+            var statesCreatedInCurrentPeriodFilter = new List<Expression<Func<VacancyState, bool>>>();
+            statesCreatedInCurrentPeriodFilter.Add(x => x.CreatedOn > startDate && x.CreatedOn < endDate);
+            statesCreatedInCurrentPeriodFilter.Add(x => !userIds.Any() || userIds.Contains(x.Vacancy.ResponsibleId));
+            statesCreatedInCurrentPeriodFilter.Add(x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id)));
+
+            return uow.VacancyStateRepo.Get(statesCreatedInCurrentPeriodFilter);
+        }
+
+        private IEnumerable<VacancyState> GetFilteredVacanciesStatesForDailyVacanciesReport(
+            ICollection<int> locationIds,
+            ICollection<int> userIds,
+            DateTime? date)
+        {
+            var statesFilter = new List<Expression<Func<VacancyState, bool>>>();
+            statesFilter.Add(x => x.CreatedOn < date);
+            statesFilter.Add(x => x.Passed < date);
+            statesFilter.Add(x => x.State == EntityState.Pending || x.State == EntityState.Open || x.State == EntityState.Processing);
+            statesFilter.Add(x => !userIds.Any() || userIds.Contains(x.Vacancy.ResponsibleId));
+            statesFilter.Add(x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id)));
+
+            return uow.VacancyStateRepo.Get(statesFilter);
+        }
+            
+        private int GetVacanciesCountForUser(IEnumerable<VacancyState> states, int responsibleId, EntityState state)
+        {
+            return states.Where(x => x.State == state).Select(x => x.Vacancy).Where(x => x.ResponsibleId == responsibleId).Count();
         }
     }
  }

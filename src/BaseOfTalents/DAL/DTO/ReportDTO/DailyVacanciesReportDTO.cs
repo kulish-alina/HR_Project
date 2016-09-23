@@ -9,7 +9,7 @@ namespace DAL.DTO.ReportDTO
     public class DailyVacanciesReportDTO : BaseEntityDTO
     {
         public int UserId { get; set; }
-        public string DisplayName { get; set; }
+        public string UserDisplayName { get; set; }
         public int PendingVacanciesCount { get; set; }
         public int OpenVacanciesCount { get; set; }
         public int InProgressVacanciesCount { get; set; }

@@ -50,7 +50,7 @@ namespace DAL.Services
                     var userReport = new UsersReportDTO()
                     {
                         UserId = user.Id,
-                        DisplayName = $"{user.LastName} {user.FirstName}",
+                        UserDisplayName = $"{user.LastName} {user.FirstName}",
                         StagesData = GetStagesDataForUser(stages, user.Id)
                     };
                     // data for added candidates
@@ -121,7 +121,7 @@ namespace DAL.Services
             return new VacanciesReportDTO
             {
                 UserId = responsibleId,
-                DisplayName = $"{responsibleFirstName} {responsibleLastName}",
+                UserDisplayName = $"{responsibleFirstName} {responsibleLastName}",
                 VacanciesPendingInCurrentPeriodCount = GetVacanciesCountForUser(vacancyStates, responsibleId, EntityState.Pending),
                 VacanciesOpenedInCurrentPeriodCount = GetVacanciesCountForUser(vacancyStates, responsibleId, EntityState.Open),
                 VacanciesInProgressInCurrentPeriodCount = GetVacanciesCountForUser(vacancyStates, responsibleId, EntityState.Processing),
@@ -188,7 +188,7 @@ namespace DAL.Services
             return new DailyVacanciesReportDTO
             {
                 UserId = responsibleId,
-                DisplayName = $"{responsibleFirstName} {responsibleLastName}",
+                UserDisplayName = $"{responsibleFirstName} {responsibleLastName}",
                 PendingVacanciesCount = GetVacanciesCountForUser(states, responsibleId, EntityState.Pending),
                 OpenVacanciesCount = GetVacanciesCountForUser(states, responsibleId, EntityState.Open),
                 InProgressVacanciesCount = GetVacanciesCountForUser(states, responsibleId, EntityState.Processing)

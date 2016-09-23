@@ -171,14 +171,15 @@ namespace DAL.Services
             DateTime? date)
         {
             var statesFilter = new List<Expression<Func<VacancyState, bool>>>() {
-                x => x.CreatedOn < date,
-                x => x.Passed < date,
+                x => x.Passed < date || x.Passed == null,
                 x => x.State == EntityState.Pending || x.State == EntityState.Open || x.State == EntityState.Processing,
                 x => !userIds.Any() || userIds.Contains(x.Vacancy.ResponsibleId),
                 x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id))
             };
 
-            return uow.VacancyStateRepo.Get(statesFilter);
+            var stat = uow.VacancyStateRepo.Get(statesFilter);
+
+            return stat.Where(x => x.CreatedOn.Value.Date <= date);
         }
 
         private DailyVacanciesReportDTO CreateDailyVacanciesReport(int responsibleId,

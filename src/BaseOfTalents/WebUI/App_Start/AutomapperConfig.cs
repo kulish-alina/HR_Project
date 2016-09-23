@@ -85,6 +85,9 @@ namespace WebUI.App_Start
                 x.CreateMap<LanguageSkill, LanguageSkillDTO>();
                 x.CreateMap<LanguageSkillDTO, LanguageSkill>();
 
+                x.CreateMap<VacancyState, VacancyStateDTO>();
+                x.CreateMap<VacancyStateDTO, VacancyState>();
+
                 x.CreateMap<VacancyStageInfo, VacancyStageInfoDTO>()
                     .ForMember(dest => dest.StageId, opt => opt.MapFrom(src => Mapper.Map<Stage, int>(src.Stage)));
                 x.CreateMap<VacancyStageInfoDTO, VacancyStageInfo>();
@@ -146,6 +149,7 @@ namespace WebUI.App_Start
 
                 x.CreateMap<Vacancy, VacancyDTO>()
                     .ForMember(dest => dest.CandidatesProgress, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.CandidatesProgress)))
+                    .ForMember(dest => dest.StatesInfo, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyState>, IEnumerable<VacancyStateDTO>>(src.StatesInfo)))
                     .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(src.Comments)))
                     .ForMember(dest => dest.LevelIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Level>, IEnumerable<int>>(src.Levels)))
                     .ForMember(dest => dest.CityIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<City>, IEnumerable<int>>(src.Cities)))
@@ -154,6 +158,7 @@ namespace WebUI.App_Start
                     .ForMember(dest => dest.ChildVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ChildVacancies)))
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)))
                     .ForMember(dest => dest.StageFlow, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<ExtendedStage>, IEnumerable<ExtendedStageDTO>>(src.StageFlow)));
+
 
 
                 x.CreateMap<RelocationPlace, RelocationPlaceDTO>();

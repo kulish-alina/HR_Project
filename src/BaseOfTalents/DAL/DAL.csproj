@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,6 +71,10 @@
     <Compile Include="DTO\PermissionDTO.cs" />
     <Compile Include="DTO\PhoneNumberDTO.cs" />
     <Compile Include="DTO\RelocationPlaceDTO.cs" />
+    <Compile Include="DTO\ReportDTO\DailyVacanciesReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\LocationDailyVacanciesReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\LocationsUsersReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\LocationsVacanciesReportDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SetupDTO\CountryDTO.cs" />
     <Compile Include="DTO\SetupDTO\CurrencyDTO.cs" />
@@ -87,8 +92,11 @@
     <Compile Include="DTO\SetupDTO\StageDTO.cs" />
     <Compile Include="DTO\SetupDTO\TagDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="DTO\ReportDTO\UsersReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\VacanciesReportDTO.cs" />
     <Compile Include="DTO\VacancyDTO.cs" />
     <Compile Include="DTO\VacancyStageInfoDTO.cs" />
+    <Compile Include="DTO\VacancyStateDTO.cs" />
     <Compile Include="Exceptions\EntityNotFoundException.cs" />
     <Compile Include="Extensions\CandidateExtensions.cs" />
     <Compile Include="Extensions\CandidateSocialExtensions.cs" />
@@ -105,6 +113,7 @@
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Extensions\VacancyExtension.cs" />
     <Compile Include="Extensions\VacancyStageInfoExtension.cs" />
+    <Compile Include="Extensions\VacancyStateExtension.cs" />
     <Compile Include="Infrastructure\ICandidateRepository.cs" />
     <Compile Include="Infrastructure\ICandidateSocialRepository.cs" />
     <Compile Include="Infrastructure\ICandidateSourceRepository.cs" />
@@ -135,6 +144,7 @@
     <Compile Include="Infrastructure\IUserRepository.cs" />
     <Compile Include="Infrastructure\IVacancyRepository.cs" />
     <Compile Include="Infrastructure\IVacancyStageInfoRepository.cs" />
+    <Compile Include="Infrastructure\IVacancyStateRepository.cs" />
     <Compile Include="Mapping\BaseEntityConfiguration.cs" />
     <Compile Include="Mapping\CandidateConfiguration.cs" />
     <Compile Include="Mapping\CandidateSocialConfiguration.cs" />
@@ -165,9 +175,10 @@
     <Compile Include="Mapping\UserConfiguration.cs" />
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
-    <Compile Include="Migrations\201608251216489_init.cs" />
-    <Compile Include="Migrations\201608251216489_init.Designer.cs">
-      <DependentUpon>201608251216489_init.cs</DependentUpon>
+    <Compile Include="Mapping\VacancyStateConfiguration.cs" />
+    <Compile Include="Migrations\201609201401047_init.cs" />
+    <Compile Include="Migrations\201609201401047_init.Designer.cs">
+      <DependentUpon>201609201401047_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\BOTContextInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -202,6 +213,7 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\VacancyRepository.cs" />
     <Compile Include="Repositories\VacancyStageInfoRepository.cs" />
+    <Compile Include="Repositories\VacancyStateRepository.cs" />
     <Compile Include="Services\AccessRightsService.cs" />
     <Compile Include="Services\BaseEnumService.cs" />
     <Compile Include="Services\BaseService.cs" />
@@ -223,6 +235,7 @@
     <Compile Include="Services\CityService.cs" />
     <Compile Include="Services\NoteService.cs" />
     <Compile Include="Services\PermissionService.cs" />
+    <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\SkillService.cs" />
     <Compile Include="Services\SocialNetworkService.cs" />
@@ -246,8 +259,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608251216489_init.resx">
-      <DependentUpon>201608251216489_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609201401047_init.resx">
+      <DependentUpon>201609201401047_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

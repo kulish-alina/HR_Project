@@ -19,14 +19,14 @@ namespace DAL.DTO
             ChildVacanciesIds = new List<int>();
             Comments = new List<CommentDTO>();
             StageFlow = new List<ExtendedStageDTO>();
+            StatesInfo = new List<VacancyStateDTO>();
         }
 
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
         public TypeOfEmployment? TypeOfEmployment { get; set; }
-        [Required]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
         public bool DeadlineToCalendar { get; set; }
@@ -40,6 +40,7 @@ namespace DAL.DTO
         public IEnumerable<FileDTO> Files { get; set; }
         public IEnumerable<CommentDTO> Comments { get; set; }
         public IEnumerable<int> ChildVacanciesIds { get; set; }
+        public IEnumerable<VacancyStateDTO> StatesInfo { get; set; }
 
         public int? ClosingCandidateId { get; set; }
         public int? ParentVacancyId { get; set; }

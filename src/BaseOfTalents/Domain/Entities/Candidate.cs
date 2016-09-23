@@ -25,6 +25,8 @@ namespace Domain.Entities
 
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
+        public virtual User Creator { get; set; }
+        public int CreatorId { get; set; }
         public string LastName { get; set; }
         public bool? IsMale { get; set; }
         public DateTime? BirthDate { get; set; }

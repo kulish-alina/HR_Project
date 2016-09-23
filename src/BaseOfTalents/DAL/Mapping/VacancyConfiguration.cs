@@ -7,10 +7,8 @@ namespace DAL.Mapping
         public VacancyConfiguration()
         {
             Property(v => v.Title).IsRequired();
-            Property(v => v.StartDate).IsRequired();
-
+            Property(v => v.State).IsRequired();
             HasMany(x => x.StageFlow).WithRequired();
-
 
             HasMany(c => c.CandidatesProgress).WithRequired().HasForeignKey(x => x.VacancyId);
 
@@ -30,8 +28,8 @@ namespace DAL.Mapping
             HasRequired(v => v.Industry).WithMany().HasForeignKey(x => x.IndustryId);
             HasRequired(v => v.Department).WithMany().HasForeignKey(v => v.DepartmentId);
             HasRequired(v => v.Responsible).WithMany().HasForeignKey(v => v.ResponsibleId);
-
             HasMany(v => v.CandidatesProgress).WithRequired().HasForeignKey(vsi => vsi.VacancyId);
+            HasMany(c => c.StatesInfo).WithRequired(x => x.Vacancy).HasForeignKey(x => x.VacancyId);
             HasMany(v => v.ChildVacancies).WithMany().Map(x =>
             {
                 x.MapRightKey("ChildVacancyId");

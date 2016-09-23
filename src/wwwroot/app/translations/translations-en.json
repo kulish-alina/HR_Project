@@ -53,6 +53,7 @@
       "PROCESSING": "Processing",
       "CLOSED": "Closed",
       "CANCELLED": "Canceled",
+      "PENDING": "Pending",
       "VACANCY_REMOVE_MESSAGE": "Do you really want to remove this vacancy?",
       "VACANCY": "Vacancy",
       "CHILD_VACANCIES": "Child vacancies",

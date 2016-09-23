@@ -1,0 +1,17 @@
+﻿using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DAL.Mapping
+{
+    public class VacancyStateConfiguration : BaseEntityConfiguration<VacancyState>
+    {
+        public VacancyStateConfiguration()
+        {
+            HasRequired(vsi => vsi.Vacancy).WithMany().HasForeignKey(vsi => vsi.VacancyId);
+        }
+    }
+}

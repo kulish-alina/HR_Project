@@ -9,6 +9,7 @@ namespace DAL.Mapping
             Property(c => c.FirstName).IsRequired();
             Property(c => c.LastName).IsRequired();
             HasRequired(c => c.Industry).WithMany().HasForeignKey(x => x.IndustryId);
+            HasRequired(c => c.Creator).WithMany().HasForeignKey(x => x.CreatorId);
 
             Property(c => c.Skype).IsOptional();
             Property(c => c.PositionDesired).IsOptional();

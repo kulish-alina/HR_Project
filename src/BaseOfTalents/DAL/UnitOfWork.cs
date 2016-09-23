@@ -36,6 +36,7 @@ namespace DAL
         private INoteRepository noteRepo;
         private ICurrencyRepository currencyRepo;
         private ISourceRepository sourceRepo;
+        private IVacancyStateRepository vacancyStateRepo;
 
 
 
@@ -411,6 +412,19 @@ namespace DAL
                 }
 
                 return sourceRepo;
+            }
+        }
+
+        public IVacancyStateRepository VacancyStateRepo
+        {
+            get
+            {
+                if (vacancyStateRepo == null)
+                {
+                    vacancyStateRepo = new VacancyStateRepository(context);
+                }
+
+                return vacancyStateRepo;
             }
         }
 

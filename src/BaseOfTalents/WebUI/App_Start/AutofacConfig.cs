@@ -145,6 +145,10 @@ namespace WebUI.App_Start
                 .As<RoleService>()
                 .InstancePerRequest();
 
+            builder.RegisterType<ReportService>()
+                .As<ReportService>()
+                .InstancePerRequest();
+
             builder.RegisterType<EventService>()
                 .As<EventService>()
                 .InstancePerRequest();

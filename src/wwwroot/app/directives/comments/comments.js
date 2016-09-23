@@ -20,7 +20,7 @@ export default class CommentsDirective {
    }
 }
 
-function CommentsController($scope, $translate) {
+function CommentsController($scope, $translate, ValidationService) {
    'ngInject';
    const vm              = $scope;
    vm.typeWrap           = _getType();
@@ -29,10 +29,13 @@ function CommentsController($scope, $translate) {
    vm.addComment         = addComment;
    vm.editComment        = editComment;
    vm.removeComment      = removeComment;
+   vm.form               = {};
 
    function addComment() {
-      vm.save(vm.currentComment).then(() => {
-         vm.currentComment   = {};
+      ValidationService.validate(vm.form.comments).then(() => {
+         vm.save(vm.currentComment).then(() => {
+            vm.currentComment   = {};
+         });
       });
    }
 

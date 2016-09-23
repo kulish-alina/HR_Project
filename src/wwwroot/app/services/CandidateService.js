@@ -51,7 +51,8 @@ const CONVERTORS_TO_SERVER = [
    _convertLanguageSkillsToBackend,
    _convertSocialToBackend,
    _deleteReferencedThesaurusObjects,
-   _convertCommentsToBackend
+   _convertCommentsToBackend,
+   _addCreatorIdToBackend
 ];
 
 const CONVERTORS_TO_CLIENT = [
@@ -271,6 +272,10 @@ function _convertCommentsToBackend(candidate) {
       });
       return _$q.all(promises).then(() => candidate);
    }
+}
+function _addCreatorIdToBackend(candidate) {
+   candidate.creatorId = _UserService.getCurrentUser().id;
+   return candidate;
 }
 
 function _convertFromServerDates(candidate) {

@@ -28,6 +28,8 @@ namespace DAL.DTO
         public string MiddleName { get; set; }
         [Required]
         public string LastName { get; set; }
+        [Required]
+        public int CreatorId { get; set; }
         public string Education { get; set; }
         public bool? IsMale { get; set; }
         public DateTime? BirthDate { get; set; }

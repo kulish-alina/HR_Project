@@ -35,7 +35,7 @@
                   <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="::(responsible.lastName+' '+responsible.firstName)"></option>
                </select>
                <label for="Date" ng-bind="::'COMMON.EVENT_DATE' | translate"></label>
-               <input type="text" id="Date" placeholder="{{::'COMMON.EVENT_DATE' | translate}}" class="input-date" ng-model="event.eventDate" datetime-picker date-format="dd-MM-yyyy HH:mm:ss" close-on-select="false" /> </fieldset>
+               <input type="text" id="Date" placeholder="{{::'COMMON.EVENT_DATE' | translate}}" class="input-date" ng-model="event.eventDate" datetime-picker date-format="dd-MM-yyyy HH:mm:ss" close-on-select="false" name="eventDate" validator="required, date"/> </fieldset>
          </form>
       </div>
       <div ng-if="type === 'list-with-input' || type === 'only-events' || type === 'list-only'" class="small-6 grid-block" ng-class="{'without-form': (type === 'list-only' || type === 'only-events'), 'full-temlate' : type === 'list-with-input'}">

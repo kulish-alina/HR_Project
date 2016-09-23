@@ -1,5 +1,5 @@
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language',
-    'department', 'tag', 'skill', 'typeOfEmployment', 'languageLevel', 'stage'];
+    'department', 'tag', 'skill', 'typeOfEmployment', 'languageLevel', 'stage', 'currency'];
 import {
    remove,
    set,
@@ -52,7 +52,6 @@ export default function VacancyController(
    vm.removeChildVacancy           = removeChildVacancy;
 
    /* === impl === */
-
    (function init() {
       _initCurrentVacancy();
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));

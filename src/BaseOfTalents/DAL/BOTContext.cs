@@ -60,6 +60,7 @@ namespace DAL
         public virtual DbSet<SocialNetwork> SocialNetworks { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
         public virtual DbSet<Note> Notes { get; set; }
+        public virtual DbSet<VacancyState> VacancyStates { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -98,6 +99,7 @@ namespace DAL
             modelBuilder.Configurations.Add(new IndustryConfiguration());
             modelBuilder.Configurations.Add(new CountryConfiguration());
             modelBuilder.Configurations.Add(new SocialNetworkConfiguration());
+            modelBuilder.Configurations.Add(new VacancyStateConfiguration());
 
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
             modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());

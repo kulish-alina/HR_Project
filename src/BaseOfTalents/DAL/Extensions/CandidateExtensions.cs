@@ -33,6 +33,7 @@ namespace DAL.Extensions
             destination.MainSourceId = source.MainSourceId;
             destination.LevelId = source.LevelId;
             destination.CurrencyId = source.CurrencyId;
+            destination.CreatorId = source.CreatorId;
 
             destination.ClosedVacancies.Clear();
             destination.ClosedVacancies = source.ClosedVacanciesIds.Select(x => uow.VacancyRepo.GetByID(x)).ToList();

@@ -28,54 +28,57 @@ namespace WebUI.Controllers
         [Route("usersReport")]
         public IHttpActionResult GetDataForUserReport([FromBody]UsersReportParameters usersReportParams)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var usersReportResult = service.GetUsersReportData(
-                    usersReportParams.LocationIds,
-                    usersReportParams.UserIds,
-                    usersReportParams.StartDate,
-                    usersReportParams.EndDate
-                    );
-
-                return Json(usersReportResult, BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
-            return BadRequest(ModelState);
+
+            var usersReportResult = service.GetUsersReportData(
+                usersReportParams.LocationIds,
+                usersReportParams.UserIds,
+                usersReportParams.StartDate,
+                usersReportParams.EndDate
+            );
+
+            return Json(usersReportResult, BOT_SERIALIZER_SETTINGS);
         }
 
         [HttpPost]
         [Route("vacanciesReport")]
         public IHttpActionResult GetDataForVacancyReport([FromBody]VacanciesReportParameters vacanciesReportParams)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var dailyReportForStartDate = service.GetDailyVacanciesReportData(
-                        vacanciesReportParams.LocationIds,
-                        vacanciesReportParams.UserIds,
-                        vacanciesReportParams.StartDate
-                    );
-                if (vacanciesReportParams.EndDate != null)
-                {
-                    var vacanciesReportResult = service.GetVacanciesReportData(
-                        vacanciesReportParams.LocationIds,
-                        vacanciesReportParams.UserIds,
-                        vacanciesReportParams.StartDate,
-                        vacanciesReportParams.EndDate
-                        );
-                    var dailyReportForEndDate = service.GetDailyVacanciesReportData(
-                        vacanciesReportParams.LocationIds,
-                        vacanciesReportParams.UserIds,
-                        vacanciesReportParams.EndDate
-                        );
-
-                    var resultForPeriod = new { StartDateReport = dailyReportForStartDate, VacanciesReport = vacanciesReportResult, EndDateReport = dailyReportForEndDate };
-                    return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
-                } else
-                {
-                    var resultForDay = new { StartDateReport = dailyReportForStartDate };
-                    return Json(resultForDay, BOT_SERIALIZER_SETTINGS);
-                }
+                return BadRequest(ModelState);
             }
-            return BadRequest(ModelState);
+
+            var dailyReportForStartDate = service.GetDailyVacanciesReportData(
+                vacanciesReportParams.LocationIds,
+                vacanciesReportParams.UserIds,
+                vacanciesReportParams.StartDate
+            );
+            if (vacanciesReportParams.EndDate != null)
+            {
+                var vacanciesReportResult = service.GetVacanciesReportData(
+                    vacanciesReportParams.LocationIds,
+                    vacanciesReportParams.UserIds,
+                    vacanciesReportParams.StartDate,
+                    vacanciesReportParams.EndDate
+                    );
+                var dailyReportForEndDate = service.GetDailyVacanciesReportData(
+                    vacanciesReportParams.LocationIds,
+                    vacanciesReportParams.UserIds,
+                    vacanciesReportParams.EndDate
+                    );
+
+                var resultForPeriod = new { StartDateReport = dailyReportForStartDate, VacanciesReport = vacanciesReportResult, EndDateReport = dailyReportForEndDate };
+                return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
+            }
+            else
+            {
+                var resultForDay = new { StartDateReport = dailyReportForStartDate };
+                return Json(resultForDay, BOT_SERIALIZER_SETTINGS);
+            }
         }
     }
 }

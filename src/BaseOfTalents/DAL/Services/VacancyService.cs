@@ -78,18 +78,12 @@ namespace DAL.Services
 
             if (typeof(Vacancy).GetProperty(orderBy) != null)
             {
-                if (orderBy == "Cities")
-                {
-                    vacancies = sortAscend ?
-                    vacancies.OrderBy(v => v.Cities.First().Title) :
-                    vacancies.OrderByDescending(v => v.Cities.First().Title);
-                }
-                else
-                {
-                    vacancies = sortAscend ?
-                    vacancies.OrderBy(v => v.GetType().GetProperty(orderBy).GetValue(v)) :
-                    vacancies.OrderByDescending(v => v.GetType().GetProperty(orderBy).GetValue(v));
-                }
+                Func<Vacancy, string> keySelector = v => (orderBy == "Cities") ?
+                                                        v.Cities.First().Title :
+                                                        v.GetType().GetProperty(orderBy).GetValue(v).ToString();
+                vacancies = sortAscend ?
+                    vacancies.OrderBy(keySelector) :
+                    vacancies.OrderByDescending(keySelector);
             }
             
             var total = vacancies.Count();

@@ -122,7 +122,9 @@ export default function VacanciesController(
    function _sortBy(column) {
       let searchPredicate = cloneDeep(vm.vacancyPredicate);
       searchPredicate.sortBy = column;
-      searchPredicate.sortAsc = (searchPredicate.sortBy === vm.vacancyPredicate.sortBy) ?
+      searchPredicate.sortAsc = (searchPredicate.sortBy === vm.vacancyPredicate.sortBy) ?/*this case is
+      switching field 'sortAsc' if same column is selected twice or more and set value to true if new column
+      is selected*/
          !!(searchPredicate.sortAsc ^ true) : true; // eslint-disable-line no-bitwise
       searchPredicate.sortBy = column;
       searchVacancies(searchPredicate).then(() => {

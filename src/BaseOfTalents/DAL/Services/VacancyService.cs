@@ -2,9 +2,7 @@
 using DAL.Extensions;
 using DAL.Infrastructure;
 using Domain.Entities;
-using Domain.Entities.Enum.Setup;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -79,7 +77,7 @@ namespace DAL.Services
             if (typeof(Vacancy).GetProperty(orderBy) != null)
             {
                 Func<Vacancy, string> keySelector = v => (orderBy == "Cities") ?
-                                                        v.Cities.First().Title :
+                                                        v.Cities.Last().Title :
                                                         v.GetType().GetProperty(orderBy).GetValue(v).ToString();
                 vacancies = sortAscend ?
                     vacancies.OrderBy(keySelector) :

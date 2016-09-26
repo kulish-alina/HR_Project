@@ -64,11 +64,11 @@
                            <input id="vacancy" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
                         </th>
                         <th>№</th>
-                        <th ng-bind="::'COMMON.TITLE' | translate"></th>
-                        <th ng-bind="::'COMMON.STATUS' | translate"></th>
-                        <th ng-bind="::'COMMON.LOCATION' | translate" class="col4"></th>
-                        <th ng-bind="::'COMMON.RESPONSIBLE' | translate"></th>
-                        <th ng-bind="::'COMMON.ADDED' | translate"></th>
+                        <th> <a ng-click="sortBy('Title')"><span ng-bind="::'COMMON.TITLE' | translate"></span> <i ng-class="getArrow('Title')"></i></a></th>
+                        <th> <a ng-click="sortBy('State')"><span ng-bind="::'COMMON.STATUS' | translate"></span> <i ng-class="getArrow('State')"></i></a></th>
+                        <th> <a ng-click="sortBy('Cities')"><span ng-bind="::'COMMON.LOCATION' | translate" class="col4"></span> <i ng-class="getArrow('Cities')"></i></a></th>
+                        <th> <a ng-click="sortBy('Responsible')"><span ng-bind="::'COMMON.RESPONSIBLE' | translate"></span> <i ng-class="getArrow('Responsible.LastName')"></i></a></th>
+                        <th> <a ng-click="sortBy('CreatedOn')"><span ng-bind="::'COMMON.ADDED' | translate"></span> <i ng-class="getArrow('CreatedOn')"></i></a></th>
                         <th></th>
                      </tr>
                   </thead>

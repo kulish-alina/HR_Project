@@ -33,7 +33,9 @@ namespace DAL.Services
             IEnumerable<int> levelIds,
             IEnumerable<int> locationIds,
             int current,
-            int size
+            int size,
+            string sortBy,
+            bool? sortAsc
             )
         {
             var filters = new List<Expression<Func<Vacancy, bool>>>();
@@ -68,8 +70,22 @@ namespace DAL.Services
             }
 
             var vacancies = uow.VacancyRepo.Get(filters);
-            var total = vacancies.Count();
 
+            var orderBy = sortBy ?? "Title";
+            var sortAscend = sortAsc ?? true;
+
+            if (typeof(Vacancy).GetProperty(orderBy) != null)
+            {
+                Func<Vacancy, string> keySelector = v => (orderBy == "Cities") ?
+                                                        v.Cities.Last().Title :
+                                                        v.GetType().GetProperty(orderBy).GetValue(v).ToString();
+                vacancies = sortAscend ?
+                    vacancies.OrderBy(keySelector) :
+                    vacancies.OrderByDescending(keySelector);
+            }
+            
+            var total = vacancies.Count();
+            
             return new Tuple<IEnumerable<VacancyDTO>, int>(
                 vacancies.Skip(current * size).Take(size).Select(vacancy => DTOService.ToDTO<Vacancy, VacancyDTO>(vacancy)),
                 total);

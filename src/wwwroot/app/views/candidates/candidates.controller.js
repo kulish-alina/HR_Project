@@ -3,7 +3,8 @@ import {
    find,
    set,
    filter,
-   forEach
+   forEach,
+   cloneDeep
 } from 'lodash';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
@@ -34,6 +35,8 @@ export default function CandidatesController(
    vm.candidate            = {};
    vm.candidate.current    = 0;
    vm.candidate.size       = 20;
+   vm.candidate.sortAsc    = true;
+   vm.candidate.sortBy     = 'LastName';
    vm.candidateTotal       = 0;
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
@@ -41,6 +44,8 @@ export default function CandidatesController(
    vm.isActiveAgeField     = true;
    vm.useAgeInSearch       = useAgeInSearch;
    vm.isAllToogled         = false;
+   vm.sortBy               = _sortBy;
+   vm.getArrow             = _getArrow;
 
    vm.slider = {
       min: 18,
@@ -69,8 +74,8 @@ export default function CandidatesController(
       searchCandidates();
    };
 
-   function searchCandidates() {
-      SearchService.fetchCandidates(vm.candidate).then(response => {
+   function searchCandidates(predicate = vm.candidate) {
+      return SearchService.fetchCandidates(predicate).then(response => {
          forEach(response.candidate, (cand) => {
             cand.isToogled = vm.isCandidateWasToogled(cand.id);
          });
@@ -124,6 +129,27 @@ export default function CandidatesController(
    function _setToStorage() {
       LocalStorageService.set('candidate', vm.candidate);
       LocalStorageService.set('candidates', vm.candidates);
+   }
+
+   function _sortBy(column) {
+      let searchPredicate = cloneDeep(vm.candidate);
+      searchPredicate.sortBy = column;
+      searchPredicate.sortAsc = (searchPredicate.sortBy === vm.candidate.sortBy) ?/*this case is switching
+      field 'sort Asc' if same column is selected twice or more and set value to true if new column is
+      selected*/
+         !!(searchPredicate.sortAsc ^ true) : true; // eslint-disable-line no-bitwise
+      searchPredicate.sortBy = column;
+      searchCandidates(searchPredicate).then(() => {
+         vm.candidate = searchPredicate;
+      });
+   }
+
+   function _getArrow(column) {
+      if (column === vm.candidate.sortBy) {
+         return vm.candidate.sortAsc ? 'fi-arrow-down' : 'fi-arrow-up';
+      } else {
+         return '';
+      }
    }
 
    vm.goBackToVacancy = () => {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace CVParserSeeSharp.CVStructure
+namespace CVParser.CVStructure
 {
-    public class CV
+    public class Content
     {
-        public CV()
+        public Content()
         {
             Blocks = new List<LogicalBlock>();
         }

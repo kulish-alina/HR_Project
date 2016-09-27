@@ -1,82 +1,131 @@
-﻿using CVParserSeeSharp.CVStructure;
+﻿using CVParser.Core;
+using CVParser.CVStructure;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
-namespace CVParserSeeSharp.Parser
+namespace CVParser.Parser
 {
     public class CVParser
     {
-        static bool lastWasEmpty = false;
-        static bool lastOperationWasSeparation = true;
-
-        static List<string> keyWords = new List<string> {
-                "skill", "personal", "information", "info", "work", "experience", "education", "languag", "about me", "summary", "history", "techincal", "knowledge"
-            };
-
-        public static CV Parse(List<string> textElements)
+        private static Dictionary<SearchField, BlockType[]> blockWhereToSeekField = new Dictionary<SearchField, BlockType[]>
         {
-            var cv = new CV();
-            var logicalBlock = new LogicalBlock();
-            for (int i = 0; i < textElements.Count(); i++)
             {
-                var currentElementTextContent = textElements[i];
-                if (!String.IsNullOrEmpty(currentElementTextContent))
+                SearchField.FirstLastName,
+                new [] { BlockType.Personal, BlockType.None }
+            },
+            {
+                SearchField.BirthDate,
+                new [] { BlockType.Personal, BlockType.None }
+            },
+            {
+                SearchField.ExperienceYears,
+                new [] { BlockType.Experience }
+            },
+            {
+                SearchField.Email,
+                new [] { BlockType.Personal, BlockType.None }
+            },
+            {
+                SearchField.PhoneNumbers,
+                new [] { BlockType.Personal, BlockType.None }
+            },
+            {
+                SearchField.Skype,
+                new [] { BlockType.Personal, BlockType.None }
+            }
+        };
+
+        /// <summary>
+        /// Parses the content of given file
+        /// </summary>
+        /// <param name="path">Local path to the file</param>
+        /// <returns>Returns the information that successfuly parsed</returns>
+        /// <exception cref="ArgumentException">Thrown when file is not avalaible to parse (not docx, doc, odt)</exception>
+        public static ParseResult Parse(string path)
+        {
+            var cvFileInfo = new FileInfo(path);
+            ITextFileConverter converter = resolveConverterImplementation(cvFileInfo.Extension);
+            var textElements = converter.Convert(cvFileInfo);
+            var dividedContent = ContentDivider.Divide(textElements);
+            ParseResult parseResult = new ParseResult();
+            Dictionary<string, SearchField> getheredInformation = new Dictionary<string, SearchField>();
+
+            foreach (var fieldObject in Enum.GetValues(typeof(SearchField)))
+            {
+                var field = (SearchField)fieldObject;
+                var blocksToSeek = resolveBlockByField(dividedContent, field);
+                var gatheredList = DataGatherer.Gather(blocksToSeek, field);
+                if (gatheredList.Any())
                 {
-                    if (LineIsLogicalSeparator(currentElementTextContent))
-                    {
-                        if (logicalBlock.RelatedInformation.Count != 0)
-                        {
-                            cv.Blocks.Add(logicalBlock);
-                            logicalBlock = new LogicalBlock();
-                        }
-                        lastOperationWasSeparation = true;
-                    }
-                    else
-                    {
-                        lastOperationWasSeparation = false;
-                    }
-                    lastWasEmpty = false;
-                    logicalBlock.RelatedInformation.Add(currentElementTextContent);
-                }
-                else
-                {
-                    lastWasEmpty = true;
-                    //lastOperationWasSeparation = false;
+                    getheredInformation.Add(gatheredList.FirstOrDefault(), field);
                 }
             }
-            if (logicalBlock.RelatedInformation.Count != 0)
+            foreach (var result in getheredInformation)
             {
-                cv.Blocks.Add(logicalBlock);
+                switch (result.Value)
+                {
+                    case SearchField.FirstLastName:
+                        parseResult.FirstName = result.Key.Split(new char[] { ' ', '_' }).First();
+                        parseResult.LastName = result.Key.Split(new char[] { ' ', '_' }).Skip(1).First();
+                        break;
+                    case SearchField.BirthDate:
+                        parseResult.BirthDate = result.Key;
+                        break;
+                    case SearchField.ExperienceYears:
+                        parseResult.ExperienceYears = result.Key;
+                        break;
+                    case SearchField.PhoneNumbers:
+                        parseResult.PhoneNumber = result.Key;
+                        break;
+                    case SearchField.Email:
+                        parseResult.Email = result.Key;
+                        break;
+                    case SearchField.Skype:
+                        parseResult.Skype = result.Key;
+                        break;
+                    default:
+                        break;
+                }
             }
-            return cv;
+            return parseResult;
         }
 
-
-        private static bool LineIsLogicalSeparator(string line)
+        private static IEnumerable<LogicalBlock> resolveBlockByField(Content dividedContent, SearchField field)
         {
-            var replacedLine = Regex.Replace(line, @" ?/ ?", ", ");
-            replacedLine = Regex.Replace(replacedLine, "\x200f", "");
-            var splittedLine = replacedLine.Trim(new char[] { ' ', '\0' }).Split(new char[] { ' ' });
-            var isLineShort = splittedLine.Length < 6;
+            return dividedContent.Blocks.Where(x => blockWhereToSeekField[field].Any(y => y == x.BlockType));
 
-            var hasNotSplitWordsRegExp = new Regex(@"descript|сompan|manage|java|develop|role|customer|proj|durati|respons|duties|objective|^\d+$", RegexOptions.IgnoreCase);
-            var punctuationRegExp = new Regex(@"\w\s?(\W\s\w|[-,.;])");
-            var hasNonWordBeforeText = new Regex(@"^\W");
+        }
 
-            var shoto = punctuationRegExp.Matches(replacedLine);
-            var shoto2 = hasNotSplitWordsRegExp.Matches(replacedLine);
-            var shoto3 = hasNonWordBeforeText.Matches(replacedLine);
-
-            var regularExpSift = !punctuationRegExp.IsMatch(replacedLine) && !hasNotSplitWordsRegExp.IsMatch(replacedLine) && !hasNonWordBeforeText.IsMatch(replacedLine);
-            var lineShortAndLastOPWasNotSeparation = isLineShort && !lastOperationWasSeparation;
-            var isLogicalSeparator = regularExpSift
-                && (keyWords.Any(x => replacedLine.ToLower().Contains(x))
-                || lastWasEmpty);
-            isLogicalSeparator = isLogicalSeparator && lineShortAndLastOPWasNotSeparation;
-
-            return ((new Regex(@"skills?", RegexOptions.IgnoreCase)).IsMatch(line) || (new Regex(@"experience", RegexOptions.IgnoreCase)).IsMatch(line)) && isLineShort;
+        /// <summary>
+        /// Resolves the type of converter
+        /// </summary>
+        /// <param name="extension">File extension</param>
+        /// <returns>Returns the converter object wrapped with interface</returns>
+        private static ITextFileConverter resolveConverterImplementation(string extension)
+        {
+            switch (extension)
+            {
+                case ".docx":
+                    {
+                        return new DocxToStringListConverter();
+                    };
+                case ".doc":
+                    {
+                        //TODO: implementation of doc parser
+                        throw new NotImplementedException();
+                    };
+                case ".odt":
+                    {
+                        //TODO: implementation of odt parser
+                        throw new NotImplementedException();
+                    }
+                default:
+                    {
+                        throw new ArgumentException("Given file is not avalaible to parse");
+                    }
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace CVParserSeeSharp.CVStructure
+namespace CVParser.CVStructure
 {
     public class LogicalBlock
     {
@@ -8,6 +9,12 @@ namespace CVParserSeeSharp.CVStructure
         {
             RelatedInformation = new List<string>();
         }
+        public BlockType BlockType { get; set; }
         public List<string> RelatedInformation { get; set; }
+
+        public override string ToString()
+        {
+            return RelatedInformation.First();
+        }
     }
 }

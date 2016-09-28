@@ -67,8 +67,8 @@ namespace CVParser.Parser
                 switch (result.Value)
                 {
                     case SearchField.FirstLastName:
-                        parseResult.FirstName = result.Key.Split(new char[] { ' ', '_' }).First();
-                        parseResult.LastName = result.Key.Split(new char[] { ' ', '_' }).Skip(1).First();
+                        parseResult.FirstName = result.Key.Split(new char[] { ' ', '_' }).FirstOrDefault();
+                        parseResult.LastName = result.Key.Split(new char[] { ' ', '_' }).Skip(1).FirstOrDefault();
                         break;
                     case SearchField.BirthDate:
                         parseResult.BirthDate = result.Key;
@@ -113,12 +113,14 @@ namespace CVParser.Parser
                     };
                 case ".doc":
                     {
-                        //TODO: implementation of doc parser
-                        throw new NotImplementedException();
+                        return new DocToStringListConverter();
                     };
                 case ".odt":
                     {
-                        //TODO: implementation of odt parser
+                        return new OdtToStringListConverter();
+                    }
+                case ".pdf":
+                    {
                         throw new NotImplementedException();
                     }
                 default:

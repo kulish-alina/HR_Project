@@ -21,7 +21,7 @@ namespace CVParser.Core.GatherStrategies
                     }
                 }
             }
-            var clearExpression = new Regex(@"skype[ :]?[ -–]?\s?", RegexOptions.IgnoreCase);
+            var clearExpression = new Regex(@"skype[ :]?[ -–]? ?", RegexOptions.IgnoreCase);
             return foundedSkypes.Select(x => clearExpression.Replace(x, string.Empty));
         }
     }

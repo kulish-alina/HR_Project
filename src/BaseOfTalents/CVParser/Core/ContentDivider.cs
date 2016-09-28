@@ -36,6 +36,7 @@ namespace CVParser.Core
             for (int i = 0; i < textElements.Count(); i++)
             {
                 var currentElementTextContent = textElements.ElementAt(i);
+                if (currentElementTextContent.Contains("Spire.Doc")) continue;
                 currentElementTextContent = (new Regex("[ \n]+").Replace(currentElementTextContent, " ").Trim(new char[] { ' ', '\n' }));
                 if (!String.IsNullOrEmpty(currentElementTextContent))
                 {

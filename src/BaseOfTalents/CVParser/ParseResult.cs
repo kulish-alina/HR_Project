@@ -14,7 +14,7 @@ namespace CVParser
 
         public double CalculateParseResultPercent()
         {
-            double maxSumOfWeights = 1.75;
+            double maxSumOfWeights = 2.2;
             double actualSumOfWeights = 0;
 
             if (!String.IsNullOrEmpty(FirstName))
@@ -32,6 +32,18 @@ namespace CVParser
             if (!String.IsNullOrEmpty(Skype))
             {
                 actualSumOfWeights += 0.25;
+            }
+            if (!String.IsNullOrEmpty(Email))
+            {
+                actualSumOfWeights += 0.15;
+            }
+            if (!String.IsNullOrEmpty(PhoneNumber))
+            {
+                actualSumOfWeights += 0.15;
+            }
+            if (!String.IsNullOrEmpty(BirthDate))
+            {
+                actualSumOfWeights += 0.15;
             }
             var percentage = Math.Round(actualSumOfWeights / maxSumOfWeights, 2);
             return percentage;

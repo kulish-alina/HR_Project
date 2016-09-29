@@ -177,9 +177,9 @@ namespace DAL.Services
                 x => !locationIds.Any() || x.Vacancy.Cities.Any(y => locationIds.Contains(y.Id))
             };
 
-            var stat = uow.VacancyStateRepo.Get(statesFilter);
+            var filteredStates = uow.VacancyStateRepo.Get(statesFilter);
 
-            return stat.Where(x => x.CreatedOn.Value.Date <= date);
+            return filteredStates.Where(x => x.CreatedOn.Value.Date <= date);
         }
 
         private DailyVacanciesReportDTO CreateDailyVacanciesReport(int responsibleId,

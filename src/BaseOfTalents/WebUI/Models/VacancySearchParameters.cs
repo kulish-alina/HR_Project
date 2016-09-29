@@ -24,5 +24,8 @@ namespace WebUI.Models
 
         public int Current { get; set; }
         public int Size { get; set; }
+
+        public string SortBy { get; set; }
+        public bool? SortAsc { get; set; }
     }
 }

@@ -7,7 +7,8 @@ import {
    assign,
    includes,
    filter,
-   forEach
+   forEach,
+   cloneDeep
 } from 'lodash';
 
 export default function VacanciesController(
@@ -35,15 +36,19 @@ export default function VacanciesController(
    vm.clear                     = clear;
    vm.thesaurus                 = [];
    vm.responsibles              = [];
-   vm.vacancyPredicate           = LocalStorageService.get('vacancyPredicate') || {};
-   vm.vacancyPredicate.current   = 0;
-   vm.vacancyPredicate.size      = 20;
+   vm.vacancyPredicate          = LocalStorageService.get('vacancyPredicate') || {};
+   vm.vacancyPredicate.current  = 0;
+   vm.vacancyPredicate.size     = 20;
+   vm.vacancyPredicate.sortBy   = 'Title';
+   vm.vacancyPredicate.sortAsc  = true;
    vm.pageChanged               = pageChanged;
    vm.searchVacancies           = searchVacancies;
    vm.vacancies                 = LocalStorageService.get('vacancies') || [];
    vm.selectedVacancies         = [];
    vm.candidateIdToGoBack       = $state.params.candidateIdToGoBack;
    vm.isAllToogled              = false;
+   vm.sortBy                    = _sortBy;
+   vm.getArrow                  = _getArrow;
 
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
@@ -57,8 +62,8 @@ export default function VacanciesController(
       searchVacancies();
    };
 
-   function searchVacancies() {
-      SearchService.fetchVacancies(vm.vacancyPredicate).then(response => {
+   function searchVacancies(predicate = vm.vacancyPredicate) {
+      return SearchService.fetchVacancies(predicate).then(response => {
          forEach(response.vacancies, (vac) => {
             vac.isToogled = vm.isVacancyWasToogled(vac.id);
          });
@@ -112,6 +117,27 @@ export default function VacanciesController(
    function _setToStorage() {
       LocalStorageService.set('vacancyPredicate', vm.vacancyPredicate);
       LocalStorageService.set('vacancies', vm.vacancies);
+   }
+
+   function _sortBy(column) {
+      let searchPredicate = cloneDeep(vm.vacancyPredicate);
+      searchPredicate.sortBy = column;
+      searchPredicate.sortAsc = (searchPredicate.sortBy === vm.vacancyPredicate.sortBy) ?/*this case is
+      switching field 'sortAsc' if same column is selected twice or more and set value to true if new column
+      is selected*/
+         !!(searchPredicate.sortAsc ^ true) : true; // eslint-disable-line no-bitwise
+      searchPredicate.sortBy = column;
+      searchVacancies(searchPredicate).then(() => {
+         vm.vacancyPredicate = searchPredicate;
+      });
+   }
+
+   function _getArrow(column) {
+      if (column === vm.vacancyPredicate.sortBy) {
+         return vm.vacancyPredicate.sortAsc ? 'fi-arrow-down' : 'fi-arrow-up';
+      } else {
+         return '';
+      }
    }
 
    vm.goBackToCandidate = () => {

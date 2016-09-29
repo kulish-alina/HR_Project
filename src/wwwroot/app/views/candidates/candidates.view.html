@@ -124,12 +124,12 @@
                            <input id="candidate" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
                         </th>
                         <th>№</th>
-                        <th ng-bind="::'CANDIDATE.FULL_NAME' | translate"></th>
-                        <th ng-bind="::'COMMON.INDUSTRY' | translate"></th>
-                        <th ng-bind="::'CANDIDATE.SOURCE' | translate"></th>
-                        <th ng-bind="::'CANDIDATE.POSITION' | translate"></th>
-                        <th ng-bind="::'COMMON.SALARY' | translate"></th>
-                        <th ng-bind="::'COMMON.ADDED' | translate"></th>
+                        <th> <a ng-click="sortBy('LastName')"><span ng-bind="::'CANDIDATE.FULL_NAME' | translate"></span> <i ng-class="getArrow('LastName')"></i></a></th>
+                        <th><a ng-click="sortBy('Industry')"><span ng-bind="::'COMMON.INDUSTRY' | translate"></span> <i ng-class="getArrow('Industry')"></i></a></th>
+                        <th><a ng-click="sortBy('MainSource')"><span ng-bind="::'CANDIDATE.SOURCE' | translate"></span> <i ng-class="getArrow('MainSource')"></i></a></th>
+                        <th><a ng-click="sortBy('PositionDesired')"><span ng-bind="::'CANDIDATE.POSITION' | translate"></span> <i ng-class="getArrow('PositionDesired')"></i></a></th>
+                        <th><a ng-click="sortBy('SalaryDesired')"><span ng-bind="::'COMMON.SALARY' | translate"></span> <i ng-class="getArrow('SalaryDesired')"></i></a></th>
+                        <th><a ng-click="sortBy('CreatedOn')"><span ng-bind="::'COMMON.ADDED' | translate"></span> <i ng-class="getArrow('CreatedOn')"></i></a></th>
                         <th></th>
                      </tr>
                   </thead>

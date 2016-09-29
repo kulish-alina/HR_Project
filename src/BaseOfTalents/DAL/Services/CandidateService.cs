@@ -58,7 +58,9 @@ namespace DAL.Services
             string technology,
             IEnumerable<LanguageSkillDTO> languageSkills,
             IEnumerable<int> citiesIds,
-            int current, int size)
+            int current, int size,
+            string sortBy,
+            bool? sortAsc)
         {
             var filters = new List<Expression<Func<Candidate, bool>>>();
 
@@ -130,7 +132,19 @@ namespace DAL.Services
                     }
                 }
             }
+
             var candidates = uow.CandidateRepo.Get(filters);
+
+            var orderBy = sortBy ?? "LastName";
+            var sortAscend = sortAsc ?? true;
+
+            if (typeof(Candidate).GetProperty(orderBy)!=null)
+            {
+                candidates = sortAscend ?
+                candidates.OrderBy(c => c.GetType().GetProperty(orderBy).GetValue(c)) :
+                candidates.OrderByDescending(c => c.GetType().GetProperty(orderBy).GetValue(c));
+            }
+
             var total = candidates.Count();
 
             return new Tuple<IEnumerable<CandidateDTO>, int>(

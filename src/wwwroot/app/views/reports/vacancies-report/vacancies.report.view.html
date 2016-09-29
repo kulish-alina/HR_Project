@@ -56,14 +56,14 @@
                   <tr class="report-data-row">
                      <th ng-bind="::'COMMON.LOCATION' | translate" rowspan="2"></th>
                      <th ng-bind="::'COMMON.USERS' | translate" rowspan="2"></th>
-                     <th ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate" colspan="6"></th>
+                     <th ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate" colspan="3"></th>
                      <th ng-bind="::'REPORTS.DYNAMICS' | translate" colspan="10"></th>
                      <th ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate" colspan="6"></th>
                   </tr>
                   <tr class="report-data-row">
-                     <td ng-bind="::'REPORTS.PENDING' | translate" colspan="2"></td>
-                     <td ng-bind="::'REPORTS.OPEN' | translate" colspan="2"></td>
-                     <td ng-bind="::'REPORTS.IN_PROGRESS' | translate" colspan="2"></td>
+                     <td ng-bind="::'REPORTS.PENDING' | translate"></td>
+                     <td ng-bind="::'REPORTS.OPEN' | translate"></td>
+                     <td ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
                      <td ng-bind="::'REPORTS.PENDING' | translate" colspan="2"></td>
                      <td ng-bind="::'REPORTS.OPEN' | translate" colspan="2"></td>
                      <td ng-bind="::'REPORTS.IN_PROGRESS' | translate" colspan="2"></td>
@@ -83,22 +83,13 @@
                         <div ng-if="selectedUsersGroupedByLocation" ng-repeat="user in selectedUsersGroupedByLocation[location.id]" ng-bind="::(user.lastName+' '+user.firstName)"></div>
                      </td>
                      <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">3</div>
+                        <table-cell type="locations-users" report="startDateReport"></table-cell>
                      </td>
                      <td>
-                        <div>12</div>
+                        <table-cell type="locations-users"></table-cell>
                      </td>
                      <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">3</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">3</div>
-                     </td>
-                     <td>
-                        <div>12</div>
+                        <table-cell type="locations-users"></table-cell>
                      </td>
                      <td>
                         <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">3</div>
@@ -178,13 +169,13 @@
                         <div ng-bind="::(user.lastName+' '+user.firstName)"></div>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell type="only-users" report="startDateReport"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell type="only-users" report="startDateReport"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell type="only-users" report="startDateReport"></table-cell>
                      </td>
                      <td>
                         <div>3</div>
@@ -216,13 +207,13 @@
                         <div ng-bind="::location.title"></div>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell type="only-locations" location-id="location.id" report="{startDateReport}"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell type="only-locations" location-id="location.id" report="{startDateReport}"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell type="only-locations" location-id="location.id" report="{startDateReport}"></table-cell>
                      </td>
                      <td>
                         <div>3</div>

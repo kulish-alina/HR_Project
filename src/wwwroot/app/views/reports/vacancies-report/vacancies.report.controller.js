@@ -3,7 +3,8 @@ import {
    each,
    assign,
    remove,
-   isEmpty
+   isEmpty,
+   find
 } from 'lodash';
 const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
 
@@ -32,6 +33,7 @@ export default function VacanciesReportController(
    vm.formingVacanciesReport                   = formingVacanciesReport;
    vm.isEqualLocations                         = isEqualLocations;
    vm.isSelectedUsersGroupedByLocationEmpty    = isSelectedUsersGroupedByLocationEmpty;
+   vm.filterReportsByLocation                  = filterReportsByLocation;
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => set(vm, 'stages', topic));
@@ -120,13 +122,20 @@ export default function VacanciesReportController(
    }
 
    function formingVacanciesReport() {
-      ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs);
+      ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs).then(resp => {
+         set(vm, 'startDateReport', resp);
+      });
+   }
+
+   function filterReportsByLocation(locationId) {
+      return find(vm.startDateReport, (report) => (report.locationId === locationId));
    }
 
    function clear() {
       vm.vacanciesReportParametrs = {};
       _clearLocationField();
       _clearUserField();
+      vm.startDateReport = [];
    }
 
    function isEqualLocations(user) {

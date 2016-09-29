@@ -81,6 +81,12 @@ import {
       }
 
       $document[0].body.addEventListener('click', this.closeDatetimePicker);
+      var modal = $document[0].body.getElementsByClassName('modal')
+      if(modal) {
+         for(var i=0; i<modal.length; i++) {
+            modal[i].addEventListener('click', this.closeDatetimePicker);
+         }
+      }
     };
 
     this.closeDatetimePicker = function(evt) {

@@ -148,7 +148,7 @@ namespace DAL.Services
             var total = candidates.Count();
 
             return new Tuple<IEnumerable<CandidateDTO>, int>(
-                candidates.Skip(current * size).Take(size).Select(candidate => DTOService.ToDTO<Candidate, CandidateDTO>(candidate)),
+                candidates.Skip((current - 1)* size).Take(size).Select(candidate => DTOService.ToDTO<Candidate, CandidateDTO>(candidate)),
                 total);
         }
 

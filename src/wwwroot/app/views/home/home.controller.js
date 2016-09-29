@@ -32,14 +32,13 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.vacancies               = [];
    vm.viewVacancy             = viewVacancy;
    vm.totalHome               = 0;
-   vm.vacancy.current         = 0;
+   vm.vacancy.current         = 1;
    vm.vacancy.size            = 20;
    vm.vacancy.sortAsc         = false;
    vm.vacancy.sortBy          = 'CreatedOn';
    vm.candidate               = {};
-   vm.candidate.current       = 0;
+   vm.candidate.current       = 1;
    vm.candidate.size          = 20;
-   vm.pagination              = { current: 0 };
    vm.pageChanged             = pageChanged;
    vm.userNotes               = [];
    vm.notes                   = cloneDeep(vm.userNotes);
@@ -72,7 +71,7 @@ export default function HomeController( //eslint-disable-line max-statements
    }());
 
    function pageChanged(newPage) {
-      vm.vacancy.current = newPage - 1;
+      vm.vacancy.current = newPage;
       SearchService.fetchVacancies(vm.vacancy).then(resp => set(vm, 'vacancies', resp)).catch(_onError);
    };
 

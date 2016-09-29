@@ -24,8 +24,8 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies.vacancies | itemsPerPage: vacancies.size" total-items="vacancies.total" current-page="pagination.current">
-                        <td>{{$index+1}}</td>
+                     <tr ng-hide="!vacancy" dir-paginate="vacancy in vacancies.vacancies | itemsPerPage: vacancies.size" total-items="vacancies.total" current-page="vacancies.current">
+                        <td>{{(vacancies.current - 1) * vacancies.size + $index+1}}</td>
                         <td>
                            <a ng-click="viewVacancy(vacancy)"> <span ng-bind="::vacancy.title"></span> </a> <span ng-bind="::'VACANCY.CHILD_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></span> <span ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.childVacanciesIds.length"></span> </td>
                         <td ng-bind="vacancy.entityStates[0].title"></td>
@@ -36,7 +36,7 @@
                   </tbody>
                </table>
                <div class="switch-pages">
-                  <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)"> </dir-pagination-controls>
+                  <dir-pagination-controls boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)"> </dir-pagination-controls>
                </div>
             </div>
          </div>

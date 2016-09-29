@@ -138,7 +138,7 @@
                         <th ng-if="$state.params.vacancyIdToGoBack">
                            <input id="checkbox9" type="checkbox" ng-model="c.isToogled" ng-change="toogleCandidate(c.id)">
                         </th>
-                        <td>{{$index+1}}</td>
+                        <td>{{(candidate.current - 1) * candidates.size+$index + 1}}</td>
                         <td>
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
                         </td>
@@ -159,7 +159,7 @@
                   </tbody>
                </table>
                <div class="switch-pages">
-                  <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
+                  <dir-pagination-controls boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
                   </dir-pagination-controls>
                </div>
             </div>

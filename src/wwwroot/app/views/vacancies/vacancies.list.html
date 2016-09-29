@@ -77,7 +77,7 @@
                          <th ng-if="$state.params.candidateIdToGoBack">
                            <input id="checkbox9" type="checkbox" ng-model="vacancyItem.isToogled" ng-change="toogleVacancy(vacancyItem)">
                         </th>
-                        <td>{{$index+1}}</td>
+                        <td>{{(vacancyPredicate.current - 1) * vacancyPredicate.size + $index+1}}</td>
                         <td>
                            <a ng-click="viewVacancy(vacancyItem)" ng-bind="::vacancyItem.title"></a> <span ng-bind="::'VACANCY.CHILD_VACANCY' | translate" ng-if="vacancyItem.parentVacancyId"></span> <span ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancyItem.childVacanciesIds.length !== 0"></span> </td>
                         <td ng-bind="::vacancyItem.entityStates[0].title"></td>
@@ -89,7 +89,7 @@
                   </tbody>
                </table>
                <div class="switch-pages">
-                  <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)"> </dir-pagination-controls>
+                  <dir-pagination-controls boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)"> </dir-pagination-controls>
                </div>
             </div>
          </div>

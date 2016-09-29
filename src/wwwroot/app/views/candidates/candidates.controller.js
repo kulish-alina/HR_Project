@@ -33,11 +33,10 @@ export default function CandidatesController(
    vm.thesaurus            = [];
    vm.searchCandidates     = searchCandidates;
    vm.candidate            = {};
-   vm.candidate.current    = 0;
+   vm.candidate.current    = 1;
    vm.candidate.size       = 20;
    vm.candidate.sortAsc    = true;
    vm.candidate.sortBy     = 'LastName';
-   vm.candidateTotal       = 0;
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
@@ -70,7 +69,7 @@ export default function CandidatesController(
    }());
 
    function pageChanged(newPage) {
-      vm.candidate.current = newPage - 1;
+      vm.candidate.current = newPage;
       searchCandidates();
    };
 

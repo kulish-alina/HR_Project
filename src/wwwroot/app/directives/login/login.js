@@ -24,7 +24,8 @@ function LoginController(
    $state,
    $translate,
    UserService,
-   LoginService
+   LoginService,
+   LocalStorageService
    ) {
    'ngInject';
 
@@ -36,6 +37,7 @@ function LoginController(
    function _logout() {
       LoginService.logout().then(() => {
          vm.currentUser = {};
+         LocalStorageService.clear();
          $state.go('login');
       });
    }

@@ -52,4 +52,12 @@ export default class LocalStorageService {
          _logger.error('Could remove the data with specified key', key, err);
       }
    }
+
+   /**
+    * Function that removes all data from session storage
+    * @returns {undefined}
+    */
+   clear() {
+      _storage.clear();
+   }
 }

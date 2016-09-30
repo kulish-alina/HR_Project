@@ -21,7 +21,8 @@ export default function HomeController( //eslint-disable-line max-statements
    UserDialogService,
    EventsService,
    NoteService,
-   CandidateService
+   CandidateService,
+   LocalStorageService
    ) {
    'ngInject';
 
@@ -29,13 +30,10 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.thesaurus               = [];
    vm.responsibles            = [];
    vm.vacancy                 = {};
-   vm.vacancies               = [];
    vm.viewVacancy             = viewVacancy;
-   vm.totalHome               = 0;
-   vm.vacancy.current         = 1;
-   vm.vacancy.size            = 20;
-   vm.vacancy.sortAsc         = false;
-   vm.vacancy.sortBy          = 'CreatedOn';
+   vm.vacancy                 = LocalStorageService.get('homeVacancyPredicate') ||
+      {current : 1, size : 20, sortBy : 'CreatedOn', sortAsc  :true };
+   vm.vacancies               = LocalStorageService.get('homeVacancies') || {};
    vm.candidate               = {};
    vm.candidate.current       = 1;
    vm.candidate.size          = 20;
@@ -67,12 +65,20 @@ export default function HomeController( //eslint-disable-line max-statements
       if (!vm.user) {
          $state.go('login');
       }
-      SearchService.fetchVacancies(vm.vacancy).then(resp => set(vm, 'vacancies', resp)).catch(_onError);
+      _SearchVacancies();
    }());
 
+   function _SearchVacancies() {
+      SearchService.fetchVacancies(vm.vacancy).then(resp => set(vm, 'vacancies', resp))
+         .then(() => {
+            LocalStorageService.set('homeVacancyPredicate', vm.vacancy);
+            LocalStorageService.set('homeVacancies', vm.vacancies);
+         })
+         .catch(_onError);
+   }
    function pageChanged(newPage) {
       vm.vacancy.current = newPage;
-      SearchService.fetchVacancies(vm.vacancy).then(resp => set(vm, 'vacancies', resp)).catch(_onError);
+      _SearchVacancies();
    };
 
    function viewVacancy(vacancy) {

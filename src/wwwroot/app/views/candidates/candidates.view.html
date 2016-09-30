@@ -138,7 +138,7 @@
                         <th ng-if="$state.params.vacancyIdToGoBack">
                            <input id="checkbox9" type="checkbox" ng-model="c.isToogled" ng-change="toogleCandidate(c.id)">
                         </th>
-                        <td>{{(candidate.current - 1) * candidates.size+$index + 1}}</td>
+                        <td ng-bind="{{(candidates.current - 1) * candidates.size+$index + 1}}"></td>
                         <td>
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
                         </td>

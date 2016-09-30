@@ -1,6 +1,11 @@
-<div ng-if="type === 'only-locations'">
-   <p ng-bind="filtered.dailyVacanciesStatisticsInfo.length"></p>
-</div>
+<!--
+<table ng-if="type === 'only-locations'">
+  <tr>
+    <td ng-bind="locationResult.{{vacancyState}}"></td>
+  </tr>
+</table>
+-->
+<div ng-if="type === 'only-locations'" ng-bind="locationResult.{{vacancyState}}"></div>
 
 <table ng-if="type === 'locations-users'">
   <tr>

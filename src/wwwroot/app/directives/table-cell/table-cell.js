@@ -1,8 +1,23 @@
 import {
-   find
+   each,
+   sumBy,
+   set
 } from 'lodash';
+
+const REPORT_VACANCY_STATES = [
+   'vacanciesPendingInCurrentPeriodCount',
+   'vacanciesOpenedInCurrentPeriodCount',
+   'vacanciesInProgressInCurrentPeriodCount',
+   'vacanciesClosedInCurrentPeriodCount',
+   'vacanciesClosedInCanceledPeriodCount',
+   'pendingVacanciesCount',
+   'openVacanciesCount',
+   'inProgressVacanciesCount'
+];
+
 import template from './table-cell.directive.html';
 import './table-cell.scss';
+
 export default class TableCellDirective {
    constructor() {
       this.restrict   = 'E';
@@ -10,7 +25,7 @@ export default class TableCellDirective {
       this.scope      = {
          type: '@',
          report: '=',
-         locationId: '='
+         vacancyState: '@'
       };
       this.controller = TableCellController;
    }
@@ -24,19 +39,15 @@ export default class TableCellDirective {
 function TableCellController($scope) {
    'ngInject';
    const vm               = $scope;
-   vm.reportFilteredByLocation = {};
-   vm.filtered = [];
-   console.log(vm);
+   vm.locationResult      = {};
 
-   function filterByLocation() {
-      console.log(vm.report.startDateReport);
-      vm.filtered = find(vm.report.startDateReport.startDateReport, {locationId: vm.locationId});
-      console.log(vm.filtered);
-   }
-
-   vm.$watch('report.startDateReport', function watcher() {
-      if (vm.report.startDateReport.startDateReport) {
-         filterByLocation();
-      }
+   vm.$watch('report', function obs() {
+      groupByStages();
    });
+
+   function groupByStages() {
+      each(REPORT_VACANCY_STATES, (stat) => {
+         set(vm.locationResult, stat, sumBy(vm.report, stat));
+      });
+   }
 }

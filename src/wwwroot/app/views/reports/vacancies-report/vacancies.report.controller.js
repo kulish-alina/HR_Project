@@ -4,8 +4,11 @@ import {
    assign,
    remove,
    isEmpty,
-   find
+   reduce,
+   flatten,
+   map
 } from 'lodash';
+
 const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
 
 export default function VacanciesReportController(
@@ -16,8 +19,8 @@ export default function VacanciesReportController(
 ) {
    'ngInject';
 
-   const vm                   = $scope;
-   vm.users                   = [];
+   const vm                                    = $scope;
+   vm.users                                    = [];
    vm.vacanciesReportParametrs                 = {};
    vm.vacanciesReportParametrs.locationIds     = [];
    vm.vacanciesReportParametrs.userIds         = [];
@@ -33,7 +36,7 @@ export default function VacanciesReportController(
    vm.formingVacanciesReport                   = formingVacanciesReport;
    vm.isEqualLocations                         = isEqualLocations;
    vm.isSelectedUsersGroupedByLocationEmpty    = isSelectedUsersGroupedByLocationEmpty;
-   vm.filterReportsByLocation                  = filterReportsByLocation;
+
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => set(vm, 'stages', topic));
@@ -123,19 +126,50 @@ export default function VacanciesReportController(
 
    function formingVacanciesReport() {
       ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs).then(resp => {
-         set(vm, 'startDateReport', resp);
+         _convertReportToHash(resp);
       });
    }
 
-   function filterReportsByLocation(locationId) {
-      return find(vm.startDateReport, (report) => (report.locationId === locationId));
+   function _convertReportToHash(report) {
+      if (vm.selectedLocations.length && !vm.selectedUsers.length) {
+         set(vm, 'startDateReportGroupedByLocation', _convertToHash('locationId', report.startDateReport));
+         set(vm, 'endDateReportGroupedByLocation', _convertToHash('locationId', report.endDateReport));
+         set(vm, 'reportGroupedByLocation', _convertToHash('locationId', report.vacanciesReport));
+      } else if (!vm.selectedLocations.length && vm.selectedUsers.length) {
+         set(vm, 'startDateReportGroupedByUser', _convertToHash('userId', report.startDateReport));
+         set(vm, 'endDateReportGroupedByUser', _convertToHash('userId', report.endDateReport));
+         set(vm, 'reportGroupedByUser', _convertToHash('userId', report.vacanciesReport));
+      }
+   }
+
+   function _convertToHash(key, value) {
+      if (key === 'locationId') {
+         return reduce(value, (resultObj, x) => {
+            if (x.dailyVacanciesStatisticsInfo) {
+               (resultObj[x[key]] || (resultObj[x[key]] = [])).push(...x.dailyVacanciesStatisticsInfo);
+            } else {
+               (resultObj[x[key]] || (resultObj[x[key]] = [])).push(...x.vacanciesStatisticsInfo);
+            }
+            return resultObj;
+         }, {});
+      } else {
+         let arr = flatten(map(value, (val) => {
+            if (val.dailyVacanciesStatisticsInfo) {
+               return val.dailyVacanciesStatisticsInfo;
+            } else {
+               return val.vacanciesStatisticsInfo;
+            }
+         }));
+      }
    }
 
    function clear() {
       vm.vacanciesReportParametrs = {};
       _clearLocationField();
       _clearUserField();
-      vm.startDateReport = [];
+      vm.startDateReportGroupedByLocation = {};
+      vm.endDateReportGroupedByLocation = {};
+      vm.reportGroupedByLocation = {};
    }
 
    function isEqualLocations(user) {

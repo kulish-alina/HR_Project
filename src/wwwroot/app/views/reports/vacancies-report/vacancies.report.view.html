@@ -169,13 +169,13 @@
                         <div ng-bind="::(user.lastName+' '+user.firstName)"></div>
                      </td>
                      <td>
-                        <table-cell type="only-users" report="startDateReport"></table-cell>
+                        <table-cell type="only-users" report="startDateReportGroupedByUser[user.id]"></table-cell>
                      </td>
                      <td>
-                        <table-cell type="only-users" report="startDateReport"></table-cell>
+                        <table-cell type="only-users" report="startDateReportGroupedByUser[user.id]"></table-cell>
                      </td>
                      <td>
-                        <table-cell type="only-users" report="startDateReport"></table-cell>
+                        <table-cell type="only-users" report="startDateReportGroupedByUser[user.id]"></table-cell>
                      </td>
                      <td>
                         <div>3</div>
@@ -207,37 +207,37 @@
                         <div ng-bind="::location.title"></div>
                      </td>
                      <td>
-                        <table-cell type="only-locations" location-id="location.id" report="{startDateReport}"></table-cell>
+                        <table-cell vacancy-state="pendingVacanciesCount" type="only-locations" report="startDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <table-cell type="only-locations" location-id="location.id" report="{startDateReport}"></table-cell>
+                        <table-cell vacancy-state="openVacanciesCount" type="only-locations" report="startDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <table-cell type="only-locations" location-id="location.id" report="{startDateReport}"></table-cell>
+                        <table-cell vacancy-state="inProgressVacanciesCount" type="only-locations" report="startDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell vacancy-state="vacanciesPendingInCurrentPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell vacancy-state="vacanciesOpenedInCurrentPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell vacancy-state="vacanciesInProgressInCurrentPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell vacancy-state="vacanciesClosedInCurrentPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell vacancy-state="vacanciesClosedInCanceledPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell vacancy-state="inProgressVacanciesCount" type="only-locations" report="endDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell vacancy-state="inProgressVacanciesCount" type="only-locations" report="endDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
-                        <div>3</div>
+                        <table-cell vacancy-state="inProgressVacanciesCount" type="only-locations" report="endDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
                   </tr>
                </tbody>

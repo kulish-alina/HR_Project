@@ -32,11 +32,11 @@ export default function CandidatesController(
    vm.clear                = clear;
    vm.thesaurus            = [];
    vm.searchCandidates     = searchCandidates;
-   vm.candidate            = {};
-   vm.candidate.current    = 1;
-   vm.candidate.size       = 20;
-   vm.candidate.sortAsc    = true;
-   vm.candidate.sortBy     = 'LastName';
+   vm.candidatePredicate            = {};
+   vm.candidatePredicate.current    = 1;
+   vm.candidatePredicate.size       = 20;
+   vm.candidatePredicate.sortAsc    = true;
+   vm.candidatePredicate.sortBy     = 'LastName';
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
@@ -53,8 +53,8 @@ export default function CandidatesController(
          floor: 15,
          ceil: 65,
          onChange() {
-            vm.candidate.minAge  = vm.slider.min;
-            vm.candidate.maxAge  = vm.slider.max;
+            vm.candidatePredicate.minAge  = vm.slider.min;
+            vm.candidatePredicate.maxAge  = vm.slider.max;
          }
       }
    };
@@ -63,17 +63,17 @@ export default function CandidatesController(
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
       vm.candidates = LocalStorageService.get('candidates') || [];
-      vm.candidate = LocalStorageService.get('candidate') || {};
-      vm.candidate.minAge  = vm.slider.min;
-      vm.candidate.maxAge  = vm.slider.max;
+      vm.candidatePredicate = LocalStorageService.get('candidatePredicate') || {};
+      vm.candidatePredicate.minAge  = vm.slider.min;
+      vm.candidatePredicate.maxAge  = vm.slider.max;
    }());
 
    function pageChanged(newPage) {
-      vm.candidate.current = newPage;
+      vm.candidatePredicate.current = newPage;
       searchCandidates();
    };
 
-   function searchCandidates(predicate = vm.candidate) {
+   function searchCandidates(predicate = vm.candidatePredicate) {
       return SearchService.fetchCandidates(predicate).then(response => {
          forEach(response.candidate, (cand) => {
             cand.isToogled = vm.isCandidateWasToogled(cand.id);
@@ -92,19 +92,19 @@ export default function CandidatesController(
    }
 
    function clear() {
-      vm.candidate = {};
-      vm.candidate.current = 0;
-      vm.candidate.size = 20;
+      vm.candidatePredicate = {};
+      vm.candidatePredicate.current = 1;
+      vm.candidatePredicate.size = 20;
       vm.isActiveAgeField = false;
    }
 
    function useAgeInSearch() {
       if (vm.isActiveAgeField === true) {
-         vm.candidate.minAge  = vm.slider.min;
-         vm.candidate.maxAge  = vm.slider.max;
+         vm.candidatePredicate.minAge  = vm.slider.min;
+         vm.candidatePredicate.maxAge  = vm.slider.max;
       } else {
-         vm.candidate.minAge  = null;
-         vm.candidate.maxAge  = null;
+         vm.candidatePredicate.minAge  = null;
+         vm.candidatePredicate.maxAge  = null;
       }
    }
 
@@ -126,26 +126,26 @@ export default function CandidatesController(
    }
 
    function _setToStorage() {
-      LocalStorageService.set('candidate', vm.candidate);
+      LocalStorageService.set('candidatePredicate', vm.candidatePredicate);
       LocalStorageService.set('candidates', vm.candidates);
    }
 
    function _sortBy(column) {
-      let searchPredicate = cloneDeep(vm.candidate);
+      let searchPredicate = cloneDeep(vm.candidatePredicate);
       searchPredicate.sortBy = column;
-      searchPredicate.sortAsc = (searchPredicate.sortBy === vm.candidate.sortBy) ?/*this case is switching
+      searchPredicate.sortAsc = (searchPredicate.sortBy === vm.candidatePredicate.sortBy) ?/*this case is switching
       field 'sort Asc' if same column is selected twice or more and set value to true if new column is
       selected*/
          !!(searchPredicate.sortAsc ^ true) : true; // eslint-disable-line no-bitwise
       searchPredicate.sortBy = column;
       searchCandidates(searchPredicate).then(() => {
-         vm.candidate = searchPredicate;
+         vm.candidatePredicate = searchPredicate;
       });
    }
 
    function _getArrow(column) {
-      if (column === vm.candidate.sortBy) {
-         return vm.candidate.sortAsc ? 'fi-arrow-down' : 'fi-arrow-up';
+      if (column === vm.candidatePredicate.sortBy) {
+         return vm.candidatePredicate.sortAsc ? 'fi-arrow-down' : 'fi-arrow-up';
       } else {
          return '';
       }

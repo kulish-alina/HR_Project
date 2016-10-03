@@ -9,7 +9,7 @@ const REPORT_VACANCY_STATES = [
    'vacanciesOpenedInCurrentPeriodCount',
    'vacanciesInProgressInCurrentPeriodCount',
    'vacanciesClosedInCurrentPeriodCount',
-   'vacanciesClosedInCanceledPeriodCount',
+   'vacanciesCanceledInCurrentPeriodCount',
    'pendingVacanciesCount',
    'openVacanciesCount',
    'inProgressVacanciesCount'
@@ -40,14 +40,24 @@ function TableCellController($scope) {
    'ngInject';
    const vm               = $scope;
    vm.locationResult      = {};
+   vm.userResult          = {};
+   vm.report              = undefined;
+   console.log('vm', vm);
 
    vm.$watch('report', function obs() {
       groupByStages();
    });
 
    function groupByStages() {
-      each(REPORT_VACANCY_STATES, (stat) => {
-         set(vm.locationResult, stat, sumBy(vm.report, stat));
-      });
+      if (vm.type === 'only-locations' || vm.type === 'locations-users') {
+         each(REPORT_VACANCY_STATES, (stat) => {
+            set(vm.locationResult, stat, sumBy(vm.report, stat));
+         });
+      } else if (vm.type === 'only-users') {
+         each(REPORT_VACANCY_STATES, (stat) => {
+            set(vm.userResult, stat, sumBy(vm.report, stat));
+         });
+      }
+
    }
 }

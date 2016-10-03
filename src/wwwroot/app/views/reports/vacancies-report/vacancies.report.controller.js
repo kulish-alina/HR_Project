@@ -6,7 +6,8 @@ import {
    isEmpty,
    reduce,
    flatten,
-   map
+   map,
+   groupBy
 } from 'lodash';
 
 const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
@@ -139,6 +140,10 @@ export default function VacanciesReportController(
          set(vm, 'startDateReportGroupedByUser', _convertToHash('userId', report.startDateReport));
          set(vm, 'endDateReportGroupedByUser', _convertToHash('userId', report.endDateReport));
          set(vm, 'reportGroupedByUser', _convertToHash('userId', report.vacanciesReport));
+      } else if (vm.selectedLocations.length && vm.selectedUsers.length) {
+         set(vm, 'startDateReportGroupedByLocation', _convertToHash('locationId', report.startDateReport));
+         set(vm, 'endDateReportGroupedByLocation', _convertToHash('locationId', report.endDateReport));
+         set(vm, 'reportGroupedByLocation', _convertToHash('locationId', report.vacanciesReport));
       }
    }
 
@@ -160,6 +165,7 @@ export default function VacanciesReportController(
                return val.vacanciesStatisticsInfo;
             }
          }));
+         return groupBy(arr, x => x.userId);
       }
    }
 
@@ -170,6 +176,9 @@ export default function VacanciesReportController(
       vm.startDateReportGroupedByLocation = {};
       vm.endDateReportGroupedByLocation = {};
       vm.reportGroupedByLocation = {};
+      vm.startDateReportGroupedByUser = {};
+      vm.endDateReportGroupedByUser = {};
+      vm.reportGroupedByUser = {};
    }
 
    function isEqualLocations(user) {

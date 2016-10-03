@@ -1,0 +1,16 @@
+.report-cell {
+   margin: 0;
+   td {
+      border-left: 0;
+      border-top: 0;
+   }
+   td:last-child {
+      border-bottom: 0;
+   }
+   tr:nth-child(2n) {
+      background: none;
+   }
+   .user-name {
+      border-right: 0;
+   }
+}

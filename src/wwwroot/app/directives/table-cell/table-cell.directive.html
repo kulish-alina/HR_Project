@@ -6,13 +6,20 @@
 </table>
 -->
 <div ng-if="type === 'only-locations'" ng-bind="locationResult.{{vacancyState}}"></div>
-
-<table ng-if="type === 'locations-users'">
-  <tr>
-    <td>1</td>
-    <td rowspan="2">3</td>
-  </tr>
-  <tr>
-    <td>2</td>
-  </tr>
+<div ng-if="type === 'only-users'" ng-bind="userResult.{{vacancyState}}"></div>
+<table class="report-cell" ng-if="type === 'locations-users' && report.length">
+   <tr>
+      <td ng-bind="report[0].{{vacancyState}}"></td>
+      <td rowspan="{{report.length}}">
+         <div ng-bind="locationResult.{{vacancyState}}"></div>
+      </td>
+   </tr>
+   <tr>
+      <td ng-bind="report[1].{{vacancyState}}"></td>
+   </tr>
+</table>
+<table class="report-cell" ng-if="type === 'users' && report.length">
+   <tr ng-repeat="rep in report">
+      <td class="user-name" ng-bind="rep.userDisplayName"></td>
+   </tr>
 </table>

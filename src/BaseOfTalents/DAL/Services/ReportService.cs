@@ -97,7 +97,7 @@ namespace DAL.Services
             var statesCreatedInCurrentPeriod = GetFilteredVacanciesStatesForVacanciesReport(locationIds, userIds, startDate, endDate);
 
             var vacanciesGroupedByLocations = statesCreatedInCurrentPeriod
-                .Select(x => x.Vacancy)
+                .Select(x => x.Vacancy).GroupBy(x => x.ResponsibleId).Select(x => x.First())
                 .GroupBy(x => x.Cities.First().Id);
 
             var result = vacanciesGroupedByLocations.Select(x => new LocationsVacanciesReportDTO
@@ -126,7 +126,7 @@ namespace DAL.Services
                 VacanciesOpenedInCurrentPeriodCount = GetVacanciesCountForUser(vacancyStates, responsibleId, EntityState.Open),
                 VacanciesInProgressInCurrentPeriodCount = GetVacanciesCountForUser(vacancyStates, responsibleId, EntityState.Processing),
                 VacanciesClosedInCurrentPeriodCount = GetVacanciesCountForUser(vacancyStates, responsibleId, EntityState.Closed),
-                VacanciesClosedInCanceledPeriodCount = GetVacanciesCountForUser(vacancyStates, responsibleId, EntityState.Cancelled)
+                VacanciesCanceledInCurrentPeriodCount = GetVacanciesCountForUser(vacancyStates, responsibleId, EntityState.Cancelled)
             };
         }
 
@@ -137,8 +137,10 @@ namespace DAL.Services
         {
             var states = GetFilteredVacanciesStatesForDailyVacanciesReport(locationIds, userIds, date);
 
-            var vacanciesGroupedByLocations = states.Select(x => x.Vacancy)
+            var vacanciesGroupedByLocations = states.Select(x => x.Vacancy).GroupBy(x => x.ResponsibleId).Select(x => x.First())
                 .GroupBy(x => x.Cities.First().Id);
+
+
 
             var result = vacanciesGroupedByLocations.Select(x => new LocationDailyVacanciesReportDTO
             {

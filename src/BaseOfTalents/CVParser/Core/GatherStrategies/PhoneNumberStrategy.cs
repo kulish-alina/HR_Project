@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace CVParser.Core.GatherStrategies
@@ -8,7 +9,7 @@ namespace CVParser.Core.GatherStrategies
         public IEnumerable<string> Execute(IEnumerable<IEnumerable<string>> information)
         {
             var foundedPhones = new List<string>();
-            var phoneRegularExpression = new Regex(@"(\+3-?8)?-?[(-]?[0-9]{3}[)-]?[0-9]{3}-?[0-9]{2}-?[0-9]{2}");
+            var phoneRegularExpression = new Regex(@"[(]?0[()]?\s?\d\d[)\s-]?\s?\d\d\d[\s-]?\d\d[\s-]?\d\d");
             foreach (var list in information)
             {
                 foreach (var line in list)
@@ -23,7 +24,8 @@ namespace CVParser.Core.GatherStrategies
                     }
                 }
             }
-            return foundedPhones;
+            var clearExpression = new Regex(@"[\s()-]", RegexOptions.IgnoreCase);
+            return foundedPhones.Select(x => clearExpression.Replace(x, string.Empty)).Select(x => string.Format("+38{0}", x));
         }
     }
 }

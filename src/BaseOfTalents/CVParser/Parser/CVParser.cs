@@ -37,6 +37,7 @@ namespace CVParser.Parser
             }
         };
 
+
         /// <summary>
         /// Parses the content of given file
         /// </summary>
@@ -45,11 +46,15 @@ namespace CVParser.Parser
         /// <exception cref="ArgumentException">Thrown when file is not avalaible to parse (not docx, doc, odt)</exception>
         public static ParseResult Parse(string path)
         {
+
             var cvFileInfo = new FileInfo(path);
             ITextFileConverter converter = resolveConverterImplementation(cvFileInfo.Extension);
             var textElements = converter.Convert(cvFileInfo);
             var dividedContent = ContentDivider.Divide(textElements);
-            ParseResult parseResult = new ParseResult();
+            ParseResult parseResult = new ParseResult()
+            {
+                Text = textElements.ToList()
+            };
             Dictionary<string, SearchField> getheredInformation = new Dictionary<string, SearchField>();
 
             foreach (var fieldObject in Enum.GetValues(typeof(SearchField)))

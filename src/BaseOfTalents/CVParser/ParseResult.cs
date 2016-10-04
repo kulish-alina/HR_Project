@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CVParser
 {
@@ -11,6 +12,7 @@ namespace CVParser
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Skype { get; set; }
+        public List<string> Text { get; set; }
 
         public double CalculateParseResultPercent()
         {

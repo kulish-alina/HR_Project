@@ -228,6 +228,7 @@
     <Compile Include="Services\CommentTypeService.cs" />
     <Compile Include="Services\CountryService.cs" />
     <Compile Include="Services\CurrencyService.cs" />
+    <Compile Include="Services\CVParserService.cs" />
     <Compile Include="Services\DepartmentGroupService.cs" />
     <Compile Include="Services\DepartmentService.cs" />
     <Compile Include="Services\DTOService.cs" />
@@ -256,6 +257,10 @@
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CVParser\CVParser.csproj">
+      <Project>{f55ce75c-0108-484c-9539-04f3c8979a62}</Project>
+      <Name>CVParser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{5F863426-F6DF-47EC-885C-EDD5CB46D676}</Project>
       <Name>Domain</Name>

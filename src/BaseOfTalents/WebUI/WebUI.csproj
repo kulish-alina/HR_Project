@@ -166,6 +166,7 @@
     <Compile Include="Controllers\CommentTypeController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
+    <Compile Include="Controllers\CVParserController.cs" />
     <Compile Include="Controllers\DepartmentGroupController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EntityStateController.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Infrastructure\Auth\IAuthContainer.cs" />
     <Compile Include="Models\CandidateSearchModel.cs" />
     <Compile Include="Models\CommentModel.cs" />
+    <Compile Include="Models\CVPathModel.cs" />
     <Compile Include="Models\EventSearchParameteres.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\IdentityModel.cs" />
@@ -235,6 +237,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CVParser\CVParser.csproj">
+      <Project>{f55ce75c-0108-484c-9539-04f3c8979a62}</Project>
+      <Name>CVParser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{1FF06BB1-487E-4FE1-B8EA-161FC50FE408}</Project>
       <Name>DAL</Name>

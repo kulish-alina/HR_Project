@@ -25,7 +25,8 @@ export default class TableCellDirective {
       this.scope      = {
          type: '@',
          report: '=',
-         vacancyState: '@'
+         vacancyState: '@',
+         users: '='
       };
       this.controller = TableCellController;
    }
@@ -41,8 +42,6 @@ function TableCellController($scope) {
    const vm               = $scope;
    vm.locationResult      = {};
    vm.userResult          = {};
-   vm.report              = undefined;
-   console.log('vm', vm);
 
    vm.$watch('report', function obs() {
       groupByStages();

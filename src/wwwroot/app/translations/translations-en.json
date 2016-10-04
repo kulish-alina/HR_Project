@@ -318,8 +318,11 @@
       "PENDING" : "Pending",
       "OPEN" : "Open",
       "IN_PROGRESS" : "In progress",
-      "DYNAMICS" : "Dynamics for a selected period",
-      "CANCELED" : "Canceled"
+      "DYNAMICS" : "Dynamics of the reporting period",
+      "CANCELED" : "Canceled",
+      "FOR_BEGINING" : "at the beginning of period",
+      "FOR_END": "at the end of period",
+      "FOR_SELECTED": "at the selected date"
       
    }
 }

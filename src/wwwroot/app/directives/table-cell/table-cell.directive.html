@@ -1,25 +1,28 @@
-<!--
-<table ng-if="type === 'only-locations'">
-  <tr>
-    <td ng-bind="locationResult.{{vacancyState}}"></td>
-  </tr>
+<table class="report-cell" ng-if="type === 'only-locations'">
+   <tr class="report-row">
+      <td class="td-without-border" ng-bind="locationResult.{{vacancyState}}"></td>
+   </tr>
 </table>
--->
-<div ng-if="type === 'only-locations'" ng-bind="locationResult.{{vacancyState}}"></div>
-<div ng-if="type === 'only-users'" ng-bind="userResult.{{vacancyState}}"></div>
+
+<table class="report-cell" ng-if="type === 'only-users'">
+   <tr class="report-row">
+      <td class="td-without-border" ng-bind="userResult.{{vacancyState}}"></td>
+   </tr>
+</table>
+
 <table class="report-cell" ng-if="type === 'locations-users' && report.length">
-   <tr>
+   <tr class="report-row">
       <td ng-bind="report[0].{{vacancyState}}"></td>
-      <td rowspan="{{report.length}}">
-         <div ng-bind="locationResult.{{vacancyState}}"></div>
+      <td class="sum-row" rowspan="{{report.length}}" ng-bind="locationResult.{{vacancyState}}">
       </td>
    </tr>
-   <tr>
-      <td ng-bind="report[1].{{vacancyState}}"></td>
+   <tr ng-repeat="rep in report | limitTo : report.length : report.length-(report.length-1)" class="report-row">
+      <td ng-bind="rep.{{vacancyState}}"></td>
    </tr>
 </table>
-<table class="report-cell" ng-if="type === 'users' && report.length">
-   <tr ng-repeat="rep in report">
-      <td class="user-name" ng-bind="rep.userDisplayName"></td>
+
+<table class="report-cell" ng-if="type === 'users'">
+   <tr class="report-row" ng-repeat="user in users">
+      <td class="user-name" ng-bind="::(user.lastName+' '+user.firstName)"></td>
    </tr>
 </table>

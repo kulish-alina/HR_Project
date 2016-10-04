@@ -14,9 +14,9 @@
                <label ng-bind="::'REPORTS.DATE_RANGE' | translate"></label>
                <div class="grid-block">
                   <div class="medium-6 grid-block">
-                     <input type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="vacanciesReportParametrs.startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" /> </div>
+                     <input class="date-input" type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="vacanciesReportParametrs.startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" /> </div>
                   <div class="medium-6 grid-block">
-                     <input type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="vacanciesReportParametrs.endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" min-date="{{vacanciesReportParametrs.startDate}}" /> </div>
+                     <input class="date-input" type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="vacanciesReportParametrs.endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" min-date="{{vacanciesReportParametrs.startDate}}" /> </div>
                </div>
                <div class="grid-block">
                   <label ng-bind="::'THESAURUSES.LOCATIONS' | translate"></label>&nbsp;
@@ -56,31 +56,79 @@
                   <tr class="report-data-row">
                      <th ng-bind="::'COMMON.LOCATION' | translate" rowspan="2"></th>
                      <th ng-bind="::'COMMON.USERS' | translate" rowspan="2"></th>
-                     <th ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate" colspan="3"></th>
-                     <th ng-bind="::'REPORTS.DYNAMICS' | translate" colspan="5"></th>
-                     <th ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate" colspan="6"></th>
+                     <th class="report-column" colspan="6"> 
+                        <span ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate"></span>
+                        <span ng-if="vacanciesReportParametrs.endDate" ng-bind="::'REPORTS.FOR_BEGINING' | translate"></span>
+                        <span ng-if="!vacanciesReportParametrs.endDate" ng-bind="::'REPORTS.FOR_SELECTED' | translate"></span>
+                     </th>
+                     <th ng-if="vacanciesReportParametrs.endDate" class="report-column" ng-bind="::'REPORTS.DYNAMICS' | translate" colspan="10"></th>
+                     <th ng-if="vacanciesReportParametrs.endDate" class="report-column" colspan="6">
+                        <span ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate"></span>
+                        <span ng-if="vacanciesReportParametrs.endDate" ng-bind="::'REPORTS.FOR_END' | translate"></span>
+                     </th>
                   </tr>
                   <tr class="report-data-row">
-                     <td ng-bind="::'REPORTS.PENDING' | translate"></td>
-                     <td ng-bind="::'REPORTS.OPEN' | translate"></td>
-                     <td ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
-                     <td ng-bind="::'REPORTS.PENDING' | translate"></td>
-                     <td ng-bind="::'REPORTS.OPEN' | translate"></td>
-                     <td ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
-                     <td ng-bind="::'REPORTS.CLOSED' | translate"></td>
-                     <td ng-bind="::'REPORTS.CANCELED' | translate"></td>
-                     <td ng-bind="::'REPORTS.PENDING' | translate"></td>
-                     <td ng-bind="::'REPORTS.OPEN' | translate"></td>
-                     <td ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
+                     <td class="report-column-min" ng-bind="::'REPORTS.PENDING' | translate" colspan="2"></td>
+                     <td class="report-column-min" ng-bind="::'REPORTS.OPEN' | translate" colspan="2"></td>
+                     <td class="report-column-min" ng-bind="::'REPORTS.IN_PROGRESS' | translate" colspan="2"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.PENDING' | translate" colspan="2"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.OPEN' | translate" colspan="2"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.IN_PROGRESS' | translate" colspan="2"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.CLOSED' | translate" colspan="2"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.CANCELED' | translate" colspan="2"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.PENDING' | translate" colspan="2"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.OPEN' | translate" colspan="2"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.IN_PROGRESS' | translate" colspan="2"></td>
                   </tr>
                </thead>
                <tbody ng-if="(selectedLocations.includes(location) && !isSelectedUsersGroupedByLocationEmpty())" ng-repeat="location in locations">
+                  <tr>
+                     <td ng-bind="location.title" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}"></td>
+                     <td ng-bind="(selectedUsersGroupedByLocation[location.id][0].lastName+' '+selectedUsersGroupedByLocation[location.id][0].firstName)"></td>
+                     <td ng-repeat="rep in startDateReportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.pendingVacanciesCount"></td>
+                     <td rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-repeat="rep in startDateReportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.openVacanciesCount"></td>
+                     <td rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-repeat="rep in startDateReportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.inProgressVacanciesCount"></td>
+                     <td rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.vacanciesPendingInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.vacanciesOpenedInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.vacanciesInProgressInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.vacanciesClosedInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.vacanciesCanceledInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in endDateReportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.pendingVacanciesCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in endDateReportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.openVacanciesCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in endDateReportGroupedByLocation[location.id] | filter: {userId: selectedUsersGroupedByLocation[location.id][0].id}" ng-bind="rep.inProgressVacanciesCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}">sum</td>
+                  </tr>
+                  <tr ng-repeat="user in selectedUsersGroupedByLocation[location.id] | limitTo : selectedUsersGroupedByLocation[location.id].length : selectedUsersGroupedByLocation[location.id].length-(selectedUsersGroupedByLocation[location.id].length-1)">
+                     <td ng-bind="::(user.lastName+' '+user.firstName)"></td>
+                     <td ng-repeat="rep in startDateReportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.pendingVacanciesCount"></td>
+                     <td ng-repeat="rep in startDateReportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.openVacanciesCount"></td>
+                     <td ng-repeat="rep in startDateReportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.inProgressVacanciesCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.vacanciesPendingInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.vacanciesOpenedInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.vacanciesInProgressInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.vacanciesClosedInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in reportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.vacanciesCanceledInCurrentPeriodCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in endDateReportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.pendingVacanciesCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in endDateReportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.openVacanciesCount"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" ng-repeat="rep in endDateReportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.inProgressVacanciesCount"></td>
+                  </tr>       
+<!--
                   <tr class="report-data-row">
                      <td>
                         <div ng-bind="location.title"></div>
                      </td>
                      <td>
-                        <table-cell type="users" report="startDateReportGroupedByLocation[location.id]"></table-cell>
+                        <table-cell type="users" users="selectedUsersGroupedByLocation[location.id]"></table-cell>
                      </td>
                      <td>
                         <table-cell type="locations-users" report="startDateReportGroupedByLocation[location.id]" vacancy-state="pendingVacanciesCount"></table-cell>
@@ -116,27 +164,35 @@
                         <table-cell type="locations-users" report="endDateReportGroupedByLocation[location.id]" vacancy-state="openVacanciesCount"></table-cell>
                      </td>
                   </tr>
+-->
                </tbody>
                <thead ng-if="isSelectedUsersGroupedByLocationEmpty()">
                   <tr class="report-data-row">
                      <th ng-if="selectedLocations.length && !selectedUsers.length" ng-bind="::'COMMON.LOCATION' | translate" rowspan="2"></th>
                      <th ng-if="selectedUsers.length && !selectedLocations.length" ng-bind="::'COMMON.USERS' | translate" rowspan="2"></th>
-                     <th ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate" colspan="3"></th>
-                     <th ng-bind="::'REPORTS.DYNAMICS' | translate" colspan="5"></th>
-                     <th ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate" colspan="3"></th>
+                     <th class="report-column" colspan="3">
+                        <span ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate"></span>
+                        <span ng-if="vacanciesReportParametrs.endDate" ng-bind="::'REPORTS.FOR_BEGINING' | translate"></span>
+                        <span ng-if="!vacanciesReportParametrs.endDate" ng-bind="::'REPORTS.FOR_SELECTED' | translate"></span>
+                     </th>
+                     <th ng-if="vacanciesReportParametrs.endDate" class="report-column" ng-bind="::'REPORTS.DYNAMICS' | translate" colspan="5"></th>
+                     <th ng-if="vacanciesReportParametrs.endDate" class="report-column" colspan="3">
+                        <span ng-bind="::'REPORTS.ACTIVE_VACANCIES' | translate"></span>
+                        <span ng-bind="::'REPORTS.FOR_END' | translate"></span>
+                     </th>
                   </tr>
                   <tr class="report-data-row">
-                     <td ng-bind="::'REPORTS.PENDING' | translate"></td>
-                     <td ng-bind="::'REPORTS.OPEN' | translate"></td>
-                     <td ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
-                     <td ng-bind="::'REPORTS.PENDING' | translate"></td>
-                     <td ng-bind="::'REPORTS.OPEN' | translate"></td>
-                     <td ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
-                     <td ng-bind="::'REPORTS.CLOSED' | translate"></td>
-                     <td ng-bind="::'REPORTS.CANCELED' | translate"></td>
-                     <td ng-bind="::'REPORTS.PENDING' | translate"></td>
-                     <td ng-bind="::'REPORTS.OPEN' | translate"></td>
-                     <td ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
+                     <td class="report-column-min" ng-bind="::'REPORTS.PENDING' | translate"></td>
+                     <td class="report-column-min" ng-bind="::'REPORTS.OPEN' | translate"></td>
+                     <td class="report-column-min" ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.PENDING' | translate"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.OPEN' | translate"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate"  class="report-column-min" ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate"  class="report-column-min" ng-bind="::'REPORTS.CLOSED' | translate"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.CANCELED' | translate"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.PENDING' | translate"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.OPEN' | translate"></td>
+                     <td ng-if="vacanciesReportParametrs.endDate" class="report-column-min" ng-bind="::'REPORTS.IN_PROGRESS' | translate"></td>
                   </tr>
                </thead>
                <tbody ng-if="isSelectedUsersGroupedByLocationEmpty()">
@@ -153,28 +209,28 @@
                      <td>
                         <table-cell type="only-users" vacancy-state="inProgressVacanciesCount" report="startDateReportGroupedByUser[user.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell type="only-users" vacancy-state="vacanciesPendingInCurrentPeriodCount" report="reportGroupedByUser[user.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell type="only-users" vacancy-state="vacanciesOpenedInCurrentPeriodCount" report="reportGroupedByUser[user.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell type="only-users" vacancy-state="vacanciesInProgressInCurrentPeriodCount" report="reportGroupedByUser[user.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell type="only-users" vacancy-state="vacanciesClosedInCurrentPeriodCount" report="reportGroupedByUser[user.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell type="only-users" vacancy-state="vacanciesCanceledInCurrentPeriodCount" report="reportGroupedByUser[user.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell type="only-users" vacancy-state="pendingVacanciesCount" report="endDateReportGroupedByUser[user.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell type="only-users" vacancy-state="openVacanciesCount" report="endDateReportGroupedByUser[user.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell type="only-users" vacancy-state="inProgressVacanciesCount" report="endDateReportGroupedByUser[user.id]"></table-cell>
                      </td>
                   </tr>
@@ -191,28 +247,28 @@
                      <td>
                         <table-cell vacancy-state="inProgressVacanciesCount" type="only-locations" report="startDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell vacancy-state="vacanciesPendingInCurrentPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell vacancy-state="vacanciesOpenedInCurrentPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell vacancy-state="vacanciesInProgressInCurrentPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell vacancy-state="vacanciesClosedInCurrentPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
-                     <td>
-                        <table-cell vacancy-state="vacanciesCanceledInPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
+                     <td ng-if="vacanciesReportParametrs.endDate">
+                        <table-cell vacancy-state="vacanciesCanceledInCurrentPeriodCount" type="only-locations" report="reportGroupedByLocation[location.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell vacancy-state="pendingVacanciesCount" type="only-locations" report="endDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell vacancy-state="openVacanciesCount" type="only-locations" report="endDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
-                     <td>
+                     <td ng-if="vacanciesReportParametrs.endDate">
                         <table-cell vacancy-state="inProgressVacanciesCount" type="only-locations" report="endDateReportGroupedByLocation[location.id]"></table-cell>
                      </td>
                   </tr>

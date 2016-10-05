@@ -7,6 +7,7 @@ export default class CVParserService {
       _HttpService = HttpService;
    }
    parseCandidateCV(localPath) {
+      debugger;
       let cvPath = `${localPath}`;
       return _HttpService.post(CV_PARSER_URL, { path: cvPath});
    }

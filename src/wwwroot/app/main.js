@@ -22,7 +22,6 @@ import 'oi.select/dist/select-tpls.min';
 import 'oi.select/dist/select.min.css';
 import 'angularjs-slider/dist/rzslider.min';
 import 'angularjs-slider/dist/rzslider.min.css';
-import 'angular-loading';
 
 import 'angular-srph-age-filter/angular-age-filter';
 import './directives/datepickerwrapper/angularjs-datetime-picker.js';
@@ -96,8 +95,7 @@ const dependencies = [
    'textAngular',
    'oi.select',
    'srph.age-filter',
-   'angularjs-datetime-picker',
-   'darthWade.dwLoading'
+   'angularjs-datetime-picker'
 ];
 
 angular

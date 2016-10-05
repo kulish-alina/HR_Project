@@ -10,7 +10,7 @@ namespace CVParser.Core.GatherStrategies
 {
     public class FirstLastNameStrategy : IStrategy
     {
-        private static readonly List<string> names = File.ReadAllLines(@"d:\parserDirectory\names.txt").ToList();
+        private static readonly List<string> names = File.ReadAllLines(@".\Data\names.txt").ToList();
 
         /// <summary>
         /// Collects the related data from logical block

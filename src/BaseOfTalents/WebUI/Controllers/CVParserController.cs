@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
+using WebUI.Extensions;
+using WebUI.Globals;
 using WebUI.Models;
 
 namespace WebUI.Controllers
@@ -35,7 +37,7 @@ namespace WebUI.Controllers
             {
                 return BadRequest();
             }
-            return Json(cvParserService.Parse(Globals.Constants.AppPath + "\\" + model.Path), BOT_SERIALIZER_SETTINGS);
+            return Json(cvParserService.Parse($"{SettingsContext.Instance.GetRootPath()}//{model.Path}"), BOT_SERIALIZER_SETTINGS);
         }
     }
 }

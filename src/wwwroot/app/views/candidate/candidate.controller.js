@@ -187,7 +187,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
       let lastWriteSymbolType = SYMBOL_TYPE.None;
       let lineToSymbols = toArray(line);
       forEach(lineToSymbols, (symb) => {
-         if (/[\s-_]/.test(symb)) {
+         if (/[\s-_;]/.test(symb)) {
             spaceSymbolWasMet = true;
          } else {
             if (/[a-z]/i.test(symb)) {
@@ -242,6 +242,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
       let uploader = FileService.getFileUploader({ maxSize: 1024000 });
       uploader.onSuccessItem = (item, response, status, headers) => {
          let parsedResponse = JSON.parse(item._xhr.response);
+         debugger;
          CVParserService.parseCandidateCV(parsedResponse.filePath).then((candidate) => {
             LoggerService.log('CV Parsed', item, response, status, headers);
             UserDialogService.notification($translate.instant('CV was sucessfuly parsed'), 'success');

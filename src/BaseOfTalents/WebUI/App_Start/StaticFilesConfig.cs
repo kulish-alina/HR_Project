@@ -7,7 +7,7 @@ namespace WebUI.App_Start
 {
     public static class StaticFilesConfig
     {
-        public static IAppBuilder UseStaticFilesServer(this IAppBuilder app, string physicalPath)
+        public static IAppBuilder UseStaticFilesServer(this IAppBuilder app, string physicalPath, string requestPath)
         {
             var provider = new FileExtensionContentTypeProvider();
             provider.Mappings.Add(".odt", "application/vnd.oasis.opendocument.text");
@@ -15,6 +15,7 @@ namespace WebUI.App_Start
             return app.UseStaticFiles(new StaticFileOptions()
             {
                 FileSystem = new PhysicalFileSystem(physicalPath),
+                RequestPath = new Microsoft.Owin.PathString(requestPath),
                 ContentTypeProvider = provider
             });
         }

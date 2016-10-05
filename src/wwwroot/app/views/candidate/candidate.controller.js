@@ -22,7 +22,8 @@ export default function CandidateController( // eslint-disable-line max-params, 
    LoggerService,
    EventsService,
    UserService,
-   VacancyService
+   VacancyService,
+   FoundationApi
    ) {
    'ngInject';
 
@@ -126,6 +127,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
             FileService.remove(vm.candidate.photo);
          }
          vm.candidate.photo = parsedResponse;
+         FoundationApi.closeActiveElements();
       };
       uploader.onErrorItem = (fileItem, response, status, headers) => {
          LoggerService.error('onErrorItem', fileItem, response, status, headers);

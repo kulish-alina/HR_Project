@@ -71,7 +71,7 @@ namespace WebUI.Controllers
                     vacanciesReportParams.EndDate
                     );
 
-                var resultForPeriod = new { StartDateReport = dailyReportForStartDate, VacanciesReport = vacanciesReportResult, EndDateReport = dailyReportForEndDate };
+                var resultForPeriod = new {StartDate = vacanciesReportParams.StartDate, EndDate = vacanciesReportParams.EndDate,  StartDateReport = dailyReportForStartDate, VacanciesReport = vacanciesReportResult, EndDateReport = dailyReportForEndDate };
                 return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
             }
             else

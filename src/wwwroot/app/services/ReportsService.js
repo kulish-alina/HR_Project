@@ -15,7 +15,9 @@ export default class ReportsService {
    getDataForUserReport(searchParameters) {
       searchParameters = this._convertToServerDates(searchParameters);
       let userReportUrl = 'usersReport';
-      return _HttpService.post(`${REPORT_URL}/${userReportUrl}`, searchParameters);
+      return _HttpService.post(`${REPORT_URL}/${userReportUrl}`, searchParameters).then(resr => {
+         return this._convertFromServerDates(resr);
+      });
    }
 
    getDataForVacancyReport(searchParameters) {
@@ -31,5 +33,14 @@ export default class ReportsService {
          };
       });
       return searchParameters;
+   }
+
+   _convertFromServerDates(report) {
+      each(DATE_TYPE, (type) => {
+         if (report[type]) {
+            report[type] = utils.formatDateTimeFromServer(report[type]);
+         };
+      });
+      return report;
    }
 }

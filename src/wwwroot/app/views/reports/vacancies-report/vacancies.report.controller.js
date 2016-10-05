@@ -7,7 +7,9 @@ import {
    reduce,
    flatten,
    map,
-   groupBy
+   groupBy,
+   sumBy,
+   find
 } from 'lodash';
 
 const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
@@ -37,6 +39,9 @@ export default function VacanciesReportController(
    vm.formingVacanciesReport                   = formingVacanciesReport;
    vm.isEqualLocations                         = isEqualLocations;
    vm.isSelectedUsersGroupedByLocationEmpty    = isSelectedUsersGroupedByLocationEmpty;
+   vm.report                                   = {};
+   vm.sumReportByStages                        = sumReportByStages;
+   vm.filterArrayByProperty                    = filterArrayByProperty;
 
 
    (function init() {
@@ -126,24 +131,23 @@ export default function VacanciesReportController(
    }
 
    function formingVacanciesReport() {
-      ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs).then(resp => {
-         _convertReportToHash(resp);
-      });
+      ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs)
+         .then(resp => {
+            vm.vacanciesReportParametrs.startDate = resp.startDate;
+            vm.vacanciesReportParametrs.endDate = resp.endDate;
+            _convertReportToHash(resp);
+         });
    }
 
    function _convertReportToHash(report) {
-      if (vm.selectedLocations.length && !vm.selectedUsers.length) {
-         set(vm, 'startDateReportGroupedByLocation', _convertToHash('locationId', report.startDateReport));
-         set(vm, 'endDateReportGroupedByLocation', _convertToHash('locationId', report.endDateReport));
-         set(vm, 'reportGroupedByLocation', _convertToHash('locationId', report.vacanciesReport));
-      } else if (!vm.selectedLocations.length && vm.selectedUsers.length) {
-         set(vm, 'startDateReportGroupedByUser', _convertToHash('userId', report.startDateReport));
-         set(vm, 'endDateReportGroupedByUser', _convertToHash('userId', report.endDateReport));
-         set(vm, 'reportGroupedByUser', _convertToHash('userId', report.vacanciesReport));
-      } else if (vm.selectedLocations.length && vm.selectedUsers.length) {
-         set(vm, 'startDateReportGroupedByLocation', _convertToHash('locationId', report.startDateReport));
-         set(vm, 'endDateReportGroupedByLocation', _convertToHash('locationId', report.endDateReport));
-         set(vm, 'reportGroupedByLocation', _convertToHash('locationId', report.vacanciesReport));
+      if (vm.selectedLocations.length) {
+         set(vm.report, 'startDateReportGroupedByLocation', _convertToHash('locationId', report.startDateReport));
+         set(vm.report, 'endDateReportGroupedByLocation', _convertToHash('locationId', report.endDateReport));
+         set(vm.report, 'reportGroupedByLocation', _convertToHash('locationId', report.vacanciesReport));
+      } else {
+         set(vm.report, 'startDateReportGroupedByUser', _convertToHash('userId', report.startDateReport));
+         set(vm.report, 'endDateReportGroupedByUser', _convertToHash('userId', report.endDateReport));
+         set(vm.report, 'reportGroupedByUser', _convertToHash('userId', report.vacanciesReport));
       }
    }
 
@@ -169,16 +173,29 @@ export default function VacanciesReportController(
       }
    }
 
+   function sumReportByStages(report, type) {
+      return sumBy(report, type);
+   }
+
+   function filterArrayByProperty(report, prop, type) {
+      let rep = find(report, {userId: prop});
+      if (rep) {
+         return rep[type];
+      } else {
+         return 0;
+      }
+   }
+
    function clear() {
       vm.vacanciesReportParametrs = {};
       _clearLocationField();
       _clearUserField();
-      vm.startDateReportGroupedByLocation = {};
-      vm.endDateReportGroupedByLocation = {};
-      vm.reportGroupedByLocation = {};
-      vm.startDateReportGroupedByUser = {};
-      vm.endDateReportGroupedByUser = {};
-      vm.reportGroupedByUser = {};
+      vm.report.startDateReportGroupedByLocation = {};
+      vm.report.endDateReportGroupedByLocation = {};
+      vm.report.reportGroupedByLocation = {};
+      vm.report.startDateReportGroupedByUser = {};
+      vm.report.endDateReportGroupedByUser = {};
+      vm.report.reportGroupedByUser = {};
    }
 
    function isEqualLocations(user) {

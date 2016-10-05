@@ -5,6 +5,16 @@
 }
 input.date-input {
    font-size: $rem-base*0.8;
+   padding-left: $rem-base/4;
+   padding-right: $rem-base/4;
+}
+.date {
+   font-weight: 600;
+}
+.card-divider {
+   span {
+      font-size: $rem-base*0.8;
+   }
 }
 .title-stage {
    margin: 0;
@@ -16,34 +26,53 @@ input.date-input {
 .report-data {
    border-collapse: collapse;
    font-size: $rem-base*0.8;
-   div {
-      font-size: $rem-base*0.8;
-      min-height: $rem-base*2.1;
-      border-bottom: 1px solid lighten($gray, 5);
-      padding: $rem-base/4;
+   thead {
+      tr {
+         th {
+            background: lighten($gray-light, 1);
+         }
+         td {
+            background: lighten($gray-light, 3);
+         }
+      }
+   }
+   tr:nth-child(2n) {
+      background: none;
    }
    .report-column {
       width: 25%;
    }
    .report-column-min {
       width: 6.82%;
+      text-align: center;
    }
-}
-.report-data-row {
    th, td {
-//      vertical-align: top;
       border: 1px solid lighten($gray, 5);
-      p {
+      span {
          font-size: $rem-base*0.8;
       }
    }
-   td {
-      padding: 0;
-      div:last-child {
-         border-bottom: none;
+}
+.location-user-report-row {
+   td:nth-child(n+3) {
+      width: 3.41%;
+      text-align: center;
+      vertical-align: center;
+   }
+}
+.report-data-row {
+   th {
+      font-weight: 600;
+   }
+   th, td {
+      font-size: $rem-base*0.8;
+      padding: $rem-base/4;
+      border: 1px solid lighten($gray, 5);
+      span {
+         font-size: $rem-base*0.8;
       }
-      td:first-child {
-         padding: $rem-base/4;
-      }
+   }
+   td:nth-child(n+2) {
+      text-align: center;
    }
 }

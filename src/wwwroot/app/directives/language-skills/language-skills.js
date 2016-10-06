@@ -2,7 +2,7 @@ import template from './language-skills.directive.html';
 
 import './language-skills.scss';
 
-import { forEach, set, curry } from 'lodash';
+import { forEach, set, curry, some } from 'lodash';
 
 const LIST_OF_THESAURUS = ['language', 'languageLevel'];
 
@@ -28,7 +28,8 @@ export default class LanguageSkillsDirective {
 function LanguageSkillsController($scope, ThesaurusService) {
    'ngInject';
 
-   const vm = $scope;
+   const vm                = $scope;
+   vm.isLanguageSelected   = isLanguageSelected;
 
    (function _init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
@@ -50,5 +51,9 @@ function LanguageSkillsController($scope, ThesaurusService) {
             });
          });
       });
+   }
+
+   function isLanguageSelected(language) {
+      return some(vm.selectedSkills, languageSkill => languageSkill.language.id === language.language.id);
    }
 }

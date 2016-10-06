@@ -1,9 +1,18 @@
-import { set, forEach, remove, chunk, isEmpty, cloneDeep, clone, find, curry } from 'lodash';
-
+import {
+   set,
+   forEach,
+   remove,
+   chunk,
+   isEmpty,
+   cloneDeep,
+   clone,
+   find,
+   curry
+ } from 'lodash';
 import './candidate.edit.scss';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel', 'source',
-    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork', 'eventtype'];
+   'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork', 'eventtype'];
 
 let curriedSet = curry(set, 3);
 
@@ -22,29 +31,33 @@ export default function CandidateController( // eslint-disable-line max-params, 
    LoggerService,
    EventsService,
    UserService,
-   VacancyService
-   ) {
+   VacancyService,
+   CVParserService
+) {
    'ngInject';
 
-   const vm                = $scope;
-   vm.keys                 = Object.keys;
-   vm.candidate            = vm.candidate || {};
-   vm.thesaurus            = {};
-   vm.locations            = [];
-   vm.saveCandidate        = saveCandidate;
-   vm.clearUploaderQueue   = clearUploaderQueue;
-   vm.addFilesForRemove    = addFilesForRemove;
+   const vm = $scope;
+   vm.keys = Object.keys;
+   vm.candidate = vm.candidate || {};
+   vm.candidate.cvText = vm.candidate.cvText || [];
+   vm.thesaurus = {};
+   vm.locations = [];
+   vm.saveCandidate = saveCandidate;
+   vm.clearUploaderQueue = clearUploaderQueue;
+   vm.addFilesForRemove = addFilesForRemove;
    vm.candidate.comments   = $state.params._data ? $state.params._data.comments : [];
-   vm.comments             = cloneDeep(vm.candidate.comments);
-   vm.saveComment          = saveComment;
-   vm.removeComment        = removeComment;
-   vm.editComment          = editComment;
+   vm.comments = cloneDeep(vm.candidate.comments);
+   vm.saveComment = saveComment;
+   vm.removeComment = removeComment;
+   vm.editComment = editComment;
    vm.candidateEvents      = $state.params._data ? $state.params._data.events : [];
    vm.cloneCandidateEvents = clone(vm.candidateEvents);
-   vm.saveEvent            = saveEvent;
-   vm.removeEvent          = removeEvent;
+   vm.saveEvent = saveEvent;
+   vm.removeEvent = removeEvent;
    vm.back                 = back;
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
+   vm.candidateCVLoaded = false;
+
 
    (function _init() {
       _initDataForEvents();
@@ -52,7 +65,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
          .then(_initCandidate)
          .then(_initLocations);
       _initUploaders();
-   }());
+   } ());
 
    function clearUploaderQueue(uploader, name) {
       uploader.clearQueue();
@@ -69,16 +82,16 @@ export default function CandidateController( // eslint-disable-line max-params, 
    }
 
    function _initDataForEvents() {
-      vm.vacancies                  = [];
-      vm.candidates                 = [];
-      vm.responsibles               = [];
-      vm.vacancyPredicat            = {};
-      vm.vacancyPredicat.current    = 0;
-      vm.vacancyPredicat.size       = 30;
-      vm.candidatePredicat          = {};
-      vm.candidatePredicat.current  = 0;
-      vm.candidatePredicat.size     = 20;
-      CandidateService.search(vm.candidatePredicat).then(data  => set(vm, 'candidates', data.candidate));
+      vm.vacancies = [];
+      vm.candidates = [];
+      vm.responsibles = [];
+      vm.vacancyPredicat = {};
+      vm.vacancyPredicat.current = 0;
+      vm.vacancyPredicat.size = 30;
+      vm.candidatePredicat = {};
+      vm.candidatePredicat.current = 0;
+      vm.candidatePredicat.size = 20;
+      CandidateService.search(vm.candidatePredicat).then(data => set(vm, 'candidates', data.candidate));
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
       VacancyService.search(vm.vacancyPredicat).then(response => vm.vacancies = response.vacancies);
    }
@@ -96,10 +109,10 @@ export default function CandidateController( // eslint-disable-line max-params, 
    }
 
    function _setCandidateProperties(candidate) {
-      candidate.skills           = candidate.skills || [];
-      candidate.tags             = candidate.tags || [];
-      candidate.files            = candidate.files || [];
-      candidate.languageSkills   = candidate.languageSkills || [];
+      candidate.skills = candidate.skills || [];
+      candidate.tags = candidate.tags || [];
+      candidate.files = candidate.files || [];
+      candidate.languageSkills = candidate.languageSkills || [];
       candidate.convertedSocials = candidate.convertedSocials || [];
       _addAdditionProperties(candidate);
       return candidate;
@@ -114,10 +127,12 @@ export default function CandidateController( // eslint-disable-line max-params, 
    function _initUploaders() {
       _initImageUploader();
       _initFilesUploader();
+      _initCVUploader();
    }
 
+
    function _initImageUploader() {
-      let uploader = FileService.getFileUploader({maxSize: 1024000});
+      let uploader = FileService.getFileUploader({ maxSize: 1024000 });
       uploader.onSuccessItem = (item, response, status, headers) => {
          LoggerService.log('onSuccessItem', item, response, status, headers);
          UserDialogService.notification($translate.instant('Success'), 'success');
@@ -138,19 +153,17 @@ export default function CandidateController( // eslint-disable-line max-params, 
    }
 
    function _initFilesUploader() {
-      let uploader = FileService.getFileUploader({maxSize: 1024000});
+      let uploader = FileService.getFileUploader({ maxSize: 1024000 });
       uploader.onSuccessItem = (item, response, status, headers) => {
          LoggerService.log('onSuccessItem', item, response, status, headers);
          UserDialogService.notification($translate.instant('Success'), 'success');
          let parsedResponse = JSON.parse(item._xhr.response);
          vm.candidate.files.push(parsedResponse);
       };
-
       uploader.onCompleteAll = () => {
          _saveCandidate();
          clearUploaderQueue(vm.filesUploader, '#filesUploader');
       };
-
       uploader.onErrorItem = (fileItem, response, status, headers) => {
          LoggerService.error('onErrorItem', fileItem, response, status, headers);
          UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
@@ -159,6 +172,55 @@ export default function CandidateController( // eslint-disable-line max-params, 
          UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
       };
       vm.filesUploader = uploader;
+   }
+
+   vm.uploadCV = () => {
+      let nativeUploadButton = document.querySelector('#cvUploader');
+      nativeUploadButton.click();
+   };
+
+   vm.getWordsArray = (line) => {
+      return CVParserService.getWordsArray(line);
+   };
+
+   vm.resolveWordClass = (word) => {
+      return CVParserService.resolveWordClass(word, vm.candidate);
+   };
+
+   function _initCVUploader() {
+      let uploader = FileService.getFileUploader({ maxSize: 1024000 });
+      uploader.onSuccessItem = (item, response, status, headers) => {
+         let parsedResponse = JSON.parse(item._xhr.response);
+         CVParserService.parseCandidateCV(parsedResponse.filePath).then((candidate) => {
+            LoggerService.log('CV Parsed', item, response, status, headers);
+            UserDialogService.notification($translate.instant('CV was sucessfuly parsed'), 'success');
+            if (candidate.experienceYears) {
+               candidate.experienceYears = parseInt(candidate.experienceYears);
+            }
+            vm.candidate = candidate;
+            vm.candidateCVLoaded = true;
+            vm.candidate.cvText = candidate.text;
+         });
+         vm.candidate.files.push(parsedResponse);
+      };
+      uploader.onCompleteAll = () => {
+         clearUploaderQueue(vm.cvUploader, '#cvUploader');
+      };
+
+      uploader.onAfterAddingFile = (item) => {
+         uploader.uploadItem(item);
+      };
+
+      uploader.onErrorItem = (fileItem, response, status, headers) => {
+         LoggerService.error('onErrorItem', fileItem, response, status, headers);
+         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
+         vm.candidateCVLoaded = false;
+      };
+      uploader.onWhenAddingFileFailed = () => {
+         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
+         vm.candidateCVLoaded = false;
+      };
+      vm.cvUploader = uploader;
    }
 
    function _deleteEmptyPhoneNumber(candidate) {
@@ -224,10 +286,10 @@ export default function CandidateController( // eslint-disable-line max-params, 
 
    function _initLocations() {
       forEach(vm.thesaurus.country, country => {
-         vm.locations.push({country});
+         vm.locations.push({ country });
       });
       forEach(vm.thesaurus.city, city => {
-         vm.locations.push({country : city.countryObject, city});
+         vm.locations.push({ country: city.countryObject, city });
       });
    }
 
@@ -237,7 +299,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
          let candidateSocial = find(vm.candidate.socialNetworks,
             _candidateSocial => _candidateSocial.socialNetworkId === social.id);
          if (!candidateSocial) {
-            candidate.convertedSocials.push({socialNetwork : social});
+            candidate.convertedSocials.push({ socialNetwork: social });
          }
       });
       return candidate;
@@ -284,20 +346,20 @@ export default function CandidateController( // eslint-disable-line max-params, 
    function _getCandidateEvents(candidateId) {
       EventsService.getEventsByCandidate(candidateId).then(events => {
          set(vm, 'candidateEvents', events);
-         vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+         vm.cloneCandidateEvents = clone(vm.candidateEvents);
       });
    }
    function saveEvent(event) {
       EventsService.save(event).then(() => {
          _getCandidateEvents(vm.candidate.id);
-         vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+         vm.cloneCandidateEvents = clone(vm.candidateEvents);
       });
    }
 
    function removeEvent(event) {
       EventsService.remove(event).then(() => {
-         remove(vm.candidateEvents, {id: event.id});
-         vm.cloneCandidateEvents  = clone(vm.candidateEvents);
+         remove(vm.candidateEvents, { id: event.id });
+         vm.cloneCandidateEvents = clone(vm.candidateEvents);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING_EVENT'), 'success');
       });
    }

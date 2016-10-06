@@ -13,6 +13,7 @@ namespace WebUI
         {
             string rootFolder = SettingsContext.Instance.GetRootPath();
             string uploadsPath = SettingsContext.Instance.GetUploadsPath();
+            string requestPath = SettingsContext.Instance.RequestPath;
 
             string defaultPage = "/index.html";
 
@@ -33,7 +34,7 @@ namespace WebUI
             app.UseAutofacMiddleware(container)
                 .UseAutofacWebApi(config)
                 .UseWebApi(config)
-                .UseStaticFilesServer(uploadsPath)
+                .UseStaticFilesServer(uploadsPath, requestPath)
                 .UseHtml5Routing(rootFolder, defaultPage);
         }
     }

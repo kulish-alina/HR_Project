@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using CVParser;
 using DAL.DTO;
 using DAL.DTO.SetupDTO;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
+using System;
 using System.Collections.Generic;
 using WebUI.Globals.Converters;
 using WebUI.Models;
@@ -134,7 +136,7 @@ namespace WebUI.App_Start
                 x.CreateMap<User, UserDTO>()
                    .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<File, FileDTO>(src.Photo)))
                    .ForMember(dest => dest.PhoneNumbers, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<PhoneNumberDTO>>(src.PhoneNumbers)));
-
+                
                 x.CreateMap<Candidate, CandidateDTO>()
                     .ForMember(dest => dest.ClosedVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ClosedVacancies)))
                     .ForMember(dest => dest.VacanciesProgress, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.VacanciesProgress)))

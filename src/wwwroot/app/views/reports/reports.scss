@@ -54,7 +54,7 @@ input.date-input {
    }
 }
 .location-user-report-row {
-   td:nth-child(n+3) {
+   td:nth-child(n+2) {
       width: 3.41%;
       text-align: center;
       vertical-align: center;
@@ -75,4 +75,7 @@ input.date-input {
    td:nth-child(n+2) {
       text-align: center;
    }
+}
+.funnel-report-column {
+   width: 7.7%;
 }

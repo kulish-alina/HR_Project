@@ -166,7 +166,7 @@
                   <tr class="location-user-report-row" ng-repeat="user in selectedUsersGroupedByLocation[location.id] | limitTo : selectedUsersGroupedByLocation[location.id].length : selectedUsersGroupedByLocation[location.id].length-(selectedUsersGroupedByLocation[location.id].length-1)">
                      <td ng-bind="::(user.lastName+' '+user.firstName)"></td>
                      <td>
-                        <span ng-repeat="rep in report.startDateReportGroupedByLocation[location.id]  | filter: {userId: user.id}" ng-bind="rep.pendingVacanciesCount"></span>
+                        <span ng-bind="filterArrayByProperty(report.startDateReportGroupedByLocation[location.id], user.id, 'pendingVacanciesCount')"></span>
                      </td>
                      <td>
                         <span ng-bind="filterArrayByProperty(report.startDateReportGroupedByLocation[location.id], user.id, 'openVacanciesCount')"></span>

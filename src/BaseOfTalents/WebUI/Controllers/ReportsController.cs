@@ -40,7 +40,9 @@ namespace WebUI.Controllers
                 usersReportParams.EndDate
             );
 
-            return Json(usersReportResult, BOT_SERIALIZER_SETTINGS);
+            var resultForPeriod = new { StartDate = usersReportParams.StartDate, EndDate = usersReportParams.EndDate, UserReport = usersReportResult};
+
+            return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
         }
 
         [HttpPost]

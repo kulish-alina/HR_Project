@@ -120,7 +120,11 @@ export default function UsersReportController(
    }
 
    function formingUsersReport() {
-      ReportsService.getDataForUserReport(vm.usersReportParametrs);
+      ReportsService.getDataForUserReport(vm.usersReportParametrs).then(resp => {
+         vm.usersReportParametrs.startDate = resp.startDate;
+         vm.usersReportParametrs.endDate = resp.endDate;
+//            _convertReportToHash(resp);
+      });;
    }
 
    function clear() {

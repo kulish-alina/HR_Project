@@ -35,7 +35,10 @@ namespace DAL.Services
             var stages = uow.VacancyStageInfoRepo.Get(stagesFilter);
 
             // select responsible users from vacancies filtered by userIds and locationIds and grouped by location
-            var usersGroup = stages.Select(x => x.Vacancy.Responsible)
+            var usersGroup = stages.Select(x => x.Vacancy)
+                .GroupBy(x => x.ResponsibleId)
+                .Select(x => x.First())
+                .Select(x => x.Responsible)
                 .Where(x => !userIds.Any() || userIds.Contains(x.Id))
                 .Where(x => !locationIds.Any() || locationIds.Contains(x.City.Id))
                 .GroupBy(x => x.CityId);

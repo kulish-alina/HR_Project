@@ -45,11 +45,23 @@
    </div>
    <div class="vertical medium-10 grid-block">
       <div class="main-card">
-         <div class="card-divider" ng-bind="::'REPORTS.USER_REPORT_CHART' | translate"> </div>
+         <div class="card-divider">
+            <span ng-bind="::'REPORTS.USER_REPORT_CHART' | translate"></span>
+            <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span>
+            <span class="date" ng-bind="usersReportParametrs.startDate"></span>
+            <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span>
+            <span class="date" ng-bind="usersReportParametrs.endDate"></span>
+         </div>
          <div class="card-section"> </div>
       </div>
       <div class="main-card">
-         <div class="card-divider" ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"> </div>
+         <div class="card-divider">
+            <span ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"></span>
+            <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span>
+            <span class="date" ng-bind="usersReportParametrs.startDate"></span>
+            <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span>
+            <span class="date" ng-bind="usersReportParametrs.endDate"></span>
+         </div>
          <div class="card-section">
             <table class="report-data">
                <thead ng-if="!isSelectedUsersGroupedByLocationEmpty()">

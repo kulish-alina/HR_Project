@@ -44,6 +44,16 @@ export default function RecruitingFunnelController(
       });
    }());
 
+   function addStageFilter(stage) {
+      if (stage._isPressed) {
+         stage._isPressed = false;
+         remove(vm.selectedStageIds, (stageId) =>  stageId === stage.id);
+      } else {
+         stage._isPressed = true;
+         vm.selectedStageIds.push(stage.id);
+      }
+   }
+
    function genereteReportForSelectedVacancy() {
       vm.tableRows = [];
       _groupCandidatesInProgressByStages();
@@ -56,36 +66,6 @@ export default function RecruitingFunnelController(
          if (group[num] !== undefined && group[num].candidate !== undefined) {
             return `${group[num].candidate.lastName} ${group[num].candidate.firstName}`;
          }
-      }
-   }
-
-   function _groupCandidatesInProgressByStages() {
-      let userGroupObject = groupBy(vm.selectedVacancy.candidatesProgress, x => x.candidateId);
-      vm.cleanedUserGroup = map(userGroupObject, userGroup => {
-         return last(userGroup);
-      });
-      set(vm, 'candidatesGropedByStage', groupBy(vm.cleanedUserGroup, x => x.stageId));
-   }
-
-   function _setTableRows() {
-      let arr = map(vm.candidatesGropedByStage, candidatesGroupe => {
-         return candidatesGroupe.length;
-      });
-      for (let i = 0; i < max(arr); i++) {
-         vm.tableRows.push(i);
-      }
-   }
-
-   function _genereteRecruitingFunnel() {
-   }
-
-   function addStageFilter(stage) {
-      if (stage._isPressed) {
-         stage._isPressed = false;
-         remove(vm.selectedStageIds, (stageId) =>  stageId === stage.id);
-      } else {
-         stage._isPressed = true;
-         vm.selectedStageIds.push(stage.id);
       }
    }
 
@@ -106,5 +86,25 @@ export default function RecruitingFunnelController(
 
    function viewCandidate(selectedCandidateId) {
       $state.go('candidateProfile', {_data: null, candidateId: selectedCandidateId});
+   }
+
+   function _groupCandidatesInProgressByStages() {
+      let userGroupObject = groupBy(vm.selectedVacancy.candidatesProgress, x => x.candidateId);
+      vm.cleanedUserGroup = map(userGroupObject, userGroup => {
+         return last(userGroup);
+      });
+      set(vm, 'candidatesGropedByStage', groupBy(vm.cleanedUserGroup, x => x.stageId));
+   }
+
+   function _setTableRows() {
+      let arr = map(vm.candidatesGropedByStage, candidatesGroupe => {
+         return candidatesGroupe.length;
+      });
+      for (let i = 0; i < max(arr); i++) {
+         vm.tableRows.push(i);
+      }
+   }
+
+   function _genereteRecruitingFunnel() {
    }
 }

@@ -19,45 +19,37 @@
                   <div class="stage-filter" ng-click="addStageFilter(stage)" ng-repeat="stage in stages  | orderBy:'$index':true" ng-class="{'pressed': stage._isPressed}"> <span class='fitler-button' ng-bind="stage.title"></span> </div>
                </div>
             </form>
-            </div>
-         </div>
-      </div>
-      <div class="vertical medium-10 grid-block">
-         <div class="main-card">
-            <div class="card-divider">
-               <span ng-bind="::'REPORTS.RECRUITING_FUNNEL' | translate"></span>
-               <span ng-bind="::'COMMON.FOR' | translate"></span>
-               <span><a ng-click="viewVacancy()" ng-bind="selectedVacancy.title"></a></span>
-            </div>
-            <div class="card-section"> </div>
-         </div>
-         <div class="main-card">
-            <div class="card-divider">
-               <span ng-bind="::'REPORTS.CANDIDATES_ATTACHED_TO_VACANCY' | translate"></span>
-               <span><a ng-click="viewVacancy()" ng-bind="selectedVacancy.title"></a></span>
-            </div>
-            <div class="card-section">
-               <table class="report-data">
-                  <thead>
-                     <tr class="report-data-row">
-                        <th ng-bind="stage.title"  class="funnel-report-column" ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true">
-                           <p  class="title-stage"></p>
-                        </th>
-                     </tr>
-                     <tr class="report-data-row">
-                        <th ng-bind="candidatesGropedByStage[stage.id].length || 0"  class="funnel-report-column" ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true">
-                        </th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr class="report-data-row" ng-repeat="x in tableRows">
-                        <td  class="funnel-report-column"  ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true">
-                           <a ng-click="viewCandidate(candidatesGropedByStage[stage.id][x].candidateId)" ng-bind="filterCandidatesGropedByStageByCandidateId(candidatesGropedByStage[stage.id], x)"></a>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
          </div>
       </div>
    </div>
+   <div class="vertical medium-10 grid-block">
+      <div class="main-card">
+         <div class="card-divider"> <span ng-bind="::'REPORTS.RECRUITING_FUNNEL' | translate"></span> <span ng-bind="::'COMMON.FOR' | translate"></span> <span><a ng-click="viewVacancy()" ng-bind="selectedVacancy.title"></a></span> </div>
+         <div class="card-section"> </div>
+      </div>
+      <div class="main-card">
+         <div class="card-divider"> <span ng-bind="::'REPORTS.CANDIDATES_ATTACHED_TO_VACANCY' | translate"></span> <span><a ng-click="viewVacancy()" ng-bind="selectedVacancy.title"></a></span> </div>
+         <div class="card-section">
+            <table class="report-data">
+               <thead>
+                  <tr class="report-data-row">
+                     <th ng-bind="stage.title" class="stages-column" ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true">
+                        <p class="title-stage"></p>
+                     </th>
+                  </tr>
+                  <tr class="report-data-row">
+                     <th ng-bind="candidatesGropedByStage[stage.id].length || 0" class="funnel-report-column" ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true"> </th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr class="report-data-row" ng-repeat="x in tableRows">
+                     <td class="stages-column" ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true">
+                        <a ng-click="viewCandidate(candidatesGropedByStage[stage.id][x].candidateId)" ng-bind="filterCandidatesGropedByStageByCandidateId(candidatesGropedByStage[stage.id], x)"></a>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>

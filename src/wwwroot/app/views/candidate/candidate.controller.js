@@ -1,7 +1,14 @@
-import { set, forEach, remove, chunk, isEmpty, cloneDeep, clone, find, curry, filter, toArray } from 'lodash';
-
-const moment = require('moment');
-
+import {
+   set,
+   forEach,
+   remove,
+   chunk,
+   isEmpty,
+   cloneDeep,
+   clone,
+   find,
+   curry
+ } from 'lodash';
 import './candidate.edit.scss';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel', 'source',
@@ -51,11 +58,6 @@ export default function CandidateController( // eslint-disable-line max-params, 
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
    vm.candidateCVLoaded = false;
 
-   const SYMBOL_TYPE = {
-      None: 0,
-      Word: 1,
-      Digit: 2
-   };
 
    (function _init() {
       _initDataForEvents();
@@ -158,13 +160,10 @@ export default function CandidateController( // eslint-disable-line max-params, 
          let parsedResponse = JSON.parse(item._xhr.response);
          vm.candidate.files.push(parsedResponse);
       };
-
       uploader.onCompleteAll = () => {
          _saveCandidate();
          clearUploaderQueue(vm.filesUploader, '#filesUploader');
       };
-
-
       uploader.onErrorItem = (fileItem, response, status, headers) => {
          LoggerService.error('onErrorItem', fileItem, response, status, headers);
          UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
@@ -176,66 +175,16 @@ export default function CandidateController( // eslint-disable-line max-params, 
    }
 
    vm.uploadCV = () => {
-      let dom = document.querySelector('#cvUploader');
-      dom.click();
+      let nativeUploadButton = document.querySelector('#cvUploader');
+      nativeUploadButton.click();
    };
 
    vm.getWordsArray = (line) => {
-      let wordsArray = [];
-      let symbArray = [];
-      let spaceSymbolWasMet = false;
-      let lastWriteSymbolType = SYMBOL_TYPE.None;
-      let lineToSymbols = toArray(line);
-      forEach(lineToSymbols, (symb) => {
-         if (/[\s-_;]/.test(symb)) {
-            spaceSymbolWasMet = true;
-         } else {
-            if (/[a-z]/i.test(symb)) {
-               if (spaceSymbolWasMet && lastWriteSymbolType === SYMBOL_TYPE.Word ||
-               lastWriteSymbolType === SYMBOL_TYPE.Digit) {
-                  wordsArray.push(symbArray.join(''));
-                  symbArray = [];
-               }
-               lastWriteSymbolType = SYMBOL_TYPE.Word;
-            } else if (/[0-9+()]/.test(symb)) {
-               if (spaceSymbolWasMet && lastWriteSymbolType === SYMBOL_TYPE.Word) {
-                  wordsArray.push(symbArray.join(''));
-                  symbArray = [];
-               }
-               lastWriteSymbolType = SYMBOL_TYPE.Digit;
-            }
-            spaceSymbolWasMet = false;
-            symbArray.push(symb);
-         }
-      });
-      if (symbArray.length) {
-         wordsArray.push(symbArray.join(''));
-      }
-      return wordsArray;
+      return CVParserService.getWordsArray(line);
    };
+
    vm.resolveWordClass = (word) => {
-      for (let property in vm.candidate) {
-         if (property === 'phoneNumbers') {
-            let testArray = filter(vm.candidate[property], (phone) => { //eslint-disable-line no-loop-func
-               let phoneRegexp = /[(]?0[()]?\s?\d\d[)\s-]?\s?\d\d\d[\s-]?\d\d[\s-]?\d\d/;
-               if (phoneRegexp.test(phone.number) && phoneRegexp.test(word)) {
-                  return true;
-               }
-            });
-            if (testArray.length) {
-               return 'key-word';
-            }
-         }
-         if (property === 'birthDate') {
-            if (moment(vm.candidate[property]).isSame(moment(word))) {
-               return 'key-word';
-            }
-         }
-         if (vm.candidate[property] === word) {
-            return 'key-word';
-         }
-      }
-      return 'simple-word';
+      return CVParserService.resolveWordClass(word, vm.candidate);
    };
 
    function _initCVUploader() {

@@ -109,5 +109,13 @@
                 return _password;
             }
         }
+
+        public string RequestPath
+        {
+            get
+            {
+                return "/uploads";
+            }
+        }
     }
 }

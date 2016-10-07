@@ -64,11 +64,11 @@
    <div class="grid-block">
       <div class="vertical small-6 grid-block">
          <div class="property-title" ng-bind="::'COMMON.SKILLS' | translate"></div>
-         <div class="tag" ng-repeat="skill in candidate.skills" ng-bind="::skill.title"></div>
+         <div class="tag" ng-bind="candidate.skills | arrayAsString : 'title'"></div>
       </div>
       <div class="vertical small-6 grid-block">
          <div class="property-title" ng-bind="::'COMMON.TAGS' | translate"></div>
-         <div class="tag" ng-repeat="tag in candidate.tags" ng-bind="::tag.title"></div>
+         <div class="tag" ng-bind="candidate.tags | arrayAsString : 'title'"></div>
       </div>
    </div>
 </div>

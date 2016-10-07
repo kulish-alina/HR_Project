@@ -1,7 +1,12 @@
 <div class="secondary-menu grid-block">
-   <div class="large-2 grid-block">
+   <div class="large-3 grid-block">
       <div class="grid-content">
-         <h5 ng-bind="::'COMMON.ADD_CANDIDATE' | translate"></h5> </div>
+         <h5 ng-bind="::'COMMON.ADD_CANDIDATE' | translate"></h5>
+      </div>
+      <div ng-if="!candidateCVLoaded">
+         <a class="overrided-button" ng-click="uploadCV()">Load from CV</a>
+         <input id="cvUploader" ng-hide="true" nv-file-select type="file" uploader="cvUploader">
+      </div>
    </div>
    <div class="large-7 grid-block"> </div>
    <div class="large-3 grid-block align-right">
@@ -85,7 +90,7 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <div zf-open="basicModal" ng-class="candidate.photo ? 'profile-photo-container' : 'profile-photo'"> <span zf-open="basicModal" ng-hide="candidate.photo" class="upload-title">Upload Photo</span> <img alt="Candidate photo" class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" ng-src="{{candidate.photo.filePath | botUrl}}"> </div>
+                        <div zf-open="basicModal" ng-class="candidate.photo ? 'profile-photo-container' : 'profile-photo'"> <span zf-open="basicModal" ng-hide="candidate.photo" class="upload-title">Upload Photo</span> <img alt="Candidate photo" class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" ng-src="{{candidate.photo.filePath | botUrl}}">                           </div>
                         <div class="uploader-photo" zf-modal="" id="basicModal">
                            <div class="grid-block">
                               <div class="medium-8 grid-block">
@@ -112,6 +117,19 @@
                      </fieldset>
                   </div>
                </div>
+               <div class="medium-12 cv-container">
+                  <zf-accordion ng-if="candidateCVLoaded" auto-open="false">
+                     <zf-accordion-item title="Candidate CV">
+                        <div ng-repeat="line in candidate.cvText track by $index">
+                           <p>
+                              <span ng-class="resolveWordClass(word)" ng-repeat="word in getWordsArray(line) track by $index">
+                                 {{word}} 
+                              </span>
+                           </p>
+                        </div>
+                     </zf-accordion-item>
+                  </zf-accordion>
+               </div>
                <hr>
                <div class="grid-block" ng-repeat="socialRow in socialGroups track by $index">
                   <div class="medium-4 grid-block" ng-repeat="social in socialRow">
@@ -130,7 +148,8 @@
                         <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tag" ng-model="candidate.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
                      </div>
                   </div>
-                  <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="candidate.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
+                  <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="candidate.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar"
+                     ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
                </fieldset>
                <div class="grid-block">
                   <div class="medium-6 grid-block">

@@ -3,7 +3,13 @@ import {
    remove,
    assign,
    each,
-   isEmpty
+   isEmpty,
+   reduce,
+   flatten,
+   map,
+   groupBy,
+   sumBy,
+   find
 } from 'lodash';
 const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
 
@@ -15,23 +21,26 @@ export default function UsersReportController(
 ) {
    'ngInject';
 
-   const vm                                = $scope;
-   vm.users                                = [];
-   vm.usersReportParametrs                 = {};
-   vm.usersReportParametrs.locationIds     = [];
-   vm.usersReportParametrs.userIds         = [];
-   vm.locations                            = [];
-   vm.selectedLocations                    = [];
-   vm.selectedUsers                        = [];
-   vm.selectedUsersGroupedByLocation       = {};
-   vm.clear                                = clear;
-   vm.useLocationField                     = useLocationField;
-   vm.useUserField                         = useUserField;
-   vm.addLocationIdsToUsersReportParametrs = addLocationIdsToUsersReportParametrs;
-   vm.addUserIdsToUsersReportParametrs     = addUserIdsToUsersReportParametrs;
-   vm.formingUsersReport                   = formingUsersReport;
-   vm.isEqualLocations                     = isEqualLocations;
+   const vm                                 = $scope;
+   vm.users                                 = [];
+   vm.usersReportParametrs                  = {};
+   vm.usersReportParametrs.locationIds      = [];
+   vm.usersReportParametrs.userIds          = [];
+   vm.locations                             = [];
+   vm.selectedLocations                     = [];
+   vm.selectedUsers                         = [];
+   vm.selectedUsersGroupedByLocation        = {};
+   vm.clear                                 = clear;
+   vm.useLocationField                      = useLocationField;
+   vm.useUserField                          = useUserField;
+   vm.addLocationIdsToUsersReportParametrs  = addLocationIdsToUsersReportParametrs;
+   vm.addUserIdsToUsersReportParametrs      = addUserIdsToUsersReportParametrs;
+   vm.formingUsersReport                    = formingUsersReport;
+   vm.isEqualLocations                      = isEqualLocations;
    vm.isSelectedUsersGroupedByLocationEmpty = isSelectedUsersGroupedByLocationEmpty;
+   vm.sumReportByStages                     = sumReportByStages;
+   vm.filterArrayByProperty                 = filterArrayByProperty;
+   vm.addedStageIndex                       = 0;
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => set(vm, 'stages', topic));
@@ -123,14 +132,53 @@ export default function UsersReportController(
       ReportsService.getDataForUserReport(vm.usersReportParametrs).then(resp => {
          vm.usersReportParametrs.startDate = resp.startDate;
          vm.usersReportParametrs.endDate = resp.endDate;
-//            _convertReportToHash(resp);
-      });;
+         if (vm.selectedLocations.length) {
+            set(vm, 'reportGroupedByLocation', _convertReportToHash('locationId', resp.userReport));
+         } else {
+            set(vm, 'reportGroupedByUser', _convertReportToHash('userId', resp.userReport));
+         }
+      });
+   }
+
+   function sumReportByStages(report, stageId) {
+      if (report !== undefined) {
+         return sumBy(report, x => x.stagesData[stageId]);
+      }
+   }
+
+   function filterArrayByProperty(report, prop, stageId) {
+      let rep = find(report, {userId: prop});
+      if (rep) {
+         if (rep.stagesData[stageId]) {
+            return rep.stagesData[stageId];
+         } else {
+            return 0;
+         }
+      } else {
+         return 0;
+      }
+   }
+
+   function _convertReportToHash(key, value) {
+      if (key === 'locationId') {
+         return reduce(value, (resultObj, val) => {
+            (resultObj[val[key]] || (resultObj[val[key]] = [])).push(...val.usersStatisticsInfo);
+            return resultObj;
+         }, {});
+      } else {
+         let arr = flatten(map(value, (val) => {
+            return val.usersStatisticsInfo;
+         }));
+         return groupBy(arr, x => x.userId);
+      }
    }
 
    function clear() {
       vm.usersReportParametrs = {};
       _clearLocationField();
       _clearUserField();
+      vm.reportGroupedByLocation = {};
+      vm.reportGroupedByUser = {};
    }
 
    function isEqualLocations(user) {

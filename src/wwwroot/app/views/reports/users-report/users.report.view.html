@@ -45,125 +45,46 @@
    </div>
    <div class="vertical medium-10 grid-block">
       <div class="main-card">
-         <div class="card-divider">
-            <span ng-bind="::'REPORTS.USER_REPORT_CHART' | translate"></span>
-            <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span>
-            <span class="date" ng-bind="usersReportParametrs.startDate"></span>
-            <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span>
-            <span class="date" ng-bind="usersReportParametrs.endDate"></span>
-         </div>
+         <div class="card-divider"> <span ng-bind="::'REPORTS.USER_REPORT_CHART' | translate"></span> <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="usersReportParametrs.startDate"></span> <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="usersReportParametrs.endDate"></span> </div>
          <div class="card-section"> </div>
       </div>
       <div class="main-card">
-         <div class="card-divider">
-            <span ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"></span>
-            <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span>
-            <span class="date" ng-bind="usersReportParametrs.startDate"></span>
-            <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span>
-            <span class="date" ng-bind="usersReportParametrs.endDate"></span>
-         </div>
+         <div class="card-divider"> <span ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"></span> <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="usersReportParametrs.startDate"></span> <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="usersReportParametrs.endDate"></span> </div>
          <div class="card-section">
             <table class="report-data">
                <thead ng-if="!isSelectedUsersGroupedByLocationEmpty()">
                   <tr class="report-data-row">
                      <th ng-bind="::'COMMON.LOCATION' | translate"></th>
                      <th ng-bind="::'COMMON.USERS' | translate"></th>
-                     <th ng-bind="::'COMMON.ADDED' | translate" colspan="2"></th>
-                     <th ng-repeat="stage in stages | orderBy:'$index':true" ng-bind="stage.title" colspan="2"></th>
+                     <th class="user-report-column" ng-bind="::'COMMON.ADDED' | translate" colspan="2"></th>
+                     <th class="user-report-column" ng-repeat="stage in stages | orderBy:'$index':true" ng-bind="stage.title" colspan="2"></th>
                   </tr>
                </thead>
                <tbody ng-if="!isSelectedUsersGroupedByLocationEmpty() && selectedLocations.includes(location)" ng-repeat="location in locations">
-                  <tr class="report-data-row">
-                     <td>
-                        <div ng-bind="location.title"></div>
+                  <tr>
+                     <td ng-bind="location.title" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}"> </td>
+                     <td ng-bind="(selectedUsersGroupedByLocation[location.id][0].lastName+' '+selectedUsersGroupedByLocation[location.id][0].firstName)"></td>
+                     <td> 
+                        <span ng-bind="filterArrayByProperty(reportGroupedByLocation[location.id], selectedUsersGroupedByLocation[location.id][0].id, adedStageIndex)"></span>
                      </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]" ng-bind="::(user.lastName+' '+user.firstName)"></div>
+                     <td rowspan="{{selectedUsersGroupedByLocation[location.id].length}}"> 
+                        <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], adedStageIndex) || 0"></span> 
                      </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">3</div>
+                     <td ng-repeat-start="stage in stages | orderBy:'$index':true"> 
+                        <span ng-bind="filterArrayByProperty(reportGroupedByLocation[location.id], selectedUsersGroupedByLocation[location.id][0].id, stage.id)"></span>
                      </td>
-                     <td>
-                        <div>12</div>
+                     <td ng-repeat-end rowspan="{{selectedUsersGroupedByLocation[location.id].length}}"> 
+                        <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id],  stage.id) || 0"></span> 
+                     </td>        
+                  </tr>
+                  <tr ng-repeat="user in selectedUsersGroupedByLocation[location.id] | limitTo : selectedUsersGroupedByLocation[location.id].length : selectedUsersGroupedByLocation[location.id].length-(selectedUsersGroupedByLocation[location.id].length-1)">
+                     <td ng-bind="::(user.lastName+' '+user.firstName)"></td>
+                     <td> 
+                        <span ng-bind="filterArrayByProperty(reportGroupedByLocation[location.id], user.id, adedStageIndex)"></span>
                      </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
-                     <td>
-                        <div ng-repeat="user in selectedUsersGroupedByLocation[location.id]">1</div>
-                     </td>
-                     <td>
-                        <div>12</div>
-                     </td>
+                     <td ng-repeat="stage in stages | orderBy:'$index':true"> 
+                        <span ng-bind="filterArrayByProperty(reportGroupedByLocation[location.id], user.id, stage.id)"></span>
+                     </td>    
                   </tr>
                </tbody>
                <thead ng-if="isSelectedUsersGroupedByLocationEmpty()">
@@ -179,23 +100,17 @@
                      <td>
                         <div ng-bind="::(user.lastName+' '+user.firstName)"></div>
                      </td>
-                     <td>
-                        <div>3</div>
-                     </td>
-                     <td ng-repeat="stage in stages">
-                        <div>3</div>
+                     <td> <span ng-bind="sumReportByStages(reportGroupedByUser[user.id], addedStageIndex)  || 0"></span> </td>
+                     <td ng-repeat="stage in stages | orderBy:'$index':true">
+                        <div> <span ng-bind="sumReportByStages(reportGroupedByUser[user.id], stage.id)  || 0"></span> </div>
                      </td>
                   </tr>
                   <tr ng-if="selectedLocations.length && !selectedUsers.length" ng-repeat="location in selectedLocations" class="report-data-row">
                      <td>
                         <div ng-bind="::location.title"></div>
                      </td>
-                     <td>
-                        <div>3</div>
-                     </td>
-                     <td ng-repeat="stage in stages">
-                        <div>3</div>
-                     </td>
+                     <td> <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], adedStageIndex) || 0"></span> </td>
+                     <td ng-repeat="stage in stages | orderBy:'$index':true"> <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], stage.id) || 0"></span> </td>
                   </tr>
                </tbody>
             </table>

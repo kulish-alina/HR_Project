@@ -71,6 +71,8 @@ import uiMask                        from 'angular-ui-mask';
 import PhoneFormatFilter             from './filters/PhoneFormatFilter';
 import ArrayAsString                 from './filters/ArrayAsString';
 import botUrl                        from './filters/botUrl';
+import languageSkillsTitles          from './filters/LanguageSkillTitlesFilter';
+import relocationsTitles             from './filters/RelocationTitlesFilter';
 
 import StateRunner                   from './state-runner';
 import AuthRunner                    from './runner.auth';
@@ -133,9 +135,11 @@ angular
    .directive('eventCalendar',          EventCalendarDirective.createInstance)
    .directive('candidateVacancyInfo',   CandidateVacancyInfoDirective.createInstance)
 
-   .filter('tel',                 PhoneFormatFilter)
-   .filter('arrayAsString',       ArrayAsString)
-   .filter('botUrl',              botUrl)
+   .filter('tel',                   PhoneFormatFilter)
+   .filter('arrayAsString',         ArrayAsString)
+   .filter('botUrl',                botUrl)
+   .filter('languageSkillsTitles',  languageSkillsTitles)
+   .filter('relocationsTitles',     relocationsTitles)
 
    .factory('authInterceptor', authInterceptor)
 

@@ -14,7 +14,7 @@
          </div>
          <div>
             <i class="fi-flag"></i><span class="property-title" ng-bind="::'COMMON.LANGUAGE' | translate">: </span>
-            <span ng-repeat="convertedLanguageSkill in candidate.convertedLanguageSkills" ng-bind="(convertedLanguageSkill.language.title+' '+convertedLanguageSkill.languageLevel.title)"></span>
+            <span ng-bind="candidate.convertedLanguageSkills | languageSkillsTitles | arrayAsString"></span>
          </div>
          <div>
             <i class="fi-marker"></i>
@@ -24,7 +24,7 @@
          <div ng-show="candidate.relocationAgreement">
             <i class="fi-checkbox"></i>
             <span class="property-title" ng-bind="::'CANDIDATE.READY_TO_RELOCATE' | translate">: </span>
-            <span ng-repeat="place in candidate.convertedRelocationPlaces" ng-bind="::(place.city.title)"></span>
+            <span ng-bind="candidate.convertedRelocationPlaces | relocationsTitles | arrayAsString"></span>
          </div>
       </div>
       <div class="vertical small-4 grid-block">

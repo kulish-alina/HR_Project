@@ -1,4 +1,8 @@
-﻿using System;
+﻿using DAL.Infrastructure;
+using DAL.Mapping;
+using Domain.Entities;
+using Domain.Entities.Enum.Setup;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -7,10 +11,6 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
 using System.Linq;
-using DAL.Infrastructure;
-using DAL.Mapping;
-using Domain.Entities;
-using Domain.Entities.Enum.Setup;
 
 namespace DAL
 {
@@ -61,6 +61,11 @@ namespace DAL
         public BOTContext(string connectionString)
             : base(connectionString)
         {
+        }
+
+        public BOTContext()
+        {
+
         }
 
         public virtual DbSet<Source> Sources { get; set; }

@@ -352,6 +352,23 @@ namespace DAL.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.LogUnit",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        UserId = c.Int(nullable: false),
+                        Field = c.String(),
+                        Value = c.String(),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.User", t => t.UserId)
+                .Index(t => t.UserId);
+            
+            CreateTable(
                 "dbo.Industry",
                 c => new
                     {
@@ -664,6 +681,19 @@ namespace DAL.Migrations
                 .Index(t => t.FileId);
             
             CreateTable(
+                "dbo.LogUnitToVacancy",
+                c => new
+                    {
+                        VacancyId = c.Int(nullable: false),
+                        LogUnitId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.VacancyId, t.LogUnitId })
+                .ForeignKey("dbo.Vacancy", t => t.VacancyId)
+                .ForeignKey("dbo.LogUnit", t => t.LogUnitId)
+                .Index(t => t.VacancyId)
+                .Index(t => t.LogUnitId);
+            
+            CreateTable(
                 "dbo.VacancyToLevel",
                 c => new
                     {
@@ -727,6 +757,19 @@ namespace DAL.Migrations
                 .ForeignKey("dbo.File", t => t.FileId)
                 .Index(t => t.CandidateId)
                 .Index(t => t.FileId);
+            
+            CreateTable(
+                "dbo.CandidateToLogUnit",
+                c => new
+                    {
+                        CandidateId = c.Int(nullable: false),
+                        LogUnitId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.CandidateId, t.LogUnitId })
+                .ForeignKey("dbo.Candidate", t => t.CandidateId)
+                .ForeignKey("dbo.LogUnit", t => t.LogUnitId)
+                .Index(t => t.CandidateId)
+                .Index(t => t.LogUnitId);
             
             CreateTable(
                 "dbo.CandidateToLanguageSkill",
@@ -815,6 +858,8 @@ namespace DAL.Migrations
             DropForeignKey("dbo.CandidateToLanguageSkill", "LanguageSkillId", "dbo.LanguageSkill");
             DropForeignKey("dbo.CandidateToLanguageSkill", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Candidate", "IndustryId", "dbo.Industry");
+            DropForeignKey("dbo.CandidateToLogUnit", "LogUnitId", "dbo.LogUnit");
+            DropForeignKey("dbo.CandidateToLogUnit", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.FileToCandidate", "FileId", "dbo.File");
             DropForeignKey("dbo.FileToCandidate", "CandidateId", "dbo.Candidate");
             DropForeignKey("dbo.Event", "CandidateId", "dbo.Candidate");
@@ -840,6 +885,9 @@ namespace DAL.Migrations
             DropForeignKey("dbo.Vacancy", "LanguageSkill_Id", "dbo.LanguageSkill");
             DropForeignKey("dbo.LanguageSkill", "LanguageId", "dbo.Language");
             DropForeignKey("dbo.Vacancy", "IndustryId", "dbo.Industry");
+            DropForeignKey("dbo.LogUnitToVacancy", "LogUnitId", "dbo.LogUnit");
+            DropForeignKey("dbo.LogUnitToVacancy", "VacancyId", "dbo.Vacancy");
+            DropForeignKey("dbo.LogUnit", "UserId", "dbo.User");
             DropForeignKey("dbo.FileToVacancy", "FileId", "dbo.File");
             DropForeignKey("dbo.FileToVacancy", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "DepartmentId", "dbo.Department");
@@ -881,6 +929,8 @@ namespace DAL.Migrations
             DropIndex("dbo.CandidateToPhoneNumber", new[] { "CandidateId" });
             DropIndex("dbo.CandidateToLanguageSkill", new[] { "LanguageSkillId" });
             DropIndex("dbo.CandidateToLanguageSkill", new[] { "CandidateId" });
+            DropIndex("dbo.CandidateToLogUnit", new[] { "LogUnitId" });
+            DropIndex("dbo.CandidateToLogUnit", new[] { "CandidateId" });
             DropIndex("dbo.FileToCandidate", new[] { "FileId" });
             DropIndex("dbo.FileToCandidate", new[] { "CandidateId" });
             DropIndex("dbo.CandidateToComment", new[] { "CommentId" });
@@ -891,6 +941,8 @@ namespace DAL.Migrations
             DropIndex("dbo.VacancyToSkill", new[] { "VacancyId" });
             DropIndex("dbo.VacancyToLevel", new[] { "LevelId" });
             DropIndex("dbo.VacancyToLevel", new[] { "VacancyId" });
+            DropIndex("dbo.LogUnitToVacancy", new[] { "LogUnitId" });
+            DropIndex("dbo.LogUnitToVacancy", new[] { "VacancyId" });
             DropIndex("dbo.FileToVacancy", new[] { "FileId" });
             DropIndex("dbo.FileToVacancy", new[] { "VacancyId" });
             DropIndex("dbo.VacancyToComment", new[] { "CommentId" });
@@ -917,6 +969,7 @@ namespace DAL.Migrations
             DropIndex("dbo.ExtendedStage", new[] { "Vacancy_Id" });
             DropIndex("dbo.ExtendedStage", new[] { "StageId" });
             DropIndex("dbo.LanguageSkill", new[] { "LanguageId" });
+            DropIndex("dbo.LogUnit", new[] { "UserId" });
             DropIndex("dbo.Department", new[] { "DepartmentGroupId" });
             DropIndex("dbo.Note", new[] { "User_Id" });
             DropIndex("dbo.Note", new[] { "UserId" });
@@ -950,11 +1003,13 @@ namespace DAL.Migrations
             DropTable("dbo.CandidateToRelocationPlace");
             DropTable("dbo.CandidateToPhoneNumber");
             DropTable("dbo.CandidateToLanguageSkill");
+            DropTable("dbo.CandidateToLogUnit");
             DropTable("dbo.FileToCandidate");
             DropTable("dbo.CandidateToComment");
             DropTable("dbo.VacancyToTag");
             DropTable("dbo.VacancyToSkill");
             DropTable("dbo.VacancyToLevel");
+            DropTable("dbo.LogUnitToVacancy");
             DropTable("dbo.FileToVacancy");
             DropTable("dbo.VacancyToComment");
             DropTable("dbo.VacancyToCity");
@@ -976,6 +1031,7 @@ namespace DAL.Migrations
             DropTable("dbo.Language");
             DropTable("dbo.LanguageSkill");
             DropTable("dbo.Industry");
+            DropTable("dbo.LogUnit");
             DropTable("dbo.DepartmentGroup");
             DropTable("dbo.Department");
             DropTable("dbo.Currency");

@@ -24,19 +24,19 @@ namespace DAL.Services
             return DTOService.ToDTO<Candidate, CandidateDTO>(entity);
         }
 
-        public CandidateDTO Add(CandidateDTO candidateToAdd)
+        public CandidateDTO Add(CandidateDTO candidateToAdd, int userId)
         {
             Candidate _candidate = new Candidate();
-            _candidate.Update(candidateToAdd, uow);
+            _candidate.Update(candidateToAdd, uow, userId);
             uow.CandidateRepo.Insert(_candidate);
             uow.Commit();
             return DTOService.ToDTO<Candidate, CandidateDTO>(_candidate);
         }
 
-        public CandidateDTO Update(CandidateDTO entity)
+        public CandidateDTO Update(CandidateDTO entity, int userId)
         {
             Candidate _candidate = uow.CandidateRepo.GetByID(entity.Id);
-            _candidate.Update(entity, uow);
+            _candidate.Update(entity, uow, userId);
             uow.CandidateRepo.Update(_candidate);
             uow.Commit();
             return DTOService.ToDTO<Candidate, CandidateDTO>(_candidate);
@@ -138,7 +138,7 @@ namespace DAL.Services
             var orderBy = sortBy ?? "LastName";
             var sortAscend = sortAsc ?? true;
 
-            if (typeof(Candidate).GetProperty(orderBy)!=null)
+            if (typeof(Candidate).GetProperty(orderBy) != null)
             {
                 candidates = sortAscend ?
                 candidates.OrderBy(c => c.GetType().GetProperty(orderBy).GetValue(c)) :
@@ -148,7 +148,7 @@ namespace DAL.Services
             var total = candidates.Count();
 
             return new Tuple<IEnumerable<CandidateDTO>, int>(
-                candidates.Skip((current - 1)* size).Take(size).Select(candidate => DTOService.ToDTO<Candidate, CandidateDTO>(candidate)),
+                candidates.Skip((current - 1) * size).Take(size).Select(candidate => DTOService.ToDTO<Candidate, CandidateDTO>(candidate)),
                 total);
         }
 
@@ -161,7 +161,8 @@ namespace DAL.Services
             {
                 deleteResult = false;
             }
-            else {
+            else
+            {
                 uow.CandidateRepo.Delete(id);
                 uow.Commit();
                 deleteResult = true;

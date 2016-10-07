@@ -21,6 +21,9 @@ namespace WebUI.App_Start
                 x.CreateMap<Comment, CommentDTO>();
                 x.CreateMap<CommentDTO, Comment>();
 
+                x.CreateMap<LogUnit, LogUnitDTO>();
+                x.CreateMap<LogUnitDTO, LogUnit>();
+
                 x.CreateMap<Country, CountryDTO>();
                 x.CreateMap<CountryDTO, Country>();
 
@@ -145,7 +148,9 @@ namespace WebUI.App_Start
                     .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(src.Comments)))
                     .ForMember(dest => dest.Events, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Event>, IEnumerable<EventDTO>>(src.Events)))
                     .ForMember(dest => dest.RelocationPlaces, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<RelocationPlace>, IEnumerable<RelocationPlaceDTO>>(src.RelocationPlaces)))
-                    .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)));
+                    .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)))
+                    .ForMember(dest => dest.History, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<LogUnit>, IEnumerable<LogUnitDTO>>(src.History)));
+
 
                 x.CreateMap<Vacancy, VacancyDTO>()
                     .ForMember(dest => dest.CandidatesProgress, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.CandidatesProgress)))
@@ -157,8 +162,8 @@ namespace WebUI.App_Start
                     .ForMember(dest => dest.RequiredSkillIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.RequiredSkills)))
                     .ForMember(dest => dest.ChildVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ChildVacancies)))
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)))
-                    .ForMember(dest => dest.StageFlow, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<ExtendedStage>, IEnumerable<ExtendedStageDTO>>(src.StageFlow)));
-
+                    .ForMember(dest => dest.StageFlow, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<ExtendedStage>, IEnumerable<ExtendedStageDTO>>(src.StageFlow)))
+                    .ForMember(dest => dest.History, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<LogUnit>, IEnumerable<LogUnitDTO>>(src.History)));
 
 
                 x.CreateMap<RelocationPlace, RelocationPlaceDTO>();

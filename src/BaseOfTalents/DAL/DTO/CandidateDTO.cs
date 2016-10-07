@@ -66,5 +66,6 @@ namespace DAL.DTO
         public IEnumerable<FileDTO> Files { get; set; }
         public IEnumerable<CommentDTO> Comments { get; set; }
         public IEnumerable<EventDTO> Events { get; set; }
+        public IEnumerable<LogUnitDTO> History { get; set; }
     }
 }

@@ -22,6 +22,13 @@ namespace DAL.Mapping
                 x.ToTable("CandidateToRelocationPlace");
             });
 
+            HasMany(x => x.History).WithMany().Map(x =>
+            {
+                x.MapRightKey("LogUnitId");
+                x.MapLeftKey("CandidateId");
+                x.ToTable("CandidateToLogUnit");
+            });
+
             HasMany(x => x.ClosedVacancies).WithOptional(x => x.ClosingCandidate).HasForeignKey(x => x.ClosingCandidateId);
 
             HasOptional(c => c.Currency).WithMany().HasForeignKey(c => c.CurrencyId);

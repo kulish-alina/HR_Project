@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
 using WebUI.Filters;
+using WebUI.Infrastructure.Auth;
 using WebUI.Models;
 
 namespace WebUI.Controllers
@@ -12,15 +13,17 @@ namespace WebUI.Controllers
     [RoutePrefix("api/vacancy")]
     public class VacancyController : ApiController
     {
+        private IAuthContainer<string> authContainer;
         private VacancyService service;
         private static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        public VacancyController(VacancyService service)
+        public VacancyController(VacancyService service, IAuthContainer<string> authContainer)
         {
             this.service = service;
+            this.authContainer = authContainer;
         }
 
         public VacancyController()
@@ -83,7 +86,7 @@ namespace WebUI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var updatedVacancy = service.Add(vacancy);
+            var updatedVacancy = service.Add(vacancy, authContainer.Get(this.ActionContext.Request.Headers.Authorization.Parameter).Item1.Id);
             return Json(updatedVacancy, BOT_SERIALIZER_SETTINGS);
         }
 
@@ -97,7 +100,7 @@ namespace WebUI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var updatedVacancy = service.Update(vacancy);
+            var updatedVacancy = service.Update(vacancy, authContainer.Get(this.ActionContext.Request.Headers.Authorization.Parameter).Item1.Id);
             return Json(updatedVacancy, BOT_SERIALIZER_SETTINGS);
         }
 

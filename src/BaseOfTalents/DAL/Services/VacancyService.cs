@@ -83,28 +83,28 @@ namespace DAL.Services
                     vacancies.OrderBy(keySelector) :
                     vacancies.OrderByDescending(keySelector);
             }
-            
+
             var total = vacancies.Count();
-            
+
             return new Tuple<IEnumerable<VacancyDTO>, int>(
                 vacancies.Skip((current - 1) * size).Take(size).Select(vacancy => DTOService.ToDTO<Vacancy, VacancyDTO>(vacancy)),
                 total);
         }
 
-        public VacancyDTO Update(VacancyDTO vacancy)
+        public VacancyDTO Update(VacancyDTO vacancy, int userId)
         {
             var vacancyToUpdate = uow.VacancyRepo.GetByID(vacancy.Id);
-            vacancyToUpdate.Update(vacancy, uow);
+            vacancyToUpdate.Update(vacancy, uow, userId);
             CreateChildVacanciesIfNeeded(vacancyToUpdate, vacancy);
             uow.VacancyRepo.Update(vacancyToUpdate);
             uow.Commit();
             return DTOService.ToDTO<Vacancy, VacancyDTO>(vacancyToUpdate);
         }
 
-        public VacancyDTO Add(VacancyDTO vacancy)
+        public VacancyDTO Add(VacancyDTO vacancy, int userId)
         {
             var vacancyToAdd = new Vacancy();
-            vacancyToAdd.Update(vacancy, uow);
+            vacancyToAdd.Update(vacancy, uow, userId);
             CreateChildVacanciesIfNeeded(vacancyToAdd, vacancy);
             uow.VacancyRepo.Insert(vacancyToAdd);
             uow.Commit();
@@ -119,7 +119,8 @@ namespace DAL.Services
             {
                 deleteResult = false;
             }
-            else {
+            else
+            {
                 uow.VacancyRepo.Delete(id);
                 uow.Commit();
                 deleteResult = true;
@@ -154,7 +155,7 @@ namespace DAL.Services
                 }
                 childVacancies.ForEach(x => domain.ChildVacancies.Add(x));
             }
-            if(domain.ChildVacanciesNumber < domain.ChildVacancies.Count)
+            if (domain.ChildVacanciesNumber < domain.ChildVacancies.Count)
             {
                 domain.ChildVacanciesNumber = domain.ChildVacancies.Count;
             }

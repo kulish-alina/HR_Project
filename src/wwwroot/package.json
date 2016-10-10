@@ -1,16 +1,15 @@
 {
   "name": "bot",
-  "version": "0.0.1",
+  "version": "0.4.1",
   "description": "base of talents",
   "main": "main.js",
   "scripts": {
     "dev-build": "set NODE_ENV=development&& webpack --progress -c",
-    "dist-build": "set NODE_ENV=production&& webpack -p --progress -c",
+    "dist-build": "set NODE_ENV=production&& webpack",
     "devserver": "set NODE_ENV=development&& webpack-dev-server -d --port 9100 --progress -c",
     "test": "set NODE_ENV=test&& karma start karma.config.js",
     "test-watch": "set NODE_ENV=test&& karma start karma.config.js --auto-watch --no-single-run",
-    "lint": "node ./node_modules/eslint/bin/eslint.js app/**/*.js --ignore-path .eslintignore",
-    "tclint": "node ./node_modules/eslint/bin/eslint.js app/**/*.js --format ./node_modules/eslint-teamcity/index.js --ignore-path .eslintignore"
+    "lint": "node ./node_modules/eslint/bin/eslint.js app/**/*.js --ignore-path .eslintignore"
   },
   "author": "isd",
   "license": "ISC",
@@ -62,6 +61,7 @@
     "angular-animate": "^1.5.8",
     "angular-drag-and-drop-lists": "^1.4.0",
     "angular-file-upload": "2.1.3",
+    "angular-moment": "^1.0.0-beta.6",
     "angular-sanitize": "^1.5.5",
     "angular-translate": "^2.11.0",
     "angular-ui-mask": "^1.8.3",
@@ -71,6 +71,7 @@
     "angularjs-slider": "^2.14.0",
     "bower": "^1.7.7",
     "lodash": "^4.6.1",
+    "moment": "^2.15.1",
     "oi.select": "^0.2.19",
     "rangy": "^1.3.0"
   }

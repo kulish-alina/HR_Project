@@ -36,11 +36,8 @@ export default function VacanciesController(
    vm.clear                     = clear;
    vm.thesaurus                 = [];
    vm.responsibles              = [];
-   vm.vacancyPredicate          = LocalStorageService.get('vacancyPredicate') || {};
-   vm.vacancyPredicate.current  = 0;
-   vm.vacancyPredicate.size     = 20;
-   vm.vacancyPredicate.sortBy   = 'Title';
-   vm.vacancyPredicate.sortAsc  = true;
+   vm.vacancyPredicate          = LocalStorageService.get('vacancyPredicate') ||
+      {current : 1, size : 20, sortBy : 'Title', sortAsc  :true};
    vm.pageChanged               = pageChanged;
    vm.searchVacancies           = searchVacancies;
    vm.vacancies                 = LocalStorageService.get('vacancies') || [];
@@ -58,7 +55,7 @@ export default function VacanciesController(
    }());
 
    function pageChanged(newPage) {
-      vm.vacancyPredicate.current = newPage - 1;
+      vm.vacancyPredicate.current = newPage;
       searchVacancies();
    };
 

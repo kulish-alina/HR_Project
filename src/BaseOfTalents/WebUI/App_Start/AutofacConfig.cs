@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using System.Web.Http;
-using Autofac;
+﻿using Autofac;
 using Autofac.Integration.WebApi;
 using DAL;
 using DAL.DTO;
@@ -11,6 +9,8 @@ using DAL.Services;
 using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
 using Entities.Enum;
+using System.Reflection;
+using System.Web.Http;
 using WebUI.Infrastructure.Auth;
 using WebUI.Services;
 using WebUI.Services.Auth;
@@ -20,21 +20,22 @@ namespace WebUI.App_Start
     public class AutofacConfig
     {
         public static IContainer Container;
-        public static void Initialize(HttpConfiguration config)
+        public static IContainer Initialize(HttpConfiguration config)
         {
-            Initialize(config, RegisterServices(new ContainerBuilder()));
+            return Initialize(config, RegisterServices(new ContainerBuilder()));
         }
-        public static void Initialize(HttpConfiguration config, IContainer container)
+        public static IContainer Initialize(HttpConfiguration config, IContainer container)
         {
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            return container;
         }
 
         private static IContainer RegisterServices(ContainerBuilder builder)
         {
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<BOTContext>()
-                .As<System.Data.Entity.DbContext>()
+            builder.RegisterType<BotContextFactory>()
+                .As<IContextFactory>()
                 .InstancePerRequest();
 
             builder.RegisterType<UnitOfWork>()
@@ -51,6 +52,10 @@ namespace WebUI.App_Start
 
             builder.RegisterType<CountryService>()
                 .As<BaseService<Country, CountryDTO>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<CVParserService>()
+                .As<CVParserService>()
                 .InstancePerRequest();
 
             builder.RegisterType<DepartmentGroupService>()

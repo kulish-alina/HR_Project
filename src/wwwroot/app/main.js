@@ -2,6 +2,7 @@ import angular      from 'angular';
 import ngAnimate    from 'angular-animate';
 import router       from 'angular-ui-router';
 import translate    from 'angular-translate';
+import 'moment/moment.js';
 
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists';
 import 'angular-validation/dist/angular-validation';
@@ -50,7 +51,9 @@ import LocalStorageService           from './services/LocalStorageService';
 import LoginService                  from './services/LoginService';
 import SessionService                from './services/SessionService';
 import ReportsService                from './services/ReportsService';
+import CVParserService                from './services/CVParserService';
 import SearchService                 from './services/SearchService';
+
 
 import ThesaurusDirective            from './directives/thesaurus/thesaurus';
 import ContactInfoDirective          from './directives/contacts/contact-info';
@@ -117,8 +120,8 @@ angular
    .service('LoginService',        LoginService)
    .service('SessionService',      SessionService)
    .service('ReportsService',      ReportsService)
+   .service('CVParserService',      CVParserService)
    .service('SearchService',       SearchService)
-
 
    .directive('thesaurus',              ThesaurusDirective.createInstance)
    .directive('contacts',               ContactInfoDirective.createInstance)

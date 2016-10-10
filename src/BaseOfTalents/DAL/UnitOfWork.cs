@@ -1,6 +1,6 @@
-﻿using DAL.Infrastructure;
+﻿using System.Data.Entity;
+using DAL.Infrastructure;
 using DAL.Repositories;
-using System.Data.Entity;
 
 namespace DAL
 {
@@ -40,14 +40,9 @@ namespace DAL
 
 
 
-        public UnitOfWork(DbContext context)
+        public UnitOfWork(IContextFactory contextFactory)
         {
-            this.context = context;
-        }
-
-        public UnitOfWork()
-        {
-            context = new BOTContext();
+            this.context = contextFactory.Create();
         }
 
         public ILanguageRepository LanguageRepo

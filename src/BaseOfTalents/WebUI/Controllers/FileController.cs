@@ -1,4 +1,8 @@
-﻿using System;
+﻿using DAL.DTO;
+using DAL.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,11 +11,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
-using DAL.DTO;
-using DAL.Services;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using WebUI.Extensions;
+using WebUI.Globals;
 
 namespace WebUI.Controllers
 {
@@ -83,6 +84,7 @@ namespace WebUI.Controllers
                     Directory.CreateDirectory(paths.Item1);
                 }
 
+                var prefixForAName = Directory.GetFiles(paths.Item1).Length;
                 var uploadProvider = new UploadMultipartFormProvider(paths.Item1);
                 var result = await Request.Content.ReadAsMultipartAsync(uploadProvider);
                 var originalFileName = GetDeserializedFileName(result.FileData.First());
@@ -90,7 +92,7 @@ namespace WebUI.Controllers
                 var file = new FileDTO
                 {
                     Description = originalFileName,
-                    FilePath = paths.Item2 + result.FileData.First().LocalFileName.Replace(paths.Item1, ""),
+                    FilePath = $"{paths.Item2}\\{prefixForAName}{originalFileName}",
                     Size = new FileInfo(result.FileData.First().LocalFileName).Length
                 };
 
@@ -117,8 +119,8 @@ namespace WebUI.Controllers
 
         private Tuple<string, string> GetUploadPath()
         {
-            var upload = @"uploads";
-            var uploadsPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, Globals.Constants.RootFolder, upload);
+            var upload = SettingsContext.Instance.RequestPath;
+            var uploadsPath = SettingsContext.Instance.GetUploadsPath();
             var year = DateTime.Now.Year;
             var week = DateTime.Now.GetIso8601WeekOfYear();
 

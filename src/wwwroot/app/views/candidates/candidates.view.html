@@ -57,22 +57,22 @@
                      <label for="hr" ng-bind="::'CANDIDATES.HR' | translate"></label>
                   </div>
                </div>
-               <input ng-model="candidate.technology" placeholder="{{::'CANDIDATES.TECHNOLOGY' | translate}}" type="text">
-               <input ng-model="candidate.position" placeholder="{{::'CANDIDATE.POSITION' | translate}}" type="text">
-               <input ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" type="text">
-               <input ng-model="candidate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" type="text">
-               <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="candidate.citiesIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
-               <select name="Industry" ng-model="candidate.industryId">
+               <input ng-model="candidatePredicate.technology" placeholder="{{::'CANDIDATES.TECHNOLOGY' | translate}}" type="text">
+               <input ng-model="candidatePredicate.position" placeholder="{{::'CANDIDATE.POSITION' | translate}}" type="text">
+               <input ng-model="candidatePredicate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" type="text">
+               <input ng-model="candidatePredicate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" type="text">
+               <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="candidatePredicate.citiesIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+               <select name="Industry" ng-model="candidatePredicate.industryId">
                   <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
                   <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="::industry.title"></option>
                </select>
                <ul class="some-change">
                   <li>
-                     <input ng-model="candidate.isMale" name="isMale" ng-value="true" id="male" type="radio">
+                     <input ng-model="candidatePredicate.isMale" name="isMale" ng-value="true" id="male" type="radio">
                      <label for="male" ng-bind="::'COMMON.MALE' | translate"></label>
                   </li>
                   <li>
-                     <input ng-model="candidate.isMale" name="isMale" ng-value="false" id="female" type="radio">
+                     <input ng-model="candidatePredicate.isMale" name="isMale" ng-value="false" id="female" type="radio">
                      <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
                   </li>
                </ul>
@@ -86,28 +86,28 @@
                <label ng-bind="::'CANDIDATE.EXPERIENCE' | translate"></label>
                <div class="grid-block">
                   <div class="medium-6 grid-block">
-                     <input placeholder="{{::'COMMON.YEARS' | translate}}" type="tel" ng-model='candidate.experienceYears' name="expYears" validator="counter=50" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 50}'}}">
+                     <input placeholder="{{::'COMMON.YEARS' | translate}}" type="tel" ng-model='candidatePredicate.experienceYears' name="expYears" validator="counter=50" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 50}'}}">
                   </div>
                   <div class="medium-6 grid-block">
-                     <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="tel" ng-model="candidate.experienceMonths" name="expMonths" validator="counter=11" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 11}'}}">
+                     <input placeholder="{{::'COMMON.MONTHS' | translate}}" type="tel" ng-model="candidatePredicate.experienceMonths" name="expMonths" validator="counter=11" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 11}'}}">
                   </div>
                </div>
 
                <div class="grid-block">
                   <div class="medium-5 grid-block">
-                     <input ng-model="candidate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
+                     <input ng-model="candidatePredicate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                   </div>
                   <div class="medium-5 grid-block">
-                     <input ng-model="candidate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000, mincount" min-count-value="{{candidate.minSalary}}" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
+                     <input ng-model="candidatePredicate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000, mincount" min-count-value="{{candidatePredicate.minSalary}}" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                   </div>
                   <div class="medium-2 grid-block">
-                     <select name="Сurrency" convert-to-number ng-model="candidate.currencyId" ng-init="candidate.currencyId= candidate.currencyId || ''">
+                     <select name="Сurrency" convert-to-number ng-model="candidatePredicate.currencyId" ng-init="candidatePredicate.currencyId= candidatePredicate.currencyId || ''">
                         <option ng-selected="true" value="" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
                         <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
                      </select>
                   </div>
                </div>
-               <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
+               <language-skills selected-skills="candidatePredicate.convertedLanguageSkills"></language-skills>
                <a class="expand button" ng-click="searchCandidates()">{{::'INDEX.SEARCH' | translate}}</a>
             </div>
          </div>
@@ -134,11 +134,11 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr dir-paginate="c in candidates.candidate | itemsPerPage: candidates.size" total-items="candidates.total" current-page="candidate.current">
+                     <tr dir-paginate="c in candidates.candidate | itemsPerPage: candidates.size" total-items="candidates.total" current-page="candidatePredicate.current">
                         <th ng-if="$state.params.vacancyIdToGoBack">
                            <input id="checkbox9" type="checkbox" ng-model="c.isToogled" ng-change="toogleCandidate(c.id)">
                         </th>
-                        <td>{{$index+1}}</td>
+                        <td ng-bind="{{(candidates.current - 1) * candidates.size+$index + 1}}"></td>
                         <td>
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
                         </td>
@@ -159,7 +159,7 @@
                   </tbody>
                </table>
                <div class="switch-pages">
-                  <dir-pagination-controls max-size="5" boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
+                  <dir-pagination-controls boundary-links="true" [auto-hide="" ] on-page-change="pageChanged(newPageNumber)">
                   </dir-pagination-controls>
                </div>
             </div>

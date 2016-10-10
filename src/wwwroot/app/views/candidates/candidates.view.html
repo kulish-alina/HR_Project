@@ -61,10 +61,12 @@
                <input ng-model="candidatePredicate.position" placeholder="{{::'CANDIDATE.POSITION' | translate}}" type="text">
                <input ng-model="candidatePredicate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" type="text">
                <input ng-model="candidatePredicate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" type="text">
-               <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="candidatePredicate.citiesIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+               <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city | orderBy : 'title'"           ng-model="candidatePredicate.citiesIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}">
+               </oi-select>
                <select name="Industry" ng-model="candidatePredicate.industryId">
                   <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
-                  <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="::industry.title"></option>
+                  <option ng-repeat="industry in thesaurus.industry | orderBy : 'title'" value="{{industry.id}}" 
+                          ng-bind="::industry.title"></option>
                </select>
                <ul class="some-change">
                   <li>

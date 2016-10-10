@@ -30,12 +30,25 @@
                      <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
                      <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
                   </select>
-                  <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancyPredicate.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
+                  <oi-select class="multiple-select"
+                             ng-model="vacancyPredicate.levelIds" 
+                             oi-options="level.id as level.title for level in thesaurus.level  | orderBy : 'title'" 
+                             multiple
+                             placeholder="{{::'COMMON.LEVEL' | translate}}">
+                  </oi-select>
                   <input ng-model="vacancyPredicate.title" placeholder="Position" type="text">
-                  <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancyPredicate.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
+                  <oi-select class="multiple-select" 
+                             oi-options="city.id as city.title for city in thesaurus.city | orderBy : 'title'" 
+                             ng-model="vacancyPredicate.cityIds" 
+                             multiple 
+                             placeholder="{{::'COMMON.LOCATION' | translate}}">
+                  </oi-select>
                   <select name="Type of Employment" ng-model="vacancyPredicate.typeOfEmployment">
                      <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
-                     <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
+                     <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment  | orderBy : 'title'" 
+                             value="{{typeOfEmployment.id}}" 
+                             ng-bind="typeOfEmployment.title">           
+                     </option>
                   </select>
                   <select name="State" ng-model="vacancyPredicate.vacancyState">
                      <option selected value="" ng-bind="::'COMMON.STATUS' | translate"></option>
@@ -46,7 +59,9 @@
                   </select>
                   <select ng-model="vacancyPredicate.userId" name="Responsible">
                      <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
-                     <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
+                     <option ng-repeat="responsible in responsibles  | orderBy : 'lastName'" 
+                             value="{{responsible.id}}"
+                             ng-bind="::(responsible.lastName + ' ' + responsible.firstName)"></option>
                   </select>
                   <a class="expand button" ng-click="searchVacancies()" ng-bind="::'INDEX.SEARCH' | translate"></a>
                </form>

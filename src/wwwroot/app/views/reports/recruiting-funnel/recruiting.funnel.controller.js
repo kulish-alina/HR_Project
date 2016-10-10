@@ -6,7 +6,8 @@ import {
    groupBy,
    map,
    last,
-   max
+   max,
+   isEmpty
 } from 'lodash';
 
 export default function RecruitingFunnelController(
@@ -18,6 +19,7 @@ export default function RecruitingFunnelController(
    'ngInject';
 
    const vm                                       = $scope;
+   vm.selectedVacancy                             = $state.previous.params.vacancyGoBack || {};
    vm.viewVacancy                                 = viewVacancy;
    vm.viewCandidate                               = viewCandidate;
    vm.clear                                       = clear;
@@ -32,7 +34,6 @@ export default function RecruitingFunnelController(
    vm.vacancySearchConditions.size                = 20;
    vm.vacancies                                   = [];
 
-
    (function init() {
       VacancyService.search(vm.vacancySearchConditions).then(response => vm.vacancies = response.vacancies);
       ThesaurusService.getThesaurusTopics('stage').then(topic => {
@@ -42,6 +43,9 @@ export default function RecruitingFunnelController(
             vm.selectedStageIds.push(stage.id);
          });
       });
+      if (!isEmpty(vm.selectedVacancy)) {
+         genereteReportForSelectedVacancy();
+      }
    }());
 
    function addStageFilter(stage) {
@@ -81,26 +85,29 @@ export default function RecruitingFunnelController(
    }
 
    function viewVacancy() {
-      $state.go('vacancyView', {_data: null, vacancyId: vm.selectedVacancy.id});
+      $state.go('vacancyView', {_data: vm.selectedVacancy, vacancyId: vm.selectedVacancy.id,
+                                vacancyGoBack: vm.selectedVacancy});
    }
 
-   function viewCandidate(selectedCandidateId) {
-      $state.go('candidateProfile', {_data: null, candidateId: selectedCandidateId});
+   function viewCandidate(selectedCandidate) {
+      $state.go('candidateProfile', {_data: selectedCandidate, candidateId: selectedCandidate.id,
+                                     vacancyGoBack: vm.selectedVacancy});
    }
 
    function _groupCandidatesInProgressByStages() {
       let userGroupObject = groupBy(vm.selectedVacancy.candidatesProgress, x => x.candidateId);
-      vm.cleanedUserGroup = map(userGroupObject, userGroup => {
+      let cleanedFromDuplicatesUserGroup = map(userGroupObject, userGroup => {
          return last(userGroup);
       });
-      set(vm, 'candidatesGropedByStage', groupBy(vm.cleanedUserGroup, x => x.stageId));
+      set(vm, 'candidatesGropedByStage', groupBy(cleanedFromDuplicatesUserGroup, x => x.stageId));
    }
 
    function _setTableRows() {
-      let arr = map(vm.candidatesGropedByStage, candidatesGroupe => {
+      let candidatesGropesLength = map(vm.candidatesGropedByStage, candidatesGroupe => {
          return candidatesGroupe.length;
       });
-      for (let i = 0; i < max(arr); i++) {
+      let countTableRows = max(candidatesGropesLength);
+      for (let i = 0; i < countTableRows; i++) {
          vm.tableRows.push(i);
       }
    }

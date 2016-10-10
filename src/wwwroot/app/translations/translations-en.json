@@ -279,7 +279,8 @@
       "ERROR_CANDIDATE_SAVING": "Some error has occurred while saving candidate!",
       "ERROR_CANDIDATES_SEARCH": "Some error has occurred while receiving candidates from database!",
       "EVENT_REMOVING_DIALOG": "Do you really want to remove this event?",
-      "INVALID_DATES": "Dealine date or end date cannot be less than start date"
+      "INVALID_DATES": "End date cannot be less than start date",
+      "EMPTY_REPORT_CONDITIONS": "Please select at least one user or location"
    },
 
    "MEMBERS" : {

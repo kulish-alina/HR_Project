@@ -44,7 +44,7 @@
                <tbody>
                   <tr class="report-data-row" ng-repeat="x in tableRows">
                      <td class="stages-column" ng-if="selectedStageIds.includes(stage.id)" ng-repeat="stage in stages | orderBy:'$index':true">
-                        <a ng-click="viewCandidate(candidatesGropedByStage[stage.id][x].candidateId)" ng-bind="filterCandidatesGropedByStageByCandidateId(candidatesGropedByStage[stage.id], x)"></a>
+                        <a ng-click="viewCandidate(candidatesGropedByStage[stage.id][x].candidate)" ng-bind="filterCandidatesGropedByStageByCandidateId(candidatesGropedByStage[stage.id], x)"></a>
                      </td>
                   </tr>
                </tbody>

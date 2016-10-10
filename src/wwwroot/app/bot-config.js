@@ -110,7 +110,8 @@ export default function _config(
          params: {
             candidatesIds: [],
             _data: null,
-            vacancyId: null
+            vacancyId: null,
+            vacancyGoBack: null
          },
          parent: 'vacancies'
       })
@@ -132,7 +133,8 @@ export default function _config(
          params: {
             vacancies: [],
             _data: null,
-            candidateId: null
+            candidateId: null,
+            vacancyGoBack: null
          },
          parent: 'candidates'
       })
@@ -163,7 +165,11 @@ export default function _config(
          url: '/recruitingFunnel',
          parent: 'reports',
          template: recruitingFunnelTemplate,
-         controller: recruitingFunnelController
+         controller: recruitingFunnelController,
+         params: {
+            _data: null,
+            vacancyGoBack: null
+         }
       })
       .state('usersReport', {
          url: '/usersReport',

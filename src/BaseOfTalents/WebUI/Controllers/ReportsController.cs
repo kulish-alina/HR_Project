@@ -78,7 +78,7 @@ namespace WebUI.Controllers
             }
             else
             {
-                var resultForDay = new { StartDateReport = dailyReportForStartDate };
+                var resultForDay = new { StartDate = vacanciesReportParams.StartDate, StartDateReport = dailyReportForStartDate };
                 return Json(resultForDay, BOT_SERIALIZER_SETTINGS);
             }
         }

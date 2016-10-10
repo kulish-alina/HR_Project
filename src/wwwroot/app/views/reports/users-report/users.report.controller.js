@@ -15,9 +15,12 @@ const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
 
 export default function UsersReportController(
    $scope,
+   $translate,
    UserService,
    ThesaurusService,
-   ReportsService
+   ReportsService,
+   ValidationService,
+   UserDialogService
 ) {
    'ngInject';
 
@@ -128,16 +131,23 @@ export default function UsersReportController(
       }
    }
 
-   function formingUsersReport() {
-      ReportsService.getDataForUserReport(vm.usersReportParametrs).then(resp => {
-         vm.usersReportParametrs.startDate = resp.startDate;
-         vm.usersReportParametrs.endDate = resp.endDate;
-         if (vm.selectedLocations.length) {
-            set(vm, 'reportGroupedByLocation', _convertReportToHash('locationId', resp.userReport));
-         } else {
-            set(vm, 'reportGroupedByUser', _convertReportToHash('userId', resp.userReport));
-         }
+   function formingUsersReport(form) {
+      if (!vm.selectedLocations.length && !vm.selectedUsers.length) {
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.EMPTY_REPORT_CONDITIONS'), 'error');
+         return false;
+      }
+      if (vm.usersReportParametrs.startDate > vm.usersReportParametrs.endDate) {
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.INVALID_DATES'), 'error');
+         return false;
+      }
+      ValidationService.validate(form).then(() => {
+         ReportsService.getDataForUserReport(vm.usersReportParametrs).then(resp => {
+            vm.usersReportParametrs.startDate = resp.startDate;
+            vm.usersReportParametrs.endDate = resp.endDate;
+            _convertReport(resp.userReport);
+         });
       });
+      return false;
    }
 
    function sumReportByStages(report, stageId) {
@@ -156,6 +166,14 @@ export default function UsersReportController(
          }
       } else {
          return 0;
+      }
+   }
+
+   function _convertReport(report) {
+      if (vm.selectedLocations.length) {
+         set(vm, 'reportGroupedByLocation', _convertReportToHash('locationId', report));
+      } else {
+         set(vm, 'reportGroupedByUser', _convertReportToHash('userId', report));
       }
    }
 

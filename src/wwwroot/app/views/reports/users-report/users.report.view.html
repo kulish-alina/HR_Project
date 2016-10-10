@@ -10,13 +10,14 @@
             </div>
          </div>
          <div class="card-section">
-            <form>
+            <form name="UserConditionsReport">
                <label ng-bind="::'REPORTS.DATE_RANGE' | translate"></label>
                <div class="grid-block">
-                  <div class="medium-6 grid-block">
-                     <input class="date-input" type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="usersReportParametrs.startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
-                  <div class="medium-6 grid-block">
-                     <input class="date-input" type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="usersReportParametrs.endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
+                  <div class="medium-6 grid-block report-date-input">
+                     <input class="date-input" type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="usersReportParametrs.startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only name="startDate" model-view-value="true" validator="required, date"/>
+                  </div>
+                  <div class="medium-6 grid-block report-date-input">
+                     <input class="date-input" type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="usersReportParametrs.endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only name="endDate" model-view-value="true" validator="required, date"/> </div>
                </div>
                <div class="grid-block">
                   <label ng-bind="::'THESAURUSES.LOCATIONS' | translate"></label>&nbsp;
@@ -38,7 +39,7 @@
                      <label for="user" ng-bind="::(user.lastName+' '+user.firstName)"></label>
                   </div>
                </div>
-               <a class="expand button" ng-click="formingUsersReport()" ng-bind="::'REPORTS.GENERATE' | translate"></a>
+               <a class="expand button" ng-click="formingUsersReport(UserConditionsReport)" ng-bind="::'REPORTS.GENERATE' | translate"></a>
             </form>
          </div>
       </div>
@@ -91,8 +92,8 @@
                   <tr class="report-data-row">
                      <th ng-if="selectedLocations.length && !selectedUsers.length" ng-bind="::'COMMON.LOCATION' | translate"></th>
                      <th ng-if="selectedUsers.length && !selectedLocations.length" ng-bind="::'COMMON.USERS' | translate"></th>
-                     <th ng-bind="::'COMMON.ADDED' | translate"></th>
-                     <th ng-repeat="stage in stages | orderBy:'$index':true" ng-bind="stage.title"></th>
+                     <th class="user-report-column" ng-bind="::'COMMON.ADDED' | translate"></th>
+                     <th class="user-report-column" ng-repeat="stage in stages | orderBy:'$index':true" ng-bind="stage.title"></th>
                   </tr>
                </thead>
                <tbody ng-if="isSelectedUsersGroupedByLocationEmpty()">
@@ -100,8 +101,8 @@
                      <td>
                         <div ng-bind="::(user.lastName+' '+user.firstName)"></div>
                      </td>
-                     <td> <span ng-bind="sumReportByStages(reportGroupedByUser[user.id], addedStageIndex)  || 0"></span> </td>
-                     <td ng-repeat="stage in stages | orderBy:'$index':true">
+                     <td class="user-report-column"> <span ng-bind="sumReportByStages(reportGroupedByUser[user.id], addedStageIndex)  || 0"></span> </td>
+                     <td class="user-report-column" ng-repeat="stage in stages | orderBy:'$index':true">
                         <div> <span ng-bind="sumReportByStages(reportGroupedByUser[user.id], stage.id)  || 0"></span> </div>
                      </td>
                   </tr>
@@ -109,8 +110,8 @@
                      <td>
                         <div ng-bind="::location.title"></div>
                      </td>
-                     <td> <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], adedStageIndex) || 0"></span> </td>
-                     <td ng-repeat="stage in stages | orderBy:'$index':true"> <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], stage.id) || 0"></span> </td>
+                     <td class="user-report-column"> <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], adedStageIndex) || 0"></span> </td>
+                     <td class="user-report-column" ng-repeat="stage in stages | orderBy:'$index':true"> <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], stage.id) || 0"></span> </td>
                   </tr>
                </tbody>
             </table>

@@ -16,9 +16,12 @@ const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
 
 export default function VacanciesReportController(
    $scope,
+   $translate,
    UserService,
    ThesaurusService,
-   ReportsService
+   ReportsService,
+   ValidationService,
+   UserDialogService
 ) {
    'ngInject';
 
@@ -130,13 +133,24 @@ export default function VacanciesReportController(
       }
    }
 
-   function formingVacanciesReport() {
-      ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs)
+   function formingVacanciesReport(form) {
+      if (!vm.selectedLocations.length && !vm.selectedUsers.length) {
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.EMPTY_REPORT_CONDITIONS'), 'error');
+         return false;
+      }
+      if (vm.vacanciesReportParametrs.startDate > vm.vacanciesReportParametrs.endDate) {
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.INVALID_DATES'), 'error');
+         return false;
+      }
+      ValidationService.validate(form).then(() => {
+         ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs)
          .then(resp => {
             vm.vacanciesReportParametrs.startDate = resp.startDate;
             vm.vacanciesReportParametrs.endDate = resp.endDate;
             _convertReportToHash(resp);
          });
+      });
+      return false;
    }
 
    function _convertReportToHash(report) {

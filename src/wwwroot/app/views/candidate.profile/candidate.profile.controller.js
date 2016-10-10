@@ -229,7 +229,6 @@ export default function CandidateProfileController( // eslint-disable-line max-s
 
    function back() {
       if ($state.params._data === null && $state.previous.name !== 'candidate') {
-         console.log('$state.previous', $state.previous);
          $state.go($state.previous, {_data: null, vacancyGoBack: null}, {reload: true});
       } else if ($state.params._data !== null && $state.previous.name !== 'candidate') {
          $state.go($state.previous, {_data: null, vacancyGoBack:

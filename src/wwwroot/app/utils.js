@@ -15,6 +15,8 @@ let utils = {
    toBase64
 };
 
+const MILISECONDS_IN_MINUTE = 60000;
+
 export default utils;
 
 function toBase64(str) {
@@ -43,16 +45,17 @@ function formatDateToServer(entityDate) {
 }
 
 function formatDateTimeToServer(entityDate) {
-   if (isString(entityDate)) {
-      let splitDate = split(entityDate, ' ');
-      let partsOfDate = split(splitDate[0], '-');
-      let partsOfTime = split(splitDate[1], ':');
-      return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]}T${partsOfTime[0]}:${partsOfTime[1]}:${partsOfTime[2]}.000Z`; // eslint-disable-line max-len
-   } else if (entityDate === null) {
-      return entityDate;
-   } else {
-      let date = new Date(entityDate.valueOf() - entityDate.getTimezoneOffset() * 60000);
-      return date;
+   if (entityDate) {
+      if (isString(entityDate)) {
+         let splitDate = split(entityDate, ' ');
+         let partsOfDate = split(splitDate[0], '-');
+         let partsOfTime = split(splitDate[1], ':');
+         return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]}T${partsOfTime[0]}:${partsOfTime[1]}:${partsOfTime[2]}.000Z`; // eslint-disable-line max-len
+      } else if (entityDate === null) {
+         return entityDate;
+      } else {
+         return new Date(entityDate.valueOf() - entityDate.getTimezoneOffset() * MILISECONDS_IN_MINUTE);
+      }
    }
 }
 

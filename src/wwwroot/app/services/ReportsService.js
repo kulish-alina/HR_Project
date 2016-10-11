@@ -15,17 +15,15 @@ export default class ReportsService {
    getDataForUserReport(searchParameters) {
       searchParameters = this._convertToServerDates(searchParameters);
       let userReportUrl = 'usersReport';
-      return _HttpService.post(`${REPORT_URL}/${userReportUrl}`, searchParameters).then(resr => {
-         return this._convertFromServerDates(resr);
-      });
+      return _HttpService.post(`${REPORT_URL}/${userReportUrl}`, searchParameters)
+         .then(this._convertFromServerDates);
    }
 
    getDataForVacancyReport(searchParameters) {
       searchParameters = this._convertToServerDates(searchParameters);
       let vacancyReportUrl = 'vacanciesReport';
-      return _HttpService.post(`${REPORT_URL}/${vacancyReportUrl}`, searchParameters).then(resr => {
-         return this._convertFromServerDates(resr);
-      });
+      return _HttpService.post(`${REPORT_URL}/${vacancyReportUrl}`, searchParameters)
+         .then(this._convertFromServerDates);
    }
 
    _convertToServerDates(searchParameters) {

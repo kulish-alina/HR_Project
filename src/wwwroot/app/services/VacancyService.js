@@ -10,7 +10,8 @@ import {
    reduce,
    result,
    assignIn,
-   set
+   set,
+   partial
 } from 'lodash';
 
 const VACANCY_URL = 'vacancy/';
@@ -162,15 +163,13 @@ export default class VacancyService {
    _getCandidatesProgressFields(vacancy) {
       if (vacancy.candidatesProgress.length) {
          let promises = map(vacancy.candidatesProgress, (candidateProgress) => {
-            _CandidateService.getCandidate(candidateProgress.candidateId).then(candidate => {
-               set(candidateProgress, 'candidate', candidate);
-            });
+            _CandidateService.getCandidate(candidateProgress.candidateId)
+               .then(partial(set, candidateProgress, 'candidate'));
             return candidateProgress;
          });
          return _$q.all(promises);
-      } else {
-         return true;
       }
+      return true;
    }
 
    _getCommentsFields(vacancy) {

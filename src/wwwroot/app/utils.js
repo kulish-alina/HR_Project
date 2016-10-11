@@ -15,6 +15,8 @@ let utils = {
    toBase64
 };
 
+const MILISECONDS_IN_MINUTE = 60000;
+
 export default utils;
 
 function toBase64(str) {
@@ -52,8 +54,7 @@ function formatDateTimeToServer(entityDate) {
       } else if (entityDate === null) {
          return entityDate;
       } else {
-         let date = new Date(entityDate.valueOf() - entityDate.getTimezoneOffset() * 60000);
-         return date;
+         return new Date(entityDate.valueOf() - entityDate.getTimezoneOffset() * MILISECONDS_IN_MINUTE);
       }
    }
 }

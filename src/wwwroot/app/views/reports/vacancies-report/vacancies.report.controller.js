@@ -1,7 +1,6 @@
 import {
    set,
    each,
-   assign,
    remove,
    isEmpty,
    reduce,
@@ -39,7 +38,7 @@ export default function VacanciesReportController(
    vm.useUserField                             = useUserField;
    vm.addLocationIdsToVacanciesReportParametrs = addLocationIdsToVacanciesReportParametrs;
    vm.addUserIdsToVacanciesReportParametrs     = addUserIdsToVacanciesReportParametrs;
-   vm.formingVacanciesReport                   = formingVacanciesReport;
+   vm.generateVacanciesReport                  = generateVacanciesReport;
    vm.isEqualLocations                         = isEqualLocations;
    vm.isSelectedUsersGroupedByLocationEmpty    = isSelectedUsersGroupedByLocationEmpty;
    vm.report                                   = {};
@@ -54,23 +53,13 @@ export default function VacanciesReportController(
             if (LIST_OF_LOCATIONS.includes(location.title)) {
                vm.locations.push(location);
             }
-            if (vm.vacanciesReportParametrs.locationIds.length &&
-                vm.vacanciesReportParametrs.locationIds.includes(location.id)) {
-               assign(location, {selected: true});
-            } else {
-               assign(location, {selected: false});
-            }
+            set(location, 'selected', vm.vacanciesReportParametrs.locationIds.length && vm.vacanciesReportParametrs.locationIds.includes(location.id)); // eslint-disable-line max-len
          });
       });
       UserService.getUsers().then(users => {
          set(vm, 'users', users);
          each(vm.users, (user) => {
-            if (vm.vacanciesReportParametrs.userIds.length &&
-                vm.vacanciesReportParametrs.userIds.includes(user.id)) {
-               assign(user, {selected: true});
-            } else {
-               assign(user, {selected: false});
-            }
+            set(user, 'selected', vm.vacanciesReportParametrs.userIds.length && vm.vacanciesReportParametrs.userIds.includes(user.id));        // eslint-disable-line max-len
          });
       });
    }());
@@ -91,18 +80,14 @@ export default function VacanciesReportController(
       vm.vacanciesReportParametrs.locationIds = [];
       vm.selectedLocations = [];
       vm.selectedUsersGroupedByLocation = {};
-      each(vm.locations, (location) => {
-         location.selected = false;
-      });
+      each(vm.locations, (location) =>  set(location, 'selected', false));
    }
 
    function _clearUserField() {
       vm.vacanciesReportParametrs.userIds = [];
       vm.selectedUsers = [];
       vm.selectedUsersGroupedByLocation = {};
-      each(vm.users, (user) => {
-         user.selected = false;
-      });
+      each(vm.users, (user) => set(user, 'selected', false));
    }
 
    function addLocationIdsToVacanciesReportParametrs(location) {
@@ -111,7 +96,7 @@ export default function VacanciesReportController(
          vm.selectedLocations.push(location);
       } else if (!location.selected) {
          remove(vm.vacanciesReportParametrs.locationIds, (locationId) =>  locationId === location.id);
-         remove(vm.selectedLocations, (loc) =>  loc.id === location.id);
+         remove(vm.selectedLocations, {id: location.id});
       }
    }
 
@@ -133,15 +118,8 @@ export default function VacanciesReportController(
       }
    }
 
-   function formingVacanciesReport(form) {
-      if (!vm.selectedLocations.length && !vm.selectedUsers.length) {
-         UserDialogService.notification($translate.instant('DIALOG_SERVICE.EMPTY_REPORT_CONDITIONS'), 'error');
-         return false;
-      }
-      if (vm.vacanciesReportParametrs.startDate > vm.vacanciesReportParametrs.endDate) {
-         UserDialogService.notification($translate.instant('DIALOG_SERVICE.INVALID_DATES'), 'error');
-         return false;
-      }
+   function generateVacanciesReport(form) {
+      _reportConditionsValidation();
       ValidationService.validate(form).then(() => {
          ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs)
          .then(resp => {
@@ -150,7 +128,6 @@ export default function VacanciesReportController(
             _convertReportToHash(resp);
          });
       });
-      return false;
    }
 
    function _convertReportToHash(report) {
@@ -177,13 +154,10 @@ export default function VacanciesReportController(
          }, {});
       } else {
          let arr = flatten(map(value, (val) => {
-            if (val.dailyVacanciesStatisticsInfo) {
-               return val.dailyVacanciesStatisticsInfo;
-            } else {
-               return val.vacanciesStatisticsInfo;
-            }
+            return val.dailyVacanciesStatisticsInfo ?
+               val.dailyVacanciesStatisticsInfo : val.vacanciesStatisticsInfo;
          }));
-         return groupBy(arr, x => x.userId);
+         return groupBy(arr, 'userId');
       }
    }
 
@@ -193,35 +167,38 @@ export default function VacanciesReportController(
 
    function filterArrayByProperty(report, prop, type) {
       let rep = find(report, {userId: prop});
-      if (rep) {
-         return rep[type];
-      } else {
-         return 0;
-      }
-   }
-
-   function clear() {
-      vm.vacanciesReportParametrs = {};
-      _clearLocationField();
-      _clearUserField();
-      vm.report.startDateReportGroupedByLocation = {};
-      vm.report.endDateReportGroupedByLocation = {};
-      vm.report.reportGroupedByLocation = {};
-      vm.report.startDateReportGroupedByUser = {};
-      vm.report.endDateReportGroupedByUser = {};
-      vm.report.reportGroupedByUser = {};
+      return rep ? rep[type] : 0;
    }
 
    function isEqualLocations(user) {
-      if (vm.vacanciesReportParametrs.locationIds.length) {
-         return vm.vacanciesReportParametrs.locationIds.includes(user.cityId);
-      } else {
-         return true;
-      }
+      return vm.vacanciesReportParametrs.locationIds.length ? vm.vacanciesReportParametrs.locationIds.includes(user.cityId) : true; // eslint-disable-line max-len
    }
 
    function isSelectedUsersGroupedByLocationEmpty() {
       return isEmpty(vm.selectedUsersGroupedByLocation);
+   }
+
+   function clear() {
+      _clearLocationField();
+      _clearUserField();
+      vm.vacanciesReportParametrs                = {};
+      vm.report.startDateReportGroupedByLocation = {};
+      vm.report.endDateReportGroupedByLocation   = {};
+      vm.report.reportGroupedByLocation          = {};
+      vm.report.startDateReportGroupedByUser     = {};
+      vm.report.endDateReportGroupedByUser       = {};
+      vm.report.reportGroupedByUser              = {};
+   }
+
+   function _reportConditionsValidation() {
+      if (!vm.selectedLocations.length && !vm.selectedUsers.length) {
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.EMPTY_REPORT_CONDITIONS'), 'error');
+         return false;
+      }
+      if (vm.vacanciesReportParametrs.startDate > vm.vacanciesReportParametrs.endDate) {
+         UserDialogService.notification($translate.instant('DIALOG_SERVICE.INVALID_DATES'), 'error');
+         return false;
+      }
    }
 
    function _convertUsersArrayToHash(user) {
@@ -229,8 +206,7 @@ export default function VacanciesReportController(
          if (vm.selectedUsersGroupedByLocation[location.id] && location.id === user.cityId) {
             vm.selectedUsersGroupedByLocation[location.id].push(user);
          } else if (!vm.selectedUsers[location.id] && location.id === user.cityId) {
-            vm.selectedUsersGroupedByLocation[location.id] = [];
-            vm.selectedUsersGroupedByLocation[location.id].push(user);
+            (vm.selectedUsersGroupedByLocation[location.id] = []).push(user);
          }
       });
    }

@@ -15,6 +15,10 @@ import candidateProfileTemplate from './views/candidate.profile/candidate.profil
 import loaderTemplate           from './views/loading/loading.view.html';
 import loginTemplate            from './views/login/login.view.html';
 import calendarTemplate         from './views/calendar/calendar.html';
+import reportsTemplate          from './views/reports/reports.html';
+import recruitingFunnelTemplate from './views/reports/recruiting-funnel/recruiting.funnel.view.html';
+import usersReportTemplate      from './views/reports/users-report/users.report.view.html';
+import vacanciesReportTemplate  from './views/reports/vacancies-report/vacancies.report.view.html';
 
 import homeController             from './views/home/home.controller';
 import candidatesController       from './views/candidates/candidates.controller';
@@ -30,6 +34,10 @@ import vacancyViewController      from './views/vacancy.profile/vacancy.view.con
 import candidateProfileController from './views/candidate.profile/candidate.profile.controller';
 import loginController            from './views/login/login.controller';
 import calendarController         from './views/calendar/calendar.controller';
+import reportsController          from './views/reports/reports.controller';
+import recruitingFunnelController from './views/reports/recruiting-funnel/recruiting.funnel.controller';
+import usersReportController      from './views/reports/users-report/users.report.controller';
+import vacanciesReportController  from './views/reports/vacancies-report/vacancies.report.controller';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -102,7 +110,8 @@ export default function _config(
          params: {
             candidatesIds: [],
             _data: null,
-            vacancyId: null
+            vacancyId: null,
+            vacancyGoBack: null
          },
          parent: 'vacancies'
       })
@@ -124,7 +133,8 @@ export default function _config(
          params: {
             vacancies: [],
             _data: null,
-            candidateId: null
+            candidateId: null,
+            vacancyGoBack: null
          },
          parent: 'candidates'
       })
@@ -143,6 +153,35 @@ export default function _config(
          template: calendarTemplate,
          controller: calendarController,
          parent: 'main'
+      })
+      .state('reports', {
+         url: '/reports',
+         template: reportsTemplate,
+         controller: reportsController,
+         parent: 'home',
+         data: { hideHome: true }
+      })
+      .state('recruitingFunnel', {
+         url: '/recruitingFunnel',
+         parent: 'reports',
+         template: recruitingFunnelTemplate,
+         controller: recruitingFunnelController,
+         params: {
+            _data: null,
+            vacancyGoBack: null
+         }
+      })
+      .state('usersReport', {
+         url: '/usersReport',
+         parent: 'reports',
+         template: usersReportTemplate,
+         controller: usersReportController
+      })
+      .state('vacanciesReport', {
+         url: '/vacanciesReport',
+         parent: 'reports',
+         template: vacanciesReportTemplate,
+         controller: vacanciesReportController
       })
       .state('settings', {
          url: '/settings',

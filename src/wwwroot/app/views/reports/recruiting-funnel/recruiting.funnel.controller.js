@@ -1,7 +1,6 @@
 import {
    set,
    each,
-   assign,
    remove,
    groupBy,
    map,
@@ -89,7 +88,7 @@ export default function RecruitingFunnelController(
 
    function _addDefaultPropertyToStages(stages) {
       each(stages, (stage) => {
-         assign(stage, {_isPressed: true});
+         set(stage, '_isPressed', true);
          vm.selectedStageIds.push(stage.id);
       });
    }

@@ -126,7 +126,8 @@ export default function UsersReportController(
 
    function isEqualLocations(user) {
       return vm.usersReportParametrs.locationIds.length ?
-         vm.usersReportParametrs.locationIds.includes(user.cityId) : true;
+         vm.usersReportParametrs.locationIds.includes(user.cityId) :
+         true;
    }
 
    function isSelectedUsersGroupedByLocationEmpty() {

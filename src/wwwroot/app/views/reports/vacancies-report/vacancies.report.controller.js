@@ -171,7 +171,8 @@ export default function VacanciesReportController(
    }
 
    function isEqualLocations(user) {
-      return vm.vacanciesReportParametrs.locationIds.length ? vm.vacanciesReportParametrs.locationIds.includes(user.cityId) : true; // eslint-disable-line max-len
+      return vm.vacanciesReportParametrs.locationIds.length ?vm.vacanciesReportParametrs.locationIds.includes(user.cityId) :
+      true;
    }
 
    function isSelectedUsersGroupedByLocationEmpty() {

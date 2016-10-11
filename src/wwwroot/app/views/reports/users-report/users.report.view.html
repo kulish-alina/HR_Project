@@ -1,0 +1,121 @@
+<div class="grid-block">
+   <div class="medium-2 grid-block">
+      <div class="sidebar report-sidebar">
+         <div class="card-divider">
+            <div class="grid-block">
+               <div class="medium-8 grid-block" ng-bind="::'REPORTS.REPORT_CONDITIONS' | translate"></div>
+               <div class="medium-4 grid-block align-right">
+                  <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+               </div>
+            </div>
+         </div>
+         <div class="card-section">
+            <form name="UserConditionsReport">
+               <label ng-bind="::'REPORTS.DATE_RANGE' | translate"></label>
+               <div class="grid-block">
+                  <div class="medium-6 grid-block report-date-input">
+                     <input class="date-input" type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="usersReportParametrs.startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only name="startDate" model-view-value="true" validator="required, date"/>
+                  </div>
+                  <div class="medium-6 grid-block report-date-input">
+                     <input class="date-input" type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="usersReportParametrs.endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only name="endDate" model-view-value="true" validator="required, date"/> </div>
+               </div>
+               <div class="grid-block">
+                  <label ng-bind="::'THESAURUSES.LOCATIONS' | translate"></label>&nbsp;
+                  <input ng-value="isActiveLocationField" type="checkbox" ng-model="isActiveLocationField" ng-change="useLocationField(isActiveLocationField)" ng-checked="isActiveLocationField"> </div>
+               <div ng-if="isActiveLocationField" class="grid-block" ng-repeat="location in locations">
+                  <div class="small-2 grid-block">
+                     <input ng-value="location" ng-change="addLocationIdsToUsersReportParametrs(location)" ng-checked="location.selected" ng-model="location.selected" id="location" type="checkbox"> </div>
+                  <div class="small-10 grid-block">
+                     <label for="location" ng-bind="location.title"></label>
+                  </div>
+               </div>
+               <div class="grid-block">
+                  <label ng-bind="::'COMMON.USERS' | translate"></label>&nbsp;
+                  <input ng-value="isActiveUsersField" type="checkbox" ng-model="isActiveUsersField" ng-checked="isActiveUsersField" ng-change="useUserField(isActiveUsersField)"> </div>
+               <div ng-if="isActiveUsersField" class="grid-block" ng-repeat="user in users | filter: isEqualLocations">
+                  <div class="small-2 grid-block">
+                     <input ng-value="user" ng-change="addUserIdsToUsersReportParametrs(user)" ng-checked="user.selected" ng-model="user.selected" id="user" type="checkbox"> </div>
+                  <div class="small-10 grid-block">
+                     <label for="user" ng-bind="::(user.lastName+' '+user.firstName)"></label>
+                  </div>
+               </div>
+               <a class="expand button" ng-click="genereteUsersReport(UserConditionsReport)" ng-bind="::'REPORTS.GENERATE' | translate"></a>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div class="vertical medium-10 grid-block">
+      <div class="main-card">
+         <div class="card-divider"> <span ng-bind="::'REPORTS.USER_REPORT_CHART' | translate"></span> <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="usersReportParametrs.startDate"></span> <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="usersReportParametrs.endDate"></span> </div>
+         <div class="card-section"> </div>
+      </div>
+      <div class="main-card">
+         <div class="card-divider"> <span ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"></span> <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="usersReportParametrs.startDate"></span> <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="usersReportParametrs.endDate"></span> </div>
+         <div class="card-section">
+            <table class="report-data">
+               <thead ng-if="!isSelectedUsersGroupedByLocationEmpty()">
+                  <tr class="report-data-row">
+                     <th ng-bind="::'COMMON.LOCATION' | translate"></th>
+                     <th ng-bind="::'COMMON.USERS' | translate"></th>
+                     <th class="user-report-column" ng-bind="::'COMMON.ADDED' | translate" colspan="2"></th>
+                     <th class="user-report-column" ng-repeat="stage in stages | orderBy:'$index':true" ng-bind="stage.title" colspan="2"></th>
+                  </tr>
+               </thead>
+               <tbody ng-if="!isSelectedUsersGroupedByLocationEmpty() && selectedLocations.includes(location)" ng-repeat="location in locations">
+                  <tr>
+                     <td ng-bind="location.title" rowspan="{{selectedUsersGroupedByLocation[location.id].length}}"> </td>
+                     <td ng-bind="(selectedUsersGroupedByLocation[location.id][0].lastName+' '+selectedUsersGroupedByLocation[location.id][0].firstName)"></td>
+                     <td> 
+                        <span ng-bind="filterArrayByProperty(reportGroupedByLocation[location.id], selectedUsersGroupedByLocation[location.id][0].id, adedStageIndex)"></span>
+                     </td>
+                     <td rowspan="{{selectedUsersGroupedByLocation[location.id].length}}"> 
+                        <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], adedStageIndex) || 0"></span> 
+                     </td>
+                     <td ng-repeat-start="stage in stages | orderBy:'$index':true"> 
+                        <span ng-bind="filterArrayByProperty(reportGroupedByLocation[location.id], selectedUsersGroupedByLocation[location.id][0].id, stage.id)"></span>
+                     </td>
+                     <td ng-repeat-end rowspan="{{selectedUsersGroupedByLocation[location.id].length}}"> 
+                        <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id],  stage.id) || 0"></span> 
+                     </td>        
+                  </tr>
+                  <tr ng-repeat="user in selectedUsersGroupedByLocation[location.id] | limitTo : selectedUsersGroupedByLocation[location.id].length : selectedUsersGroupedByLocation[location.id].length-(selectedUsersGroupedByLocation[location.id].length-1)">
+                     <td ng-bind="::(user.lastName+' '+user.firstName)"></td>
+                     <td> 
+                        <span ng-bind="filterArrayByProperty(reportGroupedByLocation[location.id], user.id, adedStageIndex)"></span>
+                     </td>
+                     <td ng-repeat="stage in stages | orderBy:'$index':true"> 
+                        <span ng-bind="filterArrayByProperty(reportGroupedByLocation[location.id], user.id, stage.id)"></span>
+                     </td>    
+                  </tr>
+               </tbody>
+               <thead ng-if="isSelectedUsersGroupedByLocationEmpty()">
+                  <tr class="report-data-row">
+                     <th ng-if="selectedLocations.length && !selectedUsers.length" ng-bind="::'COMMON.LOCATION' | translate"></th>
+                     <th ng-if="selectedUsers.length && !selectedLocations.length" ng-bind="::'COMMON.USERS' | translate"></th>
+                     <th class="user-report-column" ng-bind="::'COMMON.ADDED' | translate"></th>
+                     <th class="user-report-column" ng-repeat="stage in stages | orderBy:'$index':true" ng-bind="stage.title"></th>
+                  </tr>
+               </thead>
+               <tbody ng-if="isSelectedUsersGroupedByLocationEmpty()">
+                  <tr ng-if="selectedUsers.length && !selectedLocations.length" ng-repeat="user in selectedUsers" class="report-data-row">
+                     <td>
+                        <div ng-bind="::(user.lastName+' '+user.firstName)"></div>
+                     </td>
+                     <td class="user-report-column"> <span ng-bind="sumReportByStages(reportGroupedByUser[user.id], addedStageIndex)  || 0"></span> </td>
+                     <td class="user-report-column" ng-repeat="stage in stages | orderBy:'$index':true">
+                        <div> <span ng-bind="sumReportByStages(reportGroupedByUser[user.id], stage.id)  || 0"></span> </div>
+                     </td>
+                  </tr>
+                  <tr ng-if="selectedLocations.length && !selectedUsers.length" ng-repeat="location in selectedLocations" class="report-data-row">
+                     <td>
+                        <div ng-bind="::location.title"></div>
+                     </td>
+                     <td class="user-report-column"> <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], adedStageIndex) || 0"></span> </td>
+                     <td class="user-report-column" ng-repeat="stage in stages | orderBy:'$index':true"> <span ng-bind="sumReportByStages(reportGroupedByLocation[location.id], stage.id) || 0"></span> </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>

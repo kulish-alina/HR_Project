@@ -19,14 +19,14 @@
                   <option selected value="" ng-bind="::'THESAURUSES.THESAURUSES.EVENT_TYPES' | translate"></option>
                   <option ng-repeat="eventType in eventTypes | orderBy : 'title'" 
                           value="{{eventType.id}}"
-                          ng-bind="eventType.title">
+                          ng-bind="::eventType.title">
                   </option>
                </select>
                <label for="Candidate" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></label>
                <select id="Candidate" ng-disabled="source === 'candidate' && event.candidateId ? true : false" name="Candidate" ng-model="event.candidateId">
                   <option selected value="" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></option>
                   <option ng-repeat="candidate in candidates | orderBy : 'lastName'"
-                          value="{{candidate.id}}"
+                          ng-value="candidate.id"
                           ng-bind="::(candidate.lastName+' '+candidate.firstName)">
                   </option>
                </select>
@@ -35,13 +35,13 @@
                   <option selected value="" ng-bind="::'VACANCY.VACANCY' | translate"></option>
                   <option ng-repeat="vacancy in vacancies"
                           value="{{vacancy.id}}"
-                          ng-bind="vacancy.title">
+                          ng-bind="::vacancy.title">
                   </option>
                </select>
                <label for="Responsible" ng-bind="::'COMMON.RESPONSIBLE' | translate"></label>
                <select id="Responsible" ng-disabled="source === 'user' && event.responsibleId ? true : false" name="Responsible" ng-model="event.responsibleId" validator="required">
                   <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
-                  <option ng-repeat="responsible in responsibles | orderBy : 'lastName'"
+                  <option ng-repeat="responsible in responsibles | orderBy : 'lastName+ \'|\' + firstName'"
                           value="{{responsible.id}}"
                           ng-bind="::(responsible.lastName+' '+responsible.firstName)">
                   </option>
@@ -58,9 +58,9 @@
                      <div class="event-icon" class="medium-1 grid-block"> <img ng-if="event.eventType.imagePath" ng-src="{{event.eventType.imagePath | botUrl}}"> </div>
                      <div class="vertical medium-10 grid-block event-content">
                         <a ng-click="showEditEventDialog(event)">
-                        <div class="event-title" ng-bind="event.description"></div>
+                        <div class="event-title" ng-bind="::event.description"></div>
                         </a> 
-                        <span class="event-title" ng-class="{'display-none': source === 'calendar'}" ng-bind="event.eventDate">
+                        <span class="event-title" ng-class="{'display-none': source === 'calendar'}" ng-bind="::event.eventDate">
                         </span>
                         <div ng-if="source === 'full-calendar-list'" class="grid-block">
                            <span class="event-title"  ng-bind="::'COMMON.EVENT_TYPE' | translate"></span>
@@ -75,7 +75,7 @@
                         <div ng-if="source === 'full-calendar-list'" class="grid-block">
                            <span class="event-title" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></span>
                            <span>:&nbsp;</span>
-                           <span ng-bind="(event.candidate.lastName+' '+event.candidate.firstName)"></span>
+                           <span ng-bind="::(event.candidate.lastName+' '+event.candidate.firstName)"></span>
                         </div>
                         <div ng-if="source === 'full-calendar-list'" class="grid-block">
                            <span class="event-title" ng-bind="::'COMMON.RESPONSIBLE' | translate"></span>

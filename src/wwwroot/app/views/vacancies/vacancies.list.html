@@ -28,7 +28,10 @@
                <form name="searchVacancy">
                   <select name="Industry" ng-model="vacancyPredicate.industryId">
                      <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
-                     <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
+                     <option ng-repeat="industry in thesaurus.industry | orderBy : 'title'"
+                             value="{{industry.id}}"
+                             ng-bind="::industry.title">
+                     </option>
                   </select>
                   <oi-select class="multiple-select"
                              ng-model="vacancyPredicate.levelIds" 
@@ -47,7 +50,7 @@
                      <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
                      <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment  | orderBy : 'title'" 
                              value="{{typeOfEmployment.id}}" 
-                             ng-bind="typeOfEmployment.title">           
+                             ng-bind="::typeOfEmployment.title">           
                      </option>
                   </select>
                   <select name="State" ng-model="vacancyPredicate.vacancyState">
@@ -59,7 +62,7 @@
                   </select>
                   <select ng-model="vacancyPredicate.userId" name="Responsible">
                      <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
-                     <option ng-repeat="responsible in responsibles  | orderBy : 'lastName'" 
+                     <option ng-repeat="responsible in responsibles  | orderBy : 'lastName+ \'|\' + firstName'" 
                              value="{{responsible.id}}"
                              ng-bind="::(responsible.lastName + ' ' + responsible.firstName)"></option>
                   </select>

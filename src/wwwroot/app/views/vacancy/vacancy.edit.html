@@ -27,35 +27,64 @@
                         <input name="Title" ng-model="vacancy.title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, minlength=3, maxlength=50, letters">
                         <select name="Industry" ng-model="vacancy.industryId" validator="required">
                            <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
-                           <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
+                           <option ng-repeat="industry in thesaurus.industry | orderBy : 'title'"
+                                   value="{{industry.id}}"
+                                   ng-bind="::industry.title">
+                           </option>
                         </select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
                               <select name="Language" ng-model="vacancy.languageSkill.languageId">
                                  <option selected value="" ng-bind="::'COMMON.LANGUAGE' | translate"></option>
-                                 <option ng-repeat="language in thesaurus.language" value="{{language.id}}" ng-bind="language.title"></option>
+                                 <option ng-repeat="language in thesaurus.language | orderBy : 'title'"
+                                         value="{{language.id}}"
+                                         ng-bind="::language.title">
+                                 </option>
                               </select>
                            </div>
                            <div class="medium-6 grid-block">
-                              <select ng-disabled="!vacancy.languageSkill.languageId" name="LanguageLevel" ng-model="vacancy.languageSkill.languageLevel">
+                              <select ng-disabled="!vacancy.languageSkill.languageId"
+                                      name="LanguageLevel"
+                                      ng-model="vacancy.languageSkill.languageLevel">
                                  <option selected value="" ng-bind="::'COMMON.LEVEL' | translate"></option>
-                                 <option ng-repeat="languageLevel in thesaurus.languageLevel" value="{{languageLevel.id}}" ng-bind="languageLevel.title"></option>
+                                 <option ng-repeat="languageLevel in thesaurus.languageLevel | orderBy : 'title'"
+                                         value="{{languageLevel.id}}"
+                                         ng-bind="::languageLevel.title">
+                                 </option>
                               </select>
                            </div>
                         </div>
-                        <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
-                        <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="vacancy.cityIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}" name="vacancyLocation" validator="required"></oi-select>
+                        <oi-select class="multiple-select"
+                                   oi-options="level.id as level.title for level in thesaurus.level | orderBy : 'title'"
+                                   ng-model="vacancy.levelIds"
+                                   multiple
+                                   placeholder="{{::'COMMON.LEVEL' | translate}}">
+                        </oi-select>
+                        <oi-select class="multiple-select"
+                                   oi-options="city.id as city.title for city in thesaurus.city | orderBy : 'title'"
+                                   ng-model="vacancy.cityIds"
+                                   multiple
+                                   placeholder="{{::'COMMON.LOCATION' | translate}}"
+                                   name="vacancyLocation"
+                                   validator="required">
+                        </oi-select>
                      </fieldset>
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
                         <select name="Responsible" ng-model="vacancy.responsibleId" validator="required">
                            <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
-                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="::(responsible.lastName+' '+responsible.firstName)"></option>
+                           <option ng-repeat="responsible in responsibles | orderBy : 'lastName+ \'|\' + firstName'"
+                                   value="{{responsible.id}}"
+                                   ng-bind="::(responsible.lastName+' '+responsible.firstName)">
+                           </option>
                         </select>
                         <select name="Department" ng-model="vacancy.departmentId" validator="required">
                            <option selected value="" ng-bind="::'COMMON.DEPARTMENT' | translate"></option>
-                           <option ng-repeat="department in thesaurus.department" value="{{department.id}}" ng-bind="department.title"> </option>
+                           <option ng-repeat="department in thesaurus.department | orderBy : 'title'"
+                                   value="{{department.id}}"
+                                   ng-bind="::department.title">
+                           </option>
                         </select>
                         <div class="grid-block">
                            <div class="medium-5 grid-block">
@@ -65,15 +94,24 @@
                               <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMax" , validator="counter=1000000, mincount" min-count-value="{{vacancy.salaryMin}}" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                            </div>
                            <div class="medium-2 grid-block">
-                              <select name="Сurrency" convert-to-number ng-model="vacancy.currencyId" ng-init="vacancy.currencyId = vacancy.currencyId || ''">
+                              <select name="Сurrency" 
+                                      convert-to-number
+                                      ng-model="vacancy.currencyId"
+                                      ng-init="vacancy.currencyId = vacancy.currencyId || ''">
                                  <option ng-selected="true" value="" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
-                                 <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
+                                 <option ng-repeat="currency in thesaurus.currency | orderBy : 'title'"
+                                         ng-bind="::currency.title"
+                                         value="{{currency.id}}">
+                                 </option>
                               </select>
                            </div>
                         </div>
                         <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
                            <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
-                           <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
+                           <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment | orderBy : 'title'"
+                                   value="{{typeOfEmployment.id}}"
+                                   ng-bind="::typeOfEmployment.title">
+                           </option>
                         </select>
                         <div class="grid-block">
                            <a ng-click="goToParentVacancy()" ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></a>
@@ -108,10 +146,22 @@
                <fieldset>
                   <div class="grid-block">
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="skill.title for skill in thesaurus.skill" ng-model="vacancy.requiredSkills" multiple placeholder="{{::'COMMON.SKILLS' | translate}}" oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select"
+                                   oi-options="skill.title for skill in thesaurus.skill | orderBy : 'title'"
+                                   ng-model="vacancy.requiredSkills"
+                                   multiple
+                                   placeholder="{{::'COMMON.SKILLS' | translate}}"
+                                   oi-select-options="{newItem: true, newItemModel: {id: undefined, title: $query}}">
+                        </oi-select>
                      </div>
                      <div class="medium-6 grid-block">
-                        <oi-select class="multiple-select" oi-options="tag.title for tag in thesaurus.tag" ng-model="vacancy.tags" multiple placeholder="{{::'COMMON.TAGS' | translate}}" oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}"></oi-select>
+                        <oi-select class="multiple-select"
+                                   oi-options="tag.title for tag in thesaurus.tag | orderBy : 'title'"
+                                   ng-model="vacancy.tags"
+                                   multiple
+                                   placeholder="{{::'COMMON.TAGS' | translate}}"
+                                   oi-select-options="{newItem: true,  newItemModel: {id: undefined, title: $query}}">
+                        </oi-select>
                      </div>
                   </div>
                   <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="vacancy.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar" ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
@@ -134,7 +184,7 @@
                               <tr ng-repeat="item in vacancy.files">
                                  <td>{{$index+1}}</td>
                                  <td>
-                                    <a target="_blank" href="{{item.filePath | botUrl}}" ng-bind="item.description"></a>
+                                    <a target="_blank" href="{{item.filePath | botUrl}}" ng-bind="::item.description"></a>
                                  </td>
                                  <td ng-bind="item.fileSize"></td>
                                  <td><a class="remove-item" ng-click="addFilesForRemove(item)"><i class="foundicon-remove general-icon"></i></a></td>
@@ -154,8 +204,8 @@
                            <tbody>
                               <tr ng-repeat="item in uploader.queue">
                                  <td>{{$index+1}}</td>
-                                 <td ng-bind="item.file.name"></td>
-                                 <td ng-bind="item.file.size"></td>
+                                 <td ng-bind="::item.file.name"></td>
+                                 <td ng-bind="::item.file.size"></td>
                                  <td><a class="remove-item" ng-click="item.remove()"><i class="foundicon-remove general-icon"></i></a></td>
                               </tr>
                            </tbody>
@@ -176,7 +226,7 @@
                            <tr ng-repeat="childVacancy in vacancy.childVacancies">
                               <td>{{$index+1}}</td>
                               <td>
-                                 <a ng-click="goToChildVacancy(childVacancy)" ng-bind="vacancy.title"></a>
+                                 <a ng-click="goToChildVacancy(childVacancy)" ng-bind="::vacancy.title"></a>
                               </td>
                               <td>
                                  <a ng-click="removeChildVacancy(childVacancy)"><i class="foundicon-trash general-icon"></i></a>

@@ -14,6 +14,6 @@ namespace DAL.DTO
         public int VacanciesOpenedInCurrentPeriodCount { get; set; }
         public int VacanciesInProgressInCurrentPeriodCount { get; set; }
         public int VacanciesClosedInCurrentPeriodCount { get; set; }
-        public int VacanciesClosedInCanceledPeriodCount { get; set; }
+        public int VacanciesCanceledInCurrentPeriodCount { get; set; }
     }
 }

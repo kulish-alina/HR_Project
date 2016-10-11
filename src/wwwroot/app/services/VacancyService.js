@@ -10,7 +10,8 @@ import {
    reduce,
    result,
    assignIn,
-   set
+   set,
+   partial
 } from 'lodash';
 
 const VACANCY_URL = 'vacancy/';
@@ -34,7 +35,7 @@ const PROMISE_INDEXES = {
    childVacancies:   2,
    comments:         3,
    closingCandidate: 4,
-   candidatesProgress: 5
+   candidatesProgress :5
 };
 
 let _HttpService;
@@ -157,6 +158,18 @@ export default class VacancyService {
 
    _getUser(vacancy) {
       return _UserService.getUserById(vacancy.responsibleId);
+   }
+
+   _getCandidatesProgressFields(vacancy) {
+      if (vacancy.candidatesProgress.length) {
+         let promises = map(vacancy.candidatesProgress, (candidateProgress) => {
+            _CandidateService.getCandidate(candidateProgress.candidateId)
+               .then(partial(set, candidateProgress, 'candidate'));
+            return candidateProgress;
+         });
+         return _$q.all(promises);
+      }
+      return true;
    }
 
    _getCommentsFields(vacancy) {

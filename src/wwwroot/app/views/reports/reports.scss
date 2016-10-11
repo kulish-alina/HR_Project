@@ -1,0 +1,87 @@
+@import "../../common.scss";
+
+.active-button {
+   box-shadow: inset 0px 0px 1rem 0px transparentize($body-font-color, 0.9);
+}
+input.date-input {
+   font-size: $rem-base*0.8;
+   padding-left: $rem-base/4;
+   padding-right: $rem-base/4;
+}
+.date {
+   font-weight: 600;
+}
+.card-divider {
+   span {
+      font-size: $rem-base*0.8;
+   }
+}
+.title-stage {
+   margin: 0;
+   height: 50%;
+}
+.report-sidebar {
+   min-width: inherit;
+}
+.report-data {
+   border-collapse: collapse;
+   font-size: $rem-base*0.8;
+   thead {
+      tr {
+         th {
+            background: lighten($gray-light, 1);
+         }
+         td {
+            background: lighten($gray-light, 3);
+         }
+      }
+   }
+   tr:nth-child(2n) {
+      background: none;
+   }
+   .report-column {
+      width: 25%;
+   }
+   .user-report-column {
+      width: 5.71%;
+   }
+   .report-column-min {
+      width: 6.82%;
+      text-align: center;
+   }
+   th, td {
+      border: 1px solid lighten($gray, 5);
+      span {
+         font-size: $rem-base*0.8;
+      }
+   }
+}
+.location-user-report-row {
+   td:nth-child(n+2) {
+      width: 3.41%;
+      text-align: center;
+      vertical-align: center;
+   }
+}
+.report-data-row {
+   th {
+      font-weight: 600;
+   }
+   th, td {
+      font-size: $rem-base*0.8;
+      padding: $rem-base/4;
+      border: 1px solid lighten($gray, 5);
+      span {
+         font-size: $rem-base*0.8;
+      }
+   }
+   td:nth-child(n+2) {
+      text-align: center;
+   }
+}
+.stages-column {
+   width: 7.7%;
+}
+.report-date-input {
+   display: block;
+}

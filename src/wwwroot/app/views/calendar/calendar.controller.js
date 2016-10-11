@@ -46,6 +46,7 @@ export default function CandidateProfileController(
    vm.eventCondidtion         = {};
 
    (function init() {
+      set(vm, 'currentUser', UserService.getCurrentUser());
       UserService.getUsers().then(users => {
          set(vm, 'users', users);
          generateColorsForUsers();

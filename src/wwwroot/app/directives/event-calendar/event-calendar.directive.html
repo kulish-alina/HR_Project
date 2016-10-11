@@ -28,7 +28,7 @@
                   <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView "></p>
                </div>
             </div>
-            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="currentUserId" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
          </div>
       </div>
       <div class="div-table-row">
@@ -42,7 +42,7 @@
                   <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
                </div>
             </div>
-            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="currentUserId" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
          </div>
       </div>
       <div class="div-table-row">
@@ -56,7 +56,7 @@
                   <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
                </div>
             </div>
-            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="currentUserId" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
          </div>
       </div>
       <div class="div-table-row">
@@ -70,7 +70,7 @@
                   <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
                </div>
             </div>
-            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="currentUserId" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
          </div>
       </div>
       <div class="div-table-row">
@@ -84,7 +84,7 @@
                   <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
                </div>
             </div>
-            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="currentUserId" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
          </div>
       </div>
       <div class="div-table-row">
@@ -98,11 +98,11 @@
                   <p class="events-number" ng-bind="getDailyEvents(day).length - numberEventsForDailyView"></p>
                </div>
             </div>
-            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
+            <events user-color="userColor" selected-date="day" get-events-by-date="getEventsByDate" user-id="currentUserId" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" save="saveCurrentEvent" events="getDailyEvents(day)" source="calendar" type="only-events"></events>
          </div>
       </div>
    </div>
 </div>
 <div class="event-board">
-   <events user-color="userColor" selected-date="selectedDay" get-events-by-date="getEventsByDate" user-id="1" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" source="full-calendar-list" save="saveCurrentEvent" events="eventsForDay" type="only-events"></events>
+   <events user-color="userColor" selected-date="selectedDay" get-events-by-date="getEventsByDate" user-id="currentUserId" vacancies="vacancies" candidates="candidates" event-types="eventTypes" responsibles="users" remove="removeCurrentEvent" source="full-calendar-list" save="saveCurrentEvent" events="eventsForDay" type="only-events"></events>
 </div>

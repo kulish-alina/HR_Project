@@ -22,7 +22,8 @@ export default class EventCalendarDirective {
          candidates      : '=',
          eventTypes      : '=',
          getEventsByDate : '=',
-         userColor       : '='
+         userColor       : '=',
+         currentUserId   : '='
       };
    }
    static createInstance() {

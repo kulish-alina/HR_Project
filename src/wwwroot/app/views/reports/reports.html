@@ -1,0 +1,21 @@
+<div class="secondary-menu grid-block">
+   <div class="large-2 grid-block">
+      <div class="grid-content">
+         <h5 ng-bind="::'REPORTS.REPORTS' | translate"></h5> </div>
+   </div>
+   <div class="large-7 grid-block">
+      <ul class="menu-bar second-button-bar">
+         <li ui-sref="recruitingFunnel" ng-class="{'active-button' : $state.current.name === 'recruitingFunnel'}">
+            <a ng-bind="::'REPORTS.RECRUITING_FUNNEL' | translate"></a>
+         </li>
+         <li ui-sref="usersReport" ng-class="{'active-button' : $state.current.name === 'usersReport'}">
+            <a ng-bind="::'REPORTS.USERS_REPORT' | translate"></a>
+         </li>
+         <li ui-sref="vacanciesReport" ng-class="{'active-button' : $state.current.name === 'vacanciesReport'}">
+            <a ng-bind="::'REPORTS.VACANCIES_REPORT' | translate"></a>
+         </li>
+      </ul>
+   </div>
+   <div class="large-3 grid-block align-right"> </div>
+</div>
+<div ui-view class="vertical grid-block"></div>

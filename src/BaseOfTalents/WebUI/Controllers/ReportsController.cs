@@ -40,7 +40,9 @@ namespace WebUI.Controllers
                 usersReportParams.EndDate
             );
 
-            return Json(usersReportResult, BOT_SERIALIZER_SETTINGS);
+            var resultForPeriod = new { StartDate = usersReportParams.StartDate, EndDate = usersReportParams.EndDate, UserReport = usersReportResult};
+
+            return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
         }
 
         [HttpPost]
@@ -71,12 +73,12 @@ namespace WebUI.Controllers
                     vacanciesReportParams.EndDate
                     );
 
-                var resultForPeriod = new { StartDateReport = dailyReportForStartDate, VacanciesReport = vacanciesReportResult, EndDateReport = dailyReportForEndDate };
+                var resultForPeriod = new {StartDate = vacanciesReportParams.StartDate, EndDate = vacanciesReportParams.EndDate,  StartDateReport = dailyReportForStartDate, VacanciesReport = vacanciesReportResult, EndDateReport = dailyReportForEndDate };
                 return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
             }
             else
             {
-                var resultForDay = new { StartDateReport = dailyReportForStartDate };
+                var resultForDay = new { StartDate = vacanciesReportParams.StartDate, StartDateReport = dailyReportForStartDate };
                 return Json(resultForDay, BOT_SERIALIZER_SETTINGS);
             }
         }

@@ -50,6 +50,7 @@ import NoteService                   from './services/NoteService';
 import LocalStorageService           from './services/LocalStorageService';
 import LoginService                  from './services/LoginService';
 import SessionService                from './services/SessionService';
+import ReportsService                from './services/ReportsService';
 import CVParserService                from './services/CVParserService';
 import SearchService                 from './services/SearchService';
 
@@ -118,6 +119,7 @@ angular
    .service('LocalStorageService', LocalStorageService)
    .service('LoginService',        LoginService)
    .service('SessionService',      SessionService)
+   .service('ReportsService',      ReportsService)
    .service('CVParserService',      CVParserService)
    .service('SearchService',       SearchService)
 

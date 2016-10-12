@@ -141,8 +141,8 @@ export default function CandidateController( // eslint-disable-line max-params, 
          if (vm.candidate.photo) {
             FileService.remove(vm.candidate.photo);
          }
+         FoundationApi.publish('basicModal', 'close');
          vm.candidate.photo = parsedResponse;
-         FoundationApi.closeActiveElements();
       };
       uploader.onErrorItem = (fileItem, response, status, headers) => {
          LoggerService.error('onErrorItem', fileItem, response, status, headers);

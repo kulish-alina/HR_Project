@@ -8,7 +8,8 @@ import {
    max,
    isEmpty,
    reduce,
-   toArray
+   find,
+   toNumber
 } from 'lodash';
 
 export default function RecruitingFunnelController(
@@ -110,23 +111,40 @@ export default function RecruitingFunnelController(
    }
 
    function _genereteRecruitingFunnel() {
-      const d = reduce(vm.candidatesGropedByStage, (resultObj, val, key) => {
-         (resultObj[val[key]] || (resultObj[val[key]] = [])).push(val.length);
-         return resultObj;
-      }, {});
-      const data = toArray(d);
-      console.log('data', data);
+      console.log('vm.candidatesGropedByStage', vm.candidatesGropedByStage);
+      const data = reduce(vm.candidatesGropedByStage, (resultArr, val, key) => {
+         let arrVal = [];
+         arrVal[0] = find(vm.stages, {id: toNumber(key)}).title;
+         arrVal[1] = val.length;
+         (resultArr).push(arrVal);
+         return resultArr;
+      }, []);
       let D3Funnel = require('d3-funnel');
-//      const data = [
-//         ['Grade1', 15],
-//         ['Grade2', 10],
-//         ['Grade3', 4],
-//         ['Grade4', 2]
-//      ];
       const options = {
          chart: {
-            width: 200,
-            height: 100
+            width: '700',
+            height: '600',
+            animate: 600,
+            curve: 'enabled'
+         },
+         block: {
+            highlight: true,
+            minHeight: '32px',
+            fill: {
+               type: 'gradient',
+               scale: [
+                  '#006064',
+                  '#00838F',
+                  '#0097A7',
+                  '#00ACC1',
+                  '#00BCD4',
+                  '#26C6DA',
+                  '#4DD0E1',
+                  '#80DEEA',
+                  '#B2EBF2',
+                  '#E0F7FA'
+               ]
+            }
          }
       };
       let chart = new D3Funnel('#funnel');

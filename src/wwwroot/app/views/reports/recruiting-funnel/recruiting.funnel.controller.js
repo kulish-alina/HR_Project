@@ -4,13 +4,29 @@ import {
    remove,
    groupBy,
    map,
-   last,
    max,
    isEmpty,
    reduce,
    find,
-   toNumber
+   toNumber,
+   round
 } from 'lodash';
+
+const arrow = '\u2192';
+const colorsOfFunnelBlocks = [
+   '#006064',
+   '#00838F',
+   '#0097A7',
+   '#00ACC1',
+   '#00BCD4',
+   '#26C6DA',
+   '#4DD0E1',
+   '#80DEEA',
+   '#B2EBF2',
+   '#E0F7FA',
+   '#84FFFF',
+   '#18FFFF'
+];
 
 export default function RecruitingFunnelController(
    $scope,
@@ -97,9 +113,7 @@ export default function RecruitingFunnelController(
    }
 
    function _groupCandidatesInProgressByStages() {
-      let userGroupObject = groupBy(vm.selectedVacancy.candidatesProgress, 'candidateId');
-      let cleanedFromDuplicatesUserGroup = map(userGroupObject, last);
-      set(vm, 'candidatesGropedByStage', groupBy(cleanedFromDuplicatesUserGroup, 'stageId'));
+      set(vm, 'candidatesGropedByStage', groupBy(vm.selectedVacancy.candidatesProgress, 'stageId'));
    }
 
    function _setTableRows() {
@@ -111,43 +125,53 @@ export default function RecruitingFunnelController(
    }
 
    function _genereteRecruitingFunnel() {
-      console.log('vm.candidatesGropedByStage', vm.candidatesGropedByStage);
-      const data = reduce(vm.candidatesGropedByStage, (resultArr, val, key) => {
-         let arrVal = [];
-         arrVal[0] = find(vm.stages, {id: toNumber(key)}).title;
-         arrVal[1] = val.length;
-         (resultArr).push(arrVal);
-         return resultArr;
-      }, []);
       let D3Funnel = require('d3-funnel');
-      const options = {
+      let recruitingFunnelData = formingDataToRecruitingFunnel();
+      const recruitingFunnelOptions = {
          chart: {
-            width: '700',
-            height: '600',
-            animate: 600,
-            curve: 'enabled'
+            width: 900,
+            height: 350,
+            bottomWidth: 1 / 2,
+            curve: {
+               enabled: true
+            }
          },
          block: {
             highlight: true,
-            minHeight: '32px',
             fill: {
                type: 'gradient',
-               scale: [
-                  '#006064',
-                  '#00838F',
-                  '#0097A7',
-                  '#00ACC1',
-                  '#00BCD4',
-                  '#26C6DA',
-                  '#4DD0E1',
-                  '#80DEEA',
-                  '#B2EBF2',
-                  '#E0F7FA'
-               ]
+               scale: colorsOfFunnelBlocks
+            },
+            dynamicHeight: true,
+            minHeight: 20
+         },
+         label: {
+            format: '{l}: {v} {f}'
+         },
+         events: {
+            click: {
+               block: onClickBlockHendler()
             }
          }
       };
       let chart = new D3Funnel('#funnel');
-      chart.draw(data, options);
+      chart.draw(recruitingFunnelData, recruitingFunnelOptions);
+   }
+
+   function formingDataToRecruitingFunnel() {
+      let firstValueLength = vm.candidatesGropedByStage[1].length;
+      return reduce(vm.candidatesGropedByStage, (resultArr, val, key) => {
+         let countAndPercentsValueArray = [];
+         countAndPercentsValueArray[0] = val.length;
+         countAndPercentsValueArray[1] = ` ${arrow} ${round(((val.length / firstValueLength) * 100), 1)} %`;
+         let valueWithLableArray = [];
+         valueWithLableArray[0] = find(vm.stages, {id: toNumber(key)}).title;
+         valueWithLableArray[1] = countAndPercentsValueArray;
+         (resultArr).push(valueWithLableArray);
+         return resultArr;
+      }, []);
+   }
+
+   function onClickBlockHendler() {
    }
 }

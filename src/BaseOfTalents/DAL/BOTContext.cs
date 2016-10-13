@@ -56,16 +56,18 @@ namespace DAL
     {
         private static readonly Dictionary<Type, EntitySetBase> _mappingCache =
             new Dictionary<Type, EntitySetBase>();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BOTContext"/> class.
+        /// Is needed for migrations only
+        /// </summary>
+        public BOTContext()
+        {
 
+        }
 
         public BOTContext(string connectionString)
             : base(connectionString)
         {
-        }
-
-        public BOTContext()
-        {
-
         }
 
         public virtual DbSet<Source> Sources { get; set; }

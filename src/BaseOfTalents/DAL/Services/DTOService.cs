@@ -7,7 +7,7 @@ namespace DAL.Services
     public static class DTOService
     {
         public static DTO ToDTO<DomainEntity, DTO>(DomainEntity entity)
-            where DomainEntity : BaseEntity, new()
+            where DomainEntity : new()
             where DTO : BaseEntityDTO, new()
         {
             return Mapper.Map<DomainEntity, DTO>(entity);

@@ -344,11 +344,18 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    }
 
    function editCandidate() {
-      $state.go('candidate', {_data: vm.candidate, candidateId: vm.candidate.id});
+      $state.go('candidate', {_data: null, candidateId: vm.candidate.id});
    }
 
    function back() {
-      $state.go($state.current.parent, {}, {reload: true});
+      if ($state.params._data === null && $state.previous.name !== 'candidate') {
+         $state.go($state.previous, {_data: null, vacancyGoBack: null}, {reload: true});
+      } else if ($state.params._data !== null && $state.previous.name !== 'candidate') {
+         $state.go($state.previous, {_data: null, vacancyGoBack:
+                                     $state.params._data.vacancyGoBack}, {reload: true});
+      } else {
+         $state.go($state.current.parent, {}, {reload: true});
+      }
    }
 
    function saveChanges() {

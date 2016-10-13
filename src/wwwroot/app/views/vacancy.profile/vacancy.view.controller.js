@@ -307,7 +307,12 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    }
 
    function back() {
-      $state.go($state.current.parent, {}, {reload: true});
+      if ($state.params._data === null) {
+         $state.go($state.previous, {_data: null, vacancyGoBack: null}, {reload: true});
+      } else {
+         $state.go($state.previous, {_data: null, vacancyGoBack:
+                                     $state.params._data.vacancyGoBack}, {reload: true});
+      }
    }
 
    function _saveComment(comment) {

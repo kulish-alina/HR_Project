@@ -35,7 +35,6 @@ $deployConfigPath          = Join-Path $PSScriptRoot "./deploy.json"
 $localFrontendConfigPath   = Join-Path $PSScriptRoot "./wwwroot/config/config.context/local.json"
 $frontendBuildResultPath   = Join-Path $PSScriptRoot "./wwwroot/dist/*"
 $solutionPath              = Join-Path $PSScriptRoot "./BaseOfTalents/BaseOfTalents.sln"
-$backendBuildResultPath    = Join-Path $PSScriptRoot "./BaseOfTalents/ApiHost/build/*"
 
 ## Starting preparations to the build
 ## Getting build parameters
@@ -56,6 +55,7 @@ $dest = PSCoalesce $DestinationPath "."
 $releaseDir = Join-Path $dest       $rel
 $wwwrootDir = Join-Path $releaseDir $config.wwwroot
 $uploadsDir = Join-Path $releaseDir $config.uploads
+$releasePath = Join-Path $PSScriptRoot $releaseDir
 
 ## Checking execution environment
 ## First of all it is npm, bower and msbuild   
@@ -89,9 +89,6 @@ Write-Output " Frontend build running.."
 npm run dist-build
 Set-Location ..
 
-Write-Host "3. Start serving backend.." -ForegroundColor DarkYellow
-msbuild.exe $solutionPath /t:Build /p:Configuration=Release /nologo /m /v:m
-
 ## Collecting all the data together
 if(Test-Path $releaseDir) {
    Remove-Item $releaseDir -Recurse -Force
@@ -100,7 +97,10 @@ if(Test-Path $releaseDir) {
 New-Item $releaseDir -Type Directory
 New-Item $wwwrootDir -Type Directory
 New-Item $uploadsDir -Type Directory
-Move-Item -Path $backendBuildResultPath   -Destination $releaseDir
+
+Write-Host "3. Start serving backend.." -ForegroundColor DarkYellow
+msbuild.exe $solutionPath /t:Build /p:Configuration=Release /p:DebugSymbols=false /p:DebugType=None /p:ExcludeGeneratedDebugSymbol=true /p:AllowedReferenceRelatedFileExtensions=none /p:OutputPath=$releasePath /nologo /m /v:m 
+
 Move-Item -Path $frontendBuildResultPath  -Destination $wwwrootDir
 Copy-Item -Path $deployConfigPath         -Destination $releaseDir
 

@@ -162,7 +162,8 @@
       "EVENT_TYPE": "Event type",
       "CREATED_ON": "Created on:",
       "AUTHOR": "Author:",
-      "BACK": "Back"
+      "BACK": "Back",
+      "FOR": "for"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -279,7 +280,8 @@
       "ERROR_CANDIDATE_SAVING": "Some error has occurred while saving candidate!",
       "ERROR_CANDIDATES_SEARCH": "Some error has occurred while receiving candidates from database!",
       "EVENT_REMOVING_DIALOG": "Do you really want to remove this event?",
-      "INVALID_DATES": "Dealine date or end date cannot be less than start date"
+      "INVALID_DATES": "End date cannot be less than start date",
+      "EMPTY_REPORT_CONDITIONS": "Please select at least one user or location"
    },
 
    "MEMBERS" : {
@@ -299,5 +301,31 @@
       "LOGIN" :"Login",
       "PASSWORD" : "Password",
       "SESSION_EXPIRED":"Sorry, your session has expired, please login again"
+   },
+   
+   "REPORTS" : {
+      "REPORTS" : "Reports",
+      "USERS_REPORT" : "Users report",
+      "VACANCIES_REPORT" : "Vacancies report",
+      "RECRUITING_FUNNEL" : "Recruiting funnel",
+      "CANDIDATES_ATTACHED_TO_VACANCY" : "Candidates attached to vacancy",
+      "REPORT_CONDITIONS" : "Conditions",
+      "USER_REPORT_CHART" : "Users' report chart",
+      "VACANCY_REPORT_CHART" : "Vacancies' report chart",
+      "USER_REPORT_DATA" : "Users' report data",
+      "VACANCY_REPORT_DATA" : "Vacancies' report data",
+      "DATE_RANGE" : "Date range",
+      "GENERATE" : "Generate",
+      "CLOSED" : "Closed",
+      "ACTIVE_VACANCIES" : "Active vacancies",
+      "PENDING" : "Pending",
+      "OPEN" : "Open",
+      "IN_PROGRESS" : "In progress",
+      "DYNAMICS" : "Dynamics of the reporting period",
+      "CANCELED" : "Canceled",
+      "FOR_BEGINING" : "at the beginning of period",
+      "FOR_END": "at the end of period",
+      "FOR_SELECTED": "at the selected date"
+      
    }
 }

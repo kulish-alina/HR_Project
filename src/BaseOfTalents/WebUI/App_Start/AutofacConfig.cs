@@ -54,6 +54,10 @@ namespace WebUI.App_Start
                 .As<BaseService<Country, CountryDTO>>()
                 .InstancePerRequest();
 
+            builder.RegisterType<CVParserService>()
+                .As<CVParserService>()
+                .InstancePerRequest();
+
             builder.RegisterType<DepartmentGroupService>()
                 .As<BaseService<DepartmentGroup, DepartmentGroupDTO>>()
                 .InstancePerRequest();

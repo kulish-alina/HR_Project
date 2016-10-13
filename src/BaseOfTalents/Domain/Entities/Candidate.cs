@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Domain.Entities
 {
-    public class Candidate : BaseEntity
+    public class Candidate : BaseEntity, ILogable
     {
         public Candidate()
         {
@@ -70,7 +70,13 @@ namespace Domain.Entities
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public virtual ICollection<Skill> Skills { get; set; }
         public virtual ICollection<Event> Events { get; set; }
+        public virtual ICollection<LogUnit> History { get; set; }
 
         public virtual File Photo { get; set; }
+
+        public void Log(LogUnit unitToLog)
+        {
+            History.Add(unitToLog);
+        }
     }
 }

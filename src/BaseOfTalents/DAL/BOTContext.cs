@@ -1,4 +1,8 @@
-﻿using System;
+﻿using DAL.Infrastructure;
+using DAL.Mapping;
+using Domain.Entities;
+using Domain.Entities.Enum.Setup;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -7,10 +11,6 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
 using System.Linq;
-using DAL.Infrastructure;
-using DAL.Mapping;
-using Domain.Entities;
-using Domain.Entities.Enum.Setup;
 
 namespace DAL
 {
@@ -111,6 +111,7 @@ namespace DAL
             modelBuilder.Configurations.Add(new VacancyConfiguration());
             modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
             modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
+            modelBuilder.Configurations.Add(new LogUnitConfiguration());
 
             modelBuilder.Configurations.Add(new CommentConfiguration());
             modelBuilder.Configurations.Add(new FileConfiguration());
@@ -142,6 +143,8 @@ namespace DAL
 
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
             modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
+
+
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 

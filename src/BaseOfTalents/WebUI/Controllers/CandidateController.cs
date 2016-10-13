@@ -4,6 +4,7 @@ using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
+using WebUI.Infrastructure.Auth;
 using WebUI.Models;
 
 namespace WebUI.Controllers
@@ -12,14 +13,16 @@ namespace WebUI.Controllers
     public class CandidateController : ApiController
     {
         private CandidateService service;
+        private IAuthContainer<string> authContainer;
         private static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        public CandidateController(CandidateService service)
+        public CandidateController(CandidateService service, IAuthContainer<string> authContainer)
         {
             this.service = service;
+            this.authContainer = authContainer;
         }
         public CandidateController()
         {
@@ -64,11 +67,15 @@ namespace WebUI.Controllers
                 var candidatesQuerryResult = tupleResult.Item1;
                 var total = tupleResult.Item2;
 
-                var ret = new { Candidate = candidatesQuerryResult,
-                                Current = searchParameters.Current,
-                                Size = searchParameters.Size, Total = total,
-                                SortBy = searchParameters.SortBy,
-                                SortAsc = searchParameters.SortAsc };
+                var ret = new
+                {
+                    Candidate = candidatesQuerryResult,
+                    Current = searchParameters.Current,
+                    Size = searchParameters.Size,
+                    Total = total,
+                    SortBy = searchParameters.SortBy,
+                    SortAsc = searchParameters.SortAsc
+                };
                 return Json(ret, BOT_SERIALIZER_SETTINGS);
             }
             return BadRequest(ModelState);
@@ -97,7 +104,7 @@ namespace WebUI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var addedCandidate = service.Add(newCandidate);
+            var addedCandidate = service.Add(newCandidate, authContainer.Get(this.ActionContext.Request.Headers.Authorization.Parameter).Item1.Id);
             return Json(addedCandidate, BOT_SERIALIZER_SETTINGS);
         }
 
@@ -110,7 +117,7 @@ namespace WebUI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var updatedCandidate = service.Update(changedCandidate);
+            var updatedCandidate = service.Update(changedCandidate, authContainer.Get(this.ActionContext.Request.Headers.Authorization.Parameter).Item1.Id);
             return Json(updatedCandidate, BOT_SERIALIZER_SETTINGS);
         }
 

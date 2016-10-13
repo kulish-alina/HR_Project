@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Domain.Entities
 {
-    public class Vacancy : BaseEntity
+    public class Vacancy : BaseEntity, ILogable
     {
         public Vacancy()
         {
@@ -38,6 +38,7 @@ namespace Domain.Entities
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<LogUnit> History { get; set; }
 
         public int? ChildVacanciesNumber { get; set; }
         public virtual ICollection<Vacancy> ChildVacancies { get; set; }
@@ -63,5 +64,10 @@ namespace Domain.Entities
         public virtual Currency Currency { get; set; }
 
         public virtual LanguageSkill LanguageSkill { get; set; }
+
+        public void Log(LogUnit unitToLog)
+        {
+            History.Add(unitToLog);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DAL.DTO;
 using DAL.Infrastructure;
+using DAL.LoggerCore;
 using DAL.Services;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
@@ -10,8 +11,10 @@ namespace DAL.Extensions
 {
     public static class CandidateExtensions
     {
-        public static void Update(this Candidate destination, CandidateDTO source, IUnitOfWork uow)
+        public static void Update(this Candidate destination, CandidateDTO source, IUnitOfWork uow, int userId)
         {
+            LogChanges(destination, source, userId);
+
             destination.State = source.State;
             destination.FirstName = source.FirstName;
             destination.MiddleName = source.MiddleName;
@@ -61,6 +64,11 @@ namespace DAL.Extensions
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
             PerformEventsSaving(destination, source, uow.EventRepo);
+        }
+
+        private static void LogChanges(Candidate destination, CandidateDTO source, int userId)
+        {
+            Logger.Log(destination, source, userId);
         }
 
         private static void PerformRelocationPlacesSaving(Candidate destination, CandidateDTO source, IRepository<City> locationRepo)
@@ -206,7 +214,7 @@ namespace DAL.Extensions
             source.VacanciesProgress.Where(x => x.IsNew()).ToList().ForEach(newVacancyStageInfo =>
             {
                 var toDomain = new VacancyStageInfo();
-                toDomain.Update(vacancyRepo.GetByID(newVacancyStageInfo.VacancyId.Value), newVacancyStageInfo);
+                toDomain.Update(vacancyRepo.GetByID(newVacancyStageInfo.VacancyId), newVacancyStageInfo);
                 destination.VacanciesProgress.Add(toDomain);
             });
         }

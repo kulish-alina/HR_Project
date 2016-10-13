@@ -1,6 +1,5 @@
 import utils  from '../utils.js';
 import {
-//   isNumber,
    filter,
    remove,
    each,

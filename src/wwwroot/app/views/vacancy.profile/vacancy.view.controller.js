@@ -18,7 +18,6 @@ import {
    isMatch
 } from 'lodash/fp';
 
-
 const MATCH_FIELDS = ['responsibleId', 'startDate', 'endDate', 'deadlineDate'];
 
 export default function VacancyProfileController( // eslint-disable-line max-params, max-statements
@@ -35,7 +34,8 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    UserDialogService,
    FileService,
    LoggerService,
-   CandidateService
+   CandidateService,
+   LogginService
    ) {
    'ngInject';
 
@@ -74,10 +74,10 @@ export default function VacancyProfileController( // eslint-disable-line max-par
              vm.vacancyStageInfosComposedByCandidateIdVacancyId);
         })
         .then(() => {
-          /* toReadableFormat(vm.vacancy.history).then((converted) => {
+           LogginService.toReadableFormat(vm.vacancy.history, vm).then((converted) => {
               vm.convertedHistory = converted;
               vm.isVacancyLoaded = true;
-           });*/
+           });
         })
         .catch(LoggerService.error);
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
@@ -177,9 +177,6 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          }
       });
       let composedWithCurrentStage = map(vacancyStageInfosComposedByCandidateIdVacancyId, (candObject) => {
-         /*let currentStageId = filter(candObject.vacancyStageInfos, (vsi) => {
-            return vsi.stageState === 1;
-         })[0].stageId;*/
          let currentStageId = find(candObject.vacancyStageInfos, ['stageState', 1]).stageId;
          return Object.assign(candObject, {
             currentStageId

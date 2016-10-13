@@ -7,12 +7,10 @@ import {
    find,
    forEach,
    map,
-   filter,
-   trim,
-   head
+   filter
 } from 'lodash';
 
-export default function CandidateProfileController( // eslint-disable-line max-statements
+export default function CandidateProfileController( // eslint-disable-line max-statements, max-params
    $scope,
    $q,
    $translate,
@@ -26,7 +24,8 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    LoggerService,
    EventsService,
    UserService,
-   SearchService
+   SearchService,
+   LogginService
    ) {
    'ngInject';
 
@@ -52,12 +51,6 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    vm.vacancyStageInfosComposedByCandidateIdVacancyId = [];
    vm.isCandidateLoaded       = false;
    vm.currentUser             = UserService.getCurrentUser();
-   const FIELD_TYPES = {
-      'Plain' : 1,
-      'Array' : 2,
-      'CandidatesProgress' : 3,
-      'VacanciesProgress' : 4
-   };
 
    function _init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
@@ -73,7 +66,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
             }, true);
          })
          .then(() => {
-            toReadableFormat(vm.candidate.history).then((converted) => {
+            LogginService.toReadableFormat(vm.candidate.history, vm).then((converted) => {
                vm.convertedHistory = converted;
                vm.isCandidateLoaded = true;
             });
@@ -206,114 +199,6 @@ export default function CandidateProfileController( // eslint-disable-line max-s
          deffered.resolve(stagesObjectWithVacancy);
       });
       return deffered.promise;
-   }
-
-
-   /**
-    *
-    * @param {array} history - array of logs of candidate
-    * @returns {array} promise, with array of string representation of logs of history
-    */
-   function toReadableFormat(history)  {
-      return $q.all(map(history, convert));
-   }
-
-
-   /**
-    *
-    *
-    * @param {any} log object of history
-    * @returns {promise} with descripion of log
-    */
-   function convert(log) {
-      let deffered = $q.defer();
-      if (!log.user) {
-         UserService.getUserById(log.userId).then(user => {
-            log.user = user;
-         });
-      }
-      if (isVSICase(log)) {
-         deffered.resolve(fromVSI(log));
-      } else {
-         fromSimple(log).then(p => {
-            deffered.resolve(p);
-         });
-      }
-      return deffered.promise;
-   }
-
-   function isVSICase(log) {
-      return log.fieldType === FIELD_TYPES.VacanciesProgress;
-   }
-
-   /*function isArrayCase(log) {
-      return log.fieldType === FIELD_TYPES.Array;
-   }
-   function fromArray(log) {
-      if (log.field === 'CityId') {
-         ThesaurusService.getThesaurusTopics('city').then(cities => {
-            let actualCities = filter(cities, city => {
-               return find(log.values, toString(city.id));
-            });
-            debugger;
-            log.cities = map(actualCities, city => {
-               return city.title;
-            });
-         });
-      }
-      return `User ${log.user.lastName} have changed ${log.field} to ${log.stageTitle}`;
-   }*/
-
-   function fromSimple(log) {
-      if (/id/i.test(log.field)) {
-         log.field = trim(log.field, 'Id');
-      }
-      return getNewValue(log).then((newValueOfField) => {
-         return {
-            createdOn : log.createdOn,
-            user: log.user.lastName,
-            field: log.field,
-            value: newValueOfField
-         };
-      });
-   }
-
-   function getNewValue(log) {
-      let deffered = $q.defer();
-      if (/city/i.test(log.field)) {
-         let cityId = parseInt(head(log.values));
-         ThesaurusService.getThesaurusTopic('city', cityId).then(city => {
-            deffered.resolve(city.title);
-         });
-      } else {
-         deffered.resolve(head(log.values));
-      }
-      return deffered.promise;
-   }
-
-   function fromVSI(log) {
-      log.vacancyTitle = getVacancyTitleFrom(log);
-      log.stageTitle = getStageTitleFrom(log);
-      return {
-         createdOn: log.createdOn,
-         user: log.user.lastName,
-         field: `${log.vacancyTitle} stage`,
-         value: log.stageTitle
-      };
-   }
-
-   function getVacancyTitleFrom(log) {
-      let vsi = find(vm.vacancyStageInfosComposedByCandidateIdVacancyId, ['vacancyId', parseInt(log.field)]);
-      if (!vsi) {
-         //TODO: case when user removed appropriate vacancy from
-         //candidate vacancies list, so we should get it from VacancyService
-      }
-      return vsi.vacancy.title;
-   }
-   function getStageTitleFrom(log) {
-      let vsi = find(vm.vacancyStageInfosComposedByCandidateIdVacancyId, ['vacancyId', parseInt(log.field)]);
-      let stage = find(vsi.stageFlow, ['stage.id', parseInt(head(log.values))]);
-      return stage.stage.title;
    }
 
    vm.goToVacancies = () => {

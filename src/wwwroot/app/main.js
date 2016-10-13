@@ -53,7 +53,7 @@ import SessionService                from './services/SessionService';
 import ReportsService                from './services/ReportsService';
 import CVParserService                from './services/CVParserService';
 import SearchService                 from './services/SearchService';
-
+import LogginService                 from './services/LogginService';
 
 import ThesaurusDirective            from './directives/thesaurus/thesaurus';
 import ContactInfoDirective          from './directives/contacts/contact-info';
@@ -123,6 +123,7 @@ angular
    .service('ReportsService',      ReportsService)
    .service('CVParserService',      CVParserService)
    .service('SearchService',       SearchService)
+   .service('LogginService',       LogginService)
 
    .directive('thesaurus',              ThesaurusDirective.createInstance)
    .directive('contacts',               ContactInfoDirective.createInstance)

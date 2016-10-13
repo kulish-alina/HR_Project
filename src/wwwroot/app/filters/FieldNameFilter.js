@@ -1,5 +1,4 @@
 export default function() {
-   console.log('field');
    return function _fieldName(field) {
       switch (field) {
          case 'FirstName': {

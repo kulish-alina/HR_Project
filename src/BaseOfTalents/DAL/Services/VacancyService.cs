@@ -98,7 +98,8 @@ namespace DAL.Services
             CreateChildVacanciesIfNeeded(vacancyToUpdate, vacancy);
             uow.VacancyRepo.Update(vacancyToUpdate);
             uow.Commit();
-            return DTOService.ToDTO<Vacancy, VacancyDTO>(vacancyToUpdate);
+            var super = uow.VacancyRepo.GetByID(vacancyToUpdate.Id);
+            return DTOService.ToDTO<Vacancy, VacancyDTO>(super);
         }
 
         public VacancyDTO Add(VacancyDTO vacancy, int userId)

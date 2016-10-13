@@ -113,7 +113,7 @@ namespace DAL.Extensions
             //LOG
             PerformLevelsSaving(destination, source, uow.LevelRepo);
             //LOG
-            PerformLocationsSaving(destination, source, uow.CityRepo);
+            PerformCitiesSaving(destination, source, uow.CityRepo);
             PerformTagsSaving(destination, source, uow.TagRepo);
             PerformSkillsSaving(destination, source, uow.SkillRepo);
             PerformLanguageSkillsSaving(destination, source, uow.LanguageSkillRepo);
@@ -121,9 +121,8 @@ namespace DAL.Extensions
             PerformVacanciesProgressSaving(destination, source, uow.VacancyStageInfoRepo);
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
-            //LOG
+            //LOG, after change of this
             PerformChildVacanciesUpdating(destination, uow);
-            //LOG
             PerformVacancyStatesUpdating(destination, source);
         }
 
@@ -279,7 +278,7 @@ namespace DAL.Extensions
             });
         }
 
-        private static void PerformLocationsSaving(Vacancy destination, VacancyDTO source, ICityRepository locationRepository)
+        private static void PerformCitiesSaving(Vacancy destination, VacancyDTO source, ICityRepository locationRepository)
         {
             destination.Cities.Clear();
             source.CityIds.ToList().ForEach(locationId =>

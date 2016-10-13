@@ -4,6 +4,7 @@ using DAL.DTO.SetupDTO;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using System.Collections.Generic;
+using System.Linq;
 using WebUI.Globals.Converters;
 using WebUI.Models;
 
@@ -21,8 +22,7 @@ namespace WebUI.App_Start
                 x.CreateMap<Comment, CommentDTO>();
                 x.CreateMap<CommentDTO, Comment>();
 
-                x.CreateMap<LogUnit, LogUnitDTO>();
-                x.CreateMap<LogUnitDTO, LogUnit>();
+
 
                 x.CreateMap<Country, CountryDTO>();
                 x.CreateMap<CountryDTO, Country>();
@@ -133,6 +133,11 @@ namespace WebUI.App_Start
 
                 x.CreateMap<Permission, PermissionDTO>()
                         .ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Role>, IEnumerable<int>>(src.Roles)));
+
+                x.CreateMap<LogUnit, LogUnitDTO>()
+                    .ForMember(dest => dest.User, opt => opt.MapFrom(src => Mapper.Map<User, UserDTO>(src.User)))
+                    .ForMember(dest => dest.Values, opt => opt.MapFrom(src => src.Values.Select(y => y.Value)));
+                x.CreateMap<LogUnitDTO, LogUnit>();
 
                 x.CreateMap<User, UserDTO>()
                    .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<File, FileDTO>(src.Photo)))

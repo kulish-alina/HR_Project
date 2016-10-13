@@ -358,15 +358,28 @@ namespace DAL.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         UserId = c.Int(nullable: false),
                         Field = c.String(),
+                        FieldType = c.Int(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.User", t => t.UserId)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.LogValue",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
                         Value = c.String(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
                         IsDeleted = c.Boolean(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.User", t => t.UserId)
-                .Index(t => t.UserId);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Industry",
@@ -681,6 +694,19 @@ namespace DAL.Migrations
                 .Index(t => t.FileId);
             
             CreateTable(
+                "dbo.LogUnitToLogValue",
+                c => new
+                    {
+                        LogValueId = c.Int(nullable: false),
+                        LogUnitId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.LogValueId, t.LogUnitId })
+                .ForeignKey("dbo.LogUnit", t => t.LogValueId)
+                .ForeignKey("dbo.LogValue", t => t.LogUnitId)
+                .Index(t => t.LogValueId)
+                .Index(t => t.LogUnitId);
+            
+            CreateTable(
                 "dbo.LogUnitToVacancy",
                 c => new
                     {
@@ -887,6 +913,8 @@ namespace DAL.Migrations
             DropForeignKey("dbo.Vacancy", "IndustryId", "dbo.Industry");
             DropForeignKey("dbo.LogUnitToVacancy", "LogUnitId", "dbo.LogUnit");
             DropForeignKey("dbo.LogUnitToVacancy", "VacancyId", "dbo.Vacancy");
+            DropForeignKey("dbo.LogUnitToLogValue", "LogUnitId", "dbo.LogValue");
+            DropForeignKey("dbo.LogUnitToLogValue", "LogValueId", "dbo.LogUnit");
             DropForeignKey("dbo.LogUnit", "UserId", "dbo.User");
             DropForeignKey("dbo.FileToVacancy", "FileId", "dbo.File");
             DropForeignKey("dbo.FileToVacancy", "VacancyId", "dbo.Vacancy");
@@ -943,6 +971,8 @@ namespace DAL.Migrations
             DropIndex("dbo.VacancyToLevel", new[] { "VacancyId" });
             DropIndex("dbo.LogUnitToVacancy", new[] { "LogUnitId" });
             DropIndex("dbo.LogUnitToVacancy", new[] { "VacancyId" });
+            DropIndex("dbo.LogUnitToLogValue", new[] { "LogUnitId" });
+            DropIndex("dbo.LogUnitToLogValue", new[] { "LogValueId" });
             DropIndex("dbo.FileToVacancy", new[] { "FileId" });
             DropIndex("dbo.FileToVacancy", new[] { "VacancyId" });
             DropIndex("dbo.VacancyToComment", new[] { "CommentId" });
@@ -1010,6 +1040,7 @@ namespace DAL.Migrations
             DropTable("dbo.VacancyToSkill");
             DropTable("dbo.VacancyToLevel");
             DropTable("dbo.LogUnitToVacancy");
+            DropTable("dbo.LogUnitToLogValue");
             DropTable("dbo.FileToVacancy");
             DropTable("dbo.VacancyToComment");
             DropTable("dbo.VacancyToCity");
@@ -1031,6 +1062,7 @@ namespace DAL.Migrations
             DropTable("dbo.Language");
             DropTable("dbo.LanguageSkill");
             DropTable("dbo.Industry");
+            DropTable("dbo.LogValue");
             DropTable("dbo.LogUnit");
             DropTable("dbo.DepartmentGroup");
             DropTable("dbo.Department");

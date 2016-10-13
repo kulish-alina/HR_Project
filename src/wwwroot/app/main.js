@@ -71,6 +71,7 @@ import uiMask                        from 'angular-ui-mask';
 import PhoneFormatFilter             from './filters/PhoneFormatFilter';
 import ArrayAsString                 from './filters/ArrayAsString';
 import botUrl                        from './filters/botUrl';
+import fieldName                     from './filters/FieldNameFilter';
 
 import StateRunner                   from './state-runner';
 import AuthRunner                    from './runner.auth';
@@ -136,6 +137,8 @@ angular
    .filter('tel',                 PhoneFormatFilter)
    .filter('arrayAsString',       ArrayAsString)
    .filter('botUrl',              botUrl)
+   .filter('fieldName',           fieldName)
+
 
    .factory('authInterceptor', authInterceptor)
 

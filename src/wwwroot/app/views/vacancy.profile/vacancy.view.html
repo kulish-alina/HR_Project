@@ -86,7 +86,32 @@
             </div>
          </div>
          <hr>
-         <div class="card-section"> </div>
+         <div class="card-section"> 
+            <div ng-if="isVacancyLoaded" class="card-section">
+               <table>
+                  <thead>
+                     <tr>
+                        <th ng-bind="::'COMMON.DATE' | translate"></th>
+                        <th ng-bind="::'COMMON.USER' | translate"></th>
+                        <th ng-bind="::'COMMON.FIELD' | translate"></th>
+                        <th ng-bind="::'COMMON.VALUE' | translate"></th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr ng-repeat="log in convertedHistory | orderBy : '-createdOn' track by $index ">
+                        <td class="date-td" ng-bind="log.createdOn | date : '[dd.MM.yy - H:mm]'">
+                        </td>
+                        <td ng-bind="log.user">
+                        </td>
+                        <td ng-bind="log.field | fieldName">
+                        </td>
+                        <td ng-bind="log.value">
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
    </div>
    <div class="medium-3 grid-block vertical-sidebar">

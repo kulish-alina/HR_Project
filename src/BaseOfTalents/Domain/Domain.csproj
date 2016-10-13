@@ -49,6 +49,7 @@
     <Compile Include="Entities\Enum\AccessRights.cs" />
     <Compile Include="Entities\Enum\CommentType.cs" />
     <Compile Include="Entities\Enum\EntityState.cs" />
+    <Compile Include="Entities\Enum\FieldType.cs" />
     <Compile Include="Entities\Enum\LanguageLevel.cs" />
     <Compile Include="Entities\Enum\Setup\Country.cs" />
     <Compile Include="Entities\Enum\Setup\Currency.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Entities\ILogable.cs" />
     <Compile Include="Entities\LanguageSkill.cs" />
     <Compile Include="Entities\LogUnit.cs" />
+    <Compile Include="Entities\LogValue.cs" />
     <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Entities\RelocationLocation.cs" />

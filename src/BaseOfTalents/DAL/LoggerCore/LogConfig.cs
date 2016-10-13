@@ -7,27 +7,80 @@ namespace DAL.LoggerCore
     /// </summary>
     public class LogConfig
     {
-        public static List<string> FieldToLog
+        public static List<LogginField> FieldsToLog
         {
             get
             {
-                return fieldToLog;
+                return fieldsToLog;
             }
         }
 
-        private static List<string> fieldToLog = new List<string>
+        private static List<LogginField> fieldsToLog = new List<LogginField>
         {
-            "FirstName",
-            "LastName",
-            "PositionDesired",
-            "CityId",
-            "VacanciesProgress",
-            "Title",
-            "Description",
-            "EndDate",
-            "DepartmentId",
-            "ResponsibleId",
-            "StatesInfo"
+            new LogginField
+            {
+                DomainFieldName = "FirstName",
+                DTOFieldName = "FirstName"
+            },
+            new LogginField
+            {
+                DomainFieldName = "LastName",
+                DTOFieldName = "LastName"
+            },
+            new LogginField
+            {
+                DomainFieldName = "PositionDesired",
+                DTOFieldName = "PositionDesired"
+            },
+            new LogginField
+            {
+                DomainFieldName = "CityId",
+                DTOFieldName = "CityId"
+            },
+            new LogginField
+            {
+                DomainFieldName = "Title",
+                DTOFieldName = "Title"
+            },
+            new LogginField
+            {
+                DomainFieldName = "Progress",
+                DTOFieldName = "Progress"
+            },
+            new LogginField
+            {
+                DomainFieldName = "Description",
+                DTOFieldName = "Description"
+            },
+            new LogginField
+            {
+                DomainFieldName = "EndDate",
+                DTOFieldName = "EndDate"
+            },
+            new LogginField
+            {
+                DomainFieldName = "DepartmentId",
+                DTOFieldName = "DepartmentId"
+            },
+            new LogginField
+            {
+                DomainFieldName = "ResponsibleId",
+                DTOFieldName = "ResponsibleId"
+            },
+            new LogginField
+            {
+                DomainFieldName = "State",
+                DTOFieldName = "State"
+            },
+            new LogginField
+            {
+                DomainFieldName = "Levels",
+                DTOFieldName = "LevelIds"
+            },new LogginField
+            {
+                DomainFieldName = "Cities",
+                DTOFieldName = "CityIds"
+            }
         };
     }
 }

@@ -5,14 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace DAL.LoggerCore
 {
     public class Logger
     {
-        private static Func<KeyValuePair<int, VacancyStageInfo>, bool> isVacancyIdToVsiExists = (destinationVsi) => !destinationVsi.Equals(default(KeyValuePair<int, VacancyStageInfo>));
+        private static Func<KeyValuePair<int, VacancyStageInfo>, bool> isIdToVsiExists = (destinationVsi) => !destinationVsi.Equals(default(KeyValuePair<int, VacancyStageInfo>));
         private static Func<KeyValuePair<int, VacancyStageInfo>, KeyValuePair<int, VacancyStageInfoDTO>, bool> StagesAreEquals =
             (destinationVsi, vacancyIdToActiveStage) => destinationVsi.Value.StageId != vacancyIdToActiveStage.Value.StageId;
+        private static Func<string, bool> isCitiesOrLevels = (field) => Regex.IsMatch(field, "(citi|level)", RegexOptions.IgnoreCase);
 
         /// <summary> 
         /// Performs a comparison and logs, if appropriate field changed
@@ -31,11 +33,26 @@ namespace DAL.LoggerCore
 
             foreach (var destinationKvp in destinationPropertiesAndValue)
             {
-                var sourceKvp = sourcePropertiesAndValue.FirstOrDefault(x => x.Key.Equals(destinationKvp.Key));
-                if (destinationKvp.Key.Equals("VacanciesProgress") && typeof(T).Name == "Candidate")
+                var fieldToLog = LogConfig.FieldsToLog.FirstOrDefault(x => Regex.IsMatch(destinationKvp.Key, x.DomainFieldName, RegexOptions.IgnoreCase));
+                var sourceKvp = sourcePropertiesAndValue.FirstOrDefault(x => x.Key.Contains(fieldToLog.DTOFieldName));
+                if (destinationKvp.Key.Contains("Progress"))
                 {
-
                     HandleVacanciesProgressCase(destination, userId, destinationKvp, sourceKvp);
+                }
+                else if (isCitiesOrLevels(destinationKvp.Key))
+                {
+                    var sourceIds = sourceKvp.Value as List<int>;
+                    var destinationIds = (((IEnumerable<BaseEntity>)destinationKvp.Value)).Select(x => x.Id).ToList();
+                    if (!sourceIds.SequenceEqual(destinationIds))
+                    {
+                        destination.Log(new LogUnit
+                        {
+                            Field = destinationKvp.Key,
+                            UserId = userId,
+                            Values = CreateLogValueListOf(sourceIds.Select(x => x.ToString()).ToArray<string>()),
+                            FieldType = FieldType.Array
+                        });
+                    }
                 }
                 else if (!destinationKvp.Value.Equals(sourceKvp.Value))
                 {
@@ -43,10 +60,16 @@ namespace DAL.LoggerCore
                     {
                         Field = destinationKvp.Key,
                         UserId = userId,
-                        Value = sourceKvp.Value.ToString()
+                        Values = CreateLogValueListOf(sourceKvp.Value.ToString()),
+                        FieldType = FieldType.Plain
                     });
                 }
             }
+        }
+
+        private static ICollection<LogValue> CreateLogValueListOf(params string[] value)
+        {
+            return value.Select(x => new LogValue { Value = x }).ToList();
         }
 
         //TODO: handle delete case
@@ -58,62 +81,66 @@ namespace DAL.LoggerCore
         {
             var destinationVSIs = destinationFieldAndValue.Value as List<VacancyStageInfo>;
             var sourceVSIs = sourceFieldAndValue.Value as List<VacancyStageInfoDTO>;
+            var isCandidate = typeof(T).Name == "Candidate";
+            var fieldType = isCandidate ? FieldType.VacanciesProgress : FieldType.CandidatesProgress;
             if (sourceVSIs == null || !sourceVSIs.Any())
             {
                 return;
             }
 
-            var destinationVacancyIdsToActiveStages = GetDestinationActiveStage(GroupDestinationVSIsByVacancyId(destinationVSIs));
-            var sourceVacancyIdsToActiveStages = GetSourceActiveStage(GroupSourceVSIsByVacancyId(sourceVSIs));
+            var destGrouped = isCandidate ? GroupDestinationVSIsByVacancyId(destinationVSIs) : GroupDestinationVSIsByCandidateId(destinationVSIs);
+            var sourceGrouped = isCandidate ? GroupSourceVSIsByVacancyId(sourceVSIs) : GroupSourceVSIsByCandidateId(sourceVSIs);
 
-            foreach (var sourceVacancyIdToActiveStage in sourceVacancyIdsToActiveStages)
+            var destinationIdsToActiveStages = GetDestinationActiveStage(destGrouped);
+            var sourceIdsToActiveStages = GetSourceActiveStage(sourceGrouped);
+
+            foreach (var sourceIdToActiveStage in sourceIdsToActiveStages)
             {
-                var destinationVacancyIdToActiveStage = GetAppropriateDestinationVsi(destinationVacancyIdsToActiveStages, sourceVacancyIdToActiveStage);
-                if (isVacancyIdToVsiExists(destinationVacancyIdToActiveStage)
-                    && StagesAreEquals(destinationVacancyIdToActiveStage, sourceVacancyIdToActiveStage))
+                var destinationIdToActiveStage = GetAppropriateDestinationVsi(destinationIdsToActiveStages, sourceIdToActiveStage);
+                if (isIdToVsiExists(destinationIdToActiveStage)
+                    && StagesAreEquals(destinationIdToActiveStage, sourceIdToActiveStage))
                 {
                     destination.Log(new LogUnit
                     {
                         UserId = userId,
-                        Field = $"Vacancy {sourceVacancyIdToActiveStage.Key}",
-                        Value = $"Stage {sourceVacancyIdToActiveStage.Value.StageId}"
+                        Field = $"{sourceIdToActiveStage.Key}",
+                        Values = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                        FieldType = fieldType
                     });
                 }
             }
         }
 
-        private static KeyValuePair<int, VacancyStageInfo> GetAppropriateDestinationVsi(Dictionary<int, VacancyStageInfo> destinationVacancyIdsToActiveStages, KeyValuePair<int, VacancyStageInfoDTO> vacancyIdToActiveStage)
-        {
-            return destinationVacancyIdsToActiveStages.FirstOrDefault(x => x.Key == vacancyIdToActiveStage.Key);
-        }
-
-        private static Dictionary<int, VacancyStageInfoDTO> GetSourceActiveStage(Dictionary<int, List<VacancyStageInfoDTO>> sourceVsisGroupedByVacancyId)
-        {
-            return sourceVsisGroupedByVacancyId
-                    .ToDictionary(x => x.Key,
-                              y => y.Value
-                                .FirstOrDefault(x => x.StageState == StageState.Active));
-        }
-
-        private static Dictionary<int, VacancyStageInfo> GetDestinationActiveStage(Dictionary<int, List<VacancyStageInfo>> destVsisGroupedByVacancyId)
-        {
-            return destVsisGroupedByVacancyId
-                    .ToDictionary(x => x.Key,
-                              y => y.Value
-                                .FirstOrDefault(x => x.StageState == StageState.Active));
-        }
-
-        private static Dictionary<int, List<VacancyStageInfoDTO>> GroupSourceVSIsByVacancyId(List<VacancyStageInfoDTO> sourceVSIs)
+        private static Dictionary<int, List<VacancyStageInfoDTO>> GroupSourceVSIsByCandidateId(List<VacancyStageInfoDTO> sourceVSIs)
         {
             return sourceVSIs.Aggregate(new Dictionary<int, List<VacancyStageInfoDTO>>(), (acc, vsi) =>
             {
-                if (acc.ContainsKey(vsi.VacancyId))
+                if (acc.ContainsKey(vsi.CandidateId))
                 {
-                    acc[vsi.VacancyId].Add(vsi);
+                    acc[vsi.CandidateId].Add(vsi);
                 }
                 else
                 {
-                    acc.Add(vsi.VacancyId, new List<VacancyStageInfoDTO>
+                    acc.Add(vsi.CandidateId, new List<VacancyStageInfoDTO>
+                    {
+                        vsi
+                    });
+                }
+                return acc;
+            });
+        }
+
+        private static Dictionary<int, List<VacancyStageInfo>> GroupDestinationVSIsByCandidateId(List<VacancyStageInfo> destinationVSIs)
+        {
+            return destinationVSIs.Aggregate(new Dictionary<int, List<VacancyStageInfo>>(), (acc, vsi) =>
+            {
+                if (acc.ContainsKey(vsi.CandidateId))
+                {
+                    acc[vsi.CandidateId].Add(vsi);
+                }
+                else
+                {
+                    acc.Add(vsi.CandidateId, new List<VacancyStageInfo>
                     {
                         vsi
                     });
@@ -141,6 +168,48 @@ namespace DAL.LoggerCore
             });
         }
 
+        private static KeyValuePair<int, VacancyStageInfo> GetAppropriateDestinationVsi(Dictionary<int, VacancyStageInfo> destinationVacancyIdsToActiveStages, KeyValuePair<int, VacancyStageInfoDTO> vacancyIdToActiveStage)
+        {
+            return destinationVacancyIdsToActiveStages.FirstOrDefault(x => x.Key == vacancyIdToActiveStage.Key);
+        }
+
+        private static Dictionary<int, VacancyStageInfoDTO> GetSourceActiveStage(Dictionary<int, List<VacancyStageInfoDTO>> sourceGroupedVSIs)
+        {
+            return sourceGroupedVSIs
+                    .ToDictionary(x => x.Key,
+                              y => y.Value
+                                .FirstOrDefault(x => x.StageState == StageState.Active));
+        }
+
+        private static Dictionary<int, VacancyStageInfo> GetDestinationActiveStage(Dictionary<int, List<VacancyStageInfo>> destinationGroupedVSIs)
+        {
+            return destinationGroupedVSIs
+                    .ToDictionary(x => x.Key,
+                              y => y.Value
+                                .FirstOrDefault(x => x.StageState == StageState.Active));
+        }
+
+        private static Dictionary<int, List<VacancyStageInfoDTO>> GroupSourceVSIsByVacancyId(List<VacancyStageInfoDTO> sourceVSIs)
+        {
+            return sourceVSIs.Aggregate(new Dictionary<int, List<VacancyStageInfoDTO>>(), (acc, vsi) =>
+            {
+                if (acc.ContainsKey(vsi.VacancyId))
+                {
+                    acc[vsi.VacancyId].Add(vsi);
+                }
+                else
+                {
+                    acc.Add(vsi.VacancyId, new List<VacancyStageInfoDTO>
+                    {
+                        vsi
+                    });
+                }
+                return acc;
+            });
+        }
+
+
+
         private static Dictionary<string, object> getPropsAndValueOf<T>(Type type, T concreteObject)
         {
             return getPropertiesOf(type).ToDictionary(x => x.Name, y => y.GetValue(concreteObject));
@@ -149,7 +218,9 @@ namespace DAL.LoggerCore
         private static IEnumerable<PropertyInfo> getPropertiesOf(Type type)
         {
             return from fieldInfo in type.GetProperties()
-                   where LogConfig.FieldToLog.Any(x => fieldInfo.Name.Contains(x))
+                   where LogConfig.FieldsToLog.Any(x =>
+                                  (fieldInfo.Name.Contains(x.DomainFieldName) || fieldInfo.Name.Contains(x.DTOFieldName))
+                               && !fieldInfo.Name.Contains("StatesInfo"))
                    select fieldInfo;
         }
     }

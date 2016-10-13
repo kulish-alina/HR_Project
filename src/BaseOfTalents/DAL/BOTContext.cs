@@ -109,6 +109,7 @@ namespace DAL
             modelBuilder.Configurations.Add(new VacancyConfiguration());
             modelBuilder.Configurations.Add(new CandidateSocialConfiguration());
             modelBuilder.Configurations.Add(new CandidateSourceConfiguration());
+            modelBuilder.Configurations.Add(new LogUnitConfiguration());
 
             modelBuilder.Configurations.Add(new CommentConfiguration());
             modelBuilder.Configurations.Add(new FileConfiguration());
@@ -140,6 +141,8 @@ namespace DAL
 
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
             modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
+
+
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 

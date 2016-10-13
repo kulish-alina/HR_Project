@@ -61,7 +61,8 @@ namespace WebUI.Controllers
                     searchParameters.Current,
                     searchParameters.Size,
                     searchParameters.SortBy,
-                    searchParameters.SortAsc
+                    searchParameters.SortAsc,
+                    searchParameters.SearchString
                     );
 
                 var candidatesQuerryResult = tupleResult.Item1;

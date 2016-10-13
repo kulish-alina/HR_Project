@@ -1,5 +1,6 @@
 const LIST_OF_THESAURUS = ['industry', 'level', 'city',
     'typeOfEmployment'];
+import _utils from './../../utils';
 import {
    remove,
    find,
@@ -8,10 +9,11 @@ import {
    includes,
    filter,
    forEach,
-   cloneDeep
+   cloneDeep,
+   toLower
 } from 'lodash';
 
-export default function VacanciesController(
+export default function VacanciesController(//eslint-disable-line  max-statements
    $scope,
    $state,
    $q,
@@ -46,6 +48,10 @@ export default function VacanciesController(
    vm.isAllToogled              = false;
    vm.sortBy                    = _sortBy;
    vm.getArrow                  = _getArrow;
+   vm.searchResponsible         = _searchResponsible;
+   vm.getFullName               = _getFullName;
+   vm.utils                     = _utils;
+   vm.getStateTitle             = _getStateTitle;
 
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
@@ -137,6 +143,20 @@ export default function VacanciesController(
       }
    }
 
+   function _searchResponsible(searchString) {
+      return UserService.getUsers((user) => {
+         return includes(toLower(user.firstName), toLower(searchString)) ||
+            includes(toLower(user.lastName), toLower(searchString));
+      });
+   };
+
+   function _getFullName(responsible) {
+      return `${responsible.firstName} ${responsible.lastName}`;
+   }
+
+   function _getStateTitle(key) {
+      return $translate.instant(key);
+   }
    vm.goBackToCandidate = () => {
       if (vm.candidateIdToGoBack) {
          if (vm.selectedVacancies && vm.selectedVacancies.length) {

@@ -1,5 +1,6 @@
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language',
     'department', 'tag', 'skill', 'typeOfEmployment', 'languageLevel', 'stage', 'currency'];
+import _utils from './../../utils';
 import {
    remove,
    set,
@@ -10,7 +11,7 @@ import {
    map
 } from 'lodash';
 
-export default function VacancyController(
+export default function VacancyController( //eslint-disable-line max-statements
    $scope,
    $translate,
    $state,
@@ -23,8 +24,7 @@ export default function VacancyController(
    UserDialogService,
    FileService,
    LoggerService,
-   SearchService
-) {
+   SearchService) {
    'ngInject';
 
    const vm = $scope;
@@ -36,7 +36,6 @@ export default function VacancyController(
    vm.vacancy.comments             = $state.params._data ? $state.params._data.comments : [];
    vm.vacancy.files                = $state.params._data ? $state.params._data.files : [];
    vm.thesaurus                    = [];
-   vm.responsibles                 = [];
    vm.uploader                     = createNewUploader();
    vm.vacancy.requiredSkills       = vm.vacancy.requiredSkills || [];
    vm.vacancy.tags                 = vm.vacancy.tags || [];
@@ -50,32 +49,41 @@ export default function VacancyController(
    vm.goToChildVacancy             = goToChildVacancy;
    vm.goToParentVacancy            = goToParentVacancy;
    vm.removeChildVacancy           = removeChildVacancy;
+   vm.searchResponsible            = _searchResponsible;
+   vm.getFullName                  = _getFullName;
+   vm.utils                        = _utils;
+   vm.getStateTitle                = _getStateTitle;
 
    /* === impl === */
    (function init() {
       _initCurrentVacancy();
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
-      UserService.getUsers().then(users => set(vm, 'responsibles', users));
    }());
 
    function _initCurrentVacancy() {
       if ($state.previous.params._data && $state.params.toPrevious === true) {
          VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
-            set(vm, 'vacancy', vacancy);
-            vm.comments = cloneDeep(vm.vacancy.comments);
+            _setCurrentVacancy(vacancy);
          });
       } else if ($state.params.vacancyId) {
          VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
-            set(vm, 'vacancy', vacancy);
-            vm.comments = cloneDeep(vm.vacancy.comments);
+            _setCurrentVacancy(vacancy);
          });
       } else if ($state.params._data) {
-         vm.vacancy = $state.params._data;
+         _setCurrentVacancy($state.params._data);
       } else {
-         vm.vacancy = {};
-         vm.vacancy.comments = [];
-         vm.vacancy.files = [];
+         let vacancy = {
+            'comments'     : [],
+            'files'        : [],
+            'responsibleId': UserService.getCurrentUser().id
+         };
+         _setCurrentVacancy(vacancy);
       }
+   }
+
+   function _setCurrentVacancy (vacancy) {
+      set(vm, 'vacancy', vacancy);
+      vm.comments = cloneDeep(vm.vacancy.comments);
    }
 
    function createNewUploader() {
@@ -186,5 +194,17 @@ export default function VacancyController(
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
             LoggerService.error(error);
          });
+   }
+
+   function _searchResponsible() {
+      return UserService.getUsers();
+   };
+
+   function _getFullName(responsible) {
+      return `${responsible.firstName} ${responsible.lastName}`;
+   }
+
+   function _getStateTitle(key) {
+      return $translate.instant(key);
    }
 }

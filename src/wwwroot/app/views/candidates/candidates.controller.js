@@ -8,7 +8,7 @@ import {
 } from 'lodash';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
-    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'currency'];
+    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'currency', 'parsingSource'];
 
 export default function CandidatesController(
    $scope,
@@ -32,11 +32,7 @@ export default function CandidatesController(
    vm.clear                = clear;
    vm.thesaurus            = [];
    vm.searchCandidates     = searchCandidates;
-   vm.candidatePredicate            = {};
-   vm.candidatePredicate.current    = 1;
-   vm.candidatePredicate.size       = 20;
-   vm.candidatePredicate.sortAsc    = true;
-   vm.candidatePredicate.sortBy     = 'LastName';
+   vm.candidatePredicate   = { current : 1, size : 20, sotrAsc : true, sortBy : 'Lastname'};
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;

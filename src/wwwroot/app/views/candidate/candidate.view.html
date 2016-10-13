@@ -49,29 +49,17 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <select name="Industry" ng-model="candidate.industryId" validator="required" ng-init="candidate.industryId=candidate.industryId || ''" convert-to-number>
-                           <option ng-selected="true" value="" ng-bind="::('COMMON.INDUSTRY' | translate)"></option>
-                           <option ng-repeat="industry in thesaurus.industry" value='{{ industry.id }}' ng-bind="::(industry.title)"></option>
-                        </select>
-                        <select ng-model="candidate.levelId" ng-init="candidate.levelId = candidate.levelId || ''" convert-to-number name="Level">
-                           <option ng-selected="true" value="" ng-bind="::'COMMON.LEVEL' | translate"></option>
-                           <option ng-repeat="level in thesaurus.level" value="{{level.id}}" ng-bind="::(level.title)"></option>
-                        </select>
+                        <oi-select class="multiple-select" oi-options="industry.id as industry.title for industry in thesaurus.industry" ng-model="candidate.industryId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.INDUSTRY' | translate}}" name="vacancyIndustry" validator="required"></oi-select>
+                        <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="candidate.levelId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
                         <input type="text" ng-model="candidate.positionDesired" placeholder="{{::'CANDIDATE.DESIRED_POSITION' | translate}}">
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <input ng-model="candidate.salaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="text" name="salary", validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}"> </div>
+                              <input ng-model="candidate.salaryDesired" placeholder="{{::'CANDIDATE.DESIRED_SALARY' | translate}}" type="text" name="salary" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}"> </div>
                            <div class="medium-6 grid-block">
-                              <select name="Сurrency" ng-disabled="!candidate.salaryDesired" convert-to-number ng-model="candidate.currencyId" ng-init="candidate.currencyId= candidate.currencyId || ''" validator="required" is-need-required="{{!!candidate.salaryDesired}}">
-                                 <option ng-selected="true" value="" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
-                                 <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
-                              </select>
+                              <oi-select class="multiple-select" oi-options="currency.id as currency.title for currency in thesaurus.currency" ng-model="candidate.currencyId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.CURRENCY' | translate}}" name="candidateCurrency" validator="required" is-need-required="{{!!candidate.salaryDesired}}"></oi-select>
                            </div>
                         </div>
-                        <select ng-model="candidate.typeOfEmployment" ng-init="candidate.typeOfEmployment= candidate.typeOfEmployment || ''" name="TypeOfEmployment" convert-to-number>
-                           <option ng-selected="true" value="" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate)"></option>
-                           <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="::(typeOfEmployment.title)"></option>
-                        </select>
+                        <oi-select class="multiple-select" oi-options="typeOfEmployment.id as typeOfEmployment.title for typeOfEmployment in thesaurus.typeOfEmployment" ng-model="candidate.typeOfEmployment" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}"></oi-select>
                         <label>Experience</label>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
@@ -113,10 +101,7 @@
                         <phones class="add-phone-number" ng-model="candidate.phoneNumbers"></phones>
                         <input ng-model="candidate.email" type="text" placeholder="E-mail" name="candidateEmail" validator="email">
                         <input type="text" placeholder="Skype" ng-model=candidate.skype name="candidateSkype" validator="minlength=6, maxlength=32">
-                        <select name="MainSource" convert-to-number ng-model="candidate.mainSourceId" ng-init="candidate.mainSourceId=''">
-                           <option ng-selected="true" value="" ng-bind="::('COMMON.MAIN_SOURCE' | translate)"></option>
-                           <option ng-repeat="source in thesaurus.source" ng-bind="source.title" value="{{source.id}}"></option>
-                        </select>
+                        <oi-select class="multiple-select" oi-options="source.id as source.title for source in thesaurus.source" ng-model="candidate.mainSourceId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.MAIN_SOURCE' | translate}}"></oi-select>
                      </fieldset>
                   </div>
                </div>

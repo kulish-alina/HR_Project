@@ -5,6 +5,14 @@ import {
    trimEnd
 } from 'lodash';
 
+let states = [
+   { value : 5,  translateTitleKey : 'VACANCY.PENDING'    },
+   { value : 6,  translateTitleKey : 'VACANCY.OPEN'       },
+   { value : 7,  translateTitleKey : 'VACANCY.PROCESSING' },
+   { value : 8,  translateTitleKey : 'VACANCY.CLOSED'     },
+   { value : 9,  translateTitleKey : 'VACANCY.CANCELLED'  }
+];
+
 let utils = {
    getUrlParameters,
    array2map,
@@ -12,7 +20,8 @@ let utils = {
    formatDateFromServer,
    formatDateTimeFromServer,
    formatDateTimeToServer,
-   toBase64
+   toBase64,
+   states
 };
 
 const MILISECONDS_IN_MINUTE = 60000;

@@ -90,7 +90,10 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <div zf-open="basicModal" ng-class="candidate.photo ? 'profile-photo-container' : 'profile-photo'"> <span zf-open="basicModal" ng-hide="candidate.photo" class="upload-title">Upload Photo</span> <img alt="Candidate photo" class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" ng-src="{{candidate.photo.filePath | botUrl}}">                           </div>
+                        <div zf-open="basicModal"  ng-class="candidate.photo ? 'profile-photo-container' : 'profile-photo'">
+                           <span zf-open="basicModal" ng-hide="candidate.photo" class="upload-title">Upload Photo</span>
+                           <img alt="Candidate photo" class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" ng-src="{{candidate.photo.filePath | botUrl}}">
+                        </div>
                         <div class="uploader-photo" zf-modal="" id="basicModal">
                            <div class="grid-block">
                               <div class="medium-8 grid-block">

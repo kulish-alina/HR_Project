@@ -41,6 +41,7 @@ namespace DAL.DTO
         public IEnumerable<CommentDTO> Comments { get; set; }
         public IEnumerable<int> ChildVacanciesIds { get; set; }
         public IEnumerable<VacancyStateDTO> StatesInfo { get; set; }
+        public IEnumerable<LogUnitDTO> History { get; set; }
 
         public int? ClosingCandidateId { get; set; }
         public int? ParentVacancyId { get; set; }

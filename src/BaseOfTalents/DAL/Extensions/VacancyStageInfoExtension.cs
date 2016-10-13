@@ -10,14 +10,7 @@ namespace DAL.Extensions
         public static void Update(this VacancyStageInfo vacancyStageInfoDomain, Vacancy destination, VacancyStageInfoDTO vacancyStageInfoSource)
         {
             vacancyStageInfoDomain.CandidateId = vacancyStageInfoSource.CandidateId;
-            if (vacancyStageInfoSource.VacancyId.HasValue)
-            {
-                vacancyStageInfoDomain.VacancyId = vacancyStageInfoSource.VacancyId.Value;
-            }
-            else
-            {
-                vacancyStageInfoDomain.Vacancy = destination;
-            }
+            vacancyStageInfoDomain.VacancyId = vacancyStageInfoSource.VacancyId;
             vacancyStageInfoDomain.DateOfPass = vacancyStageInfoSource.DateOfPass;
             vacancyStageInfoDomain.StageState = vacancyStageInfoSource.StageState;
             vacancyStageInfoDomain.StageId = vacancyStageInfoSource.StageId;

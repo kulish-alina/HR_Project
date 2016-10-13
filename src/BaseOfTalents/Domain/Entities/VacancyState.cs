@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class VacancyState: BaseEntity
+    public class VacancyState : BaseEntity
     {
         public int VacancyId { get; set; }
         public virtual Vacancy Vacancy { get; set; }

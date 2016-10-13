@@ -1,6 +1,5 @@
 import utils  from '../utils.js';
 import {
-   isNumber,
    filter,
    remove,
    each,
@@ -77,14 +76,11 @@ export default class VacancyService {
       _VacancyService._fillVacancyLanguageSkills(vacancy)
       .then((responsePromise) => {
          vacancy.languageSkill.languageLevelObj = responsePromise[0];
-         vacancy.languageSkill.languageLevel = toString(vacancy.languageSkill.languageLevel);
          vacancy.languageSkill.language = responsePromise[1];
-         vacancy.languageSkill.languageId = toString(vacancy.languageSkill.languageId);
       });
       return _VacancyService._getVacancyFields(vacancy)
       .then((promises) => {
          vacancy.responsible = promises[PROMISE_INDEXES.responsible];
-         vacancy.responsibleId = toString(vacancy.responsibleId);
          vacancy.comments = promises[PROMISE_INDEXES.comments];
          assignIn(vacancy, promises[PROMISE_INDEXES.vacancy]);
          vacancy.childVacancies = promises[PROMISE_INDEXES.childVacancies];
@@ -229,7 +225,6 @@ export default class VacancyService {
    _getThesauruses(vacancy) {
       let promises = reduce(THESAURUS, (memo, {thesaurusName, serverField, clientField}) => {
          memo[clientField] = _ThesaurusService.getThesaurusTopicsByIds(thesaurusName, vacancy[serverField]);
-         vacancy[serverField] = _convertIdsToString(vacancy[serverField]);
          return memo;
       }, {});
       return _$q.all(promises);
@@ -258,14 +253,6 @@ function _convertToServerDates(vacancy) {
       };
    });
    return vacancy;
-}
-
-function _convertIdsToString(data) {
-   return isNumber(data) ? toString(data) : data;
-}
-
-function toString(data) {
-   return data ? `${data}` : null;
 }
 
 function _convertThesaurusToIds(vacancy) {

@@ -20,13 +20,15 @@
       "SOURCE": "Source",
       "POSITION": "Position",
       "FULL_NAME": "Full name",
+      "CANDIDATE_NAME": "Candidate name",
       "READY_TO_RELOCATE": "Ready to relocate",
       "CANDIDATE_AGE": "Candidate's age",
       "EXPERIENCE": "Experience",
       "CANDIDATE_PROFILE": "Candidate profile",
       "CANDIDATE_RESUME": "Candidate's resume",
       "AGE": "Age",
-      "EXPERIENCE": "Experience"
+      "EXPERIENCE": "Experience",
+      "PARSING_SOURCES":"Parsing sources"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
@@ -86,7 +88,6 @@
       "COUNT": "Count",
       "COMING_SOON": "Coming soon",
       "CITY": "City",
-      
       "OK": "Ok",
       "SUBMIT": "Submit",
       "SAVE": "Save",
@@ -125,7 +126,6 @@
       "ADD_DEADLINE_TO_CALENDAR": "Add deadline to calendar",
       "DESCRIPTION": "Description",
       "LOCATION": "Location",
-      "REMOVE": "Remove",
       "NAME": "Name",
       "SIZE": "Size",
       "SKILLS": "Skills",
@@ -151,18 +151,23 @@
       "NEW" : "New",
       "FROM_BOT" : "From BOT",
       "FROM" : "from",
+      "FIELD" : "Field",
+      "VALUE": "Value",
       "TO" : "to",
       "APLY" : "Apply",
       "ATTACH" : "Attach",
       "CURRENCY" : "Currency",
       "MAIN_SOURCE" : "Main source",
       "EVENT_CALENDAR" : "Event calendar",
+      "USER": "User",
       "USERS" : "Users",
       "EVENT_TYPE": "Event type",
       "CREATED_ON": "Created on:",
       "AUTHOR": "Author:",
       "BACK": "Back",
-      "FOR": "for"
+      "FOR": "for",
+      "BOTH" : "Both",
+      "CLOSE": "Close"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -324,7 +329,9 @@
       "CANCELED" : "Canceled",
       "FOR_BEGINING" : "at the beginning of period",
       "FOR_END": "at the end of period",
-      "FOR_SELECTED": "at the selected date"
-      
+      "FOR_SELECTED": "at the selected date",
+      "ADDITIONAL_INFORMATION": "Additional information",
+      "DATE_ADDITIONS": "Date additions",
+      "DATE_OF_PASSAGE": "Date of passage"
    }
 }

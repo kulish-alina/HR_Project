@@ -5,7 +5,6 @@ import {
 } from 'lodash';
 
 const EVENT_URL = 'event';
-const EVENT_PROP = ['responsibleId', 'eventTypeId', 'vacancyId', 'candidateId'];
 const EVENT_PROP_FRONT = ['responsible', 'eventType', 'vacancy', 'candidate'];
 let _HttpService, _$q, _LoggerService, _$translate, _ThesaurusService, _VacancyService,
    _CandidateService, _UserService;
@@ -61,7 +60,6 @@ export default class EventsService {
    }
 
    _convertToServerFormat(event) {
-      this._convertIdsToInt(event);
       each(EVENT_PROP_FRONT, (prop) => {
          delete event[prop];
       });
@@ -70,22 +68,8 @@ export default class EventsService {
 
    _convertFromServerFormat(event) {
       event.eventDate = utils.formatDateTimeFromServer(event.eventDate);
-      this._fillEntities(event).then(() => {
-         this._convertIdsToString(event);
-      });
+      this._fillEntities(event);
       return event;
-   }
-
-   _convertIdsToString(event) {
-      return each(EVENT_PROP, (prop) => {
-         event[prop] = `${event[prop]}`;
-      });
-   }
-
-   _convertIdsToInt(event) {
-      return each(EVENT_PROP, (prop) => {
-         event[prop] = parseInt(event[prop]);
-      });
    }
 
    _fillEntities(event) {

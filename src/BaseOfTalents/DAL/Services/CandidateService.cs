@@ -7,12 +7,17 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace DAL.Services
 {
     public class CandidateService
     {
         IUnitOfWork uow;
+        private readonly IList<PropertyInfo> searchFields =
+            new List<PropertyInfo> { typeof(Candidate).GetProperty("FirstName"),
+                                     typeof(Candidate).GetProperty("LastName"),
+                                     typeof(Candidate).GetProperty("PositionDesired")};
         public CandidateService(IUnitOfWork uow)
         {
             this.uow = uow;
@@ -24,19 +29,19 @@ namespace DAL.Services
             return DTOService.ToDTO<Candidate, CandidateDTO>(entity);
         }
 
-        public CandidateDTO Add(CandidateDTO candidateToAdd)
+        public CandidateDTO Add(CandidateDTO candidateToAdd, int userId)
         {
             Candidate _candidate = new Candidate();
-            _candidate.Update(candidateToAdd, uow);
+            _candidate.Update(candidateToAdd, uow, userId);
             uow.CandidateRepo.Insert(_candidate);
             uow.Commit();
             return DTOService.ToDTO<Candidate, CandidateDTO>(_candidate);
         }
 
-        public CandidateDTO Update(CandidateDTO entity)
+        public CandidateDTO Update(CandidateDTO entity, int userId)
         {
             Candidate _candidate = uow.CandidateRepo.GetByID(entity.Id);
-            _candidate.Update(entity, uow);
+            _candidate.Update(entity, uow, userId);
             uow.CandidateRepo.Update(_candidate);
             uow.Commit();
             return DTOService.ToDTO<Candidate, CandidateDTO>(_candidate);
@@ -60,7 +65,8 @@ namespace DAL.Services
             IEnumerable<int> citiesIds,
             int current, int size,
             string sortBy,
-            bool? sortAsc)
+            bool? sortAsc,
+            string searchString)
         {
             var filters = new List<Expression<Func<Candidate, bool>>>();
 
@@ -132,13 +138,13 @@ namespace DAL.Services
                     }
                 }
             }
-
+          
             var candidates = uow.CandidateRepo.Get(filters);
 
             var orderBy = sortBy ?? "LastName";
             var sortAscend = sortAsc ?? true;
 
-            if (typeof(Candidate).GetProperty(orderBy)!=null)
+            if (typeof(Candidate).GetProperty(orderBy) != null)
             {
                 candidates = sortAscend ?
                 candidates.OrderBy(c => c.GetType().GetProperty(orderBy).GetValue(c)) :
@@ -147,11 +153,38 @@ namespace DAL.Services
 
             var total = candidates.Count();
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                candidates = from c in candidates
+                             where searchPredicate(c, searchString)
+                             select c;
+            }
+
             return new Tuple<IEnumerable<CandidateDTO>, int>(
-                candidates.Skip((current - 1)* size).Take(size).Select(candidate => DTOService.ToDTO<Candidate, CandidateDTO>(candidate)),
+                candidates.Skip((current - 1) * size).Take(size).Select(candidate => DTOService.ToDTO<Candidate, CandidateDTO>(candidate)),
                 total);
         }
 
+        private bool searchPredicate(Candidate c, string searchString)
+        {
+            string[] searchParts = searchString.Split(' ');
+
+            return searchParts.Length > 1 ?
+                _fieldsEquality(searchParts[0], c, searchFields, (x,y) => x == y) || searchPredicate(c, String.Join(" ", searchParts.Skip(1))) :
+                _fieldsEquality(searchParts[0], c, searchFields, (x, y) => x.StartsWith(y));
+        }
+
+        private bool _fieldsEquality(string searchString, Candidate c, IList<PropertyInfo> searchFields, Func<string, string, bool> comparer)
+        {
+            bool? res = null;
+            foreach (var field in searchFields)
+            {
+                bool compareResult = comparer(field.GetValue(c)?.ToString().ToLower() ?? "", searchString.ToLower());
+                res = res.HasValue ? res.Value || compareResult : compareResult;
+                if (res.Value) { break; }
+            }
+            return res.Value;
+        }
 
         public bool Delete(int id)
         {
@@ -161,7 +194,8 @@ namespace DAL.Services
             {
                 deleteResult = false;
             }
-            else {
+            else
+            {
                 uow.CandidateRepo.Delete(id);
                 uow.Commit();
                 deleteResult = true;

@@ -3,6 +3,7 @@ import ngAnimate    from 'angular-animate';
 import router       from 'angular-ui-router';
 import translate    from 'angular-translate';
 import 'moment/moment.js';
+import 'd3-funnel/dist/d3-funnel.js';
 
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists';
 import 'angular-validation/dist/angular-validation';
@@ -51,9 +52,9 @@ import LocalStorageService           from './services/LocalStorageService';
 import LoginService                  from './services/LoginService';
 import SessionService                from './services/SessionService';
 import ReportsService                from './services/ReportsService';
-import CVParserService                from './services/CVParserService';
+import CVParserService               from './services/CVParserService';
 import SearchService                 from './services/SearchService';
-
+import LogginService                 from './services/LogginService';
 
 import ThesaurusDirective            from './directives/thesaurus/thesaurus';
 import ContactInfoDirective          from './directives/contacts/contact-info';
@@ -76,6 +77,7 @@ import PhoneFormatFilter             from './filters/PhoneFormatFilter';
 import ArrayAsString                 from './filters/ArrayAsString';
 import botUrl                        from './filters/botUrl';
 import languageSkillsTitles          from './filters/LanguageSkillTitlesFilter';
+import fieldName                     from './filters/FieldNameFilter';
 import relocationsTitles             from './filters/RelocationTitlesFilter';
 
 import StateRunner                   from './state-runner';
@@ -124,6 +126,7 @@ angular
    .service('ReportsService',      ReportsService)
    .service('CVParserService',      CVParserService)
    .service('SearchService',       SearchService)
+   .service('LogginService',       LogginService)
 
    .directive('thesaurus',              ThesaurusDirective.createInstance)
    .directive('contacts',               ContactInfoDirective.createInstance)
@@ -145,6 +148,8 @@ angular
    .filter('botUrl',                botUrl)
    .filter('languageSkillsTitles',  languageSkillsTitles)
    .filter('relocationsTitles',     relocationsTitles)
+   .filter('fieldName',           fieldName)
+
 
    .factory('authInterceptor', authInterceptor)
 

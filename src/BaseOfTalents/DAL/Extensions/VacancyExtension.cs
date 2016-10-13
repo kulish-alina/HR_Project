@@ -1,6 +1,7 @@
 ﻿using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Infrastructure;
+using DAL.LoggerCore;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 using System;
@@ -68,27 +69,32 @@ namespace DAL.Extensions
             }).ToList();
             childVacancy.Comments.Clear();
             childVacancy.Comments = parentVacancy.Comments.Select(x =>
-            new Comment {
+            new Comment
+            {
                 Message = x.Message,
                 AuthorId = x.AuthorId,
                 State = x.State
             }).ToList();
         }
 
-        public static void Update(this Vacancy destination, VacancyDTO source, IUnitOfWork uow)
+        public static void Update(this Vacancy destination, VacancyDTO source, IUnitOfWork uow, int userId)
         {
+            LogChanges(destination, source, userId);
+
             destination.Id = source.Id;
             if (source.Id == 0)
             {
                 PerformVacancyStageFilling(destination, uow);
             }
-            
+            //LOG
             destination.Title = source.Title;
+            //LOG
             destination.Description = source.Description;
             destination.SalaryMin = source.SalaryMin;
             destination.SalaryMax = source.SalaryMax;
             destination.TypeOfEmployment = source.TypeOfEmployment;
             destination.StartDate = source.StartDate;
+            //LOG
             destination.EndDate = source.EndDate;
             destination.DeadlineDate = source.DeadlineDate;
             PerformAddingDeadlineToCalendar(destination, source, uow);
@@ -96,34 +102,45 @@ namespace DAL.Extensions
 
             destination.ParentVacancyId = source.ParentVacancyId;
             destination.IndustryId = source.IndustryId;
+            //LOG
             destination.DepartmentId = source.DepartmentId;
+            //LOG
             destination.ResponsibleId = source.ResponsibleId;
             destination.CurrencyId = source.CurrencyId;
             destination.ChildVacanciesNumber = source.ChildVacanciesNumber;
 
             destination.ClosingCandidateId = source.ClosingCandidateId;
-
+            //LOG
             PerformLevelsSaving(destination, source, uow.LevelRepo);
-            PerformLocationsSaving(destination, source, uow.CityRepo);
+            //LOG
+            PerformCitiesSaving(destination, source, uow.CityRepo);
             PerformTagsSaving(destination, source, uow.TagRepo);
             PerformSkillsSaving(destination, source, uow.SkillRepo);
             PerformLanguageSkillsSaving(destination, source, uow.LanguageSkillRepo);
+            //LOG
             PerformVacanciesProgressSaving(destination, source, uow.VacancyStageInfoRepo);
             PerformFilesSaving(destination, source, uow.FileRepo);
             PerformCommentsSaving(destination, source, uow.CommentRepo);
+            //LOG, after change of this
             PerformChildVacanciesUpdating(destination, uow);
             PerformVacancyStatesUpdating(destination, source);
         }
 
+        private static void LogChanges(Vacancy destination, VacancyDTO source, int userId)
+        {
+            Logger.Log(destination, source, userId);
+        }
+
         private static void PerformVacancyStatesUpdating(Vacancy destination, VacancyDTO source)
         {
-            if(destination.State != source.State)
+            if (destination.State != source.State)
             {
                 if (destination.StatesInfo.Any())
                 {
                     destination.StatesInfo.Last().Passed = DateTime.Now;
                 }
-                destination.StatesInfo.Add(new VacancyState() {
+                destination.StatesInfo.Add(new VacancyState()
+                {
                     CreatedOn = DateTime.Now,
                     State = source.State,
                     VacancyId = source.Id
@@ -261,7 +278,7 @@ namespace DAL.Extensions
             });
         }
 
-        private static void PerformLocationsSaving(Vacancy destination, VacancyDTO source, ICityRepository locationRepository)
+        private static void PerformCitiesSaving(Vacancy destination, VacancyDTO source, ICityRepository locationRepository)
         {
             destination.Cities.Clear();
             source.CityIds.ToList().ForEach(locationId =>

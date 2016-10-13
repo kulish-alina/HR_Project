@@ -32,7 +32,7 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.vacancy                 = {};
    vm.viewVacancy             = viewVacancy;
    vm.vacancy                 = LocalStorageService.get('homeVacancyPredicate') ||
-      {current : 1, size : 20, sortBy : 'CreatedOn', sortAsc  :true };
+      {current : 1, size : 20, sortBy : 'CreatedOn', sortAsc  : false };
    vm.vacancies               = LocalStorageService.get('homeVacancies') || {};
    vm.candidate               = {};
    vm.candidate.current       = 1;

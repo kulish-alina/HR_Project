@@ -10,7 +10,7 @@ import {
    filter
 } from 'lodash';
 
-export default function CandidateProfileController( // eslint-disable-line max-statements
+export default function CandidateProfileController( // eslint-disable-line max-statements, max-params
    $scope,
    $q,
    $translate,
@@ -24,7 +24,8 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    LoggerService,
    EventsService,
    UserService,
-   SearchService
+   SearchService,
+   LogginService
    ) {
    'ngInject';
 
@@ -63,14 +64,19 @@ export default function CandidateProfileController( // eslint-disable-line max-s
             vm.$watch('vacancyStageInfosComposedByCandidateIdVacancyId', () => {
                vm.isChanged = true;
             }, true);
-            vm.isCandidateLoaded = true;
+         })
+         .then(() => {
+            LogginService.toReadableFormat(vm.candidate.history, vm).then((converted) => {
+               vm.convertedHistory = converted;
+               vm.isCandidateLoaded = true;
+            });
          }).catch(LoggerService.error);
+
    }
    _initDataForEvents();
    _init();
 
    function addVacanciesToCandidateIfNeeded() {
-      let deffered = $q.defer();
       if ($state.params.vacancies && $state.params.vacancies.length) {
          forEach($state.params.vacancies, (v) => {
             let newVSI = {
@@ -86,8 +92,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
             vm.candidate.vacanciesProgress.push(newVSI);
          });
       }
-      deffered.resolve();
-      return deffered.promise;
+      return $q.when();
    }
 
    function recomposeBackAndSaveChangedVacancies(vacancyStageInfosComposedByCandidateIdVacancyId) {

@@ -61,11 +61,10 @@ export default function RecruitingFunnelController(
          .then(topic => {
             set(vm, 'stages', topic);
             _addDefaultPropertyToStages(vm.stages);
-         })
-         .then(() => {
             if (!isEmpty(vm.selectedVacancy)) {
                genereteReportForSelectedVacancy();
             }
+            return topic;
          });
    }());
 

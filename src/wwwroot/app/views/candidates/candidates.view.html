@@ -34,9 +34,20 @@
                <input ng-model="candidatePredicate.position" placeholder="{{::'CANDIDATE.POSITION' | translate}}" type="text">
                <input ng-model="candidatePredicate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" type="text">
                <input ng-model="candidatePredicate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" type="text">
-               <oi-select class="multiple-select" oi-options="city.id as city.title for city in thesaurus.city" ng-model="candidatePredicate.citiesIds" multiple placeholder="{{::'COMMON.LOCATION' | translate}}"></oi-select>
 
-               <oi-select class="multiple-select" oi-options="industry.id as industry.title for industry in thesaurus.industry" ng-model="candidatePredicate.industryId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.INDUSTRY' | translate}}"></oi-select>
+               <oi-select class="multiple-select"
+                          oi-options="city.id as city.title for city in thesaurus.city | orderBy : 'title'"
+                          ng-model="candidatePredicate.citiesIds"
+                          multiple
+                          placeholder="{{::'COMMON.LOCATION' | translate}}">
+               </oi-select>
+
+               <oi-select class="multiple-select"
+                          oi-options="industry.id as industry.title for industry in thesaurus.industry | orderBy : 'title'"
+                          ng-model="candidatePredicate.industryId"
+                          oi-select-options="{ cleanModel: true }"
+                          placeholder="{{::'COMMON.INDUSTRY' | translate}}">
+               </oi-select>
                <ul class="some-change">
                   <li>
                      <input ng-model="candidatePredicate.isMale" name="isMale" ng-value="true" id="male" type="radio">

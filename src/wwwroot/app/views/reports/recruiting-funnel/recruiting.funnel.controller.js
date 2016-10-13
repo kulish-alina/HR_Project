@@ -1,3 +1,4 @@
+import popupDialog from './popup-info.view.html';
 import {
    set,
    each,
@@ -31,8 +32,10 @@ const colorsOfFunnelBlocks = [
 export default function RecruitingFunnelController(
    $scope,
    $state,
+   $translate,
    ThesaurusService,
-   VacancyService
+   VacancyService,
+   UserDialogService
 ) {
    'ngInject';
 
@@ -58,10 +61,12 @@ export default function RecruitingFunnelController(
          .then(topic => {
             set(vm, 'stages', topic);
             _addDefaultPropertyToStages(vm.stages);
+         })
+         .then(() => {
+            if (!isEmpty(vm.selectedVacancy)) {
+               genereteReportForSelectedVacancy();
+            }
          });
-      if (!isEmpty(vm.selectedVacancy)) {
-         genereteReportForSelectedVacancy();
-      }
    }());
 
    function stageSwitch(stage) {
@@ -150,7 +155,7 @@ export default function RecruitingFunnelController(
          },
          events: {
             click: {
-               block: onClickBlockHendler()
+               block: onClickBlockHendler
             }
          }
       };
@@ -172,6 +177,16 @@ export default function RecruitingFunnelController(
       }, []);
    }
 
-   function onClickBlockHendler() {
+   function onClickBlockHendler($event) {
+      let stageId = find(vm.stages, {title: $event.label.raw}).id;
+      let scope = {
+         candidatesGroup : vm.candidatesGropedByStage[stageId]
+      };
+      let buttons = [
+         {
+            name: $translate.instant('COMMON.CLOSE')
+         }
+      ];
+      UserDialogService.dialog($translate.instant('REPORTS.ADDITIONAL_INFORMATION'), popupDialog, buttons, scope);
    }
 }

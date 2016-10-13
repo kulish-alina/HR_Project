@@ -14,6 +14,9 @@ import './candidate.edit.scss';
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel', 'source',
    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork', 'eventtype'];
 
+const IMAGE_UPLOADER_MODAL_NAME     = 'basicModal';
+const CLOSE_MODAL_EVENT_NAME        = 'close';
+
 let curriedSet = curry(set, 3);
 
 export default function CandidateController( // eslint-disable-line max-params, max-statements
@@ -141,7 +144,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
          if (vm.candidate.photo) {
             FileService.remove(vm.candidate.photo);
          }
-         FoundationApi.publish('basicModal', 'close');
+         FoundationApi.publish(IMAGE_UPLOADER_MODAL_NAME, CLOSE_MODAL_EVENT_NAME);
          vm.candidate.photo = parsedResponse;
       };
       uploader.onErrorItem = (fileItem, response, status, headers) => {

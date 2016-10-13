@@ -20,6 +20,7 @@
       "SOURCE": "Source",
       "POSITION": "Position",
       "FULL_NAME": "Full name",
+      "CANDIDATE_NAME": "Candidate name",
       "READY_TO_RELOCATE": "Ready to relocate",
       "CANDIDATE_AGE": "Candidate's age",
       "EXPERIENCE": "Experience",
@@ -163,7 +164,8 @@
       "CREATED_ON": "Created on:",
       "AUTHOR": "Author:",
       "BACK": "Back",
-      "FOR": "for"
+      "FOR": "for",
+      "CLOSE": "Close"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -325,7 +327,9 @@
       "CANCELED" : "Canceled",
       "FOR_BEGINING" : "at the beginning of period",
       "FOR_END": "at the end of period",
-      "FOR_SELECTED": "at the selected date"
-      
+      "FOR_SELECTED": "at the selected date",
+      "ADDITIONAL_INFORMATION": "Additional information",
+      "DATE_ADDITIONS": "Date additions",
+      "DATE_OF_PASSAGE": "Date of passage"
    }
 }

@@ -3,6 +3,7 @@ import ngAnimate    from 'angular-animate';
 import router       from 'angular-ui-router';
 import translate    from 'angular-translate';
 import 'moment/moment.js';
+import 'd3-funnel/dist/d3-funnel.js';
 
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists';
 import 'angular-validation/dist/angular-validation';
@@ -51,7 +52,7 @@ import LocalStorageService           from './services/LocalStorageService';
 import LoginService                  from './services/LoginService';
 import SessionService                from './services/SessionService';
 import ReportsService                from './services/ReportsService';
-import CVParserService                from './services/CVParserService';
+import CVParserService               from './services/CVParserService';
 import SearchService                 from './services/SearchService';
 import LogginService                 from './services/LogginService';
 
@@ -75,7 +76,9 @@ import uiMask                        from 'angular-ui-mask';
 import PhoneFormatFilter             from './filters/PhoneFormatFilter';
 import ArrayAsString                 from './filters/ArrayAsString';
 import botUrl                        from './filters/botUrl';
+import languageSkillsTitles          from './filters/LanguageSkillTitlesFilter';
 import fieldName                     from './filters/FieldNameFilter';
+import relocationsTitles             from './filters/RelocationTitlesFilter';
 
 import StateRunner                   from './state-runner';
 import AuthRunner                    from './runner.auth';
@@ -140,9 +143,11 @@ angular
    .directive('eventCalendar',          EventCalendarDirective.createInstance)
    .directive('candidateVacancyInfo',   CandidateVacancyInfoDirective.createInstance)
 
-   .filter('tel',                 PhoneFormatFilter)
-   .filter('arrayAsString',       ArrayAsString)
-   .filter('botUrl',              botUrl)
+   .filter('tel',                   PhoneFormatFilter)
+   .filter('arrayAsString',         ArrayAsString)
+   .filter('botUrl',                botUrl)
+   .filter('languageSkillsTitles',  languageSkillsTitles)
+   .filter('relocationsTitles',     relocationsTitles)
    .filter('fieldName',           fieldName)
 
 

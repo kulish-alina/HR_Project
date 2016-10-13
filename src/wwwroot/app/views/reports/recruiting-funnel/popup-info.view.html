@@ -1,0 +1,16 @@
+<table class="report-data">
+   <thead>
+      <tr class="report-data-row">
+         <th ng-bind="::'CANDIDATE.CANDIDATE_NAME' | translate">Candidate </th>
+         <th ng-bind="::'REPORTS.DATE_ADDITIONS' | translate"> </th>
+         <th ng-bind="::'REPORTS.DATE_OF_PASSAGE' | translate"> </th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat="candidateStage in candidatesGroup | orderBy:'$index':true" class="report-data-row">
+         <td ng-bind="::(candidateStage.candidate.lastName+' '+candidateStage.candidate.firstName)"> </td>
+         <td ng-bind="::candidateStage.createdOn | date : 'dd-MM-yyyy'"> </td>
+         <td ng-bind="::candidateStage.dateOfPass | date : 'dd-MM-yyyy'"> </td>
+      </tr>
+   </tbody>
+</table>

@@ -1,5 +1,4 @@
 import {
-   forEach,
    now,
    filter,
    map,
@@ -7,7 +6,6 @@ import {
    remove,
    union,
    curry,
-   curryRight,
    set,
    unionWith,
    differenceWith,
@@ -25,7 +23,6 @@ const ZERO_YEAR               = 1970;
 
 
 let _set     = curry(set, 3);
-let _forEach = curryRight(forEach, 2);
 let convertThesaurusToIds              = curry(_convertThesaurusToIds, 2);
 let _addSavedThesaurusesTopicsCurried  = curry(_addSavedThesaurusesTopics, 3);
 let addReferencedThesaurusObjects      = curry(_addReferencedThesaurusObjects, 2);
@@ -74,10 +71,6 @@ export default class CandidateService {
       _ThesaurusService = ThesaurusService;
       _UserService      = UserService;
       _$q = $q;
-   }
-
-   getCandidates() {
-      return _HttpService.get(CANDIDATE_URL).then(_forEach(_convertToClientFormat));
    }
 
    getCandidate(id) {

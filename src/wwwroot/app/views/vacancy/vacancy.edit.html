@@ -25,22 +25,13 @@
                   <div class="medium-4 grid-block">
                      <fieldset>
                         <input name="Title" ng-model="vacancy.title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, minlength=3, maxlength=50, letters">
-                        <select name="Industry" ng-model="vacancy.industryId" validator="required">
-                           <option selected value="" ng-bind="::'COMMON.INDUSTRY' | translate"></option>
-                           <option ng-repeat="industry in thesaurus.industry" value="{{industry.id}}" ng-bind="industry.title"></option>
-                        </select>
+                        <oi-select class="multiple-select" oi-options="industry.id as industry.title for industry in thesaurus.industry" ng-model="vacancy.industryId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.INDUSTRY' | translate}}" name="vacancyIndustry" validator="required"></oi-select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <select name="Language" ng-model="vacancy.languageSkill.languageId">
-                                 <option selected value="" ng-bind="::'COMMON.LANGUAGE' | translate"></option>
-                                 <option ng-repeat="language in thesaurus.language" value="{{language.id}}" ng-bind="language.title"></option>
-                              </select>
+                              <oi-select class="multiple-select" oi-options="language.id as language.title for language in thesaurus.language" ng-model="vacancy.languageSkill.languageId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.LANGUAGE' | translate}}"></oi-select>
                            </div>
                            <div class="medium-6 grid-block">
-                              <select ng-disabled="!vacancy.languageSkill.languageId" name="LanguageLevel" ng-model="vacancy.languageSkill.languageLevel">
-                                 <option selected value="" ng-bind="::'COMMON.LEVEL' | translate"></option>
-                                 <option ng-repeat="languageLevel in thesaurus.languageLevel" value="{{languageLevel.id}}" ng-bind="languageLevel.title"></option>
-                              </select>
+                              <oi-select ng-disabled="!vacancy.languageSkill.languageId" class="multiple-select" oi-options="level.id as level.title for level in thesaurus.languageLevel" ng-model="vacancy.languageSkill.languageLevel" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
                            </div>
                         </div>
                         <oi-select class="multiple-select" oi-options="level.id as level.title for level in thesaurus.level" ng-model="vacancy.levelIds" multiple placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
@@ -49,32 +40,20 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <select name="Responsible" ng-model="vacancy.responsibleId" validator="required">
-                           <option selected value="" ng-bind="::'COMMON.RESPONSIBLE' | translate"></option>
-                           <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="::(responsible.lastName+' '+responsible.firstName)"></option>
-                        </select>
-                        <select name="Department" ng-model="vacancy.departmentId" validator="required">
-                           <option selected value="" ng-bind="::'COMMON.DEPARTMENT' | translate"></option>
-                           <option ng-repeat="department in thesaurus.department" value="{{department.id}}" ng-bind="department.title"> </option>
-                        </select>
+                        <oi-select class="multiple-select" oi-options="responsible.id as responsible.firstName + ' ' + responsible.lastName for responsible in searchResponsible($query)" ng-model="vacancy.responsibleId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.RESPONSIBLE' | translate}}" name="vacancyResponsible" validator="required"></oi-select>
+                        <oi-select class="multiple-select" oi-options="department.id as department.title for department in thesaurus.department" ng-model="vacancy.departmentId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.DEPARTMENT' | translate}}" name="Department" validator="required"></oi-select>
                         <div class="grid-block">
-                           <div class="medium-5 grid-block">
+                           <div class="medium-4 grid-block">
                               <input ng-model="vacancy.salaryMin" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                            </div>
-                           <div class="medium-5 grid-block">
+                           <div class="medium-4 grid-block">
                               <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMax" , validator="counter=1000000, mincount" min-count-value="{{vacancy.salaryMin}}" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                            </div>
-                           <div class="medium-2 grid-block">
-                              <select name="Сurrency" convert-to-number ng-model="vacancy.currencyId" ng-init="vacancy.currencyId = vacancy.currencyId || ''">
-                                 <option ng-selected="true" value="" ng-bind="::('COMMON.CURRENCY' | translate)"></option>
-                                 <option ng-repeat="currency in thesaurus.currency" ng-bind="currency.title" value="{{currency.id}}"></option>
-                              </select>
+                           <div class="medium-4 grid-block">
+                              <oi-select class="multiple-select" oi-options="currency.id as currency.title for currency in thesaurus.currency" ng-model="vacancy.currencyId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.CURRENCY' | translate}}" name="vacancyCurrency" validator="required" is-need-required="{{ !!vacancy.salaryMin || !!vacancy.salaryMax }}"></oi-select>
                            </div>
                         </div>
-                        <select name="Type of Employment" ng-model="vacancy.typeOfEmployment">
-                           <option selected value="" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate"></option>
-                           <option ng-repeat="typeOfEmployment in thesaurus.typeOfEmployment" value="{{typeOfEmployment.id}}" ng-bind="typeOfEmployment.title"></option>
-                        </select>
+                        <oi-select class="multiple-select" oi-options="typeOfEmployment.id as typeOfEmployment.title for typeOfEmployment in thesaurus.typeOfEmployment" ng-model="vacancy.typeOfEmployment" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}"></oi-select>
                         <div class="grid-block">
                            <a ng-click="goToParentVacancy()" ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></a>
                            <div ng-if="vacancy.childVacanciesIds.length" class="medium-6 grid-block">
@@ -89,14 +68,7 @@
                   </div>
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <select name="Status" ng-model="vacancy.state" validator="required">
-                           <option selected value="" ng-bind="::'COMMON.STATUS' | translate"></option>
-                           <option selected value="5" ng-bind="::'VACANCY.PENDING' | translate"></option>
-                           <option selected value="6" ng-bind="::'VACANCY.OPEN' | translate"></option>
-                           <option selected value="7" ng-bind="::'VACANCY.PROCESSING' | translate"></option>
-                           <option selected value="8" ng-bind="::'VACANCY.CLOSED' | translate"></option>
-                           <option selected value="9" ng-bind="::'VACANCY.CANCELLED' | translate"></option>
-                        </select>
+                        <oi-select class="multiple-select" oi-options="state.value as getStateTitle(state.translateTitleKey) for state in utils.states" ng-model="vacancy.state" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.STATUS' | translate}}" name="vacancyState" validator="required"></oi-select>
                         <input type="tel" placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="startDate" model-view-value="true" validator="date, required" is-need-required="{{vacancy.state === '5'}}" />
                         <input type="tel" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="deadlineDate" model-view-value="true" validator="date" min-date="{{vacancy.startDate}}" />
                         <input type="tel" placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="endDate" model-view-value="true" validator="date, required" is-need-required="{{vacancy.state === '7'}}" min-date="{{vacancy.startDate}}" />

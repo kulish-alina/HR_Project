@@ -27,7 +27,8 @@
       "CANDIDATE_PROFILE": "Candidate profile",
       "CANDIDATE_RESUME": "Candidate's resume",
       "AGE": "Age",
-      "EXPERIENCE": "Experience"
+      "EXPERIENCE": "Experience",
+      "PARSING_SOURCES":"Parsing sources"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
@@ -165,6 +166,7 @@
       "AUTHOR": "Author:",
       "BACK": "Back",
       "FOR": "for",
+      "BOTH" : "Both"
       "CLOSE": "Close"
    },
    "THESAURUSES" : {

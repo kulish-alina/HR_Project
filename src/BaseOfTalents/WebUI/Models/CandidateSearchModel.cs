@@ -34,6 +34,7 @@ namespace WebUI.Models
 
         public string SortBy { get; set; }
         public bool? SortAsc { get; set; }
+        public string SearchString { get; set; }
 
         public int Current { get; set; }
         public int Size { get; set; }

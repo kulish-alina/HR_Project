@@ -5,7 +5,9 @@ import {
    clone,
    split,
    isEqual,
-   remove
+   remove,
+   toLower,
+   includes
 } from 'lodash';
 import template from './events.directive.html';
 import './events.scss';
@@ -38,8 +40,16 @@ export default class EventsDirective {
    }
 }
 
-function EventsController($scope, $translate, $timeout, VacancyService, CandidateService, UserService,
-                           ThesaurusService, UserDialogService) {
+function EventsController(
+   $scope,
+   $translate,
+   $timeout,
+   $filter,
+   VacancyService,
+   CandidateService,
+   UserService,
+   ThesaurusService,
+   UserDialogService) {
    'ngInject';
    const vm               = $scope;
    vm.event               = {};
@@ -86,26 +96,31 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
       vm.event = {};
       vm.currentEvents.length = 0;
       if (vm.userId) {
-         vm.event.responsibleId = `${vm.userId}`;
+         vm.event.responsibleId = vm.userId;
       }
       if (vm.candidateId) {
-         vm.event.candidateId = `${vm.candidateId}`;
+         vm.event.candidateId = vm.candidateId;
       }
       if (vm.currentDate) {
          let date = new Date(vm.currentDate.valueOf() - vm.currentDate.getTimezoneOffset() * 60000);
          let convertedDate = utils.formatDateTimeFromServer(date.toISOString());
          vm.event.eventDate = convertedDate;
       }
+
       let scope = {
-         type         : typeOfModalDialog,
-         responsibles : vm.responsibles,
-         eventTypes   : vm.eventTypes,
-         vacancies    : vm.vacancies,
-         candidates   : vm.candidates,
-         events       : vm.currentEvents,
-         event        : vm.event,
-         getEvents    : vm.getEvents,
-         source       : vm.source
+         type                : typeOfModalDialog,
+         searchResponsible   : _searchResponsible,
+         getFullName         : _getFullName,
+         searchVacancy       : _searchVacancy,
+         getVacancyFullTitle : _getVacancyFullTitle,
+         searchCandidate     : _searchCandidate,
+         eventTypes          : vm.eventTypes,
+         vacancies           : vm.vacancies,
+         candidates          : vm.candidates,
+         events              : vm.currentEvents,
+         event               : vm.event,
+         getEvents           : vm.getEvents,
+         source              : vm.source
       };
       let buttons = [
          {
@@ -136,18 +151,21 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
    function showEditEventDialog(currentEvent) {
       vm.eventForEdit = clone(currentEvent);
       vm.event = clone(currentEvent);
-      if (vm.candidateId) {
-         vm.event.candidateId = `${vm.candidateId}`;
-      }
+
       let scope = {
-         type         : 'form-only',
-         responsibles : vm.responsibles,
-         eventTypes   : vm.eventTypes,
-         vacancies    : vm.vacancies,
-         candidates   : vm.candidates,
-         event        : vm.event,
-         source       : vm.source
+         type                : 'form-only',
+         searchResponsible   : _searchResponsible,
+         getFullName         : _getFullName,
+         searchVacancy       : _searchVacancy,
+         getVacancyFullTitle : _getVacancyFullTitle,
+         searchCandidate     : _searchCandidate,
+         eventTypes          : vm.eventTypes,
+         vacancies           : vm.vacancies,
+         candidates          : vm.candidates,
+         event               : vm.event,
+         source              : vm.source
       };
+
       let buttons = [
          {
             name: $translate.instant('COMMON.CANCEL'),
@@ -162,4 +180,41 @@ function EventsController($scope, $translate, $timeout, VacancyService, Candidat
       UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
    }
 
+   function _searchResponsible(searchString) {
+      return UserService.getUsers((user) => {
+         return includes(toLower(user.firstName), toLower(searchString)) ||
+            includes(toLower(user.lastName), toLower(searchString));
+      });
+   };
+
+   function _getFullName(responsible) {
+      return `${responsible.firstName} ${responsible.lastName}`;
+   }
+
+   function _searchVacancy(searchString) {
+      if (vm.event.vacancyId && !searchString) {
+         return VacancyService.getVacancy(vm.event.vacancyId).then(response => [ response ]);
+      } else {
+         return VacancyService
+            .search({ title : searchString, sortBy : 'CreatedOn', sortAsc  : false})
+            .then(response => response.vacancies);
+      }
+   }
+
+   function _getVacancyFullTitle(vacancy) {
+      return `${vacancy.title} ${$filter('arrayAsString')(vacancy.departments, 'title')} ${vacancy.createdOn}`;
+   }
+
+   function _searchCandidate(searchString) {
+      if (vm.event.candidateId && !searchString) {
+         return CandidateService.getCandidate(vm.event.candidateId).then(response => [ response ]);
+      } else {
+         return CandidateService
+            .search({searchString,
+                     size          : 100,
+                     sortBy        : 'CreatedOn',
+                     sortAsc       : false})
+            .then(response => response.candidate);
+      }
+   }
 }

@@ -3,6 +3,7 @@ import ngAnimate    from 'angular-animate';
 import router       from 'angular-ui-router';
 import translate    from 'angular-translate';
 import 'moment/moment.js';
+import 'd3-funnel/dist/d3-funnel.js';
 
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists';
 import 'angular-validation/dist/angular-validation';
@@ -51,7 +52,7 @@ import LocalStorageService           from './services/LocalStorageService';
 import LoginService                  from './services/LoginService';
 import SessionService                from './services/SessionService';
 import ReportsService                from './services/ReportsService';
-import CVParserService                from './services/CVParserService';
+import CVParserService               from './services/CVParserService';
 import SearchService                 from './services/SearchService';
 
 

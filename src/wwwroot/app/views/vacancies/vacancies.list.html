@@ -53,8 +53,7 @@
                   </oi-select>
                   <oi-select class="multiple-select"
                              oi-options="state.value as getStateTitle(state.translateTitleKey)
-                                         for state in utils.states
-                                         | orderBy" 
+                                         for state in utils.states" 
                              ng-model="vacancyPredicate.vacancyState"
                              oi-select-options="{ cleanModel: true }"
                              placeholder="{{::'COMMON.STATUS' | translate}}">

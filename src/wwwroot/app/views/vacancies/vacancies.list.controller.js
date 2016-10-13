@@ -151,7 +151,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    };
 
    function _getFullName(responsible) {
-      return `${responsible.firstName} ${responsible.lastName}`;
+      return `${responsible.lastName} ${responsible.firstName}`;
    }
 
    function _getStateTitle(key) {

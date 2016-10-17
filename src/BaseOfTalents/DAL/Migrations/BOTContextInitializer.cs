@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Entities.Enum;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -50,8 +51,6 @@ namespace DAL.Migrations
             context.SaveChanges();
             context.Sources.AddRange(DummyData.Sources);
             context.SaveChanges();
-            /*context.CandidateSources.AddRange(DummyData.CandidateSources);
-            context.SaveChanges();*/
             context.Candidates.AddRange(DummyData.Candidates);
             context.SaveChanges();
             context.Events.AddRange(DummyData.Events);
@@ -72,7 +71,8 @@ namespace DAL.Migrations
                     Comment = null,
                     StageId = 1,
                     StageState = StageState.Active,
-                    Vacancy = x
+                    Vacancy = x,
+                    CreatedOn = DateTime.Now
                 });
             });
             context.Candidates.ToList().ForEach(x =>
@@ -85,17 +85,8 @@ namespace DAL.Migrations
                     Comment = null,
                     StageId = 1,
                     StageState = StageState.Active,
-                    Vacancy = vacancy
-                });
-                vacancy = context.Vacancies.ToList().GetRandom();
-                x.VacanciesProgress.Add(new VacancyStageInfo
-                {
-                    Candidate = x,
-                    CandidateId = x.Id,
-                    Comment = null,
-                    StageId = 1,
-                    StageState = StageState.Active,
-                    Vacancy = vacancy
+                    Vacancy = vacancy,
+                    CreatedOn = DateTime.Now
                 });
             });
             context.SaveChanges();

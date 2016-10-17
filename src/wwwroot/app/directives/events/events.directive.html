@@ -28,8 +28,7 @@
                           name="Candidate"
                           ng-model="event.candidateId"
                           oi-options="candidate.id as candidate.lastName +' '+candidate.firstName
-                                      for candidate in searchCandidate($query)
-                                      | orderBy : 'lastName + \'|\' firstName"
+                                      for candidate in searchCandidate($query)"
                           oi-select-options="{ cleanModel: true }"
                           placeholder="{{::'CANDIDATE.CANDIDATE' | translate}}">
                </oi-select>

@@ -582,7 +582,7 @@ namespace DAL.Migrations
                     {
                         Candidate = Candidates.GetRandom(),
                         Vacancy = Vacancies.GetRandom(),
-                        Description = LoremIpsum(3, 5, 3, 5, 1),
+                        Description = LoremIpsum(1, 3, 1, 2, 1),
                         EventTypeId = RandomNumber(1, 5),
                         EventDate = DateTime.Now.AddDays(RandomNumber(1, 60)),
                         Responsible = Users.GetRandom(),
@@ -713,7 +713,7 @@ namespace DAL.Migrations
                     FirstName = names.GetRandom(),
                     IndustryId = RandomNumber(1, Industries.Count - 1),
                     Description = professons.GetRandom(),
-                    Email = string.Format("{0}@{1}.me", GetRandomString(5), GetRandomString(6)),
+                    Email = string.Format("{0}@gmail.com", GetRandomString(5).Trim()),
                     Files = new List<File>(),
                     IsMale = true,
                     LanguageSkills =

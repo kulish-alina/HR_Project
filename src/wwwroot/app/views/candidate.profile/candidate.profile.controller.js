@@ -193,7 +193,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    function _loadVacancy(vacanciesStagesObject) {
       let deffered = $q.defer();
       let stagesObjectWithVacancy = vacanciesStagesObject;
-      VacancyService.getVacancy(vacanciesStagesObject.vacancyId).then(value => {
+      VacancyService.getVacancy(vacanciesStagesObject.vacancyId, true).then(value => {
          stagesObjectWithVacancy.vacancy = value;
          stagesObjectWithVacancy.stageFlow = value.stageFlow;
          deffered.resolve(stagesObjectWithVacancy);

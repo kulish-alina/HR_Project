@@ -713,7 +713,7 @@ namespace DAL.Migrations
                     FirstName = names.GetRandom(),
                     IndustryId = RandomNumber(1, Industries.Count - 1),
                     Description = professons.GetRandom(),
-                    Email = string.Format("{0}@{1}gmail.com", GetRandomString(5).Trim(), GetRandomString(6).Trim()),
+                    Email = string.Format("{0}@gmail.com", GetRandomString(5).Trim()),
                     Files = new List<File>(),
                     IsMale = true,
                     LanguageSkills =

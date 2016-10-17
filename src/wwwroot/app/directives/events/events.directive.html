@@ -28,7 +28,8 @@
                           name="Candidate"
                           ng-model="event.candidateId"
                           oi-options="candidate.id as candidate.lastName +' '+candidate.firstName
-                                      for candidate in searchCandidate($query)"
+                                      for candidate in searchCandidate($query)
+                                      | orderBy : 'lastName + \'|\' + firstName'"
                           oi-select-options="{ cleanModel: true }"
                           placeholder="{{::'CANDIDATE.CANDIDATE' | translate}}">
                </oi-select>
@@ -48,7 +49,7 @@
                           validator="required"
                           oi-options="responsible.id as getFullName(responsible)
                                       for responsible in searchResponsible($query)
-                                      | orderBy : 'lastName + \'|\' firstName"
+                                      | orderBy : 'lastName + \'|\' + firstName'"
                           ng-model="event.responsibleId"
                           oi-select-options="{ cleanModel: true }"
                           placeholder="{{::'COMMON.RESPONSIBLE' | translate}}">

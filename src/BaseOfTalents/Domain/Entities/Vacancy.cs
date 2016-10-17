@@ -19,6 +19,7 @@ namespace Domain.Entities
             ChildVacancies = new List<Vacancy>();
             StageFlow = new List<ExtendedStage>();
             StatesInfo = new List<VacancyState>();
+            History = new List<LogUnit>();
         }
 
         public string Title { get; set; }

@@ -80,31 +80,29 @@
             </div>
          </div>
          <hr>
-         <div class="card-section"> 
-            <div ng-if="isVacancyLoaded" class="card-section">
-               <table>
-                  <thead>
-                     <tr>
-                        <th ng-bind="::'COMMON.DATE' | translate"></th>
-                        <th ng-bind="::'COMMON.USER' | translate"></th>
-                        <th ng-bind="::'COMMON.FIELD' | translate"></th>
-                        <th ng-bind="::'COMMON.VALUE' | translate"></th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr ng-repeat="log in convertedHistory | orderBy : '-createdOn' track by $index ">
-                        <td class="date-td" ng-bind="log.createdOn | date : '[dd.MM.yy - H:mm]'">
-                        </td>
-                        <td ng-bind="log.user">
-                        </td>
-                        <td ng-bind="log.field | fieldName">
-                        </td>
-                        <td ng-bind="log.value | date : 'dd-MM-yy'">
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
+         <div ng-if="isVacancyLoaded" class="card-section"> 
+            <table>
+               <thead>
+                  <tr>
+                     <th ng-bind="::'COMMON.DATE' | translate"></th>
+                     <th ng-bind="::'COMMON.USER' | translate"></th>
+                     <th ng-bind="::'COMMON.FIELD' | translate"></th>
+                     <th ng-bind="::'COMMON.VALUE' | translate"></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="log in convertedHistory | orderBy : '-createdOn' track by $index ">
+                     <td class="date-td" ng-bind="log.createdOn | date : '[dd.MM.yy - H:mm]'">
+                     </td>
+                     <td ng-bind="log.user">
+                     </td>
+                     <td ng-bind="log.field | fieldName">
+                     </td>
+                     <td ng-bind="log.value | date : 'dd-MM-yy'">
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
          </div>
       </div>
    </div>
@@ -116,9 +114,7 @@
                <div class="grid-block sidebar-row">
                   <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.RESPONSIBLE' | translate">: </div>
                   <div class="medium-7 grid-block">
-                     <select ng-model="vacancy.responsibleId">
-                        <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
-                     </select>
+                     <oi-select class="multiple-select" oi-options="responsible.id as responsible.lastName for responsible in searchResponsible($query) | orderBy : 'lastName'" ng-model="vacancy.responsibleId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.RESPONSIBLE' | translate}}" name="vacancyResponsible"></oi-select>
                   </div>
                </div>
                <div class="grid-block sidebar-row">

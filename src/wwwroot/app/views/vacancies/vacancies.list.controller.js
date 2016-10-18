@@ -132,6 +132,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
       searchPredicate.sortBy = column;
       searchVacancies(searchPredicate).then(() => {
          vm.vacancyPredicate = searchPredicate;
+         _setToStorage();
       });
    }
 

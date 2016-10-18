@@ -21,6 +21,7 @@ namespace Domain.Entities
             RelocationPlaces = new List<RelocationPlace>();
             Events = new List<Event>();
             ClosedVacancies = new List<Vacancy>();
+            History = new List<LogUnit>();
         }
 
         public string FirstName { get; set; }

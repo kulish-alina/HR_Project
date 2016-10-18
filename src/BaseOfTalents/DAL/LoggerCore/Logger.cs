@@ -42,7 +42,11 @@ namespace DAL.LoggerCore
                 else if (isCitiesOrLevels(destinationKvp.Key))
                 {
                     var sourceIds = sourceKvp.Value as List<int>;
-                    var destinationIds = (((IEnumerable<BaseEntity>)destinationKvp.Value)).Select(x => x.Id).ToList();
+                    var destinationIds = new List<int>();
+                    if (destinationKvp.Value != null)
+                    {
+                        destinationIds = (((IEnumerable<BaseEntity>)destinationKvp.Value)).Select(x => x.Id).ToList();
+                    }
                     if (!sourceIds.SequenceEqual(destinationIds))
                     {
                         destination.Log(new LogUnit
@@ -54,7 +58,7 @@ namespace DAL.LoggerCore
                         });
                     }
                 }
-                else if (!destinationKvp.Value.Equals(sourceKvp.Value))
+                else if (destinationKvp.Value != null && !destinationKvp.Value.Equals(sourceKvp.Value))
                 {
                     destination.Log(new LogUnit
                     {

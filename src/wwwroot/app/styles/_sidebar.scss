@@ -57,6 +57,11 @@
       padding-top: 0;
       padding-bottom: 0;
    }
+   oi-select .select-search {
+      font-size: $rem-base*0.8;
+      height: $rem-base*1.8;
+      min-height: $rem-base*1.8;
+   }
 }
 
 .vacancy-view {

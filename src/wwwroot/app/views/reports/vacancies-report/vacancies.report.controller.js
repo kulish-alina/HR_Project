@@ -171,9 +171,9 @@ export default function VacanciesReportController(
    }
 
    function isEqualLocations(user) {
-      return vm.vacanciesReportParametrs.locationIds.length ?
-         vm.vacanciesReportParametrs.locationIds.includes(user.cityId) :
-         true;
+      return isEmpty(vm.vacanciesReportParametrs.locationIds) ?
+         true :
+         vm.vacanciesReportParametrs.locationIds.includes(user.cityId);
    }
 
    function isSelectedUsersGroupedByLocationEmpty() {
@@ -184,6 +184,8 @@ export default function VacanciesReportController(
       _clearLocationField();
       _clearUserField();
       vm.vacanciesReportParametrs                = {};
+      vm.vacanciesReportParametrs.locationIds    = [];
+      vm.vacanciesReportParametrs.userIds        = [];
       vm.report.startDateReportGroupedByLocation = {};
       vm.report.endDateReportGroupedByLocation   = {};
       vm.report.reportGroupedByLocation          = {};

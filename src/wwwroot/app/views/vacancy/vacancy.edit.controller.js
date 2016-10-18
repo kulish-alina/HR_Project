@@ -149,7 +149,6 @@ export default function VacancyController( //eslint-disable-line max-statements
             _vs();
          }
       });
-      return false;
    }
 
    function invertDate(date) {

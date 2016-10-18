@@ -125,9 +125,9 @@ export default function UsersReportController(
    }
 
    function isEqualLocations(user) {
-      return vm.usersReportParametrs.locationIds.length ?
-         vm.usersReportParametrs.locationIds.includes(user.cityId) :
-         true;
+      return isEmpty(vm.usersReportParametrs.locationIds) ?
+         true :
+         vm.usersReportParametrs.locationIds.includes(user.cityId);
    }
 
    function isSelectedUsersGroupedByLocationEmpty() {
@@ -137,9 +137,11 @@ export default function UsersReportController(
    function clear() {
       _clearLocationField();
       _clearUserField();
-      vm.usersReportParametrs    = {};
-      vm.reportGroupedByLocation = {};
-      vm.reportGroupedByUser     = {};
+      vm.usersReportParametrs              = {};
+      vm.reportGroupedByLocation           = {};
+      vm.reportGroupedByUser               = {};
+      vm.usersReportParametrs.locationIds  = [];
+      vm.usersReportParametrs.userIds      = [];
    }
 
    function _convertReport(report) {

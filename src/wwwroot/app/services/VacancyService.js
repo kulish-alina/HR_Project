@@ -65,7 +65,7 @@ export default class VacancyService {
    search(condition) {
       _LoggerService.debug('search vacancies', condition);
       return _HttpService.post(`${VACANCY_URL}search`, condition).then(response => {
-         return _$q.all(map(response.vacancies, this.convertFromServerFormat)).then((vacancies) => {
+         return _$q.all(map(response.vacancies, vacancy => this.convertFromServerFormat(vacancy))).then((vacancies) => {
             response.vacancies = vacancies;
             return response;
          });

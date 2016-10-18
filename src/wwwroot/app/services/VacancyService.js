@@ -9,8 +9,7 @@ import {
    reduce,
    result,
    assignIn,
-   set,
-   partial
+   set
 } from 'lodash';
 
 const VACANCY_URL = 'vacancy/';
@@ -65,7 +64,7 @@ export default class VacancyService {
    search(condition) {
       _LoggerService.debug('search vacancies', condition);
       return _HttpService.post(`${VACANCY_URL}search`, condition).then(response => {
-         return _$q.all(map(response.vacancies, this.convertFromServerFormat)).then((vacancies) => {
+         return _$q.all(map(response.vacancies, vacancy => this.convertFromServerFormat(vacancy))).then((vacancies) => {
             response.vacancies = vacancies;
             return response;
          });
@@ -86,9 +85,7 @@ export default class VacancyService {
          assignIn(vacancy, promises[PROMISE_INDEXES.vacancy]);
          vacancy.childVacancies = promises[PROMISE_INDEXES.childVacancies];
          vacancy.closingCandidate = promises[PROMISE_INDEXES.closingCandidate];
-         if (!notToLoadAttachedCadidates) {
-            vacancy.candidatesProgress = promises[PROMISE_INDEXES.candidatesProgress];
-         }
+         vacancy.candidatesProgress = promises[PROMISE_INDEXES.candidatesProgress];
          return vacancy;
       });
    }
@@ -145,32 +142,20 @@ export default class VacancyService {
    }
 
    _getVacancyFields(vacancy, notToLoadAttachedCadidates) {
-      let promisesContainer = [];
-      promisesContainer.push(_VacancyService._getUser(vacancy));
-      promisesContainer.push(_VacancyService._getThesauruses(vacancy));
-      promisesContainer.push(_VacancyService._getChildVacancies(vacancy));
-      promisesContainer.push(_VacancyService._getCommentsFields(vacancy));
-      promisesContainer.push(_VacancyService._getClosingCandidate(vacancy));
-      if (!notToLoadAttachedCadidates) {
-         promisesContainer.push(_VacancyService._getCandidatesProgressFields(vacancy));
-      }
-      return _$q.all(promisesContainer);
+      let userPromise = _VacancyService._getUser(vacancy);
+      let thesaurusesPromises = _VacancyService._getThesauruses(vacancy);
+      let childVacancyPromises = _VacancyService._getChildVacancies(vacancy);
+      let commentsPromise = _VacancyService._getCommentsFields(vacancy);
+      let closingCandidatePromise = _VacancyService._getClosingCandidate(vacancy);
+      let candidatesProgressPromise = notToLoadAttachedCadidates ?
+      _$q.when([ vacancy.candidatesProgress ]) :
+      _VacancyService._getCandidatesProgressFields(vacancy);
+      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises,
+              commentsPromise, closingCandidatePromise, candidatesProgressPromise]);
    }
 
    _getUser(vacancy) {
       return _UserService.getUserById(vacancy.responsibleId);
-   }
-
-   _getCandidatesProgressFields(vacancy) {
-      if (vacancy.candidatesProgress.length) {
-         let promises = map(vacancy.candidatesProgress, (candidateProgress) => {
-            _CandidateService.getCandidate(candidateProgress.candidateId)
-               .then(partial(set, candidateProgress, 'candidate'));
-            return candidateProgress;
-         });
-         return _$q.all(promises);
-      }
-      return true;
    }
 
    _getCommentsFields(vacancy) {
@@ -197,7 +182,7 @@ export default class VacancyService {
          });
          return _$q.all(promises);
       } else {
-         return true;
+         return _$q.when([]);
       }
    }
 
@@ -223,7 +208,7 @@ export default class VacancyService {
       if (vacancy.closingCandidateId) {
          return _CandidateService.getCandidate(vacancy.closingCandidateId);
       } else {
-         return true;
+         return _$q.when();
       }
    }
 

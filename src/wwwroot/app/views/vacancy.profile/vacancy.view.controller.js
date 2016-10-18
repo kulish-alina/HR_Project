@@ -106,7 +106,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          vm.comments = cloneDeep(vm.vacancy.comments)  || [];
          deffered.resolve();
       } else {
-         VacancyService.getVacancy($state.params.vacancyId, false).then(vacancy => {
+         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
             set(vm, 'vacancy', vacancy);
             vm.clonedVacancy = cloneDeep(vm.vacancy);
             vm.comments = cloneDeep(vm.vacancy.comments)  || [];

@@ -38,7 +38,7 @@ export default function UsersReportController(
    vm.addLocationIdsToUsersReportParametrs  = addLocationIdsToUsersReportParametrs;
    vm.addUserIdsToUsersReportParametrs      = addUserIdsToUsersReportParametrs;
    vm.genereteUsersReport                   = genereteUsersReport;
-   vm.isEqualLocations                      = isEqualLocations;
+   vm.isUserLocationSelected                = isUserLocationSelected;
    vm.isSelectedUsersGroupedByLocationEmpty = isSelectedUsersGroupedByLocationEmpty;
    vm.sumReportByStages                     = sumReportByStages;
    vm.filterArrayByProperty                 = filterArrayByProperty;
@@ -124,10 +124,9 @@ export default function UsersReportController(
       return rep && rep.stagesData[stageId] ? rep.stagesData[stageId] : 0;
    }
 
-   function isEqualLocations(user) {
-      return vm.usersReportParametrs.locationIds.length ?
-         vm.usersReportParametrs.locationIds.includes(user.cityId) :
-         true;
+   function isUserLocationSelected(user) {
+      return isEmpty(vm.usersReportParametrs.locationIds) ||
+         vm.usersReportParametrs.locationIds.includes(user.cityId);
    }
 
    function isSelectedUsersGroupedByLocationEmpty() {
@@ -137,9 +136,11 @@ export default function UsersReportController(
    function clear() {
       _clearLocationField();
       _clearUserField();
-      vm.usersReportParametrs    = {};
-      vm.reportGroupedByLocation = {};
-      vm.reportGroupedByUser     = {};
+      vm.usersReportParametrs              = {};
+      vm.reportGroupedByLocation           = {};
+      vm.reportGroupedByUser               = {};
+      vm.usersReportParametrs.locationIds  = [];
+      vm.usersReportParametrs.userIds      = [];
    }
 
    function _convertReport(report) {

@@ -32,7 +32,7 @@
                <div class="grid-block">
                   <label ng-bind="::'COMMON.USERS' | translate"></label>&nbsp;
                   <input ng-value="isActiveUsersField" type="checkbox" ng-model="isActiveUsersField" ng-checked="isActiveUsersField" ng-change="useUserField(isActiveUsersField)"> </div>
-               <div ng-if="isActiveUsersField" class="grid-block" ng-repeat="user in users | filter: isEqualLocations">
+               <div ng-if="isActiveUsersField" class="grid-block" ng-repeat="user in users | filter: isUserLocationSelected">
                   <div class="small-2 grid-block">
                      <input ng-value="user" ng-change="addUserIdsToUsersReportParametrs(user)" ng-checked="user.selected" ng-model="user.selected" id="user" type="checkbox"> </div>
                   <div class="small-10 grid-block">

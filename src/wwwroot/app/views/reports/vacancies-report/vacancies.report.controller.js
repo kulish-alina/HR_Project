@@ -39,7 +39,7 @@ export default function VacanciesReportController(
    vm.addLocationIdsToVacanciesReportParametrs = addLocationIdsToVacanciesReportParametrs;
    vm.addUserIdsToVacanciesReportParametrs     = addUserIdsToVacanciesReportParametrs;
    vm.generateVacanciesReport                  = generateVacanciesReport;
-   vm.isEqualLocations                         = isEqualLocations;
+   vm.isUserLocationSelected                   = isUserLocationSelected;
    vm.isSelectedUsersGroupedByLocationEmpty    = isSelectedUsersGroupedByLocationEmpty;
    vm.report                                   = {};
    vm.sumReportByStages                        = sumReportByStages;
@@ -170,10 +170,9 @@ export default function VacanciesReportController(
       return rep ? rep[type] : 0;
    }
 
-   function isEqualLocations(user) {
-      return vm.vacanciesReportParametrs.locationIds.length ?
-         vm.vacanciesReportParametrs.locationIds.includes(user.cityId) :
-         true;
+   function isUserLocationSelected(user) {
+      return isEmpty(vm.vacanciesReportParametrs.locationIds) ||
+         vm.vacanciesReportParametrs.locationIds.includes(user.cityId);
    }
 
    function isSelectedUsersGroupedByLocationEmpty() {
@@ -184,6 +183,8 @@ export default function VacanciesReportController(
       _clearLocationField();
       _clearUserField();
       vm.vacanciesReportParametrs                = {};
+      vm.vacanciesReportParametrs.locationIds    = [];
+      vm.vacanciesReportParametrs.userIds        = [];
       vm.report.startDateReportGroupedByLocation = {};
       vm.report.endDateReportGroupedByLocation   = {};
       vm.report.reportGroupedByLocation          = {};

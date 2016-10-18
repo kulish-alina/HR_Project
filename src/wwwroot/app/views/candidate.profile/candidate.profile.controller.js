@@ -181,13 +181,15 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    }
 
    function _loadCandidate(candidateStagesObject) {
-      let deffered = $q.defer();
       let stagesObjectWithCandidate = candidateStagesObject;
-      CandidateService.getCandidate(candidateStagesObject.candidateId).then(value => {
+      if (candidateStagesObject.candidateId === vm.candidate.id) {
+         stagesObjectWithCandidate.candidate = vm.candidate;
+         return $q.when(stagesObjectWithCandidate);
+      }
+      return CandidateService.getCandidate(candidateStagesObject.candidateId).then(value => {
          stagesObjectWithCandidate.candidate = value;
-         deffered.resolve(stagesObjectWithCandidate);
+         return stagesObjectWithCandidate;
       });
-      return deffered.promise;
    }
 
    function _loadVacancy(vacanciesStagesObject) {

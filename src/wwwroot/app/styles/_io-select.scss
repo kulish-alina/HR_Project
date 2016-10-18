@@ -1,0 +1,23 @@
+.select-search-list {
+   list-style-type: none;
+}
+.select-dropdown-optgroup {
+   list-style-type: none;
+}
+oi-select .select-search {
+   padding-left: $rem-base/2;
+   padding-right: $rem-base/2;
+}
+oi-select .select-dropdown-optgroup {
+   padding-left: 0;
+   padding-right: 0;
+}
+
+oi-select .select-search-list {
+   padding-left: 0;
+   padding-right: 0;
+   li {
+      padding-left: 0;
+      padding-right: 0;
+   }
+}

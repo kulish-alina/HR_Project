@@ -101,17 +101,17 @@
             <div ng-bind="::'CANDIDATES.CANDIDATES' | translate" class="card-divider">
             </div>
             <div class="card-section">
-               <table>
+               <table class="candidates-list">
                   <thead>
                      <tr>
                         <th ng-if="$state.params.vacancyIdToGoBack">
                            <input id="candidate" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
                         </th>
                         <th>№</th>
-                        <th> <a ng-click="sortBy('LastName')"><span ng-bind="::'CANDIDATE.FULL_NAME' | translate"></span> <i ng-class="getArrow('LastName')"></i></a></th>
+                        <th class="candidate-name"> <a ng-click="sortBy('LastName')"><span ng-bind="::'CANDIDATE.FULL_NAME' | translate"></span> <i ng-class="getArrow('LastName')"></i></a></th>
                         <th><a ng-click="sortBy('Industry')"><span ng-bind="::'COMMON.INDUSTRY' | translate"></span> <i ng-class="getArrow('Industry')"></i></a></th>
                         <th><a ng-click="sortBy('MainSource')"><span ng-bind="::'CANDIDATE.SOURCE' | translate"></span> <i ng-class="getArrow('MainSource')"></i></a></th>
-                        <th><a ng-click="sortBy('PositionDesired')"><span ng-bind="::'CANDIDATE.POSITION' | translate"></span> <i ng-class="getArrow('PositionDesired')"></i></a></th>
+                        <th class="candidate-position"><a ng-click="sortBy('PositionDesired')"><span ng-bind="::'CANDIDATE.POSITION' | translate"></span> <i ng-class="getArrow('PositionDesired')"></i></a></th>
                         <th><a ng-click="sortBy('SalaryDesired')"><span ng-bind="::'COMMON.SALARY' | translate"></span> <i ng-class="getArrow('SalaryDesired')"></i></a></th>
                         <th><a ng-click="sortBy('CreatedOn')"><span ng-bind="::'COMMON.ADDED' | translate"></span> <i ng-class="getArrow('CreatedOn')"></i></a></th>
                         <th></th>
@@ -123,12 +123,12 @@
                            <input id="checkbox9" type="checkbox" ng-model="c.isToogled" ng-change="toogleCandidate(c.id)">
                         </th>
                         <td ng-bind="{{(candidates.current - 1) * candidates.size+$index + 1}}"></td>
-                        <td>
+                        <td class="candidate-name">
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
                         </td>
                         <td ng-bind="c.industry.title"></td>
                         <td ng-bind="c.mainSource.title"></td>
-                        <td ng-bind="::c.positionDesired"></td>
+                        <td class="candidate-position" ng-bind="::c.positionDesired"></td>
                         <td>
                            <span ng-if="c.salaryDesired" ng-bind="::(c.salaryDesired+' '+c.currency.title)"></span>
                         </td>

@@ -1,0 +1,13 @@
+.vacancies-list {
+   tr {
+      th, td {
+         text-align: left;
+      }
+      .vacancy-title {
+         width: 30%;
+      }
+      .vacancy-cities {
+         width: 20%;
+      }
+   }
+}

@@ -14,6 +14,7 @@ const FIELD_TYPES = {
    'CandidatesProgress' : 3,
    'VacanciesProgress' : 4
 };
+const EMPTY = '*empty*';
 const moment = require('moment');
 
 export default class LogginService {
@@ -97,7 +98,7 @@ function getFieldNameAndValuesFor(field, values) {
       });
       return {
          field: /city/i.test(field) ? 'Cities' : 'Levels',
-         value: titles.length ? titles.join(', ') : '*empty*'
+         value: titles.length ? titles.join(', ') : EMPTY
       };
    });
 }

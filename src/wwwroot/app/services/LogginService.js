@@ -14,6 +14,7 @@ const FIELD_TYPES = {
    'CandidatesProgress' : 3,
    'VacanciesProgress' : 4
 };
+const EMPTY = '*empty*';
 const moment = require('moment');
 
 export default class LogginService {
@@ -31,12 +32,11 @@ export default class LogginService {
 }
 
 function convert(log) {
-   if (!log.user) {
-      _UserService.getUserById(log.userId).then(user => {
-         log.user = user;
-      });
-   }
-   return getAndPerformStrategy(log);
+   return _UserService.getUserById(log.userId).then(user => {
+      log.user = user;
+   }).then(() => {
+      return getAndPerformStrategy(log);
+   });
 }
 
 function getAndPerformStrategy(log) {
@@ -98,7 +98,7 @@ function getFieldNameAndValuesFor(field, values) {
       });
       return {
          field: /city/i.test(field) ? 'Cities' : 'Levels',
-         value: titles.join(', ')
+         value: titles.length ? titles.join(', ') : EMPTY
       };
    });
 }
@@ -136,7 +136,12 @@ function getNewValue(log) {
    } else {
       if (/date/i.test(log.field)) {
          log.values = map(log.values, val => {
-            return moment(val).toISOString();
+            if (moment(val).isValid()) {
+               return moment(val).toISOString();
+            } else {
+               return val;
+            }
+
          });
       }
       deffered.resolve(head(log.values));

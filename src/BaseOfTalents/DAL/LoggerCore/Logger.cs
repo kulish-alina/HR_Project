@@ -58,13 +58,13 @@ namespace DAL.LoggerCore
                         });
                     }
                 }
-                else if (destinationKvp.Value != null && !destinationKvp.Value.Equals(sourceKvp.Value))
+                else if (!Object.Equals(destinationKvp.Value, sourceKvp.Value))
                 {
                     destination.Log(new LogUnit
                     {
                         Field = destinationKvp.Key,
                         UserId = userId,
-                        Values = CreateLogValueListOf(sourceKvp.Value.ToString()),
+                        Values = CreateLogValueListOf(sourceKvp.Value == null ? "*empty*" : sourceKvp.Value.ToString()),
                         FieldType = FieldType.Plain
                     });
                 }

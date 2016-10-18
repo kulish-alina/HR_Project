@@ -1,3 +1,4 @@
+import './candidates.scss';
 import {
    remove,
    find,

@@ -38,7 +38,7 @@ export default function UsersReportController(
    vm.addLocationIdsToUsersReportParametrs  = addLocationIdsToUsersReportParametrs;
    vm.addUserIdsToUsersReportParametrs      = addUserIdsToUsersReportParametrs;
    vm.genereteUsersReport                   = genereteUsersReport;
-   vm.isEqualLocations                      = isEqualLocations;
+   vm.isUserLocationSelected                = isUserLocationSelected;
    vm.isSelectedUsersGroupedByLocationEmpty = isSelectedUsersGroupedByLocationEmpty;
    vm.sumReportByStages                     = sumReportByStages;
    vm.filterArrayByProperty                 = filterArrayByProperty;
@@ -124,9 +124,8 @@ export default function UsersReportController(
       return rep && rep.stagesData[stageId] ? rep.stagesData[stageId] : 0;
    }
 
-   function isEqualLocations(user) {
-      return isEmpty(vm.usersReportParametrs.locationIds) ?
-         true :
+   function isUserLocationSelected(user) {
+      return isEmpty(vm.usersReportParametrs.locationIds) ||
          vm.usersReportParametrs.locationIds.includes(user.cityId);
    }
 

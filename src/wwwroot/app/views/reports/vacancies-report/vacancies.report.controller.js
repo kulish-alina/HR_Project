@@ -39,7 +39,7 @@ export default function VacanciesReportController(
    vm.addLocationIdsToVacanciesReportParametrs = addLocationIdsToVacanciesReportParametrs;
    vm.addUserIdsToVacanciesReportParametrs     = addUserIdsToVacanciesReportParametrs;
    vm.generateVacanciesReport                  = generateVacanciesReport;
-   vm.isEqualLocations                         = isEqualLocations;
+   vm.isUserLocationSelected                   = isUserLocationSelected;
    vm.isSelectedUsersGroupedByLocationEmpty    = isSelectedUsersGroupedByLocationEmpty;
    vm.report                                   = {};
    vm.sumReportByStages                        = sumReportByStages;
@@ -170,9 +170,8 @@ export default function VacanciesReportController(
       return rep ? rep[type] : 0;
    }
 
-   function isEqualLocations(user) {
-      return isEmpty(vm.vacanciesReportParametrs.locationIds) ?
-         true :
+   function isUserLocationSelected(user) {
+      return isEmpty(vm.vacanciesReportParametrs.locationIds) ||
          vm.vacanciesReportParametrs.locationIds.includes(user.cityId);
    }
 

@@ -53,7 +53,8 @@ namespace DAL.LoggerCore
                         {
                             Field = destinationKvp.Key,
                             UserId = userId,
-                            Values = CreateLogValueListOf(sourceIds.Select(x => x.ToString()).ToArray<string>()),
+                            NewValues = CreateLogValueListOf(sourceIds.Select(x => x.ToString()).ToArray<string>()),
+                            PastValues = CreateLogValueListOf(destinationIds.Select(x => x.ToString()).ToArray<string>()),
                             FieldType = FieldType.Array
                         });
                     }
@@ -64,7 +65,8 @@ namespace DAL.LoggerCore
                     {
                         Field = destinationKvp.Key,
                         UserId = userId,
-                        Values = CreateLogValueListOf(sourceKvp.Value.ToString()),
+                        NewValues = CreateLogValueListOf(sourceKvp.Value.ToString()),
+                        PastValues = CreateLogValueListOf(destinationKvp.Value.ToString()),
                         FieldType = FieldType.Plain
                     });
                 }
@@ -108,7 +110,8 @@ namespace DAL.LoggerCore
                     {
                         UserId = userId,
                         Field = $"{sourceIdToActiveStage.Key}",
-                        Values = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                        NewValues = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                        PastValues = CreateLogValueListOf($"{destinationIdToActiveStage.Value.StageId}"),
                         FieldType = fieldType
                     });
                 }

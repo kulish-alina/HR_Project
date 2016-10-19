@@ -14,6 +14,10 @@ const FIELD_TYPES = {
    'CandidatesProgress' : 3,
    'VacanciesProgress' : 4
 };
+const VALUES_INDEXES = {
+   NEW_VALUE: 0,
+   PAST_VALUE: 1
+};
 const moment = require('moment');
 
 export default class LogginService {
@@ -56,21 +60,21 @@ function isArrayCase(log) {
 function fromVSI(log) {
    if (log.fieldType === FIELD_TYPES.VacanciesProgress) {
       log.vacancyTitle = getVacancyTitleFrom(log);
-      log.stageTitle = getStageTitleFrom(log, 'vacancyId');
       return _$q.when({
          createdOn: log.createdOn,
-         user: log.user.lastName,
+         user: `${log.user.lastName} ${log.user.firstName}`,
          field: `${log.vacancyTitle} stage`,
-         value: log.stageTitle
+         newValue: getNewTitleFrom(log, 'vacancyId'),
+         pastValue: getPastTitleFrom(log, 'vacancyId')
       });
    } else {
       log.candidateLastName = getCandidateLastNameFrom(log);
-      log.stageTitle = getStageTitleFrom(log, 'candidateId');
       return _$q.when({
          createdOn: log.createdOn,
-         user: log.user.lastName,
+         user: `${log.user.lastName} ${log.user.firstName}`,
          field: `${log.candidateLastName} stage`,
-         value: log.stageTitle
+         newValue: getNewTitleFrom(log, 'candidateId'),
+         pastValue: getPastTitleFrom(log, 'candidateId')
       });
    }
 }
@@ -79,26 +83,30 @@ function fromArray(log) {
       return getFieldNameAndValuesFor('city', log.values).then(fieldValue => {
          return Object.assign(fieldValue, {
             createdOn: log.createdOn,
-            user: log.user.lastName
+            user: `${log.user.lastName} ${log.user.firstName}`
          });
       });
    } else if (/levels/i.test(log.field)) {
-      return getFieldNameAndValuesFor('level', log.values).then(fieldValue => {
+      return getFieldNameAndValuesFor('level', log.newValues, log.pastValues).then(fieldValue => {
          return Object.assign(fieldValue, {
             createdOn: log.createdOn,
-            user: log.user.lastName
+            user: `${log.user.lastName} ${log.user.firstName}`
          });
       });
    }
 }
-function getFieldNameAndValuesFor(field, values) {
+function getFieldNameAndValuesFor(field, newValues, pastValues) {
    return _ThesaurusService.getThesaurusTopics(field).then(thesaurus => {
-      let titles = map(values, thesaurusId => {
+      let newTitles = map(newValues, thesaurusId => {
+         return find(thesaurus, ['id', parseInt(thesaurusId)]).title;
+      });
+      let pastTitles = map(pastValues, thesaurusId => {
          return find(thesaurus, ['id', parseInt(thesaurusId)]).title;
       });
       return {
          field: /city/i.test(field) ? 'Cities' : 'Levels',
-         value: titles.join(', ')
+         newValue: newTitles.join(', '),
+         pastValue: pastTitles.join(', ')
       };
    });
 }
@@ -106,42 +114,58 @@ function fromSimple(log) {
    if (/id/i.test(log.field)) {
       log.field = trim(log.field, 'Id');
    }
-   return getNewValue(log).then((newValueOfField) => {
+   return getNewAndPastValue(log).then((valuesContainer) => {
       return {
          createdOn: log.createdOn,
-         user: log.user.lastName,
+         user: `${log.user.lastName} ${log.user.firstName}`,
          field: log.field,
-         value: newValueOfField
+         newValue: valuesContainer.newValue,
+         pastValue: valuesContainer.pastValue
       };
    });
 }
 
-function getNewValue(log) {
-   let deffered = _$q.defer();
+function getThesaurusTitle(thesaurusName, id) {
+   return _ThesaurusService.getThesaurusTopic(thesaurusName, id).then(thesaurus => {
+      return thesaurus.title;
+   });
+}
+function getNewAndPastForThesaurus(thesaurusName, log) {
+   return _$q.all([
+      getThesaurusTitle(thesaurusName, parseInt(head(log.newValues))),
+      getThesaurusTitle(thesaurusName, parseInt(head(log.pastValues)))
+   ]).then(valuesContainer => {
+      return {
+         newValue: valuesContainer[VALUES_INDEXES.NEW_VALUE],
+         pastValue: valuesContainer[VALUES_INDEXES.PAST_VALUE]
+      };
+   });
+}
+
+function getNewAndPastValue(log) {
    if (/city/i.test(log.field)) {
-      let cityId = parseInt(head(log.values));
-      _ThesaurusService.getThesaurusTopic('city', cityId).then(city => {
-         deffered.resolve(city.title);
-      });
+      return getNewAndPastForThesaurus('city', log);
    } else if (/department/i.test(log.field)) {
-      let departmentId = parseInt(head(log.values));
-      _ThesaurusService.getThesaurusTopic('department', departmentId).then(department => {
-         deffered.resolve(department.title);
-      });
+      return getNewAndPastForThesaurus('department', log);
    } else if (/responsible/i.test(log.field)) {
-      let responsibleId = parseInt(head(log.values));
-      _UserService.getUserById(responsibleId).then(user => {
-         deffered.resolve(user.lastName);
+      let newResponsibleId = parseInt(head(log.values));
+      return _UserService.getUserById(newResponsibleId).then(user => {
+         return user.lastName;
       });
    } else {
       if (/date/i.test(log.field)) {
-         log.values = map(log.values, val => {
+         log.newValues = map(log.newValues, val => {
+            return moment(val).toISOString();
+         });
+         log.pastValues = map(log.pastValues, val => {
             return moment(val).toISOString();
          });
       }
-      deffered.resolve(head(log.values));
+      return _$q.when({
+         newValue: head(log.newValues),
+         pastValue: head(log.pastValue)
+      });
    }
-   return deffered.promise;
 }
 
 
@@ -162,8 +186,14 @@ function getVacancyTitleFrom(log) {
    }
    return vsi.vacancy.title;
 }
-function getStageTitleFrom(log, entityIdName) {
+
+function getNewTitleFrom(log, entityIdName) {
    let vsi = find(_vm.vacancyStageInfosComposedByCandidateIdVacancyId, [entityIdName, parseInt(log.field)]);
-   let stage = find(vsi.stageFlow, ['stage.id', parseInt(head(log.values))]);
+   let stage = find(vsi.stageFlow, ['stage.id', parseInt(head(log.newValues))]);
+   return stage.stage.title;
+}
+function getPastTitleFrom(log, entityIdName) {
+   let vsi = find(_vm.vacancyStageInfosComposedByCandidateIdVacancyId, [entityIdName, parseInt(log.field)]);
+   let stage = find(vsi.stageFlow, ['stage.id', parseInt(head(log.pastValues))]);
    return stage.stage.title;
 }

@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using CVParser;
 using DAL.DTO;
 using DAL.DTO.SetupDTO;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebUI.Globals.Converters;
@@ -138,13 +136,14 @@ namespace WebUI.App_Start
 
                 x.CreateMap<LogUnit, LogUnitDTO>()
                     .ForMember(dest => dest.User, opt => opt.MapFrom(src => Mapper.Map<User, UserDTO>(src.User)))
-                    .ForMember(dest => dest.Values, opt => opt.MapFrom(src => src.Values.Select(y => y.Value)));
+                    .ForMember(dest => dest.PastValues, opt => opt.MapFrom(src => src.PastValues.Select(y => y.Value)))
+                    .ForMember(dest => dest.NewValues, opt => opt.MapFrom(src => src.NewValues.Select(y => y.Value)));
                 x.CreateMap<LogUnitDTO, LogUnit>();
 
                 x.CreateMap<User, UserDTO>()
                    .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => Mapper.Map<File, FileDTO>(src.Photo)))
                    .ForMember(dest => dest.PhoneNumbers, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<PhoneNumberDTO>>(src.PhoneNumbers)));
-                
+
                 x.CreateMap<Candidate, CandidateDTO>()
                     .ForMember(dest => dest.ClosedVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ClosedVacancies)))
                     .ForMember(dest => dest.VacanciesProgress, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<VacancyStageInfo>, IEnumerable<VacancyStageInfoDTO>>(src.VacanciesProgress)))

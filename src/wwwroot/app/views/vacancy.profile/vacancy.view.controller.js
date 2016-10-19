@@ -76,7 +76,6 @@ export default function VacancyProfileController( // eslint-disable-line max-par
         .then(() => {
            UserHistoryService.toReadableFormat(vm.vacancy.history, vm).then((converted) => {
               vm.convertedHistory = converted;
-              debugger;
               vm.isVacancyLoaded = true;
            });
         })

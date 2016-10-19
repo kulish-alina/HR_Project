@@ -70,15 +70,13 @@ export default class VacancyService {
          });
       });
    }
+
    autocomplete(searchString, id) {
-      if (id && !searchString) {
-         return _VacancyService.getVacancy(id).then(response => [ response ]);
-      } else {
-         return _VacancyService
-            .search({ title : searchString, sortBy : 'CreatedOn', sortAsc  : false})
-            .then(response => response.vacancies);
-      }
+      return _VacancyService
+         .search(id && !searchString ? {id} : { title : searchString, sortBy : 'CreatedOn', sortAsc  : false})
+         .then(response => response.vacancies);
    }
+
    convertFromServerFormat(vacancy, notToLoadAttachedCadidates) {
       vacancy = _convertFromServerDates(vacancy);
       _VacancyService._fillVacancyLanguageSkills(vacancy)

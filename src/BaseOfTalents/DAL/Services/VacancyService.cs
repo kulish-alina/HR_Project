@@ -76,9 +76,9 @@ namespace DAL.Services
 
             if (typeof(Vacancy).GetProperty(orderBy) != null)
             {
-                Func<Vacancy, string> keySelector = v => (orderBy == "Cities") ?
+                Func<Vacancy, object> keySelector = v => (orderBy == "Cities") ?
                                                         v.Cities.Last().Title :
-                                                        v.GetType().GetProperty(orderBy).GetValue(v).ToString();
+                                                        v.GetType().GetProperty(orderBy).GetValue(v);
                 vacancies = sortAscend ?
                     vacancies.OrderBy(keySelector) :
                     vacancies.OrderByDescending(keySelector);

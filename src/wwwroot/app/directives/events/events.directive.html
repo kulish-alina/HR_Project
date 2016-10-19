@@ -28,7 +28,7 @@
                           name="Candidate"
                           ng-model="event.candidateId"
                           oi-options="candidate.id as candidate.lastName +' '+candidate.firstName
-                                      for candidate in searchCandidate($query)
+                                      for candidate in searchCandidate($query, event.candidateId)
                                       | orderBy : 'lastName + \'|\' + firstName'"
                           oi-select-options="{ cleanModel: true }"
                           placeholder="{{::'CANDIDATE.CANDIDATE' | translate}}">
@@ -37,7 +37,7 @@
                <label for="Vacancy" ng-bind="::'VACANCY.VACANCY' | translate"></label>
                <oi-select class="multiple-select" id="Vacancy"
                           ng-model="event.vacancyId"
-                          oi-options="vacancy.id as getVacancyFullTitle(vacancy) for vacancy in searchVacancy($query)" oi-select-options="{ cleanModel: true }"
+                          oi-options="vacancy.id as vacancy.title for vacancy in searchVacancy($query, event.vacancyId)" oi-select-options="{ cleanModel: true }"
                           placeholder="{{::'VACANCY.VACANCY' | translate}}">
                </oi-select>
                

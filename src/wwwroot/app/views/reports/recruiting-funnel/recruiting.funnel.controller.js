@@ -11,6 +11,7 @@ import {
    find,
    toNumber,
    round
+   //cloneDeep
 } from 'lodash';
 
 const arrow = '\u2192';
@@ -50,9 +51,7 @@ export default function RecruitingFunnelController(
    vm.tableRows                                   = [];
    vm.stageSwitch                                 = stageSwitch;
    vm.selectedStageIds                            = [];
-   vm.vacancySearchConditions                     = {};
-   vm.vacancySearchConditions.current             = 0;
-   vm.vacancySearchConditions.size                = 20;
+   vm.autocomplete                                = VacancyService.autocomplete;
 
    (function init() {
       VacancyService.search(vm.vacancySearchConditions)
@@ -62,6 +61,7 @@ export default function RecruitingFunnelController(
             set(vm, 'stages', topic);
             _addDefaultPropertyToStages(vm.stages);
             if (!isEmpty(vm.selectedVacancy)) {
+               vm.selectedVacancyId = vm.selectedVacancy.id;
                genereteReportForSelectedVacancy();
             }
             return topic;
@@ -79,10 +79,13 @@ export default function RecruitingFunnelController(
    }
 
    function genereteReportForSelectedVacancy() {
-      vm.tableRows = [];
-      _groupCandidatesInProgressByStages();
-      _setTableRows();
-      _genereteRecruitingFunnel();
+      VacancyService.getVacancy(vm.selectedVacancyId).then(response => {
+         set(vm, 'selectedVacancy', response);
+         vm.tableRows = [];
+         _groupCandidatesInProgressByStages();
+         _setTableRows();
+         _genereteRecruitingFunnel();
+      });
    }
 
    function filterCandidatesGropedByStageByCandidateId(group, num) {

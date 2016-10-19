@@ -11,7 +11,9 @@
          </div>
          <div class="card-section">
             <form>
-               <oi-select ng-change="genereteReportForSelectedVacancy()" class="multiple-select" oi-options="vacancy as vacancy.title for vacancy in vacancies track by vacancy.id" ng-model="selectedVacancy" placeholder="{{::'VACANCY.VACANCY' | translate}}"></oi-select>
+               <label for="Vacancy" ng-bind="::'VACANCY.VACANCY' | translate"></label>
+               <oi-select ng-change="genereteReportForSelectedVacancy(selectedVacancyId)" ng-model="selectedVacancyId" class="multiple-select" id="Vacancy"  oi-options="vacancy.id as vacancy.title for vacancy in autocomplete($query, selectedVacancyId)" oi-select-options="{ cleanModel: true }" placeholder="{{::'VACANCY.VACANCY' | translate}}">
+               </oi-select>
                <div class="grid-block">
                   <label ng-bind="::'THESAURUSES.STAGES' | translate"></label>
                </div>
@@ -26,7 +28,7 @@
       <div class="main-card">
          <div class="card-divider"> <span ng-bind="::'REPORTS.RECRUITING_FUNNEL' | translate"></span> <span ng-bind="::'COMMON.FOR' | translate"></span> <span><a ng-click="viewVacancy()" ng-bind="selectedVacancy.title"></a></span> </div>
          <div class="card-section funnel-container">
-            <div id="funnel" >
+            <div id="funnel">
             </div>
          </div>
       </div>

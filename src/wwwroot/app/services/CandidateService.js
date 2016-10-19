@@ -62,15 +62,16 @@ const CONVERTORS_TO_CLIENT = [
    _convertCommentsToClient
 ];
 
-let _HttpService, _ThesaurusService, _UserService, _$q;
+let _HttpService, _ThesaurusService, _UserService, _$q, _CandidateService;
 
 export default class CandidateService {
    constructor(HttpService, ThesaurusService, UserService, $q) {
       'ngInject';
-      _HttpService = HttpService;
+      _HttpService      = HttpService;
       _ThesaurusService = ThesaurusService;
       _UserService      = UserService;
-      _$q = $q;
+      _$q               = $q;
+      _CandidateService = this;
    }
 
    getCandidate(id) {
@@ -111,6 +112,19 @@ export default class CandidateService {
                .then(_set(response, 'candidate'))
                .then(response);
          });
+   }
+
+   autocomplete(searchString, candidateId) {
+      if (!searchString && candidateId) {
+         return _CandidateService.getCandidate(candidateId).then(response => [ response ]);
+      } else {
+         return _CandidateService
+            .search({searchString,
+                     size          : 100,
+                     sortBy        : 'CreatedOn',
+                     sortAsc       : false})
+            .then(response => response.candidate);
+      }
    }
 }
 

@@ -22,6 +22,15 @@ td {
 tr:nth-child(2n) {
    background: lighten($gray-light, 2);
 }
+.date-td {
+  font-weight: bold;
+  font-size: small;
+}
+.history-tds {
+  td {
+    text-align: center;
+  }
+}
 .content {
    width: 100%;
    margin-top: $rem-base*0.625;

@@ -93,7 +93,7 @@
                </thead>
                <tbody>
                   <tr class="history-tds" ng-repeat="log in convertedHistory | orderBy : '-createdOn' track by $index ">
-                     <td class="date-td" ng-bind="log.createdOn | date : '[dd.MM.yy - H:mm]'">
+                     <td class="date-td" ng-bind="log.createdOn | date : 'dd-MM-yy H:mm'">
                      </td>
                      <td ng-bind="log.user">
                      </td>

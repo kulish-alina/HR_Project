@@ -25,7 +25,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    EventsService,
    UserService,
    SearchService,
-   LogginService
+   UserHistoryService
    ) {
    'ngInject';
 
@@ -66,7 +66,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
             }, true);
          })
          .then(() => {
-            LogginService.toReadableFormat(vm.candidate.history, vm).then((converted) => {
+            UserHistoryService.toReadableFormat(vm.candidate.history, vm).then((converted) => {
                vm.convertedHistory = converted;
                vm.isCandidateLoaded = true;
             });

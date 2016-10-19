@@ -22,7 +22,7 @@ const VALUES_INDEXES = {
 };
 const moment = require('moment');
 
-export default class LogginService {
+export default class UserHistoryService {
    constructor(UserService, ThesaurusService, $q) {
       'ngInject';
       _UserService = UserService;
@@ -59,7 +59,7 @@ function isArrayCase(log) {
    return log.fieldType === FIELD_TYPES.Array;
 }
 function fromVSI(log) {
-   (() => {
+   return (() => {
       if (log.fieldType === FIELD_TYPES.VacanciesProgress) {
          return _$q.when({
             entityName: getVacancyTitleFrom(log),
@@ -126,9 +126,11 @@ function getFieldNameAndValuesFor(field, newValues, pastValues) {
          return {
             field: /city/i.test(field) ? 'Cities' : 'Levels',
             newValue:  promiseArray[VALUES_INDEXES.NEW_VALUE].length ?
-               promiseArray[VALUES_INDEXES.NEW_VALUE].join(', ') : EMPTY,
+               promiseArray[VALUES_INDEXES.NEW_VALUE].join(', ') :
+               EMPTY,
             pastValue: promiseArray[VALUES_INDEXES.PAST_VALUE].length ?
-               promiseArray[VALUES_INDEXES.PAST_VALUE].join(', ') : EMPTY
+               promiseArray[VALUES_INDEXES.PAST_VALUE].join(', ') :
+               EMPTY
          };
       });
    });

@@ -24,7 +24,7 @@ namespace DAL.DTO
 
         public FileDTO Photo { get; set; }
 
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
 
         public IEnumerable<PhoneNumberDTO> PhoneNumbers { get; set; }
     }

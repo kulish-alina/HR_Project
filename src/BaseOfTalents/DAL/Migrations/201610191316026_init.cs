@@ -192,9 +192,9 @@ namespace DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        FirstName = c.String(nullable: false),
-                        MiddleName = c.String(nullable: false),
-                        LastName = c.String(nullable: false),
+                        FirstName = c.String(),
+                        MiddleName = c.String(),
+                        LastName = c.String(),
                         isMale = c.Boolean(nullable: false),
                         BirthDate = c.DateTime(),
                         Email = c.String(nullable: false),
@@ -202,7 +202,7 @@ namespace DAL.Migrations
                         Login = c.String(nullable: false),
                         Password = c.String(nullable: false),
                         RoleId = c.Int(nullable: false),
-                        CityId = c.Int(nullable: false),
+                        CityId = c.Int(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -601,6 +601,22 @@ namespace DAL.Migrations
                 .ForeignKey("dbo.Candidate", t => t.Candidate_Id)
                 .Index(t => t.SourceId)
                 .Index(t => t.Candidate_Id);
+            
+            CreateTable(
+                "dbo.MailContent",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Subject = c.String(nullable: false),
+                        Invitation = c.String(nullable: false),
+                        Body = c.String(nullable: false),
+                        Farewell = c.String(nullable: false),
+                        LastModified = c.DateTime(),
+                        CreatedOn = c.DateTime(),
+                        State = c.Int(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.UserToPhoneNumber",
@@ -1066,6 +1082,7 @@ namespace DAL.Migrations
             DropTable("dbo.UserToComment");
             DropTable("dbo.PermissionRole");
             DropTable("dbo.UserToPhoneNumber");
+            DropTable("dbo.MailContent");
             DropTable("dbo.CandidateSource");
             DropTable("dbo.SocialNetwork");
             DropTable("dbo.CandidateSocial");

@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using DAL.Infrastructure;
 using DAL.Repositories;
+using Domain.Entities;
 
 namespace DAL
 {
@@ -37,6 +38,8 @@ namespace DAL
         private ICurrencyRepository currencyRepo;
         private ISourceRepository sourceRepo;
         private IVacancyStateRepository vacancyStateRepo;
+
+        private IRepository<MailContent> mailRepo;
 
 
 
@@ -420,6 +423,18 @@ namespace DAL
                 }
 
                 return vacancyStateRepo;
+            }
+        }
+
+        public IRepository<MailContent> MailRepo
+        {
+            get
+            {
+                if (mailRepo == null)
+                {
+                    mailRepo = new MailRepository(context);
+                }
+                return mailRepo;
             }
         }
 

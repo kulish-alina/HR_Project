@@ -15,11 +15,10 @@ namespace ApiHost
             public string Email { get; set; }
             public string Password { get; set; }
 
-            public string WWWRoot { get; set; }
-            public string Uploads { get; set; }
-
             public string DbInitialCatalog { get; set; }
             public string DbDataSource { get; set; }
+
+            public string FrAccessUrl { get; set; }
         }
 
         public void Load(string fileName)
@@ -33,8 +32,7 @@ namespace ApiHost
             {
                 string json = reader.ReadToEnd();
                 var settings = JsonConvert.DeserializeObject<Settings>(json);
-                SettingsContext.SetInstance(settings.Url, settings.Port, settings.WWWRoot,
-                    settings.Uploads, settings.Email, settings.Password);
+                SettingsContext.SetInstance(settings.Url, settings.FrAccessUrl, settings.Port, settings.Email, settings.Password);
                 DbSettingsContext.SetInstance(settings.DbInitialCatalog, settings.DbDataSource);
             }
         }

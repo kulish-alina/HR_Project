@@ -1,4 +1,6 @@
-﻿namespace DAL.Infrastructure
+﻿using Domain.Entities;
+
+namespace DAL.Infrastructure
 {
     public interface IUnitOfWork
     {
@@ -31,6 +33,8 @@
         ICurrencyRepository CurrencyRepo { get; }
         ISourceRepository SourceRepo { get; }
         IVacancyStateRepository VacancyStateRepo { get; }
+        IRepository<MailContent> MailRepo { get; }
+
 
         void Commit();
     }

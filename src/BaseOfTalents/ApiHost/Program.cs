@@ -21,7 +21,7 @@ namespace ApiHost
             }
 
             int port = SettingsContext.Instance.Port;
-            string url = SettingsContext.Instance.Url;
+            string url = SettingsContext.Instance.HostUrl;
 
             StartOptions options = new StartOptions($"{url}:{port}")
             {

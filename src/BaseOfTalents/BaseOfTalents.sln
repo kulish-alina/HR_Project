@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{5F863426-F6DF-47EC-885C-EDD5CB46D676}"
 EndProject
@@ -25,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiHost", "ApiHost\ApiHost.csproj", "{9BDD482E-BDAD-439D-A22F-60BB8BAA3BD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CVParser", "CVParser\CVParser.csproj", "{F55CE75C-0108-484C-9539-04F3C8979A62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mailer", "Mailer\Mailer.csproj", "{79EAB172-4029-46FF-A865-ECB2A814942F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +54,10 @@ Global
 		{F55CE75C-0108-484C-9539-04F3C8979A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F55CE75C-0108-484C-9539-04F3C8979A62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F55CE75C-0108-484C-9539-04F3C8979A62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79EAB172-4029-46FF-A865-ECB2A814942F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79EAB172-4029-46FF-A865-ECB2A814942F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79EAB172-4029-46FF-A865-ECB2A814942F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79EAB172-4029-46FF-A865-ECB2A814942F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

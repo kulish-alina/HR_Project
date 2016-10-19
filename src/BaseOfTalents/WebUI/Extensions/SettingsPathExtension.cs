@@ -4,7 +4,7 @@ using WebUI.Globals;
 
 namespace WebUI.Extensions
 {
-    public static class SettingsPathExtension
+    public static class SettingsExtension
     {
         public static string CreateAbsolutePathFromApplication(string relativePath)
         {
@@ -19,6 +19,16 @@ namespace WebUI.Extensions
         public static string GetUploadsPath(this SettingsContext context)
         {
             return CreateAbsolutePathFromApplication(context.Uploads);
+        }
+
+        public static string GetImageUrl(this SettingsContext context)
+        {
+            return $"{context.RemoteUrl}:{context.Port}{context.ImageUrl}";
+        }
+
+        public static string GetOuterUrl(this SettingsContext context)
+        {
+            return $"{context.RemoteUrl}:{context.Port}{context.OuterUrl}";
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using DAL.Infrastructure;
-using DAL.Mapping;
-using Domain.Entities;
-using Domain.Entities.Enum.Setup;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -11,6 +7,11 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
 using System.Linq;
+using DAL.Infrastructure;
+using DAL.Mapping;
+using DAL.Migrations;
+using Domain.Entities;
+using Domain.Entities.Enum.Setup;
 
 namespace DAL
 {
@@ -100,6 +101,7 @@ namespace DAL
         public virtual DbSet<EventType> EventTypes { get; set; }
         public virtual DbSet<Note> Notes { get; set; }
         public virtual DbSet<VacancyState> VacancyStates { get; set; }
+        public virtual DbSet<MailContent> MailContents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -143,6 +145,7 @@ namespace DAL
 
             modelBuilder.Configurations.Add(new PhoneNumberConfiguration());
             modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
+            modelBuilder.Configurations.Add(new MailConfiguration());
 
 
 

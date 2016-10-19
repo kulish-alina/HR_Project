@@ -1,10 +1,9 @@
-﻿using DAL.DTO;
+﻿using System.Web.Http;
+using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Web.Http;
-using WebUI.Extensions;
 
 namespace WebUI.Controllers
 {
@@ -48,7 +47,7 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
             var addedNote = service.Add(noteToAdd);
             return Json(addedNote, BOT_SERIALIZER_SETTINGS);
@@ -61,7 +60,7 @@ namespace WebUI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(ModelState.Errors(), BOT_SERIALIZER_SETTINGS);
+                return BadRequest(ModelState);
             }
             var updatedNote = service.Update(changedNote);
             return Json(updatedNote, BOT_SERIALIZER_SETTINGS);

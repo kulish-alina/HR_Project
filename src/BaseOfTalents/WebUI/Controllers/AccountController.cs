@@ -1,9 +1,8 @@
-﻿using DAL.DTO;
+﻿using System.Threading.Tasks;
+using System.Web.Http;
+using DAL.DTO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Threading.Tasks;
-using System.Web.Http;
-using WebUI.Extensions;
 using WebUI.Filters;
 using WebUI.Infrastructure.Auth;
 using WebUI.Models;
@@ -41,9 +40,7 @@ namespace WebUI.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    var error = ModelState.Errors();
-
-                    return Json(error, botSerializationSettings);
+                    return BadRequest(ModelState);
                 }
 
                 var result = _userAuthService.Register(user);
@@ -51,7 +48,7 @@ namespace WebUI.Controllers
             }
             catch (System.Exception e)
             {
-                return Json(new { Error = e.Message }, botSerializationSettings);
+                return BadRequest(e.Message);
             }
 
         }
@@ -98,7 +95,7 @@ namespace WebUI.Controllers
             }
             catch (System.Exception e)
             {
-                return Json(new { Error = e.Message }, botSerializationSettings);
+                return BadRequest(e.Message);
             }
 
         }
@@ -120,7 +117,7 @@ namespace WebUI.Controllers
             }
             catch (System.Exception e)
             {
-                return Json(new { Error = e.Message }, botSerializationSettings);
+                return BadRequest(e.Message);
             }
 
         }
@@ -159,7 +156,7 @@ namespace WebUI.Controllers
             }
             catch (System.Exception e)
             {
-                return Json(new { Error = e.Message }, botSerializationSettings);
+                return BadRequest(e.Message);
             }
         }
     }

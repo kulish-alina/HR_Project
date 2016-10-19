@@ -1,11 +1,11 @@
-﻿using Domain.Entities.Enum;
-using System;
+﻿using System;
+using Domain.Entities.Enum;
 
 namespace DAL.DTO
 {
-    public class BaseEntityDTO
+    public abstract class BaseEntityDTO
     {
-        public BaseEntityDTO()
+        protected BaseEntityDTO()
         {
             State = EntityState.Active;
         }

@@ -1,9 +1,9 @@
-﻿using DAL.DTO;
+﻿using System.Web.Http;
+using DAL.DTO;
 using DAL.Services;
 using Domain.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Web.Http;
 
 namespace WebUI.Controllers
 {
@@ -22,10 +22,6 @@ namespace WebUI.Controllers
         public BaseController(BaseService<DomainEntity, ViewModel> service)
         {
             entityService = service;
-        }
-
-        public BaseController()
-        {
         }
 
         [HttpGet]

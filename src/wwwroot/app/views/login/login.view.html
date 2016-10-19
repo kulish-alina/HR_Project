@@ -1,1 +1,8 @@
- <!--login></login-->
+<form name="loginForm">
+	<input ng-model="credentials.login" placeholder="{{::'LOGIN.LOGIN' | translate}}" type="text" name="userLogin" validator="required, minlength=3, maxlength=50">
+	<input ng-model="credentials.password" placeholder="{{::'LOGIN.PASSWORD' | translate}}" id="password" type="password" name="userPassword"
+		validator="required">
+</form>
+<div>
+	<a name="authorize" ng-bind="::'COMMON.OK' | translate" class="button" ng-click="login(loginForm)"></a>
+</div>

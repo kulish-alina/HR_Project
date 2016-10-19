@@ -1,8 +1,7 @@
-﻿using DAL.DTO;
-using DAL.Services;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using WebUI.Filters;
+using DAL.DTO;
+using DAL.Services;
 using WebUI.Infrastructure.Auth;
 
 namespace WebUI.Services.Auth
@@ -50,7 +49,6 @@ namespace WebUI.Services.Auth
         /// Logs user out of application, clearing its session.
         /// </summary>
         /// <returns>True if action finished succesfully</returns>
-        [Auth]
         public bool LogOut(string token)
         {
             try
@@ -62,17 +60,6 @@ namespace WebUI.Services.Auth
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Registers user with provided data
-        /// </summary>
-        /// <param name="model">User data</param>
-        /// <returns>Updated user data</returns>
-        public UserDTO Register(UserDTO model)
-        {
-            UserDTO modelResult = _userService.Add(model);
-            return modelResult;
         }
 
         public UserDTO GetUser(string token)

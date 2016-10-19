@@ -128,7 +128,6 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    };
 
    function addCandidatesToVacancyIfNeeded() {
-      let deffered = $q.defer();
       if ($state.params.candidatesIds && $state.params.candidatesIds.length) {
          forEach($state.params.candidatesIds, (cId) => {
             let newVSI = {
@@ -142,8 +141,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
             vm.vacancy.candidatesProgress.push(newVSI);
          });
       }
-      deffered.resolve();
-      return deffered.promise;
+      return $q.when();
    }
 
    function _getVacancyFirstStage() {
@@ -198,24 +196,26 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    }
 
    function _loadCandidate(candidateStagesObject) {
-      let deffered = $q.defer();
       let stagesObjectWithCandidate = candidateStagesObject;
-      CandidateService.getCandidate(candidateStagesObject.candidateId).then(value => {
+      return CandidateService.getCandidate(candidateStagesObject.candidateId).then(value => {
          stagesObjectWithCandidate.candidate = value;
-         deffered.resolve(stagesObjectWithCandidate);
+         return stagesObjectWithCandidate;
       });
-      return deffered.promise;
    }
 
    function _loadVacancy(vacanciesStagesObject) {
-      let deffered = $q.defer();
       let stagesObjectWithVacancy = vacanciesStagesObject;
-      VacancyService.getVacancy(vacanciesStagesObject.vacancyId).then(value => {
-         stagesObjectWithVacancy.vacancy = value;
-         stagesObjectWithVacancy.stageFlow = value.stageFlow;
-         deffered.resolve(stagesObjectWithVacancy);
-      });
-      return deffered.promise;
+      if (vm.vacancy.id === vacanciesStagesObject.vacancyId) {
+         stagesObjectWithVacancy.vacancy = vm.vacancy;
+         stagesObjectWithVacancy.stageFlow = vm.vacancy.stageFlow;
+         return $q.when(stagesObjectWithVacancy);
+      } else {
+         return VacancyService.getVacancy(vacanciesStagesObject.vacancyId).then(value => {
+            stagesObjectWithVacancy.vacancy = value;
+            stagesObjectWithVacancy.stageFlow = value.stageFlow;
+            return stagesObjectWithVacancy;
+         });
+      }
    }
 
    vm.goToCandidates = () => {

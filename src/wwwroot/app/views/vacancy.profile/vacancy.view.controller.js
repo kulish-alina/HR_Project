@@ -35,7 +35,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    FileService,
    LoggerService,
    CandidateService,
-   LogginService
+   UserHistoryService
    ) {
    'ngInject';
 
@@ -74,8 +74,9 @@ export default function VacancyProfileController( // eslint-disable-line max-par
              vm.vacancyStageInfosComposedByCandidateIdVacancyId);
         })
         .then(() => {
-           LogginService.toReadableFormat(vm.vacancy.history, vm).then((converted) => {
+           UserHistoryService.toReadableFormat(vm.vacancy.history, vm).then((converted) => {
               vm.convertedHistory = converted;
+              debugger;
               vm.isVacancyLoaded = true;
            });
         })

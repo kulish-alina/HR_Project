@@ -356,9 +356,9 @@ namespace DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserId = c.Int(nullable: false),
                         Field = c.String(),
                         FieldType = c.Int(nullable: false),
+                        UserId = c.Int(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
@@ -710,16 +710,29 @@ namespace DAL.Migrations
                 .Index(t => t.FileId);
             
             CreateTable(
-                "dbo.LogUnitToLogValue",
+                "dbo.LogUnitToNewLogValue",
                 c => new
                     {
-                        LogValueId = c.Int(nullable: false),
+                        NewLogValueId = c.Int(nullable: false),
                         LogUnitId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.LogValueId, t.LogUnitId })
-                .ForeignKey("dbo.LogUnit", t => t.LogValueId)
+                .PrimaryKey(t => new { t.NewLogValueId, t.LogUnitId })
+                .ForeignKey("dbo.LogUnit", t => t.NewLogValueId)
                 .ForeignKey("dbo.LogValue", t => t.LogUnitId)
-                .Index(t => t.LogValueId)
+                .Index(t => t.NewLogValueId)
+                .Index(t => t.LogUnitId);
+            
+            CreateTable(
+                "dbo.LogUnitToPastLogValue",
+                c => new
+                    {
+                        PastLogValueId = c.Int(nullable: false),
+                        LogUnitId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.PastLogValueId, t.LogUnitId })
+                .ForeignKey("dbo.LogUnit", t => t.PastLogValueId)
+                .ForeignKey("dbo.LogValue", t => t.LogUnitId)
+                .Index(t => t.PastLogValueId)
                 .Index(t => t.LogUnitId);
             
             CreateTable(
@@ -929,9 +942,11 @@ namespace DAL.Migrations
             DropForeignKey("dbo.Vacancy", "IndustryId", "dbo.Industry");
             DropForeignKey("dbo.LogUnitToVacancy", "LogUnitId", "dbo.LogUnit");
             DropForeignKey("dbo.LogUnitToVacancy", "VacancyId", "dbo.Vacancy");
-            DropForeignKey("dbo.LogUnitToLogValue", "LogUnitId", "dbo.LogValue");
-            DropForeignKey("dbo.LogUnitToLogValue", "LogValueId", "dbo.LogUnit");
             DropForeignKey("dbo.LogUnit", "UserId", "dbo.User");
+            DropForeignKey("dbo.LogUnitToPastLogValue", "LogUnitId", "dbo.LogValue");
+            DropForeignKey("dbo.LogUnitToPastLogValue", "PastLogValueId", "dbo.LogUnit");
+            DropForeignKey("dbo.LogUnitToNewLogValue", "LogUnitId", "dbo.LogValue");
+            DropForeignKey("dbo.LogUnitToNewLogValue", "NewLogValueId", "dbo.LogUnit");
             DropForeignKey("dbo.FileToVacancy", "FileId", "dbo.File");
             DropForeignKey("dbo.FileToVacancy", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.Vacancy", "DepartmentId", "dbo.Department");
@@ -987,8 +1002,10 @@ namespace DAL.Migrations
             DropIndex("dbo.VacancyToLevel", new[] { "VacancyId" });
             DropIndex("dbo.LogUnitToVacancy", new[] { "LogUnitId" });
             DropIndex("dbo.LogUnitToVacancy", new[] { "VacancyId" });
-            DropIndex("dbo.LogUnitToLogValue", new[] { "LogUnitId" });
-            DropIndex("dbo.LogUnitToLogValue", new[] { "LogValueId" });
+            DropIndex("dbo.LogUnitToPastLogValue", new[] { "LogUnitId" });
+            DropIndex("dbo.LogUnitToPastLogValue", new[] { "PastLogValueId" });
+            DropIndex("dbo.LogUnitToNewLogValue", new[] { "LogUnitId" });
+            DropIndex("dbo.LogUnitToNewLogValue", new[] { "NewLogValueId" });
             DropIndex("dbo.FileToVacancy", new[] { "FileId" });
             DropIndex("dbo.FileToVacancy", new[] { "VacancyId" });
             DropIndex("dbo.VacancyToComment", new[] { "CommentId" });
@@ -1056,7 +1073,8 @@ namespace DAL.Migrations
             DropTable("dbo.VacancyToSkill");
             DropTable("dbo.VacancyToLevel");
             DropTable("dbo.LogUnitToVacancy");
-            DropTable("dbo.LogUnitToLogValue");
+            DropTable("dbo.LogUnitToPastLogValue");
+            DropTable("dbo.LogUnitToNewLogValue");
             DropTable("dbo.FileToVacancy");
             DropTable("dbo.VacancyToComment");
             DropTable("dbo.VacancyToCity");

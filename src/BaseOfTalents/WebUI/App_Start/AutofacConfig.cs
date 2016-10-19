@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using System.Web.Http;
+using Autofac;
 using Autofac.Integration.WebApi;
 using DAL;
 using DAL.DTO;
@@ -6,11 +8,11 @@ using DAL.DTO.SetupDTO;
 using DAL.Infrastructure;
 using DAL.Repositories;
 using DAL.Services;
+using Domain.Entities;
 using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
 using Entities.Enum;
-using System.Reflection;
-using System.Web.Http;
+using Mailer;
 using WebUI.Infrastructure.Auth;
 using WebUI.Services;
 using WebUI.Services.Auth;
@@ -52,6 +54,18 @@ namespace WebUI.App_Start
 
             builder.RegisterType<CountryService>()
                 .As<BaseService<Country, CountryDTO>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<MailService>()
+                .As<BaseService<MailContent, MailDTO>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<TemplateLoader>()
+                .As<ITemplateLoader>()
+                .InstancePerRequest();
+
+            builder.RegisterType<TemplateService>()
+                .As<TemplateService>()
                 .InstancePerRequest();
 
             builder.RegisterType<CVParserService>()

@@ -54,22 +54,36 @@ namespace DAL.LoggerCore
                         {
                             Field = destinationKvp.Key,
                             UserId = userId,
-                            Values = CreateLogValueListOf(sourceIds.Select(x => x.ToString()).ToArray<string>()),
+                            NewValues = CreateLogValueListOf(sourceIds.Select(x => x.ToString()).ToArray<string>()),
+                            PastValues = CreateLogValueListOf(destinationIds.Select(x => x.ToString()).ToArray<string>()),
                             FieldType = FieldType.Array
                         });
                     }
                 }
                 else if (!Object.Equals(destinationKvp.Value, sourceKvp.Value))
                 {
+                    var sourceValue = sourceKvp.Value;
+                    var destinationValue = destinationKvp.Value;
+                    if (Regex.IsMatch(destinationKvp.Key, @"description", RegexOptions.IgnoreCase))
+                    {
+                        sourceValue = StripHTML(sourceKvp.Value.ToString());
+                        destinationValue = StripHTML(destinationKvp.Value.ToString());
+                    }
                     destination.Log(new LogUnit
                     {
                         Field = destinationKvp.Key,
                         UserId = userId,
-                        Values = CreateLogValueListOf(sourceKvp.Value == null ? EMPTY : sourceKvp.Value.ToString()),
+                        NewValues = CreateLogValueListOf(sourceValue == null ? EMPTY : sourceValue.ToString()),
+                        PastValues = CreateLogValueListOf(destinationValue == null ? EMPTY : destinationValue.ToString()),
                         FieldType = FieldType.Plain
                     });
                 }
             }
+        }
+
+        public static string StripHTML(string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
         }
 
         private static ICollection<LogValue> CreateLogValueListOf(params string[] value)
@@ -109,7 +123,8 @@ namespace DAL.LoggerCore
                     {
                         UserId = userId,
                         Field = $"{sourceIdToActiveStage.Key}",
-                        Values = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                        NewValues = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                        PastValues = CreateLogValueListOf($"{destinationIdToActiveStage.Value.StageId}"),
                         FieldType = fieldType
                     });
                 }

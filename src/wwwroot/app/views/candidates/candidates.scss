@@ -1,0 +1,13 @@
+.candidates-list {
+   tr {
+      th, td {
+         text-align: left;
+      }
+      .candidate-name {
+         width: 20%;
+      }
+      .candidate-position {
+         width: 30%;
+      }
+   }
+}

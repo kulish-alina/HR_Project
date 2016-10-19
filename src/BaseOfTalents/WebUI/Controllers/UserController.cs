@@ -1,29 +1,36 @@
-﻿using DAL.DTO;
+﻿using System.Web.Http;
+using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
+using Domain.Entities;
+using Mailer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Web.Http;
+using WebUI.Extensions;
+using WebUI.Globals;
+using WebUI.Models;
+using WebUI.Services;
 
 namespace WebUI.Controllers
 {
     [RoutePrefix("api/user")]
     public class UserController : ApiController
     {
-        private UserService service;
+        private UserService _service;
+        private BaseService<MailContent, MailDTO> _mailService;
+        private TemplateService _templateService;
+
         private static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        public UserController(UserService service)
+        public UserController(UserService service, BaseService<MailContent, MailDTO> mailService,
+            TemplateService templateService)
         {
-            this.service = service;
-        }
-
-        public UserController()
-        {
-
+            _service = service;
+            _mailService = mailService;
+            _templateService = templateService;
         }
 
         // GET api/<controller>
@@ -31,7 +38,7 @@ namespace WebUI.Controllers
         [Route("search")]
         public IHttpActionResult Get([FromBody]string paramss)
         {
-            return Json(service.Get(new object()), BOT_SERIALIZER_SETTINGS);
+            return Json(_service.Get(new object()), BOT_SERIALIZER_SETTINGS);
         }
 
         [HttpGet]
@@ -46,7 +53,7 @@ namespace WebUI.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            var foundedEntity = service.Get(id);
+            var foundedEntity = _service.Get(id);
             if (foundedEntity == null)
             {
                 ModelState.AddModelError("User", "User with id " + id + " not found.");
@@ -58,13 +65,24 @@ namespace WebUI.Controllers
         // POST api/<controller>
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Post([FromBody]UserDTO newUser)
+        public IHttpActionResult Post([FromBody]RegistrationModel newUser)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var addedUser = service.Add(newUser);
+
+            var mailContent = _mailService.Get(newUser.MailId);
+            var template = _templateService.GetTemplate();
+
+            newUser.GeneratePassword();
+            var addedUser = _service.Add(newUser);
+
+            var textAfterReplacing = MailBodyContentReplacer.Replace(mailContent.Body, addedUser.Login, addedUser.Password);
+            var mail = MailTemplateGenerator.Generate(template, mailContent.Invitation, textAfterReplacing, mailContent.Farewell, mailContent.Subject,
+                SettingsContext.Instance.GetImageUrl(), SettingsContext.Instance.GetOuterUrl());
+
+            MailAgent.Send(addedUser.Email, mail.Subject, mail.Template);
             return Json(addedUser, BOT_SERIALIZER_SETTINGS);
         }
 
@@ -77,7 +95,7 @@ namespace WebUI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var updatedUser = service.Update(changedUser);
+            var updatedUser = _service.Update(changedUser);
             return Json(updatedUser, BOT_SERIALIZER_SETTINGS);
         }
 
@@ -88,7 +106,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                service.Delete(id);
+                _service.Delete(id);
                 return Ok();
             }
             catch (EntityNotFoundException e)

@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.IO;
 using DAL.Migrations;
+using WebUI.Extensions;
 
 namespace WebUI.App_Start
 {
@@ -27,6 +28,14 @@ namespace WebUI.App_Start
         public static void ConfigureDatabaseInitializer()
         {
             Database.SetInitializer(new BOTContextInitializer());
+        }
+
+        public static void ConfigureMailAgent(string email, string password)
+        {
+            Mailer.MailAgent
+                .UseDefaultConfiguration()
+                .UseSender(email)
+                .UsePassword(password);
         }
     }
 }

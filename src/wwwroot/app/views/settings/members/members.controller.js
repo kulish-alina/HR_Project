@@ -12,7 +12,8 @@ export default function MembersController(
    SettingsService,
    UserService,
    RolesService,
-   UserDialogService) {
+   UserDialogService,
+   ThesaurusService) {
    'ngInject';
 
    let vm            = $scope;
@@ -30,6 +31,7 @@ export default function MembersController(
    let movedUser     = null;
 
    function _initData() {
+      ThesaurusService.getThesaurusTopicsGroup([ 'mail' ]).then(mails => set(vm, 'mailTemplates', mails));
       RolesService.getRoles().then((res) => set(vm, 'roles', res));
       UserService.getUsers().then((res) => {
          set(vm, 'users', groupBy(res, 'roleId'));
@@ -55,22 +57,26 @@ export default function MembersController(
 
    function _showInvite(role) {
       let buttons = [{
-         name:         $translate.instant('COMMON.CANCEL')
-      },{
-         name:         $translate.instant('MEMBERS.INVITE_BUT'),
-         func:         _createUser,
+         name: $translate.instant('COMMON.CANCEL')
+      }, {
+         name: $translate.instant('MEMBERS.INVITE_BUT'),
+         func: _createUser,
          needValidate: true
       }];
 
       vm.newUser = {
+         roleId: role.id,
          login: '',
          email: ''
       };
 
-      UserDialogService.dialog($translate.instant('MEMBERS.INVITE_MEMBER', {roleTitle: role.title}),
-                               inviteDialogView,
-                               buttons,
-                               {newUser: vm.newUser});
+      UserDialogService.dialog($translate.instant('MEMBERS.INVITE_MEMBER', { roleTitle: role.title }),
+         inviteDialogView,
+         buttons,
+         {
+            newUser: vm.newUser,
+            mailTemplates: vm.mailTemplates
+         });
    }
 
    function _createUser() {
@@ -80,7 +86,7 @@ export default function MembersController(
    }
 
    function _removeUser(user) {
-      UserDialogService.confirm($translate.instant('MEMBERS.CONFIRM', {login: user.login})).then(() => {
+      UserDialogService.confirm($translate.instant('MEMBERS.CONFIRM', { login: user.login })).then(() => {
          UserService.removeUser(user).then(() => {
             remove(vm.users[vm.currentGroupId], user);
             UserDialogService.notification($translate.instant('MEMBERS.REMOVED'), 'success');

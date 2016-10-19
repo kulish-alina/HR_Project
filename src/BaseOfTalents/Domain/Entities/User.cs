@@ -1,6 +1,6 @@
-﻿using Domain.Entities.Enum.Setup;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Domain.Entities.Enum.Setup;
 
 namespace Domain.Entities
 {
@@ -26,7 +26,7 @@ namespace Domain.Entities
 
         public virtual File Photo { get; set; }
 
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
         public virtual City City { get; set; }
 
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }

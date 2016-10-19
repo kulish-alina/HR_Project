@@ -7,12 +7,18 @@ namespace DAL.Mapping
         public LogUnitConfiguration()
         {
             HasRequired(x => x.User).WithMany().HasForeignKey(x => x.UserId);
-            HasMany(x => x.Values).WithMany().Map(x =>
+            HasMany(x => x.NewValues).WithMany().Map(x =>
              {
-                 x.MapLeftKey("LogValueId");
+                 x.MapLeftKey("NewLogValueId");
                  x.MapRightKey("LogUnitId");
-                 x.ToTable("LogUnitToLogValue");
+                 x.ToTable("LogUnitToNewLogValue");
              });
+            HasMany(x => x.PastValues).WithMany().Map(x =>
+            {
+                x.MapLeftKey("PastLogValueId");
+                x.MapRightKey("LogUnitId");
+                x.ToTable("LogUnitToPastLogValue");
+            });
         }
     }
 }

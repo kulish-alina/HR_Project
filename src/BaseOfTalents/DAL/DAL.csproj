@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DAL</RootNamespace>
-    <AssemblyName>DAL</AssemblyName>
+    <AssemblyName>Bot.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -73,6 +73,7 @@
     <Compile Include="DTO\FileDTO.cs" />
     <Compile Include="DTO\LanguageSkillDTO.cs" />
     <Compile Include="DTO\LogUnitDTO.cs" />
+    <Compile Include="DTO\MailDTO.cs" />
     <Compile Include="DTO\NoteDTO.cs" />
     <Compile Include="DTO\PermissionDTO.cs" />
     <Compile Include="DTO\PhoneNumberDTO.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Mapping\LevelConfiguration.cs" />
     <Compile Include="Mapping\CityConfiguration.cs" />
     <Compile Include="Mapping\LogUnitConfiguration.cs" />
+    <Compile Include="Mapping\MailConfiguration.cs" />
     <Compile Include="Mapping\NoteConfiguration.cs" />
     <Compile Include="Mapping\PermissionConfiguration.cs" />
     <Compile Include="Mapping\PhoneNumberConfiguration.cs" />
@@ -188,9 +190,9 @@
     <Compile Include="Mapping\VacancyConfiguration.cs" />
     <Compile Include="Mapping\VacancyStageInfoConfiguration.cs" />
     <Compile Include="Mapping\VacancyStateConfiguration.cs" />
-    <Compile Include="Migrations\201610130833426_init.cs" />
-    <Compile Include="Migrations\201610130833426_init.Designer.cs">
-      <DependentUpon>201610130833426_init.cs</DependentUpon>
+    <Compile Include="Migrations\201610191316026_init.cs" />
+    <Compile Include="Migrations\201610191316026_init.Designer.cs">
+      <DependentUpon>201610191316026_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\BOTContextInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -210,6 +212,7 @@
     <Compile Include="Repositories\CountryRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
     <Compile Include="Repositories\IndustryRepository.cs" />
+    <Compile Include="Repositories\MailRepository.cs" />
     <Compile Include="Repositories\NoteRepository.cs" />
     <Compile Include="Repositories\PhoneNumberRepository.cs" />
     <Compile Include="Repositories\LanguageRepository.cs" />
@@ -246,6 +249,7 @@
     <Compile Include="Services\LanguageLevelService.cs" />
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\LevelService.cs" />
+    <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\NoteService.cs" />
     <Compile Include="Services\PermissionService.cs" />
     <Compile Include="Services\ReportService.cs" />
@@ -276,8 +280,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610130833426_init.resx">
-      <DependentUpon>201610130833426_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610191316026_init.resx">
+      <DependentUpon>201610191316026_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

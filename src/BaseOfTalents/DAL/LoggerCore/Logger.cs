@@ -62,16 +62,28 @@ namespace DAL.LoggerCore
                 }
                 else if (!Object.Equals(destinationKvp.Value, sourceKvp.Value))
                 {
+                    var sourceValue = sourceKvp.Value;
+                    var destinationValue = destinationKvp.Value;
+                    if (Regex.IsMatch(destinationKvp.Key, @"description", RegexOptions.IgnoreCase))
+                    {
+                        sourceValue = StripHTML(sourceKvp.Value.ToString());
+                        destinationValue = StripHTML(destinationKvp.Value.ToString());
+                    }
                     destination.Log(new LogUnit
                     {
                         Field = destinationKvp.Key,
                         UserId = userId,
-                        NewValues = CreateLogValueListOf(sourceKvp.Value == null ? EMPTY : sourceKvp.Value.ToString()),
-                        PastValues = CreateLogValueListOf(destinationKvp.Value == null ? EMPTY : destinationKvp.Value.ToString()),
+                        NewValues = CreateLogValueListOf(sourceValue == null ? EMPTY : sourceValue.ToString()),
+                        PastValues = CreateLogValueListOf(destinationValue == null ? EMPTY : destinationValue.ToString()),
                         FieldType = FieldType.Plain
                     });
                 }
             }
+        }
+
+        public static string StripHTML(string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
         }
 
         private static ICollection<LogValue> CreateLogValueListOf(params string[] value)

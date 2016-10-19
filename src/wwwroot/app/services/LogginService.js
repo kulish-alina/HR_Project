@@ -63,7 +63,7 @@ function fromVSI(log) {
       return _$q.when({
          createdOn: log.createdOn,
          user: `${log.user.lastName} ${log.user.firstName}`,
-         field: `${log.vacancyTitle} stage`,
+         field: `Stage progress of ${log.vacancyTitle}`,
          newValue: getNewTitleFrom(log, 'vacancyId'),
          pastValue: getPastTitleFrom(log, 'vacancyId')
       });
@@ -72,7 +72,7 @@ function fromVSI(log) {
       return _$q.when({
          createdOn: log.createdOn,
          user: `${log.user.lastName} ${log.user.firstName}`,
-         field: `${log.candidateLastName} stage`,
+         field: `Stage progress of ${log.candidateLastName}`,
          newValue: getNewTitleFrom(log, 'candidateId'),
          pastValue: getPastTitleFrom(log, 'candidateId')
       });
@@ -80,7 +80,7 @@ function fromVSI(log) {
 }
 function fromArray(log) {
    if (/cities/i.test(log.field)) {
-      return getFieldNameAndValuesFor('city', log.values).then(fieldValue => {
+      return getFieldNameAndValuesFor('city', log.newValues, log.pastValues).then(fieldValue => {
          return Object.assign(fieldValue, {
             createdOn: log.createdOn,
             user: `${log.user.lastName} ${log.user.firstName}`
@@ -94,6 +94,7 @@ function fromArray(log) {
          });
       });
    }
+
 }
 function getFieldNameAndValuesFor(field, newValues, pastValues) {
    return _ThesaurusService.getThesaurusTopics(field).then(thesaurus => {
@@ -105,8 +106,8 @@ function getFieldNameAndValuesFor(field, newValues, pastValues) {
       });
       return {
          field: /city/i.test(field) ? 'Cities' : 'Levels',
-         newValue: newTitles.length ? titles.join(', ') : EMPTY
-         pastValue: pastTitles.length ? titles.join(', ') : EMPTY
+         newValue: newTitles.length ? newTitles.join(', ') : EMPTY,
+         pastValue: pastTitles.length ? pastTitles.join(', ') : EMPTY
       };
    });
 }
@@ -153,22 +154,26 @@ function getNewAndPastValue(log) {
          return user.lastName;
       });
    } else {
+      debugger;
       if (/date/i.test(log.field)) {
          log.newValues = map(log.newValues, val => {
             if (moment(val).isValid()) {
-            return moment(val).toISOString();
-         });
-         log.pastValues = map(log.pastValues, val => {
                return moment(val).toISOString();
             } else {
                return val;
             }
-
+         });
+         log.pastValues = map(log.pastValues, val => {
+            if (moment(val).isValid()) {
+               return moment(val).toISOString();
+            } else {
+               return val;
+            }
          });
       }
       return _$q.when({
          newValue: head(log.newValues),
-         pastValue: head(log.pastValue)
+         pastValue: head(log.pastValues)
       });
    }
 }

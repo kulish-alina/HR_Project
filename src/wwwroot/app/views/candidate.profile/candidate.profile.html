@@ -52,18 +52,21 @@
                         <th ng-bind="::'COMMON.DATE' | translate"></th>
                         <th ng-bind="::'COMMON.USER' | translate"></th>
                         <th ng-bind="::'COMMON.FIELD' | translate"></th>
-                        <th ng-bind="::'COMMON.VALUE' | translate"></th>
+                        <th ng-bind="::'COMMON.PAST_VALUE' | translate"></th>
+                        <th ng-bind="::'COMMON.NEW_VALUE' | translate"></th>
                      </tr>
                   </thead>
                   <tbody>
-                     <tr ng-repeat="log in convertedHistory | orderBy : '-createdOn' track by $index ">
+                     <tr class="history-tds" ng-repeat="log in convertedHistory | orderBy : '-createdOn' track by $index ">
                         <td class="date-td" ng-bind="log.createdOn | date : '[dd.MM.yy - H:mm]'">
                         </td>
                         <td ng-bind="log.user">
                         </td>
                         <td ng-bind="log.field | fieldName">
                         </td>
-                        <td ng-bind="log.value">
+                        <td ng-bind="log.pastValue | date : 'dd-MM-yy'">
+                        </td>
+                        <td ng-bind="log.newValue | date : 'dd-MM-yy'">
                         </td>
                      </tr>
                   </tbody>

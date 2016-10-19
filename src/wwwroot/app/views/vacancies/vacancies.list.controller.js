@@ -1,3 +1,4 @@
+import './vacancies.list.scss';
 const LIST_OF_THESAURUS = ['industry', 'level', 'city',
     'typeOfEmployment'];
 import _utils from './../../utils';
@@ -132,6 +133,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
       searchPredicate.sortBy = column;
       searchVacancies(searchPredicate).then(() => {
          vm.vacancyPredicate = searchPredicate;
+         _setToStorage();
       });
    }
 

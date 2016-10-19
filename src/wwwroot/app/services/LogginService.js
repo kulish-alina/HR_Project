@@ -14,6 +14,7 @@ const FIELD_TYPES = {
    'CandidatesProgress' : 3,
    'VacanciesProgress' : 4
 };
+const EMPTY = '*empty*';
 const VALUES_INDEXES = {
    NEW_VALUE: 0,
    PAST_VALUE: 1
@@ -35,12 +36,11 @@ export default class LogginService {
 }
 
 function convert(log) {
-   if (!log.user) {
-      _UserService.getUserById(log.userId).then(user => {
-         log.user = user;
-      });
-   }
-   return getAndPerformStrategy(log);
+   return _UserService.getUserById(log.userId).then(user => {
+      log.user = user;
+   }).then(() => {
+      return getAndPerformStrategy(log);
+   });
 }
 
 function getAndPerformStrategy(log) {
@@ -105,8 +105,8 @@ function getFieldNameAndValuesFor(field, newValues, pastValues) {
       });
       return {
          field: /city/i.test(field) ? 'Cities' : 'Levels',
-         newValue: newTitles.join(', '),
-         pastValue: pastTitles.join(', ')
+         newValue: newTitles.length ? titles.join(', ') : EMPTY
+         pastValue: pastTitles.length ? titles.join(', ') : EMPTY
       };
    });
 }
@@ -155,10 +155,15 @@ function getNewAndPastValue(log) {
    } else {
       if (/date/i.test(log.field)) {
          log.newValues = map(log.newValues, val => {
+            if (moment(val).isValid()) {
             return moment(val).toISOString();
          });
          log.pastValues = map(log.pastValues, val => {
-            return moment(val).toISOString();
+               return moment(val).toISOString();
+            } else {
+               return val;
+            }
+
          });
       }
       return _$q.when({

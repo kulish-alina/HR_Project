@@ -15,6 +15,7 @@ namespace DAL.LoggerCore
         private static Func<KeyValuePair<int, VacancyStageInfo>, KeyValuePair<int, VacancyStageInfoDTO>, bool> StagesAreEquals =
             (destinationVsi, vacancyIdToActiveStage) => destinationVsi.Value.StageId != vacancyIdToActiveStage.Value.StageId;
         private static Func<string, bool> isCitiesOrLevels = (field) => Regex.IsMatch(field, "(citi|level)", RegexOptions.IgnoreCase);
+        private readonly static String EMPTY = "*empty*";
 
         /// <summary> 
         /// Performs a comparison and logs, if appropriate field changed
@@ -59,14 +60,14 @@ namespace DAL.LoggerCore
                         });
                     }
                 }
-                else if (destinationKvp.Value != null && !destinationKvp.Value.Equals(sourceKvp.Value))
+                else if (!Object.Equals(destinationKvp.Value, sourceKvp.Value))
                 {
                     destination.Log(new LogUnit
                     {
                         Field = destinationKvp.Key,
                         UserId = userId,
-                        NewValues = CreateLogValueListOf(sourceKvp.Value.ToString()),
-                        PastValues = CreateLogValueListOf(destinationKvp.Value.ToString()),
+                        NewValues = CreateLogValueListOf(sourceKvp.Value == null ? EMPTY : sourceKvp.Value.ToString()),
+                        PastValues = CreateLogValueListOf(destinationKvp.Value == null ? EMPTY : destinationKvp.Value.ToString()),
                         FieldType = FieldType.Plain
                     });
                 }

@@ -57,6 +57,28 @@
       padding-top: 0;
       padding-bottom: 0;
    }
+   oi-select {
+      .select-search {
+         font-size: $rem-base*0.8;
+         height: $rem-base*1.8;
+         min-height: $rem-base*1.8;
+      }
+      .select-dropdown-optgroup {
+         font-size: $rem-base*0.8;
+      }
+      .select-search-list-item_input {
+         input {
+            font-size: $rem-base*0.8;
+         }
+      }
+     .select-search-list-item_input {
+         margin: 0;
+      } 
+   }
+   oi-select.focused .select-search {
+      height: $rem-base*1.8;
+      min-height: $rem-base*1.8;
+   }
 }
 
 .vacancy-view {

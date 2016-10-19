@@ -50,7 +50,6 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.queueFilesForRemove  = [];
    vm.saveChanges          = saveChanges;
    vm.isChanged            = isChanged;
-   vm.selectStage          = selectStage;
    vm.currentStage         = '';
    vm.saveComment          = _saveComment;
    vm.removeComment        = _removeComment;
@@ -61,6 +60,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.vacancyStageInfosComposedByCandidateIdVacancyId           = [];
    vm.isVacancyLoaded      = false;
    vm.currentUser          = UserService.getCurrentUser();
+   vm.searchResponsible    = _searchResponsible;
 
    (function _init() {
       _initCurrentVacancy()
@@ -299,9 +299,9 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       }
    }
 
-   function selectStage(stageName) {
-      vm.currentStage = stageName;
-   }
+   function _searchResponsible() {
+      return UserService.getUsers();
+   };
 
    function back() {
       if ($state.params._data === null) {

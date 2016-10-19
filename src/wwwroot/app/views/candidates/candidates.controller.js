@@ -1,3 +1,4 @@
+import './candidates.scss';
 import {
    remove,
    find,
@@ -136,6 +137,7 @@ export default function CandidatesController(
       searchPredicate.sortBy = column;
       searchCandidates(searchPredicate).then(() => {
          vm.candidatePredicate = searchPredicate;
+         _setToStorage();
       });
    }
 

@@ -80,34 +80,32 @@
             </div>
          </div>
          <hr>
-         <div class="card-section"> 
-            <div ng-if="isVacancyLoaded" class="card-section">
-               <table>
-                  <thead>
-                     <tr>
-                        <th ng-bind="::'COMMON.DATE' | translate"></th>
-                        <th ng-bind="::'COMMON.USER' | translate"></th>
-                        <th ng-bind="::'COMMON.FIELD' | translate"></th>
+         <div ng-if="isVacancyLoaded" class="card-section"> 
+            <table>
+               <thead>
+                  <tr>
+                     <th ng-bind="::'COMMON.DATE' | translate"></th>
+                     <th ng-bind="::'COMMON.USER' | translate"></th>
+                     <th ng-bind="::'COMMON.FIELD' | translate"></th>
+                     <th ng-bind="::'COMMON.VALUE' | translate"></th>
                         <th ng-bind="::'COMMON.VALUE' | translate"></th>
-                        <th ng-bind="::'COMMON.VALUE' | translate"></th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr class="history-tds" ng-repeat="log in convertedHistory | orderBy : '-createdOn' track by $index ">
-                        <td class="date-td" ng-bind="log.createdOn | date : '[dd.MM.yy - H:mm]'">
-                        </td>
-                        <td ng-bind="log.user">
-                        </td>
-                        <td ng-bind="log.field | fieldName">
-                        </td>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr class="history-tds" ng-repeat="log in convertedHistory | orderBy : '-createdOn' track by $index ">
+                     <td class="date-td" ng-bind="log.createdOn | date : '[dd.MM.yy - H:mm]'">
+                     </td>
+                     <td ng-bind="log.user">
+                     </td>
+                     <td ng-bind="log.field | fieldName">
+                     </td>
                         <td ng-bind="log.pastValue | date : 'dd-MM-yy'">
                         </td>
                         <td ng-bind="log.newValue | date : 'dd-MM-yy'">
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
          </div>
       </div>
    </div>
@@ -117,26 +115,24 @@
             <div class="card-divider" ng-bind="::'VACANCY_PROFILE.INFORMATION' | translate"> </div>
             <div class="sidebar-content">
                <div class="grid-block sidebar-row">
-                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.RESPONSIBLE' | translate">: </div>
-                  <div class="medium-7 grid-block">
-                     <select ng-model="vacancy.responsibleId">
-                        <option ng-repeat="responsible in responsibles" value="{{responsible.id}}" ng-bind="responsible.lastName"></option>
-                     </select>
+                  <div class="medium-4 grid-block sidebar-col" ng-bind="::'COMMON.RESPONSIBLE' | translate">: </div>
+                  <div class="medium-8 grid-block">
+                     <oi-select class="multiple-select" oi-options="responsible.id as responsible.lastName + ' ' + responsible.firstName for responsible in searchResponsible($query) | orderBy : 'lastName+ \'|\' + firstName'" ng-model="vacancy.responsibleId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.RESPONSIBLE' | translate}}" name="vacancyResponsible"></oi-select>
                   </div>
                </div>
                <div class="grid-block sidebar-row">
-                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.START_DATE' | translate">: </div>
-                  <div class="medium-7 grid-block ">
+                  <div class="medium-4 grid-block sidebar-col" ng-bind="::'COMMON.START_DATE' | translate">: </div>
+                  <div class="medium-8 grid-block ">
                      <input type="text" placeholder="{{::'COMMON.START_DATE' | translate}}" class="input-date" ng-model="vacancy.startDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
                </div>
                <div class="grid-block sidebar-row">
-                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.DEADLINE_DATE' | translate">: </div>
-                  <div class="medium-7 grid-block ">
+                  <div class="medium-4 grid-block sidebar-col" ng-bind="::'COMMON.DEADLINE_DATE' | translate">: </div>
+                  <div class="medium-8 grid-block ">
                      <input type="text" placeholder="{{::'COMMON.DEADLINE_DATE' | translate}}" class="input-date" ng-model="vacancy.deadlineDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
                </div>
                <div class="grid-block sidebar-row">
-                  <div class="medium-5 grid-block sidebar-col" ng-bind="::'COMMON.END_DATE' | translate">: </div>
-                  <div class="medium-7 grid-block">
+                  <div class="medium-4 grid-block sidebar-col" ng-bind="::'COMMON.END_DATE' | translate">: </div>
+                  <div class="medium-8 grid-block">
                      <input type="text" placeholder="{{::'COMMON.END_DATE' | translate}}" class="input-date" ng-model="vacancy.endDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only/> </div>
                </div>
             </div>

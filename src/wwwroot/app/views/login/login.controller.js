@@ -12,10 +12,9 @@ export default function loginController($scope, SessionService, ValidationServic
       ValidationService
          .validate(form).then(() => {
             return LoginService.login(vm.credentials);
-         }).then(user => {
+         }).then(() => {
             let state = SessionService.getStateToRedirect();
             $state.go(state.name ? state.name : 'home', state.data);
-            return user;
          });;
    }
 };

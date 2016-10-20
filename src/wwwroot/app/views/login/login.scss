@@ -4,7 +4,7 @@ $primary-hover-color: #068D9C;
 $bgcolor: #3FB7C4;
 
 .login-page {
-   width: 75%;
+   width: 70%;
    margin-top: $rem-base*3;
    margin-left: 15%;
    margin-right:15%;
@@ -50,10 +50,4 @@ $bgcolor: #3FB7C4;
 .form .login-header {
    text-align: left;
    margin-bottom: 12px;
-}
-
-body {
-   background: $bgcolor;
-   -webkit-font-smoothing: antialiased;
-   -moz-osx-font-smoothing: grayscale;      
 }

@@ -36,6 +36,7 @@ namespace WebUI
 
             var container = AutofacConfig.Initialize(config);
 
+            app.UseErrorPage();
             app.UseAutofacMiddleware(container);
             app.UseAutofacWebApi(config);
             app.UseWebApi(config);

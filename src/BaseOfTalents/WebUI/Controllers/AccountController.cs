@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
-using DAL.DTO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using WebUI.Filters;
@@ -25,32 +24,6 @@ namespace WebUI.Controllers
         public AccountController(IAccountService userAuthService)
         {
             _userAuthService = userAuthService;
-        }
-
-        /// <summary>
-        /// Registers user with provided data
-        /// </summary>
-        /// <param name="user">User data</param>
-        /// <returns>Updated user information</returns>
-        [HttpPost, Auth]
-        [Route("register")]
-        public IHttpActionResult Register([FromBody] UserDTO user)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                var result = _userAuthService.Register(user);
-                return Json(result, botSerializationSettings);
-            }
-            catch (System.Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
         }
 
         /// <summary>
@@ -112,7 +85,7 @@ namespace WebUI.Controllers
             try
             {
                 bool logedOut = _userAuthService
-                .LogOut(ActionContext.Request.Headers.Authorization.Parameter);
+                    .LogOut(ActionContext.Request.Headers.Authorization.Parameter);
                 return Json(logedOut, botSerializationSettings);
             }
             catch (System.Exception e)
@@ -128,6 +101,7 @@ namespace WebUI.Controllers
         /// <param name="identity">the parameter for identifiing user</param>
         /// <returns>Full user info</returns>
         [HttpPost, AllowAnonymous]
+        [Route("")]
         public IHttpActionResult Get([FromBody]IdentityModel identity)
         {
             try

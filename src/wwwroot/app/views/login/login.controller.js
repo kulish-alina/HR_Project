@@ -1,35 +1,20 @@
-import loginDialog from './login.dialog.html';
+import './login.scss';
 
-
-export default function loginController($state, $translate, UserDialogService, LoginService) {
+export default function loginController($scope, SessionService, ValidationService, $state, LoginService) {
    'ngInject';
-   let credentials = {
+   let vm = $scope;
+   vm.login = _login;
+   vm.credentials = {
+
    };
-   function _showLoginForm() {
-      let buttons = [
-         {
-            name: $translate.instant('LOGIN.CANCEL'),
-            func: () => $state.reload()
-         },
-         {
-            name: $translate.instant('LOGIN.OK'),
-            func: _login,
-            needValidate: true
-         }
-      ];
 
-      UserDialogService
-         .dialog($translate.instant('LOGIN.MESSAGE'),
-         loginDialog,
-         buttons,
-         { credentials });
+   function _login(form) {
+      ValidationService
+         .validate(form).then(() => {
+            return LoginService.login(vm.credentials);
+         }).then(() => {
+            let state = SessionService.getStateToRedirect();
+            $state.go(state.name ? state.name : 'home', state.data);
+         });;
    }
-
-   function _login() {
-      LoginService.login(credentials).then(() => {
-         $state.go('home');
-      });
-   }
-
-   _showLoginForm();
 };

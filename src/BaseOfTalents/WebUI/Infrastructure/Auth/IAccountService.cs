@@ -1,6 +1,6 @@
-﻿using DAL.DTO;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using DAL.DTO;
 
 namespace WebUI.Infrastructure.Auth
 {
@@ -16,13 +16,6 @@ namespace WebUI.Infrastructure.Auth
         /// <param name="password">User's password</param>
         /// <returns>The user and some kind of credentials as the second part</returns>
         Task<Tuple<UserDTO, string>> LogInAsync(string login, string password);
-
-        /// <summary>
-        /// Takes user data and perfroms action of registration into the system
-        /// </summary>
-        /// <param name="model">User data</param>
-        /// <returns>Updated user data</returns>
-        UserDTO Register(UserDTO model);
 
         /// <summary>
         /// Performs a logout - the action opposite to login

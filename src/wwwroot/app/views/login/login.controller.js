@@ -1,3 +1,5 @@
+import './login.scss';
+
 export default function loginController($scope, SessionService, ValidationService, $state, LoginService) {
    'ngInject';
    let vm = $scope;

@@ -10,8 +10,7 @@ import {
    includes,
    filter,
    forEach,
-   cloneDeep,
-   toLower
+   cloneDeep
 } from 'lodash';
 
 export default function VacanciesController(//eslint-disable-line  max-statements
@@ -49,8 +48,8 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    vm.isAllToogled              = false;
    vm.sortBy                    = _sortBy;
    vm.getArrow                  = _getArrow;
-   vm.searchResponsible         = _searchResponsible;
-   vm.getFullName               = _getFullName;
+   vm.searchResponsible         = UserService.autocomplete;
+   vm.getFullName               = UserService.getFullName;
    vm.utils                     = _utils;
    vm.getStateTitle             = _getStateTitle;
 
@@ -143,17 +142,6 @@ export default function VacanciesController(//eslint-disable-line  max-statement
       } else {
          return '';
       }
-   }
-
-   function _searchResponsible(searchString) {
-      return UserService.getUsers((user) => {
-         return includes(toLower(user.firstName), toLower(searchString)) ||
-            includes(toLower(user.lastName), toLower(searchString));
-      });
-   };
-
-   function _getFullName(responsible) {
-      return `${responsible.lastName} ${responsible.firstName}`;
    }
 
    function _getStateTitle(key) {

@@ -71,6 +71,12 @@ export default class VacancyService {
       });
    }
 
+   autocomplete(searchString, id) {
+      return _VacancyService
+         .search(id && !searchString ? {id} : { title : searchString, sortBy : 'CreatedOn', sortAsc  : false})
+         .then(response => response.vacancies);
+   }
+
    convertFromServerFormat(vacancy, notToLoadAttachedCadidates) {
       vacancy = _convertFromServerDates(vacancy);
       _VacancyService._fillVacancyLanguageSkills(vacancy)

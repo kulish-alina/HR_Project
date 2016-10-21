@@ -1,9 +1,13 @@
-import { first } from 'lodash';
+import {
+   first,
+   includes,
+   toLower
+} from 'lodash';
 
 import { filter } from 'lodash/fp';
 
 const USER_URL = 'user/';
-let _HttpService, _$q, _HttpCacheService, _LoggerService;
+let _HttpService, _$q, _HttpCacheService, _LoggerService, _UserService;
 let currentUser = {};
 
 export default class UserService {
@@ -13,6 +17,7 @@ export default class UserService {
       _$q               = $q;
       _HttpCacheService = HttpCacheService;
       _LoggerService    = LoggerService;
+      _UserService      = this;
    }
 
    getUserById(id) {
@@ -40,6 +45,17 @@ export default class UserService {
 
    getUsers(predicate) {
       return _HttpCacheService.get(USER_URL).then(filter(predicate));
+   }
+
+   autocomplete(searchString) {
+      return _UserService.getUsers((user) => {
+         return includes(toLower(user.firstName), toLower(searchString)) ||
+            includes(toLower(user.lastName), toLower(searchString));
+      });
+   }
+
+   getFullName(user) {
+      return `${user.firstName} ${user.lastName}`;
    }
 
    removeUser(entity) {

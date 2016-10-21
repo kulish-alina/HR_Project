@@ -6,8 +6,7 @@ import {
    split,
    isEqual,
    remove,
-   toLower,
-   includes
+   assign
 } from 'lodash';
 import template from './events.directive.html';
 import './events.scss';
@@ -88,6 +87,12 @@ function EventsController(
       }
    }
 
+   let defaultModalScope = {
+      searchResponsible   : UserService.autocomplete,
+      getFullName         : UserService.getFullName,
+      searchVacancy       : VacancyService.autocomplete,
+      searchCandidate     : CandidateService.autocomplete
+   };
    function showAddEventDialog() {
       let typeOfModalDialog = 'list-with-input';
       if (vm.source === 'calendar') {
@@ -107,13 +112,8 @@ function EventsController(
          vm.event.eventDate = convertedDate;
       }
 
-      let scope = {
+      let scope = assign(defaultModalScope, {
          type                : typeOfModalDialog,
-         searchResponsible   : _searchResponsible,
-         getFullName         : _getFullName,
-         searchVacancy       : _searchVacancy,
-         getVacancyFullTitle : _getVacancyFullTitle,
-         searchCandidate     : _searchCandidate,
          eventTypes          : vm.eventTypes,
          vacancies           : vm.vacancies,
          candidates          : vm.candidates,
@@ -121,7 +121,7 @@ function EventsController(
          event               : vm.event,
          getEvents           : vm.getEvents,
          source              : vm.source
-      };
+      });
       let buttons = [
          {
             name: $translate.instant('COMMON.CANCEL')
@@ -152,19 +152,14 @@ function EventsController(
       vm.eventForEdit = clone(currentEvent);
       vm.event = clone(currentEvent);
 
-      let scope = {
+      let scope = assign(defaultModalScope, {
          type                : 'form-only',
-         searchResponsible   : _searchResponsible,
-         getFullName         : _getFullName,
-         searchVacancy       : _searchVacancy,
-         getVacancyFullTitle : _getVacancyFullTitle,
-         searchCandidate     : _searchCandidate,
          eventTypes          : vm.eventTypes,
          vacancies           : vm.vacancies,
          candidates          : vm.candidates,
          event               : vm.event,
          source              : vm.source
-      };
+      });
 
       let buttons = [
          {
@@ -178,43 +173,5 @@ function EventsController(
          }
       ];
       UserDialogService.dialog($translate.instant('COMMON.EVENTS'), template, buttons, scope);
-   }
-
-   function _searchResponsible(searchString) {
-      return UserService.getUsers((user) => {
-         return includes(toLower(user.firstName), toLower(searchString)) ||
-            includes(toLower(user.lastName), toLower(searchString));
-      });
-   };
-
-   function _getFullName(responsible) {
-      return `${responsible.firstName} ${responsible.lastName}`;
-   }
-
-   function _searchVacancy(searchString) {
-      if (vm.event.vacancyId && !searchString) {
-         return VacancyService.getVacancy(vm.event.vacancyId).then(response => [ response ]);
-      } else {
-         return VacancyService
-            .search({ title : searchString, sortBy : 'CreatedOn', sortAsc  : false})
-            .then(response => response.vacancies);
-      }
-   }
-
-   function _getVacancyFullTitle(vacancy) {
-      return `${vacancy.title} ${$filter('arrayAsString')(vacancy.departments, 'title')} ${vacancy.createdOn}`;
-   }
-
-   function _searchCandidate(searchString) {
-      if (vm.event.candidateId && !searchString) {
-         return CandidateService.getCandidate(vm.event.candidateId).then(response => [ response ]);
-      } else {
-         return CandidateService
-            .search({searchString,
-                     size          : 100,
-                     sortBy        : 'CreatedOn',
-                     sortAsc       : false})
-            .then(response => response.candidate);
-      }
    }
 }

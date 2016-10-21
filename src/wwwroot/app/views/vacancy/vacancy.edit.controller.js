@@ -49,8 +49,8 @@ export default function VacancyController( //eslint-disable-line max-statements
    vm.goToChildVacancy             = goToChildVacancy;
    vm.goToParentVacancy            = goToParentVacancy;
    vm.removeChildVacancy           = removeChildVacancy;
-   vm.searchResponsible            = _searchResponsible;
-   vm.getFullName                  = _getFullName;
+   vm.searchResponsible            = UserService.autocomplete;
+   vm.getFullName                  = UserService.getFullName;
    vm.utils                        = _utils;
    vm.getStateTitle                = _getStateTitle;
 
@@ -193,14 +193,6 @@ export default function VacancyController( //eslint-disable-line max-statements
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');
             LoggerService.error(error);
          });
-   }
-
-   function _searchResponsible() {
-      return UserService.getUsers();
-   };
-
-   function _getFullName(responsible) {
-      return `${responsible.firstName} ${responsible.lastName}`;
    }
 
    function _getStateTitle(key) {

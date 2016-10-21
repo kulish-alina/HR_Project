@@ -50,12 +50,12 @@ export default class SessionService {
                   _userService.setCurrentUser(result);
                   _loggerService.log('User Authorized');
                   return _$state.go(_stateToRedirect.name, toParams);
-               } else {
-                  _storageService.remove(tokenInfo);
-                  _loggerService.log('Outdated session');
-
-                  return _$state.go('login');
                }
+            }).catch(() => {
+               _storageService.remove(tokenInfo);
+               _loggerService.log('Outdated session');
+
+               return _$state.go('login');
             });
          } else {
             _loggerService.log('Non authorized!!!');

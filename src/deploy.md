@@ -91,9 +91,6 @@ And run the executable "ApiHost.exe"
 1. Create deploy.json in the dir where the script is located, just near it.
    * url - url for hosting server application;
    * port - port of hosting server application;
-   * wwwroot - path to folder with frontend bundle, so that where bundle WILL be located;
-   I recommend using relative paths.
-   * uploads - path to folder where uploads will be placed;
    * dbInitialCatalog - practically, this is database name;
    * dbDataSource - instance of database type (localdb, sqlexpress, etc);
    * email - the server sender email;
@@ -108,8 +105,6 @@ And run the executable "ApiHost.exe"
 {
    "url":"http://+",
    "port": "9000",
-   "wwwroot": "wwwroot",
-   "uploads": "uploads",
    "dbInitialCatalog": "bot-9000",
    "dbDataSource": "(localdb)\\V11.0",
    "email": "sender@isd.dp.ua",

@@ -1,7 +1,7 @@
 <div class="candidate-info-table" ng-if="parentEntity==='vacancy' && directiveType==='full'">
     <div class="stages">
-        <div class="stage-filter" ng-click="filterByStage(stage)" ng-repeat="stage in stagesToShow track by $index" ng-class="{'pressed': stage._isPressed}">
-            <span class='fitler-button' ng-bind="stage.stage.title" ng-class="{'has-entities': stage._hasEntities}"></span>
+        <div class="stage-button" ng-click="filterByStage(stage)" ng-repeat="stage in stagesToShow track by $index" ng-class="{'pressed': stage._isPressed}">
+            <span class='stage-button-text' ng-bind="stage.stage.title" ng-class="{'has-entities': stage._hasEntities}"></span>
             <span ng-if="stage._hasEntities" class='filter-count' ng-bind="stage.entitiesCount"></span>
         </div>
     </div>
@@ -37,12 +37,15 @@
                 </tr>
             </tbody>
         </table>
+        <div ng-show="isThereMore()" class="stage-button more wide" ng-click="more()">
+            <span class='stage-button-text'>MORE</span>
+        </div>
     </div>
 </div>
 <div class="candidate-info-table" ng-if="parentEntity==='candidate' && directiveType==='full' ">
     <div class="stages">
-        <div class="stage-filter" ng-click="filterByStage(stage)" ng-repeat="stage in stagesToShow track by $index" ng-class="{'pressed': stage._isPressed}">
-            <span class='fitler-button' ng-bind="stage.stage.title" ng-class="{'has-entities': stage._hasEntities}"></span>
+        <div class="stage-button" ng-click="filterByStage(stage)" ng-repeat="stage in stagesToShow track by $index" ng-class="{'pressed': stage._isPressed}">
+            <span class='stage-button-text' ng-bind="stage.stage.title" ng-class="{'has-entities': stage._hasEntities}"></span>
             <span ng-if="stage._hasEntities" class='filter-count' ng-bind="stage.entitiesCount"></span>
         </div>
     </div>
@@ -78,5 +81,8 @@
                 </tr>
             </tbody>
         </table>
+        <div ng-show="isThereMore()" class="stage-button more wide" ng-click="more()">
+            <span class='stage-button-text'>MORE</span>
+        </div>
     </div>
 </div>

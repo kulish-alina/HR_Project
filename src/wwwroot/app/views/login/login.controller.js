@@ -1,6 +1,7 @@
 import './login.scss';
 
-export default function loginController($scope, SessionService, ValidationService, $state, LoginService) {
+export default function loginController($scope, $state, LoginService,
+   SessionService, ValidationService, UserDialogService) {
    'ngInject';
    let vm = $scope;
    vm.login = _login;
@@ -15,6 +16,8 @@ export default function loginController($scope, SessionService, ValidationServic
          }).then(() => {
             let state = SessionService.getStateToRedirect();
             $state.go(state.name ? state.name : 'home', state.data);
-         });;
+         }).catch(error => {
+            UserDialogService.notification(error.data.message, 'error');
+         });
    }
 };

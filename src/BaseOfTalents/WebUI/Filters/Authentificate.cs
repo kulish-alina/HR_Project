@@ -39,7 +39,7 @@ namespace WebUI.Filters
             }
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, data.Item1.FirstName),
+                new Claim(ClaimTypes.Email, data.Item1.Email),
                 new Claim("Permission", data.Item2.Permissions.ToString())
             };
 

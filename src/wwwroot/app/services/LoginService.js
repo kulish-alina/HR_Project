@@ -1,10 +1,10 @@
 const url = 'account/';
 
-let _httpService,
+let _$q,
+   _httpService,
    _userService,
    _storageService,
-   _loggerService,
-   _userDialogService;
+   _loggerService;
 
 const tokenInfo = 'access_token';
 
@@ -15,13 +15,13 @@ import {
 } from 'lodash';
 
 export default class LoginService {
-   constructor(HttpService, UserService, LocalStorageService, LoggerService, UserDialogService) {
+   constructor($q, HttpService, UserService, LocalStorageService, LoggerService) {
       'ngInject';
+      _$q = $q;
       _httpService = HttpService;
       _storageService = LocalStorageService;
       _userService = UserService;
       _loggerService = LoggerService;
-      _userDialogService = UserDialogService;
    }
 
    login(credentials) {
@@ -40,8 +40,7 @@ export default class LoginService {
          return user;
       }).catch(error => {
          _loggerService.debug('Loggin failed', error.data.message);
-         _userDialogService.notification(error.data.message, 'error');
-         return error;
+         return _$q.reject(error);
       });
    };
 

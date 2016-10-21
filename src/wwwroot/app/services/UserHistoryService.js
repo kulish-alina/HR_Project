@@ -172,8 +172,12 @@ function getNewAndPastValue(log) {
 }
 function getNewAndPastForThesaurus(thesaurusName, log) {
    return _$q.all([
-      getThesaurusTitle(thesaurusName, parseInt(head(log.newValues))),
-      getThesaurusTitle(thesaurusName, parseInt(head(log.pastValues)))
+      isNaN(parseInt(head(log.newValues))) ?
+            head(log.newValues) :
+            getThesaurusTitle(thesaurusName, parseInt(head(log.newValues))),
+      isNaN(parseInt(head(log.pastValues))) ?
+            head(log.pastValues) :
+            getThesaurusTitle(thesaurusName, parseInt(head(log.pastValues)))
    ]).then(valuesContainer => {
       return {
          newValue: valuesContainer[VALUES_INDEXES.NEW_VALUE],

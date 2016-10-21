@@ -66,15 +66,15 @@ namespace DAL.LoggerCore
                     var destinationValue = destinationKvp.Value;
                     if (Regex.IsMatch(destinationKvp.Key, @"description", RegexOptions.IgnoreCase))
                     {
-                        sourceValue = StripHTML(sourceKvp.Value.ToString());
-                        destinationValue = StripHTML(destinationKvp.Value.ToString());
+                        sourceValue = StripHTML(sourceKvp.Value != null ? sourceKvp.Value.ToString() : EMPTY);
+                        destinationValue = StripHTML(destinationKvp.Value != null ? destinationKvp.Value.ToString() : EMPTY);
                     }
                     destination.Log(new LogUnit
                     {
                         Field = destinationKvp.Key,
                         UserId = userId,
-                        NewValues = CreateLogValueListOf(sourceValue == null ? EMPTY : sourceValue.ToString()),
-                        PastValues = CreateLogValueListOf(destinationValue == null ? EMPTY : destinationValue.ToString()),
+                        NewValues = CreateLogValueListOf(sourceValue != null ? sourceValue.ToString() : EMPTY),
+                        PastValues = CreateLogValueListOf(destinationValue != null ? destinationValue.ToString() : EMPTY),
                         FieldType = FieldType.Plain
                     });
                 }

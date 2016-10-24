@@ -62,7 +62,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    vm.vacancyStageInfoComposedObjectsToShow = [];
    vm.stagesToShow = [];
    vm.latestQuery = [];
-   vm.factor = 1;
+   let factor = 1;
+
    splitForDisplay(vm.vacancyStageInfosComposedByCandidateIdVacancyId)
       .then(splittedArrayOfObjectsToShow => {
          vm.latestQuery = vm.vacancyStageInfosComposedByCandidateIdVacancyId;
@@ -85,14 +86,14 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       }
    })();
 
-   function splitForDisplay (objectsToShow, factor = 1) {
-      return $q.when(take(objectsToShow, SHOW_LIMIT * factor));
+   function splitForDisplay (objectsToShow, multiplicateFactor = 1) {
+      return $q.when(take(objectsToShow, SHOW_LIMIT * multiplicateFactor));
    }
    vm.isThereMore = () => {
       return vm.vacancyStageInfoComposedObjectsToShow.length !== vm.latestQuery.length;
    };
-   vm.more = () => {
-      splitForDisplay(vm.latestQuery, ++vm.factor)
+   vm.showMoreAttachedEntities = () => {
+      splitForDisplay(vm.latestQuery, ++factor)
          .then(splittedArrayOfObjectsToShow => {
             vm.vacancyStageInfoComposedObjectsToShow = splittedArrayOfObjectsToShow;
          });
@@ -353,16 +354,13 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       } else {
          removeFromQuery(selectedStage);
       }
-      $q.when(needToPerformQuery() ?
+      let queryResult = needToPerformQuery() ?
             performQuery() :
-            vm.vacancyStageInfosComposedByCandidateIdVacancyId)
-      .then(queryResult => {
-         vm.latestQuery = queryResult;
-         return splitForDisplay(queryResult);
-      })
-      .then(splittedArrayOfObjectsToShow => {
-         vm.vacancyStageInfoComposedObjectsToShow = splittedArrayOfObjectsToShow;
-      });;
+            vm.vacancyStageInfosComposedByCandidateIdVacancyId;
+      vm.latestQuery = queryResult;
+      splitForDisplay(queryResult).then(splittedArrayToShow => {
+         vm.vacancyStageInfoComposedObjectsToShow = splittedArrayToShow;
+      });
    };
 
    function performQuery() {

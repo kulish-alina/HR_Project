@@ -45,7 +45,7 @@ textarea {
 }
 .stages {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     flex-wrap: wrap;
     width: 35%;
@@ -93,7 +93,7 @@ th {
     border-right: solid 1px #fff;
 }
 
-.fitler-button {
+.stage-button-text {
     color: $body-font-color;
     padding: $rem-base / 2;
 }
@@ -103,13 +103,21 @@ th {
     text-align: center;
 }
 
-.stage-filter {
+.stage-button {
     @include button ($background: transparentize(#0097a7, 0.9), $color: #fff, $background-hover: rgba(0, 151, 167, 0.75));
     border-bottom: solid 1px #fff;
     transition: 0.2s ease-in-out all;
 }
-
-.stage-button {
+.wide {
+    width: 100%;
+}
+.half-transparent-element {
+    opacity: 0.5;
+}
+.half-transparent-element:hover {
+    opacity: 1;
+}
+.many-stage-button {
     display: inline-block;
     border: 0;
     text-align: center;
@@ -119,8 +127,4 @@ th {
     -webkit-font-smoothing: antialiased;
     transition: background 0.25s ease-out;
     vertical-align: middle;
-    width: 100%;
-    border: solid 1px $border-color;
-    padding: $rem-base / 2;
-    color: $body-font-color;
 }

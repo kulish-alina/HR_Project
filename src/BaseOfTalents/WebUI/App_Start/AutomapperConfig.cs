@@ -166,7 +166,6 @@ namespace WebUI.App_Start
                     .ForMember(dest => dest.CityIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<City>, IEnumerable<int>>(src.Cities)))
                     .ForMember(dest => dest.TagIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Tag>, IEnumerable<int>>(src.Tags)))
                     .ForMember(dest => dest.RequiredSkillIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Skill>, IEnumerable<int>>(src.RequiredSkills)))
-                    .ForMember(dest => dest.ChildVacanciesIds, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<Vacancy>, IEnumerable<int>>(src.ChildVacancies)))
                     .ForMember(dest => dest.Files, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<File>, IEnumerable<FileDTO>>(src.Files)))
                     .ForMember(dest => dest.StageFlow, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<ExtendedStage>, IEnumerable<ExtendedStageDTO>>(src.StageFlow)))
                     .ForMember(dest => dest.History, opt => opt.MapFrom(src => Mapper.Map<IEnumerable<LogUnit>, IEnumerable<LogUnitDTO>>(src.History)));

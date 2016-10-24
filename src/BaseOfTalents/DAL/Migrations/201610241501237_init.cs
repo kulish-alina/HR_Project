@@ -114,7 +114,6 @@ namespace DAL.Migrations
                         EndDate = c.DateTime(),
                         DeadlineDate = c.DateTime(),
                         DeadlineToCalendar = c.Boolean(nullable: false),
-                        ChildVacanciesNumber = c.Int(),
                         ClosingCandidateId = c.Int(),
                         ParentVacancyId = c.Int(),
                         IndustryId = c.Int(nullable: false),
@@ -459,7 +458,7 @@ namespace DAL.Migrations
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),
-                        Vacancy_Id = c.Int(nullable: false),
+                        Vacancy_Id = c.Int(),
                         IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -656,19 +655,6 @@ namespace DAL.Migrations
                 .ForeignKey("dbo.Comment", t => t.CommentId)
                 .Index(t => t.UserId)
                 .Index(t => t.CommentId);
-            
-            CreateTable(
-                "dbo.ParentVacancyToChildVacancy",
-                c => new
-                    {
-                        ParentVacancyId = c.Int(nullable: false),
-                        ChildVacancyId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.ParentVacancyId, t.ChildVacancyId })
-                .ForeignKey("dbo.Vacancy", t => t.ParentVacancyId)
-                .ForeignKey("dbo.Vacancy", t => t.ChildVacancyId)
-                .Index(t => t.ParentVacancyId)
-                .Index(t => t.ChildVacancyId);
             
             CreateTable(
                 "dbo.VacancyToCity",
@@ -956,8 +942,6 @@ namespace DAL.Migrations
             DropForeignKey("dbo.VacancyToComment", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyToCity", "CityId", "dbo.City");
             DropForeignKey("dbo.VacancyToCity", "VacancyId", "dbo.Vacancy");
-            DropForeignKey("dbo.ParentVacancyToChildVacancy", "ChildVacancyId", "dbo.Vacancy");
-            DropForeignKey("dbo.ParentVacancyToChildVacancy", "ParentVacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyStageInfo", "VacancyId", "dbo.Vacancy");
             DropForeignKey("dbo.VacancyStageInfo", "StageId", "dbo.Stage");
             DropForeignKey("dbo.VacancyStageInfo", "Comment_Id", "dbo.Comment");
@@ -1012,8 +996,6 @@ namespace DAL.Migrations
             DropIndex("dbo.VacancyToComment", new[] { "VacancyId" });
             DropIndex("dbo.VacancyToCity", new[] { "CityId" });
             DropIndex("dbo.VacancyToCity", new[] { "VacancyId" });
-            DropIndex("dbo.ParentVacancyToChildVacancy", new[] { "ChildVacancyId" });
-            DropIndex("dbo.ParentVacancyToChildVacancy", new[] { "ParentVacancyId" });
             DropIndex("dbo.UserToComment", new[] { "CommentId" });
             DropIndex("dbo.UserToComment", new[] { "UserId" });
             DropIndex("dbo.PermissionRole", new[] { "Role_Id" });
@@ -1078,7 +1060,6 @@ namespace DAL.Migrations
             DropTable("dbo.FileToVacancy");
             DropTable("dbo.VacancyToComment");
             DropTable("dbo.VacancyToCity");
-            DropTable("dbo.ParentVacancyToChildVacancy");
             DropTable("dbo.UserToComment");
             DropTable("dbo.PermissionRole");
             DropTable("dbo.UserToPhoneNumber");

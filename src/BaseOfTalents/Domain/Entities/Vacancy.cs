@@ -16,7 +16,6 @@ namespace Domain.Entities
             Files = new List<File>();
             Comments = new List<Comment>();
             Tags = new List<Tag>();
-            ChildVacancies = new List<Vacancy>();
             StageFlow = new List<ExtendedStage>();
             StatesInfo = new List<VacancyState>();
             History = new List<LogUnit>();
@@ -40,9 +39,6 @@ namespace Domain.Entities
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<LogUnit> History { get; set; }
-
-        public int? ChildVacanciesNumber { get; set; }
-        public virtual ICollection<Vacancy> ChildVacancies { get; set; }
 
         public int? ClosingCandidateId { get; set; }
         public Candidate ClosingCandidate { get; set; }

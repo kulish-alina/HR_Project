@@ -22,7 +22,6 @@ namespace DAL.Repositories
             entityToDelete.Files.ToList().ForEach(f => context.DeleteEntity(f));
             entityToDelete.Comments.ToList().ForEach(c => context.DeleteEntity(c));
             entityToDelete.CandidatesProgress.ToList().ForEach(vsi => context.DeleteEntity(vsi));
-            entityToDelete.ChildVacancies.ToList().ForEach(cv => Delete(cv));
 
             dbSet.Remove(entityToDelete);
         }

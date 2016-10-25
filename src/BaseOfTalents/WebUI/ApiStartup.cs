@@ -30,13 +30,15 @@ namespace WebUI
 
             var config = WebApiConfig
                 .Create()
+#if RELEASE
+                .ConfigureExceptionLogging()
+#endif
                 .ConfigureCors()
                 .ConfigureRouting()
                 .ConfigJsonSerialization();
 
             var container = AutofacConfig.Initialize(config);
 
-            app.UseErrorPage();
             app.UseAutofacMiddleware(container);
             app.UseAutofacWebApi(config);
             app.UseWebApi(config);

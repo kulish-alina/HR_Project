@@ -1,9 +1,9 @@
-﻿using DAL.DTO;
+﻿using System.Web.Http;
+using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Web.Http;
 using WebUI.Infrastructure.Auth;
 using WebUI.Models;
 

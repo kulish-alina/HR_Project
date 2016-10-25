@@ -13,6 +13,13 @@ import {
    cloneDeep
 } from 'lodash';
 
+const DEFAULT_CANDIDATE_PREDICATE = {
+   current  : 1,
+   size     : 20,
+   sotrAsc  : false,
+   sortBy   : 'CreatedOn'
+};
+
 export default function VacanciesController(//eslint-disable-line  max-statements
    $scope,
    $state,
@@ -25,8 +32,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    ThesaurusService,
    UserService,
    UserDialogService,
-   LoggerService,
-   LocalStorageService
+   LoggerService
    ) {
    'ngInject';
 
@@ -38,11 +44,9 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    vm.clear                     = clear;
    vm.thesaurus                 = [];
    vm.responsibles              = [];
-   vm.vacancyPredicate          = LocalStorageService.get('vacancyPredicate') ||
-      {current : 1, size : 20, sortBy : 'CreatedOn', sortAsc  : false};
    vm.pageChanged               = pageChanged;
    vm.searchVacancies           = searchVacancies;
-   vm.vacancies                 = LocalStorageService.get('vacancies') || [];
+   vm.vacancies                 = [];
    vm.selectedVacancies         = [];
    vm.candidateIdToGoBack       = $state.params.candidateIdToGoBack;
    vm.isAllToogled              = false;
@@ -56,6 +60,8 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
+      vm.vacancyPredicate = $state.params.vacancyPredicate || DEFAULT_CANDIDATE_PREDICATE;
+      resetVacancyPredicateStateParams();
       searchVacancies();
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
    }());
@@ -71,7 +77,6 @@ export default function VacanciesController(//eslint-disable-line  max-statement
             vac.isToogled = vm.isVacancyWasToogled(vac.id);
          });
          vm.vacancies = response;
-         _setToStorage();
       }).catch(_onError);
    }
 
@@ -82,16 +87,16 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    }
 
    function editVacancy(vacancy) {
-      $state.go('vacancyEdit', {_data: vacancy, vacancyId: vacancy.id});
+      $state.go('vacancyEdit', {_data: vacancy, vacancyId: vacancy.id, vacancyPredicate: vm.vacancyPredicate});
    }
 
    function viewVacancy(vacancy) {
-      $state.go('vacancyView', {_data: vacancy, vacancyId: vacancy.id});
+      $state.go('vacancyView', {_data: vacancy, vacancyId: vacancy.id, vacancyPredicate: vm.vacancyPredicate});
    }
 
    function clear() {
       vm.vacancyPredicate = {};
-      vm.vacancyPredicate.current  = 0;
+      vm.vacancyPredicate.current  = 1;
       vm.vacancyPredicate.size = 20;
    }
 
@@ -117,11 +122,6 @@ export default function VacanciesController(//eslint-disable-line  max-statement
       LoggerService.error(error);
    }
 
-   function _setToStorage() {
-      LocalStorageService.set('vacancyPredicate', vm.vacancyPredicate);
-      LocalStorageService.set('vacancies', vm.vacancies);
-   }
-
    function _sortBy(column) {
       let searchPredicate = cloneDeep(vm.vacancyPredicate);
       searchPredicate.sortBy = column;
@@ -132,7 +132,6 @@ export default function VacanciesController(//eslint-disable-line  max-statement
       searchPredicate.sortBy = column;
       searchVacancies(searchPredicate).then(() => {
          vm.vacancyPredicate = searchPredicate;
-         _setToStorage();
       });
    }
 
@@ -193,4 +192,8 @@ export default function VacanciesController(//eslint-disable-line  max-statement
          vm.selectedVacancies.push(toogledVacancy);
       }
    };
+
+   function resetVacancyPredicateStateParams() {
+      delete $state.params.vacancyPredicate;
+   }
 }

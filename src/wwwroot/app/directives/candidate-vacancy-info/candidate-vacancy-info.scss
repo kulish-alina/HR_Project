@@ -127,4 +127,8 @@ th {
     -webkit-font-smoothing: antialiased;
     transition: background 0.25s ease-out;
     vertical-align: middle;
+    width: 100%;		
+    border: solid 1px $border-color;		
+    padding: $rem-base / 2;		
+    color: $body-font-color;
 }

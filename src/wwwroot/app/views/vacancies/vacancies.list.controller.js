@@ -39,7 +39,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    vm.thesaurus                 = [];
    vm.responsibles              = [];
    vm.vacancyPredicate          = LocalStorageService.get('vacancyPredicate') ||
-      {current : 1, size : 20, sortBy : 'Title', sortAsc  :true};
+      {current : 1, size : 20, sortBy : 'CreatedOn', sortAsc  : false};
    vm.pageChanged               = pageChanged;
    vm.searchVacancies           = searchVacancies;
    vm.vacancies                 = LocalStorageService.get('vacancies') || [];

@@ -33,7 +33,6 @@ export default function CandidatesController(
    vm.clear                = clear;
    vm.thesaurus            = [];
    vm.searchCandidates     = searchCandidates;
-   vm.candidatePredicate   = { current : 1, size : 20, sotrAsc : true, sortBy : 'Lastname'};
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
@@ -61,8 +60,15 @@ export default function CandidatesController(
          .then(topics => set(vm, 'thesaurus', topics));
       vm.candidates = LocalStorageService.get('candidates') || [];
       vm.candidatePredicate = LocalStorageService.get('candidatePredicate') || {};
-      vm.candidatePredicate.minAge  = vm.slider.min;
-      vm.candidatePredicate.maxAge  = vm.slider.max;
+      vm.candidatePredicate   = {
+         current  : 1,
+         size     : 20,
+         sotrAsc  : false,
+         sortBy   : 'CreatedOn',
+         minAge   : vm.slider.min,
+         maxAge   : vm.slider.max
+      };
+      searchCandidates();
    }());
 
    function pageChanged(newPage) {

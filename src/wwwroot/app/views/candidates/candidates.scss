@@ -1,7 +1,9 @@
+@import "../../_settings.scss";
 .candidates-list {
    tr {
       th, td {
          text-align: left;
+         font-size: 14px;
       }
       .candidate-name {
          width: 20%;
@@ -9,5 +11,15 @@
       .candidate-position {
          width: 30%;
       }
+   }
+   .hired-tag {
+       background-color: $primary-color; 
+       color: $light-color; 
+       border-radius: 2px; 
+       border-color: $border-color;
+       line-height: 1; 
+       font-weight: 700; 
+       font-size: 12px; 
+       padding: 3px;
    }
 }

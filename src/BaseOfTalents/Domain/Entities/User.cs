@@ -39,7 +39,7 @@ namespace Domain.Entities
 
             User otherUser = obj as User;
             if (otherUser != null)
-                return this.LastName.CompareTo(otherUser.LastName);
+                return (this.LastName + this.FirstName).CompareTo(otherUser.LastName + otherUser.FirstName);
             else
                 throw new ArgumentException("Object is not a User");
         }

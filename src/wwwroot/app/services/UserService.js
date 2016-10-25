@@ -1,12 +1,16 @@
+import utils  from '../utils.js';
+
 import {
    first,
    includes,
-   toLower
+   toLower,
+   map,
+   cloneDeep,
+   filter
 } from 'lodash';
 
-import { filter } from 'lodash/fp';
-
 const USER_URL = 'user/';
+
 let _HttpService, _$q, _HttpCacheService, _LoggerService, _UserService;
 let currentUser = {};
 
@@ -21,7 +25,7 @@ export default class UserService {
    }
 
    getUserById(id) {
-      return this.getUsers({id}).then(first);
+      return _UserService.getUsers({id}).then(first);
    }
 
    getCurrentUser() {
@@ -34,17 +38,23 @@ export default class UserService {
 
    saveUser(entity) {
       if (entity.id) {
-         return _HttpService.put(`${USER_URL}${entity.id}`, entity);
+         _HttpCacheService.clearCache(USER_URL);
+         return _HttpService.put(`${USER_URL}${entity.id}`, _convertToServer(entity)).then(() => {
+            if (entity.id === _UserService.getCurrentUser().id) {
+               _UserService.setCurrentUser(entity);
+            }
+         });
       } else {
          return _HttpService.post(USER_URL, entity).then(user => {
-            _HttpCacheService.clearCache(USER_URL);
             return user;
          });
       }
    }
 
    getUsers(predicate) {
-      return _HttpCacheService.get(USER_URL).then(filter(predicate));
+      return _HttpCacheService.get(USER_URL).then(users => {
+         return filter(map(users, _convertFromServer), predicate);
+      });
    }
 
    autocomplete(searchString) {
@@ -64,7 +74,18 @@ export default class UserService {
          return _HttpService.remove(`${USER_URL}${entity.id}`, entity);
       } else {
          _LoggerService.debug('Can\'t remove user', entity);
-         return _$q.reject();
+         return _$q.reject('there is no user\'s id');
       }
    }
+}
+
+function _convertFromServer(user) {
+   user.birthDate = utils.formatDateFromServer(user.birthDate);
+   return user;
+}
+
+function _convertToServer(user) {
+   let clonedUser = cloneDeep(user);
+   clonedUser.birthDate = utils.formatDateToServer(user.birthDate);
+   return clonedUser;
 }

@@ -8,12 +8,6 @@ let _$q,
 
 const tokenInfo = 'access_token';
 
-import utils from '../utils';
-
-import {
-   mapValues
-} from 'lodash';
-
 export default class LoginService {
    constructor($q, HttpService, UserService, LocalStorageService, LoggerService) {
       'ngInject';
@@ -25,11 +19,9 @@ export default class LoginService {
    }
 
    login(credentials) {
-      let en = _convertToBase64(credentials);
       let entity = credentials;
 
       _loggerService.debug(entity);
-      _loggerService.debug(en);
 
       return _httpService.post(`${url}signin`, entity).then(user => {
          _loggerService.debug('Logging into user', user);
@@ -63,8 +55,4 @@ export default class LoginService {
          return user;
       });
    }
-}
-
-function _convertToBase64(userEntity) {
-   return mapValues(userEntity, prop => utils.toBase64(prop));
 }

@@ -13,7 +13,7 @@ import {
    cloneDeep
 } from 'lodash';
 
-const DEFAULT_CANDIDATE_PREDICATE = {
+const DEFAULT_VACANCY_PREDICATE = {
    current  : 1,
    size     : 20,
    sotrAsc  : false,
@@ -60,7 +60,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
-      vm.vacancyPredicate = $state.params.vacancyPredicate || DEFAULT_CANDIDATE_PREDICATE;
+      vm.vacancyPredicate = $state.params.vacancyPredicate || DEFAULT_VACANCY_PREDICATE;
       resetVacancyPredicateStateParams();
       searchVacancies();
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
@@ -95,9 +95,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    }
 
    function clear() {
-      vm.vacancyPredicate = {};
-      vm.vacancyPredicate.current  = 1;
-      vm.vacancyPredicate.size = 20;
+      vm.vacancyPredicate = DEFAULT_VACANCY_PREDICATE;
    }
 
    function deleteVacancy(vacancy) {

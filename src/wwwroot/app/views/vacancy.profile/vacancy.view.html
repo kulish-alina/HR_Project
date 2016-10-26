@@ -46,7 +46,15 @@
             <div class="grid-block">
                <div class="vertical small-4 grid-block">
                   <div> <i class="fi-graph-bar"></i><span class="property-title" ng-bind="::'COMMON.LEVEL' | translate">:</span> <span ng-bind="vacancy.levels | arrayAsString: 'title'"></span> </div>
-                  <div> <i class="fi-dollar-bill"></i> <span class="property-title" ng-bind="::'COMMON.SALARY' | translate">:</span> <span ng-bind="::'COMMON.FROM' | translate">:</span> <span ng-bind="::vacancy.salaryMin"></span> <span ng-bind="::'COMMON.TO' | translate">:</span> <span ng-bind="::vacancy.salaryMax"></span> </div>
+                  <div> 
+                     <i class="fi-dollar-bill"></i>
+                     <span class="property-title" ng-bind="::'COMMON.SALARY' | translate">:</span>
+                     <span ng-if="vacancy.salaryMin" ng-bind="::'COMMON.FROM' | translate">:</span> 
+                     <span ng-bind="::vacancy.salaryMin"></span> 
+                     <span ng-if="vacancy.salaryMax" ng-bind="::'COMMON.TO' | translate">:</span> 
+                     <span ng-bind="::vacancy.salaryMax"></span>
+                     <span ng-bind="vacancy.convertedCurrency | arrayAsString: 'title'"></span>
+                  </div>
                   <div> <i class="fi-torsos-all"></i><span class="property-title" ng-bind="::'COMMON.DEPARTMENT' | translate">:</span> <span ng-bind="vacancy.departments | arrayAsString: 'title'"></span> </div>
                </div>
                <div class="vertical small-4 grid-block">

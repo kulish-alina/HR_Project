@@ -6,8 +6,6 @@ import {
    remove,
    find,
    set,
-   assign,
-   includes,
    filter,
    forEach,
    cloneDeep
@@ -102,14 +100,8 @@ export default function VacanciesController(//eslint-disable-line  max-statement
       UserDialogService.confirm($translate.instant('VACANCY.VACANCY_REMOVE_MESSAGE')).then(() => {
          let predicate = {id: vacancy.id};
          let vacancyForRemove = find(vm.vacancies.vacancies, predicate);
-         VacancyService.remove(vacancyForRemove).then((responseVacancy) => {
+         VacancyService.remove(vacancyForRemove).then(() => {
             remove(vm.vacancies.vacancies, predicate);
-            if (vacancy.parentVacancyId !== null) {
-               let parentVacancy = find(vm.vacancies.vacancies, {childVacanciesIds: [ vacancy.id ]});
-               assign(parentVacancy, responseVacancy);
-            } else if (vacancy.childVacanciesIds.length !== 0) {
-               remove(vm.vacancies.vacancies, _vacancy => includes(vacancy.childVacanciesIds, _vacancy.id));
-            }
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING'), 'success');
          });
       });

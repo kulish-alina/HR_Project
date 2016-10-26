@@ -67,13 +67,8 @@
                         </div>
                         <oi-select class="multiple-select" oi-options="typeOfEmployment.id as typeOfEmployment.title for typeOfEmployment in thesaurus.typeOfEmployment | orderBy : 'title'" ng-model="vacancy.typeOfEmployment" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}"></oi-select>
                         <div class="grid-block">
-                           <a ng-click="goToParentVacancy()" ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></a>
-                           <div ng-if="vacancy.childVacanciesIds.length" class="medium-6 grid-block">
-                              <input disabled="disabled" id="masterVacancy" type="checkbox" checked="checked">
-                              <label for="masterVacancy" ng-bind="::'COMMON.MASTER_VACANCY' | translate"></label>
-                           </div>
                            <div class="medium-6 grid-block">
-                              <input ng-if="!vacancy.parentVacancyId" ng-model="vacancy.childVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="tel" name="vacCounter" , validator="counter" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space">
+                              <input ng-model="vacancy.copiedVacanciesNumber" placeholder="{{::'COMMON.COUNT' | translate}}" type="tel" name="vacCounter" , validator="counter" ui-mask="9?9?" ui-mask-placeholder ui-mask-placeholder-char="space">
                            </div>
                         </div>
                      </fieldset>
@@ -157,29 +152,6 @@
                            </tbody>
                         </table>
                      </fieldset>
-                  </div>
-                  <div class="medium-6 grid-block">
-                     <table ng-if="!vacancy.parentVacancyId" class="upload-table">
-                        <caption ng-bind="::'VACANCY.CHILD_VACANCIES' | translate">:</caption>
-                        <thead>
-                           <tr>
-                              <th>№</th>
-                              <th ng-bind="::'COMMON.TITLE' | translate"></th>
-                              <th></th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr ng-repeat="childVacancy in vacancy.childVacancies">
-                              <td>{{$index+1}}</td>
-                              <td>
-                                 <a ng-click="goToChildVacancy(childVacancy)" ng-bind="::vacancy.title"></a>
-                              </td>
-                              <td>
-                                 <a ng-click="removeChildVacancy(childVacancy)"><i class="foundicon-trash general-icon"></i></a>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
                   </div>
                </div>
             </form>

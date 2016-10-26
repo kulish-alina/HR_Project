@@ -9,7 +9,9 @@ import {
    reduce,
    result,
    assignIn,
-   set
+   set,
+   times,
+   constant
 } from 'lodash';
 
 const VACANCY_URL = 'vacancy/';
@@ -28,12 +30,11 @@ const THESAURUS = [
 ];
 
 const PROMISE_INDEXES = {
-   responsible:      0,
-   vacancy:          1,
-   childVacancies:   2,
-   comments:         3,
-   closingCandidate: 4,
-   candidatesProgress :5
+   responsible          : 0,
+   vacancy              : 1,
+   comments             : 2,
+   closingCandidate     : 3,
+   candidatesProgress   : 4
 };
 
 let _HttpService;
@@ -89,7 +90,6 @@ export default class VacancyService {
          vacancy.responsible = promises[PROMISE_INDEXES.responsible];
          vacancy.comments = promises[PROMISE_INDEXES.comments];
          assignIn(vacancy, promises[PROMISE_INDEXES.vacancy]);
-         vacancy.childVacancies = promises[PROMISE_INDEXES.childVacancies];
          vacancy.closingCandidate = promises[PROMISE_INDEXES.closingCandidate];
          vacancy.candidatesProgress = promises[PROMISE_INDEXES.candidatesProgress];
          return vacancy;
@@ -97,22 +97,7 @@ export default class VacancyService {
    }
 
    remove(vacancy) {
-      if (vacancy.id && vacancy.parentVacancyId !== null) {
-         let predicate = {id: vacancy.id};
-         let parentVacancy = {};
-         return _VacancyService.getVacancy(vacancy.parentVacancyId)
-         .then((responseVacancy) => {
-            parentVacancy = responseVacancy;
-            return _HttpService.remove(`${VACANCY_URL}${vacancy.id}`, vacancy);
-         })
-         .then(() => {
-            remove(parentVacancy.childVacancies, predicate);
-            parentVacancy.childVacanciesNumber = parentVacancy.childVacancies.length;
-            return _VacancyService.save(parentVacancy);
-         });
-      } else {
-         return _HttpService.remove(`${VACANCY_URL}${vacancy.id}`, vacancy);
-      }
+      return _HttpService.remove(`${VACANCY_URL}${vacancy.id}`, vacancy);
    }
 
    save(vacancy) {
@@ -126,7 +111,6 @@ export default class VacancyService {
          this._convertCommentsToServer(vacancy);
          delete vacancy.createdOn;
          delete vacancy.responsible;
-         delete vacancy.childVacancies;
          each(vacancy.candidatesProgress, (x) => delete x.candidate);
          vacancy.languageSkill = vacancy.languageSkill || {};
          if (result(vacancy, 'languageSkill.languageId')) {
@@ -139,24 +123,27 @@ export default class VacancyService {
          }
          vacancy.responsibleId = parseInt(vacancy.responsibleId);
 
-         if (vacancy.id) {
-            return _HttpService.put(`${VACANCY_URL}${vacancy.id}`, vacancy);
-         } else {
-            return _HttpService.post(VACANCY_URL, vacancy);
-         }
+         let copiedVacancies = _getCopiedVacancies(vacancy);
+         delete vacancy.copiedVacanciesNumber;
+         let saveVacanciesRequests = {
+            copies : _$q.all(map(copiedVacancies, copiedVacancy => _HttpService.post(VACANCY_URL, copiedVacancy)))
+         };
+         saveVacanciesRequests.vacancySource = vacancy.id ?
+            _HttpService.put(`${VACANCY_URL}${vacancy.id}`, vacancy) :
+            _HttpService.post(VACANCY_URL, vacancy);
+         return _$q.all(saveVacanciesRequests).then(savedVacancies => savedVacancies.vacancySource);
       }).then(this.convertFromServerFormat);
    }
 
    _getVacancyFields(vacancy, notToLoadAttachedCadidates) {
       let userPromise = _VacancyService._getUser(vacancy);
       let thesaurusesPromises = _VacancyService._getThesauruses(vacancy);
-      let childVacancyPromises = _VacancyService._getChildVacancies(vacancy);
       let commentsPromise = _VacancyService._getCommentsFields(vacancy);
       let closingCandidatePromise = _VacancyService._getClosingCandidate(vacancy);
       let candidatesProgressPromise = notToLoadAttachedCadidates ?
       _$q.when([ vacancy.candidatesProgress ]) :
       _VacancyService._getCandidatesProgressFields(vacancy);
-      return _$q.all([userPromise, thesaurusesPromises, childVacancyPromises,
+      return _$q.all([userPromise, thesaurusesPromises,
               commentsPromise, closingCandidatePromise, candidatesProgressPromise]);
    }
 
@@ -198,15 +185,6 @@ export default class VacancyService {
             comment.createdOn = utils.formatDateToServer(comment.createdOn);
             delete comment.responsible;
          });
-      }
-   }
-
-   _getChildVacancies(vacancy) {
-      if (vacancy.childVacanciesIds.length) {
-         let promises = map(vacancy.childVacanciesIds, (childVacancyId) => {
-            return _VacancyService.getVacancy(childVacancyId);
-         });
-         return _$q.all(promises);
       }
    }
 
@@ -274,6 +252,10 @@ function _saveNewTopics(vacancy) {
    }, {});
 
    return _$q.all(promises);
+}
+
+function _getCopiedVacancies(vacancy) {
+   return vacancy.copiedVacanciesNumber ? times(vacancy.copiedVacanciesNumber, constant(vacancy)) : [];
 }
 
 function ThesaurusHelper(thesaurusName, serverField, clientField, needConvertForServer) {

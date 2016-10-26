@@ -10,7 +10,7 @@
 .dialog-button-group {
    margin-top: $rem-base / 4;
    float: right;
-}
-.dialog-button-group :first-child {
-   margin-right: $rem-base/2;
+   a {
+       margin-left: $rem-base/2;
+   }
 }

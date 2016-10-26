@@ -11,6 +11,18 @@ import {
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
     'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'currency', 'parsingSource'];
 
+const DEFAULT_MIN_AGE = 18;
+const DEFAULT_MAX_AGE = 45;
+
+const DEFAULT_CANDIDATE_PREDICATE = {
+   current  : 1,
+   size     : 20,
+   sotrAsc  : false,
+   sortBy   : 'CreatedOn',
+   minAge   : DEFAULT_MIN_AGE,
+   maxAge   : DEFAULT_MAX_AGE
+};
+
 export default function CandidatesController(
    $scope,
    $state,
@@ -22,30 +34,29 @@ export default function CandidatesController(
    SearchService,
    ThesaurusService,
    UserDialogService,
-   LoggerService,
-   LocalStorageService
+   LoggerService
    ) {
    'ngInject';
    const vm                = $scope;
+   vm.candidates           = [];
    vm.deleteCandidate      = deleteCandidate;
    vm.editCandidate        = editCandidate;
    vm.viewCandidate        = viewCandidate;
    vm.clear                = clear;
    vm.thesaurus            = [];
    vm.searchCandidates     = searchCandidates;
-   vm.candidatePredicate   = { current : 1, size : 20, sotrAsc : true, sortBy : 'Lastname'};
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
-   vm.isActiveAgeField     = true;
+   vm.isActiveAgeField     = false;
    vm.useAgeInSearch       = useAgeInSearch;
    vm.isAllToogled         = false;
    vm.sortBy               = _sortBy;
    vm.getArrow             = _getArrow;
 
    vm.slider = {
-      min: 18,
-      max: 45,
+      min: DEFAULT_MIN_AGE,
+      max: DEFAULT_MAX_AGE,
       options: {
          floor: 15,
          ceil: 65,
@@ -59,10 +70,9 @@ export default function CandidatesController(
    (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
-      vm.candidates = LocalStorageService.get('candidates') || [];
-      vm.candidatePredicate = LocalStorageService.get('candidatePredicate') || {};
-      vm.candidatePredicate.minAge  = vm.slider.min;
-      vm.candidatePredicate.maxAge  = vm.slider.max;
+      vm.candidatePredicate = $state.params.candidatePredicate || DEFAULT_CANDIDATE_PREDICATE;
+      resetCandidatePredicateStateParams();
+      searchCandidates();
    }());
 
    function pageChanged(newPage) {
@@ -76,23 +86,26 @@ export default function CandidatesController(
             cand.isToogled = vm.isCandidateWasToogled(cand.id);
          });
          vm.candidates = response;
-         _setToStorage();
       }).catch(_onError);
    }
 
    function editCandidate(candidate) {
-      $state.go('candidate', {_data: null, candidateId: candidate.id});
+      $state.go('candidate', {_data: null, candidateId: candidate.id, candidatePredicate: vm.candidatePredicate});
    }
 
    function viewCandidate(candidate) {
-      $state.go('candidateProfile', {_data: null, candidateId: candidate.id});
+      $state.go(
+         'candidateProfile',
+         {
+            _data: null,
+            candidateId: candidate.id,
+            candidatePredicate: vm.candidatePredicate
+         });
    }
 
    function clear() {
-      vm.candidatePredicate = {};
-      vm.candidatePredicate.current = 1;
-      vm.candidatePredicate.size = 20;
-      vm.isActiveAgeField = false;
+      vm.candidatePredicate   = DEFAULT_CANDIDATE_PREDICATE;
+      vm.isActiveAgeField     = false;
    }
 
    function useAgeInSearch() {
@@ -122,11 +135,6 @@ export default function CandidatesController(
       LoggerService.error(error);
    }
 
-   function _setToStorage() {
-      LocalStorageService.set('candidatePredicate', vm.candidatePredicate);
-      LocalStorageService.set('candidates', vm.candidates);
-   }
-
    function _sortBy(column) {
       let searchPredicate = cloneDeep(vm.candidatePredicate);
       searchPredicate.sortBy = column;
@@ -137,7 +145,6 @@ export default function CandidatesController(
       searchPredicate.sortBy = column;
       searchCandidates(searchPredicate).then(() => {
          vm.candidatePredicate = searchPredicate;
-         _setToStorage();
       });
    }
 
@@ -194,4 +201,8 @@ export default function CandidatesController(
          vm.selectedCandidates.push(candidateId);
       }
    };
+
+   function resetCandidatePredicateStateParams() {
+      delete $state.params.candidatePredicate;
+   }
 }

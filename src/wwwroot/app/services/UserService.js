@@ -37,18 +37,16 @@ export default class UserService {
    }
 
    saveUser(entity) {
-      if (entity.id) {
-         _HttpCacheService.clearCache(USER_URL);
-         return _HttpService.put(`${USER_URL}${entity.id}`, _convertToServer(entity)).then(() => {
-            if (entity.id === _UserService.getCurrentUser().id) {
-               _UserService.setCurrentUser(entity);
-            }
-         });
-      } else {
-         return _HttpService.post(USER_URL, entity).then(user => {
+      let _httpMethod =  entity.id ?
+          (user) => _HttpService.put(`${USER_URL}${user.id}`, _convertToServer(user)) :
+          (user) => _HttpService.post(USER_URL, _convertToServer(user));
+
+      return _httpMethod(entity).then((user) => {
+         if (user.id === _UserService.getCurrentUser().id) {
+            _UserService.setCurrentUser(user);
             return user;
-         });
-      }
+         }
+      });
    }
 
    getUsers(predicate) {

@@ -100,7 +100,7 @@ function getVacancyTitleFrom(log) {
    return vsi.vacancy.title;
 }
 function fromArray(log) {
-   (() => {
+   return (() => {
       if (/cities/i.test(log.field)) {
          return getFieldNameAndValuesFor('city', log.newValues, log.pastValues);
       } else if (/levels/i.test(log.field)) {
@@ -115,7 +115,7 @@ function fromArray(log) {
 }
 function getFieldNameAndValuesFor(field, newValues, pastValues) {
    return _ThesaurusService.getThesaurusTopics(field).then(thesaurus => {
-      _$q.all([
+      return _$q.all([
          map(newValues, thesaurusId => {
             return find(thesaurus, ['id', parseInt(thesaurusId)]).title;
          }),
@@ -155,10 +155,19 @@ function getNewAndPastValue(log) {
    } else if (containsDepartment(log.field)) {
       return getNewAndPastForThesaurus('department', log);
    } else if (containsResponsible(log.field)) {
-      let newResponsibleId = parseInt(head(log.values));
-      return _UserService.getUserById(newResponsibleId).then(user => {
-         return user.lastName;
-      });
+      return _$q.all(
+         [_UserService.getUserById(parseInt(head(log.newValues))).then(user => {
+            return user ? user.lastName : EMPTY;
+         }),
+          _UserService.getUserById(parseInt(head(log.pastValues))).then(user => {
+             return user ? user.lastName : EMPTY;
+          })
+         ]).then(valuesContainer => {
+            return {
+               newValue: valuesContainer[VALUES_INDEXES.NEW_VALUE],
+               pastValue: valuesContainer[VALUES_INDEXES.PAST_VALUE]
+            };
+         });
    } else {
       if (containsDate(log.field)) {
          log.newValues = getDateValues(log.newValues);
@@ -172,12 +181,8 @@ function getNewAndPastValue(log) {
 }
 function getNewAndPastForThesaurus(thesaurusName, log) {
    return _$q.all([
-      isNaN(parseInt(head(log.newValues))) ?
-            head(log.newValues) :
-            getThesaurusTitle(thesaurusName, parseInt(head(log.newValues))),
-      isNaN(parseInt(head(log.pastValues))) ?
-            head(log.pastValues) :
-            getThesaurusTitle(thesaurusName, parseInt(head(log.pastValues)))
+      getThesaurusTitle(thesaurusName, parseInt(head(log.newValues))),
+      getThesaurusTitle(thesaurusName, parseInt(head(log.pastValues)))
    ]).then(valuesContainer => {
       return {
          newValue: valuesContainer[VALUES_INDEXES.NEW_VALUE],
@@ -187,7 +192,7 @@ function getNewAndPastForThesaurus(thesaurusName, log) {
 }
 function getThesaurusTitle(thesaurusName, id) {
    return _ThesaurusService.getThesaurusTopic(thesaurusName, id).then(thesaurus => {
-      return thesaurus.title;
+      return thesaurus ? thesaurus.title : EMPTY;
    });
 }
 function getDateValues(values) {

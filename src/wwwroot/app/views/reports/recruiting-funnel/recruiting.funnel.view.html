@@ -18,7 +18,7 @@
                   <label ng-bind="::'THESAURUSES.STAGES' | translate"></label>
                </div>
                <div class="vertical grid-block">
-                  <div class="stage-filter" ng-click="stageSwitch(stage)" ng-repeat="stage in stages  | orderBy:'$index':true" ng-class="{'pressed': stage._isPressed}"> <span class='fitler-button' ng-bind="stage.title"></span> </div>
+                  <div class="stage-button" ng-click="stageSwitch(stage)" ng-repeat="stage in stages  | orderBy:'$index':true" ng-class="{'pressed': stage._isPressed}"> <span class='stage-button-text' ng-bind="stage.title"></span> </div>
                </div>
             </form>
          </div>

@@ -1,6 +1,12 @@
 import './profile.scss';
 import utils from '../../../utils.js';
 
+import {
+   set
+} from 'lodash';
+
+const LIST_OF_THESAURUS = [ 'city' ];
+
 export default function ProfileController (
    $q,
    $scope,
@@ -8,14 +14,16 @@ export default function ProfileController (
    $state,
    UserService,
    SettingsService,
-   ValidationService) {
+   ValidationService,
+   ThesaurusService) {
    'ngInject';
 
    /*---api---*/
-   let vm    = $scope;
-   vm.form   = {};
-   vm.user   = {};
-   vm.uploader = {};
+   let vm         = $scope;
+   vm.form        = {};
+   vm.user        = {};
+   vm.uploader    = {};
+   vm.convertDate = utils.formatDateToServer;
 
    /*---impl---*/
    function _init() {
@@ -24,6 +32,8 @@ export default function ProfileController (
       SettingsService.addOnEditListener(_onEdit);
       $element.on('$destroy', _onDestroy);
       _initCurrentUser();
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
+         .then(topics => set(vm, 'thesaurus', topics));
    }
    _init();
 
@@ -35,14 +45,10 @@ export default function ProfileController (
 
    function _onSubmit() {
       ValidationService.validate(vm.form.userEdit).then(() => {
-         vm.user.birthDate = utils.formatDateToServer(vm.user.birthDate);
          return UserService.saveUser(vm.user).then(() => {
             $state.go('profile');
-            vm.user.birthDate = utils.formatDateFromServer(vm.user.birthDate);
          });
-      }).catch(() => {
-         return $q.reject();
-      });
+      }).catch(() => $q.reject);
    }
 
    function _onCancel() {
@@ -55,10 +61,7 @@ export default function ProfileController (
    }
 
    function _initCurrentUser() {
-      let val = UserService.getCurrentUser();
-      vm.user = val;
-      vm.user.phoneNumbers = vm.user.phoneNumbers || [ {} ];
-      vm.user.birthDate = utils.formatDateFromServer(vm.user.birthDate);
+      UserService.getUserById(UserService.getCurrentUser().id).then(response => set(vm, 'user', response));
    }
 }
 

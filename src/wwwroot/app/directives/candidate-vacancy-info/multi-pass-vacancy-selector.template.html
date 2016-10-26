@@ -1,0 +1,7 @@
+<div>
+    <div ng-click="toogleComposedObject(composed)" 
+        ng-class="{'passed': composed.toogled}"
+        ng-repeat="composed in objectThatCanBeMultiPassed">
+        <span class="many-stage-button" ng-bind="composed.vacancy.title"></span>
+    </div>
+</div>

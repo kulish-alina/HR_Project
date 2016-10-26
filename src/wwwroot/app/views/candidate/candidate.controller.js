@@ -203,8 +203,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
                candidate.experienceYears = parseInt(candidate.experienceYears);
             }
             vm.candidate = candidate;
-            vm.candidateCVLoaded = true;
-            vm.candidate.cvText = candidate.text;
+            vm.candidate.description = candidate.text.join('<br>');
          });
          vm.candidate.files.push(parsedResponse);
       };
@@ -219,11 +218,9 @@ export default function CandidateController( // eslint-disable-line max-params, 
       uploader.onErrorItem = (fileItem, response, status, headers) => {
          LoggerService.error('onErrorItem', fileItem, response, status, headers);
          UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
-         vm.candidateCVLoaded = false;
       };
       uploader.onWhenAddingFileFailed = () => {
          UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
-         vm.candidateCVLoaded = false;
       };
       vm.cvUploader = uploader;
    }

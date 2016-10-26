@@ -150,19 +150,6 @@
                      </fieldset>
                   </div>
                </div>
-               <div class="medium-12 cv-container">
-                  <zf-accordion ng-if="candidateCVLoaded" auto-open="false">
-                     <zf-accordion-item title="Candidate CV">
-                        <div ng-repeat="line in candidate.cvText track by $index">
-                           <p>
-                              <span ng-class="resolveWordClass(word)" ng-repeat="word in getWordsArray(line) track by $index">
-                                 {{word}} 
-                              </span>
-                           </p>
-                        </div>
-                     </zf-accordion-item>
-                  </zf-accordion>
-               </div>
                <hr>
                <div class="grid-block" ng-repeat="socialRow in socialGroups track by $index">
                   <div class="medium-4 grid-block" ng-repeat="social in socialRow">

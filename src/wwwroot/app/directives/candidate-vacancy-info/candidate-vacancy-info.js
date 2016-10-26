@@ -122,11 +122,124 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    vm.callStagesDialog = (entityStageObject) => {
       let stageFlow = entityStageObject.stageFlow ? entityStageObject.stageFlow : vm.vacancyStages;
       showStagesFlowDialogFor(entityStageObject, stageFlow)
-         .then(changedVSIs => updateCandidateStagesForWith(entityStageObject, changedVSIs))
-         .then(notifySuccess)
-         .catch(notChangedVSIs => updateCandidateStagesForWith(entityStageObject, notChangedVSIs));
+         .then(notifySuccess);
    };
 
+   function getComposedThatCanBeMultiPassed(sampleStageObject) {
+      return filter(vm.vacancyStageInfosComposedByCandidateIdVacancyId, x => {
+         if (x.vacancyId === sampleStageObject.vacancyId) {
+            return false;
+         }
+         let VSIsToPass = getVSIsToPass(x, sampleStageObject.vacancyStageInfos);
+         return VSIsToPass.length;
+      });
+   }
+      let multiPassDeffered = $q.defer();
+      let canMultiPass = getComposedThatCanBeMultiPassed(sampleStageObject);
+      UserDialogService.dialog($translate.instant('Choose vacancies which candidate should pass the same way'),
+         muiltiPassDialogTemplate, [{
+            name: $translate.instant('COMMON.CANCEL'),
+            func: () => {
+               clearToogle(canMultiPass);
+               multiPassDeffered.reject();
+            }
+         }, {
+            name: $translate.instant('COMMON.APLY'),
+            func: () => {
+               let toMultiPass = getObjectsToPass(canMultiPass);
+               each(toMultiPass, composedObjectToPass => {
+                  composedObjectToPass.vacancyStageInfos = intersectOldWithSample(composedObjectToPass,
+                  sampleStageObject.vacancyStageInfos);
+               });
+               clearToogle(canMultiPass);
+               multiPassDeffered.resolve(toMultiPass);
+            }
+         }],
+         {
+            canMultiPass,
+            toogleComposedObject: (composedObject) => {
+               composedObject.toogled = !composedObject.toogled;
+            }
+         });
+      return multiPassDeffered.promise;
+   }
+
+   function intersectOldWithSample(composedObjectToPass, sampleVacancyStageInfos) {
+      let newVSIs = map(getVSIsToPass(composedObjectToPass, sampleVacancyStageInfos), vsi => {
+         let newVsi = assign(vsi, {
+            vacancyId: composedObjectToPass.vacancyId
+         });
+         delete newVsi.id;
+         return newVsi;
+      });
+      let combinedVSIs = intersectOldAndNewVsis(composedObjectToPass, newVSIs);
+      if (!isThereActiveStage(combinedVSIs)) {
+         combinedVSIs.push(getActiveStage(combinedVSIs, composedObjectToPass));
+      }
+      return combinedVSIs;
+   }
+   function intersectOldAndNewVsis(composedObject, newVSIs) {
+      let combinedVSIs = map(composedObject.vacancyStageInfos, oldVsi => {
+         let newVsi = find(newVSIs, ['stageId', oldVsi.stageId]);
+         if (newVsi) {
+            return assign(oldVsi, {
+               stageState: newVsi.stageState,
+               comment: newVsi.comment
+            });
+         }
+         return oldVsi;
+      });
+      return  [...combinedVSIs, ...map(newVSIs, newVsi => {
+         let oldVsi = find(combinedVSIs, ['stageId', newVsi.stageId]);
+         if (oldVsi) {
+            return assign(oldVsi, {
+               stageState: newVsi.stageState,
+               comment: newVsi.comment
+            });
+         }
+         return newVsi;
+      })];
+   }
+   function getObjectsToPass(objectThatCanBeMultiPassed) {
+      return filter(objectThatCanBeMultiPassed, x => {
+         return x.toogled;
+      });
+   }
+   function clearToogle(objectThatCanBeMultiPassed) {
+      each(objectThatCanBeMultiPassed, x => delete x.toogled);
+   }
+   function isThereActiveStage(combinedVSIs) {
+      return find(combinedVSIs, ['stageState', STAGE_STATES.Active]);
+   }
+   function getActiveStage(combinedVSIs, composedObject) {
+      let latestStageId = reduce(combinedVSIs, (max, vsi) => {
+         if (max < vsi.stageId && vsi.stageState === STAGE_STATES.Passed) {
+            return vsi.stageId;
+         }
+         return max;
+      }, 0);
+      let currentStageId = latestStageId + 1;
+      let currentStage = find(composedObject.stageFlow, ['stage.id', currentStageId]);
+      return {
+         vacancyId: composedObject.vacancyId,
+         candidateId: composedObject.candidateId,
+         stage: currentStage,
+         stageId: currentStageId,
+         stageState: STAGE_STATES.Active
+      };
+   }
+   function getVSIsToPass(checkingStageObject, sampleVacancyStageInfos) {
+      let passedVSIsOfSampleObject = filter(sampleVacancyStageInfos, sampleVSI => {
+         return sampleVSI.stageState === STAGE_STATES.Passed;
+      });
+      let passedVSIsOfCheckingObject = filter(checkingStageObject.vacancyStageInfos,
+      return reduce(passedVSIsOfSampleObject, (VSIsThatCanBePassed, vsi) => {
+         let foundedVsi = find(passedVSIsOfCheckingObject, ['stageId', vsi.stageId]);
+         if (!foundedVsi || foundedVsi.stageState !== STAGE_STATES.Passed) {
+            VSIsThatCanBePassed.push(vsi);
+         }
+         return VSIsThatCanBePassed;
+      }, []);
    function showStagesFlowDialogFor(entityStageObject, vacancyStages) {
       let dialogResult = $q.defer();
       let mainStages = filter(vacancyStages, ['stage.stageType', STAGE_TYPES.MainStage]);

@@ -106,7 +106,11 @@ namespace DAL.Services
         {
             var vacancyToUpdate = uow.VacancyRepo.GetByID(vacancy.Id);
             vacancyToUpdate.Update(vacancy, uow, userId);
-            CreateChildVacanciesIfNeeded(vacancyToUpdate, vacancy);
+            var clones = CloneVacanciesIfNeeded(vacancyToUpdate, vacancy, userId);
+            clones.ForEach(clone =>
+            {
+                uow.VacancyRepo.Insert(clone);
+            });
             uow.VacancyRepo.Update(vacancyToUpdate);
             uow.Commit();
             var super = uow.VacancyRepo.GetByID(vacancyToUpdate.Id);
@@ -117,7 +121,11 @@ namespace DAL.Services
         {
             var vacancyToAdd = new Vacancy();
             vacancyToAdd.Update(vacancy, uow, userId);
-            CreateChildVacanciesIfNeeded(vacancyToAdd, vacancy);
+            var clones = CloneVacanciesIfNeeded(vacancyToAdd, vacancy, userId);
+            clones.ForEach(clone =>
+            {
+                uow.VacancyRepo.Insert(clone);
+            });
             uow.VacancyRepo.Insert(vacancyToAdd);
             uow.Commit();
             return DTOService.ToDTO<Vacancy, VacancyDTO>(vacancyToAdd);
@@ -140,37 +148,23 @@ namespace DAL.Services
             return deleteResult;
         }
 
-        private void CreateChildVacanciesIfNeeded(Vacancy domain, VacancyDTO dto)
+        private List<Vacancy> CloneVacanciesIfNeeded(Vacancy domain, VacancyDTO dto, int userId)
         {
-            List<Vacancy> childVacancies = new List<Vacancy>();
-            if (dto.ChildVacanciesNumber.HasValue)
+            List<Vacancy> clonedVacancies = new List<Vacancy>();
+            if (dto.CloneVacanciesNumber.HasValue)
             {
-                if (!domain.ChildVacancies.Any())
+                var countOfClones = dto.CloneVacanciesNumber.Value;
+                while (countOfClones-- != 0)
                 {
-                    if (dto.HasParent()) throw new Exception("This vacancy has parent vacancy, so you can't create child of it");
-                    dto.ChildVacanciesNumber.Value.Times(() =>
-                    {
-                        Vacancy childVacancy = new Vacancy();
-                        childVacancy.UpdateChildWithParent(domain, uow);
-                        childVacancies.Add(childVacancy);
-                    });
+                    var clone = new Vacancy();
+                    dto.CandidatesProgress = new List<VacancyStageInfoDTO>();
+                    dto.Comments = new List<CommentDTO>();
+                    clone.Update(dto, uow, userId);
+                    clone.Id = 0;
+                    clonedVacancies.Add(clone);
                 }
-                else if (dto.ChildVacanciesNumber.Value > domain.ChildVacancies.Count)
-                {
-                    var additionalVacancyChildsNumber = dto.ChildVacanciesNumber.Value - domain.ChildVacancies.Count;
-                    additionalVacancyChildsNumber.Times(() =>
-                    {
-                        Vacancy childVacancy = new Vacancy();
-                        childVacancy.UpdateChildWithParent(domain, uow);
-                        childVacancies.Add(childVacancy);
-                    });
-                }
-                childVacancies.ForEach(x => domain.ChildVacancies.Add(x));
             }
-            if (domain.ChildVacanciesNumber < domain.ChildVacancies.Count)
-            {
-                domain.ChildVacanciesNumber = domain.ChildVacancies.Count;
-            }
+            return clonedVacancies;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace DAL.Mapping
         {
             Property(v => v.Title).IsRequired();
             Property(v => v.State).IsRequired();
-            HasMany(x => x.StageFlow).WithRequired();
+            HasMany(x => x.StageFlow).WithOptional();
 
             HasMany(c => c.CandidatesProgress).WithRequired().HasForeignKey(x => x.VacancyId);
 
@@ -27,7 +27,6 @@ namespace DAL.Mapping
             });
             HasOptional(x => x.ClosingCandidate).WithMany(x => x.ClosedVacancies).HasForeignKey(x => x.ClosingCandidateId);
 
-            HasOptional(v => v.ParentVacancy).WithMany(v => v.ChildVacancies).HasForeignKey(v => v.ParentVacancyId);
             HasOptional(v => v.LanguageSkill);
             HasOptional(v => v.ParentVacancy).WithMany().HasForeignKey(x => x.ParentVacancyId);
 
@@ -36,12 +35,6 @@ namespace DAL.Mapping
             HasRequired(v => v.Responsible).WithMany().HasForeignKey(v => v.ResponsibleId);
             HasMany(v => v.CandidatesProgress).WithRequired().HasForeignKey(vsi => vsi.VacancyId);
             HasMany(c => c.StatesInfo).WithRequired(x => x.Vacancy).HasForeignKey(x => x.VacancyId);
-            HasMany(v => v.ChildVacancies).WithMany().Map(x =>
-            {
-                x.MapRightKey("ChildVacancyId");
-                x.MapLeftKey("ParentVacancyId");
-                x.ToTable("ParentVacancyToChildVacancy");
-            });
 
             HasMany(v => v.Cities).WithMany().Map(x =>
             {

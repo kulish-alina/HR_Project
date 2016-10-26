@@ -41,24 +41,25 @@ export default class UserDialogService {
             title: _$translate.instant('DIALOG_SERVICE.NOTIF'),
             content: message,
             color: 'info',
-            autoclose: '3000'
+            autoclose: '2000'
          },
          success: {
             title: _$translate.instant('DIALOG_SERVICE.SUCCESS'),
             content: message,
             color: 'success',
-            autoclose: '3000'
+            autoclose: '2000'
          },
          error: {
             title: _$translate.instant('DIALOG_SERVICE.ERROR'),
             content: message,
-            color: 'alert'
+            color: 'alert',
+            autoclose: '3000'
          },
          warning: {
             title: _$translate.instant('DIALOG_SERVICE.WARN'),
             content: message,
             color: 'warning',
-            autoclose: '5000'
+            autoclose: '3000'
          }
       };
       notify.addNotification(configs[type] || configs.notification);

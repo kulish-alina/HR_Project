@@ -72,9 +72,16 @@ export default class VacancyService {
    }
 
    autocomplete(searchString, id) {
-      return _VacancyService
-         .search(id && !searchString ? {id} : { title : searchString, sortBy : 'CreatedOn', sortAsc  : false})
-         .then(response => response.vacancies);
+      if (id && !searchString) {
+         return _VacancyService.getVacancy(id).then(response => [ response ]);
+      } else {
+         return _VacancyService
+            .search({title  : searchString,
+                     size   : 100,
+                     sortBy : 'CreatedOn',
+                     sortAsc: false})
+            .then(response => response.vacancies);
+      }
    }
 
    convertFromServerFormat(vacancy, notToLoadAttachedCadidates) {

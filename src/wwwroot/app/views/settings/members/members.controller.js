@@ -30,15 +30,14 @@ export default function MembersController(
 
    let movedUser     = null;
 
-   function _initData() {
+   (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup([ 'mail' ]).then(mails => set(vm, 'mailTemplates', mails));
-      RolesService.getRoles().then((res) => set(vm, 'roles', res));
-      UserService.getUsers().then((res) => {
-         set(vm, 'users', groupBy(res, 'roleId'));
+      $q.all([RolesService.getRoles(), UserService.getUsers()]).then((result) => {
+         set(vm, 'roles', result[0]);
+         set(vm, 'users', groupBy(result[1], 'roleId'));
          _selectGroup(vm.roles[0].id);
       });
-   }
-   _initData();
+   }());
 
    function _selectGroup(id) {
       vm.currentGroup = vm.users[id] || [];

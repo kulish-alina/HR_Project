@@ -1,4 +1,5 @@
 import './profile.scss';
+import passwordChangePopup from './changePassword.view.html';
 import utils from '../../../utils.js';
 
 import {
@@ -12,21 +13,25 @@ export default function ProfileController (
    $scope,
    $element,
    $state,
+   $translate,
    UserService,
    SettingsService,
    ValidationService,
-   ThesaurusService) {
+   ThesaurusService,
+   UserDialogService) {
    'ngInject';
 
    /*---api---*/
-   let vm         = $scope;
-   vm.form        = {};
-   vm.user        = {};
-   vm.uploader    = {};
-   vm.convertDate = utils.formatDateToServer;
+   let passwords         = {};
+   let vm                = $scope;
+   vm.form               = {};
+   vm.user               = {};
+   vm.uploader           = {};
+   vm.convertDate        = utils.formatDateToServer;
+   vm.showChangePassword = showChangePassword;
 
    /*---impl---*/
-   function _init() {
+   (function _init() {
       SettingsService.addOnSubmitListener(_onSubmit);
       SettingsService.addOnCancelListener(_onCancel);
       SettingsService.addOnEditListener(_onEdit);
@@ -34,8 +39,7 @@ export default function ProfileController (
       _initCurrentUser();
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
-   }
-   _init();
+   }());
 
    function _onDestroy() {
       SettingsService.removeOnSubmitListener(_onSubmit);
@@ -62,6 +66,31 @@ export default function ProfileController (
 
    function _initCurrentUser() {
       UserService.getUserById(UserService.getCurrentUser().id).then(response => set(vm, 'user', response));
+   }
+
+   function showChangePassword() {
+      let buttons = [{
+         name: $translate.instant('COMMON.CANCEL')
+      }, {
+         name: $translate.instant('COMMON.OK'),
+         func: _changePassword,
+         needValidate: true
+      }];
+
+      passwords = {
+         oldPass : '',
+         newPass : '',
+         confPass: ''
+      };
+
+      UserDialogService.dialog($translate.instant('PROFILE.CHANGE_PASS'),
+                               passwordChangePopup, buttons, passwords);
+   }
+
+   function _changePassword() {
+      UserService.changePassword(passwords.oldPass, passwords.newPass)
+         .then(() => UserDialogService.notification($translate.instant('PROFILE.CHANGED'), 'success'))
+         .catch((reason) => UserDialogService.notification(reason, 'error'));
    }
 }
 

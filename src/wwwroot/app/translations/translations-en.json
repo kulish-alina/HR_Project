@@ -235,6 +235,10 @@
       "mincount": {
          "error": "*this should be more then min value",
          "success": "Correct!" 
+      },
+      "compare": {
+         "error": "*sorry, there is not the same",
+         "success":""
       }
    },
    "ERRORS" : {
@@ -256,7 +260,11 @@
       "CONFIRM_PASS" : "Confirm new password"
    },
    "PROFILE" : {
-      "CHANGE_PASS": "Change password"
+      "CHANGE_PASS": "Change password",
+      "OLD": "Old passwod",
+      "NEW": "New password",
+      "CONF": "Confirm password",
+      "CHANGED": "Password was successfully changed"
    },
    "ROLES" : {
       "NEW": "New role",

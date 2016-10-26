@@ -119,11 +119,17 @@ export default class CandidateService {
          });
    }
 
-   autocomplete(searchString, id) {
-      return _CandidateService
-         .search(!searchString && id ? {id} :
-                 {searchString, size : 100, sortBy : 'CreatedOn', sortAsc : false})
-         .then(response => response.candidate);
+   autocomplete(searchString, candidateId) {
+      if (!searchString && candidateId) {
+         return _CandidateService.getCandidate(candidateId).then(response => [ response ]);
+      } else {
+         return _CandidateService
+            .search({searchString,
+                     size          : 100,
+                     sortBy        : 'CreatedOn',
+                     sortAsc       : false})
+            .then(response => response.candidate);
+      }
    }
 }
 

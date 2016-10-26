@@ -10,6 +10,7 @@ import {
 } from 'lodash';
 
 const USER_URL = 'user/';
+//const PASSWORD_URL = 'password/';
 
 let _HttpService, _$q, _HttpCacheService, _LoggerService, _UserService;
 let currentUser = {};
@@ -75,11 +76,17 @@ export default class UserService {
          return _$q.reject('there is no user\'s id');
       }
    }
+
+   changePassword(/*oldPassword, newPassword*/) {
+      return _$q.reject('does not implemented');
+      //return _HttpService.post(PASSWORD_URL, {oldPassword, newPassword});
+   }
 }
 
 function _convertFromServer(user) {
-   user.birthDate = utils.formatDateFromServer(user.birthDate);
-   return user;
+   let clonedUser = cloneDeep(user);
+   clonedUser.birthDate = utils.formatDateFromServer(user.birthDate);
+   return clonedUser;
 }
 
 function _convertToServer(user) {

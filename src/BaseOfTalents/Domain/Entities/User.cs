@@ -4,7 +4,7 @@ using Domain.Entities.Enum.Setup;
 
 namespace Domain.Entities
 {
-    public class User : BaseEntity, IComparable
+    public class User : BaseEntity
     {
         public User()
         {
@@ -32,16 +32,5 @@ namespace Domain.Entities
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public virtual ICollection<Note> Notes { get; set; }
         public virtual ICollection<Comment> UserComments { get; set; }
-
-        public int CompareTo(object obj)
-        {
-            if (obj == null) return 1;
-
-            User otherUser = obj as User;
-            if (otherUser != null)
-                return (this.LastName + this.FirstName).CompareTo(otherUser.LastName + otherUser.FirstName);
-            else
-                throw new ArgumentException("Object is not a User");
-        }
     }
 }

@@ -84,6 +84,8 @@ namespace DAL.Services
                             return v.Cities.Last().Title;
                         case "Department":
                             return v.Department.Title;
+                        case "Responsible":
+                            return v.Responsible.LastName + "|" + v.Responsible.FirstName;
                         default:
                             return v.GetType().GetProperty(orderBy).GetValue(v);
                     }

@@ -100,17 +100,22 @@ export default class CandidateService {
    }
 
    search(condition) {
-      _convertLanguageSkillsToBackend(condition);
-      remove(condition.languageSkills, {state : DELETED_STATE});
-      return _HttpService.post(`${CANDIDATE_URL}search`, condition)
+      return _convertLanguageSkillsToBackend(condition)
+         .then(convertedCondition => {
+            remove(condition.languageSkills, {state : DELETED_STATE});
+            condition = convertedCondition;
+            return _HttpService.post(`${CANDIDATE_URL}search`, condition);
+         })
          .then(response => {
-            return _$q.all(map(response.candidate, _convertToClientFormat))
-               .then(candidates => {
-                  _convertLanguageSkillsToClient(condition);
-                  return  candidates;
+            return _convertLanguageSkillsToClient(condition)
+               .then(convertedCondition => {
+                  condition = convertedCondition;
+                  return  _$q.all(map(response.candidate, _convertToClientFormat));
                })
-               .then(_set(response, 'candidate'))
-               .then(response);
+               .then(candidates => {
+                  set(response, 'candidate', candidates);
+                  return response;
+               });
          });
    }
 
@@ -203,7 +208,7 @@ function _convertArrayFieldToServer(candidate, serverFieldName, convertedFieldNa
    return _$q.all(map(deletedItems, _setDeletedState))
       .then(() => set(candidate, serverFieldName, changedItems))
       .then(() => delete candidate[convertedFieldName])
-      .then(candidate);
+      .then(() => candidate);
 }
 
 function _convertSocialToClient(candidate) {

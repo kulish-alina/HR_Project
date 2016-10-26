@@ -11,6 +11,8 @@ import {
    map
 } from 'lodash';
 
+const DEFAULT_REDIRECT_VIEW_NAME = 'vacancies';
+
 export default function VacancyController( //eslint-disable-line max-statements
    $scope,
    $translate,
@@ -46,8 +48,6 @@ export default function VacancyController( //eslint-disable-line max-statements
    vm.removeComment                = _removeComment;
    vm.editComment                  = _editComment;
    vm.comments                     = cloneDeep(vm.vacancy.comments);
-   vm.goToChildVacancy             = goToChildVacancy;
-   vm.goToParentVacancy            = goToParentVacancy;
    vm.removeChildVacancy           = removeChildVacancy;
    vm.searchResponsible            = UserService.autocomplete;
    vm.getFullName                  = UserService.getFullName;
@@ -109,10 +109,6 @@ export default function VacancyController( //eslint-disable-line max-statements
       $window.history.back();
    }
 
-   function goToChildVacancy(vacancy) {
-      $state.go('vacancyEdit', {_data: null, vacancyId: vacancy.id, toPrevious: false});
-   }
-
    function removeChildVacancy(vacancy) {
       UserDialogService.confirm($translate.instant('VACANCY.VACANCY_REMOVE_MESSAGE')).then(() => {
          VacancyService.remove(vacancy).then((responseVacancy) => {
@@ -120,10 +116,6 @@ export default function VacancyController( //eslint-disable-line max-statements
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING'), 'success');
          });
       });
-   }
-
-   function goToParentVacancy() {
-      $state.go('vacancyEdit', {_data: null, vacancyId: vm.vacancy.parentVacancyId});
    }
 
    function saveVacancy(ev, form) {
@@ -186,8 +178,10 @@ export default function VacancyController( //eslint-disable-line max-statements
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
          SearchService.invalidateVacancies();
       })
-         .then(() => $state.go($state.previous.name, {_data: vm.vacancy, vacancyId: vm.vacancy.id},
-                     { reload: true }))
+         .then(() => $state.go(
+               $state.previous.name || DEFAULT_REDIRECT_VIEW_NAME,
+               {_data: vm.vacancy, vacancyId: vm.vacancy.id},
+               { reload: true }))
          .catch((error) => {
             vm.vacancy.comments = memo;
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');

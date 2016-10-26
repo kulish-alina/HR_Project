@@ -17,10 +17,8 @@ const DEFAULT_MAX_AGE = 45;
 const DEFAULT_CANDIDATE_PREDICATE = {
    current  : 1,
    size     : 20,
-   sotrAsc  : false,
-   sortBy   : 'CreatedOn',
-   minAge   : DEFAULT_MIN_AGE,
-   maxAge   : DEFAULT_MAX_AGE
+   sortAsc  : false,
+   sortBy   : 'CreatedOn'
 };
 
 export default function CandidatesController(

@@ -16,7 +16,7 @@ import {
 const DEFAULT_VACANCY_PREDICATE = {
    current  : 1,
    size     : 20,
-   sotrAsc  : false,
+   sortAsc  : false,
    sortBy   : 'CreatedOn'
 };
 

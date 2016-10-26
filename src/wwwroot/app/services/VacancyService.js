@@ -26,7 +26,8 @@ const THESAURUS = [
    new ThesaurusHelper('city',    'cityIds', 'cities'),
    new ThesaurusHelper('department',  'departmentId', 'departments'),
    new ThesaurusHelper('entityState', 'state',       'entityStates'),
-   new ThesaurusHelper('typeOfEmployment', 'typeOfEmployment', 'typesOfEmployment')
+   new ThesaurusHelper('typeOfEmployment', 'typeOfEmployment', 'typesOfEmployment'),
+   new ThesaurusHelper('currency', 'currencyId', 'convertedCurrency')
 ];
 
 const PROMISE_INDEXES = {

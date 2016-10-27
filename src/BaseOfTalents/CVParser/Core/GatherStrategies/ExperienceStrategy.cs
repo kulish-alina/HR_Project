@@ -19,7 +19,7 @@ namespace CVParser.Core.GatherStrategies
                     if (expRegexResult.Count != 0)
                     {
                         var reg = new Regex(@"19\d{2}|20\d{2}");
-                        var nowRegEx = new Regex(@"now|current|present", RegexOptions.IgnoreCase);
+                        var nowRegEx = new Regex(@"now|current|present|сейчас|сегодня|настоящее", RegexOptions.IgnoreCase);
                         var years = reg.Matches(expRegexResult[0].Value);
                         var present = nowRegEx.IsMatch(expRegexResult[0].Value);
                         if (present)

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Web.Http;
 using DAL.Services;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using WebUI.Models.Reports;
@@ -24,9 +19,9 @@ namespace WebUI.Controllers
         {
             this.service = service;
         }
-        [HttpPost]
+        [HttpGet]
         [Route("usersReport")]
-        public IHttpActionResult GetDataForUserReport([FromBody]UsersReportParameters usersReportParams)
+        public IHttpActionResult GetDataForUserReport([FromUri]UsersReportParameters usersReportParams)
         {
             if (!ModelState.IsValid)
             {
@@ -40,14 +35,14 @@ namespace WebUI.Controllers
                 usersReportParams.EndDate
             );
 
-            var resultForPeriod = new { StartDate = usersReportParams.StartDate, EndDate = usersReportParams.EndDate, UserReport = usersReportResult};
+            var resultForPeriod = new { StartDate = usersReportParams.StartDate, EndDate = usersReportParams.EndDate, UserReport = usersReportResult };
 
             return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("vacanciesReport")]
-        public IHttpActionResult GetDataForVacancyReport([FromBody]VacanciesReportParameters vacanciesReportParams)
+        public IHttpActionResult GetDataForVacancyReport([FromUri]VacanciesReportParameters vacanciesReportParams)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +68,7 @@ namespace WebUI.Controllers
                     vacanciesReportParams.EndDate
                     );
 
-                var resultForPeriod = new {StartDate = vacanciesReportParams.StartDate, EndDate = vacanciesReportParams.EndDate,  StartDateReport = dailyReportForStartDate, VacanciesReport = vacanciesReportResult, EndDateReport = dailyReportForEndDate };
+                var resultForPeriod = new { StartDate = vacanciesReportParams.StartDate, EndDate = vacanciesReportParams.EndDate, StartDateReport = dailyReportForStartDate, VacanciesReport = vacanciesReportResult, EndDateReport = dailyReportForEndDate };
                 return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
             }
             else

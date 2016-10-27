@@ -9,7 +9,7 @@ namespace CVParser.Core.GatherStrategies
         public IEnumerable<string> Execute(IEnumerable<IEnumerable<string>> information)
         {
             var foundedPhones = new List<string>();
-            var phoneRegularExpression = new Regex(@"[(]?0[()]?\s?\d\d[)\s-]?\s?\d\d\d[\s-]?\d\d[\s-]?\d\d");
+            var phoneRegularExpression = new Regex(@"[(]?0\s?[()]?\s?\d\d[)\s-]?\s?\d\d\d[\s-]?\d\d[\s-]?\d\d");
             foreach (var list in information)
             {
                 foreach (var line in list)

@@ -21,7 +21,7 @@ namespace CVParser.Core.GatherStrategies
         {
             var foundedNameParts = new List<string>();
             var twoDotsRegexp = new Regex(":");
-            var nameRegexp = new Regex(@"name", RegexOptions.IgnoreCase);
+            var nameRegexp = new Regex(@"ім'я|name|имя|Ф\.?[И]\.?О\.?", RegexOptions.IgnoreCase);
             foreach (var infoBlock in information)
             {
                 NameTriggeredOn nameTriggered = NameTriggeredOn.None;
@@ -50,11 +50,12 @@ namespace CVParser.Core.GatherStrategies
                             break;
                         }
                     }
-                    var splittedLine = clearedLine.Trim(' ').Split(new char[] { ' ', '_' });
+                    var splittedLine = clearedLine.Trim(' ').Split(new char[] { ' ', '_' }).Where(x => !Regex.IsMatch(x, @"[*\s]"));
                     if (splittedLine.Count() <= 3)
                     {
-                        foreach (var term in splittedLine)
+                        foreach (var t in splittedLine)
                         {
+                            var term = NickBuhro.Translit.Transliteration.CyrillicToLatin(t);
                             var relativeCoeffs = names.Select(name =>
                             {
                                 double biggestTermLength = 0;
@@ -69,7 +70,7 @@ namespace CVParser.Core.GatherStrategies
                             }).Where(x => x.RelativeCoeff > 0.8).ToList();
                             if (relativeCoeffs.Any())
                             {
-                                var nameCapacitor = new StringBuilder(term);
+                                var nameCapacitor = new StringBuilder(t);
                                 foreach (var nameWord in splittedLine)
                                 {
                                     if (nameWord != term)

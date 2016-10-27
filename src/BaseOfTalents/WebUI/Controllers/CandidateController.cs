@@ -140,7 +140,7 @@ namespace WebUI.Controllers
 
         [HttpGet]
         [Route("dublicats")]
-        public IHttpActionResult Get([FromBody]CandidateDTO patternCandidate)
+        public IHttpActionResult Get([FromUri]CandidateDTO patternCandidate)
         {
             if (!ModelState.IsValid)
             {

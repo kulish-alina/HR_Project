@@ -8,7 +8,7 @@ namespace CVParser.Core.GatherStrategies
     {
         public IEnumerable<string> Execute(IEnumerable<IEnumerable<string>> information)
         {
-            var skypeRegularExpression = new Regex(@"skype", RegexOptions.IgnoreCase);
+            var skypeRegularExpression = new Regex(@"skype|скайп", RegexOptions.IgnoreCase);
             var foundedSkypes = new List<string>();
             foreach (var list in information)
             {

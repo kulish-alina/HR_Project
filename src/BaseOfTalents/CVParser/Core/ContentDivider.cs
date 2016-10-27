@@ -46,13 +46,13 @@ namespace CVParser.Core
                     Dictionary<Regex, BlockType> regExs = new Dictionary<Regex, BlockType>
                     {
                         {
-                            new Regex(@"personal|info(rmation)?|about me",    RegexOptions.IgnoreCase), BlockType.Personal },
+                            new Regex(@"personal|info(rmation)?|about me|личн(ые)?|данные",    RegexOptions.IgnoreCase), BlockType.Personal },
                         {
-                            new Regex(@"skills?|PROGRAMMING LANGUAGES",       RegexOptions.IgnoreCase), BlockType.Skill },
+                            new Regex(@"skills?|PROGRAMMING LANGUAGES|профессиональн(ые)?|навыки",       RegexOptions.IgnoreCase), BlockType.Skill },
                         {
-                            new Regex(@"education|training|academics",        RegexOptions.IgnoreCase), BlockType.Education },
+                            new Regex(@"education|training|academics|образование",        RegexOptions.IgnoreCase), BlockType.Education },
                         {
-                            new Regex(@"^work&|experience|history",           RegexOptions.IgnoreCase), BlockType.Experience },
+                            new Regex(@"^work&|experience|history|опыт",           RegexOptions.IgnoreCase), BlockType.Experience },
                         {
                             new Regex(@"additional|summary",                  RegexOptions.IgnoreCase), BlockType.Additional }
                     };
@@ -90,7 +90,7 @@ namespace CVParser.Core
             }
             if (!blocksMeet[BlockType.Personal])
             {
-                var personalBlockRegExp = new Regex(@"Skype|Mail|Phone|Number|Name", RegexOptions.IgnoreCase);
+                var personalBlockRegExp = new Regex(@"Skype|Mail|Phone|Number|Name|Скайп|Почта|Телефон|Номер|Имя|Ім'я|Пошта", RegexOptions.IgnoreCase);
                 foreach (var block in content.Blocks)
                 {
                     foreach (var info in block.RelatedInformation)

@@ -44,6 +44,10 @@
       <HintPath>..\packages\LevenshteinMinimumEditDistance.1.2.0\lib\MinimumEditDistance.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NickBuhro.Translit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NickBuhro.Translit.1.0.0\lib\net45\NickBuhro.Translit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Spire.Barcode, Version=1.2.3.21020, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
       <HintPath>..\packages\Spire.Office.2.14.5\lib\net20\Spire.Barcode.dll</HintPath>
       <Private>True</Private>

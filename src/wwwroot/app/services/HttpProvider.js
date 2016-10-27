@@ -39,9 +39,8 @@ class HttpService {
             Accept : 'application/json'
          }
       };
-      if (method === 'get' && entity) {
+      if (method === 'get') {
          options.params = entity;
-         options.cache = true;
       } else if (entity) {
          options.headers['Content-Type'] = 'application/json';
          options.data = entity;

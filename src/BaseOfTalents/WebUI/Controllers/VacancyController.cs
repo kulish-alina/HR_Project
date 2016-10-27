@@ -26,17 +26,13 @@ namespace WebUI.Controllers
             this.authContainer = authContainer;
         }
 
-        public VacancyController()
-        {
-
-        }
-
         // GET api/<controller>
         [HttpGet]
         [Route("search")]
         [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.ViewListOfVacancies)]
         public IHttpActionResult Get([FromUri]VacancySearchParameters vacancyParams)
         {
+            vacancyParams = vacancyParams ?? new VacancySearchParameters();
             if (ModelState.IsValid)
             {
                 var tupleResult = service.Get(
@@ -119,13 +115,6 @@ namespace WebUI.Controllers
             {
                 return BadRequest(e.Message);
             }
-        }
-
-        [HttpGet]
-        [Route("")]
-        public IHttpActionResult Get()
-        {
-            return Get(new VacancySearchParameters());
         }
     }
 }

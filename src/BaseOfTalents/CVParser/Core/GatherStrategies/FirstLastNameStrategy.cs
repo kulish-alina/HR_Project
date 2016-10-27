@@ -50,7 +50,7 @@ namespace CVParser.Core.GatherStrategies
                             break;
                         }
                     }
-                    var splittedLine = clearedLine.Trim(' ').Split(new char[] { ' ', '_' });
+                    var splittedLine = clearedLine.Trim(' ').Split(new char[] { ' ', '_' }).Where(x => !Regex.IsMatch(x, @"[*\s]"));
                     if (splittedLine.Count() <= 3)
                     {
                         foreach (var t in splittedLine)

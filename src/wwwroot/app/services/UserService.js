@@ -10,7 +10,7 @@ import {
 } from 'lodash';
 
 const USER_URL = 'user/';
-//const PASSWORD_URL = 'password/';
+const PASSWORD_URL = 'account/password/';
 
 let _HttpService, _$q, _HttpCacheService, _LoggerService, _UserService;
 let currentUser = {};
@@ -77,9 +77,8 @@ export default class UserService {
       }
    }
 
-   changePassword(/*oldPassword, newPassword*/) {
-      return _$q.reject('does not implemented');
-      //return _HttpService.post(PASSWORD_URL, {oldPassword, newPassword});
+   changePassword(oldPassword, newPassword) {
+      return _HttpService.post(PASSWORD_URL, {oldPassword, newPassword});
    }
 }
 

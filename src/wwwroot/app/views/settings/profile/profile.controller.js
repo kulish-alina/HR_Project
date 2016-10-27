@@ -83,14 +83,17 @@ export default function ProfileController (
          confPass: ''
       };
 
+      let scope = {
+         passwords
+      };
       UserDialogService.dialog($translate.instant('PROFILE.CHANGE_PASS'),
-                               passwordChangePopup, buttons, passwords);
+                               passwordChangePopup, buttons, scope);
    }
 
    function _changePassword() {
       UserService.changePassword(passwords.oldPass, passwords.newPass)
          .then(() => UserDialogService.notification($translate.instant('PROFILE.CHANGED'), 'success'))
-         .catch((reason) => UserDialogService.notification(reason, 'error'));
+         .catch((reason) => UserDialogService.notification(reason.data.message, 'error'));
    }
 }
 

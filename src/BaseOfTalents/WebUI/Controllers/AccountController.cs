@@ -133,5 +133,20 @@ namespace WebUI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        /// <summary>
+        /// Api for changing user password
+        /// </summary>
+        [HttpPost, Auth]
+        [Route("password")]
+        public IHttpActionResult ChangePassword([FromBody]ChangePasswordModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var result = _userAuthService.ChangePassword(ActionContext.Request.Headers.Authorization.Parameter, model.OldPassword, model.NewPassword);
+                return result.Result ? Ok() as IHttpActionResult : BadRequest(result.Message);
+            }
+            return BadRequest(ModelState);
+        }
     }
 }

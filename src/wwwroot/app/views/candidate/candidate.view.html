@@ -198,7 +198,7 @@
                               </tr>
                            </thead>
                            <tbody>
-                              <tr ng-repeat="item in candidate.files">
+                              <tr ng-repeat="item in candidate.files track by $index">
                                  <td ng-bind="::$index+1"></td>
                                  <td>
                                     <a target="_blank" href="{{item.filePath | botUrl}}" ng-bind="::item.description"></a>

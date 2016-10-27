@@ -1,4 +1,5 @@
 import {
+   assign,
    set,
    forEach,
    remove,
@@ -196,16 +197,16 @@ export default function CandidateController( // eslint-disable-line max-params, 
       let uploader = FileService.getFileUploader({ maxSize: 1024000 });
       uploader.onSuccessItem = (item, response, status, headers) => {
          let parsedResponse = JSON.parse(item._xhr.response);
+         vm.candidate.files.push(parsedResponse);
          CVParserService.parseCandidateCV(parsedResponse.filePath).then((candidate) => {
             LoggerService.log('CV Parsed', item, response, status, headers);
             UserDialogService.notification($translate.instant('CV was sucessfuly parsed'), 'success');
             if (candidate.experienceYears) {
                candidate.experienceYears = parseInt(candidate.experienceYears);
             }
-            vm.candidate = candidate;
+            vm.candidate = assign(vm.candidate, candidate);
             vm.candidate.description = candidate.text.join('<br>');
          });
-         vm.candidate.files.push(parsedResponse);
       };
       uploader.onCompleteAll = () => {
          clearUploaderQueue(vm.cvUploader, '#cvUploader');

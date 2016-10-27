@@ -36,9 +36,9 @@ namespace WebUI.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("search")]
-        public IHttpActionResult Get([FromBody]EventSearchParameteres searchParams)
+        public IHttpActionResult Get([FromUri]EventSearchParameteres searchParams)
         {
             if (!searchParams.EndDate.HasValue && searchParams.StartDate.Day != 1)
             {

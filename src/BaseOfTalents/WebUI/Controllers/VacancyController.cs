@@ -1,9 +1,9 @@
-﻿using DAL.DTO;
+﻿using System.Web.Http;
+using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Web.Http;
 using WebUI.Filters;
 using WebUI.Infrastructure.Auth;
 using WebUI.Models;
@@ -32,10 +32,10 @@ namespace WebUI.Controllers
         }
 
         // GET api/<controller>
-        [HttpPost]
+        [HttpGet]
         [Route("search")]
         [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.ViewListOfVacancies)]
-        public IHttpActionResult Get([FromBody]VacancySearchParameters vacancyParams)
+        public IHttpActionResult Get([FromUri]VacancySearchParameters vacancyParams)
         {
             if (ModelState.IsValid)
             {

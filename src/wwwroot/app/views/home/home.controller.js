@@ -53,8 +53,8 @@ export default function HomeController( //eslint-disable-line max-statements
    vm.user                    = {};
 
    (function _init() {
-      CandidateService.search(vm.candidate).then(data  => set(vm, 'candidates', data.candidate));
-      UserService.getUsers().then(users => set(vm, 'responsibles', users));
+      //CandidateService.search(vm.candidate).then(data  => set(vm, 'candidates', data.candidate));
+      //UserService.getUsers().then(users => set(vm, 'responsibles', users));
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       NoteService.getNotesByUser().then((notes) => {
          vm.userNotes = notes;

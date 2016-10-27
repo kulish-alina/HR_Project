@@ -32,7 +32,7 @@ export default class EventsService {
    getEventsForPeriod(condition) {
       condition.startDate = utils.formatDateTimeToServer(condition.startDate);
       condition.endDate = utils.formatDateTimeToServer(condition.endDate);
-      return _HttpService.post(`${EVENT_URL}/search`, condition).then((events) => {
+      return _HttpService.get(`${EVENT_URL}/search`, condition).then((events) => {
          return each(events, (event) => this._convertFromServerFormat(event));
       });
    }

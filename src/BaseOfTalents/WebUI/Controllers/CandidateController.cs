@@ -36,9 +36,9 @@ namespace WebUI.Controllers
         }
 
         // GET api/<controller>
-        [HttpPost]
+        [HttpGet]
         [Route("search")]
-        public IHttpActionResult Get([FromBody]CandidateSearchModel searchParameters)
+        public IHttpActionResult Get([FromUri]CandidateSearchModel searchParameters)
         {
             if (ModelState.IsValid)
             {

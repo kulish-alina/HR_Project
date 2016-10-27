@@ -15,8 +15,8 @@ export default class HttpProvider {
 }
 
 class HttpService {
-   get(additionalUrl) {
-      return this.ajax('get', additionalUrl);
+   get(additionalUrl, entity) {
+      return this.ajax('get', additionalUrl, entity);
    }
 
    post(additionalUrl, entity) {
@@ -36,10 +36,14 @@ class HttpService {
          method,
          url: serverUrl + additionalUrl,
          headers: {
-            'Content-Type': 'application/json'
+            Accept : 'application/json'
          }
       };
-      if (entity) {
+      if (method === 'get' && entity) {
+         options.params = entity;
+         options.cache = true;
+      } else if (entity) {
+         options.headers['Content-Type'] = 'application/json';
          options.data = entity;
       }
       return _$http(options).then(_successCallback, _errorCallback);

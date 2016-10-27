@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+//using MinimumEditDistance;
 
 namespace DAL.Services
 {
@@ -45,6 +46,18 @@ namespace DAL.Services
             uow.CandidateRepo.Update(_candidate);
             uow.Commit();
             return DTOService.ToDTO<Candidate, CandidateDTO>(_candidate);
+        }
+
+        public List<CandidateDTO> GetDublicats(CandidateDTO patternCandidate)
+        {
+            List<CandidateDTO> result = new List<CandidateDTO>();
+            var filters = new List<Expression<Func<Candidate, bool>>>()
+            {
+                x => x.FirstName.ToLower().StartsWith(patternCandidate.FirstName.ToLower()),
+                x => x.LastName.ToLower().StartsWith(patternCandidate.LastName.ToLower())
+            };
+
+            return result;
         }
 
         public Tuple<IEnumerable<CandidateDTO>, int> Get(
@@ -201,6 +214,12 @@ namespace DAL.Services
                 deleteResult = true;
             }
             return deleteResult;
+        }
+
+        private bool isSimilarStrings(String string1, String string2)
+        {
+
+            return true;
         }
     }
 }

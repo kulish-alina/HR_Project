@@ -125,6 +125,11 @@ export default class CandidateService {
                  {searchString, size : 100, sortBy : 'CreatedOn', sortAsc : false})
          .then(response => response.candidate);
    }
+
+   getDuplicates(patternCandidate) {
+      return _convertToServerFormat(patternCandidate)
+         .then(converted => _HttpService.get(`${CANDIDATE_URL}duplicates`, converted));
+   }
 }
 
 function _setDeletedState(item) {

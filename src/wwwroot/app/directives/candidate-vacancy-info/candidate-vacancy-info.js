@@ -2,7 +2,7 @@ import template from './candidate-vacancy-info.directive.html';
 import './candidate-vacancy-info.scss';
 import manyStageCommentDialogTemplate from './many-stage-comment-adding-dialog.template.html';
 import hireDateDialogTemplate from './hire-date-dialog.template.html';
-
+let moment = require('moment');
 import {
       map,
       filter,
@@ -241,9 +241,9 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    vm.hire = (entityStageObject) => {
       callDatepickDialogFor(entityStageObject)
-           .then(hireDate => {
+           .then(hireDateISO => {
               updateCurrentStage(entityStageObject);
-              createHireStage(entityStageObject, hireDate);
+              createHireStage(entityStageObject, hireDateISO);
               recalculateCurrentStageId(entityStageObject);
               vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
            })
@@ -261,7 +261,10 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       let dialogTransferObject = {};
       let scope = {
          dialogTransferObject,
-         candidateStage
+         candidateStage,
+         getTodayDate: () => {
+            return moment().format('DD-MM-YYYY');
+         }
       };
       let buttons = [
          {
@@ -271,14 +274,11 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             }
          },
          {
+            needValidate: true,
             name: $translate.instant('COMMON.APLY'),
             func: () => {
-               let chosenDate = new Date(Date.parse(dialogTransferObject.hireDate));
-               let todayDate = new Date();
-               if (chosenDate > todayDate) {
-                     //TODO: reject 'cause chosen date can't be later than today
-               }
-               dialogResult.resolve(chosenDate);
+               let chosenDate = moment(dialogTransferObject.hireDate, 'DD-MM-YYYY');
+               dialogResult.resolve(chosenDate.toISOString());
             }
          }
       ];
@@ -293,7 +293,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       currentVacancyStageInfo.dateOfPass = new Date();
    }
 
-   function createHireStage(entityStageObject, hireDate) {
+   function createHireStage(entityStageObject, hireDateISO) {
       let hireStage = find(entityStageObject.stageFlow, ['stage.stageType', STAGE_TYPES.HireStage]);
       let hiredVacancyStageInfo = {
          vacancyId: entityStageObject.vacancyId,
@@ -302,7 +302,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          stageId: hireStage.stage.id,
          comment: { message: '', authorId: vm.currentUser.id },
          stageState: STAGE_STATES.Active,
-         createdOn: hireDate.toISOString()
+         createdOn: hireDateISO
       };
       entityStageObject.vacancyStageInfos.push(hiredVacancyStageInfo);
    }

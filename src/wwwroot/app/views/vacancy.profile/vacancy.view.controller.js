@@ -17,6 +17,7 @@ import {
 import {
    isMatch
 } from 'lodash/fp';
+let moment = require('moment');
 
 const MATCH_FIELDS = ['responsibleId', 'startDate', 'endDate', 'deadlineDate'];
 
@@ -123,7 +124,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          let hireStage = filter(vm.vacancy.stageFlow, (extStage) => {
             return extStage.stage.title === 'Hired';
          })[0];
-         return new Date(find(candidatesProgress, {stageId: hireStage.stage.id}).createdOn).toDateString();
+         return moment(find(candidatesProgress, {stageId: hireStage.stage.id}).createdOn).format('DD-MM-YYYY');
       }
    };
 

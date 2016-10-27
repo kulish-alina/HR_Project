@@ -139,15 +139,15 @@ namespace WebUI.Controllers
         }
 
         [HttpGet]
-        [Route("dublicats")]
+        [Route("duplicates")]
         public IHttpActionResult Get([FromUri]CandidateDTO patternCandidate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var dublicats = service.GetDublicats(patternCandidate);
-            return Json(dublicats, BOT_SERIALIZER_SETTINGS);
+            var duplicates = service.GetDuplicates(patternCandidate);
+            return Json(duplicates, BOT_SERIALIZER_SETTINGS);
         }
     }
 }

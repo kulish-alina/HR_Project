@@ -257,6 +257,9 @@ export default function CandidateController( // eslint-disable-line max-params, 
       _deleteAdditionProperties(candidateToCompare);
       CandidateService.getDuplicates(candidateToCompare)
          .then(duplicates => {
+            if (vm.candidate.id) {
+               remove(duplicates, {id: vm.candidate.id});
+            }
             vm.duplicates = duplicates;
             if (duplicates.length) {
                return $q.reject('DIALOG_SERVICE.ERROR_SIMILAR_CANDIDATES');

@@ -276,7 +276,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          stageClick: vm.stageClick,
          entityStageObject
       };
-      let buttons = [{
+      let buttons = [];
+      buttons.push({
          name: $translate.instant('COMMON.CANCEL'),
          func: () => {
             vacancyStagesEntitiesVSIs = [
@@ -288,15 +289,17 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                stagesDeffered.reject();
             });
          }
-      }, {
-         name: $translate.instant('Pass on multiple vacancies'),
-         func: () => {
-            let updatedStagesWithRejectedAndHire = [
-               ...vacancyStagesEntitiesVSIs,
-               ...rejectVacancyStageInfoesContainer,
-               hireVacancyStageInfoContainer
-            ];
-            updateCandidateStagesForWith(entityStageObject, updatedStagesWithRejectedAndHire)
+      });
+      if (vm.parentEntity === 'candidate') {
+         buttons.push({
+            name: $translate.instant('Pass on multiple vacancies'),
+            func: () => {
+               let updatedStagesWithRejectedAndHire = [
+                  ...vacancyStagesEntitiesVSIs,
+                  ...rejectVacancyStageInfoesContainer,
+                  hireVacancyStageInfoContainer
+               ];
+               updateCandidateStagesForWith(entityStageObject, updatedStagesWithRejectedAndHire)
                .then(newStageObject => {
                   showVacancySelectorDialog(newStageObject).then(updatedComposedVSIs => {
                      each(updatedComposedVSIs, composedVsi => updateCandidateStagesForWith(composedVsi));
@@ -311,8 +314,10 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                   updateCandidateStagesForWith(entityStageObject, vacancyStagesEntitiesVSIs);
                });
                });
-         }
-      }, {
+            }
+         });
+      }
+      buttons.push({
          name: $translate.instant('COMMON.APLY'),
          func: () => {
             let updatedStagesWithRejectedAndHire = [
@@ -324,7 +329,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                stagesDeffered.resolve();
             });
          }
-      }];
+      });
       UserDialogService.dialog($translate.instant('Candidate stages'),
          manyStageCommentDialogTemplate, buttons, scope);
       return stagesDeffered.promise;

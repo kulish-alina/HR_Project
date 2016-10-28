@@ -146,9 +146,21 @@ namespace DAL.Services
 
             if (typeof(Candidate).GetProperty(orderBy) != null)
             {
+                Func<Candidate, object> keySelector = c =>
+                {
+                    switch (orderBy)
+                    {
+                        case "Industry":
+                            return c.Industry.Title;
+                        case "LastName":
+                            return c.LastName + "|" + c.FirstName;
+                        default:
+                            return c.GetType().GetProperty(orderBy).GetValue(c);
+                    }
+                };
                 candidates = sortAscend ?
-                candidates.OrderBy(c => c.GetType().GetProperty(orderBy).GetValue(c)) :
-                candidates.OrderByDescending(c => c.GetType().GetProperty(orderBy).GetValue(c));
+                    candidates.OrderBy(keySelector) :
+                    candidates.OrderByDescending(keySelector);
             }
 
             var total = candidates.Count();

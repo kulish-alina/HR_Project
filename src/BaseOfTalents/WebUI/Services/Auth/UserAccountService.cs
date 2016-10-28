@@ -4,6 +4,7 @@ using DAL.DTO;
 using DAL.Services;
 using WebUI.Infrastructure.Auth;
 using WebUI.Results;
+using WebUI.Globals.Validators;
 
 namespace WebUI.Services.Auth
 {
@@ -75,20 +76,17 @@ namespace WebUI.Services.Auth
         /// <param name="oldPassword">Old password for check user identity</param>
         /// <param name="newPassword">New password will be set to user's data if old password is match </param>
         /// <returns>Result with bool and message if error will be detected</returns>
-        public ChangePasswordResult ChangePassword(string token, string oldPassword, string newPassword)
+        public void ChangePassword(string token, string oldPassword, string newPassword)
         {
-
             var user = _userService.Get(this.GetUser(token).Id);
-            if (user.Password == oldPassword) // TODO: use hash function
+            var validator = new PasswordValidator();
+            var result = validator.Validate(oldPassword, user.Password);
+            if (!result.IsValid)
             {
-                user.Password = newPassword;
-                _userService.Update(user);
-                return new ChangePasswordResult(true);
+                throw new ArgumentException(result.Message);
             }
-            else
-            {
-                return new ChangePasswordResult(false, "Wrong old password.");
-            }
+            user.Password = newPassword;
+            _userService.Update(user);
         }
     }
 }

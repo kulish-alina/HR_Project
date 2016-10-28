@@ -25,6 +25,6 @@ namespace WebUI.Infrastructure.Auth
         bool LogOut(string token);
 
         UserDTO GetUser(string token);
-        ChangePasswordResult ChangePassword(string token, string oldPassword, string newPassword);
+        void ChangePassword(string token, string oldPassword, string newPassword);
     }
 }

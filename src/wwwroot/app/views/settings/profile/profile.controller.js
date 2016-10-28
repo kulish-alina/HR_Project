@@ -93,7 +93,7 @@ export default function ProfileController (
    function _changePassword() {
       UserService.changePassword(passwords.oldPass, passwords.newPass)
          .then(() => UserDialogService.notification($translate.instant('PROFILE.CHANGED'), 'success'))
-         .catch((reason) => UserDialogService.notification(reason.data.message, 'error'));
+         .catch((reason) => UserDialogService.notification(reason.data, 'error'));
    }
 }
 

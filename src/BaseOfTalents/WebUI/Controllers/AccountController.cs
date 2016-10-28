@@ -5,6 +5,8 @@ using Newtonsoft.Json.Serialization;
 using WebUI.Filters;
 using WebUI.Infrastructure.Auth;
 using WebUI.Models;
+using System;
+using System.Net.Http;
 
 namespace WebUI.Controllers
 {
@@ -139,14 +141,21 @@ namespace WebUI.Controllers
         /// </summary>
         [HttpPost, Auth]
         [Route("password")]
-        public IHttpActionResult ChangePassword([FromBody]ChangePasswordModel model)
+        public HttpResponseMessage ChangePassword([FromBody]ChangePasswordModel model)
         {
-            if(ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
-                var result = _userAuthService.ChangePassword(ActionContext.Request.Headers.Authorization.Parameter, model.OldPassword, model.NewPassword);
-                return result.Result ? Ok() as IHttpActionResult : BadRequest(result.Message);
+                return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, ModelState);
             }
-            return BadRequest(ModelState);
+            try
+            {
+                _userAuthService.ChangePassword(ActionContext.Request.Headers.Authorization.Parameter, model.OldPassword, model.NewPassword);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            }
+            catch(ArgumentException e)
+            {
+                return Request.CreateResponse(System.Net.HttpStatusCode.Forbidden, e.Message);
+            }
         }
     }
 }

@@ -128,7 +128,11 @@ export default class CandidateService {
 
    getDuplicates(patternCandidate) {
       return _convertToServerFormat(patternCandidate)
-         .then(converted => _HttpService.get(`${CANDIDATE_URL}duplicates`, converted));
+         .then(converted => _HttpService.get(`${CANDIDATE_URL}duplicates`, converted))
+         .then(similarCandidates => {
+            return _convertToClientFormat(patternCandidate)
+               .then(() => _$q.all(map(similarCandidates, _convertToClientFormat)));
+         });
    }
 }
 
@@ -190,7 +194,7 @@ function _addReferencedThesaurusObjects(candidate, helper) {
 function _deleteReferencedThesaurusObjects(candidate) {
    return _$q.all(map(THESAURUSES, refThesaurus => {
       delete candidate[refThesaurus.clientField];
-   })).then(candidate);
+   })).then(() => candidate);
 }
 
 function _convertArrayFieldToClient(candidate, serverFieldName, convertedFieldName, itemConverter) {
@@ -292,7 +296,7 @@ function _addCreatorIdToBackend(candidate) {
 function _convertFromServerDates(candidate) {
    return _$q.all(map(DATE_TYPE_TO_CONVERT, type => {
       candidate[type] = utils.formatDateFromServer(candidate[type]);
-   })).then(candidate);
+   })).then(() => candidate);
 }
 
 function _convertToServerDates(candidate) {
@@ -301,7 +305,8 @@ function _convertToServerDates(candidate) {
          candidate[type] = utils.formatDateToServer(candidate[type]);
       };
    }))
-   .then(deleteMonthYearExperience);
+   .then(deleteMonthYearExperience)
+   .then(() => candidate);
 }
 
 function _setStartExperience(candidate) {

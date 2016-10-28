@@ -28,7 +28,8 @@
       "CANDIDATE_RESUME": "Candidate's resume",
       "AGE": "Age",
       "EXPERIENCE": "Experience",
-      "PARSING_SOURCES":"Parsing sources"
+      "PARSING_SOURCES":"Parsing sources",
+      "SIMILAR_CANDIDATES" : "Similar candidates:"
    },
    "CANDIDATES": {
       "CANDIDATES": "Candidates",
@@ -170,7 +171,8 @@
       "FOR": "for",
       "HIRED" : "Hired",
       "BOTH" : "Both",
-      "CLOSE": "Close"
+      "CLOSE": "Close",
+      "FORCE_SAVE" : "Force save"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",
@@ -288,7 +290,8 @@
       "ERROR_CANDIDATES_SEARCH": "Some error has occurred while receiving candidates from database!",
       "EVENT_REMOVING_DIALOG": "Do you really want to remove this event?",
       "INVALID_DATES": "End date cannot be less than start date",
-      "EMPTY_REPORT_CONDITIONS": "Please select at least one user or location"
+      "EMPTY_REPORT_CONDITIONS": "Please select at least one user or location",
+      "ERROR_SIMILAR_CANDIDATES" : "Similar candidates already exist in database. Please, check your candidate. Click Force Save if you still want to save entered candidate."
    },
 
    "MEMBERS" : {

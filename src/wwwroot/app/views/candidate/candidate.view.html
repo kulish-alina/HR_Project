@@ -15,8 +15,13 @@
             <a ng-click="back()" ng-bind="::'COMMON.BACK' | translate"></a>
          </li>
          <li>
-            <a ng-if='isNeedToGoBack()' ng-click="saveAndGoBack(Candidate)"> <span ng-bind="::'COMMON.ADD_AND_BACK' | translate"></span></a>
-            <a ng-if='!isNeedToGoBack()' ng-click="saveCandidate(Candidate)"><span ng-bind="::'COMMON.SAVE' | translate"></span></a> </li>
+            <a ng-if='isNeedToGoBack()' ng-click="saveAndGoBack(Candidate)">
+              <span ng-bind="::'COMMON.ADD_AND_BACK' | translate"></span>
+            </a>
+            <a ng-if='!isNeedToGoBack()' ng-click="saveWithVerify(Candidate)">
+              <span ng-bind="::'COMMON.SAVE' | translate"></span>
+            </a>
+         </li>
       </ul>
    </div>
 </div>
@@ -26,7 +31,31 @@
          <div class="card-divider" ng-bind="::'CANDIDATE.NEW_CANDIDATE' | translate"></div>
          <div class="card-section">
             <form name="Candidate">
-               <div class="grid-block">
+            <div ng-if='duplicates.length > 0' class="duplicates-box">
+                    <span ng-bind="::'CANDIDATE.SIMILAR_CANDIDATES' | translate" class="duplicates-title"></span>
+                    <table>
+                    <thead>
+                        <tr>
+                          <th class="duplicates-header"><span ng-bind="::'CANDIDATE.FULL_NAME' | translate"></span></th>
+                          <th class="duplicates-header"><span ng-bind="::'CANDIDATE.POSITION' | translate"></span></th>
+                          <th class="duplicates-header"><span ng-bind="::'COMMON.LOCATION' | translate"></span></th>
+                          <th class="duplicates-header"><span ng-bind="::'COMMON.LEVEL' | translate"></span></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-click="viewCandidate(duplicate)" class="duplicate-row-link" ng-repeat="duplicate in duplicates">
+                          <td><span ng-bind="::(duplicate.lastName+' '+duplicate.firstName)"></span></td>
+                          <td><span ng-bind="::duplicate.positionDesired"></span></td>
+                          <td><span ng-bind="::duplicate.city.title"></span></td>
+                          <td><span ng-bind="::duplicate.level.title"></span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <a ng-click="forceSaveCandidate(Candidate)" class="button alert force-save-button">
+                      <span ng-bind="::'COMMON.FORCE_SAVE' | translate"></span>
+                    </a>
+                  </div>
+               <div class="grid-block">                 
                   <div class="medium-4 grid-block">
                      <fieldset>
                         <input type="text" ng-model="candidate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" name="firstName" validator="required, maxlength=50, letters">
@@ -42,7 +71,7 @@
                               <label for="female" ng-bind="::'COMMON.FEMALE' | translate"></label>
                            </li>
                         </ul>
-                        <input type="tel" placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="candidateName" model-view-value="true" validator="date" />
+                        <input type="tel" placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="candidateName" model-view-value="true" validator="date" />{{candidate.birthDate}}
                         <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
                         <oi-select class="multiple-select"
                                     oi-options="city.id as city.title for city in thesaurus.city  | orderBy : 'title' track by city.id" 
@@ -153,7 +182,7 @@
                <hr>
                <div class="grid-block" ng-repeat="socialRow in socialGroups track by $index">
                   <div class="medium-4 grid-block" ng-repeat="social in socialRow">
-                     <fieldset>
+                     <fieldset class="social-fieldset">
                         <input class="social-input" type="text" placeholder="{{::social.socialNetwork.title}}" ng-model="social.path" name="candidateSocial{{$index}}{{social.socialNetwork.title}}" validator="url">
                      </fieldset>
                   </div>
@@ -180,9 +209,10 @@
                         </oi-select>
                      </div>
                   </div>
-                  <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="candidate.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar"
-                     ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
+                  <hr>                                               
                </fieldset>
+                <text-angular placeholder="{{::'COMMON.DESCRIPTION' | translate}}" name="htmlcontent" ng-model="candidate.description" ta-text-editor-class="custom-form-content" ta-html-editor-class="custom-form-content" ta-focussed-class="custom-focussed" ta-toolbar-class="custom-toolbar"
+                   ta-toolbar-group-class="custom-btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="custom-active"></text-angular>
                <div class="grid-block">
                   <div class="medium-6 grid-block">
                      <fieldset>

@@ -206,6 +206,10 @@
     <Compile Include="Migrations\201612021759583_init.Designer.cs">
       <DependentUpon>201612021759583_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701201304182_password.cs" />
+    <Compile Include="Migrations\201701201304182_password.Designer.cs">
+      <DependentUpon>201701201304182_password.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\BOTContextInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DummyData.cs" />
@@ -294,6 +298,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201612021759583_init.resx">
       <DependentUpon>201612021759583_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701201304182_password.resx">
+      <DependentUpon>201701201304182_password.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

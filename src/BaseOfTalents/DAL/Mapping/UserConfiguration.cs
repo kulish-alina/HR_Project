@@ -14,7 +14,8 @@ namespace DAL.Mapping
             Property(u => u.Email).IsRequired();
             Property(u => u.Skype);
             Property(u => u.Login).IsRequired();
-            Property(u => u.Password).IsRequired();
+
+            HasRequired(u => u.Password);
 
             HasRequired(u => u.Role).WithMany().HasForeignKey(u => u.RoleId);
             HasOptional(u => u.City).WithMany().HasForeignKey(u => u.CityId);

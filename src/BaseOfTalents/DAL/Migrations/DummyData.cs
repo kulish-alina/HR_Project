@@ -1,9 +1,9 @@
-﻿using Domain.Entities;
-using Domain.Entities.Enum;
-using Domain.Entities.Enum.Setup;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Domain.Entities;
+using Domain.Entities.Enum;
+using Domain.Entities.Enum.Setup;
 
 namespace DAL.Migrations
 {
@@ -615,7 +615,7 @@ namespace DAL.Migrations
                         City = Cities.Where(city => city.HasOffice).ToList().GetRandom(),
                         Login = "admin",
                         MiddleName = names.GetRandom(),
-                        Password = "admin",
+                        Password = (Password)"admin",
                         PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = "380" + GetRandomNumbers(9) } },
                         Role = Roles[0],
                         Skype = GetRandomString(8)

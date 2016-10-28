@@ -17,11 +17,13 @@
         private static object syncRoot = new object();
 
         private string _hostUrl;
-        private string _remoteUrl;
+        private string _issuerUrl;
         private int _port;
 
         private string _email;
         private string _password;
+
+        private string _secret;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsContext"/> class.
@@ -31,11 +33,14 @@
         /// <param name="port"></param>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        private SettingsContext(string hostUrl, string remoteUrl, int port, string email, string password)
+        /// <param name="secret"></param>
+        private SettingsContext(string hostUrl, string remoteUrl, int port, string email, string password,
+            string secret)
         {
             _hostUrl = hostUrl;
-            _remoteUrl = remoteUrl;
+            _issuerUrl = remoteUrl;
             _port = port;
+            _secret = secret;
 
             _email = email;
             _password = password;
@@ -49,14 +54,16 @@
         /// <param name="port"></param>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public static void SetInstance(string hostUrl, string remoteUrl, int port, string email, string password)
+        /// <param name="secret"></param>
+        public static void SetInstance(string hostUrl, string remoteUrl, int port, string email, string password,
+            string secret)
         {
             if (instance != null)
             {
                 throw new SettingsModificationException();
             }
 
-            instance = new SettingsContext(hostUrl, remoteUrl, port, email, password);
+            instance = new SettingsContext(hostUrl, remoteUrl, port, email, password, secret);
         }
 
         /// <summary>
@@ -88,11 +95,14 @@
             }
         }
 
-        public string RemoteUrl
+        /// <summary>
+        /// Url of server from side of client (where the issuer is located)
+        /// </summary>
+        public string IssuerUrl
         {
             get
             {
-                return _remoteUrl;
+                return _issuerUrl;
             }
         }
 
@@ -182,6 +192,14 @@
             get
             {
                 return "/login";
+            }
+        }
+
+        public string Secret
+        {
+            get
+            {
+                return _secret;
             }
         }
     }

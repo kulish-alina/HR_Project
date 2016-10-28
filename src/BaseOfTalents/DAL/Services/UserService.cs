@@ -1,10 +1,10 @@
-﻿using DAL.DTO;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using DAL.DTO;
 using DAL.Extensions;
 using DAL.Infrastructure;
 using Domain.Entities;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DAL.Services
 {
@@ -17,16 +17,27 @@ namespace DAL.Services
             this.uow = uow;
         }
 
+        public IEnumerable<User> Get()
+        {
+            return uow.UserRepo.Get();
+        }
+
         public UserDTO Get(int id)
         {
             var entity = uow.UserRepo.GetByID(id);
             return DTOService.ToDTO<User, UserDTO>(entity);
         }
 
-        public object Get(object searchParameters)
+        public UserDTO Get(string login)
         {
-            var users = uow.UserRepo.Get();
-            return users.Select(x => DTOService.ToDTO<User, UserDTO>(x));
+            User user = uow.UserRepo.Get(login);
+            return DTOService.ToDTO<User, UserDTO>(user);
+        }
+
+        public async Task<UserDTO> GetAsync(string login)
+        {
+            User user = await uow.UserRepo.GetAsync(login);
+            return DTOService.ToDTO<User, UserDTO>(user);
         }
 
         public UserDTO Get(Func<User, bool> predicate)
@@ -72,42 +83,6 @@ namespace DAL.Services
                 deleteResult = true;
             }
             return deleteResult;
-        }
-        /// <summary>
-        /// Perfoms accessing to user of specified login and password
-        /// </summary>
-        /// <param name="login">Application user login</param>
-        /// <param name="password">User password (hashed)</param>
-        /// <returns>Corresponting user dto object</returns>
-        /// <exception cref="System.Exception">Is thrown, when there is no user with such a login and password</exception>
-        public UserDTO Authentificate(string login, string password)
-        {
-            var user = uow.UserRepo.Get(login, password);
-            if (user == null)
-            {
-                throw new Exception("Wrong login or password");
-                //TODO: Extract message to external source
-                //TODO: new exception type
-            }
-            return DTOService.ToDTO<User, UserDTO>(user);
-        }
-        /// <summary>
-        /// Perfoms accessing to user of specified login and password async
-        /// </summary>
-        /// <param name="login">Application user login</param>
-        /// <param name="password">User password (hashed)</param>
-        /// <returns>Corresponting user dto object</returns>
-        /// <exception cref="System.Exception">Is thrown, when there is no user with such a login and password</exception>
-        public async Task<UserDTO> AuthentificateAsync(string login, string password)
-        {
-            var user = await uow.UserRepo.GetAsync(login, password);
-            if (user == null)
-            {
-                throw new Exception("Wrong login or password");
-                //TODO: Extract message to external source
-                //TODO: new exception type
-            }
-            return DTOService.ToDTO<User, UserDTO>(user);
         }
     }
 }

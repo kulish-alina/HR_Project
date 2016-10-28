@@ -4,8 +4,7 @@ using DAL.Exceptions;
 using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using WebUI.Filters;
-using WebUI.Infrastructure.Auth;
+using WebUI.Auth;
 using WebUI.Models;
 
 namespace WebUI.Controllers
@@ -13,23 +12,20 @@ namespace WebUI.Controllers
     [RoutePrefix("api/vacancy")]
     public class VacancyController : ApiController
     {
-        private IAuthContainer<string> authContainer;
         private VacancyService service;
         private static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        public VacancyController(VacancyService service, IAuthContainer<string> authContainer)
+        public VacancyController(VacancyService service)
         {
             this.service = service;
-            this.authContainer = authContainer;
         }
 
         // GET api/<controller>
         [HttpGet]
         [Route("search")]
-        [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.ViewListOfVacancies)]
         public IHttpActionResult Get([FromUri]VacancySearchParameters vacancyParams)
         {
             vacancyParams = vacancyParams ?? new VacancySearchParameters();
@@ -76,35 +72,34 @@ namespace WebUI.Controllers
         // POST api/<controller>
         [HttpPost]
         [Route("")]
-        [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.AddVacancy)]
         public IHttpActionResult Post([FromBody]VacancyDTO vacancy)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var updatedVacancy = service.Add(vacancy, authContainer.Get(this.ActionContext.Request.Headers.Authorization.Parameter).Item1.Id);
+            int userId = PayloadDecoder.TryGetId(ActionContext.Request.Headers.Authorization.Parameter);
+            var updatedVacancy = service.Add(vacancy, userId);
             return Json(updatedVacancy, BOT_SERIALIZER_SETTINGS);
         }
 
         // PUT api/<controller>/5
         [HttpPut]
         [Route("{id}")]
-        [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.EditVacancy)]
         public IHttpActionResult Put(int id, [FromBody]VacancyDTO vacancy)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var updatedVacancy = service.Update(vacancy, authContainer.Get(this.ActionContext.Request.Headers.Authorization.Parameter).Item1.Id);
+            int userId = PayloadDecoder.TryGetId(ActionContext.Request.Headers.Authorization.Parameter);
+            var updatedVacancy = service.Update(vacancy, userId);
             return Json(updatedVacancy, BOT_SERIALIZER_SETTINGS);
         }
 
         // DELETE api/<controller>/5
         [HttpDelete]
         [Route("{id:int}")]
-        [Auth, PermissionAuthorization(Permissions = Domain.Entities.Enum.AccessRight.RemoveVacancy)]
         public IHttpActionResult Delete(int id)
         {
             try

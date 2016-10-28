@@ -19,7 +19,7 @@ namespace Domain.Entities
         public string Email { get; set; }
         public string Skype { get; set; }
         public string Login { get; set; }
-        public string Password { get; set; }
+        public Password Password { get; set; }
 
         public int RoleId { get; set; }
         public virtual Role Role { get; set; }

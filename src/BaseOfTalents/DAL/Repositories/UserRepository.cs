@@ -1,9 +1,9 @@
-﻿using DAL.Infrastructure;
-using Domain.Entities;
-using System;
+﻿using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Infrastructure;
+using Domain.Entities;
 
 namespace DAL.Repositories
 {
@@ -19,28 +19,24 @@ namespace DAL.Repositories
         }
 
         /// <summary>
-        /// The function to get user of login and password
+        /// The function to get user of login
         /// </summary>
         /// <param name="login">String representing an application user login</param>
-        /// <param name="password">String that contains the password hash to search with</param>
-        /// <returns>A user that matches applied login and password, if there is no such user returns null</returns>
-        public User Get(string login, string password)
+        /// <returns>A user that matches applied login, if there is no such user returns null</returns>
+        public User Get(string login)
         {
-            return dbSet.FirstOrDefault(user =>
-                 user.Login == login &&
-                 user.Password == password);
+            return dbSet.Include(user => user.Password).FirstOrDefault(user =>
+                 user.Login == login);
         }
         /// <summary>
-        /// The function to get user of login and password async
+        /// The function to get user of login async
         /// </summary>
         /// <param name="login">String representing an application user login</param>
-        /// <param name="password">String that contains the password hash to search with</param>
-        /// <returns>A user that matches applied login and password, if there is no such user returns null</returns>
-        public async Task<User> GetAsync(string login, string password)
+        /// <returns>A user that matches applied login, if there is no such user returns null</returns>
+        public async Task<User> GetAsync(string login)
         {
-            return await dbSet.FirstOrDefaultAsync(user =>
-                 user.Login == login &&
-                 user.Password == password);
+            return await dbSet.Include(user => user.Password).FirstOrDefaultAsync(user =>
+                 user.Login == login);
         }
     }
 }

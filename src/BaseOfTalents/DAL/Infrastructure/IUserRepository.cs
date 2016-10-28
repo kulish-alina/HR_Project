@@ -1,13 +1,13 @@
-﻿using Domain.Entities;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace DAL.Infrastructure
 {
     public interface IUserRepository : IRepository<User>
     {
-        User Get(string login, string password);
         User Get(Func<User, bool> predicate);
-        Task<User> GetAsync(string login, string password);
+        User Get(string login);
+        Task<User> GetAsync(string login);
     }
 }

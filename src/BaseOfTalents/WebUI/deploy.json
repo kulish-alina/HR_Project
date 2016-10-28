@@ -2,7 +2,9 @@
    "url":"http://localhost",
    "port": "9000",
    "dbInitialCatalog": "botdb",
-   "dbDataSource": "(localdb)\\V11.0",
+   "dbDataSource": "(localdb)\\MSSQLLocalDB",
    "email": "hrbot@isd.dp.ua",
-   "password":""
+   "password": "",
+   "remoteUrl": "http://localhost/",
+   "secret":  "Ym90Snd0c2VjdXJpdHlLZXkxZm9yUGFzc3NpbmdzZWN1cml0eVJlc29uc2Z1Y2sx"
 }

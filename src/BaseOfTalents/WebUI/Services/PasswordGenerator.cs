@@ -1,4 +1,5 @@
 ﻿using DAL.DTO;
+using Domain.Entities;
 
 namespace WebUI.Services
 {
@@ -11,7 +12,7 @@ namespace WebUI.Services
 
         public static void GeneratePassword(this UserDTO user)
         {
-            user.Password = GeneratePassword();
+            user.Password = (Password)GeneratePassword();
         }
     }
 }

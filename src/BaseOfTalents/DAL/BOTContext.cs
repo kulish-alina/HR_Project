@@ -9,7 +9,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using DAL.Infrastructure;
 using DAL.Mapping;
-using DAL.Migrations;
 using Domain.Entities;
 using Domain.Entities.Enum.Setup;
 
@@ -147,7 +146,7 @@ namespace DAL
             modelBuilder.Configurations.Add(new RelocationPlaceConfiguration());
             modelBuilder.Configurations.Add(new MailConfiguration());
 
-
+            modelBuilder.Configurations.Add(new Password.PasswordConfiguration());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 

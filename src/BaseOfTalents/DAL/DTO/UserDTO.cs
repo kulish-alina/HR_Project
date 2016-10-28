@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Domain.Entities;
 
 namespace DAL.DTO
 {
@@ -18,7 +19,7 @@ namespace DAL.DTO
         public string Email { get; set; }
         public string Skype { get; set; }
         public string Login { get; set; }
-        public string Password { get; set; }
+        public Password Password { get; set; }
 
         public int RoleId { get; set; }
 

@@ -16,10 +16,10 @@ using Domain.Entities.Enum.Setup;
 using Entities.Enum;
 using Exporter;
 using Mailer;
-using WebUI.Helpers;
-using WebUI.Infrastructure.Auth;
+using WebUI.Auth.Infrastructure;
+using WebUI.Auth.Services;
 using WebUI.Services;
-using WebUI.Services.Auth;
+using WebUI.Helpers;
 
 namespace WebUI.App_Start
 {
@@ -42,171 +42,167 @@ namespace WebUI.App_Start
 
             builder.RegisterType<BotContextFactory>()
                 .As<IContextFactory>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<UnitOfWork>()
                 .As<IUnitOfWork>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<AccessRightService>()
                 .As<BaseEnumService<AccessRight>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<CommentTypeService>()
                 .As<BaseEnumService<CommentType>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<CountryService>()
                 .As<BaseService<Country, CountryDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<MailService>()
                 .As<BaseService<MailContent, MailDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<TemplateLoader>()
                 .As<ITemplateLoader>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<TemplateService>()
                 .As<TemplateService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<CVParserService>()
                 .As<CVParserService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<DepartmentGroupService>()
                 .As<BaseService<DepartmentGroup, DepartmentGroupDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<DepartmentService>()
                 .As<BaseService<Department, DepartmentDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<EntityStateService>()
                 .As<BaseEnumService<EntityState>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<EventTypeService>()
                 .As<BaseService<EventType, EventTypeDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<IndustryService>()
                 .As<BaseService<Industry, IndustryDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<LanguageLevelService>()
                 .As<BaseEnumService<LanguageLevel>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<LanguageService>()
                 .As<BaseService<Language, LanguageDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<LevelService>()
                 .As<BaseService<Level, LevelDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<CurrencyService>()
                 .As<BaseService<Currency, CurrencyDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<CityService>()
                 .As<BaseService<City, CityDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<PermissionService>()
                 .As<BaseService<Permission, PermissionDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<RoleService>()
                 .As<BaseService<Role, RoleDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<SkillService>()
                 .As<BaseService<Skill, SkillDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<SocialNetworkService>()
                 .As<BaseService<SocialNetwork, SocialNetworkDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<ParsingSourceService>()
                 .As<BaseEnumService<ParsingSource>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<StageService>()
                 .As<BaseService<Stage, StageDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<SourceService>()
                 .As<SourceService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<TagService>()
                 .As<BaseService<Tag, TagDTO>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<TypeOfEmploymentService>()
                 .As<BaseEnumService<TypeOfEmployment>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<FileService>()
                 .As<FileService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<CandidateService>()
                 .As<CandidateService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<UserService>()
                 .As<UserService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<RoleService>()
                 .As<RoleService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<ReportService>()
                 .As<ReportService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<EventService>()
                 .As<EventService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<VacancyService>()
                 .As<VacancyService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<NoteService>()
                 .As<NoteService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterGeneric(typeof(BaseRepository<>))
                 .As(typeof(IRepository<>))
-                .InstancePerRequest();
-
-            builder.RegisterType<TokenContainer>()
-                .As<IAuthContainer<string>>()
-                .SingleInstance();
+                .InstancePerDependency();
 
             builder.RegisterType<UserAccountService>()
                 .As<IAccountService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<ExportService>()
                 .As<ExportService>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<ExportConverter>()
                 .As<IConverter<Dictionary<int, List<CandidateProgressReportUnitDTO>>, ExportDataSet>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             builder.RegisterType<ExcelExporter>()
                 .As<IExporter<ExportDataSet>>()
-                .InstancePerRequest();
+                .InstancePerDependency();
 
             Container = builder.Build();
             return Container;

@@ -23,12 +23,12 @@ namespace WebUI.Extensions
 
         public static string GetImageUrl(this SettingsContext context)
         {
-            return $"{context.RemoteUrl}:{context.Port}{context.ImageUrl}";
+            return $"{context.IssuerUrl}:{context.Port}{context.ImageUrl}";
         }
 
         public static string GetOuterUrl(this SettingsContext context)
         {
-            return $"{context.RemoteUrl}:{context.Port}{context.OuterUrl}";
+            return $"{context.IssuerUrl}:{context.Port}{context.OuterUrl}";
         }
     }
 }

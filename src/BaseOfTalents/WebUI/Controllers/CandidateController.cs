@@ -1,10 +1,11 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using DAL.DTO;
 using DAL.Exceptions;
 using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using WebUI.Infrastructure.Auth;
+using WebUI.Auth;
 using WebUI.Models;
 
 namespace WebUI.Controllers
@@ -13,16 +14,14 @@ namespace WebUI.Controllers
     public class CandidateController : ApiController
     {
         private CandidateService service;
-        private IAuthContainer<string> authContainer;
         private static JsonSerializerSettings BOT_SERIALIZER_SETTINGS = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        public CandidateController(CandidateService service, IAuthContainer<string> authContainer)
+        public CandidateController(CandidateService service)
         {
             this.service = service;
-            this.authContainer = authContainer;
         }
 
         [HttpGet]
@@ -101,7 +100,8 @@ namespace WebUI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var addedCandidate = service.Add(newCandidate, authContainer.Get(this.ActionContext.Request.Headers.Authorization.Parameter).Item1.Id);
+            var id = PayloadDecoder.TryGetId(ActionContext.Request.Headers.Authorization.Parameter);
+            var addedCandidate = service.Add(newCandidate, id);
             return Json(addedCandidate, BOT_SERIALIZER_SETTINGS);
         }
 
@@ -114,7 +114,8 @@ namespace WebUI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var updatedCandidate = service.Update(changedCandidate, authContainer.Get(this.ActionContext.Request.Headers.Authorization.Parameter).Item1.Id);
+            int userId = PayloadDecoder.TryGetId(ActionContext.Request.Headers.Authorization.Parameter);
+            var updatedCandidate = service.Update(changedCandidate, userId);
             return Json(updatedCandidate, BOT_SERIALIZER_SETTINGS);
         }
 
@@ -128,9 +129,13 @@ namespace WebUI.Controllers
                 service.Delete(id);
                 return Ok();
             }
-            catch (EntityNotFoundException e)
+            catch (EntityNotFoundException)
             {
-                return BadRequest(e.Message);
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
             }
         }
 

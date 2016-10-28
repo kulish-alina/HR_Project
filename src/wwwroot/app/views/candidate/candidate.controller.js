@@ -17,6 +17,7 @@ const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLev
 
 const IMAGE_UPLOADER_MODAL_NAME     = 'basicModal';
 const CLOSE_MODAL_EVENT_NAME        = 'close';
+const CANDIDATE_PROFILE_VIEW_NAME   = 'candidateProfile';
 
 let curriedSet = curry(set, 3);
 
@@ -42,27 +43,33 @@ export default function CandidateController( // eslint-disable-line max-params, 
    'ngInject';
 
    const vm = $scope;
-   vm.keys = Object.keys;
-   vm.candidate = vm.candidate || {};
-   vm.candidate.cvText = vm.candidate.cvText || [];
-   vm.thesaurus = {};
-   vm.locations = [];
-   vm.saveCandidate = saveCandidate;
-   vm.clearUploaderQueue = clearUploaderQueue;
-   vm.addFilesForRemove = addFilesForRemove;
-   vm.candidate.comments   = $state.params._data ? $state.params._data.comments : [];
-   vm.comments = cloneDeep(vm.candidate.comments);
-   vm.saveComment = saveComment;
-   vm.removeComment = removeComment;
-   vm.editComment = editComment;
-   vm.candidateEvents      = $state.params._data ? $state.params._data.events : [];
-   vm.cloneCandidateEvents = clone(vm.candidateEvents);
-   vm.saveEvent = saveEvent;
-   vm.removeEvent = removeEvent;
-   vm.back                 = back;
-   vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
-   vm.candidateCVLoaded = false;
 
+   vm.keys        = Object.keys;
+   vm.candidate   = vm.candidate || {};
+   vm.thesaurus   = {};
+   vm.locations   = [];
+   vm.duplicates  = [];
+
+   vm.candidateCVLoaded    = false;
+
+   vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
+   vm.candidate.cvText     = vm.candidate.cvText || [];
+   vm.candidate.comments   = $state.params._data ? $state.params._data.comments : [];
+   vm.candidateEvents      = $state.params._data ? $state.params._data.events : [];
+   vm.comments             = cloneDeep(vm.candidate.comments);
+   vm.cloneCandidateEvents = clone(vm.candidateEvents);
+
+   vm.forceSaveCandidate   = forceSaveCandidate;
+   vm.saveWithVerify       = saveWithVerify;
+   vm.clearUploaderQueue   = clearUploaderQueue;
+   vm.addFilesForRemove    = addFilesForRemove;
+   vm.saveComment          = saveComment;
+   vm.removeComment        = removeComment;
+   vm.editComment          = editComment;
+   vm.saveEvent            = saveEvent;
+   vm.removeEvent          = removeEvent;
+   vm.back                 = back;
+   vm.viewCandidate        = viewCandidate;
 
    (function _init() {
       _initDataForEvents();
@@ -231,11 +238,35 @@ export default function CandidateController( // eslint-disable-line max-params, 
       return candidate;
    }
 
-   vm.saveAndGoBack = (form) => {
+   function saveAndGoBack(form) {
       saveCandidate(form).then(() => {
          $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ]});
       });
    };
+
+   function forceSaveCandidate(form) {
+      if (vm.isNeedToGoBack()) {
+         saveAndGoBack(form);
+      } else {
+         saveCandidate(form);
+      }
+   }
+
+   function saveWithVerify(form) {
+      let candidateToCompare = cloneDeep(vm.candidate);
+      _deleteAdditionProperties(candidateToCompare);
+      CandidateService.getDuplicates(candidateToCompare)
+         .then(duplicates => {
+            vm.duplicates = duplicates;
+            if (duplicates.length) {
+               return $q.reject('DIALOG_SERVICE.ERROR_SIMILAR_CANDIDATES');
+            }
+            return vm.isNeedToGoBack() ? saveAndGoBack(form) : saveCandidate(form);
+         })
+         .catch(errorMes => {
+            UserDialogService.notification($translate.instant(errorMes), 'error');
+         });
+   }
 
    function saveCandidate(form) {
       return ValidationService.validate(form).then(() => {
@@ -266,8 +297,9 @@ export default function CandidateController( // eslint-disable-line max-params, 
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
             return entity;
          })
-         .then(() => $state.go($state.previous.name, {_data: null, candidateId: vm.candidate.id},
-                     { reload: true }))
+         .then(() => $state.go($state.previous.name || CANDIDATE_PROFILE_VIEW_NAME,
+                              {_data: null, candidateId: vm.candidate.id},
+                              { reload: true }))
          .catch(() => {
             _onError();
             vm.candidate.comments = memo;
@@ -310,6 +342,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
 
    function _deleteEmptySocials(candidate) {
       remove(candidate.convertedSocials, social => !social.path);
+      remove(candidate.socialNetworks, social => !social.id);
       return candidate;
    }
 
@@ -376,5 +409,16 @@ export default function CandidateController( // eslint-disable-line max-params, 
 
    function back() {
       $window.history.back();
+   }
+
+   function viewCandidate(candidate) {
+      $state.go(
+         CANDIDATE_PROFILE_VIEW_NAME,
+         {
+            _data: vm.candidate,
+            duplicats: vm.duplicats,
+            candidateId: candidate.id,
+            candidatePredicate: vm.candidatePredicate
+         });
    }
 }

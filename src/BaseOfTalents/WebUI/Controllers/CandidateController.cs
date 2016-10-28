@@ -137,5 +137,17 @@ namespace WebUI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("duplicates")]
+        public IHttpActionResult Get([FromUri]CandidateDTO patternCandidate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var duplicates = service.GetDuplicates(patternCandidate);
+            return Json(duplicates, BOT_SERIALIZER_SETTINGS);
+        }
     }
 }

@@ -8,6 +8,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using MinimumEditDistance;
+using NickBuhro.Translit;
 
 namespace DAL.Services
 {
@@ -45,6 +47,18 @@ namespace DAL.Services
             uow.CandidateRepo.Update(_candidate);
             uow.Commit();
             return DTOService.ToDTO<Candidate, CandidateDTO>(_candidate);
+        }
+
+        public List<CandidateDTO> GetDuplicates(CandidateDTO patternCandidateDTO)
+        {
+            return uow.CandidateRepo
+                .Get()
+                .Where(candidate => isSimilarNames(patternCandidateDTO.FirstName, candidate.FirstName)
+                    && isSimilarNames(patternCandidateDTO.LastName, candidate.LastName)
+                    && isSimilarCandidatesMiddleNames(patternCandidateDTO, candidate)
+                    && isSimilarCandidatesContacts(patternCandidateDTO, candidate))
+                .Select(dublicate => DTOService.ToDTO<Candidate, CandidateDTO>(dublicate))
+                .ToList();
         }
 
         public Tuple<IEnumerable<CandidateDTO>, int> Get(
@@ -202,5 +216,65 @@ namespace DAL.Services
             }
             return deleteResult;
         }
+                
+        private bool isSimilarCandidatesContacts(CandidateDTO patternCandidate, Candidate toCompareCandidate)
+        {
+            return isSimilarSkypes(patternCandidate.Skype, toCompareCandidate.Skype)
+               || isSimilarEmails(patternCandidate.Email, toCompareCandidate.Email)
+               || isSimilarPhones(patternCandidate.PhoneNumbers, toCompareCandidate.PhoneNumbers);
+        }
+
+        private bool isSimilarSkypes(String patternSkype, String toCompareSkype)
+        {
+            return String.IsNullOrEmpty(patternSkype)
+                || String.IsNullOrEmpty(toCompareSkype)
+                || isSimilarNames(patternSkype, toCompareSkype);
+        }
+
+        private bool isSimilarEmails(String patternEmail, String toCompareEmail)
+        {
+            return String.IsNullOrEmpty(patternEmail)
+                || String.IsNullOrEmpty(toCompareEmail)
+                || isSimilarNames(patternEmail, toCompareEmail);
+        }
+
+        private bool isSimilarCandidatesMiddleNames(CandidateDTO patternCandidate, Candidate toCompareCandidate)
+        {
+            return String.IsNullOrEmpty(patternCandidate.MiddleName)
+                || String.IsNullOrEmpty(toCompareCandidate.MiddleName)
+                || isSimilarNames(patternCandidate.MiddleName, toCompareCandidate.MiddleName);
+        }
+                
+        private bool isSimilarNames(String patternName, String toCompareName)
+        {
+            String patternNormalisedName = getNormalizedString(patternName);
+            String toCompareNormalisedName = getNormalizedString(toCompareName);
+            return isSimilarStrings(patternNormalisedName, toCompareNormalisedName);
+        }
+
+        private bool isSimilarPhones(IEnumerable<PhoneNumberDTO> patternPhones, ICollection<PhoneNumber> toComparePhones)
+        {
+            return patternPhones == null || patternPhones.Count() == 0
+                || toComparePhones == null || toComparePhones.Count() == 0
+                || patternPhones
+                    .Select(phone => phone.Number)
+                    .Intersect(toComparePhones.Select(phone => phone.Number))
+                    .Count() > 0;
+        }
+
+        private bool isSimilarStrings(String patternString, String toCompareString)
+        {
+            int stringsEditDistance = Levenshtein.CalculateDistance(patternString, toCompareString, 1);
+            double maxStringLength = Math.Max(patternString.Length, toCompareString.Length);
+            double relativeCoeff = Math.Round((maxStringLength - stringsEditDistance) / maxStringLength, 2);
+            return relativeCoeff >= 0.75;
+        }
+
+        private String getNormalizedString(String source)
+        {
+            String lowerAndTrimedSource = source.Trim().ToLower();
+            String transliteretedToLatinSource = Transliteration.CyrillicToLatin(lowerAndTrimedSource);
+            return transliteretedToLatinSource;
+        }        
     }
 }

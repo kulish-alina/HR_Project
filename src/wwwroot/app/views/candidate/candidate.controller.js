@@ -17,6 +17,7 @@ const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLev
 
 const IMAGE_UPLOADER_MODAL_NAME     = 'basicModal';
 const CLOSE_MODAL_EVENT_NAME        = 'close';
+const CANDIDATE_PROFILE_VIEW_NAME   = 'candidateProfile';
 
 let curriedSet = curry(set, 3);
 
@@ -237,24 +238,30 @@ export default function CandidateController( // eslint-disable-line max-params, 
       return candidate;
    }
 
-   vm.saveAndGoBack = (form) => {
+   function saveAndGoBack(form) {
       saveCandidate(form).then(() => {
          $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ]});
       });
    };
 
    function forceSaveCandidate(form) {
-      saveCandidate(form);
+      if (vm.isNeedToGoBack()) {
+         saveAndGoBack(form);
+      } else {
+         saveCandidate(form);
+      }
    }
 
    function saveWithVerify(form) {
-      CandidateService.getDuplicates(vm.candidate)
+      let candidateToCompare = cloneDeep(vm.candidate);
+      _deleteAdditionProperties(candidateToCompare);
+      CandidateService.getDuplicates(candidateToCompare)
          .then(duplicates => {
             vm.duplicates = duplicates;
             if (duplicates.length) {
                return $q.reject('DIALOG_SERVICE.ERROR_SIMILAR_CANDIDATES');
             }
-            return saveCandidate(form);
+            return vm.isNeedToGoBack() ? saveAndGoBack(form) : saveCandidate(form);
          })
          .catch(errorMes => {
             UserDialogService.notification($translate.instant(errorMes), 'error');
@@ -290,8 +297,9 @@ export default function CandidateController( // eslint-disable-line max-params, 
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
             return entity;
          })
-         .then(() => $state.go($state.previous.name || 'candidateProfile', {_data: null, candidateId: vm.candidate.id},
-                     { reload: true }))
+         .then(() => $state.go($state.previous.name || CANDIDATE_PROFILE_VIEW_NAME,
+                              {_data: null, candidateId: vm.candidate.id},
+                              { reload: true }))
          .catch(() => {
             _onError();
             vm.candidate.comments = memo;
@@ -405,9 +413,10 @@ export default function CandidateController( // eslint-disable-line max-params, 
 
    function viewCandidate(candidate) {
       $state.go(
-         'candidateProfile',
+         CANDIDATE_PROFILE_VIEW_NAME,
          {
-            _data: null,
+            _data: vm.candidate,
+            duplicats: vm.duplicats,
             candidateId: candidate.id,
             candidatePredicate: vm.candidatePredicate
          });

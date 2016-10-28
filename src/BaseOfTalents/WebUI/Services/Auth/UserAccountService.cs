@@ -75,7 +75,6 @@ namespace WebUI.Services.Auth
         /// <param name="token">User's token</param>
         /// <param name="oldPassword">Old password for check user identity</param>
         /// <param name="newPassword">New password will be set to user's data if old password is match </param>
-        /// <returns>Result with bool and message if error will be detected</returns>
         public void ChangePassword(string token, string oldPassword, string newPassword)
         {
             var user = _userService.Get(this.GetUser(token).Id);

@@ -16,7 +16,7 @@ import {
    isNil,
    take,
    each,
-   assign
+   uniq
 } from 'lodash';
 
 export default class CandidateVacancyInfoDirective {
@@ -182,7 +182,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    function intersectOldWithSample(composedObjectToPass, sampleVacancyStageInfos) {
       let newVSIs = map(getVSIsToPass(composedObjectToPass, sampleVacancyStageInfos), vsi => {
-         let newVsi = assign(vsi, {
+         let newVsi = Object.assign({}, vsi);
+         newVsi = Object.assign(newVsi, {
             vacancyId: composedObjectToPass.vacancyId
          });
          delete newVsi.id;
@@ -195,26 +196,30 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       return combinedVSIs;
    }
    function intersectOldAndNewVsis(composedObject, newVSIs) {
-      let combinedVSIs = map(composedObject.vacancyStageInfos, oldVsi => {
-         let newVsi = find(newVSIs, ['stageId', oldVsi.stageId]);
-         if (newVsi) {
-            return assign(oldVsi, {
-               stageState: newVsi.stageState,
-               comment: newVsi.comment
+      let newAndOld = [...composedObject.vacancyStageInfos, ...newVSIs];
+      let uniqStages = uniq(map(newAndOld, vsi => {
+         return vsi.stageId;
+      }));
+      let intersection = map(uniqStages, stageId => {
+         let newVSI = find(newVSIs, ['stageId', stageId]);
+         let oldVSI = find(composedObject.vacancyStageInfos, ['stageId', stageId]);
+         if (!newVSI) {
+            return oldVSI;
+         }
+         if (oldVSI) {
+            return Object.assign(Object.assign({}, oldVSI), {
+               vacancyId: composedObject.vacancyId,
+               stageState: newVSI.stageState,
+               comment: newVSI.comment
             });
          }
-         return oldVsi;
+         let newObjectOfnewVSI = Object.assign(Object.assign({},newVSI), {
+            vacancyId: composedObject.vacancyId
+         });
+         delete newObjectOfnewVSI.id;
+         return newObjectOfnewVSI;
       });
-      return  [...combinedVSIs, ...map(newVSIs, newVsi => {
-         let oldVsi = find(combinedVSIs, ['stageId', newVsi.stageId]);
-         if (oldVsi) {
-            return assign(oldVsi, {
-               stageState: newVsi.stageState,
-               comment: newVsi.comment
-            });
-         }
-         return newVsi;
-      })];
+      return intersection;
    }
    function getObjectsToPass(objectThatCanBeMultiPassed) {
       return filter(objectThatCanBeMultiPassed, x => {

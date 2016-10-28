@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DAL.DTO;
+using WebUI.Results;
 
 namespace WebUI.Infrastructure.Auth
 {
@@ -24,5 +25,6 @@ namespace WebUI.Infrastructure.Auth
         bool LogOut(string token);
 
         UserDTO GetUser(string token);
+        void ChangePassword(string token, string oldPassword, string newPassword);
     }
 }

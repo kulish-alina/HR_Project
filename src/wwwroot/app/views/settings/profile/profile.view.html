@@ -12,7 +12,7 @@
                   <div ng-if="user.birthDate"><i class="fi-calendar"></i> <span ng-bind="convertDate(user.birthDate) | age"></span></div>
                </div>
                <div class="medium-4">
-                  <a class="button change-pass" ng-bind="::('PROFILE.CHANGE_PASS'|translate)"></a>
+                  <a class="button change-pass" ng-bind="::('PROFILE.CHANGE_PASS'|translate)" ng-click="showChangePassword()"></a>
                </div>
             </div>
          </div>

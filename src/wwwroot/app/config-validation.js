@@ -25,6 +25,7 @@ export default function _configValidation($validationProvider, ValidationService
    validationExpression.counter  = _counterValidation;
    validationExpression.required = _requiredValidation;
    validationExpression.mincount = _minCountValidation;
+   validationExpression.compare  = _compareValidation;
 
    let lang = context.defaultLang || 'en';
    let msg = {en, ru}[lang];
@@ -88,4 +89,8 @@ function _minCountValidation(value, scope, element, attrs) {
    }
    let minValue = parseInt(attrs.minCountValue, 10);
    return (minValue || minValue === 0) ? value > minValue : false;
+}
+
+function _compareValidation(value, scope, element, attrs) {
+   return value ? value === attrs.compareWith : false;
 }

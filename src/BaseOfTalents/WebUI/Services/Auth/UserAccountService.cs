@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using DAL.DTO;
 using DAL.Services;
 using WebUI.Infrastructure.Auth;
+using WebUI.Results;
+using WebUI.Globals.Validators;
 
 namespace WebUI.Services.Auth
 {
@@ -65,6 +67,25 @@ namespace WebUI.Services.Auth
         public UserDTO GetUser(string token)
         {
             return _authContainer.Get(token).Item1;
+        }
+
+        /// <summary>
+        /// Changing password for authenticated user by his token
+        /// </summary>
+        /// <param name="token">User's token</param>
+        /// <param name="oldPassword">Old password for check user identity</param>
+        /// <param name="newPassword">New password will be set to user's data if old password is match </param>
+        public void ChangePassword(string token, string oldPassword, string newPassword)
+        {
+            var user = _userService.Get(this.GetUser(token).Id);
+            var validator = new PasswordValidator();
+            var result = validator.Validate(oldPassword, user.Password);
+            if (!result.IsValid)
+            {
+                throw new ArgumentException(result.Message);
+            }
+            user.Password = newPassword;
+            _userService.Update(user);
         }
     }
 }

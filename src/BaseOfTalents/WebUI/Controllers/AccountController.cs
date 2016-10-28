@@ -5,6 +5,8 @@ using Newtonsoft.Json.Serialization;
 using WebUI.Filters;
 using WebUI.Infrastructure.Auth;
 using WebUI.Models;
+using System;
+using System.Net.Http;
 
 namespace WebUI.Controllers
 {
@@ -131,6 +133,28 @@ namespace WebUI.Controllers
             catch (System.Exception e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Api for changing user password
+        /// </summary>
+        [HttpPost, Auth]
+        [Route("password")]
+        public HttpResponseMessage ChangePassword([FromBody]ChangePasswordModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, ModelState);
+            }
+            try
+            {
+                _userAuthService.ChangePassword(ActionContext.Request.Headers.Authorization.Parameter, model.OldPassword, model.NewPassword);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            }
+            catch(ArgumentException e)
+            {
+                return Request.CreateResponse(System.Net.HttpStatusCode.Forbidden, e.Message);
             }
         }
     }

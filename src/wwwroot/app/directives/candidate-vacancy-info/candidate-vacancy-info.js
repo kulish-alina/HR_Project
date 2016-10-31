@@ -16,7 +16,8 @@ import {
    isNil,
    take,
    each,
-   uniq
+   uniq,
+   assign
 } from 'lodash';
 
 export default class CandidateVacancyInfoDirective {
@@ -141,18 +142,16 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
    function getComposedThatCanBeMultiPassed(sampleStageObject) {
       return filter(vm.vacancyStageInfosComposedByCandidateIdVacancyId, x => {
-         if (x.vacancyId === sampleStageObject.vacancyId) {
-            return false;
-         }
-         let VSIsToPass = getVSIsToPass(x, sampleStageObject.vacancyStageInfos);
-         return VSIsToPass.length;
+         return x.vacancyId === sampleStageObject.vacancyId ?
+         false :
+         getVSIsToPass(x, sampleStageObject.vacancyStageInfos).length;
       });
    }
 
    function showVacancySelectorDialog(sampleStageObject) {
       let multiPassDeffered = $q.defer();
       let canMultiPass = getComposedThatCanBeMultiPassed(sampleStageObject);
-      UserDialogService.dialog($translate.instant('Choose vacancies which candidate should pass the same way'),
+      UserDialogService.dialog($translate.instant('COMMON.VACANCY_SELECTY_MULTIPASS_DIALOG_TITLE'),
          muiltiPassDialogTemplate, [{
             name: $translate.instant('COMMON.CANCEL'),
             func: () => {
@@ -182,8 +181,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    function intersectOldWithSample(composedObjectToPass, sampleVacancyStageInfos) {
       let newVSIs = map(getVSIsToPass(composedObjectToPass, sampleVacancyStageInfos), vsi => {
-         let newVsi = Object.assign({}, vsi);
-         newVsi = Object.assign(newVsi, {
+         let newVsi = assign({}, vsi, {
             vacancyId: composedObjectToPass.vacancyId
          });
          delete newVsi.id;
@@ -197,9 +195,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
    function intersectOldAndNewVsis(composedObject, newVSIs) {
       let newAndOld = [...composedObject.vacancyStageInfos, ...newVSIs];
-      let uniqStages = uniq(map(newAndOld, vsi => {
-         return vsi.stageId;
-      }));
+      let uniqStages = uniq(map(newAndOld, 'stageId'));
       let intersection = map(uniqStages, stageId => {
          let newVSI = find(newVSIs, ['stageId', stageId]);
          let oldVSI = find(composedObject.vacancyStageInfos, ['stageId', stageId]);
@@ -207,13 +203,13 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             return oldVSI;
          }
          if (oldVSI) {
-            return Object.assign(Object.assign({}, oldVSI), {
+            return assign({}, oldVSI, {
                vacancyId: composedObject.vacancyId,
                stageState: newVSI.stageState,
                comment: newVSI.comment
             });
          }
-         let newObjectOfnewVSI = Object.assign(Object.assign({},newVSI), {
+         let newObjectOfnewVSI = assign({}, newVSI, {
             vacancyId: composedObject.vacancyId
          });
          delete newObjectOfnewVSI.id;
@@ -222,9 +218,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       return intersection;
    }
    function getObjectsToPass(objectThatCanBeMultiPassed) {
-      return filter(objectThatCanBeMultiPassed, x => {
-         return x.toogled;
-      });
+      return filter(objectThatCanBeMultiPassed, 'toogled');
    }
    function clearToogle(objectThatCanBeMultiPassed) {
       each(objectThatCanBeMultiPassed, x => delete x.toogled);
@@ -234,10 +228,9 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
    function getActiveStage(combinedVSIs, composedObject) {
       let latestStageId = reduce(combinedVSIs, (max, vsi) => {
-         if (max < vsi.stageId && vsi.stageState === STAGE_STATES.Passed) {
-            return vsi.stageId;
-         }
-         return max;
+         return max < vsi.stageId && vsi.stageState === STAGE_STATES.Passed ?
+            vsi.stageId :
+            max;
       }, 0);
       let currentStageId = latestStageId + 1;
       let currentStage = find(composedObject.stageFlow, ['stage.id', currentStageId]);
@@ -250,18 +243,13 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       };
    }
    function getVSIsToPass(checkingStageObject, sampleVacancyStageInfos) {
-      let passedVSIsOfSampleObject = filter(sampleVacancyStageInfos, sampleVSI => {
-         return sampleVSI.stageState === STAGE_STATES.Passed;
-      });
+      let passedVSIsOfSampleObject = filter(sampleVacancyStageInfos, ['stageState', STAGE_STATES.Passed]);
       let passedVSIsOfCheckingObject = filter(checkingStageObject.vacancyStageInfos,
             ['stageState', STAGE_STATES.Passed]);
-      return reduce(passedVSIsOfSampleObject, (VSIsThatCanBePassed, vsi) => {
+      return filter(passedVSIsOfSampleObject, (VSIsThatCanBePassed, vsi) => {
          let foundedVsi = find(passedVSIsOfCheckingObject, ['stageId', vsi.stageId]);
-         if (!foundedVsi || foundedVsi.stageState !== STAGE_STATES.Passed) {
-            VSIsThatCanBePassed.push(vsi);
-         }
-         return VSIsThatCanBePassed;
-      }, []);
+         return !foundedVsi || foundedVsi.stageState !== STAGE_STATES.Passed;
+      });
    }
 
    function showStagesFlowDialogFor(entityStageObject, vacancyStages) {

@@ -24,10 +24,6 @@ namespace WebUI.Controllers
             this.service = service;
             this.authContainer = authContainer;
         }
-        public CandidateController()
-        {
-
-        }
 
         [HttpGet]
         public IHttpActionResult Get()
@@ -36,9 +32,9 @@ namespace WebUI.Controllers
         }
 
         // GET api/<controller>
-        [HttpGet]
+        [HttpPost]
         [Route("search")]
-        public IHttpActionResult Get([FromUri]CandidateSearchModel searchParameters)
+        public IHttpActionResult Get([FromBody]CandidateSearchModel searchParameters)
         {
             if (ModelState.IsValid)
             {

@@ -104,7 +104,7 @@ export default class CandidateService {
          .then(convertedCondition => {
             remove(condition.languageSkills, {state : DELETED_STATE});
             condition = convertedCondition;
-            return _HttpService.get(`${CANDIDATE_URL}search`, condition);
+            return _HttpService.post(`${CANDIDATE_URL}search`, condition);
          })
          .then(response => {
             return _convertLanguageSkillsToClient(condition)

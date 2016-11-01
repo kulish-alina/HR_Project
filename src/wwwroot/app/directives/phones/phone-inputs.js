@@ -2,7 +2,8 @@ import template from './phone-inputs.directive.html';
 import './phone-inputs.scss';
 
 import {
-   includes
+   includes,
+   filter
 } from 'lodash';
 export default class PhoneInputsDirective {
    constructor() {
@@ -28,10 +29,12 @@ function PhoneInputsController($scope) {
    vm.addNewPhone        = _addNewPhone;
    vm.cantAddNewPhone    = _cantAddNewPhone;
    vm.updatePhoneNumbers = _updatePhoneNumbers;
+   vm.resolveSignOf      = _resolveSignOf;
+   vm.removePhone        = _removePhone;
 
    /*---impl---*/
    function _addNewPhone() {
-      vm.phones.push({number: ''});
+      vm.phones.push({number: '', index: vm.phones.length });
    }
 
    function _cantAddNewPhone() {
@@ -43,6 +46,26 @@ function PhoneInputsController($scope) {
          vm.phones[index] = number;
       } else {
          vm.phones.slice(index, 1);
+      }
+   }
+   function _removePhone(phoneToRemove) {
+      if (phoneToRemove.index) {
+         vm.phones = filter(vm.phones, phone => phone.index !== phoneToRemove.index);
+      } else {
+         vm.phones = filter(vm.phones, phone => phone.number !== phoneToRemove.number);
+      }
+      if (vm.phones.length === 0) {
+         _addNewPhone();
+      }
+   }
+   function _resolveSignOf(index) {
+      if (vm.phones.length === 1) {
+         return 'plus';
+      }
+      if (index === vm.phones.length) {
+         return 'plus';
+      } else {
+         return 'minus';
       }
    }
 }

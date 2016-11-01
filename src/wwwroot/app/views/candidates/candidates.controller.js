@@ -69,7 +69,7 @@ export default function CandidatesController(
    (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
-      vm.candidatePredicate = $state.params.candidatePredicate || DEFAULT_CANDIDATE_PREDICATE;
+      vm.candidatePredicate = $state.params.candidatePredicate || cloneDeep(DEFAULT_CANDIDATE_PREDICATE);
       resetCandidatePredicateStateParams();
       _searchCandidates();
    }());
@@ -108,7 +108,7 @@ export default function CandidatesController(
    }
 
    function clear() {
-      vm.candidatePredicate   = DEFAULT_CANDIDATE_PREDICATE;
+      vm.candidatePredicate   = cloneDeep(DEFAULT_CANDIDATE_PREDICATE);
       vm.isActiveAgeField     = false;
    }
 

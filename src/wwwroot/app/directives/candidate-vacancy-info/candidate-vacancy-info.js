@@ -62,6 +62,9 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       'RejectStage': 3
    };
    const SHOW_LIMIT = 7;
+   const DATE_FORMAT = 'DD-MM-YYYY';
+   const PARENT_VACANCY = 'vacancy';
+   const PARENT_CANDIDATE = 'candidate';
 
    vm.vacancyStageInfoComposedObjectsToShow = [];
    vm.stagesToShow = [];
@@ -76,11 +79,11 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    vm.stageQueries = [];
 
    (() => {
-      if (vm.parentEntity === 'vacancy') {
+      if (vm.parentEntity === PARENT_VACANCY) {
          vm.rejectStages = filter(vm.vacancyStages, ['stage.stageType', STAGE_TYPES.RejectStage]);
          vm.stagesToShow = calculateVacancyStagesEntitiesCount(
             vm.vacancyStageInfosComposedByCandidateIdVacancyId);
-      } else if (vm.parentEntity === 'candidate') {
+      } else if (vm.parentEntity === PARENT_CANDIDATE) {
          vm.vacancyStageInfosComposedByCandidateIdVacancyId = map(
             vm.vacancyStageInfosComposedByCandidateIdVacancyId, findAndSetRejectStagesFor);
          if (some(vm.vacancyStageInfosComposedByCandidateIdVacancyId)) {
@@ -178,15 +181,18 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          });
       return multiPassDeffered.promise;
    }
+   function createNewVsiForComposed(vsiToPass, composedObjectToPass) {
+      let newVsi = assign({}, vsiToPass, {
+         vacancyId: composedObjectToPass.vacancyId
+      });
+      delete newVsi.id;
+      return newVsi;
+   }
 
    function intersectOldWithSample(composedObjectToPass, sampleVacancyStageInfos) {
-      let newVSIs = map(getVSIsToPass(composedObjectToPass, sampleVacancyStageInfos), vsi => {
-         let newVsi = assign({}, vsi, {
-            vacancyId: composedObjectToPass.vacancyId
-         });
-         delete newVsi.id;
-         return newVsi;
-      });
+      let newVSIs = map(getVSIsToPass(composedObjectToPass, sampleVacancyStageInfos), vsiToPass =>
+            createNewVsiForComposed(vsiToPass, composedObjectToPass)
+      );
       let combinedVSIs = intersectOldAndNewVsis(composedObjectToPass, newVSIs);
       if (!isThereActiveStage(combinedVSIs)) {
          combinedVSIs.push(getActiveStage(combinedVSIs, composedObjectToPass));
@@ -406,7 +412,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
               vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
            })
          .then(() => {
-            if (vm.parentEntity === 'vacancy') {
+            if (vm.parentEntity === PARENT_VACANCY) {
                vm.closevacancy(entityStageObject.candidate);
             } else {
                entityStageObject.vacancy.closingCandidateId = entityStageObject.candidate.id;
@@ -422,7 +428,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          dialogTransferObject,
          candidateStage,
          getTodayDate: () => {
-            return moment().format('DD-MM-YYYY');
+            return moment().format(DATE_FORMAT);
          }
       };
       let buttons = [{
@@ -434,7 +440,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          needValidate: true,
          name: $translate.instant('COMMON.APLY'),
          func: () => {
-            let chosenDate = moment(dialogTransferObject.hireDate, 'DD-MM-YYYY');
+            let chosenDate = moment(dialogTransferObject.hireDate, DATE_FORMAT);
             dialogResult.resolve(chosenDate.toISOString());
          }
       }];

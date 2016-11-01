@@ -1,5 +1,6 @@
 ﻿using DAL.Infrastructure;
 using Domain.Entities;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,12 @@ namespace DAL.Repositories
         public UserRepository(DbContext context) : base(context)
         {
         }
+
+        public User Get(Func<User, bool> predicate)
+        {
+            return dbSet.FirstOrDefault(predicate);
+        }
+
         /// <summary>
         /// The function to get user of login and password
         /// </summary>

@@ -31,8 +31,7 @@ namespace DAL.Services
 
         public UserDTO Get(Func<User, bool> predicate)
         {
-            var users = uow.UserRepo.Get();
-            return DTOService.ToDTO<User, UserDTO>(users.Where(predicate).FirstOrDefault());
+            return DTOService.ToDTO<User, UserDTO>(uow.UserRepo.Get(predicate));
         }
 
         public UserDTO Add(UserDTO userToAdd)

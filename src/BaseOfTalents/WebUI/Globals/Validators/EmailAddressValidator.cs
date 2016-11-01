@@ -13,7 +13,9 @@ namespace WebUI.Globals.Validators
         {
             invalid = false;
             if (String.IsNullOrEmpty(strIn))
+            {
                 return false;
+            }
 
             // Use IdnMapping class to convert Unicode domain names.
             try
@@ -27,7 +29,9 @@ namespace WebUI.Globals.Validators
             }
 
             if (invalid)
+            {
                 return false;
+            }
 
             // Return true if strIn is in valid e-mail format.
             try

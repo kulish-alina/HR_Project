@@ -1,3 +1,6 @@
+import {
+   isString
+} from 'lodash';
 let _$http, _$q, _LoggerService, serverUrl;
 
 export default class HttpProvider {
@@ -43,7 +46,7 @@ class HttpService {
          options.params = entity;
       } else if (entity) {
          options.headers['Content-Type'] = 'application/json';
-         options.data = entity;
+         options.data = isString(entity) ? JSON.stringify(entity) : entity;
       }
       return _$http(options).then(_successCallback, _errorCallback);
    }

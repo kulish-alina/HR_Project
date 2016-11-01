@@ -225,6 +225,7 @@
     <Compile Include="Filters\PermissionAuthorization.cs" />
     <Compile Include="Globals\SettingsContext.cs" />
     <Compile Include="Extensions\MailQueryExtension.cs" />
+    <Compile Include="Globals\Validators\EmailAddressValidator.cs" />
     <Compile Include="Globals\Validators\PasswordValidator.cs" />
     <Compile Include="Infrastructure\Auth\IAccountService.cs" />
     <Compile Include="Infrastructure\Auth\IAuthContainer.cs" />

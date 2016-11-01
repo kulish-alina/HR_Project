@@ -55,6 +55,7 @@ import ReportsService                from './services/ReportsService';
 import CVParserService               from './services/CVParserService';
 import SearchService                 from './services/SearchService';
 import UserHistoryService            from './services/UserHistoryService';
+import AccountService                from './services/AccountService';
 
 import ThesaurusDirective            from './directives/thesaurus/thesaurus';
 import ContactInfoDirective          from './directives/contacts/contact-info';
@@ -124,9 +125,10 @@ angular
    .service('LoginService',        LoginService)
    .service('SessionService',      SessionService)
    .service('ReportsService',      ReportsService)
-   .service('CVParserService',      CVParserService)
+   .service('CVParserService',     CVParserService)
    .service('SearchService',       SearchService)
-   .service('UserHistoryService',       UserHistoryService)
+   .service('UserHistoryService',  UserHistoryService)
+   .service('AccountService',      AccountService)
 
    .directive('thesaurus',              ThesaurusDirective.createInstance)
    .directive('contacts',               ContactInfoDirective.createInstance)

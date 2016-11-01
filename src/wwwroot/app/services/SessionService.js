@@ -14,7 +14,7 @@ let _stateToRedirect = {};
 const tokenInfo = 'access_token';
 
 //this is stub till the #237 (access rights for ui routing) is not finished
-const accessArray = ['login', 'loading'];
+const accessArray = ['login', 'loading', 'recoverAccount'];
 
 export default class SessionService {
    constructor($state, UserService, LocalStorageService, LoginService, LoggerService) {

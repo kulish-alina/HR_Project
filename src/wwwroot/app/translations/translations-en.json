@@ -267,7 +267,8 @@
       "OLD": "Old passwod",
       "NEW": "New password",
       "CONF": "Confirm password",
-      "CHANGED": "Password was successfully changed"
+      "PAS_CHANGED": "Password was successfully changed",
+      "CHANGED": "Your profile data was successfully changed"
    },
    "ROLES" : {
       "NEW": "New role",
@@ -319,7 +320,16 @@
       "CANCEL" : "Cancel",
       "LOGIN" :"Login",
       "PASSWORD" : "Password",
-      "SESSION_EXPIRED":"Sorry, your session has expired, please login again"
+      "SESSION_EXPIRED":"Sorry, your session has expired, please login again",
+      "FORGOT": "Forgot account?",
+      "PLEASE_LOGIN": "Hello, please login"
+   },
+   
+   "RECOVER" : {
+      "HEADER" : "Recover account",
+      "SEND"   : "Send new password to your email",
+      "LOGIN_OR_EMAIL" : "Enter login or email",
+      "CHANGED" : "Your password was successfully changed and sent to your email"
    },
    
    "REPORTS" : {

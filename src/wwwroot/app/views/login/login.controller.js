@@ -5,9 +5,7 @@ export default function loginController($scope, $state, LoginService,
    'ngInject';
    let vm = $scope;
    vm.login = _login;
-   vm.credentials = {
-
-   };
+   vm.credentials = {};
 
    function _login(form) {
       ValidationService

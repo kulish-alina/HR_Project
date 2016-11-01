@@ -26,5 +26,6 @@ namespace WebUI.Infrastructure.Auth
 
         UserDTO GetUser(string token);
         void ChangePassword(string token, string oldPassword, string newPassword);
+        void RecoverAccount(string loginOrEmail);
     }
 }

@@ -10,7 +10,6 @@ import {
 } from 'lodash';
 
 const USER_URL = 'user/';
-const PASSWORD_URL = 'account/password/';
 
 let _HttpService, _$q, _HttpCacheService, _LoggerService, _UserService;
 let currentUser = {};
@@ -75,10 +74,6 @@ export default class UserService {
          _LoggerService.debug('Can\'t remove user', entity);
          return _$q.reject('there is no user\'s id');
       }
-   }
-
-   changePassword(oldPassword, newPassword) {
-      return _HttpService.post(PASSWORD_URL, {oldPassword, newPassword});
    }
 }
 

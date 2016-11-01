@@ -3,13 +3,13 @@
 $primary-hover-color: #068D9C;
 $bgcolor: #3FB7C4;
 
-.login-page {
+.recover-page {
    width: 70%;
    margin-top: $rem-base*3;
    margin-left: 15%;
    margin-right:15%;
 }
-.form {
+.recover {
    position: relative;
    z-index: 1;
    background: $light-color;
@@ -18,7 +18,7 @@ $bgcolor: #3FB7C4;
    padding: 45px;
    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-.form input {
+.recover input {
    outline: 0;
    background: #f2f2f2;
    width: 100%;
@@ -27,9 +27,7 @@ $bgcolor: #3FB7C4;
    box-sizing: border-box;
    font-size: 14px;
 }
-.form button {
-
-   text-transform: uppercase;
+.recover button {
    outline: 0;
    background: $primary-color;
    width: 100%;
@@ -41,17 +39,11 @@ $bgcolor: #3FB7C4;
    transition: all 0.3 ease;
    cursor: pointer;
 }
-.form button:hover,.form button:active,.form button:focus {
+.recover button:hover,.recover button:active,.recover button:focus {
    background: $primary-hover-color;
 }
 
-.form .login-header {
+.recover .recover-header {
    text-align: left;
    margin-bottom: 12px;
-}
-
-.forgot {
-   display: flex;
-   justify-content: flex-end;
-   margin-top: 1rem;
 }

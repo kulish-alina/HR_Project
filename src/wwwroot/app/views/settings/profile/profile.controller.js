@@ -18,7 +18,8 @@ export default function ProfileController (
    SettingsService,
    ValidationService,
    ThesaurusService,
-   UserDialogService) {
+   UserDialogService,
+   AccountService) {
    'ngInject';
 
    /*---api---*/
@@ -51,8 +52,14 @@ export default function ProfileController (
       ValidationService.validate(vm.form.userEdit).then(() => {
          return UserService.saveUser(vm.user).then(() => {
             $state.go('profile');
+            UserDialogService.notification($translate.instant('PROFILE.CHANGED'), 'success');
          });
-      }).catch(() => $q.reject);
+      }).catch((error) => {
+         if (error.data) {
+            UserDialogService.notification(error.data.message, 'error');
+         }
+         return $q.reject();
+      });
    }
 
    function _onCancel() {
@@ -91,8 +98,8 @@ export default function ProfileController (
    }
 
    function _changePassword() {
-      UserService.changePassword(passwords.oldPass, passwords.newPass)
-         .then(() => UserDialogService.notification($translate.instant('PROFILE.CHANGED'), 'success'))
+      AccountService.changePassword(passwords.oldPass, passwords.newPass)
+         .then(() => UserDialogService.notification($translate.instant('PROFILE.PAS_CHANGED'), 'success'))
          .catch((reason) => UserDialogService.notification(reason.data, 'error'));
    }
 }

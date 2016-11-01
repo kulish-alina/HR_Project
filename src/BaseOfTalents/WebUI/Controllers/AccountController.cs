@@ -16,16 +16,16 @@ namespace WebUI.Controllers
     [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
-        private IAccountService _userAuthService;
+        private IAccountService _userAccountService;
         private static JsonSerializerSettings botSerializationSettings = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 
-        public AccountController(IAccountService userAuthService)
+        public AccountController(IAccountService userAccountService)
         {
-            _userAuthService = userAuthService;
+            _userAccountService = userAccountService;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace WebUI.Controllers
             {
                 var login = model.Login;
                 var password = model.Password;
-                var data = await _userAuthService
+                var data = await _userAccountService
                     .LogInAsync(login, password);
 
                 var user = data.Item1;
@@ -86,7 +86,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                bool logedOut = _userAuthService
+                bool logedOut = _userAccountService
                     .LogOut(ActionContext.Request.Headers.Authorization.Parameter);
                 return Json(logedOut, botSerializationSettings);
             }
@@ -108,7 +108,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                var user = _userAuthService.GetUser(identity.Token);
+                var user = _userAccountService.GetUser(identity.Token);
                 var result = new
                 {
                     Token = identity.Token,
@@ -149,10 +149,28 @@ namespace WebUI.Controllers
             }
             try
             {
-                _userAuthService.ChangePassword(ActionContext.Request.Headers.Authorization.Parameter, model.OldPassword, model.NewPassword);
+                _userAccountService.ChangePassword(ActionContext.Request.Headers.Authorization.Parameter, model.OldPassword, model.NewPassword);
                 return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             }
             catch(ArgumentException e)
+            {
+                return Request.CreateResponse(System.Net.HttpStatusCode.Forbidden, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Api for recovering accounts
+        /// </summary>
+        [HttpPost, AllowAnonymous]
+        [Route("recover")]
+        public HttpResponseMessage RecoverAccount([FromBody]string loginOrEmail)
+        {
+            try
+            {
+                _userAccountService.RecoverAccount(loginOrEmail);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception e)
             {
                 return Request.CreateResponse(System.Net.HttpStatusCode.Forbidden, e.Message);
             }

@@ -1,0 +1,11 @@
+<div class="recover-page">
+	<div class="recover">
+		<div class="recover-header">
+			<h3 ng-bind=":: 'RECOVER.HEADER' | translate"></h3>
+		</div>
+		<form ng-submit="send(recoverForm)" name="recoverForm" class="recover-form">
+            <input ng-model="loginOrEmail" placeholder="{{::'RECOVER.LOGIN_OR_EMAIL' | translate}}" type="text" name="reoverInput" validator="required">
+		   <button type="submit" name="send" ng-bind="::'RECOVER.SEND' | translate"></button>
+		</form>
+	</div>
+</div>

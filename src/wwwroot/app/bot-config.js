@@ -19,6 +19,7 @@ import reportsTemplate          from './views/reports/reports.html';
 import recruitingFunnelTemplate from './views/reports/recruiting-funnel/recruiting.funnel.view.html';
 import usersReportTemplate      from './views/reports/users-report/users.report.view.html';
 import vacanciesReportTemplate  from './views/reports/vacancies-report/vacancies.report.view.html';
+import recoverTemplate          from './views/recoverAccount/recover.view.html';
 
 import homeController             from './views/home/home.controller';
 import candidatesController       from './views/candidates/candidates.controller';
@@ -38,6 +39,7 @@ import reportsController          from './views/reports/reports.controller';
 import recruitingFunnelController from './views/reports/recruiting-funnel/recruiting.funnel.controller';
 import usersReportController      from './views/reports/users-report/users.report.controller';
 import vacanciesReportController  from './views/reports/vacancies-report/vacancies.report.controller';
+import recoverController          from './views/recoverAccount/recover.controller.js';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -232,6 +234,11 @@ export default function _config(
       .state('loading', {
          url: '/loading',
          template: loaderTemplate
+      })
+      .state('recoverAccount', {
+         url: '/recover',
+         template: recoverTemplate,
+         controller: recoverController
       });
 
    $locationProvider.html5Mode({

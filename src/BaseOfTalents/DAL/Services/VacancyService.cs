@@ -35,7 +35,8 @@ namespace DAL.Services
             int current,
             int size,
             string sortBy,
-            bool? sortAsc
+            bool? sortAsc,
+            int? departmentId
             )
         {
             var filters = new List<Expression<Func<Vacancy, bool>>>();
@@ -68,7 +69,10 @@ namespace DAL.Services
             {
                 filters.Add(x => x.Cities.Any(loc => locationIds.Contains(loc.Id)));
             }
-
+            if (departmentId.HasValue)
+            {
+                filters.Add(x => x.Department.Id == departmentId);
+            }
             var vacancies = uow.VacancyRepo.Get(filters);
 
             var orderBy = sortBy ?? "Title";

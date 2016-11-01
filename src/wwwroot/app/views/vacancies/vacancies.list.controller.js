@@ -1,6 +1,6 @@
 import './vacancies.list.scss';
 const LIST_OF_THESAURUS = ['industry', 'level', 'city',
-    'typeOfEmployment'];
+    'typeOfEmployment', 'department'];
 import _utils from './../../utils';
 import {
    remove,

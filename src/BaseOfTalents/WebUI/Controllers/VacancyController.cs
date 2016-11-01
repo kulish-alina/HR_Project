@@ -46,7 +46,8 @@ namespace WebUI.Controllers
                     vacancyParams.Current,
                     vacancyParams.Size,
                     vacancyParams.SortBy,
-                    vacancyParams.SortAsc
+                    vacancyParams.SortAsc,
+                    vacancyParams.DepartmentId
                     );
 
                 var vacanciesViewModel = tupleResult.Item1;

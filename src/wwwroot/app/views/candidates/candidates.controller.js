@@ -32,7 +32,8 @@ export default function CandidatesController(
    SearchService,
    ThesaurusService,
    UserDialogService,
-   LoggerService
+   LoggerService,
+   ValidationService
    ) {
    'ngInject';
    const vm                = $scope;
@@ -42,7 +43,7 @@ export default function CandidatesController(
    vm.viewCandidate        = viewCandidate;
    vm.clear                = clear;
    vm.thesaurus            = [];
-   vm.searchCandidates     = searchCandidates;
+   vm.submit               = submit;
    vm.pageChanged          = pageChanged;
    vm.selectedCandidates   = [];
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
@@ -70,15 +71,15 @@ export default function CandidatesController(
          .then(topics => set(vm, 'thesaurus', topics));
       vm.candidatePredicate = $state.params.candidatePredicate || DEFAULT_CANDIDATE_PREDICATE;
       resetCandidatePredicateStateParams();
-      searchCandidates();
+      _searchCandidates();
    }());
 
    function pageChanged(newPage) {
       vm.candidatePredicate.current = newPage;
-      searchCandidates();
+      _searchCandidates();
    };
 
-   function searchCandidates(predicate = vm.candidatePredicate) {
+   function _searchCandidates(predicate = vm.candidatePredicate) {
       return SearchService.fetchCandidates(predicate).then(response => {
          forEach(response.candidate, (cand) => {
             cand.isToogled = vm.isCandidateWasToogled(cand.id);
@@ -87,6 +88,11 @@ export default function CandidatesController(
       }).catch(_onError);
    }
 
+   function submit(form) {
+      ValidationService.validate(form).then(() => {
+         _searchCandidates();
+      });
+   }
    function editCandidate(candidate) {
       $state.go('candidate', {_data: null, candidateId: candidate.id, candidatePredicate: vm.candidatePredicate});
    }
@@ -141,7 +147,7 @@ export default function CandidatesController(
       selected*/
          !!(searchPredicate.sortAsc ^ true) : true; // eslint-disable-line no-bitwise
       searchPredicate.sortBy = column;
-      searchCandidates(searchPredicate).then(() => {
+      _searchCandidates(searchPredicate).then(() => {
          vm.candidatePredicate = searchPredicate;
       });
    }

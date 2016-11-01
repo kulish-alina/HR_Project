@@ -27,5 +27,7 @@ namespace WebUI.Models
 
         public string SortBy { get; set; }
         public bool? SortAsc { get; set; }
+
+        public int? DepartmentId { get; set; }
     }
 }

@@ -38,6 +38,13 @@
                              placeholder="{{::'COMMON.LEVEL' | translate}}">
                   </oi-select>
                   <input ng-model="vacancyPredicate.title" placeholder="Position" type="text">
+                  
+                  <oi-select class="multiple-select"
+                             oi-options="department.id as department.title for department in thesaurus.department | orderBy : 'title'"
+                             ng-model="vacancyPredicate.departmentId"
+                             placeholder="{{::'COMMON.DEPARTMENT' | translate}}">
+                  </oi-select>
+                  
                   <oi-select class="multiple-select"
                              oi-options="city.id as city.title for city in thesaurus.city | orderBy : 'title'"
                              ng-model="vacancyPredicate.cityIds"

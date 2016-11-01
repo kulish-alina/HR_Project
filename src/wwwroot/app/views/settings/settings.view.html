@@ -6,7 +6,7 @@
    </div>
    <div class="large-7 grid-block">
       <ul class="menu-bar second-button-bar">
-         <li ng-class="{'active-button' : $state.current.name === 'profile'}">
+         <li ng-class="{'active-button' : $state.current.name === 'profile' || $state.current.name === 'profile.edit'}">
             <a ui-sref="profile" ng-bind="::('SETTINGS.PROFILE' | translate)"></a>
          </li>
          <li ng-class="{'active-button' : $state.current.name === 'members'}">

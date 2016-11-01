@@ -2,8 +2,9 @@
 
 .thesaurus {
    padding: $rem-base*0.35;
+   min-height: $rem-base*10;
 }
 
-select.thesauruses-list {
+.thesaurus-select {
    width: $rem-base*15;
 }

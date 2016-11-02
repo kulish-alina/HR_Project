@@ -49,23 +49,14 @@ function PhoneInputsController($scope) {
       }
    }
    function _removePhone(phoneToRemove) {
-      if (phoneToRemove.index) {
-         vm.phones = filter(vm.phones, phone => phone.index !== phoneToRemove.index);
-      } else {
-         vm.phones = filter(vm.phones, phone => phone.number !== phoneToRemove.number);
-      }
+      vm.phones = phoneToRemove.index ?
+         filter(vm.phones, phone => phone.index !== phoneToRemove.index) :
+         filter(vm.phones, phone => phone.number !== phoneToRemove.number);
       if (vm.phones.length === 0) {
          _addNewPhone();
       }
    }
    function _resolveSignOf(index) {
-      if (vm.phones.length === 1) {
-         return 'plus';
-      }
-      if (index === vm.phones.length) {
-         return 'plus';
-      } else {
-         return 'minus';
-      }
+      return vm.phones.length === 1 || index === vm.phones.length ? 'plus' : 'minus';
    }
 }

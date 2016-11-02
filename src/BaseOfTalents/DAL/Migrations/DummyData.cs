@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DAL.Migrations
 {
@@ -160,6 +160,7 @@ namespace DAL.Migrations
             new City {Country = Countries[0], Title = "Kharkiv"},
             new City {Country = Countries[0], Title = "Odessa"},
             new City {Country = Countries[0], Title = "Dnipropetrovsk"},
+            new City {Country = Countries[0], Title = "Berdiansk"},
             new City {Country = Countries[0], Title = "Zaporizhia"},
             new City {Country = Countries[0], Title = "Lviv"},
             new City {Country = Countries[0], Title = "Kryvyi Rih"},

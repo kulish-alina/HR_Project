@@ -100,35 +100,32 @@ namespace WebUI.Services.Auth
         /// <param name="loginOrEmail">string contains user's login or email</param>
         public void RecoverAccount(string loginOrEmail)
         {
-            if (!String.IsNullOrEmpty(loginOrEmail))
-            {
-                var _validator = new EmailStringValidator();
-                UserDTO _user = _userService.Get((usr) => _validator.IsEmail(loginOrEmail) ?
-                                                                  usr.Email == loginOrEmail :
-                                                                  usr.Login == loginOrEmail);
-                if (_user != null)
-                {
-                    PasswordGenerator.GeneratePassword(_user);
-                    _userService.Update(_user);
-
-                    var template = _templateService.GetTemplate();
-                    var mail = MailTemplateGenerator.Generate(template,
-                        "Hello! Your password was changed.",
-                        $"Your login is <b>{_user.Login}</b><br> Your new password is <b>{_user.Password}</b>",
-                        "Wish you a nice day!", "Password recovery",
-                        SettingsContext.Instance.GetImageUrl(), SettingsContext.Instance.GetOuterUrl());
-
-                    MailAgent.Send(_user.Email, mail.Subject, mail.Template);
-                }
-                else
-                {
-                    throw new ObjectNotFoundException("User with such login or email not found!");
-                }
-            }
-            else
+            if (String.IsNullOrEmpty(loginOrEmail))
             {
                 throw new ArgumentException("Login and email can not be empty!");
             }
+
+            var _validator = new EmailStringValidator();
+            UserDTO _user = _userService.Get((usr) => _validator.IsEmail(loginOrEmail) ?
+                                                              usr.Email == loginOrEmail :
+                                                              usr.Login == loginOrEmail);
+
+            if (_user == null)
+            {
+                throw new ObjectNotFoundException("User with such login or email not found!");
+            }
+
+            PasswordGenerator.GeneratePassword(_user);
+            _userService.Update(_user);
+
+            var template = _templateService.GetTemplate();
+            var mail = MailTemplateGenerator.Generate(template,
+            "Hello! Your password was changed.",
+            $"Your login is <b>{_user.Login}</b><br> Your new password is <b>{_user.Password}</b>",
+            "Wish you a nice day!", "Password recovery",
+            SettingsContext.Instance.GetImageUrl(), SettingsContext.Instance.GetOuterUrl());
+
+        MailAgent.Send(_user.Email, mail.Subject, mail.Template);
         }
     }
 }

@@ -50,10 +50,10 @@
          <div>
             <i class="fi-mountains"></i>
             <span class="property-title" ng-bind="::('CANDIDATE.EXPERIENCE' | translate) + ': '"></span>
-            <span ng-bind="::candidate.experienceYears"></span>
+            <span ng-if="candidate.experienceYears" ng-bind="::candidate.experienceYears"></span>
             <span ng-if="candidate.experienceYears" ng-bind="::'COMMON.YEARS' | translate"></span>
             <span ng-bind="candidate.experienceMonths ? candidate.experienceMonths : 0 "></span>
-            <span ng-if="candidate.experienceYears" ng-bind="::'COMMON.MONTHS' | translate"></span>
+            <span ng-if="candidate.experienceMonths" ng-bind="::'COMMON.MONTHS' | translate"></span>
          </div>
       </div>
       <div class="vertical small-4 grid-block candidate-contacts">

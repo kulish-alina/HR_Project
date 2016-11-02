@@ -316,8 +316,8 @@ function _setStartExperience(candidate) {
    if (candidate.experienceMonths || candidate.experienceYears) {
       let nowDate                    = new Date(now());
       candidate.startExperience      = new Date(
-         nowDate.getFullYear() - candidate.experienceYears,
-         nowDate.getMonth()    - candidate.experienceMonths
+         nowDate.getFullYear() - candidate.experienceYears || 0,
+         nowDate.getMonth()    - candidate.experienceMonths || 0
       );
    }
    return _$q.when(candidate);

@@ -35,7 +35,7 @@ function _search(searchService, options, cacheKey, updateTimeout) {
    if (!cache[cacheKey] ||
        (Date.now() - cache[cacheKey].timeStamp) > (updateTimeout || defaultTimeout) ||
        !isEqual(cache[cacheKey].options, options)) {
-      return saveToCache(cacheKey, searchService.search(options), options);
+      return saveToCache(cacheKey, searchService.search(options, true), options);
    } else {
       return cache[cacheKey].value;
    };

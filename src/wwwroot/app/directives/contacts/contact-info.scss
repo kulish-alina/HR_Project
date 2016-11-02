@@ -21,6 +21,9 @@
 
 .ltr {
    flex-direction: row;
+   .member-photo {
+      padding-right: 1rem;
+   }
 }
 .ttb {
    flex-direction: column;

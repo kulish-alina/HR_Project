@@ -24,8 +24,8 @@ export default class UserService {
       _UserService      = this;
    }
 
-   getUserById(id) {
-      return _UserService.getUsers({id}).then(first);
+   getUserById(id, needToConvert) {
+      return _UserService.getUsers({id}, needToConvert).then(first);
    }
 
    getCurrentUser() {
@@ -36,12 +36,14 @@ export default class UserService {
       currentUser = user;
    }
 
-   saveUser(entity) {
-      let _httpMethod =  entity.id ?
-          (user) => _HttpService.put(`${USER_URL}${user.id}`, _convertToServer(user)) :
-          (user) => _HttpService.post(USER_URL, _convertToServer(user));
+   saveUser(entity, needToConvert) {
+      let _httpMethod = entity.id ?
+          (user) => _HttpService.put(`${USER_URL}${user.id}`, user) :
+          (user) => _HttpService.post(USER_URL, user);
 
-      return _httpMethod(entity).then((user) => {
+      let _convertedUser = needToConvert ? _convertToServer(entity) : entity;
+
+      return _httpMethod(_convertedUser).then((user) => {
          if (user.id === _UserService.getCurrentUser().id) {
             _UserService.setCurrentUser(user);
             return user;
@@ -49,9 +51,11 @@ export default class UserService {
       });
    }
 
-   getUsers(predicate) {
+   getUsers(predicate, needToConvert) {
       return _HttpCacheService.get(USER_URL).then(users => {
-         return filter(map(users, _convertFromServer), predicate);
+         return filter(map(users, (user) => {
+            return needToConvert ? _convertFromServer(user) : user;
+         }), predicate);
       });
    }
 

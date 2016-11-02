@@ -15,8 +15,10 @@ oi-select {
    .select-search-list-item_input {
       input {
          font-family: $body-font-family;
-         font-size: $rem-base;
       }
+   }
+   .select-search-list-item {
+      font-size: inherit;
    }
 }
 

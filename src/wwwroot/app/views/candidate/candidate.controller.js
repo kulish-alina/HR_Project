@@ -70,6 +70,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
    vm.removeEvent          = removeEvent;
    vm.back                 = back;
    vm.viewCandidate        = viewCandidate;
+   vm.submit               = submit;
 
    (function _init() {
       _initDataForEvents();
@@ -84,9 +85,9 @@ export default function CandidateController( // eslint-disable-line max-params, 
       $element[0].querySelector(name).value = null;
    }
 
-   function _onError(message) {
-      LoggerService.error(message);
-      UserDialogService.notification(message);
+   function _onError(messageToShow, messageToLog) {
+      LoggerService.error(messageToLog || messageToShow);
+      UserDialogService.notification(messageToShow, 'error');
    }
 
    function _initThesauruses() {
@@ -238,21 +239,21 @@ export default function CandidateController( // eslint-disable-line max-params, 
       return candidate;
    }
 
-   function saveAndGoBack(form) {
-      saveCandidate(form).then(() => {
+   function saveAndGoBack() {
+      saveCandidate().then(() => {
          $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ]});
       });
    };
 
-   function forceSaveCandidate(form) {
+   function forceSaveCandidate() {
       if (vm.isNeedToGoBack()) {
-         saveAndGoBack(form);
+         saveAndGoBack();
       } else {
-         saveCandidate(form);
+         saveCandidate();
       }
    }
 
-   function saveWithVerify(form) {
+   function saveWithVerify() {
       let candidateToCompare = cloneDeep(vm.candidate);
       _deleteAdditionProperties(candidateToCompare);
       CandidateService.getDuplicates(candidateToCompare)
@@ -264,21 +265,23 @@ export default function CandidateController( // eslint-disable-line max-params, 
             if (duplicates.length) {
                return $q.reject('DIALOG_SERVICE.ERROR_SIMILAR_CANDIDATES');
             }
-            return vm.isNeedToGoBack() ? saveAndGoBack(form) : saveCandidate(form);
+            return vm.isNeedToGoBack() ? saveAndGoBack() : saveCandidate();
          })
          .catch(errorMes => {
-            UserDialogService.notification($translate.instant(errorMes), 'error');
+            _onError(errorMes);
          });
    }
 
-   function saveCandidate(form) {
-      return ValidationService.validate(form).then(() => {
-         if (isEmpty(vm.filesUploader.getNotUploadedItems())) {
-            return _saveCandidate();
-         } else {
-            vm.filesUploader.uploadAll();
-         }
-      });
+   function saveCandidate() {
+      if (isEmpty(vm.filesUploader.getNotUploadedItems())) {
+         return _saveCandidate();
+      } else {
+         vm.filesUploader.uploadAll();
+      }
+   }
+
+   function submit(form) {
+      ValidationService.validate(form).then(saveWithVerify);
    }
 
    function addFilesForRemove(file) {
@@ -303,10 +306,9 @@ export default function CandidateController( // eslint-disable-line max-params, 
          .then(() => $state.go($state.previous.name || CANDIDATE_PROFILE_VIEW_NAME,
                               {_data: null, candidateId: vm.candidate.id},
                               { reload: true }))
-         .catch(() => {
-            _onError();
+         .catch((reason) => {
+            _onError($translate.instant('DIALOG_SERVICE.ERROR_CANDIDATE_SAVING'), reason);
             vm.candidate.comments = memo;
-            UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_CANDIDATE_SAVING'), 'error');
          });
    }
 

@@ -1,8 +1,10 @@
-@import "../../_settings.scss";
+@import './../../common.scss';
+
 .candidates-list {
    tr {
       th, td {
          text-align: left;
+         font-size: 0.875*$rem-base;
       }
       .candidate-name {
          width: 20%;

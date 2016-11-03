@@ -83,6 +83,7 @@ import botUrl                        from './filters/botUrl';
 import languageSkillsTitles          from './filters/LanguageSkillTitlesFilter';
 import fieldName                     from './filters/FieldNameFilter';
 import relocationsTitles             from './filters/RelocationTitlesFilter';
+import shorten                       from './filters/ShortenFilter';
 
 import StateRunner                   from './state-runner';
 import AuthRunner                    from './runner.auth';
@@ -155,7 +156,8 @@ angular
    .filter('botUrl',                botUrl)
    .filter('languageSkillsTitles',  languageSkillsTitles)
    .filter('relocationsTitles',     relocationsTitles)
-   .filter('fieldName',           fieldName)
+   .filter('fieldName',             fieldName)
+   .filter('shorten',               shorten)
 
 
    .factory('authInterceptor', authInterceptor)

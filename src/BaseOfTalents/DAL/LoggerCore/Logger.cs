@@ -116,8 +116,19 @@ namespace DAL.LoggerCore
             foreach (var sourceIdToActiveStage in sourceIdsToActiveStages)
             {
                 var destinationIdToActiveStage = GetAppropriateDestinationVsi(destinationIdsToActiveStages, sourceIdToActiveStage);
-                if (isIdToVsiExists(destinationIdToActiveStage)
-                    && StagesAreEquals(destinationIdToActiveStage, sourceIdToActiveStage))
+                if (sourceIdToActiveStage.Value.Id == 0)
+                {
+                    destination.Log(new LogUnit
+                    {
+                        UserId = userId,
+                        Field = $"{sourceIdToActiveStage.Key}",
+                        NewValues = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                        PastValues = CreateLogValueListOf($"{EMPTY}"),
+                        FieldType = fieldType
+                    });
+                }
+                else if (isIdToVsiExists(destinationIdToActiveStage)
+                  && StagesAreEquals(destinationIdToActiveStage, sourceIdToActiveStage))
                 {
                     destination.Log(new LogUnit
                     {

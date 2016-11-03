@@ -203,7 +203,7 @@ function getDateValues(values) {
 function getStageTitle(field, values, entityIdName) {
    let vsi = find(_vm.vacancyStageInfosComposedByCandidateIdVacancyId, [entityIdName, parseInt(field)]);
    let extendedStage = find(vsi.stageFlow, ['stage.id', parseInt(head(values))]);
-   return extendedStage.stage.title;
+   return extendedStage ? extendedStage.stage.title : head(values);
 }
 function containsId(field) {
    return /id/i.test(field);

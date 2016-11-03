@@ -58,7 +58,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
-      vm.vacancyPredicate = $state.params.vacancyPredicate || DEFAULT_VACANCY_PREDICATE;
+      vm.vacancyPredicate = $state.params.vacancyPredicate || cloneDeep(DEFAULT_VACANCY_PREDICATE);
       resetVacancyPredicateStateParams();
       searchVacancies();
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
@@ -85,15 +85,15 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    }
 
    function editVacancy(vacancy) {
-      $state.go('vacancyEdit', {_data: vacancy, vacancyId: vacancy.id, vacancyPredicate: vm.vacancyPredicate});
+      $state.go('vacancyEdit', {_data: null, vacancyId: vacancy.id, vacancyPredicate: vm.vacancyPredicate});
    }
 
    function viewVacancy(vacancy) {
-      $state.go('vacancyView', {_data: vacancy, vacancyId: vacancy.id, vacancyPredicate: vm.vacancyPredicate});
+      $state.go('vacancyView', {_data: null, vacancyId: vacancy.id, vacancyPredicate: vm.vacancyPredicate});
    }
 
    function clear() {
-      vm.vacancyPredicate = DEFAULT_VACANCY_PREDICATE;
+      vm.vacancyPredicate = cloneDeep(DEFAULT_VACANCY_PREDICATE);
    }
 
    function deleteVacancy(vacancy) {

@@ -1,7 +1,10 @@
+@import './../../common.scss';
+
 .vacancies-list {
    tr {
       th, td {
          text-align: left;
+         font-size: 0.875*$rem-base;
       }
       .vacancy-title {
          width: 25%;

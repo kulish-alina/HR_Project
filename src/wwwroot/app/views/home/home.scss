@@ -1,1 +1,9 @@
+@import './../../common.scss';
 
+table {
+   tr {
+      th, td {
+         font-size: 0.875*$rem-base;
+      }
+   }
+}

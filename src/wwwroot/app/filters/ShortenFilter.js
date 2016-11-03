@@ -1,7 +1,7 @@
 import {
     slice
 } from 'lodash';
-const THRESHOLD = 8;
+const THRESHOLD = 25;
 
 export default function() {
    return function _shorten(text) {

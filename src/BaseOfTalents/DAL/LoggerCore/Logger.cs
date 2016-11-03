@@ -116,7 +116,8 @@ namespace DAL.LoggerCore
             foreach (var sourceIdToActiveStage in sourceIdsToActiveStages)
             {
                 var destinationIdToActiveStage = GetAppropriateDestinationVsi(destinationIdsToActiveStages, sourceIdToActiveStage);
-                if (sourceIdToActiveStage.Value.Id == 0)
+                var isNewAttchedEntity = destGrouped.FirstOrDefault(x => x.Key == sourceIdToActiveStage.Key).Value == null;
+                if (sourceIdToActiveStage.Value.Id == 0 && isNewAttchedEntity)
                 {
                     destination.Log(new LogUnit
                     {

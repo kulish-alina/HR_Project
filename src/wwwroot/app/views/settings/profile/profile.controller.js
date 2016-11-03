@@ -3,7 +3,9 @@ import passwordChangePopup from './changePassword.view.html';
 import utils from '../../../utils.js';
 
 import {
-   set
+   set,
+   filter,
+   first
 } from 'lodash';
 
 const LIST_OF_THESAURUS = [ 'city' ];
@@ -19,7 +21,8 @@ export default function ProfileController (
    ValidationService,
    ThesaurusService,
    UserDialogService,
-   AccountService) {
+   AccountService,
+   RolesService) {
    'ngInject';
 
    /*---api---*/
@@ -30,6 +33,7 @@ export default function ProfileController (
    vm.uploader           = {};
    vm.convertDate        = utils.formatDateToServer;
    vm.showChangePassword = showChangePassword;
+   vm.location           = location;
 
    /*---impl---*/
    (function _init() {
@@ -72,7 +76,11 @@ export default function ProfileController (
    }
 
    function _initCurrentUser() {
-      UserService.getUserById(UserService.getCurrentUser().id, true).then(response => set(vm, 'user', response));
+      return UserService.getUserById(UserService.getCurrentUser().id, true)
+         .then(user => {
+            set(vm, 'user', user);
+            RolesService.getById(user.roleId).then((role) => set(vm, 'role', role));
+         });
    }
 
    function showChangePassword() {
@@ -101,6 +109,10 @@ export default function ProfileController (
       AccountService.changePassword(passwords.oldPass, passwords.newPass)
          .then(() => UserDialogService.notification($translate.instant('PROFILE.PAS_CHANGED'), 'success'))
          .catch((reason) => UserDialogService.notification(reason.data, 'error'));
+   }
+
+   function location() {
+      return first(filter(vm.thesaurus.city, { id : vm.user.cityId })).title;
    }
 }
 

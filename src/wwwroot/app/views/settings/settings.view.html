@@ -12,7 +12,7 @@
          <li ng-class="{'active-button' : $state.current.name === 'members'}">
             <a ui-sref="members" ng-bind="::('SETTINGS.MEMBERS' | translate)"></a>
          </li>
-         <li ng-class="{'active-button' : $state.current.name === 'roles'}">
+         <li ng-if="false"ng-class="{'active-button' : $state.current.name === 'roles'}">
             <a ui-sref="roles" ng-bind="::('SETTINGS.ROLES' | translate)"></a>
          </li>
          <li ng-class="{'active-button' : $state.current.name === 'thesauruses'}">

@@ -2,17 +2,20 @@ const PERMISSIONS_URL = 'permission/';
 const ROLES_URL       = 'role/';
 
 import {
-   groupBy
+   groupBy,
+   first,
+   filter
 } from 'lodash';
 
-let _$q, _HttpService, _HttpCacheService, _LoggerService;
-export default class RoleService {
+let _$q, _HttpService, _HttpCacheService, _LoggerService, _RolesService;
+export default class RolesService {
    constructor($q, HttpService, HttpCacheService, LoggerService) {
       'ngInject';
       _HttpService      = HttpService;
       _HttpCacheService = HttpCacheService;
       _LoggerService    = LoggerService;
       _$q               = $q;
+      _RolesService     = this;
    }
 
    getPermissions() {
@@ -21,8 +24,12 @@ export default class RoleService {
       });
    }
 
-   getRoles () {
-      return _HttpCacheService.get(ROLES_URL);
+   getRoles (predicate) {
+      return _HttpCacheService.get(ROLES_URL).then((roles) => filter(roles, predicate));
+   }
+
+   getById (id) {
+      return _RolesService.getRoles({id}).then(first);
    }
 
    saveRole(role) {

@@ -89,6 +89,7 @@ export default function CandidatesController(
    }
 
    function submit(form) {
+      form.$invalid = true; //TODO: need to use another solution
       ValidationService.validate(form).then(() => {
          _searchCandidates();
       });

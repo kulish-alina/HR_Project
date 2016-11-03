@@ -277,7 +277,8 @@
       "SAVED": "Role was successfully saved",
       "REMOVED": "Role was successfully removed",
       "CREATED": "Role '{{title}}' was successfully created",
-      "REDIRECT": "This role contains such users: {{users}}. Please replace them into another role or delete before role deleting. Press ok for redirect into members"
+      "REDIRECT": "This role contains such users: {{users}}. Please replace them into another role or delete before role deleting. Press ok for redirect into members",
+      "ROLE":"Role"
    },
    "DIALOG_SERVICE" : {
       "ERROR": "Error!",

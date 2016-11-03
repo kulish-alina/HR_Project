@@ -20,13 +20,14 @@
    background-size: 100%;
    width: 90%;
    height: 200px;
-   margin-bottom: 16px;
+   margin-bottom: $rem-base;
    padding-bottom: 30%;
    padding-top: 30%;
    text-align: center;
 }
 .profile-info i {
-   font-size: 24px;
+   font-size: $rem-base * 1.5;
+   padding-left: $rem-base;
 }
 
 .profile-contacts {

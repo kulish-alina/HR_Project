@@ -63,13 +63,15 @@ export default class VacancyService {
          .then(vac => this.convertFromServerFormat(vac, notToLoadAttachedCadidates));
    }
 
-   search(condition) {
+   search(condition, notToLoadAttachedCadidates) {
       _LoggerService.debug('search vacancies', condition);
       return _HttpService.get(`${VACANCY_URL}search`, condition).then(response => {
-         return _$q.all(map(response.vacancies, vacancy => this.convertFromServerFormat(vacancy))).then((vacancies) => {
-            response.vacancies = vacancies;
-            return response;
-         });
+         return _$q.all(map(response.vacancies, vacancy =>
+                         this.convertFromServerFormat(vacancy,notToLoadAttachedCadidates)))
+            .then((vacancies) => {
+               response.vacancies = vacancies;
+               return response;
+            });
       });
    }
 
@@ -81,7 +83,7 @@ export default class VacancyService {
             .search({title  : searchString,
                      size   : 100,
                      sortBy : 'CreatedOn',
-                     sortAsc: false})
+                     sortAsc: false}, true)
             .then(response => response.vacancies);
       }
    }

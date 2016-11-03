@@ -50,7 +50,7 @@ export default function ProfileController (
 
    function _onSubmit() {
       ValidationService.validate(vm.form.userEdit).then(() => {
-         return UserService.saveUser(vm.user).then(() => {
+         return UserService.saveUser(vm.user, true).then(() => {
             $state.go('profile');
             UserDialogService.notification($translate.instant('PROFILE.CHANGED'), 'success');
          });
@@ -72,7 +72,7 @@ export default function ProfileController (
    }
 
    function _initCurrentUser() {
-      UserService.getUserById(UserService.getCurrentUser().id).then(response => set(vm, 'user', response));
+      UserService.getUserById(UserService.getCurrentUser().id, true).then(response => set(vm, 'user', response));
    }
 
    function showChangePassword() {

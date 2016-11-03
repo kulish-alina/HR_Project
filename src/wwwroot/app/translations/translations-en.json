@@ -357,6 +357,10 @@
       "FOR_SELECTED": "at the selected date",
       "ADDITIONAL_INFORMATION": "Additional information",
       "DATE_ADDITIONS": "Date additions",
-      "DATE_OF_PASSAGE": "Date of passage"
+      "DATE_OF_PASSAGE": "Date of passage",
+      "NO_INFORMATION": "There are not information for the selected parameters in database!",
+      "START_DATE_CHART": "Start date report chart",
+      "PERIOD_DATE_CHART": "Dynamic report chart",
+      "END_DATE_CHART": "End date report chart"
    }
 }

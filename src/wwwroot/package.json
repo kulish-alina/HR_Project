@@ -70,6 +70,7 @@
     "angular-validation": "^1.4.1",
     "angularjs-slider": "^2.14.0",
     "bower": "^1.7.7",
+    "d3": "^4.2.7",
     "d3-funnel": "^1.0.0",
     "lodash": "^4.6.1",
     "moment": "^2.15.1",

@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace DAL.DTO.ReportDTO
 {
-    public class LocationDailyVacanciesReportDTO
+    public class LocationDailyVacanciesReportDTO: LocationVacancyReportDTO
     {
         public LocationDailyVacanciesReportDTO()
         {
-            DailyVacanciesStatisticsInfo = new List<DailyVacanciesReportDTO>();
+            VacanciesStatisticsInfo = new List<DailyVacanciesReportDTO>();
         }
-        public int LocationId { get; set; }
-        public List<DailyVacanciesReportDTO> DailyVacanciesStatisticsInfo { get; set; }
+        public List<DailyVacanciesReportDTO> VacanciesStatisticsInfo { get; set; }
     }
 }

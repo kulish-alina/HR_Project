@@ -91,11 +91,6 @@ body {
    overflow: inherit;
 }
 
-.modal {
-   width: $rem-base*31.25 !important;
-   height: auto !important;
-   max-height: $rem-base*30 !important;
-}
 .upload-button{
    @include button(
       $size: medium,

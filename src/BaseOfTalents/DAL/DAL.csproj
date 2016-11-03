@@ -90,6 +90,8 @@
     <Compile Include="DTO\ReportDTO\LocationDailyVacanciesReportDTO.cs" />
     <Compile Include="DTO\ReportDTO\LocationsUsersReportDTO.cs" />
     <Compile Include="DTO\ReportDTO\LocationsVacanciesReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\LocationVacancyReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\VacancyReportDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SetupDTO\CountryDTO.cs" />
     <Compile Include="DTO\SetupDTO\CurrencyDTO.cs" />

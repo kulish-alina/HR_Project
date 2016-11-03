@@ -4,6 +4,7 @@ import router       from 'angular-ui-router';
 import translate    from 'angular-translate';
 import 'moment/moment.js';
 import 'd3-funnel/dist/d3-funnel.js';
+import 'd3/build/d3.js';
 
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists';
 import 'angular-validation/dist/angular-validation';
@@ -55,6 +56,7 @@ import ReportsService                from './services/ReportsService';
 import CVParserService               from './services/CVParserService';
 import SearchService                 from './services/SearchService';
 import UserHistoryService            from './services/UserHistoryService';
+import D3Service                     from './services/D3Service';
 import AccountService                from './services/AccountService';
 
 import ThesaurusDirective            from './directives/thesaurus/thesaurus';
@@ -71,6 +73,7 @@ import convertToNumberDirective      from './directives/convertToNumber/convert-
 import languageSkillsDirective       from './directives/language-skills/language-skills';
 import EventCalendarDirective        from './directives/event-calendar/event-calendar';
 import CandidateVacancyInfoDirective from './directives/candidate-vacancy-info/candidate-vacancy-info';
+import HistogramDirective            from './directives/d3-histogram/d3-histogram';
 
 import uiMask                        from 'angular-ui-mask';
 
@@ -128,6 +131,7 @@ angular
    .service('CVParserService',     CVParserService)
    .service('SearchService',       SearchService)
    .service('UserHistoryService',  UserHistoryService)
+   .service('D3Service',           D3Service)
    .service('AccountService',      AccountService)
 
    .directive('thesaurus',              ThesaurusDirective.createInstance)
@@ -144,6 +148,7 @@ angular
    .directive('languageSkills',         languageSkillsDirective.createInstance)
    .directive('eventCalendar',          EventCalendarDirective.createInstance)
    .directive('candidateVacancyInfo',   CandidateVacancyInfoDirective.createInstance)
+   .directive('histogram',              HistogramDirective.createInstance)
 
    .filter('tel',                   PhoneFormatFilter)
    .filter('arrayAsString',         ArrayAsString)

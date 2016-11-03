@@ -1,0 +1,40 @@
+@import "../../common.scss";
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.tick {
+   text {
+      font-weight: 600;
+   }
+}
+.toolTip {
+  display: none;
+  position: absolute;
+  min-width: $rem-base*4;
+  border: 1px solid $border-color;
+  height: auto;
+  background: transparentize($body-background, 0.3);
+  padding: $rem-base/4;
+  text-align: center;
+  font-weight: 600;
+  font-size: $rem-base*0.8; 
+}
+#pie-cont {
+   display: none;
+}
+.pie-piece-value {
+   font-size: $rem-base*0.8;
+   font-weight: 600;
+   fill: $body-background;
+}
+.pie-legend-text {
+   font-size: $rem-base*0.8;
+}
+.legend {
+   font-size: $rem-base*0.8; 
+}

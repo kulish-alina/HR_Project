@@ -57,8 +57,11 @@ namespace DAL.Services
                         StagesData = GetStagesDataForUser(stages, user.Id)
                     };
                     // data for added candidates
-                    userReport.StagesData.Add(0, GetAddedCandedatesCount(startDate, endDate, user.Id));
-
+                    var candidateCount = GetAddedCandedatesCount(startDate, endDate, user.Id);
+                    if (candidateCount != 0)
+                    {
+                        userReport.StagesData.Add(0, candidateCount);
+                    }
                     current.UsersStatisticsInfo.Add(userReport);
                 }
                 result.Add(current);
@@ -100,7 +103,9 @@ namespace DAL.Services
             var statesCreatedInCurrentPeriod = GetFilteredVacanciesStatesForVacanciesReport(locationIds, userIds, startDate, endDate);
 
             var vacanciesGroupedByLocations = statesCreatedInCurrentPeriod
-                .Select(x => x.Vacancy).GroupBy(x => x.ResponsibleId).Select(x => x.First())
+                .Select(x => x.Vacancy)
+                .GroupBy(x => x.ResponsibleId)
+                .Select(x => x.First())
                 .GroupBy(x => x.Cities.First().Id);
 
             var result = vacanciesGroupedByLocations.Select(x => new LocationsVacanciesReportDTO
@@ -112,10 +117,18 @@ namespace DAL.Services
                     y.Responsible.LastName,
                     statesCreatedInCurrentPeriod)).ToList()
             });
-
-            return result;
+            
+            var distinct = locationIds.Except(vacanciesGroupedByLocations.Select(x => x.Key)).ToList();
+            var resultContainsEmptyObjects = new List<LocationsVacanciesReportDTO>();
+            if (distinct.Count == 0)
+            {
+                return result;
+            }
+            var emptyObjectResult = GetReportResultContainsEmptyObjects<LocationsVacanciesReportDTO>(distinct);
+            resultContainsEmptyObjects = result.ToList();
+            resultContainsEmptyObjects.AddRange(emptyObjectResult);
+            return resultContainsEmptyObjects;
         }
-
 
         private VacanciesReportDTO CreateVacanciesReport(int responsibleId,
             string responsibleFirstName, string responsibleLastName,
@@ -143,17 +156,28 @@ namespace DAL.Services
             var vacanciesGroupedByLocations = states.Select(x => x.Vacancy).GroupBy(x => x.ResponsibleId).Select(x => x.First())
                 .GroupBy(x => x.Cities.First().Id);
 
-
-
             var result = vacanciesGroupedByLocations.Select(x => new LocationDailyVacanciesReportDTO
             {
                 LocationId = x.Key,
-                DailyVacanciesStatisticsInfo = x.Select(y => CreateDailyVacanciesReport(y.ResponsibleId, y.Responsible.FirstName, y.Responsible.LastName, states)).ToList()
+                VacanciesStatisticsInfo = x.Select(y => CreateDailyVacanciesReport(y.ResponsibleId, y.Responsible.FirstName, y.Responsible.LastName, states)).ToList()
             });
 
-            return result;
+            var distinct = locationIds.Except(vacanciesGroupedByLocations.Select(x => x.Key)).ToList();
+            var resultContainsEmptyObjects = new List<LocationDailyVacanciesReportDTO>();
+            if (distinct.Count == 0)
+            {
+                return result;
+            }
+            var emptyObjectResult = GetReportResultContainsEmptyObjects<LocationDailyVacanciesReportDTO>(distinct);
+            resultContainsEmptyObjects = result.ToList();
+            resultContainsEmptyObjects.AddRange(emptyObjectResult);
+            return resultContainsEmptyObjects;
         }
 
+        private List<T> GetReportResultContainsEmptyObjects<T> (List<int> distinct) where T : LocationVacancyReportDTO, new()
+        {
+            return distinct.Select(x => new T() {LocationId = x}).ToList();
+        }
 
         private IEnumerable<VacancyState> GetFilteredVacanciesStatesForVacanciesReport(
             ICollection<int> locationIds,

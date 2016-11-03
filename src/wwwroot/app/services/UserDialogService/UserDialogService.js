@@ -93,7 +93,9 @@ export default class UserDialogService {
          template: _dialog.split('<!-- content will be here -->').join(content),
          contentScope,
          overlayClose: 'false',
-         close: () => modal.destroy()
+         close: () => {
+            modal.destroy();
+         }
       });
       modal.activate();
    }

@@ -64,9 +64,9 @@
                         </td>
                         <td ng-bind="log.field | fieldName">
                         </td>
-                        <td ng-bind="log.pastValue | date : 'dd-MM-yy'">
+                        <td ng-bind="log.pastValue | date : 'dd-MM-yy' | shorten">
                         </td>
-                        <td ng-bind="log.newValue | date : 'dd-MM-yy'">
+                        <td ng-bind="log.newValue | date : 'dd-MM-yy' | shorten">
                         </td>
                      </tr>
                   </tbody>

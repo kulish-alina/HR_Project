@@ -22,7 +22,10 @@ export default function ProfileController (
    ThesaurusService,
    UserDialogService,
    AccountService,
-   RolesService) {
+   RolesService,
+   FileService,
+   LoggerService
+   ) {
    'ngInject';
 
    /*---api---*/
@@ -31,19 +34,21 @@ export default function ProfileController (
    vm.form               = {};
    vm.user               = {};
    vm.uploader           = {};
+   vm.thesaurus          = {};
    vm.convertDate        = utils.formatDateToServer;
    vm.showChangePassword = showChangePassword;
    vm.location           = location;
-
+   vm.uploadPhoto        = uploadPhoto;
    /*---impl---*/
    (function _init() {
       SettingsService.addOnSubmitListener(_onSubmit);
       SettingsService.addOnCancelListener(_onCancel);
       SettingsService.addOnEditListener(_onEdit);
       $element.on('$destroy', _onDestroy);
-      _initCurrentUser();
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
+      _initCurrentUser();
+      _initImageUploader();
    }());
 
    function _onDestroy() {
@@ -54,15 +59,19 @@ export default function ProfileController (
 
    function _onSubmit() {
       ValidationService.validate(vm.form.userEdit).then(() => {
-         return UserService.saveUser(vm.user, true).then(() => {
-            $state.go('profile');
-            UserDialogService.notification($translate.instant('PROFILE.CHANGED'), 'success');
-         });
+         return _saveUser(vm.user);
       }).catch((error) => {
          if (error.data) {
             UserDialogService.notification(error.data.message, 'error');
          }
          return $q.reject();
+      });
+   }
+
+   function _saveUser(user) {
+      return UserService.saveUser(user, true).then(() => {
+         $state.go('profile');
+         UserDialogService.notification($translate.instant('PROFILE.CHANGED'), 'success');
       });
    }
 
@@ -113,6 +122,36 @@ export default function ProfileController (
 
    function location() {
       return first(filter(vm.thesaurus.city, { id : vm.user.cityId })).title;
+   }
+
+   function _initImageUploader() {
+      let uploader = FileService.getFileUploader({ maxSize: 1024000 });
+      uploader.onSuccessItem = (item, response, status, headers) => {
+         LoggerService.log('onSuccessItem', item, response, status, headers);
+         UserDialogService.notification($translate.instant('Success'), 'success');
+         let parsedResponse = JSON.parse(item._xhr.response);
+         if (vm.user.photo) {
+            FileService.remove(vm.user.photo);
+         }
+         vm.user.photo = parsedResponse;
+         _saveUser(vm.user);
+      };
+      uploader.onErrorItem = (fileItem, response, status, headers) => {
+         LoggerService.error('onErrorItem', fileItem, response, status, headers);
+         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
+      };
+      uploader.onAfterAddingFile = (item) => {
+         uploader.uploadItem(item);
+      };
+      uploader.onWhenAddingFileFailed = () => {
+         UserDialogService.notification($translate.instant('COMMON.FILE_UPLOADER_ERROR_MESSAGE'), 'error');
+      };
+      vm.imageUploader = uploader;
+   }
+
+   function uploadPhoto() {
+      let nativeUploadButton = document.querySelector('#imageUploader');
+      nativeUploadButton.click();
    }
 }
 

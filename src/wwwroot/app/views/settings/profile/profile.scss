@@ -1,7 +1,8 @@
 @import '../../../common.scss';
-
-.button change-pass {
-   width: 100%;
+@import '../../../directives/candidate-vacancy-info/candidate-vacancy-info.scss';
+.profile-button {
+   width: 50%;
+   margin-bottom: $rem-base * 0.25;
 }
 .userProfile {
    @include card-container();
@@ -32,4 +33,8 @@
 
 .profile-contacts {
    width: 100%;
+}
+.buttons-container {
+   display: flex;
+   flex-direction: column;
 }

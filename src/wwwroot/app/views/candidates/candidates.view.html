@@ -85,7 +85,7 @@
                      <input ng-model="candidatePredicate.minSalary" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                   </div>
                   <div class="medium-4 grid-block">
-                     <input ng-model="candidatePredicate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000, mincount" min-count-value="{{candidatePredicate.minSalary}}" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
+                     <input ng-model="candidatePredicate.maxSalary" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMax" , validator="counter=1000000, mincount" min-count-value="{{candidatePredicate.minSalary}}" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}">
                   </div>
                   <div class="medium-4 grid-block">
                      <oi-select class="multiple-select" oi-options="currency.id as currency.title for currency in thesaurus.currency" ng-model="candidatePredicate.currencyId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.CURRENCY' | translate}}" name="vacancyCurrency" validator="required" is-need-required="{{ !!candidatePredicate.minSalary || !!candidatePredicate.maxSalary }}" valid-method="watch"></oi-select>

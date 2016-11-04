@@ -1,4 +1,4 @@
-<div ng-class="($state.current.data.asEdit) ? 'main-card' : 'userProfile'">
+<div ng-class="($state.current.data.asEdit) ? 'main-card' : 'userProfile'" ng-if="user && role">
    <div class="card-section">
       <div class="grid-block">
          <div class="vertical medium-12 grid-block">
@@ -9,16 +9,21 @@
                <div class="medium-3 profile-info">
                   <div><i class="fi-marker"></i>
                   <span ng-bind="::'COMMON.LOCATION' | translate"></span>
+                  <span>:</span>
                   <span ng-bind="location()"></span></div>
                   <div ng-if="role"><i class="fi-torso"></i>
                   <span ng-bind="::'ROLES.ROLE' | translate"></span>
+                  <span>:</span>
                   <span ng-bind="role.title"></span></div>
                   <div ng-if="user.birthDate"><i class="fi-calendar"></i>
                   <span ng-bind="'CANDIDATE.AGE' | translate"></span>
+                  <span>:</span>
                   <span ng-bind="convertDate(user.birthDate) | age"></span></div>
                </div>
-               <div class="medium-3">
-                  <a class="button change-pass" ng-bind="::('PROFILE.CHANGE_PASS'|translate)" ng-click="showChangePassword()"></a>
+               <div class="medium-3 buttons-container">
+                  <a class="button profile-button" ng-bind="::('PROFILE.CHANGE_PASS'|translate)" ng-click="showChangePassword()"></a>
+                  <a class="button profile-button" ng-click="uploadPhoto()" ng-bind="'PROFILE.UPLOAD' | translate"></a>
+                  <input id="imageUploader" ng-hide="true" nv-file-select type="file" uploader="imageUploader">
                </div>
             </div>
          </div>

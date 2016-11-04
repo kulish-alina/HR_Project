@@ -268,7 +268,8 @@
       "NEW": "New password",
       "CONF": "Confirm password",
       "PAS_CHANGED": "Password was successfully changed",
-      "CHANGED": "Your profile data was successfully changed"
+      "CHANGED": "Your profile data was successfully changed",
+      "UPLOAD": "Upload photo"
    },
    "ROLES" : {
       "NEW": "New role",

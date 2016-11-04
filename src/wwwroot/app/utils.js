@@ -63,7 +63,8 @@ function formatDateTimeToServer(entityDate) {
       } else if (entityDate === null) {
          return entityDate;
       } else {
-         return new Date(entityDate.valueOf() - entityDate.getTimezoneOffset() * MILISECONDS_IN_MINUTE);
+         let date =  new Date(entityDate.valueOf() - entityDate.getTimezoneOffset() * MILISECONDS_IN_MINUTE);
+         return date.toISOString();
       }
    }
 }

@@ -3,7 +3,6 @@ import {
    set,
    remove,
    each,
-   assign,
    map,
    zipObject,
    flatten,
@@ -15,13 +14,13 @@ let HUE_SATURATION_LIGHTNESS_OFFSET = 20;
 export default function CandidateProfileController(
    $scope,
    $translate,
+   $q,
    EventsService,
    UserService,
    UserDialogService,
    VacancyService,
    CandidateService,
-   ThesaurusService,
-   LocalStorageService
+   ThesaurusService
    ) {
    'ngInject';
 
@@ -32,7 +31,7 @@ export default function CandidateProfileController(
    vm.getEventsForMonth       = getEventsForMonth;
    vm.users                   = [];
    vm.addUserToChekedUsers    = addUserToChekedUsers;
-   vm.chekedUsersIds          = LocalStorageService.get('chekedUsersIds') || [];
+   vm.chekedUsersIds          = [];
    vm.removeEvent             = removeEvent;
    vm.saveEvent               = saveEvent;
    vm.getEventsForDate        = getEventsForDate;
@@ -51,11 +50,7 @@ export default function CandidateProfileController(
          set(vm, 'users', users);
          generateColorsForUsers();
          each(vm.users, (user) => {
-            if (vm.chekedUsersIds.length && vm.chekedUsersIds.includes(user.id)) {
-               assign(user, {selected: true});
-            } else {
-               assign(user, {selected: false});
-            }
+            set(user, 'selected', false);
          });
       });
       VacancyService.search(vm.vacancy).then(data  => set(vm, 'vacancies',  data.vacancies));
@@ -85,11 +80,15 @@ export default function CandidateProfileController(
    function getEventsForMonth(startDate, endDate, usersIds) {
       vm.eventCondidtion.startDate = startDate;
       vm.eventCondidtion.endDate = endDate;
-      if (usersIds.length !== 1 && !isEqual(usersIds, vm.chekedUsersIds)) {
-         usersIds = vm.chekedUsersIds;
+      if (usersIds.length === 0) {
+         return $q.when();
+      } else {
+         if (usersIds.length !== 1 && !isEqual(usersIds, vm.chekedUsersIds)) {
+            usersIds = vm.chekedUsersIds;
+         }
+         vm.eventCondidtion.userIds = usersIds;
+         return EventsService.getEventsForPeriod(vm.eventCondidtion);
       }
-      vm.eventCondidtion.userIds = usersIds;
-      return EventsService.getEventsForPeriod(vm.eventCondidtion);
    }
 
    function getEventsForDate(date) {
@@ -105,7 +104,6 @@ export default function CandidateProfileController(
          remove(vm.chekedUsersIds, (currentUserId) =>  currentUserId === user.id);
       }
       vm.$broadcast('checkUser', {checkedUsersIds: vm.chekedUsersIds});
-      LocalStorageService.set('chekedUsersIds', vm.chekedUsersIds);
    }
 
    function removeEvent(event) {

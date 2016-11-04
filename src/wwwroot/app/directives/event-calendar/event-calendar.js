@@ -4,7 +4,8 @@ import {
    remove,
    difference,
    clone,
-   mapKeys
+   mapKeys,
+   head
 } from 'lodash';
 import template from './event-calendar.directive.html';
 import './event-canlendar.scss';
@@ -93,9 +94,9 @@ function EventCalendarController($scope) {
             selectionEventsForSpecificDay();
          });
       } else if (vm.checkedUsers.length > obj.checkedUsersIds.length) {
-         let unCheckedUserId = difference(vm.checkedUsers, obj.checkedUsersIds);
+         let unCheckedUserId = head(difference(vm.checkedUsers, obj.checkedUsersIds));
          mapKeys(vm.eventsForMonth, value => {
-            remove(value, {responsibleId: unCheckedUserId[0].toString()});
+            remove(value, {responsibleId: unCheckedUserId});
          });
       } else {
          diff = difference(obj.checkedUsersIds, vm.checkedUsers);

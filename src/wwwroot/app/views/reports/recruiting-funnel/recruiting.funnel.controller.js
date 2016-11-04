@@ -14,6 +14,7 @@ import {
    //cloneDeep
 } from 'lodash';
 
+const D3_FUNNEL = require('d3-funnel');
 const arrow = '\u2192';
 const colorsOfFunnelBlocks = [
    '#006064',
@@ -52,6 +53,7 @@ export default function RecruitingFunnelController(
    vm.stageSwitch                                 = stageSwitch;
    vm.selectedStageIds                            = [];
    vm.autocomplete                                = VacancyService.autocomplete;
+   let chart                                      = new D3_FUNNEL('#funnel');
 
    (function init() {
       VacancyService.search(vm.vacancySearchConditions)
@@ -100,6 +102,8 @@ export default function RecruitingFunnelController(
       vm.selectedStageIds = [];
       vm.tableRows = [];
       _addDefaultPropertyToStages(vm.stages);
+      vm.selectedVacancyId = null;
+      chart.destroy();
    }
 
    function viewVacancy() {
@@ -132,7 +136,6 @@ export default function RecruitingFunnelController(
    }
 
    function _genereteRecruitingFunnel() {
-      let D3Funnel = require('d3-funnel');
       let recruitingFunnelData = formingDataToRecruitingFunnel();
       const recruitingFunnelOptions = {
          chart: {
@@ -161,7 +164,6 @@ export default function RecruitingFunnelController(
             }
          }
       };
-      let chart = new D3Funnel('#funnel');
       chart.draw(recruitingFunnelData, recruitingFunnelOptions);
    }
 

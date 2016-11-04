@@ -188,6 +188,10 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       return !!vm.vacancy.closingCandidateId;
    };
 
+   vm.goToHiredCandidate = () => {
+      $state.go('candidateProfile', { candidateId: vm.vacancy.closingCandidateId });
+   };
+
    function fillWithCandidates(recomposed) {
       return $q.all(map(recomposed, _loadCandidate));
    }

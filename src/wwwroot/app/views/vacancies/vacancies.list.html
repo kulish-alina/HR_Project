@@ -105,7 +105,9 @@
                         </th>
                         <td ng-bind="{{(vacancies.current - 1) * vacancies.size + $index+1}}"></td>
                         <td class="vacancy-title">
-                           <a ng-click="viewVacancy(vacancyItem)" ng-bind="::vacancyItem.title"></td>
+                           <a ng-click="viewVacancy(vacancyItem)" ng-bind="::vacancyItem.title"></a>
+                           <span ng-if="vacancyItem.closingCandidateId" class="hire-tag" ng-bind="::'VACANCY.CLOSED' | translate"></span>
+                        </td>
                         <td class="vacancy-department" ng-bind="::vacancyItem.departments | arrayAsString: 'title'"></td>
                         <td ng-bind="::vacancyItem.entityStates[0].title"></td>
                         <td class="vacancy-cities" ng-bind="::vacancyItem.cities | arrayAsString: 'title'"></td>

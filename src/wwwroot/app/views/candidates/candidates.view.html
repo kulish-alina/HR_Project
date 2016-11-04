@@ -125,7 +125,7 @@
                         <td ng-bind="{{(candidates.current - 1) * candidates.size+$index + 1}}"></td>
                         <td class="candidate-name">
                            <a ng-click="viewCandidate(c)" ng-bind="::(c.lastName+' '+c.firstName)"></a>
-                           <span ng-if="c.closedVacanciesIds.length" class="hired-tag" ng-bind="::'COMMON.HIRED' | translate"></span>
+                           <span ng-if="c.closedVacanciesIds.length" class="hire-tag" ng-bind="::'CANDIDATE.HIRED' | translate"></span>
                         </td>
                         <td ng-bind="c.industry.title"></td>
                         <td ng-bind="c.mainSource.title"></td>

@@ -80,7 +80,7 @@ export default function HomeController( //eslint-disable-line max-statements
    };
 
    function viewVacancy(vacancy) {
-      $state.go('vacancyView', {_data: vacancy, vacancyId: vacancy.id});
+      $state.go('vacancyView', {_data: null, vacancyId: vacancy.id});
    }
 
    function saveNote(note) {

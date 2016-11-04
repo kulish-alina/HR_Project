@@ -19,6 +19,7 @@
       "STAGE": "Stage",
       "SOURCE": "Source",
       "POSITION": "Position",
+      "HIRED" : "Hired",
       "FULL_NAME": "Full name",
       "CANDIDATE_NAME": "Candidate name",
       "READY_TO_RELOCATE": "Ready to relocate",
@@ -170,7 +171,6 @@
       "AUTHOR": "Author:",
       "BACK": "Back",
       "FOR": "for",
-      "HIRED" : "Hired",
       "BOTH" : "Both",
       "CLOSE": "Close",
       "FORCE_SAVE" : "Force save"

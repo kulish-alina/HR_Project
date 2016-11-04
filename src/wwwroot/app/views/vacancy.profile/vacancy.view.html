@@ -125,7 +125,7 @@
                <div class="grid-block sidebar-row">
                   <div class="medium-4 grid-block sidebar-col" ng-bind="::'COMMON.RESPONSIBLE' | translate">: </div>
                   <div class="medium-8 grid-block">
-                     <oi-select class="multiple-select" oi-options="responsible.id as responsible.lastName + ' ' + responsible.firstName for responsible in searchResponsible($query) | orderBy : 'lastName+ \'|\' + firstName'" ng-model="vacancy.responsibleId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.RESPONSIBLE' | translate}}" name="vacancyResponsible"></oi-select>
+                     <oi-select class="multiple-select responsible-select" oi-options="responsible.id as responsible.lastName + ' ' + responsible.firstName for responsible in searchResponsible($query) | orderBy : 'lastName+ \'|\' + firstName'" ng-model="vacancy.responsibleId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.RESPONSIBLE' | translate}}" name="vacancyResponsible"></oi-select>
                   </div>
                </div>
                <div class="grid-block sidebar-row">

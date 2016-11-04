@@ -42,6 +42,7 @@
                   <oi-select class="multiple-select"
                              oi-options="department.id as department.title for department in thesaurus.department | orderBy : 'title'"
                              ng-model="vacancyPredicate.departmentId"
+                             oi-select-options="{ cleanModel: true }"
                              placeholder="{{::'COMMON.DEPARTMENT' | translate}}">
                   </oi-select>
                   
@@ -81,7 +82,7 @@
       <div class="medium-9 grid-block">
          <div class="main-card">
             <div class="card-divider" ng-bind="::'VACANCIES.VACANCIES' | translate"> </div>
-            <div class="card-section">
+            <div class="card-section entities-list-container">
                <table class="vacancies-list">
                   <thead>
                      <tr>

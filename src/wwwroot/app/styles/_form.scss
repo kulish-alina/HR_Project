@@ -11,6 +11,8 @@ input[type="number"]:focus, input[type="text"]:focus, input[type="url"]:focus, t
 fieldset {
    width: 100%;
    border: 0;
+   padding-top: $rem-base/4;
+   padding-bottom: $rem-base/4;
 }
 textarea {
    resize: vertical;

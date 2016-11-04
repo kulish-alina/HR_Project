@@ -14,9 +14,17 @@ oi-select .select-dropdown-optgroup {
 }
 
 oi-select .select-search-list {
+   .select-search-list-item {
+      margin-left:  0;
+   }
    padding : 0;
    li {
       padding-left: 0;
       padding-right: 0;
+   }
+}
+.responsible-select {
+   .select-search-list-item {
+      font-size:  $rem-base*0.8;
    }
 }

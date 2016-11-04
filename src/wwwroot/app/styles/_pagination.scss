@@ -13,7 +13,7 @@ ul.pagination {
       a {
          color: $body-font-color;
          float: left;
-         padding: $rem-base/2 $rem-base;
+         padding: $rem-base/4 $rem-base/2;
          text-decoration: none;
          border: 1px solid $border-color;
          transition: background-color .3s;

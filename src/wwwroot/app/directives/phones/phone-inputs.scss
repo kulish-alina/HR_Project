@@ -8,6 +8,6 @@ phones {
 
    .add-phone-number {
       position: absolute;
-      right: 0.2em;
+      right: $rem-base*0.125;
    }   
 }

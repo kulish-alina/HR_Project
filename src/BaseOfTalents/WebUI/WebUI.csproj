@@ -302,9 +302,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="deploy.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

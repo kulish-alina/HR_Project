@@ -66,7 +66,8 @@ export default function MembersController(
       vm.newUser = {
          roleId: role.id,
          login: '',
-         email: ''
+         email: '',
+         mailId: 1
       };
 
       UserDialogService.dialog($translate.instant('MEMBERS.INVITE_MEMBER', { roleTitle: role.title }),

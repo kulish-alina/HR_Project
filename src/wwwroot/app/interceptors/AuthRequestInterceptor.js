@@ -5,10 +5,10 @@ export default function _authInterceptor(
    return {
       request: (config) => {
          config.headers = config.headers || {};
-         let userService = $injector.get('UserService');
+         let localStorageService = $injector.get('LocalStorageService');
          let loggerService = $injector.get('LoggerService');
 
-         let accessToken = userService.getCurrentUser().token;
+         let accessToken = localStorageService.get('access_token');
          loggerService.debug('Request auth token', accessToken);
 
          if (accessToken) {

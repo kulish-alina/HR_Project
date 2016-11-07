@@ -578,8 +578,8 @@ namespace DAL.Migrations
 
         static DummyData()
         {
-            Roles = GetRoles(42);
-            Users = GetUsers(150);
+            Roles = GetRoles();
+            Users = GetUsers(5);
             Candidates = GetCandidates(197);
             Vacancies = GetVacancies(240);
             Events = GetEvents(100);
@@ -652,29 +652,14 @@ namespace DAL.Migrations
             return users;
         }
 
-        private static List<Role> GetRoles(int count)
+        private static List<Role> GetRoles()
         {
-            var roles = new List<Role>();
-            roles.Add(new Role
-            {
-                Title = "Adminstrator",
-                Permissions = Permissions
-            });
-            for (var i = 0; i < count; i++)
-            {
-                roles.Add(new Role
-                {
-                    Title = "Role " + i,
-                    Permissions = new List<Permission>
-                    {
-                        Permissions.GetRandom(),
-                        Permissions.GetRandom(),
-                        Permissions.GetRandom(),
-                        Permissions.GetRandom()
-                    }
-                });
-            }
-            return roles;
+            return new List<Role>() {
+                new Role {
+                    Title = "Adminstrator",
+                    Permissions = Permissions
+                }
+            };
         }
 
         public static List<Vacancy> GetVacancies(int count)

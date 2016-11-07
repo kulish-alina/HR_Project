@@ -9,9 +9,7 @@ import {
    reduce,
    result,
    assignIn,
-   set,
-   times,
-   constant
+   set
 } from 'lodash';
 
 const VACANCY_URL = 'vacancy/';
@@ -133,15 +131,9 @@ export default class VacancyService {
          }
          vacancy.responsibleId = parseInt(vacancy.responsibleId);
 
-         let copiedVacancies = _getCopiedVacancies(vacancy);
-         delete vacancy.copiedVacanciesNumber;
-         let saveVacanciesRequests = {
-            copies : _$q.all(map(copiedVacancies, copiedVacancy => _HttpService.post(VACANCY_URL, copiedVacancy)))
-         };
-         saveVacanciesRequests.vacancySource = vacancy.id ?
+         return vacancy.id ?
             _HttpService.put(`${VACANCY_URL}${vacancy.id}`, vacancy) :
             _HttpService.post(VACANCY_URL, vacancy);
-         return _$q.all(saveVacanciesRequests).then(savedVacancies => savedVacancies.vacancySource);
       }).then(this.convertFromServerFormat);
    }
 
@@ -262,10 +254,6 @@ function _saveNewTopics(vacancy) {
    }, {});
 
    return _$q.all(promises);
-}
-
-function _getCopiedVacancies(vacancy) {
-   return vacancy.copiedVacanciesNumber ? times(vacancy.copiedVacanciesNumber, constant(vacancy)) : [];
 }
 
 function ThesaurusHelper(thesaurusName, serverField, clientField, needConvertForServer) {

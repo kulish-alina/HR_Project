@@ -52,7 +52,7 @@
             <span class="property-title icon-text" ng-bind="::('CANDIDATE.EXPERIENCE' | translate) + ': '"></span>
             <span ng-if="candidate.experienceYears" ng-bind="::candidate.experienceYears" class="icon-text"></span>
             <span ng-if="candidate.experienceYears" ng-bind="::'COMMON.YEARS' | translate" class="icon-text"></span>
-            <span ng-bind="candidate.experienceMonths ? candidate.experienceMonths : 0 " class="icon-text"></span>
+            <span ng-if="candidate.experienceMonths" ng-bind="candidate.experienceMonths" class="icon-text"></span>
             <span ng-if="candidate.experienceMonths" ng-bind="::'COMMON.MONTHS' | translate" class="icon-text"></span>
          </div>
       </div>

@@ -1,0 +1,12 @@
+@import '../../common.scss';
+
+span.icon-text {
+   vertical-align: super;
+}
+
+i.fi-graph-bar:before, i.fi-dollar-bill:before, i.fi-torsos-all:before,
+   i.fi-results-demographics:before, i.fi-marker:before, i.fi-clock:before,
+   i.fi-flag:before, i.fi-star:before {
+      width: 25px;
+      text-align: center;
+}

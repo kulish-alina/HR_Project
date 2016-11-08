@@ -9,7 +9,7 @@ import {
 } from 'lodash';
 
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
-    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'currency', 'parsingSource'];
+    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'currency'];
 
 const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 45;

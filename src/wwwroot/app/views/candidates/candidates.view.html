@@ -28,8 +28,7 @@
                </div>
             </div>
             <form name="searchCandidatesForm">
-              <div class="card-section">
-              <oi-select class="multiple-select" oi-options="source.id as source.title for source in thesaurus.parsingSource" ng-model="candidatePredicate.parsingSources" oi-select-options="{ cleanModel: true }" multiple placeholder="{{::'CANDIDATE.PARSING_SOURCES' | translate}}"></oi-select>
+              <div class="card-section">              
                <input ng-model="candidatePredicate.technology" placeholder="{{::'CANDIDATES.TECHNOLOGY' | translate}}" type="text">
                <input ng-model="candidatePredicate.position" placeholder="{{::'CANDIDATE.POSITION' | translate}}" type="text">
                <input ng-model="candidatePredicate.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" type="text">

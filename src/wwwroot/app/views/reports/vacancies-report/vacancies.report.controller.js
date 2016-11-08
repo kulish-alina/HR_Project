@@ -14,7 +14,7 @@ import {
    assignIn
 } from 'lodash';
 
-const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdyansk'];
+const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdiansk'];
 
 const STATISTIC_KEYS_FOR_DATE = {
    Pending              : {key: 'Pending',     value: 'pendingVacanciesCount'},

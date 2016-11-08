@@ -1,0 +1,42 @@
+<div class="grid-block">
+   <div class="medium-2 grid-block">
+      <div class="sidebar report-sidebar">
+         <div class="card-divider">
+            <div class="grid-block">
+               <div class="medium-8 grid-block" ng-bind="::'REPORTS.REPORT_CONDITIONS' | translate"></div>
+               <div class="medium-4 grid-block align-right">
+                  <a ng-click="clear()" ng-bind="::'COMMON.CLEAR' | translate"></a>
+               </div>
+            </div>
+         </div>
+         <div class="card-section">
+            <form name="CandidatesConditionsReport">
+               <label ng-bind="::'REPORTS.DATE_RANGE' | translate"></label>
+               <div class="grid-block">
+                  <div class="medium-6 grid-block report-date-input">
+                     <input valid-method="watch" class="date-input" type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="candidatesReportParametrs.startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="startDate" model-view-value="true" validator="required, date" /> </div>
+                  <div class="medium-6 grid-block report-date-input">
+                     <input valid-method="watch" class="date-input" type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="candidatesReportParametrs.endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="endDate" /> </div>
+               </div>
+               <label for="Candidate" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></label>
+               <div class="grid-block">
+                  <oi-select class="multiple-select" oi-options="candidate.id as candidate.lastName +' '+candidate.firstName
+                                      for candidate in candidatesAutocomplete($query)  | orderBy : 'id'
+                                      | orderBy : 'lastName + \'|\' + firstName'" ng-model="candidatesReportParametrs.candidateIds" multiple oi-select-options="{ cleanModel: true }" placeholder="{{::'CANDIDATE.CANDIDATE' | translate}}"> </oi-select>
+               </div>
+               <label ng-bind="::'THESAURUSES.LOCATIONS' | translate"></label>
+               <div class="grid-block">
+                  <oi-select class="multiple-select" oi-options="city.id as city.title for city in locations | orderBy : 'title'" ng-model="candidatesReportParametrs.locationIds" multiple oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.LOCATION' | translate}}"> </oi-select>
+               </div>
+               <a class="expand button" ng-click="generateCandidatesReport(CandidatesConditionsReport)" ng-bind="::'REPORTS.GENERATE' | translate"></a>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div class="vertical medium-10 grid-block">
+      <div class="main-card">
+         <div class="card-divider"> <span ng-bind="::'REPORTS.CANDIDATES_REPORT_DATA' | translate"></span> <span ng-if="vacanciesReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="vacanciesReportParametrs.startDate"></span> <span ng-if="vacanciesReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="vacanciesReportParametrs.endDate"></span> </div>
+         <div class="card-section"> </div>
+      </div>
+   </div>
+</div>

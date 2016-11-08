@@ -20,6 +20,7 @@ import recruitingFunnelTemplate from './views/reports/recruiting-funnel/recruiti
 import usersReportTemplate      from './views/reports/users-report/users.report.view.html';
 import vacanciesReportTemplate  from './views/reports/vacancies-report/vacancies.report.view.html';
 import recoverTemplate          from './views/recoverAccount/recover.view.html';
+import candidatesReportTemplate from './views/reports/candidates-report/candidates.report.view.html';
 
 import homeController             from './views/home/home.controller';
 import candidatesController       from './views/candidates/candidates.controller';
@@ -40,6 +41,7 @@ import recruitingFunnelController from './views/reports/recruiting-funnel/recrui
 import usersReportController      from './views/reports/users-report/users.report.controller';
 import vacanciesReportController  from './views/reports/vacancies-report/vacancies.report.controller';
 import recoverController          from './views/recoverAccount/recover.controller.js';
+import candidatesReportController from './views/reports/candidates-report/candidates.report.controller.js';
 
 import translationsEn from './translations/translations-en.json';
 import translationsRu from './translations/translations-ru.json';
@@ -183,6 +185,12 @@ export default function _config(
          parent: 'reports',
          template: vacanciesReportTemplate,
          controller: vacanciesReportController
+      })
+      .state('candidatesReport', {
+         url: '/candidatesReport',
+         parent: 'reports',
+         template: candidatesReportTemplate,
+         controller: candidatesReportController
       })
       .state('settings', {
          url: '/settings',

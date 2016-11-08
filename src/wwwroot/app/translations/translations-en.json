@@ -304,6 +304,8 @@
       "EVENT_REMOVING_DIALOG": "Do you really want to remove this event?",
       "INVALID_DATES": "End date cannot be less than start date",
       "EMPTY_REPORT_CONDITIONS": "Please select at least one user or location",
+      "EMPTY_CANDIDATE_REPORT_CONDITIONS": "Please select at least one candidate or period of time (start date and end date)",
+      "EMPTY_DATE_REPORT_CONDITIONS": "Please select start date and end date",
       "ERROR_SIMILAR_CANDIDATES" : "Similar candidates already exist in database. Please, check your candidate. Click Force Save if you still want to save entered candidate."
    },
 
@@ -364,6 +366,8 @@
       "NO_INFORMATION": "There are not information for the selected parameters in database!",
       "START_DATE_CHART": "Start date report chart",
       "PERIOD_DATE_CHART": "Dynamic report chart",
-      "END_DATE_CHART": "End date report chart"
+      "END_DATE_CHART": "End date report chart",
+      "CANDIDATES_REPORT" : "Candidates report",
+      "CANDIDATES_REPORT_DATA" : "Candidates' report data"
    }
 }

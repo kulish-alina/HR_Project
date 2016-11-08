@@ -25,19 +25,15 @@
                </div>
             </div>
             <div class="card-section">
-               <form name="searchVacancy">
-                  <oi-select class="multiple-select"
-                             oi-options="industry.id as industry.title for industry in thesaurus.industry | orderBy : 'title'" ng-model="vacancyPredicate.industryId"
-                             oi-select-options="{ cleanModel: true }"
-                             placeholder="{{::'COMMON.INDUSTRY' | translate}}">
-                  </oi-select>
+               <form name="searchVacancy">               
+                  <input ng-model="vacancyPredicate.title" placeholder="Position" type="text">
+
                   <oi-select class="multiple-select"
                              oi-options="level.id as level.title for level in thesaurus.level | orderBy : 'title'"
                              ng-model="vacancyPredicate.levelIds"
                              multiple
                              placeholder="{{::'COMMON.LEVEL' | translate}}">
                   </oi-select>
-                  <input ng-model="vacancyPredicate.title" placeholder="Position" type="text">
                   
                   <oi-select class="multiple-select"
                              oi-options="department.id as department.title for department in thesaurus.department | orderBy : 'title'"
@@ -51,14 +47,7 @@
                              ng-model="vacancyPredicate.cityIds"
                              multiple placeholder="{{::'COMMON.LOCATION' | translate}}">
                   </oi-select>
-                  <oi-select class="multiple-select"
-                             oi-options="typeOfEmployment.id as typeOfEmployment.title
-                                        for typeOfEmployment in thesaurus.typeOfEmployment
-                                        | orderBy : 'title'"
-                             ng-model="vacancyPredicate.typeOfEmployment"
-                             oi-select-options="{ cleanModel: true }"
-                             placeholder="{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}">
-                  </oi-select>
+
                   <oi-select class="multiple-select"
                              oi-options="state.value as getStateTitle(state.translateTitleKey)
                                          for state in utils.states" 
@@ -66,6 +55,7 @@
                              oi-select-options="{ cleanModel: true }"
                              placeholder="{{::'COMMON.STATUS' | translate}}">
                   </oi-select>
+
                   <oi-select class="multiple-select"
                              oi-options="responsible.id as getFullName(responsible)
                                         for responsible in searchResponsible($query)
@@ -74,6 +64,22 @@
                              oi-select-options="{ cleanModel: true }"
                              placeholder="{{::'COMMON.RESPONSIBLE' | translate}}">
                   </oi-select>
+
+                  <oi-select class="multiple-select"
+                             oi-options="typeOfEmployment.id as typeOfEmployment.title
+                                        for typeOfEmployment in thesaurus.typeOfEmployment
+                                        | orderBy : 'title'"
+                             ng-model="vacancyPredicate.typeOfEmployment"
+                             oi-select-options="{ cleanModel: true }"
+                             placeholder="{{::'COMMON.TYPE_OF_EMPLOYMENT' | translate}}">
+                  </oi-select>
+
+                  <oi-select class="multiple-select"
+                             oi-options="industry.id as industry.title for industry in thesaurus.industry | orderBy : 'title'" ng-model="vacancyPredicate.industryId"
+                             oi-select-options="{ cleanModel: true }"
+                             placeholder="{{::'COMMON.INDUSTRY' | translate}}">
+                  </oi-select>
+
                   <a class="expand button" ng-click="searchVacancies()" ng-bind="::'INDEX.SEARCH' | translate"></a>
                </form>
             </div>

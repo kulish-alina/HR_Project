@@ -5,8 +5,8 @@
    padding: 0 $global-padding/2;
    border: 1px solid $border-color;
    background-color: $body-background;
-   min-height: $rem-base*3.125;
-   max-height: $rem-base*3.125;
+   min-height: $rem-base*2.75;
+   max-height: $rem-base*2.75;
 }
 .second-button-bar {
    @include menu-bar-layout(

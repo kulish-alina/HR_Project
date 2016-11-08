@@ -6,54 +6,54 @@
       <div class="vertical small-4 grid-block">
          <div>
             <i class="fi-calendar"></i>
-            <span class="property-title" ng-bind="::('COMMON.BIRTH' | translate) + ': '"></span>
-            <span ng-if="candidate.birthDate" ng-bind="::candidate.birthDate"></span>
+            <span class="property-title icon-text" ng-bind="::('COMMON.BIRTH' | translate) + ': '"></span>
+            <span ng-if="candidate.birthDate" ng-bind="::candidate.birthDate" class="icon-text"></span>
          </div>
          <div>
             <i class="fi-results-demographics"></i>
-            <span class="property-title" ng-bind="::('COMMON.INDUSTRY' | translate) + ': '"></span>
-            <span ng-bind="::candidate.industry.title"></span>
+            <span class="property-title icon-text" ng-bind="::('COMMON.INDUSTRY' | translate) + ': '"></span>
+            <span ng-bind="::candidate.industry.title" class="icon-text"></span>
          </div>
          <div>
             <i class="fi-flag"></i>
-            <span class="property-title" ng-bind="::('COMMON.LANGUAGE' | translate) + ': '"></span>
-            <span ng-bind="candidate.convertedLanguageSkills | languageSkillsTitles | arrayAsString"></span>
+            <span class="property-title icon-text" ng-bind="::('COMMON.LANGUAGE' | translate) + ': '"></span>
+            <span ng-bind="candidate.convertedLanguageSkills | languageSkillsTitles | arrayAsString" class="icon-text"></span>
          </div>
          <div>
             <i class="fi-marker"></i>
-            <span class="property-title" ng-bind="::('COMMON.LOCATION' | translate) + ': '"></span>
-            <span ng-bind="::candidate.city.title"></span>
+            <span class="property-title icon-text" ng-bind="::('COMMON.LOCATION' | translate) + ': '"></span>
+            <span ng-bind="::candidate.city.title" class="icon-text"></span>
          </div>
          <div ng-show="candidate.relocationAgreement">
             <i class="fi-checkbox"></i>
-            <span class="property-title" ng-bind="::('CANDIDATE.READY_TO_RELOCATE' | translate) + ': '"></span>
-            <span ng-bind="candidate.convertedRelocationPlaces | relocationsTitles | arrayAsString"></span>
+            <span class="property-title icon-text" ng-bind="::('CANDIDATE.READY_TO_RELOCATE' | translate) + ': '"></span>
+            <span ng-bind="candidate.convertedRelocationPlaces | relocationsTitles | arrayAsString" class="icon-text"></span>
          </div>
       </div>
       <div class="vertical small-4 grid-block">
          <div>
             <i class="fi-clock"></i>
-            <span class="property-title" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate) + ': '"></span>
-            <span ng-bind="::candidate.typeOfEmploymentObject.title"></span>
+            <span class="property-title icon-text" ng-bind="::('COMMON.TYPE_OF_EMPLOYMENT' | translate) + ': '"></span>
+            <span ng-bind="::candidate.typeOfEmploymentObject.title" class="icon-text"></span>
          </div>
          <div>
             <i class="fi-target"></i>
-            <span class="property-title" ng-bind="::('CANDIDATE.DESIRED_POSITION' | translate) + ': '"></span>
-            <span ng-bind="::candidate.positionDesired"></span>
+            <span class="property-title icon-text" ng-bind="::('CANDIDATE.DESIRED_POSITION' | translate) + ': '"></span>
+            <span ng-bind="::candidate.positionDesired" class="icon-text"></span>
          </div>
          <div>
             <i class="fi-dollar-bill"></i>
-            <span class="property-title" ng-bind="::('CANDIDATE.DESIRED_SALARY' | translate) + ': '"></span>
-            <span ng-bind="::candidate.salaryDesired"></span>
-            <span ng-bind="::candidate.currency.title"></span>
+            <span class="property-title icon-text" ng-bind="::('CANDIDATE.DESIRED_SALARY' | translate) + ': '"></span>
+            <span ng-bind="::candidate.salaryDesired" class="icon-text"></span>
+            <span ng-bind="::candidate.currency.title" class="icon-text"></span>
          </div>
          <div>
             <i class="fi-mountains"></i>
-            <span class="property-title" ng-bind="::('CANDIDATE.EXPERIENCE' | translate) + ': '"></span>
-            <span ng-if="candidate.experienceYears" ng-bind="::candidate.experienceYears"></span>
-            <span ng-if="candidate.experienceYears" ng-bind="::'COMMON.YEARS' | translate"></span>
-            <span ng-bind="candidate.experienceMonths ? candidate.experienceMonths : 0 "></span>
-            <span ng-if="candidate.experienceMonths" ng-bind="::'COMMON.MONTHS' | translate"></span>
+            <span class="property-title icon-text" ng-bind="::('CANDIDATE.EXPERIENCE' | translate) + ': '"></span>
+            <span ng-if="candidate.experienceYears" ng-bind="::candidate.experienceYears" class="icon-text"></span>
+            <span ng-if="candidate.experienceYears" ng-bind="::'COMMON.YEARS' | translate" class="icon-text"></span>
+            <span ng-bind="candidate.experienceMonths ? candidate.experienceMonths : 0 " class="icon-text"></span>
+            <span ng-if="candidate.experienceMonths" ng-bind="::'COMMON.MONTHS' | translate" class="icon-text"></span>
          </div>
       </div>
       <div class="vertical small-4 grid-block candidate-contacts">

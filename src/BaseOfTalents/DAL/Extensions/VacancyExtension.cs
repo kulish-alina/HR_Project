@@ -15,7 +15,7 @@ namespace DAL.Extensions
     {
         public static void Update(this Vacancy destination, VacancyDTO source, IUnitOfWork uow, int userId)
         {
-            LogChanges(destination, source, userId);
+            LogChanges(destination, source, userId, uow);
 
             destination.Id = source.Id;
             if (source.Id == 0 || source.CloneVacanciesNumber.HasValue)
@@ -49,9 +49,9 @@ namespace DAL.Extensions
             PerformVacancyStatesUpdating(destination, source);
         }
 
-        private static void LogChanges(Vacancy destination, VacancyDTO source, int userId)
+        private static void LogChanges(Vacancy destination, VacancyDTO source, int userId, IUnitOfWork uow)
         {
-            Logger.Log(destination, source, userId);
+            Logger.Log(destination, source, userId, uow);
         }
 
         private static void PerformVacancyStatesUpdating(Vacancy destination, VacancyDTO source)

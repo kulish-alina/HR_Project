@@ -1,10 +1,12 @@
 <div id="stages">
     <div ng-repeat="stageAndVsi in vacancyStagesEntitiesVSIs">
         <div class="stages-dialog-container">
-            <a class="many-stage-button" 
-                ng-bind="stageAndVsi.stage.stage.title" 
+            <div class="many-stage-button" 
                 ng-class='stageAndVsi.class' 
-                ng-click="stageClick(stageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs)"></a>
+                ng-click="stageClick(stageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs)">
+                <div>{{stageAndVsi.stage.stage.title}}</div>
+                <div ng-if="stageAndVsi.vsi.dateOfPass"class="align-right grid-block">Pass date: {{stageAndVsi.vsi.dateOfPass | date : 'dd-MM-yy HH:mm'}}</div>
+            </div>
             <textarea ng-class="{'invalid': !stageAndVsi.areaIsValid, 'valid': stageAndVsi.areaIsValid}" class="comment-area" ng-if='stageAndVsi.showCommentArea' ng-model='stageAndVsi.vsi.comment.message'></textarea>
         </div>
     </div>

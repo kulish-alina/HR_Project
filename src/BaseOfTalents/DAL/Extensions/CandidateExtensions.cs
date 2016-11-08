@@ -13,7 +13,7 @@ namespace DAL.Extensions
     {
         public static void Update(this Candidate destination, CandidateDTO source, IUnitOfWork uow, int userId)
         {
-            LogChanges(destination, source, userId);
+            LogChanges(destination, source, userId, uow);
 
             destination.State = source.State;
             destination.FirstName = source.FirstName;
@@ -66,9 +66,9 @@ namespace DAL.Extensions
             PerformEventsSaving(destination, source, uow.EventRepo);
         }
 
-        private static void LogChanges(Candidate destination, CandidateDTO source, int userId)
+        private static void LogChanges(Candidate destination, CandidateDTO source, int userId, IUnitOfWork uow)
         {
-            Logger.Log(destination, source, userId);
+            Logger.Log(destination, source, userId, uow);
         }
 
         private static void PerformRelocationPlacesSaving(Candidate destination, CandidateDTO source, IRepository<City> locationRepo)

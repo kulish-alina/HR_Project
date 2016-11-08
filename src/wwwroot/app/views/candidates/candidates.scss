@@ -4,7 +4,6 @@
    tr {
       th, td {
          text-align: left;
-         font-size: 0.875*$rem-base;
       }
       .candidate-name {
          width: 20%;
@@ -14,4 +13,8 @@
       }
    }
    
+}
+
+input[type="tel"].salary-input {
+   height: 2.3rem;
 }

@@ -1,7 +1,7 @@
-﻿using System.Web.Http;
-using DAL.Services;
+﻿using DAL.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Web.Http;
 using WebUI.Models.Reports;
 
 namespace WebUI.Controllers
@@ -39,6 +39,24 @@ namespace WebUI.Controllers
 
             return Json(resultForPeriod, BOT_SERIALIZER_SETTINGS);
         }
+        [HttpGet]
+        [Route("candidateProgressReport")]
+        public IHttpActionResult GetCandidateProgressReport([FromUri]CandidatesReportParameters candidatesReportParams)
+        {
+            if (!ModelState.IsValid || candidatesReportParams == null)
+            {
+                if (candidatesReportParams == null)
+                {
+                    ModelState.AddModelError("Request", "No params is listed");
+                }
+                return BadRequest(ModelState);
+            }
+            var report = service.GetCandidateProgressReport(candidatesReportParams.CandidatesIds,
+                candidatesReportParams.DateFrom,
+                candidatesReportParams.DateTo);
+            return Json(report, BOT_SERIALIZER_SETTINGS);
+        }
+
 
         [HttpGet]
         [Route("vacanciesReport")]

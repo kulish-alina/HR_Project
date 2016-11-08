@@ -86,11 +86,13 @@
     <Compile Include="DTO\PermissionDTO.cs" />
     <Compile Include="DTO\PhoneNumberDTO.cs" />
     <Compile Include="DTO\RelocationPlaceDTO.cs" />
+    <Compile Include="DTO\ReportDTO\CandidateProgressReportUnit.cs" />
     <Compile Include="DTO\ReportDTO\DailyVacanciesReportDTO.cs" />
     <Compile Include="DTO\ReportDTO\LocationDailyVacanciesReportDTO.cs" />
     <Compile Include="DTO\ReportDTO\LocationsUsersReportDTO.cs" />
     <Compile Include="DTO\ReportDTO\LocationsVacanciesReportDTO.cs" />
     <Compile Include="DTO\ReportDTO\LocationVacancyReportDTO.cs" />
+    <Compile Include="DTO\ReportDTO\StageInfoDTO.cs" />
     <Compile Include="DTO\ReportDTO\VacancyReportDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SetupDTO\CountryDTO.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="Extensions\LanguageSkillExtension.cs" />
     <Compile Include="Extensions\PhoneNumberExtension.cs" />
     <Compile Include="Extensions\RelocationPlaceExstensions.cs" />
+    <Compile Include="Extensions\ReportExtensions.cs" />
     <Compile Include="Extensions\RoleExtension.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
     <Compile Include="Extensions\VacancyExtension.cs" />

@@ -22,25 +22,7 @@
    <div class="vertical medium-9 grid-block">
       <div class="main-card vacancy-profile">
          <div class="card-divider">
-            <div class="grid-block">
-               <div class="vertical small-4 grid-block"> <span ng-bind="::'VACANCY.CHILD_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></span> <span ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.childVacanciesIds.length"></span>
-                  <h4 ng-bind="vacancy.title"></h4> </div>
-               <div class="small-4 grid-block">
-                  <a ng-click="goToParentVacancy()" ng-bind="::'VACANCY.PARENT_VACANCY' | translate" ng-if="vacancy.parentVacancyId"></a>
-               </div>
-               <div class="small-4 grid-block">
-                  <div zf-action-sheet="" ng-if="vacancy.childVacanciesIds.length">
-                     <div zf-as-button="" title="Child vacancies"></div>
-                     <div zf-as-content="" position="bottom">
-                        <ul>
-                           <li ng-repeat="childVacancy in vacancy.childVacancies">
-                              <a ng-click="goToChildVacancy(childVacancy.id)" href="#" ng-bind="childVacancy.title"></a>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-            </div>
+            <h4 ng-bind="vacancy.title"></h4>
          </div>
          <div class="card-section">
             <div class="grid-block">

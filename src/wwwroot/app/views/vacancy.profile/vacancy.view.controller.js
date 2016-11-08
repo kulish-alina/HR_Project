@@ -58,8 +58,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.saveComment          = _saveComment;
    vm.removeComment        = _removeComment;
    vm.editComment          = _editComment;
-   vm.goToParentVacancy    = goToParentVacancy;
-   vm.goToChildVacancy     = goToChildVacancy;
+
    vm.clonedVacancyStageInfosComposedByCandidateIdVacancyId     = [];
    vm.vacancyStageInfosComposedByCandidateIdVacancyId           = [];
    vm.isVacancyLoaded      = false;
@@ -235,14 +234,6 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       saveChanges();
       $state.go('candidate', { _data: null, vacancyIdToGoBack: vm.vacancy.id });
    };
-
-   function goToParentVacancy() {
-      $state.go('vacancyView', {_data: null, vacancyId: vm.vacancy.parentVacancyId, toPrevious: false});
-   }
-
-   function goToChildVacancy(childVacancyId) {
-      $state.go('vacancyView', {_data: null, vacancyId: childVacancyId, toPrevious: false});
-   }
 
    function edit() {
       $state.go('vacancyEdit', {_data: vm.vacancy, vacancyId: vm.vacancy.id});

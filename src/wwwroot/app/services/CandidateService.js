@@ -134,7 +134,7 @@ export default class CandidateService {
 
    getDuplicates(patternCandidate) {
       return _convertToServerFormat(patternCandidate)
-         .then(converted => _HttpService.get(`${CANDIDATE_URL}duplicates`, converted))
+         .then(converted => _HttpService.post(`${CANDIDATE_URL}duplicates`, converted))
          .then(similarCandidates =>  _$q.all(map(similarCandidates, _convertToClientFormat)));
    }
 }

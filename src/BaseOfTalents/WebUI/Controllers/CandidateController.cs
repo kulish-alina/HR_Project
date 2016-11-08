@@ -134,9 +134,9 @@ namespace WebUI.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("duplicates")]
-        public IHttpActionResult Get([FromUri]CandidateDTO patternCandidate)
+        public IHttpActionResult Get([FromBody]CandidateDTO patternCandidate)
         {
             if (!ModelState.IsValid)
             {

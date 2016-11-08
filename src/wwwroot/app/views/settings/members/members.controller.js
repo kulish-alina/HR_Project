@@ -3,7 +3,8 @@ import inviteDialogView from './invite-dialog.view.html';
 import {
    groupBy,
    set,
-   remove
+   remove,
+   first
 } from 'lodash';
 export default function MembersController(
    $q,
@@ -66,7 +67,8 @@ export default function MembersController(
       vm.newUser = {
          roleId: role.id,
          login: '',
-         email: ''
+         email: '',
+         mailId: first(vm.mailTemplates.mail).id
       };
 
       UserDialogService.dialog($translate.instant('MEMBERS.INVITE_MEMBER', { roleTitle: role.title }),

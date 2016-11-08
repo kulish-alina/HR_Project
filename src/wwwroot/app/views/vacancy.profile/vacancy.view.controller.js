@@ -17,6 +17,9 @@ import {
 import {
    isMatch
 } from 'lodash/fp';
+
+import './vacancy.view.scss';
+
 let moment = require('moment');
 
 const MATCH_FIELDS = ['responsibleId', 'startDate', 'endDate', 'deadlineDate'];

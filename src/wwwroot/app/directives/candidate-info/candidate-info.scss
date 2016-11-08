@@ -13,3 +13,13 @@
       width: 100%;
    }
 }
+
+span.icon-text {
+   vertical-align: super;
+}
+
+i.fi-calendar:before, i.fi-results-demographics:before, i.fi-flag:before, i.fi-marker:before, i.fi-checkbox:before,
+   i.fi-clock:before, i.fi-target:before, i.fi-dollar-bill:before, i.fi-mountains:before {
+      width: 25px;
+      text-align: center;
+}

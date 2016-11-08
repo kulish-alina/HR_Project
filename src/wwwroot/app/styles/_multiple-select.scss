@@ -5,7 +5,6 @@
 oi-select {
    .select-search {
       border-radius: 0;
-      min-height: $rem-base*2.4;
    }
    .select-dropdown {
       border-radius: 0;
@@ -17,16 +16,12 @@ oi-select {
          font-family: $body-font-family;
       }
    }
-   .select-search-list-item {
-      font-size: inherit;
-   }
 }
 
 oi-select.focused .select-search {
    border: 1px solid $gray;
    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.1);
    border-radius: 0;
-   min-height: $rem-base*2.4;
 }
 
 .select-search-list-item_selection-remove {

@@ -26,26 +26,54 @@
          <div class="card-section">
             <div class="grid-block">
                <div class="vertical small-4 grid-block">
-                  <div> <i class="fi-graph-bar"></i><span class="property-title" ng-bind="::'COMMON.LEVEL' | translate">:</span> <span ng-bind="vacancy.levels | arrayAsString: 'title'"></span> </div>
+                  <div> 
+                     <i class="fi-graph-bar"></i>
+                     <span class="property-title icon-text" ng-bind="::'COMMON.LEVEL' | translate">:</span> 
+                     <span ng-bind="vacancy.levels | arrayAsString: 'title'" class="icon-text"></span>
+                  </div>
                   <div> 
                      <i class="fi-dollar-bill"></i>
-                     <span class="property-title" ng-bind="::'COMMON.SALARY' | translate">:</span>
-                     <span ng-if="vacancy.salaryMin" ng-bind="::'COMMON.FROM' | translate">:</span> 
-                     <span ng-bind="::vacancy.salaryMin"></span> 
-                     <span ng-if="vacancy.salaryMax" ng-bind="::'COMMON.TO' | translate">:</span> 
-                     <span ng-bind="::vacancy.salaryMax"></span>
-                     <span ng-bind="vacancy.convertedCurrency | arrayAsString: 'title'"></span>
+                     <span class="property-title icon-text" ng-bind="::'COMMON.SALARY' | translate">:</span>
+                     <span ng-if="vacancy.salaryMin" ng-bind="::'COMMON.FROM' | translate" class="icon-text">:</span> 
+                     <span ng-bind="::vacancy.salaryMin" class="icon-text"></span> 
+                     <span ng-if="vacancy.salaryMax" ng-bind="::'COMMON.TO' | translate" class="icon-text">:</span> 
+                     <span ng-bind="::vacancy.salaryMax" class="icon-text"></span>
+                     <span ng-bind="vacancy.convertedCurrency | arrayAsString: 'title'" class="icon-text"></span>
                   </div>
-                  <div> <i class="fi-torsos-all"></i><span class="property-title" ng-bind="::'COMMON.DEPARTMENT' | translate">:</span> <span ng-bind="vacancy.departments | arrayAsString: 'title'"></span> </div>
+                  <div>
+                     <i class="fi-torsos-all"></i>
+                     <span class="property-title icon-text" ng-bind="::'COMMON.DEPARTMENT' | translate">:</span> 
+                     <span ng-bind="vacancy.departments | arrayAsString: 'title'" class="icon-text"></span> 
+                  </div>
                </div>
                <div class="vertical small-4 grid-block">
-                  <div> <i class="fi-results-demographics"></i><span class="property-title" ng-bind="::'COMMON.INDUSTRY' | translate">:</span> <span ng-bind="vacancy.industries | arrayAsString: 'title'"></span> </div>
-                  <div> <i class="fi-marker"></i> <span class="property-title" ng-bind="::'COMMON.LOCATION' | translate"></span> <span ng-bind="vacancy.cities | arrayAsString: 'title'"></span> </div>
-                  <div> <i class="fi-clock"></i><span class="property-title" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate">:</span> <span ng-bind="vacancy.typesOfEmployment | arrayAsString: 'title'"></span> </div>
+                  <div> 
+                     <i class="fi-results-demographics"></i>
+                     <span class="property-title icon-text" ng-bind="::'COMMON.INDUSTRY' | translate">:</span> 
+                     <span ng-bind="vacancy.industries | arrayAsString: 'title'" class="icon-text"></span> 
+                  </div>
+                  <div> 
+                     <i class="fi-marker"></i> 
+                     <span class="property-title icon-text" ng-bind="::'COMMON.LOCATION' | translate"></span> 
+                     <span ng-bind="vacancy.cities | arrayAsString: 'title'" class="icon-text"></span> 
+                  </div>
+                  <div> 
+                     <i class="fi-clock"></i>
+                     <span class="property-title icon-text" ng-bind="::'COMMON.TYPE_OF_EMPLOYMENT' | translate">:</span> 
+                     <span ng-bind="vacancy.typesOfEmployment | arrayAsString: 'title'" class="icon-text"></span> 
+                  </div>
                </div>
                <div class="vertical small-4 grid-block">
-                  <div> <i class="fi-flag"></i><span class="property-title" ng-bind="::'COMMON.LANGUAGE' | translate">:</span> <span ng-bind="vacancy.languageSkill.language.title"></span> </div>
-                  <div> <i class="fi-star"></i><span class="property-title" ng-bind="::'COMMON.LANGUAGE_LEVEL' | translate">:</span> <span ng-bind="vacancy.languageSkill.languageLevelObj.title"></span> </div>
+                  <div> 
+                     <i class="fi-flag"></i>
+                     <span class="property-title icon-text" ng-bind="::'COMMON.LANGUAGE' | translate">:</span> 
+                     <span ng-bind="vacancy.languageSkill.language.title" class="icon-text"></span> 
+                  </div>
+                  <div> 
+                     <i class="fi-star"></i>
+                     <span class="property-title icon-text" ng-bind="::'COMMON.LANGUAGE_LEVEL' | translate">:</span> 
+                     <span ng-bind="vacancy.languageSkill.languageLevelObj.title" class="icon-text"></span> 
+                  </div>
                </div>
             </div>
             <hr>

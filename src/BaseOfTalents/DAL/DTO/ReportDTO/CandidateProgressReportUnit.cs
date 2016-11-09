@@ -9,6 +9,8 @@ namespace DAL.DTO.ReportDTO
         public string CandidateLastName { get; set; }
         public int VacancyId { get; set; }
         public string VacancyTitle { get; set; }
+        public int LocationId { get; set; }
+        public string LocationTitle { get; set; }
         public IEnumerable<StageInfoDTO> Stages { get; set; }
     }
 }

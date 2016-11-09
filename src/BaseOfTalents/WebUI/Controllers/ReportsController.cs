@@ -53,8 +53,8 @@ namespace WebUI.Controllers
             }
             var report = service.GetCandidateProgressReport(candidatesReportParams.CandidatesIds,
                 candidatesReportParams.LocationsIds,
-                candidatesReportParams.DateFrom,
-                candidatesReportParams.DateTo);
+                candidatesReportParams.StartDate,
+                candidatesReportParams.EndDate);
             return Json(report, BOT_SERIALIZER_SETTINGS);
         }
 

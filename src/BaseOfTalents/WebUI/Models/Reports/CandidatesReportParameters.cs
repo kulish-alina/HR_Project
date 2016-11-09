@@ -7,7 +7,7 @@ namespace WebUI.Models.Reports
     {
         public IEnumerable<int> CandidatesIds { get; set; }
         public IEnumerable<int> LocationsIds { get; set; }
-        public DateTime? DateFrom { get; set; }
-        public DateTime? DateTo { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

@@ -126,7 +126,7 @@ namespace CVParser.Parser
                     }
                 case ".pdf":
                     {
-                        throw new NotImplementedException();
+                        return new PdfToStringListConverter();
                     }
                 default:
                     {

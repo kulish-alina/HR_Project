@@ -36,6 +36,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.Pdf, Version=16.11.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aspose.Pdf.16.11.0\lib\net40-client\Aspose.Pdf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Aspose.Words, Version=16.8.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
       <HintPath>..\packages\Aspose.Words.16.8.0\lib\net40\Aspose.Words.dll</HintPath>
       <Private>True</Private>
@@ -119,6 +123,7 @@
     <Compile Include="Core\GatherStrategies\PhoneNumberStrategy.cs" />
     <Compile Include="Core\GatherStrategies\SkypeStrategy.cs" />
     <Compile Include="Core\OdtToStringListConverter.cs" />
+    <Compile Include="Core\PdfToStringListConverter.cs" />
     <Compile Include="Core\SearchField.cs" />
     <Compile Include="Core\ContentDivider.cs" />
     <Compile Include="Core\DataGatherer.cs" />

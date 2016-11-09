@@ -13,6 +13,7 @@
 
 .rtl {
    flex-direction: row-reverse;
+   justify-content: space-between;
    background-color: $gray-light;
    .member-photo {
       margin-left: $rem-base/4;

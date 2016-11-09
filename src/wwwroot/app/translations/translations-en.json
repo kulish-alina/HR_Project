@@ -188,7 +188,8 @@
       "STAGES" : "Stages",
       "LEVELS" : "Levels",
       "THESAURUSES.EVENT_TYPES" : "Event types",
-      "THESAURUSES.CURRENCY" : "Currency"
+      "THESAURUSES.CURRENCY" : "Currency",
+      "THESAURUS_LABEL" : "Thesaurus"
    },
    "VALIDATION": {
       "required": {

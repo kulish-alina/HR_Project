@@ -63,7 +63,7 @@ export default class ThesaurusService {
    saveThesaurusTopic(thesaurusName, entity) {
       if (includes(this.getThesaurusNames(), thesaurusName)) {
          let orderField = find({type : 'number'}, THESAURUS_STRUCTURES[thesaurusName].fields);
-         if (orderField && !entity.id) {
+         if (orderField) {
             return _saveThesaurusTopic(thesaurusName, entity)
                .then(savedEntity => {
                   return this.getThesaurusTopics(thesaurusName)

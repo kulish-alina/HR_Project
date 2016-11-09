@@ -1,8 +1,14 @@
 import './thesauruses.scss';
 
+import { head } from 'lodash';
+
 export default function ThesaurusesController($scope, ThesaurusService) {
    'ngInject';
    const vm = $scope;
-   vm.thesaurusNames = ThesaurusService.getThesaurusNames();
-   vm.currentThesaurusName = '';
+
+   (function _init() {
+      vm.thesaurusNames       = ThesaurusService.getThesaurusNames();
+      vm.currentThesaurusName = head(vm.thesaurusNames) || '';
+   } ());
+
 }

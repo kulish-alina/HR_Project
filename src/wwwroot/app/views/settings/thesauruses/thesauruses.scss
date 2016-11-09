@@ -8,3 +8,9 @@
 .thesaurus-select {
    width: $rem-base*15;
 }
+
+div.thesaurus-label {
+   margin-top: $rem-base*0.5;
+   margin-bottom: $rem-base*0.5;
+   font-weight: bold;
+}

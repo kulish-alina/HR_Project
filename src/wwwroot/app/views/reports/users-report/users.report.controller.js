@@ -260,12 +260,6 @@ export default function UsersReportController( // eslint-disable-line max-params
             errorMessage: $translate.instant('DIALOG_SERVICE.EMPTY_REPORT_CONDITIONS')
          };
       }
-      if (+vm.usersReportParametrs.startDate > +vm.usersReportParametrs.endDate) {
-         return {
-            isValid: false,
-            errorMessage: $translate.instant('DIALOG_SERVICE.INVALID_DATES')
-         };
-      }
       return {
          isValid: true
       };

@@ -348,12 +348,6 @@ export default function VacanciesReportController( // eslint-disable-line max-pa
             errorMessage: $translate.instant('DIALOG_SERVICE.EMPTY_REPORT_CONDITIONS')
          };
       }
-      if (+vm.vacanciesReportParametrs.startDate > +vm.vacanciesReportParametrs.endDate) {
-         return {
-            isValid: false,
-            errorMessage: $translate.instant('DIALOG_SERVICE.INVALID_DATES')
-         };
-      }
       return {
          isValid: true
       };

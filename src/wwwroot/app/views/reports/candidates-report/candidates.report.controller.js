@@ -119,12 +119,6 @@ export default function CandidatesReportController(
             errorMessage: $translate.instant('DIALOG_SERVICE.EMPTY_DATE_REPORT_CONDITIONS')
          };
       }
-      if (vm.candidatesReportParametrs.startDate > vm.candidatesReportParametrs.endDate) {
-         return {
-            isValid: false,
-            errorMessage: $translate.instant('DIALOG_SERVICE.INVALID_DATES')
-         };
-      }
       return {
          isValid: true
       };

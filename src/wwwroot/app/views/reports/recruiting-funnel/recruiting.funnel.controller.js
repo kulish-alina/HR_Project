@@ -82,13 +82,15 @@ export default function RecruitingFunnelController(
    }
 
    function genereteReportForSelectedVacancy() {
-      VacancyService.getVacancy(vm.selectedVacancyId).then(response => {
-         set(vm, 'selectedVacancy', response);
-         vm.tableRows = [];
-         _groupCandidatesInProgressByStages();
-         _setTableRows();
-         _genereteRecruitingFunnel();
-      });
+      if (vm.selectedVacancyId) {
+         VacancyService.getVacancy(vm.selectedVacancyId).then(response => {
+            set(vm, 'selectedVacancy', response);
+            vm.tableRows = [];
+            _groupCandidatesInProgressByStages();
+            _setTableRows();
+            _genereteRecruitingFunnel();
+         });
+      }
    }
 
    function filterCandidatesGropedByStageByCandidateId(group, num) {
@@ -139,49 +141,57 @@ export default function RecruitingFunnelController(
    }
 
    function _genereteRecruitingFunnel() {
+      chart.destroy();
       let recruitingFunnelData = formingDataToRecruitingFunnel();
-      const recruitingFunnelOptions = {
-         chart: {
-            width: 900,
-            height: 350,
-            bottomWidth: 1 / 2,
-            curve: {
-               enabled: true
-            }
-         },
-         block: {
-            highlight: true,
-            fill: {
-               type: 'gradient',
-               scale: colorsOfFunnelBlocks
+      if (recruitingFunnelData.length) {
+         const recruitingFunnelOptions = {
+            chart: {
+               width: 900,
+               height: 350,
+               bottomWidth: 1 / 2,
+               curve: {
+                  enabled: true
+               }
             },
-            dynamicHeight: true,
-            minHeight: 20
-         },
-         label: {
-            format: '{l}: {v} {f}'
-         },
-         events: {
-            click: {
-               block: onClickBlockHendler
+            block: {
+               highlight: true,
+               fill: {
+                  type: 'gradient',
+                  scale: colorsOfFunnelBlocks
+               },
+               dynamicHeight: true,
+               minHeight: 20
+            },
+            label: {
+               format: '{l}: {v} {f}'
+            },
+            events: {
+               click: {
+                  block: onClickBlockHendler
+               }
             }
-         }
-      };
-      chart.draw(recruitingFunnelData, recruitingFunnelOptions);
+         };
+         chart.draw(recruitingFunnelData, recruitingFunnelOptions);
+      }
+
    }
 
    function formingDataToRecruitingFunnel() {
-      let firstValueLength = vm.candidatesGropedByStage[1].length;
-      return reduce(vm.candidatesGropedByStage, (resultArr, val, key) => {
-         let countAndPercentsValueArray = [];
-         countAndPercentsValueArray[0] = val.length;
-         countAndPercentsValueArray[1] = ` ${arrow} ${round(((val.length / firstValueLength) * 100), 1)} %`;
-         let valueWithLableArray = [];
-         valueWithLableArray[0] = find(vm.stages, {id: toNumber(key)}).title;
-         valueWithLableArray[1] = countAndPercentsValueArray;
-         (resultArr).push(valueWithLableArray);
-         return resultArr;
-      }, []);
+      if (vm.selectedVacancy.candidatesProgress.length) {
+         let firstValueLength = vm.candidatesGropedByStage[1].length;
+         return reduce(vm.candidatesGropedByStage, (resultArr, val, key) => {
+            let countAndPercentsValueArray = [];
+            countAndPercentsValueArray[0] = val.length;
+            countAndPercentsValueArray[1] = ` ${arrow} ${round(((val.length / firstValueLength) * 100), 1)} %`;
+            let valueWithLableArray = [];
+            valueWithLableArray[0] = find(vm.stages, {id: toNumber(key)}).title;
+            valueWithLableArray[1] = countAndPercentsValueArray;
+            (resultArr).push(valueWithLableArray);
+            return resultArr;
+         }, []);
+      } else {
+         return [];
+      }
    }
 
    function onClickBlockHendler($event) {

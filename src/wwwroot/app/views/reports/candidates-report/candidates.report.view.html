@@ -14,9 +14,10 @@
                <label ng-bind="::'REPORTS.DATE_RANGE' | translate"></label>
                <div class="grid-block">
                   <div class="medium-6 grid-block report-date-input">
-                     <input valid-method="watch" class="date-input" type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="startDate" model-view-value="true" validator="required, date" /> </div>
+                     <input valid-method="watch" class="date-input" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="startDate" model-view-value="true" type="tel" validator="date"/> 
+                  </div>
                   <div class="medium-6 grid-block report-date-input">
-                     <input valid-method="watch" class="date-input" type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="endDate" /> </div>
+                     <input valid-method="watch" class="date-input" type="tel" min-date="{{startDate}}" placeholder="{{::'COMMON.TO' | translate}}" ng-model="endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="endDate" validator="date"/> </div>
                </div>
                <label for="Candidate" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></label>
                <div class="grid-block">

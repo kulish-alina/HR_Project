@@ -69,7 +69,8 @@ namespace DAL.Services
             return result;
         }
 
-        public IEnumerable<IEnumerable<CandidateProgressReportUnitDTO>> GetCandidateProgressReport(IEnumerable<int> candidatesIds, DateTime? dateFrom, DateTime? dateTo)
+        public IEnumerable<IEnumerable<CandidateProgressReportUnitDTO>> GetCandidateProgressReport(IEnumerable<int> candidatesIds,
+            IEnumerable<int> locationsIds, DateTime? dateFrom, DateTime? dateTo)
         {
             var predicates = new List<Expression<Func<Candidate, bool>>>();
             if (candidatesIds != null && candidatesIds.Any())
@@ -81,7 +82,12 @@ namespace DAL.Services
             {
                 return candidates.Aggregate(new List<IEnumerable<CandidateProgressReportUnitDTO>>(), (result, candidate) =>
                 {
-                    var reportForCandidate = candidate.VacanciesProgress
+                    var vacancyStageInfos = candidate.VacanciesProgress;
+                    if (locationsIds != null && locationsIds.Any())
+                    {
+                        vacancyStageInfos = vacancyStageInfos.GetByLocations(locationsIds).ToList();
+                    }
+                    var reportForCandidate = vacancyStageInfos
                         .Where(x => dateFrom.Value <= x.DateOfPass && x.DateOfPass <= dateTo.Value && x.StageState == StageState.Passed)
                         .GetReport(candidate);
                     if (reportForCandidate.Any())
@@ -95,7 +101,12 @@ namespace DAL.Services
             {
                 return candidates.Select(candidate =>
                 {
-                    return candidate.VacanciesProgress
+                    var vacancyStageInfos = candidate.VacanciesProgress;
+                    if (locationsIds != null && locationsIds.Any())
+                    {
+                        vacancyStageInfos = vacancyStageInfos.GetByLocations(locationsIds).ToList();
+                    }
+                    return vacancyStageInfos
                         .Where(x => x.StageState == StageState.Passed)
                         .GetReport(candidate);
                 });

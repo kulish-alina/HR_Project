@@ -10,15 +10,15 @@ namespace DAL.Extensions
         public static IEnumerable<CandidateProgressReportUnitDTO> GetReport<T>(this IEnumerable<T> source, Candidate candidate) where T : VacancyStageInfo
         {
             return source
-               .GroupByVacancyId()
+               .ToLookup(x => x.VacancyId)
                .Select(x => new CandidateProgressReportUnitDTO
                {
                    CandidateId = candidate.Id,
                    CandidateFirstName = candidate.FirstName,
                    CandidateLastName = candidate.LastName,
                    VacancyId = x.Key,
-                   VacancyTitle = x.Value.First().Vacancy.Title,
-                   Stages = x.Value.Select(vsi => new StageInfoDTO
+                   VacancyTitle = x.First().Vacancy.Title,
+                   Stages = x.Select(vsi => new StageInfoDTO
                    {
                        StageId = vsi.StageId,
                        Comment = vsi.Comment?.Message,
@@ -27,20 +27,10 @@ namespace DAL.Extensions
                    })
                });
         }
-        private static Dictionary<int, List<T>> GroupByVacancyId<T>(this IEnumerable<T> source) where T : VacancyStageInfo
+
+        public static IEnumerable<T> GetByLocations<T>(this IEnumerable<T> source, IEnumerable<int> locationsIds) where T : VacancyStageInfo
         {
-            return source.Aggregate(new Dictionary<int, List<T>>(), (group, vsi) =>
-            {
-                if (group.Any(pair => pair.Key == vsi.VacancyId))
-                {
-                    group[vsi.VacancyId].Add(vsi);
-                }
-                else
-                {
-                    group.Add(vsi.VacancyId, new List<T> { vsi });
-                }
-                return group;
-            });
+            return source.Where(x => locationsIds.Any(location => x.Vacancy.Cities.Any(city => city.Id == location))).ToList();
         }
     }
 }

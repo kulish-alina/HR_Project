@@ -14,9 +14,9 @@
                <label ng-bind="::'REPORTS.DATE_RANGE' | translate"></label>
                <div class="grid-block">
                   <div class="medium-6 grid-block report-date-input">
-                     <input valid-method="watch" class="date-input" type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="candidatesReportParametrs.startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="startDate" model-view-value="true" validator="required, date" /> </div>
+                     <input valid-method="watch" class="date-input" type="text" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="startDate" model-view-value="true" validator="required, date" /> </div>
                   <div class="medium-6 grid-block report-date-input">
-                     <input valid-method="watch" class="date-input" type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="candidatesReportParametrs.endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="endDate" /> </div>
+                     <input valid-method="watch" class="date-input" type="text" placeholder="{{::'COMMON.TO' | translate}}" ng-model="endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" model-view-value="true" name="endDate" /> </div>
                </div>
                <label for="Candidate" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></label>
                <div class="grid-block">
@@ -26,7 +26,10 @@
                </div>
                <label ng-bind="::'THESAURUSES.LOCATIONS' | translate"></label>
                <div class="grid-block">
-                  <oi-select class="multiple-select" oi-options="city.id as city.title for city in locations | orderBy : 'title'" ng-model="candidatesReportParametrs.locationIds" multiple oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.LOCATION' | translate}}"> </oi-select>
+                  <oi-select ng-change=locationSwitch() class="multiple-select" oi-options="city.id as city.title for city in locations | orderBy : 'title'" ng-model="candidatesReportParametrs.locationsIds" multiple oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.LOCATION' | translate}}"> </oi-select>
+               </div>
+               <div class="vertical grid-block">
+                  <div class="stage-button" ng-click="stageSwitch(stage)" ng-repeat="stage in stages  | orderBy:'$index':true" ng-class="{'pressed': stage._isPressed}"> <span class='stage-button-text' ng-bind="stage.title"></span> </div>
                </div>
                <a class="expand button" ng-click="generateCandidatesReport(CandidatesConditionsReport)" ng-bind="::'REPORTS.GENERATE' | translate"></a>
             </form>
@@ -36,7 +39,30 @@
    <div class="vertical medium-10 grid-block">
       <div class="main-card">
          <div class="card-divider"> <span ng-bind="::'REPORTS.CANDIDATES_REPORT_DATA' | translate"></span> <span ng-if="vacanciesReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="vacanciesReportParametrs.startDate"></span> <span ng-if="vacanciesReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="vacanciesReportParametrs.endDate"></span> </div>
-         <div class="card-section"> </div>
+         <div class="card-section">
+            <table>
+                <thead>
+                  <tr class="report-data-row">
+                     <th ng-bind="::'COMMON.LOCATION' | translate" rowspan="3"></th>
+                     <th ng-bind="::'CANDIDATES.CANDIDATES' | translate" rowspan="3"></th>
+                     <th ng-bind="::'VACANCIES.VACANCIES' | translate" rowspan="3"></th>
+                     <th class="report-column" colspan="26"> <span ng-bind="::'THESAURUSES.STAGES' | translate"></span>  </th>
+                  </tr>
+                  <tr class="report-data-row">
+                     <th ng-if="selectedStageIds.includes(stage.id)" colspan="2" ng-bind="stage.title" class="stages-column" ng-repeat="stage in stages | orderBy:'$index':true">
+                  </tr>
+                  <tr class="report-data-row">
+                     <th ng-repeat-start="col in tableColumnsCount" class="report-column" ng-bind="::'COMMON.DATE' | translate"></th>
+                     <th ng-repeat-end="col in tableColumnsCount" class="report-column" ng-bind="::'COMMON.COMMENTS' | translate"></th>
+                  </tr>
+               </thead>
+               <tbody ng-repeat="selectedLocation in selectedLocations">
+                  <tr>
+                     <td ng-bind="selectedLocation.title"> </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
       </div>
    </div>
 </div>

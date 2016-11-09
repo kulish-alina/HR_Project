@@ -64,7 +64,9 @@ export default function _config(
    })
       .when('/vacancies','/vacancies/search')
       .when('/candidates', 'candidates/search')
-      .when('/settings/roles', '/bot');
+      .when('/settings/roles', '/bot')
+      .when('/candidates/profile/', '/bot')
+      .when('/vacancies/view/', '/bot');
 
    $stateProvider
       .state('main', {

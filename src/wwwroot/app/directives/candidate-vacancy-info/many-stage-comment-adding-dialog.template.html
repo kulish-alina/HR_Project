@@ -5,8 +5,23 @@
                 ng-class='stageAndVsi.class' 
                 ng-click="stageClick(stageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs)">
                 <div>{{stageAndVsi.stage.stage.title}}</div>
-                <div ng-if="stageAndVsi.vsi.dateOfPass"class="align-right grid-block">Pass date: {{stageAndVsi.vsi.dateOfPass | date : 'dd-MM-yy HH:mm'}}</div>
-            </div>
+                <div class="align-right grid-block">
+                    <input type="tel" 
+                        ng-if="stageAndVsi.vsi.dateOfPass"
+                        placeholder="Please, choose pass date" 
+                        class="stage-date-picker" 
+                        ng-model="stageAndVsi.vsi.dateOfPass" 
+                        datetime-picker date-format="dd-MM-yyyy" 
+                        close-on-select="true" 
+                        date-only 
+                        ui-mask="99-99-9999" 
+                        ui-mask-placeholder 
+                        ui-mask-placeholder-char="_" 
+                        model-view-value="true" 
+                    />
+                </div>
+                <!--<div class="align-right grid-block">Pass date: {{stageAndVsi.vsi.dateOfPass | date : 'dd-MM-yy HH:mm'}}</div>
+           !--> </div>
             <textarea ng-class="{'invalid': !stageAndVsi.areaIsValid, 'valid': stageAndVsi.areaIsValid}" class="comment-area" ng-if='stageAndVsi.showCommentArea' ng-model='stageAndVsi.vsi.comment.message'></textarea>
         </div>
     </div>

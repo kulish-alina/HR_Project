@@ -275,7 +275,12 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          name: $translate.instant('COMMON.CANCEL'),
          func: () => {
             vacancyStagesEntitiesVSIs = [
-               ...backupVSI,
+               ...(map(backupVSI, extVsi => {
+                  if (extVsi.vsi && extVsi.vsi.dateOfPass) {
+                     extVsi.vsi.dateOfPass = moment(extVsi.vsi.dateOfPass, DATE_FORMAT).toISOString();
+                  }
+                  return extVsi;
+               })),
                ...rejectVacancyStageInfoesContainer,
                hireVacancyStageInfoContainer
             ];
@@ -289,7 +294,12 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             name: $translate.instant('Pass on multiple vacancies'),
             func: () => {
                let updatedStagesWithRejectedAndHire = [
-                  ...vacancyStagesEntitiesVSIs,
+                  ...(map(vacancyStagesEntitiesVSIs, extVsi => {
+                     if (extVsi.vsi && extVsi.vsi.dateOfPass) {
+                        extVsi.vsi.dateOfPass = moment(extVsi.vsi.dateOfPass, DATE_FORMAT).toISOString();
+                     }
+                     return extVsi;
+                  })),
                   ...rejectVacancyStageInfoesContainer,
                   hireVacancyStageInfoContainer
                ];
@@ -301,7 +311,12 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                   })
                .catch(() => {
                   vacancyStagesEntitiesVSIs = [
-                     ...backupVSI,
+                     ...(map(backupVSI, extVsi => {
+                        if (extVsi.vsi && extVsi.vsi.dateOfPass) {
+                           extVsi.vsi.dateOfPass = moment(extVsi.vsi.dateOfPass, DATE_FORMAT).toISOString();
+                        }
+                        return extVsi;
+                     })),
                      ...rejectVacancyStageInfoesContainer,
                      hireVacancyStageInfoContainer
                   ];
@@ -315,7 +330,12 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          name: $translate.instant('COMMON.APLY'),
          func: () => {
             let updatedStagesWithRejectedAndHire = [
-               ...vacancyStagesEntitiesVSIs,
+               ...(map(vacancyStagesEntitiesVSIs, extVsi => {
+                  if (extVsi.vsi && extVsi.vsi.dateOfPass) {
+                     extVsi.vsi.dateOfPass = moment(extVsi.vsi.dateOfPass, DATE_FORMAT).toISOString();
+                  }
+                  return extVsi;
+               })),
                ...rejectVacancyStageInfoesContainer,
                hireVacancyStageInfoContainer
             ];
@@ -368,6 +388,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             if (stageVacancyStageInfo.stage.isCommentRequired) {
                showCommentArea = true;
             }
+            stageVacancyStageInfo.dateOfPass = moment(stageVacancyStageInfo.dateOfPass).format(DATE_FORMAT);
          }
          return {
             stage: vacancyStage,
@@ -454,7 +475,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          stageId: candidateStage.currentStageId
       });
       currentVacancyStageInfo.stageState = STAGE_STATES.Passed;
-      currentVacancyStageInfo.dateOfPass = new Date();
+      currentVacancyStageInfo.dateOfPass = moment();
    }
 
    function createHireStage(entityStageObject, hireDateISO) {
@@ -607,7 +628,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       currentStageAndVsi.stageState = STAGE_STATES.Passed;
       currentStageAndVsi.class = 'passed';
       currentStageAndVsi.vsi.stageState = STAGE_STATES.Passed;
-      currentStageAndVsi.vsi.dateOfPass = (new Date()).toISOString();
+      currentStageAndVsi.vsi.dateOfPass = moment().format(DATE_FORMAT);
    }
 
    function setSelectedStageToActive(selectedStageAndVsi, candObject) {

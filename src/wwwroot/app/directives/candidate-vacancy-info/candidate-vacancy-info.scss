@@ -132,4 +132,9 @@ th {
     color: $body-font-color;
     display: flex;
     flex-direction: row;
+    align-items: center;
+}
+input[type="tel"].stage-date-picker {
+    margin-bottom: 0;
+    width: 125px;
 }

@@ -18,6 +18,8 @@ namespace DAL.Extensions
                    CandidateLastName = candidate.LastName,
                    VacancyId = x.Key,
                    VacancyTitle = x.First().Vacancy.Title,
+                   LocationId = x.First().Vacancy.Cities.First().Id,
+                   LocationTitle = x.First().Vacancy.Cities.First().Title,
                    Stages = x.Select(vsi => new StageInfoDTO
                    {
                        StageId = vsi.StageId,

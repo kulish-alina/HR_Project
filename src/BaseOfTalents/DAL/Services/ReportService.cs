@@ -1,5 +1,6 @@
 ﻿using DAL.DTO;
 using DAL.DTO.ReportDTO;
+using DAL.Extensions;
 using DAL.Infrastructure;
 using Domain.Entities;
 using Domain.Entities.Enum;
@@ -7,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Services
 {
@@ -47,7 +46,7 @@ namespace DAL.Services
 
             foreach (var usersInCity in usersGroup)
             {
-                var current = new LocationsUsersReportDTO() { LocationId = usersInCity.Key };                
+                var current = new LocationsUsersReportDTO() { LocationId = usersInCity.Key };
                 foreach (var user in usersInCity)
                 {
                     var userReport = new UsersReportDTO()
@@ -66,9 +65,55 @@ namespace DAL.Services
                 }
                 result.Add(current);
             }
-            
+
             return result;
         }
+
+        public IEnumerable<IEnumerable<CandidateProgressReportUnitDTO>> GetCandidateProgressReport(IEnumerable<int> candidatesIds,
+            IEnumerable<int> locationsIds, DateTime? dateFrom, DateTime? dateTo)
+        {
+            var predicates = new List<Expression<Func<Candidate, bool>>>();
+            if (candidatesIds != null && candidatesIds.Any())
+            {
+                predicates.Add(x => candidatesIds.Any(id => id == x.Id));
+            }
+            var candidates = uow.CandidateRepo.Get(predicates).ToList();
+            if (dateFrom.HasValue && dateTo.HasValue)
+            {
+                return candidates.Aggregate(new List<IEnumerable<CandidateProgressReportUnitDTO>>(), (result, candidate) =>
+                {
+                    var vacancyStageInfos = candidate.VacanciesProgress;
+                    if (locationsIds != null && locationsIds.Any())
+                    {
+                        vacancyStageInfos = vacancyStageInfos.GetByLocations(locationsIds).ToList();
+                    }
+                    var reportForCandidate = vacancyStageInfos
+                        .Where(x => dateFrom.Value <= x.DateOfPass && x.DateOfPass <= dateTo.Value && x.StageState == StageState.Passed)
+                        .GetReport(candidate);
+                    if (reportForCandidate.Any())
+                    {
+                        result.Add(reportForCandidate);
+                    }
+                    return result;
+                });
+            }
+            else
+            {
+                return candidates.Select(candidate =>
+                {
+                    var vacancyStageInfos = candidate.VacanciesProgress;
+                    if (locationsIds != null && locationsIds.Any())
+                    {
+                        vacancyStageInfos = vacancyStageInfos.GetByLocations(locationsIds).ToList();
+                    }
+                    return vacancyStageInfos
+                        .Where(x => x.StageState == StageState.Passed)
+                        .GetReport(candidate);
+                });
+            }
+        }
+
+
 
         private int GetAddedCandedatesCount(DateTime startDate, DateTime endDate, int userId)
         {
@@ -117,7 +162,7 @@ namespace DAL.Services
                     y.Responsible.LastName,
                     statesCreatedInCurrentPeriod)).ToList()
             });
-            
+
             var distinct = locationIds.Except(vacanciesGroupedByLocations.Select(x => x.Key)).ToList();
             var resultContainsEmptyObjects = new List<LocationsVacanciesReportDTO>();
             if (distinct.Count == 0)
@@ -174,9 +219,9 @@ namespace DAL.Services
             return resultContainsEmptyObjects;
         }
 
-        private List<T> GetReportResultContainsEmptyObjects<T> (List<int> distinct) where T : LocationVacancyReportDTO, new()
+        private List<T> GetReportResultContainsEmptyObjects<T>(List<int> distinct) where T : LocationVacancyReportDTO, new()
         {
-            return distinct.Select(x => new T() {LocationId = x}).ToList();
+            return distinct.Select(x => new T() { LocationId = x }).ToList();
         }
 
         private IEnumerable<VacancyState> GetFilteredVacanciesStatesForVacanciesReport(
@@ -230,5 +275,5 @@ namespace DAL.Services
             return states.Where(x => x.State == state).Select(x => x.Vacancy).Where(x => x.ResponsibleId == responsibleId).Count();
         }
     }
- }
+}
 

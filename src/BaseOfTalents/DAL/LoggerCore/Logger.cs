@@ -1,4 +1,5 @@
 ﻿using DAL.DTO;
+using DAL.Infrastructure;
 using Domain.Entities;
 using Domain.Entities.Enum;
 using System;
@@ -25,7 +26,7 @@ namespace DAL.LoggerCore
         /// <param name="destination">Serverside entity</param>
         /// <param name="source">Entity from clientside, that probably changed</param>
         /// <param name="userId">User id, who perfoms the action</param>
-        public static void Log<T, S>(T destination, S source, int userId)
+        public static void Log<T, S>(T destination, S source, int userId, IUnitOfWork uow)
             where T : ILogable
             where S : BaseEntityDTO
         {
@@ -38,7 +39,7 @@ namespace DAL.LoggerCore
                 var sourceKvp = sourcePropertiesAndValue.FirstOrDefault(x => x.Key.Contains(fieldToLog.DTOFieldName));
                 if (destinationKvp.Key.Contains("Progress"))
                 {
-                    HandleVacanciesProgressCase(destination, userId, destinationKvp, sourceKvp);
+                    HandleVacanciesProgressCase(destination, userId, destinationKvp, sourceKvp, uow);
                 }
                 else if (isCitiesOrLevels(destinationKvp.Key))
                 {
@@ -95,7 +96,8 @@ namespace DAL.LoggerCore
         private static void HandleVacanciesProgressCase<T>(
             T destination,
             int userId, KeyValuePair<string, object> destinationFieldAndValue,
-            KeyValuePair<string, object> sourceFieldAndValue)
+            KeyValuePair<string, object> sourceFieldAndValue,
+            IUnitOfWork uow)
             where T : ILogable
         {
             var destinationVSIs = destinationFieldAndValue.Value as List<VacancyStageInfo>;
@@ -127,6 +129,28 @@ namespace DAL.LoggerCore
                         PastValues = CreateLogValueListOf($"{EMPTY}"),
                         FieldType = fieldType
                     });
+                    if (isCandidate)
+                    {
+                        uow.VacancyRepo.GetByID(sourceIdToActiveStage.Key).Log(new LogUnit
+                        {
+                            UserId = userId,
+                            Field = $"{sourceIdToActiveStage.Value.VacancyId}",
+                            NewValues = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                            PastValues = CreateLogValueListOf($"{EMPTY}"),
+                            FieldType = FieldType.CandidatesProgress
+                        });
+                    }
+                    else
+                    {
+                        uow.CandidateRepo.GetByID(sourceIdToActiveStage.Key).Log(new LogUnit
+                        {
+                            UserId = userId,
+                            Field = $"{sourceIdToActiveStage.Value.CandidateId}",
+                            NewValues = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                            PastValues = CreateLogValueListOf($"{EMPTY}"),
+                            FieldType = FieldType.VacanciesProgress
+                        });
+                    }
                 }
                 else if (isIdToVsiExists(destinationIdToActiveStage)
                   && StagesAreEquals(destinationIdToActiveStage, sourceIdToActiveStage))
@@ -139,6 +163,28 @@ namespace DAL.LoggerCore
                         PastValues = CreateLogValueListOf($"{destinationIdToActiveStage.Value.StageId}"),
                         FieldType = fieldType
                     });
+                    if (isCandidate)
+                    {
+                        uow.VacancyRepo.GetByID(sourceIdToActiveStage.Key).Log(new LogUnit
+                        {
+                            UserId = userId,
+                            Field = $"{sourceIdToActiveStage.Value.CandidateId}",
+                            NewValues = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                            PastValues = CreateLogValueListOf($"{destinationIdToActiveStage.Value.StageId}"),
+                            FieldType = FieldType.CandidatesProgress
+                        });
+                    }
+                    else
+                    {
+                        uow.CandidateRepo.GetByID(sourceIdToActiveStage.Key).Log(new LogUnit
+                        {
+                            UserId = userId,
+                            Field = $"{sourceIdToActiveStage.Value.VacancyId}",
+                            NewValues = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
+                            PastValues = CreateLogValueListOf($"{destinationIdToActiveStage.Value.StageId}"),
+                            FieldType = FieldType.VacanciesProgress
+                        });
+                    }
                 }
             }
         }

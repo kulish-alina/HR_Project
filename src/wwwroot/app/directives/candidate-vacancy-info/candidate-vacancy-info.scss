@@ -130,4 +130,6 @@ th {
     border: solid 1px $border-color;		
     padding: $rem-base / 2;		
     color: $body-font-color;
+    display: flex;
+    flex-direction: row;
 }

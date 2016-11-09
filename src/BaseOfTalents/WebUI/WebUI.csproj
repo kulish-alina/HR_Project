@@ -240,6 +240,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NoteModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
+    <Compile Include="Models\Reports\CandidatesReportParameters.cs" />
     <Compile Include="Models\Reports\LocationReportModel.cs" />
     <Compile Include="Models\Reports\UserReportModel.cs" />
     <Compile Include="Models\Reports\UsersReportParameters.cs" />

@@ -265,7 +265,6 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       let backupVSI = cloneDeep(vacancyStagesEntitiesVSIs);
       let rejectVacancyStageInfoesContainer = keepRejectVSIs(entityStageObject, vacancyStages);
       let hireVacancyStageInfoContainer = keepHireVSI(entityStageObject, vacancyStages);
-      debugger;
       let scope = {
          vacancyStagesEntitiesVSIs,
          stageClick: vm.stageClick,

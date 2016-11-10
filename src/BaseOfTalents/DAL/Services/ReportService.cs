@@ -71,6 +71,8 @@ namespace DAL.Services
         public Dictionary<int, List<CandidateProgressReportUnitDTO>> GetCandidateProgressReport(IEnumerable<int> candidatesIds,
             IEnumerable<int> locationsIds, DateTime? dateFrom, DateTime? dateTo)
         {
+
+
             var predicates = new List<Expression<Func<Candidate, bool>>>();
             if (candidatesIds != null && candidatesIds.Any())
             {
@@ -84,11 +86,20 @@ namespace DAL.Services
                     .AsEnumerable();
                 if (locationsIds != null && locationsIds.Any())
                 {
-                    vacanciesProgress = vacanciesProgress.Where(x => x.Vacancy.Cities.Any(city => locationsIds.Any(loc => loc == city.Id)));
+                    vacanciesProgress = vacanciesProgress.Where(x =>
+                    {
+                        if (x.Vacancy.Cities.Any())
+                        {
+                            return locationsIds.Any(loc => x.Vacancy.Cities.FirstOrDefault().Id == loc);
+                        }
+                        return false;
+                    });
                 }
                 if (dateFrom.HasValue && dateTo.HasValue)
                 {
-                    vacanciesProgress = vacanciesProgress.Where(x => dateFrom.Value <= x.DateOfPass && x.DateOfPass <= dateTo.Value);
+                    var clearedStartDate = new DateTime(dateFrom.Value.Year, dateFrom.Value.Month, dateFrom.Value.Day, 0, 0, 0);
+                    var clearedEndDate = new DateTime(dateTo.Value.Year, dateTo.Value.Month, dateTo.Value.Day, 23, 59, 59);
+                    vacanciesProgress = vacanciesProgress.Where(x => clearedStartDate <= x.DateOfPass && x.DateOfPass <= clearedEndDate);
                 }
                 var reportsGroupedByVacancies = vacanciesProgress
                     .GroupBy(x => x.VacancyId)
@@ -99,9 +110,7 @@ namespace DAL.Services
                             CandidateId = candidate.Id,
                             CandidateFirstName = candidate.FirstName,
                             CandidateLastName = candidate.LastName,
-                            LocationId = locationsIds != null ?
-                                x.Value.FirstOrDefault().Vacancy.Cities.First(c => locationsIds.Any(loc => loc == c.Id)).Id :
-                                x.Value.FirstOrDefault().Vacancy.Cities.First().Id,
+                            LocationId = x.Value.FirstOrDefault().Vacancy.Cities.First().Id,
                             VacancyId = x.Key,
                             VacancyTitle = x.Value.FirstOrDefault().Vacancy.Title,
                             Stages = x.Value.Select(vsi => new StageInfoDTO

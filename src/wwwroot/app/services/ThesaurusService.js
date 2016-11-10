@@ -62,23 +62,9 @@ export default class ThesaurusService {
 
    saveThesaurusTopic(thesaurusName, entity) {
       if (includes(this.getThesaurusNames(), thesaurusName)) {
-         let orderField = find({type : 'number'}, THESAURUS_STRUCTURES[thesaurusName].fields);
-         if (orderField && !entity.id) {
-            return _saveThesaurusTopic(thesaurusName, entity)
-               .then(savedEntity => {
-                  return this.getThesaurusTopics(thesaurusName)
-                     .then(topics => filter(topics, topic =>
-                        topic[orderField.name] >= savedEntity[orderField.name] && topic.id !== savedEntity.id))
-                     .then(topics => _incrementOrder(topics, orderField))
-                     .then(editedTopics => this.saveThesaurusTopics(thesaurusName, editedTopics)
-                        .then(() => savedEntity));
-               });
-         } else {
-            return _saveThesaurusTopic(thesaurusName, entity);
-         }
-      } else {
-         return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
+         return _saveThesaurusTopic(thesaurusName, entity);
       }
+      return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
    }
 
    saveThesaurusTopics(thesaurusName, entities) {
@@ -93,20 +79,9 @@ export default class ThesaurusService {
          return _HttpService.remove(additionalUrl, entity)
             .then(() => {
                _HttpCacheService.clearCache(thesaurusName);
-               let orderField = find({type : 'number'}, THESAURUS_STRUCTURES[thesaurusName].fields);
-               if (orderField) {
-                  this.getThesaurusTopics(thesaurusName)
-                     .then(topics => filter(topics, topic => topic[orderField.name] >= entity[orderField.name]))
-                     .then(topics => _decrementOrder(topics, orderField))
-                     .then(editedTopics => {
-                        this.saveThesaurusTopics(thesaurusName, editedTopics)
-                           .then(topics => find(topics, topic => topic[orderField.name] === entity[orderField.name]));
-                     });
-               }
             });
-      } else {
-         return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
       }
+      return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
    }
 
    getThesaurusNames() {
@@ -178,12 +153,3 @@ function _actionOfAdditionFieldsForTopics(topics, thesaurusName, action) {
    forEach(topics, _curryAction(thesaurusName, action));
 }
 
-function _incrementOrder(topics, orderField) {
-   forEach(topics, topic => topic[orderField.name]++);
-   return topics;
-}
-
-function _decrementOrder(topics, orderField) {
-   forEach(topics, topic => topic[orderField.name]--);
-   return topics;
-}

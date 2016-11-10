@@ -1,6 +1,5 @@
 ﻿using DAL.DTO;
 using DAL.DTO.ReportDTO;
-using DAL.Extensions;
 using DAL.Infrastructure;
 using Domain.Entities;
 using Domain.Entities.Enum;
@@ -69,7 +68,7 @@ namespace DAL.Services
             return result;
         }
 
-        public IEnumerable<IEnumerable<CandidateProgressReportUnitDTO>> GetCandidateProgressReport(IEnumerable<int> candidatesIds,
+        public Dictionary<int, List<CandidateProgressReportUnitDTO>> GetCandidateProgressReport(IEnumerable<int> candidatesIds,
             IEnumerable<int> locationsIds, DateTime? dateFrom, DateTime? dateTo)
         {
             var predicates = new List<Expression<Func<Candidate, bool>>>();
@@ -78,39 +77,50 @@ namespace DAL.Services
                 predicates.Add(x => candidatesIds.Any(id => id == x.Id));
             }
             var candidates = uow.CandidateRepo.Get(predicates).ToList();
-            if (dateFrom.HasValue && dateTo.HasValue)
+            return candidates.Aggregate(new List<CandidateProgressReportUnitDTO>(), (result, candidate) =>
             {
-                return candidates.Aggregate(new List<IEnumerable<CandidateProgressReportUnitDTO>>(), (result, candidate) =>
+                var vacanciesProgress = candidate.VacanciesProgress
+                    .Where(x => x.StageState == StageState.Passed)
+                    .AsEnumerable();
+                if (locationsIds != null && locationsIds.Any())
                 {
-                    var vacancyStageInfos = candidate.VacanciesProgress;
-                    if (locationsIds != null && locationsIds.Any())
-                    {
-                        vacancyStageInfos = vacancyStageInfos.GetByLocations(locationsIds).ToList();
-                    }
-                    var reportForCandidate = vacancyStageInfos
-                        .Where(x => dateFrom.Value <= x.DateOfPass && x.DateOfPass <= dateTo.Value && x.StageState == StageState.Passed)
-                        .GetReport(candidate);
-                    if (reportForCandidate.Any())
-                    {
-                        result.Add(reportForCandidate);
-                    }
-                    return result;
-                });
-            }
-            else
-            {
-                return candidates.Select(candidate =>
+                    vacanciesProgress = vacanciesProgress.Where(x => x.Vacancy.Cities.Any(city => locationsIds.Any(loc => loc == city.Id)));
+                }
+                if (dateFrom.HasValue && dateTo.HasValue)
                 {
-                    var vacancyStageInfos = candidate.VacanciesProgress;
-                    if (locationsIds != null && locationsIds.Any())
-                    {
-                        vacancyStageInfos = vacancyStageInfos.GetByLocations(locationsIds).ToList();
-                    }
-                    return vacancyStageInfos
-                        .Where(x => x.StageState == StageState.Passed)
-                        .GetReport(candidate);
-                });
-            }
+                    vacanciesProgress = vacanciesProgress.Where(x => dateFrom.Value <= x.DateOfPass && x.DateOfPass <= dateTo.Value);
+                }
+                var reportsGroupedByVacancies = vacanciesProgress
+                    .GroupBy(x => x.VacancyId)
+                    .ToDictionary(x => x.Key, y => y.ToList())
+                    .Select(x =>
+                        new CandidateProgressReportUnitDTO
+                        {
+                            CandidateId = candidate.Id,
+                            CandidateFirstName = candidate.FirstName,
+                            CandidateLastName = candidate.LastName,
+                            LocationId = locationsIds != null ?
+                                x.Value.FirstOrDefault().Vacancy.Cities.First(c => locationsIds.Any(loc => loc == c.Id)).Id :
+                                x.Value.FirstOrDefault().Vacancy.Cities.First().Id,
+                            VacancyId = x.Key,
+                            VacancyTitle = x.Value.FirstOrDefault().Vacancy.Title,
+                            Stages = x.Value.Select(vsi => new StageInfoDTO
+                            {
+                                StageId = vsi.StageId,
+                                Comment = vsi.Comment?.Message,
+                                PassDate = vsi.DateOfPass.Value,
+                                StageTitle = vsi.Stage.Title
+                            })
+                        }
+                    );
+                if (reportsGroupedByVacancies.Any())
+                {
+                    result.AddRange(reportsGroupedByVacancies);
+                }
+                return result;
+            })
+            .GroupBy(x => x.LocationId)
+            .ToDictionary(x => x.Key, y => y.ToList());
         }
 
 

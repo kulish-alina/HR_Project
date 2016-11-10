@@ -19,6 +19,7 @@ import {
    uniq,
    assign
 } from 'lodash';
+import utils from '../../utils';
 
 export default class CandidateVacancyInfoDirective {
    constructor() {
@@ -277,7 +278,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             vacancyStagesEntitiesVSIs = [
                ...(map(backupVSI, extVsi => {
                   if (extVsi.vsi && extVsi.vsi.dateOfPass) {
-                     extVsi.vsi.dateOfPass = moment(extVsi.vsi.dateOfPass, DATE_FORMAT).toISOString();
+                     extVsi.vsi.dateOfPass = utils.formatDateToServer(extVsi.vsi.dateOfPass);
                   }
                   return extVsi;
                })),
@@ -296,7 +297,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                let updatedStagesWithRejectedAndHire = [
                   ...(map(vacancyStagesEntitiesVSIs, extVsi => {
                      if (extVsi.vsi && extVsi.vsi.dateOfPass) {
-                        extVsi.vsi.dateOfPass = moment(extVsi.vsi.dateOfPass, DATE_FORMAT).toISOString();
+                        extVsi.vsi.dateOfPass = utils.formatDateToServer(extVsi.vsi.dateOfPass);
                      }
                      return extVsi;
                   })),
@@ -313,7 +314,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                   vacancyStagesEntitiesVSIs = [
                      ...(map(backupVSI, extVsi => {
                         if (extVsi.vsi && extVsi.vsi.dateOfPass) {
-                           extVsi.vsi.dateOfPass = moment(extVsi.vsi.dateOfPass, DATE_FORMAT).toISOString();
+                           extVsi.vsi.dateOfPass = utils.formatDateToServer(extVsi.vsi.dateOfPass);
                         }
                         return extVsi;
                      })),
@@ -331,8 +332,9 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          func: () => {
             let updatedStagesWithRejectedAndHire = [
                ...(map(vacancyStagesEntitiesVSIs, extVsi => {
+                  debugger;
                   if (extVsi.vsi && extVsi.vsi.dateOfPass) {
-                     extVsi.vsi.dateOfPass = moment(extVsi.vsi.dateOfPass, DATE_FORMAT).toISOString();
+                     extVsi.vsi.dateOfPass = utils.formatDateToServer(extVsi.vsi.dateOfPass);
                   }
                   return extVsi;
                })),
@@ -345,7 +347,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          }
       });
       UserDialogService.dialog($translate.instant('Candidate stages'),
-         manyStageCommentDialogTemplate, buttons, scope);
+         manyStageCommentDialogTemplate, buttons, scope, false);
       return stagesDeffered.promise;
    }
 
@@ -388,7 +390,9 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             if (stageVacancyStageInfo.stage.isCommentRequired) {
                showCommentArea = true;
             }
-            stageVacancyStageInfo.dateOfPass = moment(stageVacancyStageInfo.dateOfPass).format(DATE_FORMAT);
+            if (stageVacancyStageInfo.dateOfPass) {
+               stageVacancyStageInfo.dateOfPass = moment(stageVacancyStageInfo.dateOfPass).format(DATE_FORMAT);
+            }
          }
          return {
             stage: vacancyStage,

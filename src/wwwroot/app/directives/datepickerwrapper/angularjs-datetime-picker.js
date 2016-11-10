@@ -163,7 +163,6 @@ import {
           firstLetter: day.substr(0, 2)
         });
       }
-      firstDayOfWeek = $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK || 0;
     };
 
     var getMonthView = function(year, month) {

@@ -1,5 +1,5 @@
 .multiple-select {
-   margin-bottom: $rem-base;
+   margin-bottom: 14px;
 }
 
 oi-select {
@@ -31,4 +31,16 @@ oi-select.focused .select-search {
 .select-search-list-item_selection {
    padding-left: $rem-base*0.3;
    padding-right: $rem-base*0.3;
+}
+
+oi-select .select-search-list-item_hide {
+   position: relative;
+}
+
+oi-select:not(.multiple) {
+   height: 33px;
+}
+
+oi-select:not(.multiple) .select-search-list-item_selection {
+   height: 27px;
 }

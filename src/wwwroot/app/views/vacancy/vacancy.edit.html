@@ -28,10 +28,25 @@
                         <oi-select class="multiple-select" oi-options="industry.id as industry.title for industry in thesaurus.industry | orderBy : 'title'" ng-model="vacancy.industryId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.INDUSTRY' | translate}}" name="vacancyIndustry" validator="required"></oi-select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">
-                              <oi-select class="multiple-select" oi-options="language.id as language.title for language in thesaurus.language | orderBy : 'title'" ng-model="vacancy.languageSkill.languageId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.LANGUAGE' | translate}}"></oi-select>
+                              <oi-select class="multiple-select"
+                                         oi-options="language.id as language.title 
+                                                     for language in thesaurus.language 
+                                                     | orderBy : 'title'"
+                                         ng-model="vacancy.languageSkill.languageId" 
+                                         oi-select-options="{ cleanModel: true }"
+                                         placeholder="{{::'COMMON.LANGUAGE' | translate}}">
+                              </oi-select>
                            </div>
                            <div class="medium-6 grid-block">
-                              <oi-select ng-disabled="!vacancy.languageSkill.languageId" class="multiple-select" oi-options="level.id as level.title for level in thesaurus.languageLevel | orderBy : 'title'" ng-model="vacancy.languageSkill.languageLevel" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.LEVEL' | translate}}"></oi-select>
+                              <oi-select ng-disabled="!vacancy.languageSkill.languageId" 
+                                         class="multiple-select" 
+                                         oi-options="level.id as level.title 
+                                                     for level in thesaurus.languageLevel 
+                                                     | orderBy : 'title'" 
+                                         ng-model="vacancy.languageSkill.languageLevel" 
+                                         oi-select-options="{ cleanModel: true }" 
+                                         placeholder="{{::'COMMON.LEVEL' | translate}}">
+                              </oi-select>
                            </div>
                         </div>
                         <oi-select class="multiple-select"

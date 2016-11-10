@@ -70,7 +70,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    };
 
    function searchVacancies(predicate = vm.vacancyPredicate) {
-      return SearchService.fetchVacancies(predicate).then(response => {
+      return SearchService.fetchVacancies(VacancyService, predicate).then(response => {
          forEach(response.vacancies, (vac) => {
             vac.isToogled = vm.isVacancyWasToogled(vac.id);
          });

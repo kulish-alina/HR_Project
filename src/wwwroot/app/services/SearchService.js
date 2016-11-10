@@ -5,21 +5,16 @@ import {
 
 let defaultTimeout = 60000;
 
-let _VacancyService, _CandidateService;
 let cache = {};
 
 export default class SearchService {
-   constructor(VacancyService, CandidateService) {
-      _VacancyService   = VacancyService;
-      _CandidateService = CandidateService;
+
+   fetchVacancies(vacancyService, options, updateTimeout) {
+      return _search(vacancyService, options, 'vacancies', updateTimeout);
    }
 
-   fetchVacancies(options, updateTimeout) {
-      return _search(_VacancyService, options, 'vacancies', updateTimeout);
-   }
-
-   fetchCandidates(options, updateTimeout) {
-      return _search(_CandidateService, options, 'candidates', updateTimeout);
+   fetchCandidates(candidateService, options, updateTimeout) {
+      return _search(candidateService, options, 'candidates', updateTimeout);
    }
 
    invalidateVacancies() {

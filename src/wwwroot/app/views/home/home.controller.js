@@ -22,7 +22,8 @@ export default function HomeController( //eslint-disable-line max-statements
    EventsService,
    NoteService,
    CandidateService,
-   LocalStorageService
+   LocalStorageService,
+   VacancyService
    ) {
    'ngInject';
 
@@ -67,7 +68,7 @@ export default function HomeController( //eslint-disable-line max-statements
    }());
 
    function _SearchVacancies() {
-      SearchService.fetchVacancies(vm.vacancy).then(resp => set(vm, 'vacancies', resp))
+      SearchService.fetchVacancies(VacancyService, vm.vacancy).then(resp => set(vm, 'vacancies', resp))
          .then(() => {
             LocalStorageService.set('homeVacancyPredicate', vm.vacancy);
             LocalStorageService.set('homeVacancies', vm.vacancies);

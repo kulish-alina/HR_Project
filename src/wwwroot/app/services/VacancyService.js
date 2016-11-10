@@ -43,9 +43,10 @@ let _LoggerService;
 let _UserService;
 let _VacancyService;
 let _CandidateService;
+let _SearchService;
 
 export default class VacancyService {
-   constructor(HttpService, ThesaurusService, $q, LoggerService, UserService, CandidateService) {
+   constructor(HttpService, ThesaurusService, $q, LoggerService, UserService, CandidateService, SearchService) {
       'ngInject';
       _HttpService = HttpService;
       _ThesaurusService = ThesaurusService;
@@ -54,6 +55,7 @@ export default class VacancyService {
       _UserService = UserService;
       _VacancyService = this;
       _CandidateService  = CandidateService;
+      _SearchService = SearchService;
    }
 
    getVacancy(id, notToLoadAttachedCadidates) {
@@ -130,11 +132,13 @@ export default class VacancyService {
             vacancy.languageSkill = null;
          }
          vacancy.responsibleId = parseInt(vacancy.responsibleId);
-
          return vacancy.id ?
             _HttpService.put(`${VACANCY_URL}${vacancy.id}`, vacancy) :
             _HttpService.post(VACANCY_URL, vacancy);
-      }).then(this.convertFromServerFormat);
+      }).then((vac) => {
+         _SearchService.invalidateVacancies();
+         return _VacancyService.convertFromServerFormat(vac);
+      });
    }
 
    _getVacancyFields(vacancy, notToLoadAttachedCadidates) {

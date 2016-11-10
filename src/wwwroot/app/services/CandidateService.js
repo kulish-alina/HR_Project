@@ -62,16 +62,17 @@ const CONVERTORS_TO_CLIENT = [
    _convertCommentsToClient
 ];
 
-let _HttpService, _ThesaurusService, _UserService, _$q, _CandidateService;
+let _HttpService, _ThesaurusService, _UserService, _$q, _CandidateService, _SearchService;
 
 export default class CandidateService {
-   constructor(HttpService, ThesaurusService, UserService, $q) {
+   constructor(HttpService, ThesaurusService, UserService, $q, SearchService) {
       'ngInject';
       _HttpService      = HttpService;
       _ThesaurusService = ThesaurusService;
       _UserService      = UserService;
       _$q               = $q;
       _CandidateService = this;
+      _SearchService    = SearchService;
    }
 
    getCandidate(id) {
@@ -88,7 +89,10 @@ export default class CandidateService {
                return _HttpService.post(CANDIDATE_URL, candidate);
             }
          })
-         .then(_convertToClientFormat)
+         .then((candidate) => {
+            _SearchService.invalidateCandidates();
+            return _convertToClientFormat(candidate);
+         })
          .catch(error => {
             _convertToClientFormat(entity);
             return _$q.reject(error);

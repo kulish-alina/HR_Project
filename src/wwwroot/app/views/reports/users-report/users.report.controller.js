@@ -9,7 +9,6 @@ import {
    groupBy,
    sumBy,
    find,
-   reverse,
    toNumber,
    sortBy,
    filter,
@@ -176,12 +175,12 @@ export default function UsersReportController( // eslint-disable-line max-params
    function _convertReport(report) {
       if (vm.selectedLocations.length) {
          set(vm, 'reportGroupedByLocation', _convertReportToHash('locationId', report));
-         set(vm, 'reportGroupedByLocationForHistogram', reverse(_converReportForHistogram('locationId',
-            report)));
+         set(vm, 'reportGroupedByLocationForHistogram', _converReportForHistogram('locationId',
+            report));
       } else {
          set(vm, 'reportGroupedByUser', _convertReportToHash('userId', report));
-         set(vm, 'reportGroupedByUserForHistogram', reverse(_converReportForHistogram('userId',
-            report)));
+         set(vm, 'reportGroupedByUserForHistogram', _converReportForHistogram('userId',
+            report));
       }
    }
 

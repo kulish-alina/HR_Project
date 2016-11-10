@@ -11,24 +11,24 @@ import {
    find,
    toNumber,
    round
-   //cloneDeep
 } from 'lodash';
 
 const D3_FUNNEL = require('d3-funnel');
 const arrow = '\u2192';
 const colorsOfFunnelBlocks = [
+   '#7fafb1',
+   '#669fa2',
+   '#4c8f92',
+   '#327f83',
+   '#196f73',
    '#006064',
-   '#00838F',
-   '#0097A7',
-   '#00ACC1',
-   '#00BCD4',
-   '#26C6DA',
-   '#4DD0E1',
-   '#80DEEA',
-   '#B2EBF2',
-   '#E0F7FA',
-   '#84FFFF',
-   '#18FFFF'
+   '#00565a',
+   '#004c50',
+   '#004346',
+   '#731d19',
+   '#833632',
+   '#924f4c',
+   '#a26866'
 ];
 
 export default function RecruitingFunnelController(
@@ -147,23 +147,20 @@ export default function RecruitingFunnelController(
          const recruitingFunnelOptions = {
             chart: {
                width: 900,
-               height: 350,
-               bottomWidth: 1 / 2,
-               curve: {
-                  enabled: true
-               }
+               height: 500,
+               bottomPinch: 1
             },
             block: {
                highlight: true,
                fill: {
-                  type: 'gradient',
                   scale: colorsOfFunnelBlocks
                },
                dynamicHeight: true,
-               minHeight: 20
+               minHeight: 40
             },
             label: {
-               format: '{l}: {v} {f}'
+               format: '{l}:\n{v}{f}',
+               fontSize: 10
             },
             events: {
                click: {

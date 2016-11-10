@@ -15,6 +15,7 @@ const elementColors = ['#00838F', '#0097A7', '#00ACC1',
                       '#00BCD4', '#26C6DA', '#4DD0E1', '#80DEEA', '#B2EBF2', '#E0F7FA'];
 const columnColorOnHover = '#006064';
 const axisStep = 10;
+const maxTicksCount = 4;
 
 export default class HistogramDirective {
    constructor() {
@@ -65,7 +66,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
          bottom: 20,
          left: 20
       };
-      let height = 350 - margin.top - margin.bottom;
+      let height = 400 - margin.top - margin.bottom;
       let width = 1000 - margin.left - margin.right;
 
       //create svg element for empty report chart
@@ -110,7 +111,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
       let x1 = d3.scaleBand().rangeRound([0, width]);
 
       let y = d3.scaleLinear()
-         .range([height, margin.top]);
+         .range([height, margin.top + 20]);
 
       let color = d3.scaleOrdinal()
          .range(elementColors);
@@ -119,7 +120,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
-        .attr('transform', `translate( ${margin.left}, ${margin.top} )`);
+        .attr('transform', `translate( 22, -${margin.top} )`);
 
       svg.append('text')
         .attr('x', (width - 100) / 2)
@@ -148,7 +149,17 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
       svg.append('g')
         .attr('class', 'x axis')
         .attr('transform', `translate( 0, ${height} )`)
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll('text')
+        .attr('y', 8)
+        .attr('x', 3)
+        .attr('dy', '.35em')
+        .attr('transform', (elem, index, arr) => {
+           return arr.length > maxTicksCount ? 'rotate(25)' : 'rotate(0)';
+        })
+        .style('text-anchor', (elem, index, arr) => {
+           return arr.length > maxTicksCount ? 'start' : 'center';
+        });
 
       svg.append('g')
         .attr('class', 'y axis')
@@ -213,7 +224,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
         .enter().append('g')
         .attr('class', 'legend')
         .attr('transform', (d, i) => {
-           return `translate( 20, ${i * 20} )`;
+           return `translate( 18, ${20 + i * 20} )`;
         });
 
       legend.append('rect')

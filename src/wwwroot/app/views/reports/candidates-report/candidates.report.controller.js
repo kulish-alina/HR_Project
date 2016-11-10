@@ -2,7 +2,8 @@ import {
    set,
    each,
    remove,
-   filter
+   filter,
+   find
 } from 'lodash';
 
 const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdiansk'];
@@ -30,6 +31,8 @@ export default function CandidatesReportController(
    vm.clear                                   = clear;
    vm.selectedStageIds                        = [];
    vm.tableColumnsCount                       = [];
+   vm.responseTableObject                     = {};
+   vm.filterArrayByProperty                   = filterArrayByProperty;
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => {
@@ -54,7 +57,7 @@ export default function CandidatesReportController(
       if (validateObj.isValid) {
          ValidationService.validate(form).then(() => {
             ReportsService.getDataForCandidatesReport(vm.candidatesReportParametrs).then(response => {
-               _convertReportForTable(response);
+               vm.responseTableObject = response;
             });
          });
       } else {
@@ -76,6 +79,13 @@ export default function CandidatesReportController(
       _calculateTableColumnsCount(vm.selectedStageIds.length);
    }
 
+   function filterArrayByProperty(obj, id, type) {
+      if (obj !== undefined) {
+         let rep = find(obj.stages, {stageId: id});
+         return rep === undefined ? '' : rep[type];
+      }
+   }
+
    function stageSwitch(stage) {
       if (stage._isPressed) {
          stage._isPressed = false;
@@ -85,10 +95,6 @@ export default function CandidatesReportController(
          vm.selectedStageIds.push(stage.id);
       }
       _calculateTableColumnsCount(vm.selectedStageIds.length);
-   }
-
-   function _convertReportForTable(report) {
-      console.log('report', report);
    }
 
    function _addDefaultPropertyToStages(stages) {

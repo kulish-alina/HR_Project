@@ -59,7 +59,25 @@
                </thead>
                <tbody ng-repeat="selectedLocation in selectedLocations">
                   <tr>
-                     <td ng-bind="selectedLocation.title"> </td>
+                     <td ng-bind="selectedLocation.title" rowspan="{{responseTableObject[selectedLocation.id].length}}"> </td>
+                     <td ng-bind="(responseTableObject[selectedLocation.id][0].candidateLastName+' '+responseTableObject[selectedLocation.id][0].candidateFirstName)"></td>
+                     <td ng-bind="responseTableObject[selectedLocation.id][0].vacancyTitle"></td>
+                     <td ng-if="selectedStageIds.includes(stage.id)" ng-repeat-start="stage in stages | orderBy:'$index':true"> 
+                        <span ng-bind="filterArrayByProperty(responseTableObject[selectedLocation.id][0], stage.id, 'passDate')"></span>
+                     </td>
+                     <td ng-if="selectedStageIds.includes(stage.id)" ng-repeat-end="stage in stages | orderBy:'$index':true"> 
+                        <span ng-bind="filterArrayByProperty(responseTableObject[selectedLocation.id][0], stage.id, 'comment')"></span> 
+                     </td>        
+                  </tr>
+                  <tr ng-repeat="object in responseTableObject[selectedLocation.id]">
+                     <td ng-bind="(object.candidateLastName+' '+object.candidateFirstName)"></td>
+                     <td ng-bind="object.vacancyTitle"></td>
+                     <td ng-if="selectedStageIds.includes(stage.id)" ng-repeat-start="stage in stages | orderBy:'$index':true"> 
+                        <span ng-bind="filterArrayByProperty(object, stage.id, 'passDate')"></span>
+                     </td>
+                     <td ng-if="selectedStageIds.includes(stage.id)" ng-repeat-end="stage in stages | orderBy:'$index':true"> 
+                        <span ng-bind="filterArrayByProperty(object, stage.id, 'comment')"></span> 
+                     </td>   
                   </tr>
                </tbody>
             </table>

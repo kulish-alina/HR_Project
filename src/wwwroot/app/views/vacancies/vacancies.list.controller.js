@@ -30,7 +30,8 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    ThesaurusService,
    UserService,
    UserDialogService,
-   LoggerService
+   LoggerService,
+   TransitionsService
    ) {
    'ngInject';
 
@@ -85,11 +86,11 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    }
 
    function editVacancy(vacancy) {
-      $state.go('vacancyEdit', {_data: null, vacancyId: vacancy.id, vacancyPredicate: vm.vacancyPredicate});
+      TransitionsService.go('vacancyEdit', {vacancyId: vacancy.id}, {vacancyPredicate: vm.vacancyPredicate});
    }
 
    function viewVacancy(vacancy) {
-      $state.go('vacancyView', {_data: null, vacancyId: vacancy.id, vacancyPredicate: vm.vacancyPredicate});
+      TransitionsService.go('vacancyView', { vacancyId: vacancy.id}, {vacancyPredicate: vm.vacancyPredicate});
    }
 
    function clear() {
@@ -139,8 +140,8 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    vm.goBackToCandidate = () => {
       if (vm.candidateIdToGoBack) {
          if (vm.selectedVacancies && vm.selectedVacancies.length) {
-            $state.go('candidateProfile',
-            { candidateId: vm.candidateIdToGoBack, 'vacancies': vm.selectedVacancies });
+            TransitionsService.back('candidateProfile',
+            { candidateId: vm.candidateIdToGoBack, vacancies : vm.selectedVacancies });
          }
       }
    };

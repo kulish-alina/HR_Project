@@ -45,8 +45,8 @@ export default class CandidateVacancyInfoDirective {
 function CandidateVacancyInfoController($scope, // eslint-disable-line max-statements
    UserDialogService,
    $translate,
-   $state,
-   $q
+   $q,
+   TransitionsService
 ) {
    'ngInject';
    const vm = $scope;
@@ -512,15 +512,13 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    };
 
    vm.goCandidate = (candidateId) => {
-      $state.go('candidateProfile', {
-         _data: null,
+      TransitionsService.go('candidateProfile', {
          candidateId
       });
    };
 
    vm.goVacancy = (vacancyId) => {
-      $state.go('vacancyView', {
-         _data: null,
+      TransitionsService.go('vacancyView', {
          vacancyId
       });
    };

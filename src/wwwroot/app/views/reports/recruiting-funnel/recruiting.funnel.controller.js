@@ -37,7 +37,8 @@ export default function RecruitingFunnelController(
    $translate,
    ThesaurusService,
    VacancyService,
-   UserDialogService
+   UserDialogService,
+   TransitionsService
 ) {
    'ngInject';
 
@@ -107,13 +108,15 @@ export default function RecruitingFunnelController(
    }
 
    function viewVacancy() {
-      $state.go('vacancyView', {_data: vm.selectedVacancy, vacancyId: vm.selectedVacancy.id,
-                                vacancyGoBack: vm.selectedVacancy});
+      TransitionsService.go('vacancyView',
+                            {vacancyId: vm.selectedVacancy.id,
+                             vacancyGoBack: vm.selectedVacancy});
    }
 
    function viewCandidate(selectedCandidate) {
-      $state.go('candidateProfile', {_data: selectedCandidate, candidateId: selectedCandidate.id,
-                                     vacancyGoBack: vm.selectedVacancy});
+      TransitionsService.go('candidateProfile',
+                            {candidateId: selectedCandidate.id,
+                             vacancyGoBack: vm.selectedVacancy});
    }
 
    function _addDefaultPropertyToStages(stages) {

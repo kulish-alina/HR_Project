@@ -58,6 +58,7 @@ import SearchService                 from './services/SearchService';
 import UserHistoryService            from './services/UserHistoryService';
 import D3Service                     from './services/D3Service';
 import AccountService                from './services/AccountService';
+import TransitionsService            from './services/TransitionsService';
 
 import ThesaurusDirective            from './directives/thesaurus/thesaurus';
 import ContactInfoDirective          from './directives/contacts/contact-info';
@@ -134,6 +135,7 @@ angular
    .service('UserHistoryService',  UserHistoryService)
    .service('D3Service',           D3Service)
    .service('AccountService',      AccountService)
+   .service('TransitionsService',  TransitionsService)
 
    .directive('thesaurus',              ThesaurusDirective.createInstance)
    .directive('contacts',               ContactInfoDirective.createInstance)

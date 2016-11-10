@@ -33,7 +33,8 @@ export default function CandidatesController(
    ThesaurusService,
    UserDialogService,
    LoggerService,
-   ValidationService
+   ValidationService,
+   TransitionsService
    ) {
    'ngInject';
    const vm                = $scope;
@@ -94,17 +95,14 @@ export default function CandidatesController(
       });
    }
    function editCandidate(candidate) {
-      $state.go('candidate', {_data: null, candidateId: candidate.id, candidatePredicate: vm.candidatePredicate});
+      TransitionsService.go('candidate',
+                            { candidateId : candidate.id },
+                            { candidatePredicate : vm.candidatePredicate });
    }
 
    function viewCandidate(candidate) {
-      $state.go(
-         'candidateProfile',
-         {
-            _data: null,
-            candidateId: candidate.id,
-            candidatePredicate: vm.candidatePredicate
-         });
+      TransitionsService.go(
+         'candidateProfile', { candidateId: candidate.id }, { candidatePredicate: vm.candidatePredicate });
    }
 
    function clear() {
@@ -163,7 +161,9 @@ export default function CandidatesController(
    vm.goBackToVacancy = () => {
       if (vm.vacancyIdToGoBack) {
          if (vm.selectedCandidates && vm.selectedCandidates.length) {
-            $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': vm.selectedCandidates });
+            TransitionsService.back('vacancyView',
+                                  { vacancyId: vm.vacancyIdToGoBack,
+                                   candidatesIds: vm.selectedCandidates });
          }
       }
    };

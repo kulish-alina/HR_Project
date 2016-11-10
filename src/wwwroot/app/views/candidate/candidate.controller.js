@@ -38,18 +38,18 @@ export default function CandidateController( // eslint-disable-line max-params, 
    UserService,
    VacancyService,
    CVParserService,
-   FoundationApi
+   FoundationApi,
+   TransitionsService
 ) {
    'ngInject';
 
    const vm = $scope;
 
    vm.keys        = Object.keys;
-   vm.candidate   = vm.candidate || {};
+   vm.candidate   = {};
    vm.thesaurus   = {};
    vm.locations   = [];
-   vm.duplicates  = [];
-
+   vm.duplicates  = $state.params.duplicates || [];
    vm.candidateCVLoaded    = false;
 
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
@@ -73,7 +73,6 @@ export default function CandidateController( // eslint-disable-line max-params, 
    vm.submit               = submit;
 
    (function _init() {
-      _initDataForEvents();
       _initThesauruses()
          .then(_initCandidate)
          .then(_initLocations);
@@ -94,28 +93,11 @@ export default function CandidateController( // eslint-disable-line max-params, 
       return ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(curriedSet(vm, 'thesaurus'));
    }
 
-   function _initDataForEvents() {
-      vm.vacancies = [];
-      vm.candidates = [];
-      vm.responsibles = [];
-      vm.vacancyPredicat = {};
-      vm.vacancyPredicat.current = 0;
-      vm.vacancyPredicat.size = 30;
-      vm.candidatePredicat = {};
-      vm.candidatePredicat.current = 0;
-      vm.candidatePredicat.size = 20;
-      CandidateService.search(vm.candidatePredicat).then(data => set(vm, 'candidates', data.candidate));
-      UserService.getUsers().then(users => set(vm, 'responsibles', users));
-      VacancyService.search(vm.vacancyPredicat).then(response => vm.vacancies = response.vacancies);
-   }
-
    function _getCandidate() {
-      if ($state.previous.params._data  && $state.params.toPrevious === true) {
-         return CandidateService.getCandidate($state.previous.params._data.id);
-      } else if ($state.params._data) {
-         return $q.when($state.params._data);
-      } else if ($state.params.candidateId) {
+      if ($state.params.candidateId) {
          return CandidateService.getCandidate($state.params.candidateId);
+      } else if ($state.params.notSavedCandidate) {
+         return $q.when($state.params.notSavedCandidate);
       } else {
          return $q.when({});
       }
@@ -240,17 +222,15 @@ export default function CandidateController( // eslint-disable-line max-params, 
    }
 
    function saveAndGoBack() {
-      saveCandidate().then(() => {
-         $state.go('vacancyView', { vacancyId: vm.vacancyIdToGoBack, 'candidatesIds': [ vm.candidate.id ]});
+      saveCandidate().then((candidate) => {
+         TransitionsService.back(CANDIDATE_PROFILE_VIEW_NAME,
+                                 { candidateId : candidate.id, candidatesIds : [ vm.candidate.id ]});
+         return candidate;
       });
    };
 
    function forceSaveCandidate() {
-      if (vm.isNeedToGoBack()) {
-         saveAndGoBack();
-      } else {
-         saveCandidate();
-      }
+      saveAndGoBack();
    }
 
    function saveWithVerify() {
@@ -265,7 +245,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
             if (duplicates.length) {
                return $q.reject('DIALOG_SERVICE.ERROR_SIMILAR_CANDIDATES');
             }
-            return vm.isNeedToGoBack() ? saveAndGoBack() : saveCandidate();
+            return saveAndGoBack();
          })
          .catch(errorMes => {
             _onError(errorMes);
@@ -303,9 +283,6 @@ export default function CandidateController( // eslint-disable-line max-params, 
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');
             return entity;
          })
-         .then(() => $state.go($state.previous.name || CANDIDATE_PROFILE_VIEW_NAME,
-                              {_data: null, candidateId: vm.candidate.id},
-                              { reload: true }))
          .catch((reason) => {
             _onError($translate.instant('DIALOG_SERVICE.ERROR_CANDIDATE_SAVING'), reason);
             vm.candidate.comments = memo;
@@ -413,17 +390,16 @@ export default function CandidateController( // eslint-disable-line max-params, 
    };
 
    function back() {
-      $window.history.back();
+      TransitionsService.back();
    }
 
    function viewCandidate(candidate) {
-      $state.go(
+      TransitionsService.go(
          CANDIDATE_PROFILE_VIEW_NAME,
          {
-            _data: vm.candidate,
-            duplicats: vm.duplicats,
             candidateId: candidate.id,
             candidatePredicate: vm.candidatePredicate
-         });
+         }, { duplicates : vm.duplicates,
+              notSavedCandidate : vm.candidate});
    }
 }

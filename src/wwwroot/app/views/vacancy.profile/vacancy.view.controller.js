@@ -39,7 +39,8 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    FileService,
    LoggerService,
    CandidateService,
-   UserHistoryService
+   UserHistoryService,
+   TransitionsService
    ) {
    'ngInject';
 
@@ -52,7 +53,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.uploader             = createNewUploader();
    vm.addFilesForRemove    = addFilesForRemove;
    vm.queueFilesForRemove  = [];
-   vm.saveChanges          = saveChanges;
+   vm.saveAndBack          = saveAndBack;
    vm.isChanged            = isChanged;
    vm.currentStage         = '';
    vm.saveComment          = _saveComment;
@@ -93,30 +94,11 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    };
 
    function _initCurrentVacancy() {
-      let deffered = $q.defer();
-      if ($state.previous.params._data && $state.params.toPrevious === true) {
-         VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
-            set(vm, 'vacancy', vacancy);
-            vm.clonedVacancy = cloneDeep(vm.vacancy);
-            vm.comments = cloneDeep(vm.vacancy.comments) || [];
-            deffered.resolve();
-         });
-      } else if ($state.params._data) {
-         vm.vacancy = $state.params._data;
-         vm.vacancy.comments = $state.params._data.comments ? $state.params._data.comments : [];
-         vm.vacancy.files =  $state.params._data.files ? $state.params._data.files : [];
+      return VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
+         set(vm, 'vacancy', vacancy);
          vm.clonedVacancy = cloneDeep(vm.vacancy);
          vm.comments = cloneDeep(vm.vacancy.comments)  || [];
-         deffered.resolve();
-      } else {
-         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
-            set(vm, 'vacancy', vacancy);
-            vm.clonedVacancy = cloneDeep(vm.vacancy);
-            vm.comments = cloneDeep(vm.vacancy.comments)  || [];
-            deffered.resolve();
-         });
-      }
-      return deffered.promise;
+      });
    }
 
    vm.getPassDate = () => {
@@ -191,7 +173,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    };
 
    vm.goToHiredCandidate = () => {
-      $state.go('candidateProfile', { candidateId: vm.vacancy.closingCandidateId });
+      TransitionsService.go('candidateProfile', { candidateId: vm.vacancy.closingCandidateId });
    };
 
    function fillWithCandidates(recomposed) {
@@ -226,17 +208,17 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    }
 
    vm.goToCandidates = () => {
-      saveChanges();
-      $state.go('candidates.search', { _data: null, vacancyIdToGoBack: vm.vacancy.id });
+      _saveChanges()
+         .then(() => TransitionsService.go('candidates.search', { vacancyIdToGoBack: vm.vacancy.id }));
    };
 
    vm.goToCandidate = () => {
-      saveChanges();
-      $state.go('candidate', { _data: null, vacancyIdToGoBack: vm.vacancy.id });
+      _saveChanges()
+         .then(() => TransitionsService.go('candidate', { vacancyIdToGoBack: vm.vacancy.id }));
    };
 
    function edit() {
-      $state.go('vacancyEdit', {_data: vm.vacancy, vacancyId: vm.vacancy.id});
+      TransitionsService.go('vacancyEdit', { vacancyId: vm.vacancy.id});
    }
 
    function isChanged() {
@@ -266,7 +248,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    }
 
    function createNewUploader() {
-      let newUploader = FileService.getFileUploader({ onCompleteAllCallBack : saveChanges, maxSize : 2048000 });
+      let newUploader = FileService.getFileUploader({ onCompleteAllCallBack : _saveChanges, maxSize : 2048000 });
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          let response = JSON.parse(item._xhr.response);
          vm.vacancy.files.push(response);
@@ -284,17 +266,19 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       remove(vm.vacancy.files, {id: file.id});
    }
 
-   function saveChanges() {
+   function saveAndBack() {
+      _saveChanges().then(back);
+   }
+
+   function _saveChanges() {
       if (vm.uploader.getNotUploadedItems().length) {
-         vm.uploader.uploadAll();
+         return $q.when(vm.uploader.uploadAll());
       } else if (vm.queueFilesForRemove) {
          each(vm.queueFilesForRemove, (file) => FileService.remove(file));
          vm.queueFilesForRemove = [];
-         _vs();
-         $state.go($state.current.parent, {_data: vm.vacancy, vacancyId: vm.vacancy.id}, {reload: true});
+         return _vs();
       } else {
-         _vs();
-         $state.go($state.current.parent, {_data: vm.vacancy, vacancyId: vm.vacancy.id}, {reload: true});
+         return _vs();
       }
    }
 
@@ -303,12 +287,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    };
 
    function back() {
-      if ($state.params._data === null) {
-         $state.go($state.previous, {_data: null, vacancyGoBack: null}, {reload: true});
-      } else {
-         $state.go($state.previous, {_data: null, vacancyGoBack:
-                                     $state.params._data.vacancyGoBack}, {reload: true});
-      }
+      TransitionsService.back();
    }
 
    function _saveComment(comment) {
@@ -346,7 +325,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       let memo = vm.vacancy.comments;
       vm.vacancy.comments = vm.comments;
       vm.vacancy.candidatesProgress = _recomposeBack(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
-      VacancyService.save(vm.vacancy).then(vacancy => {
+      return VacancyService.save(vm.vacancy).then(vacancy => {
          vm.vacancy = vacancy;
          vm.comments = cloneDeep(vm.vacancy.comments);
          vm.clonedVacancy = cloneDeep(vm.vacancy);

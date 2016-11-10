@@ -77,9 +77,6 @@ export default function _config(
          url: '/bot',
          template: homeTemplate,
          controller: homeController,
-         params: {
-            _data: null
-         },
          parent: 'main'
       })
       .state('candidates', {
@@ -92,7 +89,8 @@ export default function _config(
          template: candidatesTemplate,
          controller: candidatesController,
          params: {
-            vacancyIdToGoBack: null
+            vacancyIdToGoBack: null,
+            candidatePredicate: null
          }
       })
       .state('vacancies', {
@@ -105,7 +103,8 @@ export default function _config(
          template: vacanciesTemplate,
          controller: vacanciesController,
          params: {
-            candidateIdToGoBack: null
+            candidateIdToGoBack: null,
+            vacancyPredicate: null
          }
       })
       .state('vacancyView', {
@@ -114,7 +113,6 @@ export default function _config(
          controller: vacancyViewController,
          params: {
             candidatesIds: [],
-            _data: null,
             vacancyId: null,
             vacancyGoBack: null
          },
@@ -125,9 +123,10 @@ export default function _config(
          template: candidateTemplate,
          controller: candidateController,
          params: {
-            _data: null,
             candidateId: null,
-            vacancyIdToGoBack: null
+            vacancyIdToGoBack: null,
+            duplicates: null,
+            notSavedCandidate : null
          },
          parent: 'candidates'
       })
@@ -137,7 +136,6 @@ export default function _config(
          controller: candidateProfileController,
          params: {
             vacancies: [],
-            _data: null,
             candidateId: null,
             vacancyGoBack: null
          },
@@ -148,7 +146,6 @@ export default function _config(
          template: vacancyEditTemplate,
          controller: vacancyEditController,
          params: {
-            _data: null,
             vacancyId: null
          },
          parent: 'vacancies'
@@ -172,7 +169,6 @@ export default function _config(
          template: recruitingFunnelTemplate,
          controller: recruitingFunnelController,
          params: {
-            _data: null,
             vacancyGoBack: null
          }
       })
@@ -192,9 +188,7 @@ export default function _config(
          url: '/settings',
          template: settingsTemplate,
          controller: settingsController,
-         data: {
-            asEdit: false
-         },
+         data: { asEdit: false },
          parent: 'main'
       })
       .state('profile', {

@@ -9,7 +9,7 @@ import {
 
 import './home.scss';
 
-export default function HomeController( //eslint-disable-line max-statements
+export default function HomeController( //eslint-disable-line max-params
    $scope,
    $q,
    $state,
@@ -23,7 +23,8 @@ export default function HomeController( //eslint-disable-line max-statements
    NoteService,
    CandidateService,
    LocalStorageService,
-   VacancyService
+   VacancyService,
+   TransitionsService
    ) {
    'ngInject';
 
@@ -81,7 +82,7 @@ export default function HomeController( //eslint-disable-line max-statements
    };
 
    function viewVacancy(vacancy) {
-      $state.go('vacancyView', {_data: null, vacancyId: vacancy.id});
+      TransitionsService.go('vacancyView', {_data: null, vacancyId: vacancy.id});
    }
 
    function saveNote(note) {

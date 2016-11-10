@@ -25,7 +25,8 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    EventsService,
    UserService,
    SearchService,
-   UserHistoryService
+   UserHistoryService,
+   TransitionsService
    ) {
    'ngInject';
 
@@ -33,13 +34,13 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    vm.uploader               = _createNewUploader();
    vm.addFilesForRemove      = addFilesForRemove;
    vm.queueFileIdsForRemove  = [];
-   vm.saveChanges            = saveChanges;
+   vm.saveAndBack            = saveAndBack;
    vm.isChanged              = false;
-   vm.candidate              = $state.params._data ? $state.params._data : {};
+   vm.candidate              = {};
    vm.editCandidate          = editCandidate;
    vm.back                   = back;
-   vm.candidate.comments     = $state.params._data ? $state.params._data.comments : vm.candidate.comments;
-   vm.candidate.files        = $state.params._data ? $state.params._data.files : vm.candidate.files;
+   vm.candidate.comments     = [];
+   vm.candidate.files        = [];
    vm.comments               = cloneDeep(vm.candidate.comments);
    vm.saveComment            = saveComment;
    vm.removeComment          = removeComment;
@@ -52,7 +53,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    vm.isCandidateLoaded       = false;
    vm.currentUser             = UserService.getCurrentUser();
 
-   function _init() {
+   (function _init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
       _initCurrentCandidate()
          .then(addVacanciesToCandidateIfNeeded)
@@ -72,9 +73,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
             });
          }).catch(LoggerService.error);
 
-   }
-   _initDataForEvents();
-   _init();
+   }());
 
    function addVacanciesToCandidateIfNeeded() {
       if ($state.params.vacancies && $state.params.vacancies.length) {
@@ -106,27 +105,11 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    }
 
    function _initCurrentCandidate() {
-      let deffered = $q.defer();
-      if ($state.previous.params._data) {
-         CandidateService.getCandidate($state.previous.params._data.id).then(candidate => {
-            set(vm, 'candidate', candidate);
-            vm.comments = cloneDeep(vm.candidate.comments);
-            _getCandidateEvents(vm.candidate.id);
-            deffered.resolve();
-         });
-      } else if ($state.params._data) {
-         vm.candidate = $state.params._data;
+      return CandidateService.getCandidate($state.params.candidateId).then(candidate => {
+         set(vm, 'candidate', candidate);
+         vm.comments = cloneDeep(vm.candidate.comments);
          _getCandidateEvents(vm.candidate.id);
-         deffered.resolve();
-      } else {
-         CandidateService.getCandidate($state.params.candidateId).then(candidate => {
-            set(vm, 'candidate', candidate);
-            vm.comments = cloneDeep(vm.candidate.comments);
-            _getCandidateEvents(vm.candidate.id);
-            deffered.resolve();
-         });
-      }
-      return deffered.promise;
+      });
    }
 
    function recompose() {
@@ -155,22 +138,6 @@ export default function CandidateProfileController( // eslint-disable-line max-s
       });
       return $q.when(composedWithCurrentStage);
    }
-
-   function _initDataForEvents() {
-      vm.vacancies                  = [];
-      vm.candidates                 = [];
-      vm.responsibles               = [];
-      vm.vacancyPredicat            = {};
-      vm.vacancyPredicat.current    = 0;
-      vm.vacancyPredicat.size       = 30;
-      vm.candidatePredicat          = {};
-      vm.candidatePredicat.current  = 0;
-      vm.candidatePredicat.size     = 20;
-      CandidateService.search(vm.candidatePredicat).then(data  => set(vm, 'candidates', data.candidate));
-      UserService.getUsers().then(users => set(vm, 'responsibles', users));
-      VacancyService.search(vm.vacancyPredicat).then(response => vm.vacancies = response.vacancies);
-   }
-
 
    function fillWithCandidates(recomposed) {
       return $q.all(map(recomposed, _loadCandidate));
@@ -204,12 +171,12 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    }
 
    vm.goToVacancies = () => {
-      saveChanges();
-      $state.go('vacancies.search', { _data: null, candidateIdToGoBack: vm.candidate.id });
+      _saveChanges();
+      TransitionsService.go('vacancies.search', { candidateIdToGoBack: vm.candidate.id });
    };
 
    function _createNewUploader() {
-      let newUploader = FileService.getFileUploader({ onCompleteAllCallBack : saveChanges, maxSize : 2048000 });
+      let newUploader = FileService.getFileUploader({ onCompleteAllCallBack : _saveChanges, maxSize : 2048000 });
       newUploader.onSuccessItem = function onSuccessUpload(item) {
          let response = JSON.parse(item._xhr.response);
          vm.candidate.files.push(response);
@@ -231,34 +198,27 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    }
 
    function editCandidate() {
-      $state.go('candidate', {_data: null, candidateId: vm.candidate.id});
+      TransitionsService.go('candidate', {candidateId: vm.candidate.id});
    }
 
    function back() {
-      if ($state.params._data === null && $state.previous.name !== 'candidate') {
-         $state.go($state.previous, {_data: null, vacancyGoBack: null}, {reload: true});
-      } else if ($state.params._data !== null && $state.previous.name !== 'candidate') {
-         $state.go($state.previous, {_data: null, vacancyGoBack:
-                                     $state.params._data.vacancyGoBack}, {reload: true});
-      } else {
-         $state.go($state.current.parent, {}, {reload: true});
-      }
+      TransitionsService.back();
    }
 
-   function saveChanges() {
+   function saveAndBack() {
+      _saveChanges().then(back);
+   }
+
+   function _saveChanges() {
       if (vm.uploader.getNotUploadedItems().length) {
-         vm.uploader.uploadAll();
+         return $q.when(vm.uploader.uploadAll());
       } else if (vm.queueFileIdsForRemove.length) {
-         FileService.removeGroup(vm.queueFileIdsForRemove).then(() => {
+         return FileService.removeGroup(vm.queueFileIdsForRemove).then(() => {
             vm.queueFileIdsForRemove = [];
-            _candidateSave();
-            $state.go($state.current.parent, {_data: null, candidateId: vm.candidate.id},
-            {reload: true});
+            return  _candidateSave();
          });
       } else {
-         _candidateSave();
-         $state.go($state.current.parent, {_data: null, candidateId: vm.candidate.id},
-         {reload: true});
+         return _candidateSave();
       }
    }
 
@@ -267,7 +227,7 @@ export default function CandidateProfileController( // eslint-disable-line max-s
       vm.candidate.comments = vm.comments;
       vm.candidate.vacanciesProgress = recomposeBackAndSaveChangedVacancies(
             vm.vacancyStageInfosComposedByCandidateIdVacancyId);
-      CandidateService.saveCandidate(vm.candidate).then(candidate => {
+      return CandidateService.saveCandidate(vm.candidate).then(candidate => {
          vm.candidate = candidate;
          vm.comments = cloneDeep(vm.candidate.comments);
          UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_CANDIDATE_SAVING'), 'success');

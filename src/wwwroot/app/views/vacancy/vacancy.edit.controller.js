@@ -11,7 +11,7 @@ import {
    map
 } from 'lodash';
 
-const DEFAULT_REDIRECT_VIEW_NAME = 'vacancies';
+const DEFAULT_REDIRECT_VIEW_NAME = 'vacancyView';
 
 export default function VacancyController( //eslint-disable-line max-statements
    $scope,
@@ -26,7 +26,8 @@ export default function VacancyController( //eslint-disable-line max-statements
    UserDialogService,
    FileService,
    LoggerService,
-   SearchService) {
+   SearchService,
+   TransitionsService) {
    'ngInject';
 
    const vm = $scope;
@@ -35,12 +36,12 @@ export default function VacancyController( //eslint-disable-line max-statements
    vm.back                         = back;
    vm.saveVacancy                  = saveVacancy;
    vm.vacancy                      = {};
-   vm.vacancy.comments             = $state.params._data ? $state.params._data.comments : [];
-   vm.vacancy.files                = $state.params._data ? $state.params._data.files : [];
+   vm.vacancy.comments             = [];
+   vm.vacancy.files                = [];
    vm.thesaurus                    = [];
    vm.uploader                     = createNewUploader();
-   vm.vacancy.requiredSkills       = vm.vacancy.requiredSkills || [];
-   vm.vacancy.tags                 = vm.vacancy.tags || [];
+   vm.vacancy.requiredSkills       = [];
+   vm.vacancy.tags                 = [];
    vm.addFilesForRemove            = addFilesForRemove;
    vm.queueFilesForRemove          = [];
    vm.isFilesUploaded              = false;
@@ -56,29 +57,16 @@ export default function VacancyController( //eslint-disable-line max-statements
 
    /* === impl === */
    (function init() {
-      _initCurrentVacancy();
+      if ($state.params.vacancyId) {
+         _initCurrentVacancy($state.params.vacancyId);
+      }
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
    }());
 
-   function _initCurrentVacancy() {
-      if ($state.previous.params._data && $state.params.toPrevious === true) {
-         VacancyService.getVacancy($state.previous.params._data.id).then(vacancy => {
-            _setCurrentVacancy(vacancy);
-         });
-      } else if ($state.params.vacancyId) {
-         VacancyService.getVacancy($state.params.vacancyId).then(vacancy => {
-            _setCurrentVacancy(vacancy);
-         });
-      } else if ($state.params._data) {
-         _setCurrentVacancy($state.params._data);
-      } else {
-         let vacancy = {
-            'comments'     : [],
-            'files'        : [],
-            'responsibleId': UserService.getCurrentUser().id
-         };
+   function _initCurrentVacancy(id) {
+      VacancyService.getVacancy(id).then(vacancy => {
          _setCurrentVacancy(vacancy);
-      }
+      });
    }
 
    function _setCurrentVacancy (vacancy) {
@@ -106,7 +94,7 @@ export default function VacancyController( //eslint-disable-line max-statements
    }
 
    function back() {
-      $window.history.back();
+      TransitionsService.back();
    }
 
    function removeChildVacancy(vacancy) {
@@ -172,16 +160,14 @@ export default function VacancyController( //eslint-disable-line max-statements
    function _vs() {
       let memo = vm.vacancy.comments;
       vm.vacancy.comments = vm.comments;
-      VacancyService.save(vm.vacancy).then(vacancy => {
-         vm.vacancy = vacancy;
-         vm.comments = cloneDeep(vm.vacancy.comments);
-         UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
-         SearchService.invalidateVacancies();
-      })
-         .then(() => $state.go(
-               $state.previous.name || DEFAULT_REDIRECT_VIEW_NAME,
-               {_data: vm.vacancy, vacancyId: vm.vacancy.id},
-               { reload: true }))
+      VacancyService.save(vm.vacancy)
+         .then(vacancy => {
+            vm.vacancy = vacancy;
+            vm.comments = cloneDeep(vm.vacancy.comments);
+            UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_SAVING'), 'success');
+            SearchService.invalidateVacancies();
+            TransitionsService.back(DEFAULT_REDIRECT_VIEW_NAME, {vacancyId : vacancy.id});
+         })
          .catch((error) => {
             vm.vacancy.comments = memo;
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.ERROR_SAVING'), 'error');

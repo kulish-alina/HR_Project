@@ -193,16 +193,20 @@ export default function CandidatesController(
       }
    };
 
-   vm.toogleCandidate = (candidateId) => {
+   vm.toogleCandidate = (candidate) => {
       let foundedCand = find(vm.selectedCandidates, (cand) => {
-         return cand === candidateId;
+         return cand === candidate.id;
       });
       if (foundedCand) {
          vm.selectedCandidates = filter(vm.selectedCandidates, (candId) => {
-            return candId !== candidateId;
+            return candId !== candidate.id;
          });
       } else {
-         vm.selectedCandidates.push(candidateId);
+         if (candidate.closedVacanciesIds.length) {
+            UserDialogService.notification('Selected candidate has been already hired for another position!',
+               'warning');
+         }
+         vm.selectedCandidates.push(candidate.id);
       }
    };
 

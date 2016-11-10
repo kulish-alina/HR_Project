@@ -180,6 +180,10 @@ export default function VacanciesController(//eslint-disable-line  max-statement
             return vac.id !== toogledVacancy.id;
          });
       } else {
+         if (toogledVacancy.closingCandidateId) {
+            UserDialogService.notification('Selected vacancy has been already closed by another candidate!',
+               'warning');
+         }
          vm.selectedVacancies.push(toogledVacancy);
       }
    };

@@ -17,7 +17,8 @@ import {
    take,
    each,
    uniq,
-   assign
+   assign,
+   difference
 } from 'lodash';
 import utils from '../../utils';
 
@@ -332,7 +333,6 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          func: () => {
             let updatedStagesWithRejectedAndHire = [
                ...(map(vacancyStagesEntitiesVSIs, extVsi => {
-                  debugger;
                   if (extVsi.vsi && extVsi.vsi.dateOfPass) {
                      extVsi.vsi.dateOfPass = utils.formatDateToServer(extVsi.vsi.dateOfPass);
                   }
@@ -426,9 +426,29 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          })
       };
    }
-
+   function isCandidateReadyToBeHired(entityStageObject) {
+      let passedStagesIds =
+         map(filter(entityStageObject.vacancyStageInfos, vsi => {
+            if (!vsi.stage || !vsi.stage.stage) {
+               return false;
+            }
+            return vsi.stageState === STAGE_STATES.Passed &&
+               vsi.stage.stage.stageType === STAGE_TYPES.MainStage &&
+               vsi.stage.stage.isCommentRequired;
+         }), 'stageId');
+      let stagesIdsHaveToBePassed =
+         map(filter(entityStageObject.stageFlow, extStage => {
+            return extStage.stage.isCommentRequired &&
+               extStage.stage.stageType === STAGE_TYPES.MainStage;
+         }), 'stage.id');
+      return !difference(stagesIdsHaveToBePassed, passedStagesIds).length;
+   }
 
    vm.hire = (entityStageObject) => {
+      if (!isCandidateReadyToBeHired(entityStageObject)) {
+         UserDialogService.notification('There are left stages that requires a comment', 'warning');
+         return;
+      }
       callDatepickDialogFor(entityStageObject)
            .then(hireDateISO => {
               updateCurrentStage(entityStageObject);

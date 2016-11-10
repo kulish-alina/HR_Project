@@ -25,6 +25,7 @@ namespace DAL.Migrations
                         StartExperience = c.DateTime(),
                         Practice = c.String(),
                         Description = c.String(),
+                        Recomendator = c.String(),
                         SalaryDesired = c.Int(),
                         CurrencyId = c.Int(),
                         RelocationAgreement = c.Boolean(),
@@ -574,7 +575,7 @@ namespace DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
-                        ImagePath = c.String(nullable: false),
+                        ImagePath = c.String(),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),

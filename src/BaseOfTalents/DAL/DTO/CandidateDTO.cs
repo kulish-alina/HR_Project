@@ -41,6 +41,7 @@ namespace DAL.DTO
         public TypeOfEmployment? TypeOfEmployment { get; set; }
         public string Practice { get; set; }
         public DateTime? StartExperience { get; set; }
+        public string Recomendator { get; set; }
         public string Description { get; set; }
 
         public bool? RelocationAgreement { get; set; }

@@ -23,6 +23,7 @@ namespace DAL.Extensions
             destination.BirthDate = source.BirthDate;
             destination.Email = source.Email;
             destination.Skype = source.Skype;
+            destination.Recomendator = source.Recomendator;
             destination.PositionDesired = source.PositionDesired;
             destination.SalaryDesired = source.SalaryDesired;
             destination.TypeOfEmployment = source.TypeOfEmployment;

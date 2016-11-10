@@ -363,11 +363,11 @@ namespace DAL.Migrations
 
         public static readonly List<SocialNetwork> Socials = new List<SocialNetwork>
         {
-            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "Facebook"},
-            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "VK"},
-            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "LinkedIn"},
-            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "MySpace"},
-            new SocialNetwork {ImagePath = GetRandomNumbers(12), Title = "Google+"}
+            new SocialNetwork { Title = "Facebook"},
+            new SocialNetwork { Title = "VK"},
+            new SocialNetwork { Title = "LinkedIn"},
+            new SocialNetwork { Title = "MySpace"},
+            new SocialNetwork { Title = "Google+"}
 
         };
 
@@ -375,33 +375,27 @@ namespace DAL.Migrations
         {
             new EventType
             {
-                Title = "HR Interview",
-                ImagePath = GetRandomNumbers(12)
+                Title = "HR Interview"
             },
             new EventType
             {
-                Title = "Tech Interview",
-                ImagePath = GetRandomNumbers(12)
+                Title = "Tech Interview"
             },
             new EventType
             {
-                Title = "Final Interview",
-                ImagePath = GetRandomNumbers(12)
+                Title = "Final Interview"
             },
             new EventType
             {
-                Title = "Candidate's Birthday",
-                ImagePath = GetRandomNumbers(12)
+                Title = "Candidate's Birthday"
             },
             new EventType
             {
-                Title = "Candidate's First Day",
-                ImagePath = GetRandomNumbers(12)
+                Title = "Candidate's First Day"
             },
             new EventType
             {
-                Title = "Vacancy deadline",
-                ImagePath = GetRandomNumbers(12)
+                Title = "Vacancy deadline"
             }
         };
 
@@ -412,6 +406,7 @@ namespace DAL.Migrations
 
         public static readonly List<Source> Sources = new List<Source>
         {
+            new Source { Title = "By recommendation" },
             new Source { Title = "LinkedIn" },
             new Source { Title = "Vkontakte" },
             new Source { Title = "Djinni" },

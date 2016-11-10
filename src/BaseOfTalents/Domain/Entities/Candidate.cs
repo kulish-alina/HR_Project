@@ -38,6 +38,7 @@ namespace Domain.Entities
         public DateTime? StartExperience { get; set; }
         public string Practice { get; set; }
         public string Description { get; set; }
+        public string Recomendator { get; set; }
 
         public int? SalaryDesired { get; set; }
         public int? CurrencyId { get; set; }

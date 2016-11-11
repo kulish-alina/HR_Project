@@ -243,7 +243,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
             }
             vm.duplicates = duplicates;
             if (duplicates.length) {
-               return $q.reject('DIALOG_SERVICE.ERROR_SIMILAR_CANDIDATES');
+               return $q.reject($translate.instant('DIALOG_SERVICE.ERROR_SIMILAR_CANDIDATES'));
             }
             return saveAndGoBack();
          })

@@ -128,6 +128,7 @@ export default function CandidatesController(
             remove(vm.candidates.candidate, predicate);
             UserDialogService.notification
             ($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING_CANDIDATE'), 'success');
+            _searchCandidates();
          });
       });
    }

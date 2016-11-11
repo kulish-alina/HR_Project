@@ -107,7 +107,10 @@ export default class VacancyService {
    }
 
    remove(vacancy) {
-      return _HttpService.remove(`${VACANCY_URL}${vacancy.id}`, vacancy);
+      return _HttpService.remove(`${VACANCY_URL}${vacancy.id}`, vacancy).then((response) => {
+         _SearchService.invalidateVacancies();
+         return response;
+      });
    }
 
    save(vacancy) {

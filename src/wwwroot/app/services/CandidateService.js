@@ -100,7 +100,10 @@ export default class CandidateService {
    }
 
    deleteCandidate(entity) {
-      return _HttpService.remove(CANDIDATE_URL + entity.id, entity);
+      return _HttpService.remove(CANDIDATE_URL + entity.id, entity).then((response) => {
+         _SearchService.invalidateCandidates();
+         return response;
+      });
    }
 
    search(condition) {

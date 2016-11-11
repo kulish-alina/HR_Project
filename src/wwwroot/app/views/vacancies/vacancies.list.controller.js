@@ -104,6 +104,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
          VacancyService.remove(vacancyForRemove).then(() => {
             remove(vm.vacancies.vacancies, predicate);
             UserDialogService.notification($translate.instant('DIALOG_SERVICE.SUCCESSFUL_REMOVING'), 'success');
+            searchVacancies();
          });
       });
    }

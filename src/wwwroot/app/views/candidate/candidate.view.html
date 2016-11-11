@@ -166,13 +166,14 @@
                         <phones class="add-phone-number" ng-model="candidate.phoneNumbers"></phones>
                         <input ng-model="candidate.email" type="text" placeholder="E-mail" name="candidateEmail" validator="email">
                         <input type="text" placeholder="Skype" ng-model=candidate.skype name="candidateSkype" validator="minlength=6, maxlength=32">
-                        <input type="text" placeholder="Recomendator" ng-model="candidate.recomendator" name="candidateRecomendator" validator="minlength=6, maxlength=100">
                         <oi-select class="multiple-select"
                                    oi-options="source.id as source.title for source in thesaurus.source | orderBy : 'title'"
                                    ng-model="candidate.mainSourceId"
                                    oi-select-options="{ cleanModel: true }"
                                    placeholder="{{::'COMMON.MAIN_SOURCE' | translate}}">
                         </oi-select>
+                        
+                        <input type="text" placeholder="Recomendator" ng-model="candidate.recomendator" name="candidateRecomendator" validator="minlength=6, maxlength=100">
                      </fieldset>
                   </div>
                </div>

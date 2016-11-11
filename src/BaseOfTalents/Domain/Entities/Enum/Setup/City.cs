@@ -8,6 +8,7 @@ namespace Domain.Entities.Enum.Setup
 
         public int CountryId { get; set; }
         public virtual Country Country { get; set; }
+        public bool HasOffice { get; set; }
 
         public virtual ICollection<RelocationPlace> RelocationPlaces { get; set; }
     }

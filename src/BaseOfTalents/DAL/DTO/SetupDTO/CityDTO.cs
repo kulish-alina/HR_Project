@@ -8,5 +8,6 @@ namespace DAL.DTO.SetupDTO
         public string Title { get; set; }
         [Required]
         public int CountryId { get; set; }
+        public bool HasOffice { get; set; }
     }
 }

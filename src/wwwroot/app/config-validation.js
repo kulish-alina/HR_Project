@@ -7,7 +7,8 @@ import utils from './utils';
 import {
    partial,
    isFunction,
-   isNaN
+   isNaN,
+   isArray
 } from 'lodash';
 
 const methods = ['minlength', 'maxlength', 'email', 'number', 'url'];
@@ -79,6 +80,9 @@ function _counterValidation(value, scope, element, attrs, param) {
 }
 
 function _requiredValidation (value, scope, element, attrs) {
+   if (isArray(value) && !value.length) {
+      value = null;
+   }
    let cond = attrs.isNeedRequired || 'true';
    return cond === 'true' ? !!value : true;
 }

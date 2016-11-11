@@ -21,7 +21,7 @@ export default function CandidatesReportController(
    const vm                                   = $scope;
    vm.candidatesReportParametrs               = {};
    vm.candidatesReportParametrs.locationsIds  = [];
-   vm.candidatesReportParametrs.candidateIds  = [];
+   vm.candidatesReportParametrs.candidatesIds = [];
    vm.locations                               = [];
    vm.selectedLocations                       = [];
    vm.generateCandidatesReport                = generateCandidatesReport;
@@ -33,6 +33,7 @@ export default function CandidatesReportController(
    vm.tableColumnsCount                       = [];
    vm.responseTableObject                     = {};
    vm.filterArrayByProperty                   = filterArrayByProperty;
+   vm.exportToExcel                           = exportToExcel;
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => {
@@ -44,9 +45,11 @@ export default function CandidatesReportController(
          each(locations, (location) => {
             if (LIST_OF_LOCATIONS.includes(location.title)) {
                vm.locations.push(location);
+               vm.candidatesReportParametrs.locationsIds.push(location.id);
+               vm.selectedLocations.push(location);
             }
-            set(location, 'selected', vm.candidatesReportParametrs.locationsIds.length && vm.candidatesReportParametrs.locationsIds.includes(location.id)); // eslint-disable-line max-len
          });
+         vm.isInited = true;
       });
    }());
 
@@ -72,9 +75,11 @@ export default function CandidatesReportController(
    }
 
    function clear() {
-      vm.startDate = null;
-      vm.endDate = null;
+      vm.startDate                 = null;
+      vm.endDate                   = null;
       vm.candidatesReportParametrs = {};
+      vm.selectedLocations         = [];
+      vm.responseTableObject       = {};
       _addDefaultPropertyToStages(vm.stages);
       _calculateTableColumnsCount(vm.selectedStageIds.length);
    }
@@ -99,8 +104,12 @@ export default function CandidatesReportController(
 
    function _addDefaultPropertyToStages(stages) {
       each(stages, (stage) => {
-         set(stage, '_isPressed', false);
+         set(stage, '_isPressed', true);
+         vm.selectedStageIds.push(stage.id);
       });
+   }
+
+   function exportToExcel() {
    }
 
    function _calculateTableColumnsCount(count) {
@@ -112,7 +121,7 @@ export default function CandidatesReportController(
    function _reportConditionsValidation() {
       if (!vm.candidatesReportParametrs.startDate &&
           !vm.candidatesReportParametrs.endDate &&
-          !vm.candidatesReportParametrs.candidateIds.length) {
+          !vm.candidatesReportParametrs.candidatesIds.length) {
          return {
             isValid: false,
             errorMessage: $translate.instant('DIALOG_SERVICE.EMPTY_CANDIDATE_REPORT_CONDITIONS')

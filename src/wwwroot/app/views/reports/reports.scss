@@ -89,3 +89,14 @@ input.date-input {
    display: flex;
    justify-content: center;
 }
+.candidates-report {
+   padding-top: 0;
+   overflow: auto;
+   overflow-y: hidden;
+}
+.passed-date-column {
+   min-width: $rem-base*5;
+}
+.location-input {
+   display: block;
+}

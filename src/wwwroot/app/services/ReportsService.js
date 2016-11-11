@@ -29,8 +29,7 @@ export default class ReportsService {
    getDataForCandidatesReport(searchParameters) {
       searchParameters = this._convertToServerDates(searchParameters);
       let candidatesReportUrl = 'candidateProgressReport';
-      return _HttpService.get(`${REPORT_URL}/${candidatesReportUrl}`, searchParameters)
-         .then(this._convertFromServerDates);
+      return _HttpService.get(`${REPORT_URL}/${candidatesReportUrl}`, searchParameters);
    }
 
    _convertToServerDates(searchParameters) {

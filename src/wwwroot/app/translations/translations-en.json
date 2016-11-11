@@ -368,6 +368,7 @@
       "PERIOD_DATE_CHART": "Dynamic report chart",
       "END_DATE_CHART": "End date report chart",
       "CANDIDATES_REPORT" : "Candidates report",
-      "CANDIDATES_REPORT_DATA" : "Candidates' report data"
+      "CANDIDATES_REPORT_DATA" : "Candidates' report data",
+      "EXPORT_TO_EXCEL" : "Export report to excel"
    }
 }

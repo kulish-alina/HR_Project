@@ -32,6 +32,7 @@ const THESAURUS_STRUCTURES = {
           validator : 'required, maxlength=50, minlength=3'},
          {name : 'countryId',         label : 'country',               type : 'select',
           refTo : 'country',      labelRefFieldName : 'title',     refObject : 'countryObject'},
+         {name : 'hasOffice',       label : 'has office',            type : 'checkbox'},
          {name : 'state',           label : 'state',                 type : ''}
       ]
    },

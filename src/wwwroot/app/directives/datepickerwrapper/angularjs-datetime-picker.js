@@ -1,3 +1,4 @@
+const GMT = ' 02:00:00';
 import {
    clone
 } from 'lodash';
@@ -211,7 +212,7 @@ import {
           var dateStr = ''+ctrl.triggerEl.scope().$eval(attrs.ngModel);
           if (dateStr) {
             if (!dateStr.match(/[0-9]{2}:/)) {  // if no time is given, add 00:00:00 at the end
-              dateStr += " 00:00:00";
+              dateStr += GMT;
             }
             dateStr = dateStr.replace(/([0-9]{2})-([0-9]{2})-([0-9]{4})/,'$3-$2-$1');      //dd-mm-yyyy to yyyy-mm-dd
             dateStr = dateStr.replace(/([\/-][0-9]{2,4})\ ([0-9]{2}\:[0-9]{2}\:)/,'$1T$2'); //reformat for FF

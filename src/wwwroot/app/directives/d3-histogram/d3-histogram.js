@@ -111,7 +111,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
       let x1 = d3.scaleBand().rangeRound([0, width]);
 
       let y = d3.scaleLinear()
-         .range([height, margin.top + 20]);
+         .range([height, 2 * margin.top]);
 
       let color = d3.scaleOrdinal()
          .range(elementColors);
@@ -120,7 +120,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
-        .attr('transform', `translate( 22, -${margin.top} )`);
+        .attr('transform', `translate( ${margin.top + 2}, -${margin.top} )`);
 
       svg.append('text')
         .attr('x', (width - 100) / 2)

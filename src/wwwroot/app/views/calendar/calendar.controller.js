@@ -46,6 +46,8 @@ export default function CandidateProfileController(
 
    (function init() {
       set(vm, 'currentUser', UserService.getCurrentUser());
+      set(vm.currentUser, 'selected', true);
+      addUserToChekedUsers(vm.currentUser);
       UserService.getUsers().then(users => {
          set(vm, 'users', users);
          generateColorsForUsers();

@@ -1,5 +1,6 @@
 ﻿using DAL.DTO;
 using DAL.Exceptions;
+using DAL.Extensions;
 using DAL.Infrastructure;
 using DAL.LoggerCore;
 using Domain.Entities;
@@ -111,6 +112,20 @@ namespace DAL.Extensions
                     throw new EntityNotFoundException("Can not find event bounded to chosen vacancy");
                 }
             }
+            else
+            {
+                var deadlineEvent = uow.EventRepo.Get(new List<Expression<Func<Event, bool>>> { x => x.EventType.Title.StartsWith("Vacancy deadline") && x.VacancyId == destination.Id }).FirstOrDefault();
+                if (deadlineEvent is Event)
+                {
+                    deadlineEvent.EventDate = source.DeadlineDate.Value;
+                    uow.EventRepo.Update(deadlineEvent);
+                }
+                else
+                {
+                    throw new EntityNotFoundException("Can not find event bounded to chosen vacancy");
+                }
+            }
+            
         }
 
         private static bool NeedDeleteDeadlineEvent(Vacancy destination, VacancyDTO source)

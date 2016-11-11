@@ -3,7 +3,8 @@ import {
    each,
    remove,
    filter,
-   find
+   find,
+   map
 } from 'lodash';
 
 const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdiansk'];
@@ -31,14 +32,15 @@ export default function CandidatesReportController(
    vm.clear                                   = clear;
    vm.selectedStageIds                        = [];
    vm.tableColumnsCount                       = [];
-   vm.responseTableObject                     = {};
    vm.filterArrayByProperty                   = filterArrayByProperty;
    vm.exportToExcel                           = exportToExcel;
+   vm.isInited                                = false;
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => {
          set(vm, 'stages', topic);
          _addDefaultPropertyToStages(vm.stages);
+         _addCheckedStagesIdsToSelectedStageIds(vm.stages);
          _calculateTableColumnsCount(vm.selectedStageIds.length);
       });
       ThesaurusService.getThesaurusTopics('city').then(locations => {
@@ -60,7 +62,7 @@ export default function CandidatesReportController(
       if (validateObj.isValid) {
          ValidationService.validate(form).then(() => {
             ReportsService.getDataForCandidatesReport(vm.candidatesReportParametrs).then(response => {
-               vm.responseTableObject = response;
+               set(vm, 'responseTableObject', response);
             });
          });
       } else {
@@ -81,13 +83,14 @@ export default function CandidatesReportController(
       vm.selectedLocations         = [];
       vm.responseTableObject       = {};
       _addDefaultPropertyToStages(vm.stages);
+      _addCheckedStagesIdsToSelectedStageIds(vm.stages);
       _calculateTableColumnsCount(vm.selectedStageIds.length);
    }
 
    function filterArrayByProperty(obj, id, type) {
-      if (obj !== undefined) {
+      if (obj) {
          let rep = find(obj.stages, {stageId: id});
-         return rep === undefined ? '' : rep[type];
+         return rep ? rep[type] : '';
       }
    }
 
@@ -105,8 +108,11 @@ export default function CandidatesReportController(
    function _addDefaultPropertyToStages(stages) {
       each(stages, (stage) => {
          set(stage, '_isPressed', true);
-         vm.selectedStageIds.push(stage.id);
       });
+   }
+
+   function _addCheckedStagesIdsToSelectedStageIds(stages) {
+      vm.selectedStageIds = map(stages, (stage) => stage.id);
    }
 
    function exportToExcel() {

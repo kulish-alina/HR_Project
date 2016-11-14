@@ -63,6 +63,7 @@ namespace DAL.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
                         CountryId = c.Int(nullable: false),
+                        HasOffice = c.Boolean(nullable: false),
                         LastModified = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         State = c.Int(nullable: false),

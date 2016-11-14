@@ -85,7 +85,7 @@ th {
 }
 
 .pressed {
-    box-shadow: inset 0px 0px 26px -12px rgba(0, 0, 0, 1) !important;
+    box-shadow: inset 0px 0px $rem-base/2 0px rgba(0, 0, 0, 0.7) !important;
 }
 
 .has-entities {

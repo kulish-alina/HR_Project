@@ -45,14 +45,17 @@ export default function CandidateProfileController(
    vm.eventCondidtion         = {};
 
    (function init() {
-      set(vm, 'currentUser', UserService.getCurrentUser());
-      set(vm.currentUser, 'selected', true);
-      addUserToChekedUsers(vm.currentUser);
       UserService.getUsers().then(users => {
+         set(vm, 'currentUser', UserService.getCurrentUser());
          set(vm, 'users', users);
          generateColorsForUsers();
          each(vm.users, (user) => {
-            set(user, 'selected', false);
+            if (user.id === vm.currentUser.id) {
+               set(user, 'selected', true);
+               addUserToChekedUsers(user);
+            } else {
+               set(user, 'selected', false);
+            }
          });
       });
       VacancyService.search(vm.vacancy).then(data  => set(vm, 'vacancies',  data.vacancies));

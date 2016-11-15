@@ -36,6 +36,11 @@ namespace DAL.Services
 
         public UserDTO Add(UserDTO userToAdd)
         {
+            if (Get((user) => user.Email == userToAdd.Email) != null ||
+                Get((user) => user.Login == userToAdd.Login) != null)
+            {
+                throw new ArgumentException("User with such login or email alredy exist!");
+            }
             User _user = new User();
             _user.Update(userToAdd, uow);
             uow.UserRepo.Insert(_user);

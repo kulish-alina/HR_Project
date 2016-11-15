@@ -59,9 +59,10 @@ export default function MembersController(
       let buttons = [{
          name: $translate.instant('COMMON.CANCEL')
       }, {
-         name: $translate.instant('MEMBERS.INVITE_BUT'),
-         func: _createUser,
-         needValidate: true
+         name         : $translate.instant('MEMBERS.INVITE_BUT'),
+         func         : _createUser,
+         needValidate : true,
+         isAsync      : true
       }];
 
       vm.newUser = {
@@ -81,8 +82,12 @@ export default function MembersController(
    }
 
    function _createUser() {
-      UserService.saveUser(vm.newUser).then((user) => {
+      return UserService.saveUser(vm.newUser).then((user) => {
          vm.users[user.roleId].push(user);
+         UserDialogService.notification($translate.instant('MEMBERS.INVITED_NEW'), 'success');
+      }).catch((reason) => {
+         UserDialogService.notification(reason.statusText, 'error');
+         return $q.reject();
       });
    }
 

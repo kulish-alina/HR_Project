@@ -21,7 +21,7 @@
       </ul>
    </div>
    <div class="large-3 grid-block align-right">
-      <ul class="menu-bar second-button-bar align-right">
+      <ul class="menu-bar second-button-bar align-right" ng-if="$state.current.data.showButtons">
          <li ng-if="$state.current.data.asEdit" class="secondary-menu-button">
             <a ng-click="cancel()"ng-bind="::('COMMON.CANCEL' | translate)"></a>
          </li>

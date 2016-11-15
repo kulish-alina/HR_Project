@@ -12,7 +12,7 @@
                  dnd-dragstart="setMovedUser(user)">
                   <a class="close-member-button" ng-click="removeUser(user)">×</a>
                   <contacts entity="user" direction="ttb"></contacts>
-                  <select ng-model="role" ng-options="role.title for role in roles" ng-change="changeRole(role, user)">
+                  <select ng-hide="true" ng-model="role" ng-options="role.title for role in roles" ng-change="changeRole(role, user)">
                   </select>
                </li>
             </ul>

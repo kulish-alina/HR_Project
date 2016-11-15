@@ -97,9 +97,10 @@ export default function ProfileController (
       let buttons = [{
          name: $translate.instant('COMMON.CANCEL')
       }, {
-         name: $translate.instant('COMMON.OK'),
-         func: _changePassword,
-         needValidate: true
+         name         : $translate.instant('COMMON.OK'),
+         func         : _changePassword,
+         needValidate : true,
+         isAsync      : true
       }];
 
       passwords = {
@@ -116,9 +117,12 @@ export default function ProfileController (
    }
 
    function _changePassword() {
-      AccountService.changePassword(passwords.oldPass, passwords.newPass)
+      return AccountService.changePassword(passwords.oldPass, passwords.newPass)
          .then(() => UserDialogService.notification($translate.instant('PROFILE.PAS_CHANGED'), 'success'))
-         .catch((reason) => UserDialogService.notification(reason.data, 'error'));
+         .catch((reason) => {
+            UserDialogService.notification(reason.data, 'error');
+            return $q.reject();
+         });
    }
 
    function location() {

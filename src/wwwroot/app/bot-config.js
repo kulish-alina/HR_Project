@@ -162,8 +162,7 @@ export default function _config(
          url: '/reports',
          template: reportsTemplate,
          controller: reportsController,
-         parent: 'home',
-         data: { hideHome: true }
+         parent: 'home'
       })
       .state('recruitingFunnel', {
          url: '/recruitingFunnel',
@@ -196,14 +195,20 @@ export default function _config(
          url: '/settings',
          template: settingsTemplate,
          controller: settingsController,
-         data: { asEdit: false },
+         data: {
+            asEdit: false,
+            showButtons: false
+         },
          parent: 'main'
       })
       .state('profile', {
          url: '/profile',
          parent: 'settings',
          template: profileTemplate,
-         controller: profileController
+         controller: profileController,
+         data: {
+            showButtons: true
+         }
       })
       .state('profile.edit', {
          url: '/edit',

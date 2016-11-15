@@ -24,7 +24,7 @@
                <div class="grid-block">
                   <div class="medium-4 grid-block">
                      <fieldset>
-                        <input name="Title" ng-model="vacancy.title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, minlength=3, maxlength=50">
+                        <input name="Title" ng-model="vacancy.title" placeholder="{{::'COMMON.TITLE' | translate}}" type="text" validator="required, maxlength=50">
                         <oi-select class="multiple-select" oi-options="industry.id as industry.title for industry in thesaurus.industry | orderBy : 'title'" ng-model="vacancy.industryId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.INDUSTRY' | translate}}" name="vacancyIndustry" validator="required"></oi-select>
                         <div class="grid-block">
                            <div class="medium-6 grid-block">

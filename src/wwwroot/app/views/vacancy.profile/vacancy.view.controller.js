@@ -206,7 +206,6 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          });
       }
    }
-// candidatesIds: [],
    vm.goToCandidates = () => {
       let candidateIds = map(vm.vacancyStageInfosComposedByCandidateIdVacancyId, 'candidateId');
       _saveChanges()

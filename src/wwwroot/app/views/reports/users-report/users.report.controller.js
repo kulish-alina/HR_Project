@@ -14,7 +14,6 @@ import {
    filter,
    some
 } from 'lodash';
-const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdiansk'];
 
 export default function UsersReportController( // eslint-disable-line max-params, max-statements
    $scope,
@@ -52,24 +51,20 @@ export default function UsersReportController( // eslint-disable-line max-params
       ThesaurusService.getThesaurusTopics('stage').then(topic => {
          set(vm, 'stages', topic);
       });
-      ThesaurusService.getThesaurusTopics('city').then(locations => {
-         each(locations, (location) => {
-            if (LIST_OF_LOCATIONS.includes(location.title)) {
-               vm.locations.push(location);
-            }
-            set(location, 'selected', vm.usersReportParametrs.locationIds.length && vm.usersReportParametrs.locationIds.includes(location.id)); // eslint-disable-line max-len
-         });
-         return vm.locations;
-      }).then(locations => {
-         UserService.getUsers().then(users => {
-            set(vm, 'users', filter(users, (user) => {
-               return some(locations, (location) => location.id === user.cityId);
-            }));
-            each(vm.users, (user) => {
-               set(user, 'selected', vm.usersReportParametrs.userIds.length && vm.usersReportParametrs.userIds.includes(user.id));        // eslint-disable-line max-len
+      ThesaurusService.getOfficeLocations()
+         .then(locations => {
+            set(vm, 'locations', locations);
+            each(locations, location =>
+               set(location, 'selected', vm.usersReportParametrs.locationIds.includes(location.id))
+            );
+            return vm.locations;
+         })
+         .then(locations => {
+            UserService.getUsers().then(users => {
+               set(vm, 'users', filter(users, user => some(locations, {id : user.cityId})));
+               each(vm.users, user => set(user, 'selected', vm.usersReportParametrs.userIds.includes(user.id)));
             });
          });
-      });
    }());
 
    function useLocationField(isActiveLocationField) {

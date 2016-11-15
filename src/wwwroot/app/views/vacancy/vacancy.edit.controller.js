@@ -1,4 +1,4 @@
-const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language',
+const LIST_OF_THESAURUS = ['industry', 'level', 'language',
     'department', 'tag', 'skill', 'typeOfEmployment', 'languageLevel', 'stage', 'currency'];
 import _utils from './../../utils';
 import {
@@ -54,13 +54,18 @@ export default function VacancyController( //eslint-disable-line max-statements
    vm.getFullName                  = UserService.getFullName;
    vm.utils                        = _utils;
    vm.getStateTitle                = _getStateTitle;
+   vm.locationsSort                = _utils.locationsSort;
 
    /* === impl === */
    (function init() {
       if ($state.params.vacancyId) {
          _initCurrentVacancy($state.params.vacancyId);
       }
-      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
+         .then(topics => set(vm, 'thesaurus', topics));
+
+      ThesaurusService.getOfficeLocations()
+         .then(locations => set(vm, 'locations', locations));
    }());
 
    function _initCurrentVacancy(id) {

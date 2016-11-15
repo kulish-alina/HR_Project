@@ -95,7 +95,8 @@ export default class ThesaurusService {
    }
 
    getOfficeLocations() {
-      return _ThesaurusService.getThesaurusTopics(locationsThesaurusName).filter({hasOffice : true});
+      return _ThesaurusService.getThesaurusTopics(locationsThesaurusName)
+         .then(locations => filter(locations, {hasOffice : true}));
    }
 }
 

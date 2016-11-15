@@ -12,6 +12,8 @@ import {
  } from 'lodash';
 import './candidate.edit.scss';
 
+import utils from './../../utils.js';
+
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel', 'source',
    'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'country', 'currency', 'socialNetwork', 'eventtype'];
 
@@ -71,6 +73,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
    vm.back                 = back;
    vm.viewCandidate        = viewCandidate;
    vm.submit               = submit;
+   vm.locationsSort        = utils.locationsSort;
 
    (function _init() {
       _initThesauruses()

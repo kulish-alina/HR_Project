@@ -56,7 +56,7 @@
                                    placeholder="{{::'COMMON.LEVEL' | translate}}">
                         </oi-select>
                         <oi-select class="multiple-select"
-                                   oi-options="city.id as city.title for city in thesaurus.city | orderBy : 'title'"
+                                   oi-options="city.id as city.title for city in locations  | orderBy : 'title'"
                                    ng-model="vacancy.cityIds"
                                    multiple
                                    placeholder="{{::'COMMON.LOCATION' | translate}}"

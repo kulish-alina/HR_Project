@@ -1,6 +1,5 @@
 import './vacancies.list.scss';
-const LIST_OF_THESAURUS = ['industry', 'level', 'city',
-    'typeOfEmployment', 'department'];
+const LIST_OF_THESAURUS = ['industry', 'level', 'typeOfEmployment', 'department'];
 import _utils from './../../utils';
 import {
    remove,
@@ -59,6 +58,8 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
+      ThesaurusService.getOfficeLocations()
+         .then(locations => set(vm, 'locations', locations));
       vm.vacancyPredicate = $state.params.vacancyPredicate || cloneDeep(DEFAULT_VACANCY_PREDICATE);
       resetVacancyPredicateStateParams();
       searchVacancies();

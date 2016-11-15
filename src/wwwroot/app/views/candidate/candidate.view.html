@@ -71,7 +71,7 @@
                         <input type="tel" placeholder="{{::'COMMON.BIRTH' | translate}}" class="input-date" ng-model="candidate.birthDate" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder ui-mask-placeholder-char="_" name="candidateName" model-view-value="true" validator="date" />
                         <language-skills selected-skills="candidate.convertedLanguageSkills"></language-skills>
                         <oi-select class="multiple-select"
-                                    oi-options="city.id as city.title for city in thesaurus.city  | orderBy : 'title' track by city.id" 
+                                    oi-options="city.id as city.title for city in locationsSort(thesaurus.city) track by city.id" 
                                     ng-model="candidate.cityId"
                                     placeholder="{{::'COMMON.LOCATION' | translate}}">
                         </oi-select>

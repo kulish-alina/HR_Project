@@ -8,6 +8,8 @@ import {
    cloneDeep
 } from 'lodash';
 
+import utils from './../../utils.js';
+
 const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLevel',
     'department', 'typeOfEmployment', 'tag', 'skill', 'stage', 'currency'];
 
@@ -53,6 +55,7 @@ export default function CandidatesController(
    vm.isAllToogled         = false;
    vm.sortBy               = _sortBy;
    vm.getArrow             = _getArrow;
+   vm.locationsSort        = utils.locationsSort;
 
    vm.slider = {
       min: DEFAULT_MIN_AGE,

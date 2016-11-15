@@ -8,8 +8,6 @@ import {
    first
 } from 'lodash';
 
-const LIST_OF_THESAURUS = [ 'city' ];
-
 export default function ProfileController (
    $q,
    $scope,
@@ -45,8 +43,8 @@ export default function ProfileController (
       SettingsService.addOnCancelListener(_onCancel);
       SettingsService.addOnEditListener(_onEdit);
       $element.on('$destroy', _onDestroy);
-      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
-         .then(topics => set(vm, 'thesaurus', topics));
+      ThesaurusService.getOfficeLocations()
+         .then(locations => set(vm, 'locations', locations));
       _initCurrentUser();
       _initImageUploader();
    }());

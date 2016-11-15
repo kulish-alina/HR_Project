@@ -21,7 +21,7 @@
                   </li>
                </ul>
                <oi-select class="multiple-select"
-                          oi-options="city.id as city.title for city in thesaurus.city  | orderBy : 'title' track by city.id" 
+                          oi-options="city.id as city.title for city in locations  | orderBy : 'title' track by city.id" 
                           ng-model="user.cityId"
                           placeholder="{{::'COMMON.LOCATION' | translate}}">
                </oi-select>

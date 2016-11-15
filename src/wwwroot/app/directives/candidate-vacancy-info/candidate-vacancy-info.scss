@@ -102,6 +102,18 @@ th {
     text-align: center;
 }
 
+#stagesAndDatePicker {
+    display: flex;
+    flex-direction: row;
+    :first-child {
+
+        width: 100%;
+    }
+    :second-child {
+        flex-shrink: 0;
+    }
+}
+
 .stage-button {
     @include button ($background: transparentize(#0097a7, 0.9), $color: #fff, $background-hover: rgba(0, 151, 167, 0.75));
     border-bottom: solid 1px #fff;
@@ -118,7 +130,6 @@ th {
 }
 .many-stage-button {
     display: inline-block;
-    border: 0;
     text-align: center;
     line-height: 1;
     cursor: pointer;
@@ -127,7 +138,8 @@ th {
     transition: background 0.25s ease-out;
     vertical-align: middle;
     width: 100%;		
-    border: solid 1px $border-color;		
+    border: solid 1px $border-color;	
+    border-bottom: 2px $border-color;	
     padding: $rem-base / 2;		
     color: $body-font-color;
     display: flex;

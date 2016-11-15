@@ -58,6 +58,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       'Passed': 2,
       'NotPassed': 3
    };
+   vm.stageStates = STAGE_STATES;
    const STAGE_TYPES = {
       'MainStage': 1,
       'HireStage': 2,
@@ -392,6 +393,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             }
             if (stageVacancyStageInfo.dateOfPass) {
                stageVacancyStageInfo.dateOfPass = moment(stageVacancyStageInfo.dateOfPass).format(DATE_FORMAT);
+            } else {
+               stageVacancyStageInfo.dateOfPass = moment().format(DATE_FORMAT);
             }
          }
          return {
@@ -652,7 +655,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       currentStageAndVsi.stageState = STAGE_STATES.Passed;
       currentStageAndVsi.class = 'passed';
       currentStageAndVsi.vsi.stageState = STAGE_STATES.Passed;
-      currentStageAndVsi.vsi.dateOfPass = moment().format(DATE_FORMAT);
+      currentStageAndVsi.vsi.dateOfPass = moment(currentStageAndVsi.vsi.dateOfPass, DATE_FORMAT).format(DATE_FORMAT);
    }
 
    function setSelectedStageToActive(selectedStageAndVsi, candObject) {
@@ -662,6 +665,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       selectedStageAndVsi.vsi = {
          vacancyId: candObject.vacancyId,
          candidateId: candObject.candidateId,
+         dateOfPass: moment().format(DATE_FORMAT),
          stage: selectedStageAndVsi.stage,
          stageId: selectedStageAndVsi.stage.stage.id,
          comment: selectedStageAndVsi.showCommentArea ? {
@@ -691,7 +695,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          latestPassedStageAndVsi.stageState = STAGE_STATES.Active;
          latestPassedStageAndVsi.class = 'active';
          latestPassedStageAndVsi.vsi.stageState = STAGE_STATES.Active;
-         latestPassedStageAndVsi.vsi.dateOfPass = null;
+         latestPassedStageAndVsi.vsi.dateOfPass = moment(latestPassedStageAndVsi.vsi.dateOfPass, DATE_FORMAT)
+                                                      .format(DATE_FORMAT);
       }
    }
 

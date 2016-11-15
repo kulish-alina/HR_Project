@@ -82,7 +82,7 @@ namespace DAL.Services
             return candidates.Aggregate(new List<CandidateProgressReportUnitDTO>(), (result, candidate) =>
             {
                 var vacanciesProgress = candidate.VacanciesProgress
-                    .Where(x => x.StageState == StageState.Passed)
+                    .Where(x => x.StageState != StageState.Inactive)
                     .AsEnumerable();
                 if (locationsIds != null && locationsIds.Any())
                 {

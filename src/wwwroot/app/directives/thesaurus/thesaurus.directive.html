@@ -13,10 +13,15 @@
          <input name="{{field.name}}" type="text" ng-disabled="!isEditTopic(topic)" 
                 ng-if="field.type==='text'" placeholder="{{::field.name}}" 
                 ng-model="topic[field.name]" class="edit" validator="{{field.validator}}">
-         <select name="{{field.name}}" ng-disabled="!isEditTopic(topic)" ng-if="field.type==='select'" 
+         <oi-select name="{{field.name}}"
+                 ng-disabled="!isEditTopic(topic)"
+                 ng-if="field.type==='select'" 
                  ng-model="topic[field.refObject]"
-                 ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
-                 ng-change="change(topic, field)" class="edit" validator="required"></select>          
+                 oi-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
+                 ng-change="change(topic, field)"
+                 class="edit thesaurus-select"
+                 validator="required">
+         </oi-select>          
          <div class="thesaurus-img" ng-if="field.type==='img'"><img ng-src="{{topic[field.name] | botUrl}}" ng-if="field.type==='img'" class="thesaurus-img"></div>
          <input type="file" nv-file-select="" uploader="uploader"
                 ng-if="field.type==='img'&&isEditTopic(topic)" class="thesaurus-file-uploader">
@@ -52,10 +57,13 @@
           <input name="{{field.name}}" type="text" placeholder="{{::field.name}}" 
                 ng-model="newThesaurusTopic[field.name]"
                 ng-if="::field.type=='text'" ng-disabled="!isTopicEditAllow(newThesaurusTopic)">
-          <select ng-if="field.type==='select'" name="{{field.name}}"
+          <oi-select ng-if="field.type==='select'"
+                 name="{{field.name}}"
                  ng-model="newThesaurusTopic[field.refObject]"
-                 ng-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
-                 ng-change="change(newThesaurusTopic, field)"></select>
+                 oi-options="option[field.labelRefFieldName] for option in additionThesaurusesStore[field.refTo] track by option.id"
+                 ng-change="change(newThesaurusTopic, field)"
+                 class='thesaurus-select'>
+          </oi-select>
           <input type="file" nv-file-select="" uploader="uploader" 
                  ng-if="field.type==='img'" class="new-topic-uploader thesaurus-file-uploader">
           <input type="checkbox" ng-if="field.type==='checkbox'" class="thesaurus-checkbox" 

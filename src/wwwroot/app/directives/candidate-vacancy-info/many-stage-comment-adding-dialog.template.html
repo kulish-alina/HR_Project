@@ -1,27 +1,18 @@
 <div id="stages">
-    <div ng-repeat="stageAndVsi in vacancyStagesEntitiesVSIs">
-        <div class="stages-dialog-container">
-            <div class="many-stage-button" 
-                ng-class='stageAndVsi.class' 
-                ng-click="stageClick(stageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs)">
-                <div>{{stageAndVsi.stage.stage.title}}</div>
-                <div class="align-right grid-block">
-                    <input type="tel" 
-                        ng-if="stageAndVsi.vsi.dateOfPass"
-                        placeholder="Please, choose pass date" 
-                        class="stage-date-picker" 
-                        ng-model="stageAndVsi.vsi.dateOfPass" 
-                        datetime-picker date-format="dd-MM-yyyy" 
-                        close-on-select="true" 
-                        date-only 
-                        ui-mask="99-99-9999" 
-                        ui-mask-placeholder 
-                        ui-mask-placeholder-char="_" 
-                        model-view-value="true" 
-                    />
-                </div>
-              </div>
-            <textarea ng-class="{'invalid': !stageAndVsi.areaIsValid, 'valid': stageAndVsi.areaIsValid}" class="comment-area" ng-if='stageAndVsi.showCommentArea' ng-model='stageAndVsi.vsi.comment.message'></textarea>
-        </div>
-    </div>
+   <div ng-repeat="stageAndVsi in vacancyStagesEntitiesVSIs">
+      <div id="stagesAndDatePicker">
+         <div class="stages-dialog-container">
+            <div style="height: 34px" class="many-stage-button" ng-class='stageAndVsi.class' ng-click="stageClick(stageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs)">
+               <div style="height: 14px" >{{stageAndVsi.stage.stage.title}}</div>
+            </div>
+         </div>
+         <div style="height: 34px" class="align-right grid-block">
+            <input style="height: 34px" type="tel" ng-if="stageAndVsi.stageState != 0" placeholder="Please, choose pass date" class="stage-date-picker" ng-model="stageAndVsi.vsi.dateOfPass"
+               datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only ui-mask="99-99-9999" ui-mask-placeholder
+               ui-mask-placeholder-char="_" model-view-value="true" />
+         </div>
+      </div>
+      <textarea ng-class="{'invalid': !stageAndVsi.areaIsValid, 'valid': stageAndVsi.areaIsValid}" class="comment-area" ng-if='stageAndVsi.showCommentArea'
+         ng-model='stageAndVsi.vsi.comment.message'></textarea>
+   </div>
 </div>

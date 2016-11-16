@@ -316,7 +316,8 @@
       "CHANGED": "Role was succesfully changed",
       "CONFIRM": "Are you sure that you want to delete '{{login}}' user?",
       "REMOVED": "User was succesfully removed",
-      "INVITE_BUT": "Invite"
+      "INVITE_BUT": "Invite",
+      "INVITED_NEW": "New user was successfully invited!"
    },
 
    "LOGIN" : {

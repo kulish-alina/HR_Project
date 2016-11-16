@@ -5,7 +5,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'id',        label : 'id',        type : ''},
          {name : 'title',     label : 'name',      type : 'text',   validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'socialnetwork' : {
       thesaurusName : 'THESAURUSES.SOCIALS',
@@ -14,7 +15,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'title',     label : 'name',      type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'imagePath', label : 'image',     type : 'img' },
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'language' : {
       thesaurusName : 'THESAURUSES.LANGUAGES',
@@ -22,7 +24,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'id',        label : 'id',        type : ''},
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'city' : {
       thesaurusName : 'THESAURUSES.LOCATIONS',
@@ -32,8 +35,10 @@ const THESAURUS_STRUCTURES = {
           validator : 'required, maxlength=50, minlength=3'},
          {name : 'countryId',         label : 'country',               type : 'select',
           refTo : 'country',      labelRefFieldName : 'title',     refObject : 'countryObject'},
+         {name : 'hasOffice',       label : 'has office',            type : 'checkbox'},
          {name : 'state',           label : 'state',                 type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'department' : {
       thesaurusName : 'THESAURUSES.DEPARTMENTS',
@@ -44,7 +49,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'departmentGroupId',     label : 'department group',      type : 'select',
           refTo : 'departmentgroup',     labelRefFieldName : 'title',     refObject : 'departmentGroupObject'},
          {name : 'state',                 label : 'state',                 type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'departmentgroup' : {
       thesaurusName : 'THESAURUSES.DEPARTMENT_GROUPS',
@@ -52,7 +58,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'id',        label : 'id',        type : ''},
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'industry' : {
       thesaurusName : 'THESAURUSES.INDUSTRIES',
@@ -60,7 +67,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'id',        label : 'id',        type : ''},
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'skill' : {
       thesaurusName : 'THESAURUSES.SKILLS',
@@ -68,7 +76,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'id',        label : 'id',        type : ''},
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=1'},
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'tag' : {
       thesaurusName : 'THESAURUSES.TAGS',
@@ -76,7 +85,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'id',        label : 'id',        type : ''},
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=1'},
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'level' : {
       thesaurusName : 'THESAURUSES.LEVELS',
@@ -84,7 +94,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'id',        label : 'id',        type : ''},
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'eventtype' : {
       thesaurusName : 'THESAURUSES.EVENT_TYPES',
@@ -93,7 +104,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'title',     label : 'name',      type : 'text',    validator : 'required, maxlength=50, minlength=3'},
          {name : 'imagePath', label : 'image',     type : 'img' },
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'currency' : {
       thesaurusName : 'THESAURUSES.CURRENCY',
@@ -101,7 +113,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'id',        label : 'id',        type : ''},
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=3, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    },
    'source' : {
       thesaurusName : 'THESAURUSES.SOURCES',
@@ -109,7 +122,8 @@ const THESAURUS_STRUCTURES = {
          {name : 'id',        label : 'id',        type : ''},
          {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=3, minlength=3'},
          {name : 'state',     label : 'state',     type : ''}
-      ]
+      ],
+      orderFieldName : 'title'
    }
 };
 

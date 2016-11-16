@@ -253,6 +253,7 @@
     <Compile Include="Results\AddChallengeOnUnauthorizedResult.cs" />
     <Compile Include="Results\AuthFailedResult.cs" />
     <Compile Include="Results\ChangePasswordResult.cs" />
+    <Compile Include="Results\ConflictResult.cs" />
     <Compile Include="Services\Auth\TokenContainer.cs" />
     <Compile Include="Services\Auth\TokenProvider.cs" />
     <Compile Include="Services\Auth\UserAccountService.cs" />

@@ -11,11 +11,12 @@ import { find } from 'lodash/fp';
 
 import utils from '../utils.js';
 
-const curryLength = 3;
+const curryLength             = 3;
+const locationsThesaurusName  = 'city';
 
 import THESAURUS_STRUCTURES from './ThesaurusStructuresStore.js';
 
-let _HttpService, _$q, _$translate, _HttpCacheService;
+let _HttpService, _$q, _$translate, _HttpCacheService, _ThesaurusService;
 let _curryAction = curry(_actionOfAdditionFieldsForTopic, curryLength);
 
 export default class ThesaurusService {
@@ -25,6 +26,7 @@ export default class ThesaurusService {
       _$q = $q;
       _$translate = $translate;
       _HttpCacheService = HttpCacheService;
+      _ThesaurusService = this;
    }
 
    getThesaurusTopics(thesaurusName) {
@@ -39,12 +41,12 @@ export default class ThesaurusService {
    }
 
    getThesaurusTopic(thesaurusName, id) {
-      return this.getThesaurusTopics(thesaurusName).then(find({id}));
+      return _ThesaurusService.getThesaurusTopics(thesaurusName).then(find({id}));
    }
 
    getThesaurusTopicsByIds(thesaurusName, arrIds) {
       let isArrayIds = isArray(arrIds);
-      return this.getThesaurusTopics(thesaurusName).then((topics) => {
+      return _ThesaurusService.getThesaurusTopics(thesaurusName).then((topics) => {
          return filter(topics, (topic) => {
             if (isArrayIds) {
                return includes(arrIds, topic.id);
@@ -56,15 +58,15 @@ export default class ThesaurusService {
    }
 
    getThesaurusTopicsGroup(thesaurusNames) {
-      let mapThesaurusPromises = utils.array2map(thesaurusNames, this.getThesaurusTopics);
+      let mapThesaurusPromises = utils.array2map(thesaurusNames, _ThesaurusService.getThesaurusTopics);
       return _$q.all(mapThesaurusPromises);
    }
 
    saveThesaurusTopic(thesaurusName, entity) {
-      if (includes(this.getThesaurusNames(), thesaurusName)) {
+      if (includes(_ThesaurusService.getThesaurusNames(), thesaurusName)) {
          return _saveThesaurusTopic(thesaurusName, entity);
       }
-      return _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
+      _$q.reject(_$translate.instant('ERRORS.thesaurusErrors.incorrectNameMsg'));
    }
 
    saveThesaurusTopics(thesaurusName, entities) {
@@ -73,7 +75,7 @@ export default class ThesaurusService {
    }
 
    deleteThesaurusTopic(thesaurusName, entity) {
-      if (includes(this.getThesaurusNames(), thesaurusName)) {
+      if (includes(_ThesaurusService.getThesaurusNames(), thesaurusName)) {
          let additionalUrl = `${thesaurusName}/${entity.id}`;
          _actionOfAdditionFieldsForTopic(entity, thesaurusName, _deleteRefTextFieldFunction);
          return _HttpService.remove(additionalUrl, entity)
@@ -90,6 +92,11 @@ export default class ThesaurusService {
 
    getThesaurusStructure(thesaurusName) {
       return THESAURUS_STRUCTURES[thesaurusName];
+   }
+
+   getOfficeLocations() {
+      return _ThesaurusService.getThesaurusTopics(locationsThesaurusName)
+         .then(locations => filter(locations, {hasOffice : true}));
    }
 }
 

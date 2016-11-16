@@ -72,13 +72,14 @@ export default class UserDialogService {
     * @param {string}   buttons[].name for buttons' text which will be shown,
     * @callback         buttons[].func for functions which will be fired after click,
     * @param {boolean}  buttons[].needValidate for flag which will be true if need to call validation.
+    * @param {boolean}  buttons[].isAsync true if we need close window after operaton resolving.
     * @param {Object}   scope - an object with variables for content.
     * @param {boolean}  closable - flag which must be falsely if we need unclosable modal.
     * @returns {undefined}
     */
    dialog(header, content, buttons, scope, closable = true) {
       let wrappedButtons = forEach(buttons, (value) => {
-         value.func = _closeElementWrapp(value.func);
+         value.func = value.isAsync ? _closeElementWrappForAsync(value.func) : _closeElementWrapp(value.func);
          if (value.needValidate) {
             value.func = _validationWrapp(value.func);
          }
@@ -106,8 +107,20 @@ function _closeElementWrapp(func) {
       if (isFunction(func)) {
          func();
       }
-      _FoundationApi.closeActiveElements();
+      _close();
    };
+}
+
+function _closeElementWrappForAsync(func) {
+   return () => {
+      if (isFunction(func)) {
+         func().then(_close);
+      }
+   };
+}
+
+function _close() {
+   _FoundationApi.closeActiveElements();
 }
 
 function _validationWrapp(callback) {

@@ -23,6 +23,7 @@ import './vacancy.view.scss';
 let moment = require('moment');
 
 const MATCH_FIELDS = ['responsibleId', 'startDate', 'endDate', 'deadlineDate'];
+const STATE_FOR_REMOVE = 1;
 
 export default function VacancyProfileController( // eslint-disable-line max-params, max-statements
    $scope,
@@ -56,9 +57,8 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.saveAndBack          = saveAndBack;
    vm.isChanged            = isChanged;
    vm.currentStage         = '';
-   vm.saveComment          = _saveComment;
-   vm.removeComment        = _removeComment;
-   vm.editComment          = _editComment;
+   vm.saveComment          = saveComment;
+   vm.removeComment        = removeComment;
 
    vm.clonedVacancyStageInfosComposedByCandidateIdVacancyId     = [];
    vm.vacancyStageInfosComposedByCandidateIdVacancyId           = [];
@@ -290,25 +290,24 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       TransitionsService.back();
    }
 
-   function _saveComment(comment) {
-      let currentUser = UserService.getCurrentUser();
-      comment.authorId = currentUser.id;
-      return $q.when(vm.comments.push(comment));
-   }
-
-   function _removeComment(comment) {
-      let commentForRemove = find(vm.comments, comment);
+   function saveComment(comment) {
       if (comment.id) {
-         commentForRemove.state = 1;
-         remove(vm.comments, comment);
-         return $q.when(vm.comments.push(commentForRemove));
+         set(find(vm.comments, comment), 'message', comment.message);
       } else {
-         return $q.when(remove(vm.comments, comment));
+         set(comment, 'authorId', UserService.getCurrentUser().id);
+         vm.comments.push(comment);
       }
+      return $q.when(comment);
    }
 
-   function _editComment(comment) {
-      return $q.when(remove(vm.comments, comment));
+   function removeComment(comment) {
+      if (comment.id) {
+         set(find(vm.comments, comment), 'state', STATE_FOR_REMOVE);
+         return $q.when(comment);
+      } else {
+         remove(vm.comments, comment);
+         return $q.when(comment);
+      }
    }
 
    function _recomposeBack(vacancyStageInfosComposedByCandidateIdVacancyId) {

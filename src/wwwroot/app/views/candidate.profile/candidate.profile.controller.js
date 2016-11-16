@@ -1,4 +1,5 @@
 const LIST_OF_THESAURUS = ['stage', 'eventtype'];
+const STATE_FOR_REMOVE = 1;
 import {
    set,
    cloneDeep,
@@ -44,7 +45,6 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    vm.comments               = cloneDeep(vm.candidate.comments);
    vm.saveComment            = saveComment;
    vm.removeComment          = removeComment;
-   vm.editComment             = editComment;
    vm.candidateEvents         = [];
    vm.cloneCandidateEvents    = [];
    vm.saveEvent               = saveEvent;
@@ -244,26 +244,24 @@ export default function CandidateProfileController( // eslint-disable-line max-s
 
    function saveComment(comment) {
       vm.isChanged = true;
-      let currentUser = UserService.getCurrentUser();
-      comment.authorId = currentUser.id;
-      return $q.when(vm.comments.push(comment));
+      if (comment.id) {
+         set(find(vm.comments, comment), 'message', comment.message);
+      } else {
+         set(comment, 'authorId', UserService.getCurrentUser().id);
+         vm.comments.push(comment);
+      }
+      return $q.when(comment);
    }
 
    function removeComment(comment) {
       vm.isChanged = true;
-      let commentForRemove = find(vm.comments, comment);
       if (comment.id) {
-         commentForRemove.state = 1;
-         remove(vm.comments, comment);
-         return $q.when(vm.comments.push(commentForRemove));
+         set(find(vm.comments, comment), 'state', STATE_FOR_REMOVE);
+         return $q.when(comment);
       } else {
-         return $q.when(remove(vm.comments, comment));
+         remove(vm.comments, comment);
+         return $q.when(comment);
       }
-   }
-
-   function editComment(comment) {
-      vm.isChanged = true;
-      return $q.when(remove(vm.comments, comment));
    }
 
    function _getCandidateEvents(candidateId) {

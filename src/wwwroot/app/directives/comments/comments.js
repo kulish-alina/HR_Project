@@ -8,8 +8,7 @@ export default class CommentsDirective {
          type    : '@',
          comments: '=',
          save    : '=',
-         remove  : '=',
-         edit    : '='
+         remove  : '='
       };
       this.controller = CommentsController;
    }
@@ -33,7 +32,8 @@ function CommentsController($scope, $translate, ValidationService) {
 
    function addComment() {
       ValidationService.validate(vm.form.comments).then(() => {
-         vm.save(vm.currentComment).then(() => {
+         vm.save(vm.currentComment).then((comment) => {
+            comment.isForRemoved = false;
             vm.currentComment   = {};
          });
       });
@@ -46,7 +46,6 @@ function CommentsController($scope, $translate, ValidationService) {
 
    function editComment(comment) {
       vm.currentComment = comment;
-      vm.edit(vm.currentComment);
    }
 
    function _getType() {

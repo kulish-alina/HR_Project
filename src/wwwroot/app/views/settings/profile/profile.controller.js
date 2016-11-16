@@ -4,8 +4,7 @@ import utils from '../../../utils.js';
 
 import {
    set,
-   filter,
-   first
+   find
 } from 'lodash';
 
 const LIST_OF_THESAURUS = [ 'city' ];
@@ -47,6 +46,8 @@ export default function ProfileController (
       $element.on('$destroy', _onDestroy);
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
+      ThesaurusService.getOfficeLocations()
+         .then(locations => set(vm, 'locations', locations));
       _initCurrentUser();
       _initImageUploader();
    }());
@@ -96,9 +97,10 @@ export default function ProfileController (
       let buttons = [{
          name: $translate.instant('COMMON.CANCEL')
       }, {
-         name: $translate.instant('COMMON.OK'),
-         func: _changePassword,
-         needValidate: true
+         name         : $translate.instant('COMMON.OK'),
+         func         : _changePassword,
+         needValidate : true,
+         isAsync      : true
       }];
 
       passwords = {
@@ -115,13 +117,16 @@ export default function ProfileController (
    }
 
    function _changePassword() {
-      AccountService.changePassword(passwords.oldPass, passwords.newPass)
+      return AccountService.changePassword(passwords.oldPass, passwords.newPass)
          .then(() => UserDialogService.notification($translate.instant('PROFILE.PAS_CHANGED'), 'success'))
-         .catch((reason) => UserDialogService.notification(reason.data, 'error'));
+         .catch((reason) => {
+            UserDialogService.notification(reason.data, 'error');
+            return $q.reject();
+         });
    }
 
    function location() {
-      return first(filter(vm.thesaurus.city, { id : vm.user.cityId })).title;
+      return find(vm.thesaurus.city, { id : vm.user.cityId }).title;
    }
 
    function _initImageUploader() {

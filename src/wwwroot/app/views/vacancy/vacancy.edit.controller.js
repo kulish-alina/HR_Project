@@ -1,4 +1,4 @@
-const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language',
+const LIST_OF_THESAURUS = ['industry', 'level', 'language',
     'department', 'tag', 'skill', 'typeOfEmployment', 'languageLevel', 'stage', 'currency'];
 import _utils from './../../utils';
 import {
@@ -12,6 +12,7 @@ import {
 } from 'lodash';
 
 const DEFAULT_REDIRECT_VIEW_NAME = 'vacancyView';
+const STATE_FOR_REMOVE           = 1;
 
 export default function VacancyController( //eslint-disable-line max-statements
    $scope,
@@ -45,22 +46,26 @@ export default function VacancyController( //eslint-disable-line max-statements
    vm.addFilesForRemove            = addFilesForRemove;
    vm.queueFilesForRemove          = [];
    vm.isFilesUploaded              = false;
-   vm.saveComment                  = _saveComment;
-   vm.removeComment                = _removeComment;
-   vm.editComment                  = _editComment;
+   vm.saveComment                  = saveComment;
+   vm.removeComment                = removeComment;
    vm.comments                     = cloneDeep(vm.vacancy.comments);
    vm.removeChildVacancy           = removeChildVacancy;
    vm.searchResponsible            = UserService.autocomplete;
    vm.getFullName                  = UserService.getFullName;
    vm.utils                        = _utils;
    vm.getStateTitle                = _getStateTitle;
+   vm.locationsSort                = _utils.locationsSort;
 
    /* === impl === */
    (function init() {
       if ($state.params.vacancyId) {
          _initCurrentVacancy($state.params.vacancyId);
       }
-      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS).then(topics => set(vm, 'thesaurus', topics));
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
+         .then(topics => set(vm, 'thesaurus', topics));
+
+      ThesaurusService.getOfficeLocations()
+         .then(locations => set(vm, 'locations', locations));
    }());
 
    function _initCurrentVacancy(id) {
@@ -136,25 +141,24 @@ export default function VacancyController( //eslint-disable-line max-statements
       return `${splitedDate[2]}-${splitedDate[1]}-${splitedDate[0]}`;
    }
 
-   function _saveComment(comment) {
-      let currentUser = UserService.getCurrentUser();
-      comment.authorId = currentUser.id;
-      return $q.when(vm.comments.push(comment));
-   }
-
-   function _removeComment(comment) {
-      let commentForRemove = find(vm.comments, comment);
+   function saveComment(comment) {
       if (comment.id) {
-         commentForRemove.state = 1;
-         remove(vm.comments, comment);
-         return $q.when(vm.comments.push(commentForRemove));
+         set(find(vm.comments, comment), 'message', comment.message);
       } else {
-         return $q.when(remove(vm.comments, comment));
+         set(comment, 'authorId', UserService.getCurrentUser().id);
+         vm.comments.push(comment);
       }
+      return $q.when(comment);
    }
 
-   function _editComment(comment) {
-      return $q.when(remove(vm.comments, comment));
+   function removeComment(comment) {
+      if (comment.id) {
+         set(find(vm.comments, comment), 'state', STATE_FOR_REMOVE);
+         return $q.when(comment);
+      } else {
+         remove(vm.comments, comment);
+         return $q.when(comment);
+      }
    }
 
    function _vs() {

@@ -56,6 +56,8 @@ body {
 }
 .app-content {
    height: auto;
+   min-height: $rem-base*3.125;
+   top: -$rem-base*3.125;
 }
 
 // Styles for icons
@@ -85,6 +87,9 @@ body {
    @include breakpoint(medium down) {
       width: 98%;
    }
+}
+.content-container {
+   top: $rem-base*3.125;
 }
 
 .grid-block {
@@ -116,7 +121,7 @@ body {
 	$color: $tab-title-color,
 	$color-active: $tab-title-color-active,
 	$padding: 0);
-   width: 100%;
+    width: 100%;
 }
 i.profile-icons {
    width: $rem-base*2;
@@ -185,6 +190,9 @@ hr {
 .content-wrapper {
    display: block;
    height: auto;
+}
+.wrap-cont {
+   top: -$rem-base*3.125;
 }
 .loading-img {
    height: 291px;

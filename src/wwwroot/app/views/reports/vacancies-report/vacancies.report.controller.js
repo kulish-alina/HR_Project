@@ -14,8 +14,6 @@ import {
    assignIn
 } from 'lodash';
 
-const LIST_OF_LOCATIONS = ['Dnipropetrovsk', 'Zaporizhia', 'Lviv', 'Berdiansk'];
-
 const STATISTIC_KEYS_FOR_DATE = {
    Pending              : {key: 'Pending',     value: 'pendingVacanciesCount'},
    Open                 : {key: 'Open',        value: 'openVacanciesCount'},
@@ -69,24 +67,20 @@ export default function VacanciesReportController( // eslint-disable-line max-pa
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => set(vm, 'stages', topic));
-      ThesaurusService.getThesaurusTopics('city').then(locations => {
-         each(locations, (location) => {
-            if (LIST_OF_LOCATIONS.includes(location.title)) {
-               vm.locations.push(location);
-            }
-            set(location, 'selected', vm.vacanciesReportParametrs.locationIds.length && vm.vacanciesReportParametrs.locationIds.includes(location.id)); // eslint-disable-line max-len
-         });
-         return vm.locations;
-      }).then(locations => {
-         UserService.getUsers().then(users => {
-            set(vm, 'users', filter(users, (user) => {
-               return some(locations, (location) => location.id === user.cityId);
-            }));
-            each(vm.users, (user) => {
-               set(user, 'selected', vm.vacanciesReportParametrs.userIds.length && vm.vacanciesReportParametrs.userIds.includes(user.id));        // eslint-disable-line max-len
+      ThesaurusService.getOfficeLocations()
+         .then(locations => {
+            set(vm, 'locations', locations);
+            each(locations, location =>
+               set(location, 'selected', vm.vacanciesReportParametrs.locationIds.includes(location.id))
+            );
+            return vm.locations;
+         })
+         .then(locations => {
+            UserService.getUsers().then(users => {
+               set(vm, 'users', filter(users, user => some(locations, {id : user.cityId})));
+               each(vm.users, user => set(user, 'selected', vm.vacanciesReportParametrs.userIds.includes(user.id)));
             });
          });
-      });
    }());
 
    function useLocationField(isActiveLocationField) {

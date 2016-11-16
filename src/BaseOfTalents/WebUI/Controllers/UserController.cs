@@ -10,6 +10,7 @@ using WebUI.Extensions;
 using WebUI.Globals;
 using WebUI.Models;
 using WebUI.Services;
+using WebUI.Results;
 
 namespace WebUI.Controllers
 {
@@ -76,7 +77,15 @@ namespace WebUI.Controllers
             var template = _templateService.GetTemplate();
 
             newUser.GeneratePassword();
-            var addedUser = _service.Add(newUser);
+            UserDTO addedUser;
+            try
+            {
+                addedUser = _service.Add(newUser);
+            }
+            catch (System.ArgumentException e)
+            {
+                return new ConflictResult(e.Message);
+            }
 
             var textAfterReplacing = MailBodyContentReplacer.Replace(mailContent.Body, addedUser.Login, addedUser.Password);
             var mail = MailTemplateGenerator.Generate(template, mailContent.Invitation, textAfterReplacing, mailContent.Farewell, mailContent.Subject,

@@ -46,8 +46,9 @@ export default class UserService {
       return _httpMethod(_convertedUser).then((user) => {
          if (user.id === _UserService.getCurrentUser().id) {
             _UserService.setCurrentUser(user);
-            return user;
          }
+         _HttpCacheService.clearCache(USER_URL);
+         return user;
       });
    }
 

@@ -35,7 +35,7 @@
                <input ng-model="candidatePredicate.lastName" placeholder="{{::'COMMON.LAST' | translate}}" type="text">
 
                <oi-select class="multiple-select"
-                          oi-options="city.id as city.title for city in thesaurus.city | orderBy : 'title'"
+                          oi-options="city.id as city.title for city in locationsSort(thesaurus.city)"
                           ng-model="candidatePredicate.citiesIds"
                           multiple
                           oi-select-options="{ cleanModel: true }"

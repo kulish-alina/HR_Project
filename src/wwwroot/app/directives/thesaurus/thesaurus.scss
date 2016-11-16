@@ -11,15 +11,19 @@ input.edit[type="text"]:disabled {
    margin: 1px;
 }
 
-select.edit {
+oi-select.edit {
    margin: 0px;
 }
 
-select.edit:disabled {
+oi-select.edit:disabled {
    background-color: inherit;
    border: none;
    background-image: none;
    margin: 1px;
+}
+
+oi-select.thesaurus-select {
+   width: $rem-base*12;
 }
 
 div.thesaurus-row {
@@ -41,6 +45,7 @@ div.thesaurus-column-header {
    @extend .header-column;
    @extend .thesaurus-column;
    padding-left: $rem-base*0.5;
+   padding-bottom: $rem-base*0.4;
 }
 
 div.thesaurus-column-header-big {

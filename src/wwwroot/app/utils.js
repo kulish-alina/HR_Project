@@ -2,7 +2,10 @@ import {
    reduce,
    split,
    isString,
-   trimEnd
+   trimEnd,
+   orderBy,
+   filter,
+   union
 } from 'lodash';
 
 let states = [
@@ -21,7 +24,8 @@ let utils = {
    formatDateTimeFromServer,
    formatDateTimeToServer,
    toBase64,
-   states
+   states,
+   locationsSort
 };
 
 const MILISECONDS_IN_MINUTE = 60000;
@@ -85,3 +89,8 @@ function formatDateTimeFromServer(entityDate) {
       return `${partsOfDate[2]}-${partsOfDate[1]}-${partsOfDate[0]} ${partsOfTime[0]}:${partsOfTime[1]}:${partsOfTime[2]}`; // eslint-disable-line max-len
    }
 }
+
+function locationsSort(locations) {
+   return union(orderBy(filter(locations, {hasOffice : true}), 'title'), orderBy(locations, 'title'));
+};
+

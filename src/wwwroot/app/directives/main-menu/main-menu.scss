@@ -10,6 +10,10 @@
    padding-top: 0;
    display: flex;
    align-items: center;
+   position: fixed;
+   overflow: hidden;
+   width: 100%;
+   z-index: 1000;
 }
 .main-button-bar {
    @extend %menu-bar;

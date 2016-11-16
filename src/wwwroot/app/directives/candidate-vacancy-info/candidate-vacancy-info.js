@@ -58,6 +58,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       'Passed': 2,
       'NotPassed': 3
    };
+   vm.stageStates = STAGE_STATES;
    const STAGE_TYPES = {
       'MainStage': 1,
       'HireStage': 2,
@@ -138,18 +139,19 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    function updateCandidateStagesForWith(entityStageObject, vacancyStagesEntitiesVSIs) {
       if (vacancyStagesEntitiesVSIs) {
          entityStageObject.vacancyStageInfos = map(filter(vacancyStagesEntitiesVSIs, stageVsi =>
-            !isNil(stageVsi.vsi)),
-         stageVsi => stageVsi.vsi);
+               !isNil(stageVsi.vsi)),
+            stageVsi => stageVsi.vsi);
       }
       recalculateCurrentStageId(entityStageObject);
       vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
       return $q.when(entityStageObject);
    }
+
    function getComposedThatCanBeMultiPassed(sampleStageObject) {
       return filter(vm.vacancyStageInfosComposedByCandidateIdVacancyId, x => {
          return x.vacancyId === sampleStageObject.vacancyId ?
-         false :
-         getVSIsToPass(x, sampleStageObject.vacancyStageInfos).length;
+            false :
+            getVSIsToPass(x, sampleStageObject.vacancyStageInfos).length;
       });
    }
 
@@ -169,13 +171,12 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                let toMultiPass = getObjectsToPass(canMultiPass);
                each(toMultiPass, composedObjectToPass => {
                   composedObjectToPass.vacancyStageInfos = intersectOldWithSample(composedObjectToPass,
-                  sampleStageObject.vacancyStageInfos);
+                     sampleStageObject.vacancyStageInfos);
                });
                clearToogle(canMultiPass);
                multiPassDeffered.resolve(toMultiPass);
             }
-         }],
-         {
+         }], {
             canMultiPass,
             toogleComposedObject: (composedObject) => {
                composedObject.toogled = !composedObject.toogled;
@@ -183,6 +184,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          });
       return multiPassDeffered.promise;
    }
+
    function createNewVsiForComposed(vsiToPass, composedObjectToPass) {
       let newVsi = assign({}, vsiToPass, {
          vacancyId: composedObjectToPass.vacancyId
@@ -193,7 +195,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    function intersectOldWithSample(composedObjectToPass, sampleVacancyStageInfos) {
       let newVSIs = map(getVSIsToPass(composedObjectToPass, sampleVacancyStageInfos), vsiToPass =>
-            createNewVsiForComposed(vsiToPass, composedObjectToPass)
+         createNewVsiForComposed(vsiToPass, composedObjectToPass)
       );
       let combinedVSIs = intersectOldAndNewVsis(composedObjectToPass, newVSIs);
       if (!isThereActiveStage(combinedVSIs)) {
@@ -201,6 +203,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       }
       return combinedVSIs;
    }
+
    function intersectOldAndNewVsis(composedObject, newVSIs) {
       let newAndOld = [...composedObject.vacancyStageInfos, ...newVSIs];
       let uniqStages = uniq(map(newAndOld, 'stageId'));
@@ -225,15 +228,19 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       });
       return intersection;
    }
+
    function getObjectsToPass(objectThatCanBeMultiPassed) {
       return filter(objectThatCanBeMultiPassed, 'toogled');
    }
+
    function clearToogle(objectThatCanBeMultiPassed) {
       each(objectThatCanBeMultiPassed, x => delete x.toogled);
    }
+
    function isThereActiveStage(combinedVSIs) {
       return find(combinedVSIs, ['stageState', STAGE_STATES.Active]);
    }
+
    function getActiveStage(combinedVSIs, composedObject) {
       let latestStageId = reduce(combinedVSIs, (max, vsi) => {
          return max < vsi.stageId && vsi.stageState === STAGE_STATES.Passed ?
@@ -250,10 +257,11 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          stageState: STAGE_STATES.Active
       };
    }
+
    function getVSIsToPass(checkingStageObject, sampleVacancyStageInfos) {
       let passedVSIsOfSampleObject = filter(sampleVacancyStageInfos, ['stageState', STAGE_STATES.Passed]);
       let passedVSIsOfCheckingObject = filter(checkingStageObject.vacancyStageInfos,
-            ['stageState', STAGE_STATES.Passed]);
+         ['stageState', STAGE_STATES.Passed]);
       return filter(passedVSIsOfSampleObject, (VSIsThatCanBePassed, vsi) => {
          let foundedVsi = find(passedVSIsOfCheckingObject, ['stageId', vsi.stageId]);
          return !foundedVsi || foundedVsi.stageState !== STAGE_STATES.Passed;
@@ -306,25 +314,25 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                   hireVacancyStageInfoContainer
                ];
                updateCandidateStagesForWith(entityStageObject, updatedStagesWithRejectedAndHire)
-               .then(newStageObject => {
-                  showVacancySelectorDialog(newStageObject).then(updatedComposedVSIs => {
-                     each(updatedComposedVSIs, composedVsi => updateCandidateStagesForWith(composedVsi));
-                     stagesDeffered.resolve();
-                  })
-               .catch(() => {
-                  vacancyStagesEntitiesVSIs = [
-                     ...(map(backupVSI, extVsi => {
-                        if (extVsi.vsi && extVsi.vsi.dateOfPass) {
-                           extVsi.vsi.dateOfPass = utils.formatDateToServer(extVsi.vsi.dateOfPass);
-                        }
-                        return extVsi;
-                     })),
-                     ...rejectVacancyStageInfoesContainer,
-                     hireVacancyStageInfoContainer
-                  ];
-                  updateCandidateStagesForWith(entityStageObject, vacancyStagesEntitiesVSIs);
-               });
-               });
+                  .then(newStageObject => {
+                     showVacancySelectorDialog(newStageObject).then(updatedComposedVSIs => {
+                        each(updatedComposedVSIs, composedVsi => updateCandidateStagesForWith(composedVsi));
+                        stagesDeffered.resolve();
+                     })
+                        .catch(() => {
+                           vacancyStagesEntitiesVSIs = [
+                              ...(map(backupVSI, extVsi => {
+                                 if (extVsi.vsi && extVsi.vsi.dateOfPass) {
+                                    extVsi.vsi.dateOfPass = utils.formatDateToServer(extVsi.vsi.dateOfPass);
+                                 }
+                                 return extVsi;
+                              })),
+                              ...rejectVacancyStageInfoesContainer,
+                              hireVacancyStageInfoContainer
+                           ];
+                           updateCandidateStagesForWith(entityStageObject, vacancyStagesEntitiesVSIs);
+                        });
+                  });
             }
          });
       }
@@ -392,6 +400,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             }
             if (stageVacancyStageInfo.dateOfPass) {
                stageVacancyStageInfo.dateOfPass = moment(stageVacancyStageInfo.dateOfPass).format(DATE_FORMAT);
+            } else {
+               stageVacancyStageInfo.dateOfPass = moment().format(DATE_FORMAT);
             }
          }
          return {
@@ -426,15 +436,17 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          })
       };
    }
+
    function isCandidateReadyToBeHired(entityStageObject) {
       let passedStagesIds =
          map(filter(entityStageObject.vacancyStageInfos, vsi => {
-            if (!vsi.stage || !vsi.stage.stage) {
+            let stage = vsi.stage.stage || vsi.stage;
+            if (!stage) {
                return false;
             }
-            return vsi.stageState === STAGE_STATES.Passed &&
-               vsi.stage.stage.stageType === STAGE_TYPES.MainStage &&
-               vsi.stage.stage.isCommentRequired;
+            if (stage.stageType === STAGE_TYPES.MainStage && stage.isCommentRequired) {
+               return vsi.stageState === STAGE_STATES.Passed || vsi.comment && vsi.comment.message;
+            }
          }), 'stageId');
       let stagesIdsHaveToBePassed =
          map(filter(entityStageObject.stageFlow, extStage => {
@@ -450,12 +462,12 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          return;
       }
       callDatepickDialogFor(entityStageObject)
-           .then(hireDateISO => {
-              updateCurrentStage(entityStageObject);
-              createHireStage(entityStageObject, hireDateISO);
-              recalculateCurrentStageId(entityStageObject);
-              vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
-           })
+         .then(hireDateISO => {
+            updateCurrentStage(entityStageObject);
+            createHireStage(entityStageObject, hireDateISO);
+            recalculateCurrentStageId(entityStageObject);
+            vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
+         })
          .then(() => {
             if (vm.parentEntity === PARENT_VACANCY) {
                vm.closevacancy(entityStageObject.candidate);
@@ -652,7 +664,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       currentStageAndVsi.stageState = STAGE_STATES.Passed;
       currentStageAndVsi.class = 'passed';
       currentStageAndVsi.vsi.stageState = STAGE_STATES.Passed;
-      currentStageAndVsi.vsi.dateOfPass = moment().format(DATE_FORMAT);
+      currentStageAndVsi.vsi.dateOfPass = moment(currentStageAndVsi.vsi.dateOfPass, DATE_FORMAT).format(DATE_FORMAT);
    }
 
    function setSelectedStageToActive(selectedStageAndVsi, candObject) {
@@ -662,6 +674,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       selectedStageAndVsi.vsi = {
          vacancyId: candObject.vacancyId,
          candidateId: candObject.candidateId,
+         dateOfPass: moment().format(DATE_FORMAT),
          stage: selectedStageAndVsi.stage,
          stageId: selectedStageAndVsi.stage.stage.id,
          comment: selectedStageAndVsi.showCommentArea ? {
@@ -691,7 +704,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          latestPassedStageAndVsi.stageState = STAGE_STATES.Active;
          latestPassedStageAndVsi.class = 'active';
          latestPassedStageAndVsi.vsi.stageState = STAGE_STATES.Active;
-         latestPassedStageAndVsi.vsi.dateOfPass = null;
+         latestPassedStageAndVsi.vsi.dateOfPass = moment(latestPassedStageAndVsi.vsi.dateOfPass, DATE_FORMAT)
+            .format(DATE_FORMAT);
       }
    }
 
@@ -726,4 +740,3 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       return currentStageId;
    }
 }
-

@@ -20,6 +20,7 @@ const LIST_OF_THESAURUS = ['industry', 'level', 'city', 'language', 'languageLev
 const IMAGE_UPLOADER_MODAL_NAME     = 'basicModal';
 const CLOSE_MODAL_EVENT_NAME        = 'close';
 const CANDIDATE_PROFILE_VIEW_NAME   = 'candidateProfile';
+const STATE_FOR_REMOVE              = 1;
 
 let curriedSet = curry(set, 3);
 
@@ -67,7 +68,6 @@ export default function CandidateController( // eslint-disable-line max-params, 
    vm.addFilesForRemove    = addFilesForRemove;
    vm.saveComment          = saveComment;
    vm.removeComment        = removeComment;
-   vm.editComment          = editComment;
    vm.saveEvent            = saveEvent;
    vm.removeEvent          = removeEvent;
    vm.back                 = back;
@@ -342,26 +342,23 @@ export default function CandidateController( // eslint-disable-line max-params, 
    }
 
    function saveComment(comment) {
-      let currentUser = UserService.getCurrentUser();
-      comment.authorId = currentUser.id;
-      return $q.when(vm.comments.push(comment));
+      if (comment.id) {
+         set(find(vm.comments, comment), 'message', comment.message);
+      } else {
+         set(comment, 'authorId', UserService.getCurrentUser().id);
+         vm.comments.push(comment);
+      }
+      return $q.when(comment);
    }
 
    function removeComment(comment) {
-      vm.isChanged = true;
-      let commentForRemove = find(vm.comments, comment);
       if (comment.id) {
-         commentForRemove.state = 1;
-         remove(vm.comments, comment);
-         return $q.when(vm.comments.push(commentForRemove));
+         set(find(vm.comments, comment), 'state', STATE_FOR_REMOVE);
+         return $q.when(comment);
       } else {
-         return $q.when(remove(vm.comments, comment));
+         remove(vm.comments, comment);
+         return $q.when(comment);
       }
-   }
-
-   function editComment(comment) {
-      vm.isChanged = true;
-      return $q.when(remove(vm.comments, comment));
    }
 
    function _getCandidateEvents(candidateId) {

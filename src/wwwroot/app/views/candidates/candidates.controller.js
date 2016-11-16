@@ -59,8 +59,6 @@ export default function CandidatesController(
    vm.locationsSort        = utils.locationsSort;
    vm.candidateIdsAttachedToVacancy = $state.params.candidateIds || [];
 
-
-
    vm.slider = {
       min: DEFAULT_MIN_AGE,
       max: DEFAULT_MAX_AGE,

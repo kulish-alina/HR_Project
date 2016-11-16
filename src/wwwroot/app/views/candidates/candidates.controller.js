@@ -5,7 +5,8 @@ import {
    set,
    filter,
    forEach,
-   cloneDeep
+   cloneDeep,
+   includes
 } from 'lodash';
 
 import utils from './../../utils.js';
@@ -56,6 +57,9 @@ export default function CandidatesController(
    vm.sortBy               = _sortBy;
    vm.getArrow             = _getArrow;
    vm.locationsSort        = utils.locationsSort;
+   vm.candidateIdsAttachedToVacancy = $state.params.candidateIds || [];
+
+
 
    vm.slider = {
       min: DEFAULT_MIN_AGE,
@@ -70,12 +74,23 @@ export default function CandidatesController(
       }
    };
 
+   vm.isCandidateAlreadyAttached = (candidate) => {
+      return includes(vm.candidateIdsAttachedToVacancy, candidate.id);
+   };
+
    (function _initData() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
          .then(topics => set(vm, 'thesaurus', topics));
       vm.candidatePredicate = $state.params.candidatePredicate || cloneDeep(DEFAULT_CANDIDATE_PREDICATE);
       resetCandidatePredicateStateParams();
-      _searchCandidates();
+      _searchCandidates()
+      .then(() => {
+         forEach(vm.candidates.candidate, (candidate) => {
+            if (includes(vm.candidateIdsAttachedToVacancy, candidate.id)) {
+               candidate.isToogled = true;
+            }
+         });
+      });
    }());
 
    function pageChanged(newPage) {
@@ -87,6 +102,9 @@ export default function CandidatesController(
       return SearchService.fetchCandidates(CandidateService, predicate).then(response => {
          forEach(response.candidate, (cand) => {
             cand.isToogled = vm.isCandidateWasToogled(cand.id);
+            if (includes(vm.candidateIdsAttachedToVacancy, cand.id)) {
+               cand.isToogled = true;
+            }
          });
          vm.candidates = response;
       }).catch(_onError);

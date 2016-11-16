@@ -206,10 +206,10 @@ export default function VacancyProfileController( // eslint-disable-line max-par
          });
       }
    }
-
    vm.goToCandidates = () => {
+      let candidateIds = map(vm.vacancyStageInfosComposedByCandidateIdVacancyId, 'candidateId');
       _saveChanges()
-         .then(() => TransitionsService.go('candidates.search', { vacancyIdToGoBack: vm.vacancy.id }));
+         .then(() => TransitionsService.go('candidates.search', { candidateIds, vacancyIdToGoBack: vm.vacancy.id }));
    };
 
    vm.goToCandidate = () => {

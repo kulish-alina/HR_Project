@@ -91,6 +91,7 @@ export default function _config(
          template: candidatesTemplate,
          controller: candidatesController,
          params: {
+            candidateIds: null,
             vacancyIdToGoBack: null,
             candidatePredicate: null
          }
@@ -105,6 +106,7 @@ export default function _config(
          template: vacanciesTemplate,
          controller: vacanciesController,
          params: {
+            vacanciesIds: null,
             candidateIdToGoBack: null,
             vacancyPredicate: null
          }

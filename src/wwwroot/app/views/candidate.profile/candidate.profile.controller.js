@@ -171,8 +171,9 @@ export default function CandidateProfileController( // eslint-disable-line max-s
    }
 
    vm.goToVacancies = () => {
+      let vacanciesIds = map(vm.vacancyStageInfosComposedByCandidateIdVacancyId, 'vacancyId');
       _saveChanges();
-      TransitionsService.go('vacancies.search', { candidateIdToGoBack: vm.candidate.id });
+      TransitionsService.go('vacancies.search', { vacanciesIds, candidateIdToGoBack: vm.candidate.id });
    };
 
    function _createNewUploader() {

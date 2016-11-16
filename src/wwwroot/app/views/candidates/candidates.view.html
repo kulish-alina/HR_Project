@@ -120,7 +120,7 @@
                   <tbody>
                      <tr dir-paginate="c in candidates.candidate | itemsPerPage: candidates.size" total-items="candidates.total" current-page="candidatePredicate.current">
                         <th ng-if="$state.params.vacancyIdToGoBack">
-                           <input id="checkbox9" type="checkbox" ng-model="c.isToogled" ng-change="toogleCandidate(c)">
+                           <input id="checkbox9" type="checkbox" ng-disabled="isCandidateAlreadyAttached(c)" ng-model="c.isToogled" ng-change="toogleCandidate(c)">
                         </th>
                         <td ng-bind="{{(candidates.current - 1) * candidates.size+$index + 1}}"></td>
                         <td class="candidate-name">

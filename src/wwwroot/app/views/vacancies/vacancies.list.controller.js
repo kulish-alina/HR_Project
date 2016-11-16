@@ -7,7 +7,8 @@ import {
    set,
    filter,
    forEach,
-   cloneDeep
+   cloneDeep,
+   includes
 } from 'lodash';
 
 const DEFAULT_VACANCY_PREDICATE = {
@@ -54,6 +55,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    vm.getFullName               = UserService.getFullName;
    vm.utils                     = _utils;
    vm.getStateTitle             = _getStateTitle;
+   vm.vacanciesIdsAttachedToCandidate = $state.params.vacanciesIds || [];
 
    (function init() {
       ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
@@ -62,7 +64,14 @@ export default function VacanciesController(//eslint-disable-line  max-statement
          .then(locations => set(vm, 'locations', locations));
       vm.vacancyPredicate = $state.params.vacancyPredicate || cloneDeep(DEFAULT_VACANCY_PREDICATE);
       resetVacancyPredicateStateParams();
-      searchVacancies();
+      searchVacancies()
+        .then(() => {
+           forEach(vm.vacancies.vacancies, (vacancy) => {
+              if (includes(vm.vacanciesIdsAttachedToCandidate, vacancy.id)) {
+                 vacancy.isToogled = true;
+              }
+           });
+        });
       UserService.getUsers().then(users => set(vm, 'responsibles', users));
    }());
 
@@ -71,10 +80,17 @@ export default function VacanciesController(//eslint-disable-line  max-statement
       searchVacancies();
    };
 
+   vm.isVacancyAlreadyAttached = (vacancy) => {
+      return includes(vm.vacanciesIdsAttachedToCandidate, vacancy.id);
+   };
+
    function searchVacancies(predicate = vm.vacancyPredicate) {
       return SearchService.fetchVacancies(VacancyService, predicate).then(response => {
          forEach(response.vacancies, (vac) => {
             vac.isToogled = vm.isVacancyWasToogled(vac.id);
+            if (includes(vm.vacanciesIdsAttachedToCandidate, vac.id)) {
+               vac.isToogled = true;
+            }
          });
          vm.vacancies = response;
       }).catch(_onError);

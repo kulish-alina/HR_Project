@@ -134,7 +134,7 @@ namespace DAL.LoggerCore
                         uow.VacancyRepo.GetByID(sourceIdToActiveStage.Key).Log(new LogUnit
                         {
                             UserId = userId,
-                            Field = $"{sourceIdToActiveStage.Value.VacancyId}",
+                            Field = $"{sourceIdToActiveStage.Value.CandidateId}",
                             NewValues = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
                             PastValues = CreateLogValueListOf($"{EMPTY}"),
                             FieldType = FieldType.CandidatesProgress
@@ -145,7 +145,7 @@ namespace DAL.LoggerCore
                         uow.CandidateRepo.GetByID(sourceIdToActiveStage.Key).Log(new LogUnit
                         {
                             UserId = userId,
-                            Field = $"{sourceIdToActiveStage.Value.CandidateId}",
+                            Field = $"{sourceIdToActiveStage.Value.VacancyId}",
                             NewValues = CreateLogValueListOf($"{sourceIdToActiveStage.Value.StageId}"),
                             PastValues = CreateLogValueListOf($"{EMPTY}"),
                             FieldType = FieldType.VacanciesProgress

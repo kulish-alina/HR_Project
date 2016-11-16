@@ -4,9 +4,10 @@ import utils from '../../../utils.js';
 
 import {
    set,
-   filter,
-   first
+   find
 } from 'lodash';
+
+const LIST_OF_THESAURUS = [ 'city' ];
 
 export default function ProfileController (
    $q,
@@ -43,6 +44,8 @@ export default function ProfileController (
       SettingsService.addOnCancelListener(_onCancel);
       SettingsService.addOnEditListener(_onEdit);
       $element.on('$destroy', _onDestroy);
+      ThesaurusService.getThesaurusTopicsGroup(LIST_OF_THESAURUS)
+         .then(topics => set(vm, 'thesaurus', topics));
       ThesaurusService.getOfficeLocations()
          .then(locations => set(vm, 'locations', locations));
       _initCurrentUser();
@@ -119,7 +122,7 @@ export default function ProfileController (
    }
 
    function location() {
-      return first(filter(vm.thesaurus.city, { id : vm.user.cityId })).title;
+      return find(vm.thesaurus.city, { id : vm.user.cityId }).title;
    }
 
    function _initImageUploader() {

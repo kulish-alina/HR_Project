@@ -16,17 +16,16 @@ namespace WebUI.Results
 
         public string ReasonPhrase { get; private set; }
 
-        public HttpRequestMessage Request { get; private set; }
-
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
             return Task.FromResult(Execute());
         }
         private HttpResponseMessage Execute()
         {
-            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Conflict);
-            response.ReasonPhrase = ReasonPhrase;
-            return response;
+            return new HttpResponseMessage(HttpStatusCode.Conflict)
+            {
+                ReasonPhrase = ReasonPhrase
+            };
         }
     }
 }

@@ -164,7 +164,7 @@ export default function _config(
          url: '/reports',
          template: reportsTemplate,
          controller: reportsController,
-         parent: 'home'
+         parent: 'main'
       })
       .state('recruitingFunnel', {
          url: '/recruitingFunnel',

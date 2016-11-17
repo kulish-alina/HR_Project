@@ -38,9 +38,9 @@ oi-select .select-search-list-item_hide {
 }
 
 oi-select:not(.multiple) {
-   height: 33px;
+   min-height: 33px;
 }
 
 oi-select:not(.multiple) .select-search-list-item_selection {
-   height: 27px;
+   min-height: 27px;
 }

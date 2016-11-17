@@ -74,7 +74,8 @@ namespace DAL.Migrations
                     StageId = 1,
                     StageState = StageState.Active,
                     Vacancy = x,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = DateTime.Now,
+                    DateOfPass = DateTime.Now
                 });
             });
             context.Candidates.ToList().ForEach(x =>

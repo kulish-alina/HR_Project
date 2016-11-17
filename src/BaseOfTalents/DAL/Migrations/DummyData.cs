@@ -608,11 +608,11 @@ namespace DAL.Migrations
                 new User
                     {
                         BirthDate = DateTime.Now.AddYears(-RandomNumber(20, 40)),
-                        Email = "admin@hr.local",
+                        Email = "admin@gmail.com",
                         FirstName = names.GetRandom(),
                         isMale = true,
                         LastName = lastNames.GetRandom(),
-                        City = Cities.GetRandom(),
+                        City = Cities.Where(city => city.HasOffice).ToList().GetRandom(),
                         Login = "admin",
                         MiddleName = names.GetRandom(),
                         Password = "admin",
@@ -637,6 +637,7 @@ namespace DAL.Migrations
         {
             var vacancies = new List<Vacancy>();
             var stages = Stages.Where(x => x.IsDefault);
+            var citiesWithOffice = Cities.Where(city => city.HasOffice);
             for (var i = 0; i < count; i++)
             {
                 var vacancy = new Vacancy
@@ -647,7 +648,7 @@ namespace DAL.Migrations
                     Industry = Industries.GetRandom(),
                     LanguageSkill = LanguageSkills.GetRandom(),
                     Levels = Levels.Take(RandomNumber(0, Levels.Count)).ToList(),
-                    Cities = Cities.Take(RandomNumber(1, Levels.Count)).ToList(),
+                    Cities = citiesWithOffice.Take(RandomNumber(1, citiesWithOffice.Count())).ToList(),
                     RequiredSkills = Enumerable.Repeat(Skills.GetRandom(), RandomNumber(0, 5)).Distinct().ToList(),
                     Responsible = Users.GetRandom(),
                     SalaryMax = RandomNumber(1000, 2000),

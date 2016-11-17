@@ -116,12 +116,12 @@ export default function UsersReportController( // eslint-disable-line max-params
    }
 
    function generateUsersReport(form) {
+      vm.usersReportParametrs.startDate = vm.startDate;
+      vm.usersReportParametrs.endDate = vm.endDate;
       let validateObj = _reportConditionsValidation();
       if (validateObj.isValid) {
          ValidationService.validate(form).then(() => {
             ReportsService.getDataForUserReport(vm.usersReportParametrs).then(resp => {
-               vm.usersReportParametrs.startDate = resp.startDate;
-               vm.usersReportParametrs.endDate = resp.endDate;
                _convertReport(resp.userReport);
                vm.$broadcast('onGenerateReport', {value: vm.selectedLocations.length ?
                                                   vm.reportGroupedByLocationForHistogram :

@@ -149,13 +149,13 @@ export default function VacanciesReportController( // eslint-disable-line max-pa
    }
 
    function generateVacanciesReport(form) {
+      vm.vacanciesReportParametrs.startDate = vm.startDate;
+      vm.vacanciesReportParametrs.endDate = vm.endDate;
       let validateObj = _reportConditionsValidation();
       if (validateObj.isValid) {
          ValidationService.validate(form).then(() => {
             ReportsService.getDataForVacancyReport(vm.vacanciesReportParametrs)
                .then(resp => {
-                  vm.vacanciesReportParametrs.startDate = resp.startDate;
-                  vm.vacanciesReportParametrs.endDate = resp.endDate;
                   _convertReport(resp);
                   vm.$broadcast('onGenerateReport', {
                      value: {

@@ -12,7 +12,9 @@ oi-select .select-dropdown-optgroup {
    padding-left: 0;
    padding-right: 0;
 }
-
+oi-select .select-dropdown {
+   max-height: $rem-base*20.71;
+}
 oi-select .select-search-list {
    .select-search-list-item {
       margin-left:  0;

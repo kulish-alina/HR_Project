@@ -14,10 +14,10 @@
                <label ng-bind="::'REPORTS.DATE_RANGE' | translate"></label>
                <div class="grid-block">
                   <div class="medium-6 grid-block report-date-input">
-                     <input valid-method="watch" class="date-input" type="tel" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="usersReportParametrs.startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only name="startDate" model-view-value="true" validator="required, date"/>
+                     <input valid-method="watch" class="date-input" type="tel" placeholder="{{::'COMMON.FROM' | translate}}" ng-model="startDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only name="startDate" model-view-value="true" validator="required, date"/>
                   </div>
                   <div class="medium-6 grid-block report-date-input">
-                     <input valid-method="watch" class="date-input" type="tel" placeholder="{{::'COMMON.TO' | translate}}" ng-model="usersReportParametrs.endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only name="endDate" model-view-value="true" validator="required, date" min-date="{{usersReportParametrs.startDate}}"/> </div>
+                     <input valid-method="watch" class="date-input" type="tel" placeholder="{{::'COMMON.TO' | translate}}" ng-model="endDate" class="input-date" datetime-picker date-format="dd-MM-yyyy" close-on-select="true" date-only name="endDate" model-view-value="true" validator="required, date" min-date="{{startDate}}"/> </div>
                </div>
                <div class="grid-block">
                   <label ng-bind="::'THESAURUSES.LOCATIONS' | translate"></label>&nbsp;
@@ -46,13 +46,13 @@
    </div>
    <div class="vertical medium-10 grid-block">
       <div class="main-card">
-         <div class="card-divider"> <span ng-bind="::'REPORTS.USER_REPORT_CHART' | translate"></span> <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="usersReportParametrs.startDate"></span> <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="usersReportParametrs.endDate"></span> </div>
+         <div class="card-divider"> <span ng-bind="::'REPORTS.USER_REPORT_CHART' | translate"></span> <span ng-if="startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="startDate"></span> <span ng-if="endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="endDate"></span> </div>
          <div class="card-section">
             <histogram></histogram>
          </div>
       </div>
       <div class="main-card">
-         <div class="card-divider"> <span ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"></span> <span ng-if="usersReportParametrs.startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="usersReportParametrs.startDate"></span> <span ng-if="usersReportParametrs.endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="usersReportParametrs.endDate"></span> </div>
+         <div class="card-divider"> <span ng-bind="::'REPORTS.USER_REPORT_DATA' | translate"></span> <span ng-if="startDate" ng-bind="::'COMMON.FROM' | translate"></span> <span class="date" ng-bind="startDate"></span> <span ng-if="endDate" ng-bind="::'COMMON.TO' | translate"></span> <span class="date" ng-bind="endDate"></span> </div>
          <div class="card-section">
             <table class="report-data">
                <thead ng-if="!isSelectedUsersGroupedByLocationEmpty()">

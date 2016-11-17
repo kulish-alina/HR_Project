@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CVParser", "CVParser\CVPars
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mailer", "Mailer\Mailer.csproj", "{79EAB172-4029-46FF-A865-ECB2A814942F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exporter", "Exporter\Exporter.csproj", "{5162E3FA-0507-4970-89C7-46D6673DB998}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{79EAB172-4029-46FF-A865-ECB2A814942F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79EAB172-4029-46FF-A865-ECB2A814942F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79EAB172-4029-46FF-A865-ECB2A814942F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5162E3FA-0507-4970-89C7-46D6673DB998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5162E3FA-0507-4970-89C7-46D6673DB998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5162E3FA-0507-4970-89C7-46D6673DB998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5162E3FA-0507-4970-89C7-46D6673DB998}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

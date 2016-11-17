@@ -56,7 +56,8 @@ export default function _config(
    $translateProvider,
    $compileProvider,
    LoggerServiceProvider,
-   HttpServiceProvider
+   HttpServiceProvider,
+   ExportServiceProvider
 ) {
    'ngInject';
    //this case must be before $stateProvider
@@ -270,4 +271,5 @@ export default function _config(
 
    LoggerServiceProvider.changeLogLevel(context.logLevel);
    HttpServiceProvider.changeApiUrl(context.serverUrl + context.apiSuffix);
+   ExportServiceProvider.changeApiUrl(context.serverUrl + context.apiSuffix);
 }

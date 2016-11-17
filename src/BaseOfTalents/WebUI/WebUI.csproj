@@ -196,6 +196,7 @@
     <Compile Include="Controllers\EntityStateController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\EventTypeController.cs" />
+    <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\IndustryController.cs" />
     <Compile Include="Controllers\LanguageLevelController.cs" />
@@ -227,6 +228,8 @@
     <Compile Include="Extensions\MailQueryExtension.cs" />
     <Compile Include="Globals\Validators\EmailAddressValidator.cs" />
     <Compile Include="Globals\Validators\PasswordValidator.cs" />
+    <Compile Include="Helpers\ExportConverter.cs" />
+    <Compile Include="Helpers\IConverter.cs" />
     <Compile Include="Infrastructure\Auth\IAccountService.cs" />
     <Compile Include="Infrastructure\Auth\IAuthContainer.cs" />
     <Compile Include="Models\CandidateSearchModel.cs" />
@@ -254,9 +257,12 @@
     <Compile Include="Results\AuthFailedResult.cs" />
     <Compile Include="Results\ChangePasswordResult.cs" />
     <Compile Include="Results\ConflictResult.cs" />
+    <Compile Include="Results\ExcelResult.cs" />
+    <Compile Include="Results\FileResult.cs" />
     <Compile Include="Services\Auth\TokenContainer.cs" />
     <Compile Include="Services\Auth\TokenProvider.cs" />
     <Compile Include="Services\Auth\UserAccountService.cs" />
+    <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\NLogExceptionLogger.cs" />
     <Compile Include="Services\PasswordGenerator.cs" />
     <Compile Include="Services\TemplateService.cs" />
@@ -285,6 +291,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{5F863426-F6DF-47EC-885C-EDD5CB46D676}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Exporter\Exporter.csproj">
+      <Project>{5162e3fa-0507-4970-89c7-46d6673db998}</Project>
+      <Name>Exporter</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mailer\Mailer.csproj">
       <Project>{79EAB172-4029-46FF-A865-ECB2A814942F}</Project>

@@ -1,8 +1,10 @@
-﻿using DAL.DTO;
-using DAL.Infrastructure;
-using Domain.Entities;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using DAL.DTO;
+using DAL.Infrastructure;
+using Domain.Entities;
 
 namespace DAL.Services
 {
@@ -36,7 +38,8 @@ namespace DAL.Services
             {
                 deleteResult = false;
             }
-            else {
+            else
+            {
                 currentRepo.Delete(id);
                 uow.Commit();
                 deleteResult = true;
@@ -48,6 +51,14 @@ namespace DAL.Services
         {
             var entity = currentRepo.GetByID(id);
             return DTOService.ToDTO<DomainEntity, DTO>(entity);
+        }
+
+        public IEnumerable<DomainEntity> Get(IEnumerable<int> ids)
+        {
+            return currentRepo.Get(new List<Expression<Func<DomainEntity, bool>>>
+            {
+                x => ids.Contains(x.Id)
+            });
         }
 
         public virtual IEnumerable<DTO> Get()

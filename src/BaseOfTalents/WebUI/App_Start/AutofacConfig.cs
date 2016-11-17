@@ -1,9 +1,11 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
 using DAL;
 using DAL.DTO;
+using DAL.DTO.ReportDTO;
 using DAL.DTO.SetupDTO;
 using DAL.Infrastructure;
 using DAL.Repositories;
@@ -12,7 +14,9 @@ using Domain.Entities;
 using Domain.Entities.Enum;
 using Domain.Entities.Enum.Setup;
 using Entities.Enum;
+using Exporter;
 using Mailer;
+using WebUI.Helpers;
 using WebUI.Infrastructure.Auth;
 using WebUI.Services;
 using WebUI.Services.Auth;
@@ -190,6 +194,18 @@ namespace WebUI.App_Start
 
             builder.RegisterType<UserAccountService>()
                 .As<IAccountService>()
+                .InstancePerRequest();
+
+            builder.RegisterType<ExportService>()
+                .As<ExportService>()
+                .InstancePerRequest();
+
+            builder.RegisterType<ExportConverter>()
+                .As<IConverter<Dictionary<int, List<CandidateProgressReportUnitDTO>>, ExportDataSet>>()
+                .InstancePerRequest();
+
+            builder.RegisterType<ExcelExporter>()
+                .As<IExporter<ExportDataSet>>()
                 .InstancePerRequest();
 
             Container = builder.Build();

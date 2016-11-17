@@ -47,7 +47,7 @@
                   <span class="date" ng-bind="vacanciesReportParametrs.endDate"></span> 
                </div>
                <div class="align-right madium-6 grid-block">
-                  <a ng-click="exportToExcel()" ng-bind="::'REPORTS.EXPORT_TO_EXCEL' | translate" class="button"></a>
+                  <a target="_blank" href="{{exportToExcel()}}" ng-bind="::'REPORTS.EXPORT_TO_EXCEL' | translate" class="button"></a>
                </div>
             </div>
          </div>

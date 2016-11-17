@@ -35,6 +35,7 @@ import './main.scss';
 import config                        from './bot-config';
 import configValidation              from './config-validation';
 
+import ExportProvider                from './services/ExportProvider';
 import LoggerProvider                from './services/LoggerProvider';
 import HttpProvider                  from './services/HttpProvider';
 import ValidationProvider            from './services/ValidationProvider';
@@ -112,6 +113,7 @@ const dependencies = [
 angular
    .module('bot', dependencies)
 
+   .provider('ExportService',      ExportProvider)
    .provider('LoggerService',      LoggerProvider)
    .provider('HttpService',        HttpProvider)
    .provider('ValidationService',  ValidationProvider)

@@ -16,25 +16,26 @@ export default function CandidatesReportController(
    CandidateService,
    ReportsService,
    ValidationService,
-   UserDialogService
+   UserDialogService,
+   ExportService
 ) {
    'ngInject';
-   const vm                                   = $scope;
-   vm.candidatesReportParametrs               = {};
-   vm.candidatesReportParametrs.locationsIds  = [];
+   const vm = $scope;
+   vm.candidatesReportParametrs = {};
+   vm.candidatesReportParametrs.locationsIds = [];
    vm.candidatesReportParametrs.candidatesIds = [];
-   vm.locations                               = [];
-   vm.selectedLocations                       = [];
-   vm.generateCandidatesReport                = generateCandidatesReport;
-   vm.candidatesAutocomplete                  = CandidateService.autocomplete;
-   vm.stageSwitch                             = stageSwitch;
-   vm.locationSwitch                          = locationSwitch;
-   vm.clear                                   = clear;
-   vm.selectedStageIds                        = [];
-   vm.tableColumnsCount                       = [];
-   vm.filterArrayByProperty                   = filterArrayByProperty;
-   vm.exportToExcel                           = exportToExcel;
-   vm.isInited                                = false;
+   vm.locations = [];
+   vm.selectedLocations = [];
+   vm.generateCandidatesReport = generateCandidatesReport;
+   vm.candidatesAutocomplete = CandidateService.autocomplete;
+   vm.stageSwitch = stageSwitch;
+   vm.locationSwitch = locationSwitch;
+   vm.clear = clear;
+   vm.selectedStageIds = [];
+   vm.tableColumnsCount = [];
+   vm.filterArrayByProperty = filterArrayByProperty;
+   vm.exportToExcel = exportToExcel;
+   vm.isInited = false;
 
    (function init() {
       ThesaurusService.getThesaurusTopics('stage').then(topic => {
@@ -53,7 +54,7 @@ export default function CandidatesReportController(
          });
          vm.isInited = true;
       });
-   }());
+   } ());
 
    function generateCandidatesReport(form) {
       vm.candidatesReportParametrs.startDate = vm.startDate;
@@ -77,11 +78,11 @@ export default function CandidatesReportController(
    }
 
    function clear() {
-      vm.startDate                 = null;
-      vm.endDate                   = null;
+      vm.startDate = null;
+      vm.endDate = null;
       vm.candidatesReportParametrs = {};
-      vm.selectedLocations         = [];
-      vm.responseTableObject       = {};
+      vm.selectedLocations = [];
+      vm.responseTableObject = {};
       _addDefaultPropertyToStages(vm.stages);
       _addCheckedStagesIdsToSelectedStageIds(vm.stages);
       _calculateTableColumnsCount(vm.selectedStageIds.length);
@@ -89,7 +90,7 @@ export default function CandidatesReportController(
 
    function filterArrayByProperty(obj, id, type) {
       if (obj) {
-         let rep = find(obj.stages, {stageId: id});
+         let rep = find(obj.stages, { stageId: id });
          return rep ? rep[type] : '';
       }
    }
@@ -97,7 +98,7 @@ export default function CandidatesReportController(
    function stageSwitch(stage) {
       if (stage._isPressed) {
          stage._isPressed = false;
-         remove(vm.selectedStageIds, (stageId) =>  stageId === stage.id);
+         remove(vm.selectedStageIds, (stageId) => stageId === stage.id);
       } else {
          stage._isPressed = true;
          vm.selectedStageIds.push(stage.id);
@@ -116,6 +117,7 @@ export default function CandidatesReportController(
    }
 
    function exportToExcel() {
+      return ExportService.exportCandidateProgressReport(vm.candidatesReportParametrs);
    }
 
    function _calculateTableColumnsCount(count) {
@@ -126,8 +128,8 @@ export default function CandidatesReportController(
 
    function _reportConditionsValidation() {
       if (!vm.candidatesReportParametrs.startDate &&
-          !vm.candidatesReportParametrs.endDate &&
-          !vm.candidatesReportParametrs.candidatesIds.length) {
+         !vm.candidatesReportParametrs.endDate &&
+         !vm.candidatesReportParametrs.candidatesIds.length) {
          return {
             isValid: false,
             errorMessage: $translate.instant('DIALOG_SERVICE.EMPTY_CANDIDATE_REPORT_CONDITIONS')

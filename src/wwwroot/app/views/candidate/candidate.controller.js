@@ -226,8 +226,13 @@ export default function CandidateController( // eslint-disable-line max-params, 
 
    function saveAndGoBack() {
       saveCandidate().then((candidate) => {
-         TransitionsService.back(CANDIDATE_PROFILE_VIEW_NAME,
-                                 { candidateId : candidate.id, candidatesIds : [ vm.candidate.id ]});
+         if (vm.vacancyIdToGoBack) {
+            TransitionsService.back('vacancyView',
+               { vacancyId: vm.vacancyIdToGoBack, candidatesIds: [ candidate.id ] });
+         } else {
+            TransitionsService.back(CANDIDATE_PROFILE_VIEW_NAME,
+                                 { candidateId : candidate.id });
+         }
          return candidate;
       });
    };
@@ -383,10 +388,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
    }
 
    vm.isNeedToGoBack = () => {
-      if (vm.vacancyIdToGoBack) {
-         return true;
-      }
-      return false;
+      return vm.vacancyIdToGoBack;
    };
 
    function back() {

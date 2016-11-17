@@ -12,7 +12,7 @@
          <div class="card-section">
             <form>
                <label for="Vacancy" ng-bind="::'VACANCY.VACANCY' | translate"></label>
-               <oi-select ng-change="genereteReportForSelectedVacancy(selectedVacancyId)" ng-model="selectedVacancyId" class="multiple-select" id="Vacancy"  oi-options="vacancy.id as vacancy.title for vacancy in autocomplete($query, selectedVacancyId)" oi-select-options="{ cleanModel: true }" placeholder="{{::'VACANCY.VACANCY' | translate}}">
+               <oi-select ng-change="genereteReportForSelectedVacancy(selectedVacancyId)" ng-model="selectedVacancyId" class="multiple-select" id="Vacancy"  oi-options="vacancy.id as vacancy.title +' '+(vacancy.departments | arrayAsString: 'title')+' '+((vacancy.cities | arrayAsString: 'title') || '') for vacancy in autocomplete($query, selectedVacancyId)" oi-select-options="{ cleanModel: true }" placeholder="{{::'VACANCY.VACANCY' | translate}}">
                </oi-select>
                <div class="grid-block">
                   <label ng-bind="::'THESAURUSES.STAGES' | translate"></label>

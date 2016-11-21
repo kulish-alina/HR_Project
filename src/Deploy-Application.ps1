@@ -34,7 +34,8 @@ function CheckEnvironment ([string]$Command) {
 $deployConfigPath          = Join-Path $PSScriptRoot "./deploy.json"
 $localFrontendConfigPath   = Join-Path $PSScriptRoot "./wwwroot/config/config.context/local.json"
 $frontendBuildResultPath   = Join-Path $PSScriptRoot "./wwwroot/dist/*"
-$solutionPath              = Join-Path $PSScriptRoot "./BaseOfTalents/BaseOfTalents.sln"
+$solutionDir               = Join-Path $PSScriptRoot "./BaseOfTalents"
+$solutionPath              = Join-Path $solutionDir "./BaseOfTalents.sln"
 
 ## Starting preparations to the build
 ## Getting build parameters
@@ -99,6 +100,11 @@ New-Item $wwwrootDir -Type Directory
 New-Item $uploadsDir -Type Directory
 
 Write-Host "3. Start serving backend.." -ForegroundColor DarkYellow
+
+Write-Output " Restoring nuget packages"
+& (Join-Path $solutionDir "./.nuget/Nuget.exe") restore $solutionPath
+
+Write-Output " Building backend"
 msbuild.exe $solutionPath /t:Build /p:Configuration=Release /p:DebugSymbols=false /p:DebugType=None /p:ExcludeGeneratedDebugSymbol=true /p:AllowedReferenceRelatedFileExtensions=none /p:OutputPath=$releasePath /nologo /m /v:m 
 
 Move-Item -Path $frontendBuildResultPath  -Destination $wwwrootDir

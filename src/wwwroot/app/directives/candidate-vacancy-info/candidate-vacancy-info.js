@@ -441,8 +441,10 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       let passedStagesIds =
          map(filter(entityStageObject.vacancyStageInfos, vsi => {
             let stage = vsi.stage;
-            if (stage && stage.stage) {
-               stage = vsi.stage.stage;
+            if (stage) {
+               if (stage.stage) {
+                  stage = vsi.stage.stage;
+               }
             } else {
                return false;
             }

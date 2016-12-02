@@ -8,14 +8,16 @@ import {
    round,
    isEmpty,
    keys,
-   each
+   each,
+   some
 } from 'lodash';
 
 const elementColors = ['#00838F', '#0097A7', '#00ACC1',
                       '#00BCD4', '#26C6DA', '#4DD0E1', '#80DEEA', '#B2EBF2', '#E0F7FA'];
 const columnColorOnHover = '#006064';
-const axisStep = 10;
 const maxTicksCount = 4;
+const axisStepDivider = 100;
+const ticsCountDivider = 10;
 
 export default class HistogramDirective {
    constructor() {
@@ -66,11 +68,22 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
          bottom: 20,
          left: 20
       };
+      let containerWidth = (window.screen.width / 12) * 10;
       let height = 400 - margin.top - margin.bottom;
-      let width = 1000 - margin.left - margin.right;
+      let width = containerWidth - margin.left - margin.right;
 
+      function _isDataEmpty(value) {
+         if (isEmpty(value)) {
+            return true;
+         } else {
+            let isObjNotEmpty = some(value, (x) => {
+               return x.values.length !== 0;
+            });
+            return !isObjNotEmpty;
+         };
+      }
       //create svg element for empty report chart
-      if (isEmpty(data)) {
+      if (_isDataEmpty(data)) {
          height = 20;
          margin = {
             top: 8,
@@ -94,7 +107,10 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
          });
       });
 
-      let ticsCount = (maxValue <= axisStep) ? maxValue : (maxValue + (axisStep - maxValue % 10)) / axisStep;
+      let axisStep = maxValue <= axisStepDivider ? 10 :
+                     ((maxValue +  (axisStepDivider - maxValue % axisStepDivider)) / axisStepDivider) * 10;
+      let ticsCount = maxValue <= axisStep ? maxValue :
+                     (maxValue + (axisStep - maxValue % ticsCountDivider)) / axisStep;
 
       let keysArr = map(data, d => {
          return map(d.values, v => {
@@ -120,11 +136,11 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
-        .attr('transform', `translate( ${margin.top + 2}, -${margin.top} )`);
+        .attr('transform', `translate( ${margin.top + margin.right}, -${margin.top} )`);
 
       svg.append('text')
         .attr('x', (width - 100) / 2)
-        .attr('y', margin.top / 2)
+        .attr('y', 2 * margin.top)
         .style('text-decoration', 'underline')
         .style('font-weight', '600')
         .style('font-size', '12.8px')
@@ -151,7 +167,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
         .attr('transform', `translate( 0, ${height} )`)
         .call(xAxis)
         .selectAll('text')
-        .attr('y', 8)
+        .attr('y', 10)
         .attr('x', 3)
         .attr('dy', '.35em')
         .attr('transform', (elem, index, arr) => {
@@ -224,7 +240,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
         .enter().append('g')
         .attr('class', 'legend')
         .attr('transform', (d, i) => {
-           return `translate( 18, ${20 + i * 20} )`;
+           return `translate( 0, ${20 + i * margin.right} )`;
         });
 
       legend.append('rect')

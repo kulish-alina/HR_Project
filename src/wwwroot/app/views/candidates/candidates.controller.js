@@ -53,7 +53,7 @@ export default function CandidatesController(
    vm.vacancyIdToGoBack    = $state.params.vacancyIdToGoBack;
    vm.isActiveAgeField     = false;
    vm.useAgeInSearch       = useAgeInSearch;
-   vm.isAllToogled         = false;
+   vm.toogleContainer      = { isAllToogled : false};
    vm.sortBy               = _sortBy;
    vm.getArrow             = _getArrow;
    vm.locationsSort        = utils.locationsSort;
@@ -189,45 +189,40 @@ export default function CandidatesController(
    };
 
    vm.isCandidateWasToogled = (candidateId) => {
-      let foundedCand = find(vm.selectedCandidates, (cand) => {
+      return !!find(vm.selectedCandidates, (cand) => {
          return cand === candidateId;
       });
-      if (foundedCand) {
-         return true;
-      } else {
-         return false;
-      }
    };
 
    vm.toogleAll = () => {
       vm.selectedCandidates = [];
-      if (vm.isAllToogled) {
+      if (vm.toogleContainer.isAllToogled) {
          forEach(vm.candidates.candidate, (candidate) => {
             candidate.isToogled = true;
             vm.selectedCandidates.push(candidate.id);
          });
       } else {
          forEach(vm.candidates.candidate, (candidate) => {
-            candidate.isToogled = false;
+            if (!includes(vm.candidateIdsAttachedToVacancy, candidate.id)) {
+               candidate.isToogled = false;
+            }
          });
       }
    };
 
    vm.toogleCandidate = (candidate) => {
-      let foundedCand = find(vm.selectedCandidates, (cand) => {
-         return cand === candidate.id;
-      });
-      if (foundedCand) {
-         vm.selectedCandidates = filter(vm.selectedCandidates, (candId) => {
-            return candId !== candidate.id;
-         });
-      } else {
+      if (candidate.isToogled) {
          if (candidate.closedVacanciesIds.length) {
             UserDialogService.notification('Selected candidate has been already hired for another position!',
                'warning');
          }
          vm.selectedCandidates.push(candidate.id);
+      } else {
+         vm.selectedCandidates = filter(vm.selectedCandidates, (candId) => {
+            return candId !== candidate.id ;
+         });
       }
+      vm.toogleContainer.isAllToogled = vm.candidates.candidate.length === vm.selectedCandidates.length;
    };
 
    function resetCandidatePredicateStateParams() {

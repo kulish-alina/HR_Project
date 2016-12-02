@@ -93,7 +93,7 @@
                   <thead>
                      <tr>
                         <th ng-if="$state.params.candidateIdToGoBack">
-                           <input id="vacancy" type="checkbox" ng-model="isAllToogled" ng-change="toogleAll()">
+                           <input id="vacancy" type="checkbox" ng-model="toogleContainer.isAllToogled" ng-change="toogleAll()">
                         </th>
                         <th>№</th>
                         <th class="vacancy-title"> <a ng-click="sortBy('Title')"><span ng-bind="::'COMMON.TITLE' | translate"></span> <i ng-class="getArrow('Title')"></i></a></th>

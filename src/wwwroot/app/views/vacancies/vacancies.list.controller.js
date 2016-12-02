@@ -48,7 +48,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    vm.vacancies                 = [];
    vm.selectedVacancies         = [];
    vm.candidateIdToGoBack       = $state.params.candidateIdToGoBack;
-   vm.isAllToogled              = false;
+   vm.toogleContainer           = { isAllToogled : false};
    vm.sortBy                    = _sortBy;
    vm.getArrow                  = _getArrow;
    vm.searchResponsible         = UserService.autocomplete;
@@ -165,45 +165,40 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    };
 
    vm.isVacancyWasToogled = (vacancyId) => {
-      let foundedVac = find(vm.selectedVacancies, (vac) => {
-         return vac.id === vacancyId;
+      return !!find(vm.selectedVacancies, (vacId) => {
+         return vacId === vacancyId;
       });
-      if (foundedVac) {
-         return true;
-      } else {
-         return false;
-      }
    };
 
    vm.toogleAll = () => {
       vm.selectedVacancies = [];
-      if (vm.isAllToogled) {
+      if (vm.toogleContainer.isAllToogled) {
          forEach(vm.vacancies.vacancies, (vacancy) => {
             vacancy.isToogled = true;
             vm.selectedVacancies.push(vacancy.id);
          });
       } else {
          forEach(vm.vacancies.vacancies, (vacancy) => {
-            vacancy.isToogled = false;
+            if (!includes(vm.vacanciesIdsAttachedToCandidate, vacancy.id)) {
+               vacancy.isToogled = false;
+            }
          });
       }
    };
 
    vm.toogleVacancy = (toogledVacancy) => {
-      let foundedVac = find(vm.selectedVacancies, (vac) => {
-         return vac.id === toogledVacancy.id;
-      });
-      if (foundedVac) {
-         vm.selectedVacancies = filter(vm.selectedVacancies, (vac) => {
-            return vac.id !== toogledVacancy.id;
-         });
-      } else {
+      if (toogledVacancy.isToogled) {
          if (toogledVacancy.closingCandidateId) {
             UserDialogService.notification('Selected vacancy has been already closed by another candidate!',
                'warning');
          }
-         vm.selectedVacancies.push(toogledVacancy);
+         vm.selectedVacancies.push(toogledVacancy.id);
+      } else {
+         vm.selectedVacancies = filter(vm.selectedVacancies, (vacId) => {
+            return vacId !== toogledVacancy.id;
+         });
       }
+      vm.toogleContainer.isAllToogled = vm.vacancies.vacancies.length === vm.selectedVacancies.length;
    };
 
    function resetVacancyPredicateStateParams() {

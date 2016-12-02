@@ -321,6 +321,8 @@ export default function VacanciesReportController( // eslint-disable-line max-pa
    }
 
    function clear() {
+      vm.startDate = null;
+      vm.endDate = null;
       _clearLocationField();
       _clearUserField();
       vm.vacanciesReportParametrs                = {};

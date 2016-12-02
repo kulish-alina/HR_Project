@@ -154,6 +154,8 @@ export default function UsersReportController( // eslint-disable-line max-params
    }
 
    function clear() {
+      vm.startDate = null;
+      vm.endDate = null;
       _clearLocationField();
       _clearUserField();
       vm.usersReportParametrs                = {};

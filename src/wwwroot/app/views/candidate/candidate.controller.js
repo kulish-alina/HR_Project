@@ -21,6 +21,8 @@ const IMAGE_UPLOADER_MODAL_NAME     = 'basicModal';
 const CLOSE_MODAL_EVENT_NAME        = 'close';
 const CANDIDATE_PROFILE_VIEW_NAME   = 'candidateProfile';
 const STATE_FOR_REMOVE              = 1;
+const IMAGE_FILE_UPLOADER_SELECTOR  = '#photoUpload';
+const FOUNDATION_CLOSE_EVENT        = 'close';
 
 let curriedSet = curry(set, 3);
 
@@ -126,6 +128,7 @@ export default function CandidateController( // eslint-disable-line max-params, 
       _initImageUploader();
       _initFilesUploader();
       _initCVUploader();
+      FoundationApi.subscribe(IMAGE_UPLOADER_MODAL_NAME, imageUploadModalCallback);
    }
 
 
@@ -403,5 +406,12 @@ export default function CandidateController( // eslint-disable-line max-params, 
             candidatePredicate: vm.candidatePredicate
          }, { duplicates : vm.duplicates,
               notSavedCandidate : vm.candidate});
+   }
+
+   function imageUploadModalCallback(message) {
+      console.log(message);
+      if (message === FOUNDATION_CLOSE_EVENT && !vm.imageUploader.isUploading) {
+         clearUploaderQueue(vm.imageUploader, IMAGE_FILE_UPLOADER_SELECTOR);
+      }
    }
 }

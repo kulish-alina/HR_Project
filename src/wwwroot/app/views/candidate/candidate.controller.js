@@ -409,7 +409,6 @@ export default function CandidateController( // eslint-disable-line max-params, 
    }
 
    function imageUploadModalCallback(message) {
-      console.log(message);
       if (message === FOUNDATION_CLOSE_EVENT && !vm.imageUploader.isUploading) {
          clearUploaderQueue(vm.imageUploader, IMAGE_FILE_UPLOADER_SELECTOR);
       }

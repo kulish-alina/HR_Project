@@ -12,6 +12,10 @@ namespace DAL.DTO.SetupDTO
         [Required]
         public bool IsDefault { get; set; }
         [Required]
+        public bool CommentField { get; set; }
+        [Required]
+        public bool IsRequired { get; set; }
+        [Required]
         public bool IsCommentRequired { get; set; }
         [Required]
         public StageType StageType { get; set; }

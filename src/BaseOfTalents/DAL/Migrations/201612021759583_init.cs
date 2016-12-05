@@ -301,6 +301,8 @@ namespace DAL.Migrations
                         Title = c.String(nullable: false),
                         Order = c.Int(nullable: false),
                         IsDefault = c.Boolean(nullable: false),
+                        IsRequired = c.Boolean(nullable: false),
+                        CommentField = c.Boolean(nullable: false),
                         IsCommentRequired = c.Boolean(nullable: false),
                         StageType = c.Int(nullable: false),
                         LastModified = c.DateTime(),

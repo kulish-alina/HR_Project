@@ -345,19 +345,19 @@ namespace DAL.Migrations
 
         public static readonly List<Stage> Stages = new List<Stage>
         {
-            new Stage {Title = "Pool", IsCommentRequired = false, IsDefault=true, Order=1, StageType = StageType.MainStage},
-            new Stage {Title = "Selected", IsCommentRequired = false, IsDefault=true, Order=2, StageType = StageType.MainStage},
-            new Stage {Title = "HR Interview", IsCommentRequired = true, IsDefault=true, Order=3, StageType = StageType.MainStage},
-            new Stage {Title = "Test task", IsCommentRequired = false, IsDefault=true, Order=4, StageType = StageType.MainStage},
-            new Stage {Title = "Tech Interview", IsCommentRequired = true, IsDefault=true, Order=5, StageType = StageType.MainStage},
-            new Stage {Title = "Additional interview", IsCommentRequired = true, IsDefault=true, Order=6, StageType = StageType.MainStage },
-            new Stage {Title = "Final Interview", IsCommentRequired = true, IsDefault=true, Order=7, StageType = StageType.MainStage},
-            new Stage {Title = "Job Offer Issued", IsCommentRequired = false, IsDefault=true, Order=8, StageType = StageType.MainStage},
-            new Stage {Title = "Job Offer Accepted", IsCommentRequired = false, IsDefault=true, Order=9, StageType = StageType.MainStage},
-            new Stage {Title = "Hired", IsCommentRequired = true, IsDefault=true, Order=10, StageType = StageType.HireStage},
-            new Stage {Title = "Job Offer Rejected", IsCommentRequired = true, IsDefault=true, Order=11, StageType = StageType.RejectStage},
-            new Stage {Title = "Rejected by Company", IsCommentRequired = true, IsDefault=true, Order=12, StageType = StageType.RejectStage},
-            new Stage {Title = "Rejected by Candidate", IsCommentRequired = true, IsDefault=true, Order=13, StageType = StageType.RejectStage}
+            new Stage {Title = "Pool",                  CommentField = false, IsRequired = true, IsCommentRequired = false, IsDefault=true, Order=1, StageType = StageType.MainStage},
+            new Stage {Title = "Selected",              CommentField = false, IsRequired = true, IsCommentRequired = false, IsDefault=true, Order=2, StageType = StageType.MainStage},
+            new Stage {Title = "HR Interview",          CommentField = true, IsRequired = true, IsCommentRequired = true, IsDefault=true, Order=3, StageType = StageType.MainStage},
+            new Stage {Title = "Test task",             CommentField = true, IsRequired = false, IsCommentRequired = true, IsDefault=true, Order=4, StageType = StageType.MainStage},
+            new Stage {Title = "Tech Interview",        CommentField = true, IsRequired = true, IsCommentRequired = true, IsDefault=true, Order=5, StageType = StageType.MainStage},
+            new Stage {Title = "Additional interview",  CommentField = true, IsRequired = false, IsCommentRequired = true, IsDefault=true, Order=6, StageType = StageType.MainStage},
+            new Stage {Title = "Final Interview",       CommentField = true, IsRequired = true, IsCommentRequired = true, IsDefault=true, Order=7, StageType = StageType.MainStage},
+            new Stage {Title = "Job Offer Issued",      CommentField = true, IsRequired = true, IsCommentRequired = false, IsDefault=true, Order=8, StageType = StageType.MainStage},
+            new Stage {Title = "Job Offer Accepted",    CommentField = true, IsRequired = true, IsCommentRequired = false, IsDefault=true, Order=9, StageType = StageType.MainStage},
+            new Stage {Title = "Hired",                 CommentField = true, IsRequired = true, IsCommentRequired = true, IsDefault=true, Order=10, StageType = StageType.HireStage},
+            new Stage {Title = "Job Offer Rejected",    CommentField = true, IsRequired = false, IsCommentRequired = true, IsDefault=true, Order=11, StageType = StageType.RejectStage},
+            new Stage {Title = "Rejected by Company",   CommentField = true, IsRequired = false, IsCommentRequired = true, IsDefault=true, Order=12, StageType = StageType.RejectStage},
+            new Stage {Title = "Rejected by Candidate", CommentField = true, IsRequired = false, IsCommentRequired = true, IsDefault=true, Order=13, StageType = StageType.RejectStage}
         };
 
 

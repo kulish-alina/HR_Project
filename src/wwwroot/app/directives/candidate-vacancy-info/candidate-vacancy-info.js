@@ -270,6 +270,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    function showStagesFlowDialogFor(entityStageObject, vacancyStages) {
       let stagesDeffered = $q.defer();
+      debugger;
       let mainStages = filter(vacancyStages, ['stage.stageType', STAGE_TYPES.MainStage]);
       let vacancyStagesEntitiesVSIs = getVacancyStageInfosToEdit(entityStageObject, mainStages);
       let backupVSI = cloneDeep(vacancyStagesEntitiesVSIs);
@@ -395,7 +396,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                      break;
                   }
             }
-            if (stageVacancyStageInfo.stage.isCommentRequired) {
+            if (stageVacancyStageInfo.stage.commentField &&
+            stageVacancyStageInfo.stageState !== STAGE_STATES.Inactive) {
                showCommentArea = true;
             }
             if (stageVacancyStageInfo.dateOfPass) {
@@ -448,13 +450,14 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             } else {
                return false;
             }
-            if (stage.stageType === STAGE_TYPES.MainStage && stage.isCommentRequired) {
+            if (stage.stageType === STAGE_TYPES.MainStage && stage.isRequired) {
                return vsi.stageState === STAGE_STATES.Passed || vsi.comment && vsi.comment.message;
             }
          }), 'stageId');
+      passedStagesIds.push(entityStageObject.currentStageId);
       let stagesIdsHaveToBePassed =
          map(filter(entityStageObject.stageFlow, extStage => {
-            return extStage.stage.isCommentRequired &&
+            return extStage.stage.isRequired &&
                extStage.stage.stageType === STAGE_TYPES.MainStage;
          }), 'stage.id');
       return !difference(stagesIdsHaveToBePassed, passedStagesIds).length;
@@ -660,7 +663,11 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    }
 
    function isCurrentCommentValid(currentStageAndVsi) {
-      return !(currentStageAndVsi.stage.stage.isCommentRequired && !currentStageAndVsi.vsi.comment.message);
+      if (currentStageAndVsi.stage.stage.isCommentRequired) {
+         return !!currentStageAndVsi.vsi.comment.message;
+      }
+      return true;
+      //return !(currentStageAndVsi.stage.stage.isCommentRequired && !currentStageAndVsi.vsi.comment.message);
    }
 
    function setCurrentToPassed(currentStageAndVsi) {
@@ -674,8 +681,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    function setSelectedStageToActive(selectedStageAndVsi, candObject) {
       selectedStageAndVsi.stageState = STAGE_STATES.Active;
       selectedStageAndVsi.class = 'active';
-      selectedStageAndVsi.showCommentArea = selectedStageAndVsi.stage.stage.isCommentRequired && true;
-      selectedStageAndVsi.vsi = {
+      selectedStageAndVsi.showCommentArea = selectedStageAndVsi.stage.stage.commentField && true;
+      selectedStageAndVsi.vsi = assign(selectedStageAndVsi.vsi || {}, {
          vacancyId: candObject.vacancyId,
          candidateId: candObject.candidateId,
          dateOfPass: moment().format(DATE_FORMAT),
@@ -686,14 +693,14 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
             authorId: vm.currentUser.id
          } : null,
          stageState: STAGE_STATES.Active
-      };
+      });
    }
 
    function setSelectedToInactive(selectedStageAndVsi) {
       selectedStageAndVsi.stageState = STAGE_STATES.Inactive;
       selectedStageAndVsi.class = 'inactive';
       selectedStageAndVsi.showCommentArea = false;
-      selectedStageAndVsi.vsi = null;
+      selectedStageAndVsi.vsi = assign(selectedStageAndVsi.vsi || {}, { stageState: 0 });
    }
 
    function setLatestPassedStageToActive(vacancyStagesEntitiesVSIs) {

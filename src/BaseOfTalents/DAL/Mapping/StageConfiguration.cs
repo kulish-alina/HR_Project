@@ -8,6 +8,8 @@ namespace DAL.Mapping
         {
             Property(sn => sn.Title).IsRequired();
             Property(sn => sn.IsCommentRequired).IsRequired();
+            Property(sn => sn.CommentField).IsRequired();
+            Property(sn => sn.IsRequired).IsRequired();
             Property(sn => sn.IsDefault).IsRequired();
             Property(sn => sn.Order).IsRequired();
         }

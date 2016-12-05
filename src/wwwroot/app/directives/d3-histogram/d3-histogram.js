@@ -73,15 +73,9 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
       let width = containerWidth - margin.left - margin.right;
 
       function _isDataEmpty(value) {
-         if (isEmpty(value)) {
-            return true;
-         } else {
-            let isObjNotEmpty = some(value, (x) => {
-               return x.values.length !== 0;
-            });
-            return !isObjNotEmpty;
-         };
+         return isEmpty(value) || !some(value, x => x.values.length !== 0);
       }
+
       //create svg element for empty report chart
       if (_isDataEmpty(data)) {
          height = 20;

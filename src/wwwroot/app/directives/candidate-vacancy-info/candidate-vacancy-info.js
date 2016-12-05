@@ -270,7 +270,6 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    function showStagesFlowDialogFor(entityStageObject, vacancyStages) {
       let stagesDeffered = $q.defer();
-      debugger;
       let mainStages = filter(vacancyStages, ['stage.stageType', STAGE_TYPES.MainStage]);
       let vacancyStagesEntitiesVSIs = getVacancyStageInfosToEdit(entityStageObject, mainStages);
       let backupVSI = cloneDeep(vacancyStagesEntitiesVSIs);
@@ -699,7 +698,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       selectedStageAndVsi.stageState = STAGE_STATES.Inactive;
       selectedStageAndVsi.class = 'inactive';
       selectedStageAndVsi.showCommentArea = false;
-      selectedStageAndVsi.vsi = assign(selectedStageAndVsi.vsi || {}, { stageState: 0 });
+      selectedStageAndVsi.vsi = assign(selectedStageAndVsi.vsi || {}, { stageState: STAGE_STATES.Inactive });
    }
 
    function setLatestPassedStageToActive(vacancyStagesEntitiesVSIs) {

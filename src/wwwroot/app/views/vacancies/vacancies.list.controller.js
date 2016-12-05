@@ -8,7 +8,8 @@ import {
    filter,
    forEach,
    cloneDeep,
-   includes
+   includes,
+   some
 } from 'lodash';
 
 const DEFAULT_VACANCY_PREDICATE = {
@@ -165,9 +166,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    };
 
    vm.isVacancyWasToogled = (vacancyId) => {
-      return !!find(vm.selectedVacancies, (vacId) => {
-         return vacId === vacancyId;
-      });
+      return some(vm.selectedVacancies, (vacId) => vacId === vacancyId);
    };
 
    vm.toogleAll = () => {
@@ -194,9 +193,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
          }
          vm.selectedVacancies.push(toogledVacancy.id);
       } else {
-         vm.selectedVacancies = filter(vm.selectedVacancies, (vacId) => {
-            return vacId !== toogledVacancy.id;
-         });
+         vm.selectedVacancies = filter(vm.selectedVacancies, vacId => vacId !== toogledVacancy.id);
       }
       vm.toogleContainer.isAllToogled = vm.vacancies.vacancies.length === vm.selectedVacancies.length;
    };

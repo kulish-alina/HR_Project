@@ -6,7 +6,8 @@ import {
    filter,
    forEach,
    cloneDeep,
-   includes
+   includes,
+   some
 } from 'lodash';
 
 import utils from './../../utils.js';
@@ -189,9 +190,7 @@ export default function CandidatesController(
    };
 
    vm.isCandidateWasToogled = (candidateId) => {
-      return !!find(vm.selectedCandidates, (cand) => {
-         return cand === candidateId;
-      });
+      return some(vm.selectedCandidates, selectedCandidateId => selectedCandidateId === candidateId);
    };
 
    vm.toogleAll = () => {
@@ -218,9 +217,7 @@ export default function CandidatesController(
          }
          vm.selectedCandidates.push(candidate.id);
       } else {
-         vm.selectedCandidates = filter(vm.selectedCandidates, (candId) => {
-            return candId !== candidate.id ;
-         });
+         vm.selectedCandidates = filter(vm.selectedCandidates, candId => candId !== candidate.id);
       }
       vm.toogleContainer.isAllToogled = vm.candidates.candidate.length === vm.selectedCandidates.length;
    };

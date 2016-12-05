@@ -667,7 +667,6 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          return !!currentStageAndVsi.vsi.comment.message;
       }
       return true;
-      //return !(currentStageAndVsi.stage.stage.isCommentRequired && !currentStageAndVsi.vsi.comment.message);
    }
 
    function setCurrentToPassed(currentStageAndVsi) {

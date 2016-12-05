@@ -1,0 +1,8 @@
+{
+   "url":"http://localhost",
+   "port": "9000",
+   "dbInitialCatalog": "botdb",
+   "dbDataSource": "(localdb)\\V11.0",
+   "email": "hrbot@isd.dp.ua",
+   "password":""
+}

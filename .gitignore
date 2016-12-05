@@ -245,7 +245,7 @@ _Pvt_Extensions
 
 
 db.json
-deploy.json
+./deploy.json
 release-*
 
 **/.vscode

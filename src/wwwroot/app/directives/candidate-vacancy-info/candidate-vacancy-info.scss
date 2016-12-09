@@ -83,6 +83,15 @@ th {
         text-align: center;
     }
 }
+.comment-icon {
+    font-size: 17.5px !important;
+    opacity: 0.5; 
+    padding-left: 2px;
+    &:hover {
+        opacity: 1;
+    }
+    transition: 0.2s ease-in-out all;
+}
 
 .pressed {
     box-shadow: inset 0px 0px $rem-base/2 0px rgba(0, 0, 0, 0.7) !important;
@@ -106,7 +115,6 @@ th {
     display: flex;
     flex-direction: row;
     :first-child {
-
         width: 100%;
     }
     :second-child {

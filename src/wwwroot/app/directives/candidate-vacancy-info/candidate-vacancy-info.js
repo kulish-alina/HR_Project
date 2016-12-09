@@ -130,6 +130,16 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       });
    }
 
+
+   vm.getCommentForStageId = (stageObject, stageId) => {
+      return find(stageObject.vacancyStageInfos, ['stageId', stageId]).comment.message;
+   };
+
+   vm.isCommentOfStageIdAvalaible = (stageObject, stageId) => {
+      let vsi = find(stageObject.vacancyStageInfos, ['stageId', stageId]);
+      return !!(vsi.comment && vsi.comment.message);
+   };
+
    vm.callStagesDialog = (entityStageObject) => {
       let stageFlow = entityStageObject.stageFlow ? entityStageObject.stageFlow : vm.vacancyStages;
       showStagesFlowDialogFor(entityStageObject, stageFlow)
@@ -468,9 +478,9 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          return;
       }
       callDatepickDialogFor(entityStageObject)
-         .then(hireDateISO => {
+         .then(transferObject => {
             updateCurrentStage(entityStageObject);
-            createHireStage(entityStageObject, hireDateISO);
+            createHireStage(entityStageObject, transferObject.hireDateISO, transferObject.comment);
             recalculateCurrentStageId(entityStageObject);
             vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
          })
@@ -486,10 +496,15 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    function callDatepickDialogFor(candidateStage) {
       let dialogResult = $q.defer();
-      let dialogTransferObject = {};
+      let dialogTransferObject = {
+         comment: ''
+      };
       let scope = {
          dialogTransferObject,
          candidateStage,
+         log: () => {
+            console.log(dialogTransferObject.hireDate);
+         },
          getTodayDate: () => {
             return moment().format(DATE_FORMAT);
          }
@@ -504,7 +519,10 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          name: $translate.instant('COMMON.APLY'),
          func: () => {
             let chosenDate = moment(dialogTransferObject.hireDate, DATE_FORMAT);
-            dialogResult.resolve(chosenDate.toISOString());
+            dialogResult.resolve({
+               hireDateISO: chosenDate.toISOString(),
+               comment: dialogTransferObject.comment
+            });
          }
       }];
       UserDialogService.dialog($translate.instant('Hiring'),
@@ -520,7 +538,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       currentVacancyStageInfo.dateOfPass = moment();
    }
 
-   function createHireStage(entityStageObject, hireDateISO) {
+   function createHireStage(entityStageObject, hireDateISO, comment) {
       let hireStage = find(entityStageObject.stageFlow, ['stage.stageType', STAGE_TYPES.HireStage]);
       let hiredVacancyStageInfo = {
          vacancyId: entityStageObject.vacancyId,
@@ -528,7 +546,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          stage: hireStage,
          stageId: hireStage.stage.id,
          comment: {
-            message: '',
+            message: comment,
             authorId: vm.currentUser.id
          },
          stageState: STAGE_STATES.Active,
@@ -537,29 +555,57 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       entityStageObject.vacancyStageInfos.push(hiredVacancyStageInfo);
    }
 
+   function callCommentDialogForReject () {
+      let dialogResult = $q.defer();
+      let dialogTransferObject = {
+         comment: ''
+      };
+      let scope = {
+         dialogTransferObject
+      };
+      let buttons = [{
+         name: $translate.instant('COMMON.CANCEL'),
+         func: () => {
+            dialogResult.reject();
+         }
+      }, {
+         needValidate: true,
+         name: $translate.instant('COMMON.APLY'),
+         func: () => {
+            dialogResult.resolve(dialogTransferObject.comment);
+         }
+      }];
+      UserDialogService.dialog('Comment for rejecting',
+         `<div><textarea ng-model="dialogTransferObject.comment" placeholder="Comment.." 
+         validator="required" name="comment">
+            </textarea></div>`, buttons, scope);
+      return dialogResult.promise;
+   }
+
    vm.reject = (candidateStage, rejectStage) => {
       let latestActiveVacancyStageInfo = find(candidateStage.vacancyStageInfos, {
          stageState: STAGE_STATES.Active
       });
       if (latestActiveVacancyStageInfo) {
-         latestActiveVacancyStageInfo.stageState = STAGE_STATES.NotPassed;
+         callCommentDialogForReject().then(comment => {
+            latestActiveVacancyStageInfo.stageState = STAGE_STATES.NotPassed;
+            let rejectedVsi = {
+               vacancyId: candidateStage.vacancyId,
+               candidateId: candidateStage.candidateId,
+               stage: rejectStage.stage,
+               stageId: rejectStage.stage.id,
+               comment: {
+                  message: comment,
+                  authorId: vm.currentUser.id
+               },
+               stageState: STAGE_STATES.Active,
+               createdOn: (new Date()).toISOString()
+            };
+            candidateStage.vacancyStageInfos.push(rejectedVsi);
+            recalculateCurrentStageId(candidateStage);
+            vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
+         });
       }
-      let rejectedVsi = {
-         vacancyId: candidateStage.vacancyId,
-         candidateId: candidateStage.candidateId,
-         stage: rejectStage.stage,
-         stageId: rejectStage.stage.id,
-         //TODO: open dialog to write a comment
-         comment: {
-            message: 'rejected',
-            authorId: vm.currentUser.id
-         },
-         stageState: STAGE_STATES.Active,
-         createdOn: (new Date()).toISOString()
-      };
-      candidateStage.vacancyStageInfos.push(rejectedVsi);
-      recalculateCurrentStageId(candidateStage);
-      vm.stagesToShow = calculateVacancyStagesEntitiesCount(vm.vacancyStageInfosComposedByCandidateIdVacancyId);
    };
 
    function recalculateCurrentStageId(entityStageObject) {

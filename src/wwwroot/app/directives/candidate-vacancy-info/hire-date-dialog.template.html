@@ -14,4 +14,12 @@
         date-error-message="Date should be today or less than"
         valid-method="watch"
     />
+    <textarea
+        ng-if="dialogTransferObject.hireDate"
+        ng-model="dialogTransferObject.comment"
+        placeholder="Comment.."
+        validator="required"
+        name="comment"
+    >
+    </textarea>
 </div>

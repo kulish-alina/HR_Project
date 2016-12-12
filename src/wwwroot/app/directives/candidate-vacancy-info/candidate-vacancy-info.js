@@ -136,8 +136,10 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    };
 
    vm.isCommentOfStageIdAvalaible = (stageObject, stageId) => {
-      let vsi = find(stageObject.vacancyStageInfos, ['stageId', stageId]);
-      return !!(vsi.comment && vsi.comment.message);
+      return some(stageObject.vacancyStageInfos, vsi =>
+         vsi.stageId === stageId &&
+         vsi.comment &&
+         vsi.comment.message);
    };
 
    vm.callStagesDialog = (entityStageObject) => {
@@ -502,9 +504,6 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       let scope = {
          dialogTransferObject,
          candidateStage,
-         log: () => {
-            console.log(dialogTransferObject.hireDate);
-         },
          getTodayDate: () => {
             return moment().format(DATE_FORMAT);
          }
@@ -565,17 +564,13 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       };
       let buttons = [{
          name: $translate.instant('COMMON.CANCEL'),
-         func: () => {
-            dialogResult.reject();
-         }
+         func: () => dialogResult.reject()
       }, {
          needValidate: true,
          name: $translate.instant('COMMON.APLY'),
-         func: () => {
-            dialogResult.resolve(dialogTransferObject.comment);
-         }
+         func: () => dialogResult.resolve(dialogTransferObject.comment)
       }];
-      UserDialogService.dialog('Comment for rejecting',
+      UserDialogService.dialog($translate.instant('COMMON.COMMENT_FOR_REJECTING'),
          `<div><textarea ng-model="dialogTransferObject.comment" placeholder="Comment.." 
          validator="required" name="comment">
             </textarea></div>`, buttons, scope);

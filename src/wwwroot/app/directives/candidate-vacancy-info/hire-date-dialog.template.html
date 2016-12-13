@@ -17,7 +17,7 @@
     <textarea
         ng-if="dialogTransferObject.hireDate"
         ng-model="dialogTransferObject.comment"
-        placeholder="Comment.."
+        placeholder="{{::'COMMON.COMMENTS' | translate}}"
         validator="required"
         name="comment"
     >

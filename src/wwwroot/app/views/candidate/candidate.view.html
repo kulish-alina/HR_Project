@@ -267,7 +267,7 @@
    </div>
    <div class="medium-3 grid-block vertical-sidebar">
       <div class="vertical medium-horizontal grid-block">
-         <div class="sidebar">
+         <div ng-if="candidate.id" class="sidebar">
             <events responsibles="responsibles" vacancies="vacancies" candidates="candidates" event-types="thesaurus.eventtype" source="candidate" candidate-id="candidate.id" type="list-only" events="cloneCandidateEvents" save="saveEvent" remove="removeEvent"></events>
          </div>
          <div class="sidebar">

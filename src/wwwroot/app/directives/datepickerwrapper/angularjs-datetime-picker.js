@@ -82,6 +82,12 @@ import {
       }
 
       $document[0].body.addEventListener('click', this.closeDatetimePicker);
+      $document[0].body.addEventListener('keypress', (e) => {
+         var key = e.which || e.keyCode;
+         if (key === 13) {
+            this.closeDatetimePicker();
+         }
+      });
       var modals = $document[0].body.getElementsByClassName('modal')
       if(modals) {
          for(var i=0; i<modals.length; i++) {

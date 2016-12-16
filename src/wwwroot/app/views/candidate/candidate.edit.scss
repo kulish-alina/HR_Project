@@ -18,6 +18,9 @@ input.social-input[type="url"] {
 .technologies-select {
    padding-right: $rem-base;
 }
+.no-wrap {
+   flex-wrap: wrap;
+}
 
 @mixin overrided-button() {
     @include button ( $background: #fff, $color: #0097a7, $background-hover: rgba(0, 151, 167, 0.25));

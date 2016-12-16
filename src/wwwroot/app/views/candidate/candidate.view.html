@@ -148,16 +148,18 @@
                            <img alt="Candidate photo" class="candidate-photo" zf-open="basicModal" ng-if="candidate.photo" ng-src="{{candidate.photo.filePath | botUrl}}">
                         </div>
                         <div class="uploader-photo" zf-modal="" id="basicModal">
-                           <div class="grid-block">
-                              <div class="medium-8 grid-block">
-                                 <input id="photoUpload" class="upload-input" accept=".bmp,.jpg,.png,.tif" type="file" nv-file-select="" uploader="imageUploader">
-                                 <div class="grid-block image-container">
-                                    <div class="medium-4 grid-block">
+                           <div class="grid-block upload-image-container">
+                              <div class="medium-8 grid-block no-wrap">
+                                 <div class="grid-block">
+                                    <input id="photoUpload" class="upload-input" accept=".bmp,.jpg,.png,.tif" type="file" nv-file-select="" uploader="imageUploader">
+                                 </div>
+                                 <div class="grid-block">
+                                    <div class="medium-6 grid-block">
                                        <div class="" ng-repeat="item in imageUploader.queue">
                                           <div ng-show="imageUploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
                                        </div>
                                     </div>
-                                    <div class="medium-8 grid-block"> <a ng-hide="!imageUploader.queue.length" class="remove-item" ng-click="clearUploaderQueue(imageUploader, '#photoUpload')"><i class="foundicon-remove general-icon"></i></a> </div>
+                                    <div class="medium-6 grid-block"> <a ng-hide="!imageUploader.queue.length" class="remove-item" ng-click="clearUploaderQueue(imageUploader, '#photoUpload')"><i class="foundicon-remove general-icon"></i></a> </div>
                                  </div>
                               </div>
                               <div class="medium-4 grid-block"> <a class="upload-button" href="#" ng-click="imageUploader.uploadAll()"><span ng-bind="::'COMMON.UPLOAD' | translate"></span></a> </div>

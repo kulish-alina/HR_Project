@@ -106,9 +106,8 @@ body {
 .upload-input {
    height: $rem-base*2.4;
 }
-.image-container {
-   margin-left: -$rem-base*19 !important;
-   margin-top: $rem-base*1.875 !important;
+.upload-image-container {
+   padding: $rem-base/4
 }
 .tabs {
    @include tabstrip(

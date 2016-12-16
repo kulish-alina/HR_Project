@@ -50,6 +50,10 @@ textarea {
     flex-wrap: wrap;
     width: 35%;
 }
+#stages {
+    max-height: 35.71*$rem-base;
+    overflow-y: scroll;
+}
 
 .table-stage-button {
     @include overrided-button();

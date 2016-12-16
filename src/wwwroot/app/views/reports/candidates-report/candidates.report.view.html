@@ -20,7 +20,7 @@
                </div>
                <label for="Candidate" ng-bind="::'CANDIDATE.CANDIDATE' | translate"></label>
                <div class="grid-block">
-                  <oi-select class="multiple-select" oi-options="candidate.id as (candidate.lastName |  highlight) +' '+(candidate.firstName | highlight)+' '+(candidate.city.title || '')+' '+(candidate.birthDate || '')
+                  <oi-select class="multiple-select" oi-options="candidate.id as (candidate.lastName |  highlight : 'primary-font-color') +' '+(candidate.firstName | highlight : 'primary-font-color')+' '+(candidate.city.title || '')+' '+(candidate.birthDate || '')
                                       for candidate in candidatesAutocomplete($query)  | orderBy : 'lastName + \'|\' + firstName'" ng-model="candidatesReportParametrs.candidatesIds" multiple oi-select-options="{ cleanModel: true }" placeholder="{{::'CANDIDATE.CANDIDATE' | translate}}"> </oi-select>
                </div>
                <label ng-bind="::'THESAURUSES.LOCATIONS' | translate"></label>

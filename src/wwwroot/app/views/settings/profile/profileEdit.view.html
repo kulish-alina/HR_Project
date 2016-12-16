@@ -5,7 +5,7 @@
             <fieldset>
                <input type="text" ng-model="user.lastName" placeholder="{{::'COMMON.LAST' | translate}}" name="lastName" validator="required, maxlength=50, letters">
                <input type="text" ng-model="user.firstName" placeholder="{{::'COMMON.FIRST' | translate}}" name="firstName" validator="required, maxlength=50, letters">
-               <input type="text" ng-model="user.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName" validator="required, maxlength=50, letters">
+               <input type="text" ng-model="user.middleName" placeholder="{{::'COMMON.MIDDLE' | translate}}" name="middleName" validator="maxlength=50, letters">
             </fieldset>
          </div>
          <div class="medium-4 grid-block">

@@ -8,7 +8,8 @@ import {
    find,
    forEach,
    map,
-   filter
+   filter,
+   each
 } from 'lodash';
 
 export default function CandidateProfileController( // eslint-disable-line max-statements, max-params
@@ -61,6 +62,13 @@ export default function CandidateProfileController( // eslint-disable-line max-s
          .then(fillWithVacancies)
          .then(fillWithCandidates)
          .then((vacancyStagesObject) => {
+            each(vacancyStagesObject, stageObject => {
+               each(stageObject.vacancyStageInfos, vsi => {
+                  if (!vsi.stage) {
+                     vsi.stage = find(stageObject.vacancy.stageFlow, ['stage.id', vsi.stageId]);
+                  }
+               });
+            });
             vm.vacancyStageInfosComposedByCandidateIdVacancyId = vacancyStagesObject;
             vm.$watch('vacancyStageInfosComposedByCandidateIdVacancyId', () => {
                vm.isChanged = true;

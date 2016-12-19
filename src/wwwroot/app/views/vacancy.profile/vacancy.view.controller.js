@@ -148,6 +148,9 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       let vacancyStageInfosComposedByCandidateIdVacancyId = [];
       vm.parentEntity = 'vacancy';
       forEach(vacancyStageInfos, (vsi) => {
+         if (!vsi.stage) {
+            vsi.stage = find(vm.vacancy.stageFlow, ['stage.id', vsi.stageId]);
+         }
          let composedEntity = find(vacancyStageInfosComposedByCandidateIdVacancyId, { candidateId: vsi.candidateId });
          if (composedEntity) {
             composedEntity.vacancyStageInfos.push(vsi);

@@ -167,3 +167,7 @@ input[type="tel"].stage-date-picker {
     z-index:10;
     max-height: $rem-base*28.57; 
 }
+
+.notification-content > p > span {
+    white-space: pre;
+}

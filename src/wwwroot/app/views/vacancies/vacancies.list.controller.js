@@ -166,7 +166,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
    };
 
    vm.isVacancyWasToogled = (vacancyId) => {
-      return some(vm.selectedVacancies, (vacId) => vacId === vacancyId);
+      return some(vm.selectedVacancies, ['id', vacancyId]);
    };
 
    vm.toogleAll = () => {
@@ -174,7 +174,7 @@ export default function VacanciesController(//eslint-disable-line  max-statement
       if (vm.toogleContainer.isAllToogled) {
          forEach(vm.vacancies.vacancies, (vacancy) => {
             vacancy.isToogled = true;
-            vm.selectedVacancies.push(vacancy.id);
+            vm.selectedVacancies.push(vacancy);
          });
       } else {
          forEach(vm.vacancies.vacancies, (vacancy) => {
@@ -191,9 +191,9 @@ export default function VacanciesController(//eslint-disable-line  max-statement
             UserDialogService.notification('Selected vacancy has been already closed by another candidate!',
                'warning');
          }
-         vm.selectedVacancies.push(toogledVacancy.id);
+         vm.selectedVacancies.push(toogledVacancy);
       } else {
-         vm.selectedVacancies = filter(vm.selectedVacancies, vacId => vacId !== toogledVacancy.id);
+         vm.selectedVacancies = filter(vm.selectedVacancies, vacancy => vacancy.id !== toogledVacancy.id);
       }
       vm.toogleContainer.isAllToogled = vm.vacancies.vacancies.length === vm.selectedVacancies.length;
    };

@@ -54,6 +54,7 @@ namespace DAL.Extensions
                 {
                     var linkedVacancy = uow.VacancyRepo.GetByID(vsi.VacancyId);
                     linkedVacancy.ClosingCandidateId = vsi.CandidateId;
+                    linkedVacancy.State = Domain.Entities.Enum.EntityState.Closed;
                     uow.VacancyRepo.Update(linkedVacancy);
                 }
             });

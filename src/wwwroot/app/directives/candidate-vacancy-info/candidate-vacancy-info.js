@@ -68,6 +68,17 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       'Comment' : 1,
       'NotPassed' : 2
    };
+   const ENTITY_STATES = {
+      Inactive     : 1,
+      Active       : 2,
+      Verfied      : 3,
+      Unverified   : 4,
+      Pending      : 5,
+      Open         : 6,
+      Processing   : 7,
+      Closed       : 8,
+      Cancelled    : 9
+   };
    const SHOW_LIMIT = 7;
    const DATE_FORMAT = 'DD-MM-YYYY';
    const PARENT_VACANCY = 'vacancy';
@@ -540,7 +551,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                vm.closevacancy(entityStageObject.candidate);
             } else {
                entityStageObject.vacancy.closingCandidateId = entityStageObject.candidate.id;
-               entityStageObject.vacancy.closingCandidate = entityStageObject.candidate;
+               entityStageObject.vacancy.closingCandidate   = entityStageObject.candidate;
+               entityStageObject.vacancy.state              = ENTITY_STATES.Closed;
             }
          });
    };

@@ -7,6 +7,11 @@
 
 .thesaurus-select {
    width: $rem-base*15;
+   oi-select {
+      .select-dropdown {
+         height: $rem-base*7.5;
+      }
+   }
 }
 
 div.thesaurus-label {

@@ -21,7 +21,7 @@ export default class ThesaurusDirective {
 }
 
 function ThesaurusController($element, $scope, ThesaurusService, $translate,
-      FileService, LoggerService, UserDialogService) {
+      FileService, LoggerService, UserDialogService, ValidationService) {
    'ngInject';
 
    const vm = $scope;
@@ -30,7 +30,7 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate,
    vm.topics      = [];
    vm.uploader    = _createNewUploader();
    vm.filterdFields     = {};
-   vm.newTresaurusTopic = {};
+   vm.newThesaurusTopic = {};
    vm.fields            = [];
    vm.additionThesaurusesStore    = {};
 
@@ -73,20 +73,24 @@ function ThesaurusController($element, $scope, ThesaurusService, $translate,
       vm.uploader.clearQueue();
    }
 
-   function addNewTopic(topic) {
-      if (isEmpty(vm.uploader.getNotUploadedItems())) {
-         _saveThesaurusTopic(topic).finally(clearNewThesaurusTopic);
-      } else {
-         vm.uploader.uploadAll();
-      }
+   function addNewTopic(topic, form) {
+      ValidationService.validate(form).then(() => {
+         if (isEmpty(vm.uploader.getNotUploadedItems())) {
+            _saveThesaurusTopic(topic).finally(clearNewThesaurusTopic);
+         } else {
+            vm.uploader.uploadAll();
+         }
+      });
    }
 
-   function saveEditTopic(topic) {
-      if (isEmpty(vm.uploader.getNotUploadedItems())) {
-         _saveThesaurusTopic(topic).then(_deleteClone).catch(() => cancelThesaurusTopicEditing(topic));
-      } else {
-         vm.uploader.uploadAll();
-      }
+   function saveEditTopic(topic, form) {
+      ValidationService.validate(form).then(() => {
+         if (isEmpty(vm.uploader.getNotUploadedItems())) {
+            _saveThesaurusTopic(topic).then(_deleteClone).catch(() => cancelThesaurusTopicEditing(topic));
+         } else {
+            vm.uploader.uploadAll();
+         }
+      });
    }
 
    function deleteThesaurusTopic(topic) {

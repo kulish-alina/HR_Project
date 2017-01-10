@@ -134,7 +134,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
 
       svg.append('text')
         .attr('x', (width - 100) / 2)
-        .attr('y', 2 * margin.top)
+        .attr('y', 35)
         .style('text-decoration', 'underline')
         .style('font-weight', '600')
         .style('font-size', '12.8px')
@@ -234,7 +234,7 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
         .enter().append('g')
         .attr('class', 'legend')
         .attr('transform', (d, i) => {
-           return `translate( 0, ${20 + i * margin.right} )`;
+           return `translate( -100, ${20 + i * margin.right} )`;
         });
 
       legend.append('rect')
@@ -356,12 +356,12 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
         .text((d, i) => {
            return `${d}: ${pieData[i].number}`;
         });
-      //open modal window afrer creating svg ekement with pie chart
+      //open modal window afrer creating svg element with pie chart
       openModalWindowForPieChart(location);
       return svg;
    }
 
-   function openModalWindowForPieChart(location) {
+   function openModalWindowForPieChart(title) {
       let pieElement = document.getElementById('pie-cont').innerHTML;
       let buttons = [
          {
@@ -371,7 +371,6 @@ function HistogramController($scope, $translate, UserDialogService, D3Service) {
             }
          }
       ];
-      let modalTitle = `Location: ${location}`;
-      UserDialogService.dialog(modalTitle, pieElement, buttons, null, false);
+      UserDialogService.dialog(title, pieElement, buttons, null, false);
    }
 }

@@ -1,5 +1,5 @@
 {
    "logLevel"  : "DEBUG",
    "logPattern": "*",
-   "serverUrl" : "http://localhost:54537/"
+   "serverUrl" : "http://ihrbot.isd.dp.ua:9000/"
 }

@@ -133,5 +133,4 @@ try {
 finally {
    Write-Host "Stoping script execution.."
    Write-Host "Reverting current unfinished build"
-   CleanUp -Path $releasePath
 }

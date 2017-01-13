@@ -2,15 +2,15 @@ param(
     [Parameter(Mandatory=$true,Position=1)]
     [ValidateNotNullOrEmpty()]
     $Database,
-    [Parameter(Mandatory=$false,Position=2)]
+    [Parameter(Mandatory=$true,Position=2)]
     [ValidateNotNullOrEmpty()]
-    $Server = "ihrbot.isd.dp.ua",
-    [Parameter(Mandatory=$false, Position=3)]
+    $Server,
+    [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
-    [int]$Port =1433,
-    [Parameter(Mandatory=$false, Position=4)]
+    [int]$Port,
+    [Parameter(Mandatory=$true, Position=4)]
     [ValidateNotNullOrEmpty()]
-    $BackupDir = "C:\Backup"
+    $BackupDir
 )
 try {
     Write-Host "Checking your environment.."

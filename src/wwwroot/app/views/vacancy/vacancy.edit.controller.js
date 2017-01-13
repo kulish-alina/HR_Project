@@ -182,4 +182,15 @@ export default function VacancyController( //eslint-disable-line max-statements
    function _getStateTitle(key) {
       return $translate.instant(key);
    }
+   function _vacacyEditValidation() {
+      if () {
+         return {
+            isValid: false,
+            errorMessage: $translate.instant('DIALOG_SERVICE.EMPTY_CANDIDATE_REPORT_CONDITIONS')
+         };
+      }
+      return {
+         isValid: true
+      };
+   }
 }

@@ -6,7 +6,8 @@ import {
    set,
    each,
    find,
-   cloneDeep
+   cloneDeep,
+   head
 } from 'lodash';
 
 const DEFAULT_REDIRECT_VIEW_NAME = 'vacancyView';
@@ -111,7 +112,7 @@ export default function VacancyController( //eslint-disable-line max-statements
 
    function saveVacancy(ev, form) {
       ev.preventDefault();
-      let validateObj = _vacacyEditValidation(vm.vacancy);
+      let validateObj = _vacancyLocationValidation(vm.vacancy);
       if (validateObj.isValid) {
          ValidationService.validate(form).then(() => {
             if (vm.uploader.getNotUploadedItems().length) {
@@ -172,11 +173,15 @@ export default function VacancyController( //eslint-disable-line max-statements
    }
 
 // The first location of the vacancy should match the responsible user's location
-   function _vacacyEditValidation(vacancy) {
-      if (vacancy.cityIds[0] !== vacancy.responsible.cityId) {
+   function _vacancyLocationValidation(vacancy) {
+      if (vacancy.cityIds.length && head(vacancy.cityIds) !== vacancy.responsible.cityId) {
+         let responsibleLocation = find(vacancy.cities, (city) => {
+            return city.id === vacancy.responsible.cityId;
+         });
          return {
             isValid: false,
-            errorMessage: $translate.instant('DIALOG_SERVICE.VACANCY_LOCATION_VALIDATION_MESSAGE')
+            errorMessage: $translate.instant('DIALOG_SERVICE.VACANCY_LOCATION_VALIDATION_MESSAGE') +
+            responsibleLocation.title
          };
       }
       return {

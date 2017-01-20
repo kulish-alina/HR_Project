@@ -147,8 +147,7 @@ export default function RecruitingFunnelController(
          const recruitingFunnelOptions = {
             chart: {
                width: 900,
-               height: 500,
-               bottomPinch: 1
+               height: 500
             },
             block: {
                highlight: true,

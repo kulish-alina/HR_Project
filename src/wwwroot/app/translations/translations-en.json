@@ -292,6 +292,7 @@
       "CONFIRM": "Confirm please!",
       "SUCCESSFUL_SAVING": "Vacancy was successfully saved!",
       "ERROR_SAVING": "Some error has occurred while saving vacancy!",
+      "VACANCY_LOCATION_VALIDATION_MESSAGE": "The first location of the vacancy should match the responsible user's location",
       "SUCCESSFUL_REMOVING": "Vacancy was successfully removed!",
       "ERROR_VACANCIES_SEARCH": "Some error has occurred while receiving vacancies from database!",
       "SUCCESSFUL_SAVING_EVENT": "Event was successfully saved!",

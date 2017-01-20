@@ -6,9 +6,7 @@ import {
    set,
    each,
    find,
-   cloneDeep,
-   split,
-   map
+   cloneDeep
 } from 'lodash';
 
 const DEFAULT_REDIRECT_VIEW_NAME = 'vacancyView';
@@ -113,32 +111,22 @@ export default function VacancyController( //eslint-disable-line max-statements
 
    function saveVacancy(ev, form) {
       ev.preventDefault();
-      //TODO: remove this terrible method and use moment.js
-      let dates = [vm.vacancy.startDate, vm.vacancy.deadlineDate, vm.vacancy.endDate];
-      let convertedDates = map(dates, invertDate);
-      let starDate = Date.parse(convertedDates[0]);
-      let deadlineDate = Date.parse(convertedDates[1]);
-      let endDate = Date.parse(convertedDates[2]);
-      if (starDate > deadlineDate || starDate > endDate || deadlineDate > endDate) {
-         UserDialogService.notification($translate.instant('DIALOG_SERVICE.INVALID_DATES'), 'error');
-         return false;
+      let validateObj = _vacacyEditValidation(vm.vacancy);
+      if (validateObj.isValid) {
+         ValidationService.validate(form).then(() => {
+            if (vm.uploader.getNotUploadedItems().length) {
+               vm.uploader.uploadAll();
+            } else if (vm.queueFilesForRemove) {
+               each(vm.queueFilesForRemove, (file) => FileService.remove(file));
+               vm.queueFilesForRemove = [];
+               _vs();
+            } else {
+               _vs();
+            }
+         });
+      } else {
+         UserDialogService.notification(validateObj.errorMessage, 'error');
       }
-      ValidationService.validate(form).then(() => {
-         if (vm.uploader.getNotUploadedItems().length) {
-            vm.uploader.uploadAll();
-         } else if (vm.queueFilesForRemove) {
-            each(vm.queueFilesForRemove, (file) => FileService.remove(file));
-            vm.queueFilesForRemove = [];
-            _vs();
-         } else {
-            _vs();
-         }
-      });
-   }
-
-   function invertDate(date) {
-      let splitedDate = split(date, '-');
-      return `${splitedDate[2]}-${splitedDate[1]}-${splitedDate[0]}`;
    }
 
    function saveComment(comment) {
@@ -182,11 +170,13 @@ export default function VacancyController( //eslint-disable-line max-statements
    function _getStateTitle(key) {
       return $translate.instant(key);
    }
-   function _vacacyEditValidation() {
-      if () {
+
+// The first location of the vacancy should match the responsible user's location
+   function _vacacyEditValidation(vacancy) {
+      if (vacancy.cityIds[0] !== vacancy.responsible.cityId) {
          return {
             isValid: false,
-            errorMessage: $translate.instant('DIALOG_SERVICE.EMPTY_CANDIDATE_REPORT_CONDITIONS')
+            errorMessage: $translate.instant('DIALOG_SERVICE.VACANCY_LOCATION_VALIDATION_MESSAGE')
          };
       }
       return {

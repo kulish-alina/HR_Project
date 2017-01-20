@@ -1,4 +1,5 @@
 const GMT = ' 02:00:00';
+const CODE_ENTER_KEY = 13;
 import {
    clone
 } from 'lodash';
@@ -82,6 +83,12 @@ import {
       }
 
       $document[0].body.addEventListener('click', this.closeDatetimePicker);
+      $document[0].body.addEventListener('keypress', (e) => {
+         var key = e.which || e.keyCode;
+         if (key === CODE_ENTER_KEY) {
+            this.closeDatetimePicker();
+         }
+      });
       var modals = $document[0].body.getElementsByClassName('modal')
       if(modals) {
          for(var i=0; i<modals.length; i++) {

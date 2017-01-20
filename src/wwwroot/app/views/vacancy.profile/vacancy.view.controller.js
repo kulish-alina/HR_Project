@@ -24,6 +24,17 @@ let moment = require('moment');
 
 const MATCH_FIELDS = ['responsibleId', 'startDate', 'endDate', 'deadlineDate'];
 const STATE_FOR_REMOVE = 1;
+const ENTITY_STATES = {
+   Inactive     : 1,
+   Active       : 2,
+   Verfied      : 3,
+   Unverified   : 4,
+   Pending      : 5,
+   Open         : 6,
+   Processing   : 7,
+   Closed       : 8,
+   Cancelled    : 9
+};
 
 export default function VacancyProfileController( // eslint-disable-line max-params, max-statements
    $scope,
@@ -91,6 +102,7 @@ export default function VacancyProfileController( // eslint-disable-line max-par
    vm.closeVacancyWith = (candidate) => {
       vm.vacancy.closingCandidateId = candidate.id;
       vm.vacancy.closingCandidate = candidate;
+      vm.vacancy.state = ENTITY_STATES.Closed;
    };
 
    function _initCurrentVacancy() {
@@ -148,6 +160,9 @@ export default function VacancyProfileController( // eslint-disable-line max-par
       let vacancyStageInfosComposedByCandidateIdVacancyId = [];
       vm.parentEntity = 'vacancy';
       forEach(vacancyStageInfos, (vsi) => {
+         if (!vsi.stage) {
+            vsi.stage = find(vm.vacancy.stageFlow, ['stage.id', vsi.stageId]);
+         }
          let composedEntity = find(vacancyStageInfosComposedByCandidateIdVacancyId, { candidateId: vsi.candidateId });
          if (composedEntity) {
             composedEntity.vacancyStageInfos.push(vsi);

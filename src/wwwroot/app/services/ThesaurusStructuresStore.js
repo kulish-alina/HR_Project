@@ -12,7 +12,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.SOCIALS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'name',      type : 'text',    validator : 'required, maxlength=50, minlength=3'},
+         {name : 'title',     label : 'name',      type : 'text',    validator : 'required'},
          {name : 'imagePath', label : 'image',     type : 'img' },
          {name : 'state',     label : 'state',     type : ''}
       ],
@@ -45,7 +45,7 @@ const THESAURUS_STRUCTURES = {
       fields : [
          {name : 'id',                    label : 'id',                    type : ''},
          {name : 'title',                 label : 'name',                  type : 'text',
-          validator : 'required, maxlength=50, minlength=3'},
+          validator : 'required, maxlength=50'},
          {name : 'departmentGroupId',     label : 'department group',      type : 'select',
           refTo : 'departmentgroup',     labelRefFieldName : 'title',     refObject : 'departmentGroupObject'},
          {name : 'state',                 label : 'state',                 type : ''}
@@ -74,7 +74,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.SKILLS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=1'},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50'},
          {name : 'state',     label : 'state',     type : ''}
       ],
       orderFieldName : 'title'
@@ -83,7 +83,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.TAGS',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50, minlength=1'},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=50'},
          {name : 'state',     label : 'state',     type : ''}
       ],
       orderFieldName : 'title'
@@ -120,7 +120,7 @@ const THESAURUS_STRUCTURES = {
       thesaurusName : 'THESAURUSES.SOURCES',
       fields : [
          {name : 'id',        label : 'id',        type : ''},
-         {name : 'title',     label : 'title',     type : 'text',    validator : 'required, maxlength=3, minlength=3'},
+         {name : 'title',     label : 'title',     type : 'text',    validator : 'required'},
          {name : 'state',     label : 'state',     type : ''}
       ],
       orderFieldName : 'title'

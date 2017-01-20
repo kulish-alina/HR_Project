@@ -50,6 +50,10 @@ textarea {
     flex-wrap: wrap;
     width: 35%;
 }
+#stages {
+   max-height: 35.71*$rem-base;
+   overflow-y: scroll;
+}
 
 .table-stage-button {
     @include overrided-button();
@@ -162,4 +166,8 @@ input[type="tel"].stage-date-picker {
     overflow-y:scroll;
     z-index:10;
     max-height: $rem-base*28.57; 
+}
+
+.notification-content > p {
+    white-space: pre;
 }

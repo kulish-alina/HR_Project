@@ -27,7 +27,7 @@
                           ng-disabled="source === 'candidate' && event.candidateId ? true : false"
                           name="Candidate"
                           ng-model="event.candidateId"
-                          oi-options="candidate.id as (candidate.lastName | highlight) +' '+(candidate.firstName | highlight)+' '+(candidate.city.title || '')+' '+(candidate.birthDate || '')
+                          oi-options="candidate.id as (candidate.lastName | highlight : 'primary-font-color') +' '+(candidate.firstName | highlight : 'primary-font-color')+' '+(candidate.city.title || '')+' '+(candidate.birthDate || '')
                                       for candidate in searchCandidate($query, event.candidateId)
                                       | orderBy : 'lastName + \'|\' + firstName'"
                           oi-select-options="{ cleanModel: true }"
@@ -37,8 +37,9 @@
                <label for="Vacancy" ng-bind="::'VACANCY.VACANCY' | translate"></label>
                <oi-select class="multiple-select" id="Vacancy"
                           ng-model="event.vacancyId"
-                          oi-options="vacancy.id as (vacancy.title | highlight)+' '+(vacancy.departments | arrayAsString: 'title')+' '+((vacancy.cities | arrayAsString: 'title') || '') for vacancy in searchVacancy($query, event.vacancyId)
-                          | orderBy : 'title'"oi-select-options="{ cleanModel: true }"
+                          oi-options="vacancy.id as (vacancy.title | highlight : 'primary-font-color')+' '+(vacancy.departments | arrayAsString: 'title')+' '+((vacancy.cities | arrayAsString: 'title') || '') for vacancy in searchVacancy($query, event.vacancyId)
+                          | orderBy : 'title'"
+                          oi-select-options="{ cleanModel: true }"
                           placeholder="{{::'VACANCY.VACANCY' | translate}}">
                </oi-select>
                

@@ -18,7 +18,7 @@ import {
    each,
    uniq,
    assign,
-   difference
+   includes
 } from 'lodash';
 import utils from '../../utils';
 
@@ -63,6 +63,21 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       'MainStage': 1,
       'HireStage': 2,
       'RejectStage': 3
+   };
+   const VALIDATION_ERROR = {
+      'Comment' : 1,
+      'NotPassed' : 2
+   };
+   const ENTITY_STATES = {
+      Inactive     : 1,
+      Active       : 2,
+      Verfied      : 3,
+      Unverified   : 4,
+      Pending      : 5,
+      Open         : 6,
+      Processing   : 7,
+      Closed       : 8,
+      Cancelled    : 9
    };
    const SHOW_LIMIT = 7;
    const DATE_FORMAT = 'DD-MM-YYYY';
@@ -450,33 +465,78 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       };
    }
 
-   function isCandidateReadyToBeHired(entityStageObject) {
-      let passedStagesIds =
-         map(filter(entityStageObject.vacancyStageInfos, vsi => {
-            let stage = vsi.stage;
-            if (stage) {
-               if (stage.stage) {
-                  stage = vsi.stage.stage;
-               }
-            } else {
-               return false;
-            }
-            if (stage.stageType === STAGE_TYPES.MainStage && stage.isRequired) {
-               return vsi.stageState === STAGE_STATES.Passed || vsi.comment && vsi.comment.message;
-            }
-         }), 'stageId');
-      passedStagesIds.push(entityStageObject.currentStageId);
-      let stagesIdsHaveToBePassed =
-         map(filter(entityStageObject.stageFlow, extStage => {
-            return extStage.stage.isRequired &&
-               extStage.stage.stageType === STAGE_TYPES.MainStage;
-         }), 'stage.id');
-      return !difference(stagesIdsHaveToBePassed, passedStagesIds).length;
+   function getMainRequiredStagesIds (entityStageObject) {
+      return map(filter(entityStageObject.stageFlow, extStage => {
+         return extStage.stage.isRequired &&
+            extStage.stage.stageType === STAGE_TYPES.MainStage;
+      }), 'stage.id');
    }
 
+   function mapStageToErrorObject(extStage, errorType) {
+      return {
+         errorType,
+         stage: extStage.stage || extStage
+      };
+   }
+
+   function getStage(vsi) {
+      let stage = vsi.stage;
+      if (stage) {
+         if (stage.stage) {
+            stage = vsi.stage.stage;
+         }
+      }
+      return stage;
+   }
+
+   /**
+    * Validates if candidate can be hired
+    * @param  {Object} entityStageObject Candidate/Vacancy working object
+    * @return {Object} returns the object with .valid error data or type 'valid' with empty data
+    */
+   function validateCandidateHiring (entityStageObject) {
+      let requiredStages       = getMainRequiredStagesIds(entityStageObject);
+      let requiredVSIs         = filter(entityStageObject.vacancyStageInfos, vsi =>
+                                   includes(requiredStages, vsi.stageId));
+
+      let passed               = filter(requiredVSIs, vsi =>
+                                   vsi.stageState === STAGE_STATES.Passed ||
+                                   vsi.stageState === STAGE_STATES.Active); //consider current stage is passed
+
+      let stageWithOutComment  = map(filter(passed, vsi =>
+                                    getStage(vsi).isCommentRequired &&
+                                    vsi.comment && vsi.comment.message.length === 0), 'stage');
+      let passedErrorData      = map(stageWithOutComment, stage =>
+                                    mapStageToErrorObject(stage, VALIDATION_ERROR.Comment));
+
+      let notPassed            = filter(requiredStages, stageId => !includes(map(passed, 'stageId'), stageId));
+      let notPassedStages      = map(notPassed, stageId => find(entityStageObject.stageFlow, ['stage.id', stageId]));
+      let notPassedErrorData   = map(notPassedStages, stage =>
+                                    mapStageToErrorObject(stage, VALIDATION_ERROR.NotPassed));
+      return {
+         valid: !passedErrorData.length && !notPassedErrorData.length,
+         data: [...passedErrorData, ...notPassedErrorData]
+      };
+   }
+
+   let errorMessage = (dataObject) => {
+      switch (dataObject.errorType) {
+         case VALIDATION_ERROR.Comment:
+            return `${dataObject.stage.title} left without comment`;
+            break;
+         case VALIDATION_ERROR.NotPassed:
+            return `${dataObject.stage.title} left not passed`;
+            break;
+         default:
+            return 'You face an unknown error, please, contact you personal programmist';
+            break;
+      }
+   };
+
    vm.hire = (entityStageObject) => {
-      if (!isCandidateReadyToBeHired(entityStageObject)) {
-         UserDialogService.notification('There are left stages that requires a comment', 'warning');
+      let validationResult = validateCandidateHiring(entityStageObject);
+      if (!validationResult.valid) {
+         UserDialogService.notification(map(validationResult.data, errorMessage).join('\n'), 'warning');
          return;
       }
       callDatepickDialogFor(entityStageObject)
@@ -491,7 +551,8 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
                vm.closevacancy(entityStageObject.candidate);
             } else {
                entityStageObject.vacancy.closingCandidateId = entityStageObject.candidate.id;
-               entityStageObject.vacancy.closingCandidate = entityStageObject.candidate;
+               entityStageObject.vacancy.closingCandidate   = entityStageObject.candidate;
+               entityStageObject.vacancy.state              = ENTITY_STATES.Closed;
             }
          });
    };

@@ -1,3 +1,5 @@
+import jwtDecode from 'jwt-decode';
+
 const url = 'account/';
 
 let _$q,
@@ -18,18 +20,25 @@ export default class LoginService {
       _loggerService = LoggerService;
    }
 
+   set token(token) {
+      _loggerService.debug('Login data', token);
+      _storageService.set(tokenInfo, token);
+   };
+
+   get token() {
+      return _storageService.get(tokenInfo);
+   }
+
    login(credentials) {
       let entity = credentials;
-
+      entity.grant_type = 'password';
       _loggerService.debug(entity);
 
-      return _httpService.post(`${url}signin`, entity).then(user => {
-         _loggerService.debug('Logging into user', user);
-
-         _userService.setCurrentUser(user);
+      return _httpService.post(`${url}signin`, entity, 'url').then(identity => {
          _storageService.clear();
-         _storageService.set(tokenInfo, user.token);
-         return user;
+         this.token = identity.access_token;
+         this.setCurrentUser(false);
+         return identity;
       }).catch(error => {
          _loggerService.debug('Loggin failed', error.data.message);
          return _$q.reject(error);
@@ -46,13 +55,11 @@ export default class LoginService {
       });
    }
 
-   getUser(token) {
-      return _httpService.post(`${url}`, { token }).then(user => {
-         _loggerService.debug('Incoming user', user);
-
-         _userService.setCurrentUser(user);
-         _storageService.set(tokenInfo, user.token);
-         return user;
-      });
+   setCurrentUser(needToConvert) {
+      let decodedToken = jwtDecode(this.token);
+      _loggerService.debug('Decoded token:', decodedToken);
+      _userService
+         .getUserById(decodedToken.id, needToConvert)
+         .then(user => _userService.setCurrentUser(user));
    }
 }

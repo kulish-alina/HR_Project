@@ -32,36 +32,30 @@ export default class SessionService {
          return;
       }
 
-      if (_userService.getCurrentUser().login) {
+      if (!_userService.isCurrentUserEmpty()) {
          _loggerService.log('There is a user');
          return;
-      } else {
-         _loggerService.log('No user!');
-         _stateToRedirect = cloneDeep(toState);
-         event.preventDefault();
-         let authorized = isAuthorized();
-
-         if (authorized) {
-            let token = getJwt();
-            _loggerService.log(`Authorized with jwt ${token}`);
-            _loginService.getUser(token).then(result => {
-               _loggerService.log('User', result);
-               if (result.login) {
-                  _userService.setCurrentUser(result);
-                  _loggerService.log('User Authorized');
-                  return _$state.go(_stateToRedirect.name, toParams);
-               }
-            }).catch(() => {
-               _storageService.remove(tokenInfo);
-               _loggerService.log('Outdated session');
-
-               return _$state.go('login');
-            });
-         } else {
-            _loggerService.log('Non authorized!!!');
-            return _$state.go('login');
-         }
       }
+
+      _loggerService.log('No user!');
+      _stateToRedirect = cloneDeep(toState);
+      event.preventDefault();
+
+      if (!isAuthorized()) {
+         _loggerService.log('Non authorized!!!');
+         return _$state.go('login');
+      }
+
+      _loginService.setCurrentUser(true);
+      if (_userService.isCurrentUserEmpty()) {
+         _storageService.remove(tokenInfo);
+         _loggerService.log('Outdated session');
+
+         return _$state.go('login');
+      }
+
+      _loggerService.log('User Authorized');
+      return _$state.go(_stateToRedirect.name, toParams);
    }
 
    getStateToRedirect() {
@@ -69,13 +63,8 @@ export default class SessionService {
    }
 }
 
-
 function isAuthorized() {
-   let token = getJwt();
+   let token = _loginService.token;
    _loggerService.log(`JWT! ${token}`);
    return token !== undefined && token !== null && token !== '';
-}
-
-function getJwt() {
-   return _storageService.get(tokenInfo);
 }

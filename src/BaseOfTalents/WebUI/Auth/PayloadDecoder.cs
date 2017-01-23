@@ -12,11 +12,7 @@ namespace WebUI.Auth
             var tokenObj = jwtHandler.ReadToken(token) as JwtSecurityToken;
             object id;
             var result = tokenObj.Payload.TryGetValue("id", out id);
-            if (result && id is int)
-            {
-                return (int)id;
-            }
-            throw new ArgumentException("The token is not valid, it doesn't contains id definition");
+            return Convert.ToInt32(id);
         }
     }
 }

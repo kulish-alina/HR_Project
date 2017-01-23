@@ -12,7 +12,7 @@ export default function _authInterceptor(
          loggerService.debug('Request auth token', accessToken);
 
          if (accessToken) {
-            config.headers.Authorization = `Token ${accessToken}`;
+            config.headers.Authorization = `Bearer ${accessToken}`;
          }
          return config;
       },

@@ -6,7 +6,8 @@ import {
    toLower,
    map,
    cloneDeep,
-   filter
+   filter,
+   isEmpty
 } from 'lodash';
 
 const USER_URL = 'user/';
@@ -34,6 +35,10 @@ export default class UserService {
 
    setCurrentUser(user) {
       currentUser = user;
+   }
+
+   isCurrentUserEmpty () {
+      return isEmpty(this.getCurrentUser());
    }
 
    saveUser(entity, needToConvert) {

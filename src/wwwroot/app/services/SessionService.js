@@ -6,22 +6,19 @@ import {
 
 let _$state,
    _userService,
-   _storageService,
    _loginService,
    _loggerService;
 
 let _stateToRedirect = {};
-const tokenInfo = 'access_token';
 
 //this is stub till the #237 (access rights for ui routing) is not finished
 const accessArray = ['login', 'loading', 'recoverAccount'];
 
 export default class SessionService {
-   constructor($state, UserService, LocalStorageService, LoginService, LoggerService) {
+   constructor($state, UserService, LoginService, LoggerService) {
       'ngInject';
       _$state = $state;
       _userService = UserService;
-      _storageService = LocalStorageService;
       _loginService = LoginService;
       _loggerService = LoggerService;
    }
@@ -31,26 +28,11 @@ export default class SessionService {
          includes(accessArray, toState.name)) {
          return;
       }
-
-      if (!_userService.isCurrentUserEmpty()) {
-         _loggerService.log('There is a user');
-         return;
-      }
-
-      _loggerService.log('No user!');
-      _stateToRedirect = cloneDeep(toState);
       event.preventDefault();
+      _stateToRedirect = cloneDeep(toState);
 
       if (!isAuthorized()) {
          _loggerService.log('Non authorized!!!');
-         return _$state.go('login');
-      }
-
-      _loginService.setCurrentUser(true);
-      if (_userService.isCurrentUserEmpty()) {
-         _storageService.remove(tokenInfo);
-         _loggerService.log('Outdated session');
-
          return _$state.go('login');
       }
 
@@ -66,5 +48,5 @@ export default class SessionService {
 function isAuthorized() {
    let token = _loginService.token;
    _loggerService.log(`JWT! ${token}`);
-   return token !== undefined && token !== null && token !== '';
+   return token !== undefined && token !== null && token !== '' && !_userService.isCurrentUserEmpty();
 }

@@ -2,6 +2,7 @@ import angular      from 'angular';
 import ngAnimate    from 'angular-animate';
 import router       from 'angular-ui-router';
 import translate    from 'angular-translate';
+import 'angular-spinners';
 import 'moment/moment.js';
 import 'd3-funnel/dist/d3-funnel.js';
 import 'd3/build/d3.js';
@@ -108,7 +109,8 @@ const dependencies = [
    'textAngular',
    'oi.select',
    'srph.age-filter',
-   'angularjs-datetime-picker'
+   'angularjs-datetime-picker',
+   'angularSpinners'
 ];
 
 angular

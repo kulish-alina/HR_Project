@@ -1,14 +1,22 @@
-<div class="login-page">
-	<div class="form">
-		<div class="login-header">
-			<h3 ng-bind=":: 'LOGIN.PLEASE_LOGIN' | translate"></h3>
-		</div>
-		<form ng-submit="login(loginForm)" name="loginForm" class="login-form">
-			<input ng-model="credentials.username" placeholder="{{::'LOGIN.LOGIN' | translate}}" type="text" name="userLogin" validator="required, minlength=3, maxlength=50">
-			<input ng-model="credentials.password" placeholder="{{::'LOGIN.PASSWORD' | translate}}" id="password" type="password" name="userPassword"
-				validator="required">
-		   <button type="submit" name="authorize" ng-bind="::'LOGIN.LOGIN' | translate" ng-submit="login(loginForm)"></button>
-		   <a class="forgot" ui-sref="recoverAccount" ng-bind=":: 'LOGIN.FORGOT' | translate"></a>
-		</form>
-	</div>
+<spinner name="html5spinner" ng-cloak="">
+   <div class="overlay"></div>
+   <div class="spinner">
+      <div class="double-bounce1"></div>
+      <div class="double-bounce2"></div>
+   </div>
+   <div class="please-wait">Please Wait...</div>
+</spinner>
+<div class="login-page" ng-show="!token">
+   <div class="form">
+      <div class="login-header">
+         <h3 ng-bind=":: 'LOGIN.PLEASE_LOGIN' | translate"></h3>
+      </div>
+      <form ng-submit="login(loginForm)" name="loginForm" class="login-form">
+         <input ng-model="credentials.username" placeholder="{{::'LOGIN.LOGIN' | translate}}" type="text" name="userLogin" validator="required, minlength=3, maxlength=50">
+         <input ng-model="credentials.password" placeholder="{{::'LOGIN.PASSWORD' | translate}}" id="password" type="password" name="userPassword"
+            validator="required">
+         <button type="submit" name="authorize" ng-bind="::'LOGIN.LOGIN' | translate" ng-submit="login(loginForm)"></button>
+         <a class="forgot" ui-sref="recoverAccount" ng-bind=":: 'LOGIN.FORGOT' | translate"></a>
+      </form>
+   </div>
 </div>

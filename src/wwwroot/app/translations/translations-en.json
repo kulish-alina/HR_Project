@@ -175,7 +175,8 @@
       "FOR": "for",
       "BOTH" : "Both",
       "CLOSE": "Close",
-      "FORCE_SAVE" : "Force save"
+      "FORCE_SAVE" : "Force save",
+      "SERVER_NOT_RESPONDING" : "Oh, sorry the server is not responding. Please, wait!"
    },
    "THESAURUSES" : {
       "COUNTRIES" : "Countries",

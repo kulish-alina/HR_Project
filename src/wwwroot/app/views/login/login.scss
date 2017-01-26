@@ -55,3 +55,71 @@ $bgcolor: #3FB7C4;
    justify-content: flex-end;
    margin-top: 1rem;
 }
+
+
+//loading
+
+.spinner {
+  width: 100px;
+  height: 100px;
+
+  position: absolute;
+  top: calc(50% - 70px);
+  left: calc(50% - 50px);
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #9c9;
+  border: solid 3px #fff;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  
+  -webkit-animation: bounce 2.0s infinite ease-in-out;
+  animation: bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+.overlay {
+  opacity: .75;
+  background-color: #000;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  position: absolute;
+  z-index: 5;
+  margin: -20px -20px;
+  border-radius: 3px;
+}
+
+.please-wait {
+  text-align: center;
+  position: absolute;
+  top: calc(50% + 45px);
+  left: calc(50% - 45px);
+  color: #fff;
+  z-index: 10;
+}

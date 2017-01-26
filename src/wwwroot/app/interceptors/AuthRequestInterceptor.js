@@ -16,12 +16,14 @@ export default function _authInterceptor(
          }
          return config;
       },
-      requestError: (response) => {
-         if (response.status === 401 ||
+      responseError: (response) => {
+         let UserDialogService = $injector.get('UserDialogService');
+         if (response.status === -1) {
+            UserDialogService.notification($translate.instant('COMMON.SERVER_NOT_RESPONDING'), 'error');
+         } else if (response.status === 401 ||
             response.status === 403 ||
             response.status === 419) {
             // TODO: ask user to signin (with login form or with a just a modal reminder)
-            let UserDialogService = $injector.get('UserDialogService');
             UserDialogService.notification($translate.instant('LOGIN.SESSION_EXPIRED'), 'error');
 
             // TODO: Make new the same call to api

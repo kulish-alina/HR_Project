@@ -1,5 +1,3 @@
-import jwtDecode from 'jwt-decode';
-
 const url = 'account/';
 
 let _$q,
@@ -37,10 +35,9 @@ export default class LoginService {
       return _httpService.post(`${url}signin`, entity, 'url').then(identity => {
          _storageService.clear();
          this.token = identity.access_token;
-         this.setCurrentUser(false);
          return identity;
       }).catch(error => {
-         _loggerService.debug('Loggin failed', error.data.message);
+         _loggerService.error('Loggin failed', error.data.message);
          return _$q.reject(error);
       });
    };
@@ -55,11 +52,11 @@ export default class LoginService {
       });
    }
 
-   setCurrentUser(needToConvert) {
-      let decodedToken = jwtDecode(this.token);
-      _loggerService.debug('Decoded token:', decodedToken);
-      _userService
-         .getUserById(decodedToken.id, needToConvert)
-         .then(user => _userService.setCurrentUser(user));
+   getCurrentUser() {
+      return _userService.getUserById2();
+   }
+
+   setCurrentUser() {
+      return this.getCurrentUser().then(user => _userService.setCurrentUser(user));
    }
 }

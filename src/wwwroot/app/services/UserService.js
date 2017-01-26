@@ -25,6 +25,10 @@ export default class UserService {
       _UserService      = this;
    }
 
+   getUserById2() {
+      return _HttpService.get(`${USER_URL}`);
+   }
+
    getUserById(id, needToConvert) {
       return _UserService.getUsers({id}, needToConvert).then(first);
    }

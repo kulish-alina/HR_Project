@@ -1,11 +1,13 @@
-<spinner name="html5spinner" ng-cloak="">
-   <div class="overlay"></div>
-   <div class="spinner">
-      <div class="double-bounce1"></div>
-      <div class="double-bounce2"></div>
-   </div>
-   <div class="please-wait">Please Wait...</div>
-</spinner>
+<div class="{{token ? 'full-screen' : ''}}">
+   <spinner name="html5spinner" ng-cloak="">
+      <div class="overlay"></div>
+      <div class="spinner">
+         <div class="double-bounce1"></div>
+         <div class="double-bounce2"></div>
+      </div>
+      <div class="please-wait">Please Wait...</div>
+   </spinner>
+</div>
 <div class="login-page" ng-show="!token">
    <div class="form">
       <div class="login-header">

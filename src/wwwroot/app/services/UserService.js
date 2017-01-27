@@ -26,7 +26,7 @@ export default class UserService {
    }
 
    getUserById2() {
-      return _HttpService.get(`${USER_URL}`);
+      return _HttpService.get(`${USER_URL}bytoken`);
    }
 
    getUserById(id, needToConvert) {

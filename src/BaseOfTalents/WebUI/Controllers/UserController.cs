@@ -24,9 +24,11 @@ namespace WebUI.Controllers
             _service = service;
         }
 
+
+
         // GET api/<controller>
-        [HttpPost]
-        [Route("search")]
+        [HttpGet]
+        [Route("")]
         public IHttpActionResult Get()
         {
             return Json(_service.Get(), botSerializationSettings);
@@ -38,7 +40,7 @@ namespace WebUI.Controllers
         /// <param name="identity">the parameter for identifiing user</param>
         /// <returns>Full user info</returns>
         [HttpGet]
-        [Route("")]
+        [Route("bytoken")]
         public IHttpActionResult GetUser()
         {
             try

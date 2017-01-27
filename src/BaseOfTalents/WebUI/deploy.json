@@ -1,6 +1,6 @@
 {
    "url":"http://localhost",
-   "port": "9000",
+   "port": "54537",
    "dbInitialCatalog": "botdb",
    "dbDataSource": "(localdb)\\MSSQLLocalDB",
    "email": "hrbot@isd.dp.ua",

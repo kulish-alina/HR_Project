@@ -1,3 +1,4 @@
+import './vacancy.edit.scss';
 const LIST_OF_THESAURUS = ['industry', 'level', 'language',
     'department', 'tag', 'skill', 'typeOfEmployment', 'languageLevel', 'stage', 'currency'];
 import _utils from './../../utils';
@@ -174,15 +175,19 @@ export default function VacancyController( //eslint-disable-line max-statements
 
 // The first location of the vacancy should match the responsible user's location
    function _vacancyLocationValidation(vacancy) {
-      if (vacancy.cityIds.length && head(vacancy.cityIds) !== vacancy.responsible.cityId) {
-         let responsibleLocation = find(vacancy.cities, (city) => {
-            return city.id === vacancy.responsible.cityId;
+      if (!vacancy.responsible) {
+         UserService.getUserById(vacancy.responsibleId, true).then(user => vacancy.responsible = user).then(() => {
+            if (vacancy.cityIds.length && head(vacancy.cityIds) !== vacancy.responsible.cityId) {
+               let responsibleLocation = find(vacancy.cities, (city) => {
+                  return city.id === vacancy.responsible.cityId;
+               });
+               return {
+                  isValid: false,
+                  errorMessage: $translate.instant('DIALOG_SERVICE.VACANCY_LOCATION_VALIDATION_MESSAGE') +
+                  responsibleLocation.title
+               };
+            }
          });
-         return {
-            isValid: false,
-            errorMessage: $translate.instant('DIALOG_SERVICE.VACANCY_LOCATION_VALIDATION_MESSAGE') +
-            responsibleLocation.title
-         };
       }
       return {
          isValid: true

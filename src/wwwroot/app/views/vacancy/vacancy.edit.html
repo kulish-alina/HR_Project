@@ -70,13 +70,13 @@
                         <oi-select class="multiple-select" oi-options="responsible.id as responsible.lastName + ' ' + responsible.firstName for responsible in searchResponsible($query) | orderBy : 'lastName+ \'|\' + firstName'" ng-model="vacancy.responsibleId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.RESPONSIBLE' | translate}}" name="vacancyResponsible" validator="required"></oi-select>
                         <oi-select class="multiple-select" oi-options="department.id as department.title for department in thesaurus.department | orderBy : 'title'" ng-model="vacancy.departmentId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.DEPARTMENT' | translate}}" name="Department" validator="required"></oi-select>
                         <div class="grid-block">
-                           <div class="medium-4 grid-block">
+                           <div class="medium-4 grid-block validation-line-break">
                               <input ng-model="vacancy.salaryMin" placeholder="{{::'COMMON.SALARY_MIN' | translate}}" type="tel" name="salaryMin" , validator="counter=1000000" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}" class="salary-input">
                            </div>
-                           <div class="medium-4 grid-block">
+                           <div class="medium-4 grid-block validation-line-break">
                               <input ng-model="vacancy.salaryMax" placeholder="{{::'COMMON.SALARY_MAX' | translate}}" type="tel" name="salaryMax" , validator="counter=1000000, mincount" min-count-value="{{vacancy.salaryMin}}" ui-mask="9?9?9?9?9?9?9?" ui-mask-placeholder ui-mask-placeholder-char="space" counter-error-message="{{::'ERRORS.COUNTER' | translate:'{count: 1000000}'}}" class="salary-input">
                            </div>
-                           <div class="medium-4 grid-block">
+                           <div class="medium-4 grid-block validation-line-break">
                               <oi-select class="multiple-select" oi-options="currency.id as currency.title for currency in thesaurus.currency | orderBy : 'title'" ng-model="vacancy.currencyId" oi-select-options="{ cleanModel: true }" placeholder="{{::'COMMON.CURRENCY' | translate}}" name="vacancyCurrency" validator="required" is-need-required="{{ !!vacancy.salaryMin || !!vacancy.salaryMax }}"></oi-select>
                            </div>
                         </div>

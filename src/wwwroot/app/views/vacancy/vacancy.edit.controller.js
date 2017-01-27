@@ -6,7 +6,8 @@ import {
    set,
    each,
    find,
-   cloneDeep
+   cloneDeep,
+   head
 } from 'lodash';
 
 const DEFAULT_REDIRECT_VIEW_NAME = 'vacancyView';
@@ -111,18 +112,22 @@ export default function VacancyController( //eslint-disable-line max-statements
 
    function saveVacancy(ev, form) {
       ev.preventDefault();
-      //TODO: remove this terrible method and use moment.js
-      ValidationService.validate(form).then(() => {
-         if (vm.uploader.getNotUploadedItems().length) {
-            vm.uploader.uploadAll();
-         } else if (vm.queueFilesForRemove) {
-            each(vm.queueFilesForRemove, (file) => FileService.remove(file));
-            vm.queueFilesForRemove = [];
-            _vs();
-         } else {
-            _vs();
-         }
-      });
+      let validateObj = _vacancyLocationValidation(vm.vacancy);
+      if (validateObj.isValid) {
+         ValidationService.validate(form).then(() => {
+            if (vm.uploader.getNotUploadedItems().length) {
+               vm.uploader.uploadAll();
+            } else if (vm.queueFilesForRemove) {
+               each(vm.queueFilesForRemove, (file) => FileService.remove(file));
+               vm.queueFilesForRemove = [];
+               _vs();
+            } else {
+               _vs();
+            }
+         });
+      } else {
+         UserDialogService.notification(validateObj.errorMessage, 'error');
+      }
    }
 
    function saveComment(comment) {
@@ -165,5 +170,22 @@ export default function VacancyController( //eslint-disable-line max-statements
 
    function _getStateTitle(key) {
       return $translate.instant(key);
+   }
+
+// The first location of the vacancy should match the responsible user's location
+   function _vacancyLocationValidation(vacancy) {
+      if (vacancy.cityIds.length && head(vacancy.cityIds) !== vacancy.responsible.cityId) {
+         let responsibleLocation = find(vacancy.cities, (city) => {
+            return city.id === vacancy.responsible.cityId;
+         });
+         return {
+            isValid: false,
+            errorMessage: $translate.instant('DIALOG_SERVICE.VACANCY_LOCATION_VALIDATION_MESSAGE') +
+            responsibleLocation.title
+         };
+      }
+      return {
+         isValid: true
+      };
    }
 }

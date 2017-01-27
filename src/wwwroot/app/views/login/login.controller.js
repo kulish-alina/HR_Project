@@ -16,8 +16,8 @@ export default function loginController($scope, $state, $timeout, LoginService,
          spinnerService.show('html5spinner');
          LoginService.setCurrentUser().then(() => {
             let state = SessionService.getStateToRedirect();
-            $state.go(state.name ? state.name : 'home', state.data);
-
+            let param = SessionService.getRedirectParams();
+            $state.go(state.name ? state.name : 'home', param);
          }).catch(error => {
             if (error) {
                UserDialogService.notification(error.data.message, 'error');
@@ -38,13 +38,12 @@ export default function loginController($scope, $state, $timeout, LoginService,
             return LoginService.setCurrentUser();
          }).then(() => {
             let state = SessionService.getStateToRedirect();
-            $state.go(state.name ? state.name : 'home', state.data);
+            $state.go(state.name ? state.name : 'home');
          }).catch(error => {
             if (error) {
                UserDialogService.notification(error.data.message, 'error');
             }
-         })
-         .finally(() => {
+         }).finally(() => {
             spinnerService.hide('html5spinner');
          });
    }

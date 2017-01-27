@@ -10,6 +10,7 @@ let _$state,
    _loggerService;
 
 let _stateToRedirect = {};
+let _redirectParams = {};
 
 //this is stub till the #237 (access rights for ui routing) is not finished
 const accessArray = ['login', 'loading', 'recoverAccount'];
@@ -30,6 +31,8 @@ export default class SessionService {
       }
       event.preventDefault();
       _stateToRedirect = cloneDeep(toState);
+      _redirectParams = cloneDeep(toParams);
+      _loggerService.debug('State will redirect to:', toState, toParams);
 
       if (!isAuthorized()) {
          _loggerService.log('Non authorized!!!');
@@ -42,6 +45,10 @@ export default class SessionService {
 
    getStateToRedirect() {
       return _stateToRedirect;
+   }
+
+   getRedirectParams() {
+      return _redirectParams;
    }
 }
 

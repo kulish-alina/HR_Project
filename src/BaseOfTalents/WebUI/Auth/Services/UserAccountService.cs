@@ -37,7 +37,7 @@ namespace WebUI.Auth.Services
             var template = _templateService.GetTemplate();
 
             string pwd = PasswordGenerator.GeneratePassword();
-            newUser.Password = (Password)pwd;
+            newUser.Password =  new Password(pwd);
             var addedUser = _userService.Add(newUser);
 
             var textAfterReplacing = MailBodyContentReplacer.Replace(mailContent.Body, addedUser.Login, pwd);
@@ -175,7 +175,7 @@ namespace WebUI.Auth.Services
             }
 
             string pwd = PasswordGenerator.GeneratePassword();
-            _user.Password = (Password)pwd;
+            _user.Password = new Password(pwd);
             _userService.Update(_user);
 
             var template = _templateService.GetTemplate();

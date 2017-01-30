@@ -615,7 +615,7 @@ namespace DAL.Migrations
                         City = Cities.Where(city => city.HasOffice).ToList().GetRandom(),
                         Login = "admin",
                         MiddleName = names.GetRandom(),
-                        Password = (Password)"admin",
+                        Password = new Password("admin"),
                         PhoneNumbers = new List<PhoneNumber> { new PhoneNumber { Number = "380" + GetRandomNumbers(9) } },
                         Role = Roles[0],
                         Skype = GetRandomString(8)

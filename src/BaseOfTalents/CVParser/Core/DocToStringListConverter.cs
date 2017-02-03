@@ -67,13 +67,11 @@ namespace CVParser.Core
             return !string.IsNullOrEmpty(text);
         }
 
-        private static string GetFirstText(string path, List<FuncParser> textLoaders)
+        private static string GetFirstText(string path, List<FuncParser> actualLoaders)
         {
-            var errors = new List<Exception>();
-            string text = default(string);
-            int i = 0;
-
-            for (var loader = textLoaders[i]; i < textLoaders.Count && !string.IsNullOrEmpty(text); i++)
+            var text = String.Empty;
+            List <Exception> errors = new List<Exception>();
+            foreach (var loader in actualLoaders)
             {
                 try
                 {
@@ -84,8 +82,8 @@ namespace CVParser.Core
                     //intentional exception supression, because we need to go thru all the loaders before throw one
                     errors.Add(e);
                 }
+                if (!String.IsNullOrEmpty(text)) break;
             }
-
             return text;
         }
     }

@@ -157,7 +157,7 @@ namespace DAL.Services
             List<Vacancy> clonedVacancies = new List<Vacancy>();
             if (dto.CloneVacanciesNumber.HasValue)
             {
-                var countOfClones = dto.CloneVacanciesNumber.Value;
+                var countOfClones = dto.CloneVacanciesNumber.Value - 1;
                 while (countOfClones-- != 0)
                 {
                     var clone = new Vacancy();

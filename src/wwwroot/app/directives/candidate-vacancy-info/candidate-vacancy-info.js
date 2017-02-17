@@ -48,6 +48,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
    UserDialogService,
    $translate,
    $q,
+   $timeout,
    TransitionsService
 ) {
    'ngInject';
@@ -724,7 +725,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
       vm.stageQueries = filter(vm.stageQueries, extStage => extStage.stage.id !== selectedStage.stage.id);
    }
 
-   vm.stageClick = (selectedStageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs) => {
+   vm.stageClick = (selectedStageAndVsi, entityStageObject, vacancyStagesEntitiesVSIs, index) => {
       if (vm.isHiredOrRejected(entityStageObject)) {
          return;
       }
@@ -741,7 +742,22 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
          setSelectedToInactive(selectedStageAndVsi);
          setLatestPassedStageToActive(vacancyStagesEntitiesVSIs);
       }
+
+      if (selectedStageAndVsi.showCommentArea) {
+         findAndFocusOnTextArea(index);
+      }
    };
+
+   function findAndFocusOnTextArea (index) {
+      $timeout(() => {
+         var textarea = findVSICommentArea(index);
+         textarea.focus();
+      });
+   }
+
+   function findVSICommentArea (index) {
+      return document.getElementById(`comment-area-${index}`);
+   }
 
    function addValidationError(currentStageAndVsi) {
       currentStageAndVsi.areaIsValid = false;

@@ -750,7 +750,7 @@ function CandidateVacancyInfoController($scope, // eslint-disable-line max-state
 
    function findAndFocusOnTextArea (index) {
       $timeout(() => {
-         var textarea = findVSICommentArea(index);
+         let textarea = findVSICommentArea(index);
          textarea.focus();
       });
    }

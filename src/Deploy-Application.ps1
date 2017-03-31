@@ -8,8 +8,8 @@
 #######################################################################
 ## Script parameters
 Param (
-  [String]$DestinationPath = ".",
-  [switch]$Deploy
+   [String]$DestinationPath = ".",
+   [switch]$Deploy
 )
 
 function CheckEnvironment ([string]$Command) {
@@ -28,9 +28,27 @@ function IsNotAdmin () {
 }
 
 function CleanUp ($Path) {
-      if(Test-Path $path) {
+   if(Test-Path $path) {
       Remove-Item $path -Recurse -Force
    }
+}
+
+function AddSSLReservation ([int]$Port, [string]$AppId, [string]$CertHash) {
+   Write-Verbose "Adding SSL certificate"
+   $result = netsh http show sslcert ipport=0.0.0.0:$Port 2>$1
+   if($result.length -lt 8) {
+      netsh http add sslcert ipport=0.0.0.0:$Port appid="{$AppId}" certhash=$CertHash clientcertnegotiation=enable certstorename=Root
+   }
+}
+
+function AddTunelling([string]$url, [string]$releaseDir) {
+      Write-Verbose "Tunelling started"
+      $result = netsh http show urlacl url=$url 2>$1
+      if ($result.length -lt 6) {
+         netsh http add urlacl url=$url user=everyone
+      }
+
+      & (Join-Path $releaseDir "ApiHost.exe")
 }
 
 try {
@@ -67,6 +85,7 @@ try {
    $wwwrootDir = Join-Path $releaseDir 'wwwroot'
    $uploadsDir = Join-Path $releaseDir 'wwwroot/uploads'
    $releasePath = Join-Path $PSScriptRoot $releaseDir
+   $ishttps = $url -match "^https"
 
    ## Checking execution environment
    ## First of all it is npm, bower and msbuild   
@@ -120,17 +139,18 @@ try {
 
    Write-Host "Build finished!" -ForegroundColor DarkYellow
 
-   if($Deploy -eq $true) {
+   if ($Deploy -eq $true) {
       ## Open client access to the daemon (server)
-      $result = netsh http show urlacl url=$url 2>$1
-      if($result.length -lt 6) {
-         netsh http add urlacl url=$url user=everyone
+      Write-Verbose "IsHttps : $ishttps"
+      if ($ishttps -eq $true) {
+         AddSSLReservation -Port $config.port -AppId $config.appid -CertHash $config.certhash
       }
 
-   & (Join-Path $releaseDir "ApiHost.exe")
+      AddTunelling -url $url -releaseDir $releaseDir
    }
 }
 finally {
    Write-Host "Stoping script execution.."
    Write-Host "Reverting current unfinished build"
+   Pop-Location
 }

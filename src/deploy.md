@@ -68,7 +68,7 @@ How to use this commands:
    npm run dist-build
 ```
 
-## Finish line (Hosting)
+## Finish line (Hosting and Certification)
 
 After building each part of application, we need to put all of them into one place.
 
@@ -83,6 +83,13 @@ netsh http add urlacl url=<url> user=<userName>
 Execept of specifying every userName we can use some reserved names, like _everyone_.
 If you want to grant access to resource to a specific user just use its Domain\userName, like EDU\grym.
 
+Furthermore, if application is deployed in https line - there is a need in the SSL certificate to be attached to application. That is done again using _netsh_. this time you need **_appid_** and **_certhash_**. Appid - is the guid created for your application, you can find it in _AssemblyInfo.cs_ file of project. Certhash is nothing else, but Thumbprint of certificate.
+
+```PowerShell
+netsh http add sslcert ippor=0.0.0.0:<port> certhash=<hash> appid="{<guid>}"
+```
+
+__Important !!!__ The certificate must be already installed on the localmachine under the __Trusted Root Certification Authorities__. If sslcert fails with _1312_ or smth like that - check you certificate, there is some problem with it. Reed  [Common errors](#what-may-cause-errors) for more info about mistakes and exceptions.
 
 And run the executable "ApiHost.exe"
 
@@ -103,34 +110,36 @@ And run the executable "ApiHost.exe"
 
 ``` json
 {
-   "url":"http://+",
+   "url":"https://ihrbot.isd.dp.ua",
    "port": "9000",
    "dbInitialCatalog": "bot-9000",
    "dbDataSource": "(localdb)\\V11.0",
    "email": "sender@isd.dp.ua",
    "password":"******",
-   "frAccessUrl": "http://dws02.edu.isd.dp.ua",
+   "frAccessUrl": "https://ihrbot.isd.dp.ua",
    "frLogLevel": "ERROR",
-   "frLogPattern": "*"
+   "frLogPattern": "*",
+   "certhash" : "ab2aa72898a32bbc89467364c6d1cdf4f20ce412",
+   "appid" : "ad219a93-07c5-4ff7-8984-9aff8ec9afae"
 }
 ```
 
-   **Attention**: `http://+` is an alias for all local ip adresses. Is used to start host with httpListeners. Except of it can be used one explicit ip adress;
+   **Attention**: `http(s)://+` is an alias for all local ip adresses. Is used to start host with httpListeners. Except of it can be used one explicit ip adress;
 
 1. Run script `Deploy-Application` as **Admin**.
 
-   Optional: when you run it is possible to specify to parameters:
+   Optional: when you run it is possible to specify two parameters:
    * DestinationPath: the path (string) where will be located fully server build
-   * Deploy: boolean script variable; when is true the script gets the right to host the application - open remote access, attach certifiates, run server, etc.
+   * Deploy: switch, aka boolean flag; when is set the script gets the right to host the application - open remote access, attach certifiates, run server, etc.
 1. Have a fun.
 
 ## What may cause errors
 
 1. Make sure you have got Admin rights to run this script.
-1. Make sure you have passed all parameters to spcipt and created an _deploy.json_.
+1. Make sure you have passed all parameters to script and created an _deploy.json_.
 1. Take a look at configs, if any of _local.json_, _deploy.json_ or _SettingsContext_ of backend is in not consistant state, so build or runtime may fail. So look at deploy.json validation, if you add some new settings to application and so on for SettingsContext
 1. Modules were not downloaded. Check you policies to grant script and work station access to remote module repositories.
-1. Bundling finished with exception. Check you app, maybe some scripts, styles, etc were corrupted. More, check webpack config - maybe smth has changed, so the bundlig became unpredictable.
+1. Bundle finished with exception. Check you app, maybe some scripts, styles, etc were corrupted. More, check webpack config - maybe smth has changed, so the bundlig became unpredictable.
 1. Building of backend unfortunately fall down. Maybe your solution accepted new configurations, so now msbuild gets lost in all of it and fails. Check versions of your libraries to be right the same you need.
 
    It is known an error when `msbuild` fails with exception of not finding execution or targets or versions on some path, the only solutions are:
@@ -139,5 +148,6 @@ And run the executable "ApiHost.exe"
    1. To delete from solution some lines, that are responsible for including that thing to your project. (No varanty for this deal, make sure that you ready to do all of that manually)
 
 1. The release folder is not seen to be created. Check rights of creating folders and other ops in the destination folder, check that everythings builds fine - bundle and server files appear in their build folders. Check that you haven't missed with paths.
+1. Problems with SSL? - Make sure that you have installed your certificate. Moreover, it is installed along with its private key. Check that you have passed correct _thumbprint_ to build script. Check where you cerificate is located, it must Trusted Root. Doesn't help? - check all params of your certificate, maybe broblems with issuer, CN, country and so on, so on...
 1. There is no remote access to server? - Try run `netsh` with correct settings manually (look at its description above). Doesn't help, but seems to be working? - Sorry, contact your server administrator.
 1. Some file is not found and so script or server fails with such a kind of exception? - make sure, that you haven't renamed something. so the path can't be resolved.

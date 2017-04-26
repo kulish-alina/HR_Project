@@ -19,7 +19,7 @@ function CheckEnvironment ([string]$Command) {
 }
 
 function IsNotAdmin () {   
-   if(-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
+   if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
       [Security.Principal.WindowsBuiltInRole] "Administrator")) {
       Write-Warning "You do not have Administrator rights to run this script!`nPlease re-run this script as an Administrator!"
       Pause
@@ -28,7 +28,7 @@ function IsNotAdmin () {
 }
 
 function CleanUp ($Path) {
-   if(Test-Path $path) {
+   if (Test-Path $path) {
       Remove-Item $path -Recurse -Force
    }
 }
@@ -36,19 +36,19 @@ function CleanUp ($Path) {
 function AddSSLReservation ([int]$Port, [string]$AppId, [string]$CertHash) {
    Write-Verbose "Adding SSL certificate"
    $result = netsh http show sslcert ipport=0.0.0.0:$Port 2>$1
-   if($result.length -lt 8) {
+   if ($result.length -lt 8) {
       netsh http add sslcert ipport=0.0.0.0:$Port appid="{$AppId}" certhash=$CertHash clientcertnegotiation=enable certstorename=Root
    }
 }
 
-function AddTunelling([string]$url, [string]$releaseDir) {
-      Write-Verbose "Tunelling started"
-      $result = netsh http show urlacl url=$url 2>$1
-      if ($result.length -lt 6) {
-         netsh http add urlacl url=$url user=everyone
-      }
+function AddTunelling([string]$url, [string]$application) {
+   Write-Verbose "Tunelling started"
+   $result = netsh http show urlacl url=$url 2>$1
+   if ($result.length -lt 6) {
+      netsh http add urlacl url=$url user=everyone
+   }
 
-      & (Join-Path $releaseDir "ApiHost.exe")
+   & $application
 }
 
 try {
@@ -58,20 +58,21 @@ try {
    IsNotAdmin
 
    ## Paths
-   $deployConfigPath          = Join-Path $PSScriptRoot "./deploy.json"
-   $localFrontendConfigPath   = Join-Path $PSScriptRoot "./wwwroot/config/config.context/local.json"
-   $frontendBuildResultPath   = Join-Path $PSScriptRoot "./wwwroot/dist/"
-   $solutionDir               = Join-Path $PSScriptRoot "./BaseOfTalents"
-   $solutionPath              = Join-Path $solutionDir "./BaseOfTalents.sln"
+   $deployConfigPath = Join-Path $PSScriptRoot "./deploy.json"
+   $localFrontendConfigPath = Join-Path $PSScriptRoot "./wwwroot/config/config.context/local.json"
+   $frontendBuildResultPath = Join-Path $PSScriptRoot "./wwwroot/dist/"
+   $solutionDir = Join-Path $PSScriptRoot "./BaseOfTalents"
+   $solutionPath = Join-Path $solutionDir "./BaseOfTalents.sln"
 
    ## Starting preparations to the build
    ## Getting build parameters
    Write-Host "Build started..." -ForegroundColor DarkYellow
 
-   if(test-path $deployConfigPath) {
+   if (test-path $deployConfigPath) {
       $config = Get-Content -Raw -Path $deployConfigPath | ConvertFrom-Json
       . "./Validate-Config.ps1" -Configuration $config
-   } else {
+   }
+   else {
       Write-Error "No configuration file exists, please create deploy.json and try again"
       Pause
       Break   
@@ -96,12 +97,13 @@ try {
 
    ## Create frontend build configuration
    ## Create a local config storage to translate it to file
-   $localFrontendConfig = New-Object -TypeName PSObject
-   $localFrontendConfig | Add-Member -MemberType NoteProperty -name "logLevel"   -value $config.frLogLevel
-   $localFrontendConfig | Add-Member -MemberType NoteProperty -name "logPattern" -value $config.frLogPattern
-   $localFrontendConfig | Add-Member -MemberType NoteProperty -name "serverUrl"  -value "$($config.frAccessUrl):$($config.port)/"
+   $localFrontendConfig = @{
+      "logLevel" = $config.frLogLevel
+      "logPattern" = $config.frLogPattern 
+      "serverUrl" = "$($config.frAccessUrl):$($config.port)/"
+   }
 
-   if(test-path $localFrontendConfigPath) {
+   if (test-path $localFrontendConfigPath) {
       Remove-Item $localFrontendConfigPath
    }
    $localFrontendConfig | ConvertTo-Json | Out-File -FilePath $localFrontendConfigPath -Encoding utf8
@@ -145,12 +147,10 @@ try {
       if ($ishttps -eq $true) {
          AddSSLReservation -Port $config.port -AppId $config.appid -CertHash $config.certhash
       }
-
-      AddTunelling -url $url -releaseDir $releaseDir
+      $app = Join-Path $releaseDir "ApiHost.exe"
+      AddTunelling -url $url -application $app
    }
 }
 finally {
-   Write-Host "Stoping script execution.."
-   Write-Host "Reverting current unfinished build"
    Pop-Location
 }

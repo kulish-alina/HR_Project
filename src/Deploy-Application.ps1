@@ -9,7 +9,9 @@
 ## Script parameters
 Param (
    [String]$DestinationPath = ".",
-   [switch]$Deploy
+   [switch]$Deploy,
+   [switch]$Backup,
+   [switch]$Autostartup
 )
 
 function CheckEnvironment ([string]$Command) {
@@ -63,6 +65,7 @@ try {
    $frontendBuildResultPath = Join-Path $PSScriptRoot "./wwwroot/dist/"
    $solutionDir = Join-Path $PSScriptRoot "./BaseOfTalents"
    $solutionPath = Join-Path $solutionDir "./BaseOfTalents.sln"
+   $executable = "ApiHost.exe"
 
    ## Starting preparations to the build
    ## Getting build parameters
@@ -86,6 +89,8 @@ try {
    $wwwrootDir = Join-Path $releaseDir 'wwwroot'
    $uploadsDir = Join-Path $releaseDir 'wwwroot/uploads'
    $releasePath = Join-Path $PSScriptRoot $releaseDir
+
+   $app = Join-Path $releaseDir $executable
    $ishttps = $url -match "^https"
 
    ## Checking execution environment
@@ -147,8 +152,18 @@ try {
       if ($ishttps -eq $true) {
          AddSSLReservation -Port $config.port -AppId $config.appid -CertHash $config.certhash
       }
-      $app = Join-Path $releaseDir "ApiHost.exe"
+      
       AddTunelling -url $url -application $app
+   }
+
+   if($Backup -eq $true) {
+      Write-Verbose "Scheduling backup task"
+      . './Create-Backup-Job.ps1' -Database $config.dbInitialCatalog
+   }
+
+   if($Autostartup -eq $true) {
+      Write-Verbose "Scheduling autostartup"
+      . './Create-Autostart-Job.ps1' -WebServerPath $app -JobName "Autostart of $(if(isHttps){'https'} else {'http'}) $executable on $Port port"
    }
 }
 finally {

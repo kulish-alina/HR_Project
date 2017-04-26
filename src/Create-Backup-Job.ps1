@@ -21,7 +21,7 @@ Write-Verbose $jobName
 $interval = (New-TimeSpan -Hours 8)
 
 $action = New-ScheduledTaskAction -Execute "$pshome\powershell.exe" -Argument "-NonInteractive -NoLogo -NoProfile -File $($script)"
-$trigger = New-ScheduledTaskTrigger  -Once -At '3AM' -RepetitionInterval $interval
+$trigger = New-ScheduledTaskTrigger  -Once -At '3AM' -RepetitionInterval $interval -RepetitionDuration ([System.TimeSpan]::MaxValue)
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -RunOnlyIfNetworkAvailable -DontStopOnIdleEnd
 
 Register-ScheduledTask -TaskName $jobname -Action $action -Trigger $trigger -RunLevel Highest -Settings $settings

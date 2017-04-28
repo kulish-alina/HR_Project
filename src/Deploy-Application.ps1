@@ -9,29 +9,19 @@
 ## Script parameters
 Param (
    [String]$DestinationPath = ".",
+   [ValidateSet("Backend", "Frontend", "All")]
+   [String]$DeployType = "All",
    [switch]$Deploy,
    [switch]$Backup,
    [switch]$Autostartup
 )
-
-function CheckEnvironment ([string]$Command) {
-   if ($null -eq (Get-Command $Command -ErrorAction SilentlyContinue)) { 
-      Write-Error "Unable to find $Command in your PATH"
-   }
-}
-
+. './Common.ps1'
 function IsNotAdmin () {   
    if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
       [Security.Principal.WindowsBuiltInRole] "Administrator")) {
       Write-Warning "You do not have Administrator rights to run this script!`nPlease re-run this script as an Administrator!"
       Pause
       Break
-   }
-}
-
-function CleanUp ($Path) {
-   if (Test-Path $path) {
-      Remove-Item $path -Recurse -Force
    }
 }
 
@@ -56,15 +46,12 @@ function AddTunelling([string]$url, [string]$application) {
 try {
    ## Parameter to stop script execution on error
    #$ErrorActionPreference = "Stop"
-   Push-Location
    IsNotAdmin
 
    ## Paths
    $deployConfigPath = Join-Path $PSScriptRoot "./deploy.json"
    $localFrontendConfigPath = Join-Path $PSScriptRoot "./wwwroot/config/config.context/local.json"
-   $frontendBuildResultPath = Join-Path $PSScriptRoot "./wwwroot/dist/"
-   $solutionDir = Join-Path $PSScriptRoot "./BaseOfTalents"
-   $solutionPath = Join-Path $solutionDir "./BaseOfTalents.sln"
+   $solutionPath = Join-Path $PSScriptRoot "./BaseOfTalents/BaseOfTalents.sln"
    $executable = "ApiHost.exe"
 
    ## Starting preparations to the build
@@ -88,17 +75,9 @@ try {
    $releaseDir = Join-Path $DestinationPath $rel
    $wwwrootDir = Join-Path $releaseDir 'wwwroot'
    $uploadsDir = Join-Path $releaseDir 'wwwroot/uploads'
-   $releasePath = Join-Path $PSScriptRoot $releaseDir
 
    $app = Join-Path $releaseDir $executable
    $ishttps = $url -match "^https"
-
-   ## Checking execution environment
-   ## First of all it is npm, bower and msbuild   
-   Write-Host "1. Checking your environment.." -ForegroundColor DarkYellow
-   CheckEnvironment -Command "npm"
-   CheckEnvironment -Command "bower"
-   CheckEnvironment -Command "msbuild"
 
    ## Create frontend build configuration
    ## Create a local config storage to translate it to file
@@ -111,39 +90,25 @@ try {
    if (test-path $localFrontendConfigPath) {
       Remove-Item $localFrontendConfigPath
    }
-   $localFrontendConfig | ConvertTo-Json | Out-File -FilePath $localFrontendConfigPath -Encoding utf8
+   $localFrontendConfig | ConvertTo-Json | Out-File -FilePath $localFrontendConfigPath -Encoding utf8   
 
-   ## Start building bundle
-   ## Build using webpack
-   Write-Host "2. Start with frontend.." -ForegroundColor DarkYellow
-   Set-Location ./wwwroot/
-   Write-Output " Downloading node modules.."
-   npm i --loglevel=error
-   Write-Output " Downloading bower components.."
-   bower i --loglevel=error --no-colors
+   if ($DeployType -match "(All|Backend)") {
+      . "./Deploy-Backend.ps1" -SolutionLocation $solutionPath -Destination $releaseDir 
+   }
 
-   Write-Output " Frontend build running.."
-   npm run dist-build
-   Pop-Location
+   if ($DeployType -match "(All|Frontend)") {
+      . "./Deploy-Frontend.ps1" -FrontendLocation "./wwwroot/" -BuildLocation "./wwwroot/dist" -Destination $wwwrootDir
+   }
 
-   ## Collecting all the data together
-   CleanUp -Path $releasePath
+   ## Preparing directory
+   # CleanUp -Path $releaseDir
 
-   New-Item $releaseDir -Type Directory
-   New-Item $wwwrootDir -Type Directory
-   New-Item $uploadsDir -Type Directory
+   # New-Item $releaseDir -Type Directory
+   # New-Item $wwwrootDir -Type Directory
+   # New-Item $uploadsDir -Type Directory
 
-   Write-Host "3. Start serving backend.." -ForegroundColor DarkYellow
-
-   Write-Output " Restoring nuget packages"
-   & (Join-Path $solutionDir "./.nuget/Nuget.exe") restore $solutionPath
-
-   Write-Output " Building backend"
-   msbuild.exe $solutionPath /t:Build /p:Configuration=Release /p:DebugSymbols=false /p:DebugType=None /p:ExcludeGeneratedDebugSymbol=true /p:AllowedReferenceRelatedFileExtensions=none /p:OutputPath=$releasePath /nologo /m /v:m 
-
-   Get-ChildItem $frontendBuildResultPath -Recurse -Force | Move-Item -Destination $wwwrootDir
+   
    Copy-Item -Path $deployConfigPath -Destination $releaseDir
-
    Write-Host "Build finished!" -ForegroundColor DarkYellow
 
    if ($Deploy -eq $true) {

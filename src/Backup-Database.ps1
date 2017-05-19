@@ -7,10 +7,9 @@ param(
     $Server,
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
-    [int]$Port,
-    [Parameter(Mandatory=$true, Position=4)]
-    [ValidateNotNullOrEmpty()]
-    $BackupDir
+    $BackupDir,
+    [Parameter(Mandatory=$false, Position=4)]
+    [int]$Port
 )
 try {
     Write-Host "Checking your environment.."
@@ -18,9 +17,17 @@ try {
         Import-Module SQLPS    
         Write-Error "Module does not exist in the environment, unable to do the back up"
     }
-
-    $remotePath = "\\$Server\$($BackupDir -replace 'c:', 'c$')"
-    $sqlServer = "$Server, $Port"
+    if($Server -match "localdb") {
+        $remotePath = $BackupDir
+    } else {
+        $remotePath = "\\$Server\$($BackupDir -replace 'c:', 'c$')"
+    }
+    
+    if(-not $Port -eq 0) {
+        $sqlServer = "$Server, $Port"
+    } else {
+        $sqlServer = $Server
+    }
     $fileName = Get-Date -Format "ddMMyyyyHHmmss"
     $backUpFile = Join-Path $BackupDir "$Database\$fileName.bak"
     Write-Verbose $remotePath

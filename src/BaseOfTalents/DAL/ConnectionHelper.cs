@@ -5,7 +5,7 @@ namespace DAL
 {
     public static class ConnectionHelper
     {
-        public static string CreateConnectionString(string dataSource, string initialCatalog)
+        public static string CreateConnectionString(string dataSource, string initialCatalog, string userId, string userPassword)
         {
             if (string.IsNullOrEmpty(dataSource))
             {
@@ -20,7 +20,9 @@ namespace DAL
             SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
             sqlBuilder.DataSource = dataSource;
             sqlBuilder.InitialCatalog = initialCatalog;
-            sqlBuilder.IntegratedSecurity = true;
+            sqlBuilder.UserID = userId;
+            sqlBuilder.Password = userPassword;
+            sqlBuilder.IntegratedSecurity = false;
 
             return sqlBuilder.ConnectionString;
         }

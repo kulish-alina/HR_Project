@@ -19,7 +19,7 @@ namespace DAL
     {
         public DbContext Create()
         {
-            return Create(DbSettingsContext.Instance.DbInitialCatalog, DbSettingsContext.Instance.DbDataSource);
+            return Create(DbSettingsContext.Instance.DbInitialCatalog, DbSettingsContext.Instance.DbDataSource, DbSettingsContext.Instance.UserId, DbSettingsContext.Instance.UserPassword);
         }
 
         public DbContext Create(string connectionString)
@@ -27,9 +27,9 @@ namespace DAL
             return new BOTContext(connectionString);
         }
 
-        public DbContext Create(string dbName, string dataSource)
+        public DbContext Create(string dbName, string dataSource, string userId, string userPassword)
         {
-            string connectionString = ConnectionHelper.CreateConnectionString(dataSource, dbName);
+            string connectionString = ConnectionHelper.CreateConnectionString(dataSource, dbName, userId, userPassword);
             return Create(connectionString);
         }
 

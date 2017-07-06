@@ -1,8 +1,10 @@
 {
-   "url":"http://localhost",
-   "port": "9000",
-   "dbInitialCatalog": "botdb",
-   "dbDataSource": "(localdb)\\MSSQLLocalDB",
-   "email": "hrbot@isd.dp.ua",
-   "password":""
+  "url": "http://localhost",
+  "port": "9100",
+  "dbInitialCatalog": "bot-9100",
+  "dbDataSource": "iwebapps02.isd.dp.ua, 1433",
+  "userID" :  "sa",
+  "userPassword" :  "Ihrbot303Pwd",
+  "email": "hrbot@isd.dp.ua",
+  "password": ""
 }
